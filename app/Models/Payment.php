@@ -24,8 +24,13 @@ class Payment extends Model
         'registration_id',
         'order_id',
         'gross_amount',
+        'amount',
         'payment_type',
+        'payment_method',
+        'bank',
+        'va_number',
         'transaction_status',
+        'status',
         'transaction_id',
         'fraud_status',
         'status_code',
@@ -49,6 +54,7 @@ class Payment extends Model
         'expired_at' => 'datetime',
         'midtrans_response' => 'array',
         'gross_amount' => 'decimal:2',
+        'amount' => 'decimal:2',
     ];
 
     /**
@@ -139,9 +145,21 @@ class Payment extends Model
      */
     public function updateFromMidtrans($notification)
     {
+        // Determine status based on transaction_status
+        $status = 'pending';
+        if (in_array($notification['transaction_status'], ['settlement', 'capture'])) {
+            $status = 'paid';
+        } elseif (in_array($notification['transaction_status'], ['deny', 'cancel', 'expire', 'failure'])) {
+            $status = 'failed';
+        }
+
         $this->update([
             'transaction_status' => $notification['transaction_status'],
+            'status' => $status,
             'payment_type' => $notification['payment_type'] ?? null,
+            'payment_method' => $notification['payment_type'] ?? null,
+            'bank' => $notification['bank'] ?? null,
+            'va_number' => $notification['va_number'] ?? null,
             'fraud_status' => $notification['fraud_status'] ?? null,
             'status_code' => $notification['status_code'] ?? null,
             'status_message' => $notification['status_message'] ?? null,
@@ -154,7 +172,7 @@ class Payment extends Model
         // Update waktu pembayaran jika settlement
         if ($this->isSuccess()) {
             $this->update(['paid_at' => now()]);
-            
+
             // Konfirmasi pendaftaran
             $this->registration->confirm();
         }

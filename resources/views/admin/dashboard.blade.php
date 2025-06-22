@@ -228,18 +228,86 @@
 </div>
 @endsection
 
+@push('styles')
+<style>
+    /* Prevent layout shifts during loading */
+    #chart-container,
+    #user-distribution-container,
+    #recent-users-container,
+    #recent-competitions-container,
+    #recent-payments-container {
+        min-height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .chart-container {
+        position: relative;
+        height: 300px;
+        min-height: 300px;
+    }
+
+    /* Smooth transitions for content loading */
+    .unas-card {
+        opacity: 1;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .loading-state {
+        opacity: 0.7;
+    }
+
+    /* Prevent horizontal scroll */
+    .container-fluid {
+        overflow-x: hidden;
+    }
+
+    /* Ensure proper spacing */
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .col-lg-3,
+    .col-lg-4,
+    .col-lg-8,
+    .col-md-6 {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+
+    /* Prevent auto-scroll during initial load */
+    body.loading {
+        overflow: hidden;
+    }
+</style>
+@endpush
+
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Load data with staggered timing to prevent overload
-    setTimeout(() => loadChartData(), 500);
-    setTimeout(() => loadUserDistribution(), 1000);
-    setTimeout(() => loadRecentData(), 1500);
+    // Add loading class to prevent auto-scroll during loading
+    document.body.classList.add('loading');
+
+    // Load data with proper sequencing to prevent layout shifts
+    loadChartData()
+        .then(() => loadUserDistribution())
+        .then(() => loadRecentData())
+        .catch(error => {
+            console.error('Error loading dashboard data:', error);
+        })
+        .finally(() => {
+            // Remove loading class after all content is loaded
+            setTimeout(() => {
+                document.body.classList.remove('loading');
+            }, 500);
+        });
 });
 
 // Load chart data via AJAX
 function loadChartData() {
-    fetch('/admin/dashboard/chart-data')
+    return fetch('/admin/dashboard/chart-data')
         .then(response => response.json())
         .then(data => {
             if (data.success) {
@@ -319,12 +387,13 @@ function loadChartData() {
             console.error('Error loading chart data:', error);
             document.getElementById('chart-container').innerHTML =
                 '<div class="alert alert-danger">Gagal memuat data grafik</div>';
+            throw error; // Re-throw to handle in promise chain
         });
 }
 
 // Load user distribution via AJAX
 function loadUserDistribution() {
-    fetch('/admin/dashboard/user-distribution')
+    return fetch('/admin/dashboard/user-distribution')
         .then(response => response.json())
         .then(data => {
             if (data.success) {
@@ -378,12 +447,13 @@ function loadUserDistribution() {
             console.error('Error loading user distribution:', error);
             document.getElementById('user-distribution-container').innerHTML =
                 '<div class="alert alert-danger">Gagal memuat distribusi pengguna</div>';
+            throw error; // Re-throw to handle in promise chain
         });
 }
 
 // Load recent data via AJAX
 function loadRecentData() {
-    fetch('/admin/dashboard/recent-data')
+    return fetch('/admin/dashboard/recent-data')
         .then(response => response.json())
         .then(data => {
             if (data.success) {
@@ -394,6 +464,7 @@ function loadRecentData() {
         })
         .catch(error => {
             console.error('Error loading recent data:', error);
+            throw error; // Re-throw to handle in promise chain
         });
 }
 

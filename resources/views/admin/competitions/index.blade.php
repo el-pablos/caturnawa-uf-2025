@@ -2,33 +2,43 @@
 
 @section('title', 'Manage Competitions')
 
-@section('content')
-<div class="container-fluid">
-    <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h1 class="h3 mb-0 text-primary">Manajemen Kompetisi</h1>
-            <p class="text-muted">Kelola semua kompetisi dan pengaturannya</p>
-        </div>
+@section('page-title', 'Manajemen Kompetisi')
+
+@section('sidebar-menu')
+    <a class="nav-link" href="{{ route('admin.dashboard') }}">
+        <i class="bi bi-speedometer2 me-2"></i>Dashboard
+    </a>
+    <a class="nav-link active" href="{{ route('admin.competitions.index') }}">
+        <i class="bi bi-trophy me-2"></i>Kompetisi
+    </a>
+    <a class="nav-link" href="{{ route('admin.registrations.index') }}">
+        <i class="bi bi-person-check me-2"></i>Registrasi
+    </a>
+    <a class="nav-link" href="{{ route('admin.payments.index') }}">
+        <i class="bi bi-credit-card me-2"></i>Pembayaran
+    </a>
+    <a class="nav-link" href="{{ route('admin.users.index') }}">
+        <i class="bi bi-people me-2"></i>Pengguna
+    </a>
+    <a class="nav-link" href="{{ route('admin.reports.index') }}">
+        <i class="bi bi-graph-up me-2"></i>Laporan
+    </a>
+    <a class="nav-link" href="{{ route('admin.settings.index') }}">
+        <i class="bi bi-gear me-2"></i>Pengaturan
+    </a>
+@endsection
+
+@section('header-actions')
+    <div class="d-flex gap-2">
         <a href="{{ route('admin.competitions.create') }}" class="unas-btn-primary">
             <i class="bi bi-plus-lg me-2"></i>Tambah Kompetisi
         </a>
     </div>
+@endsection
 
-    <!-- Alerts -->
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
+@section('content')
 
-    @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="fas fa-exclamation-triangle me-2"></i>{{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
+
 
     <!-- Competitions Table -->
     <div class="unas-card">
