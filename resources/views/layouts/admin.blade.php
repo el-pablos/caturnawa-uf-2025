@@ -26,16 +26,16 @@
     <style>
         :root {
             --sidebar-width: 280px;
-            --admin-primary: #1e40af;
+            --admin-primary: #2563eb;
             --admin-secondary: #3b82f6;
             --admin-accent: #60a5fa;
-            --admin-dark: #1e3a8a;
-            --admin-light: #dbeafe;
+            --admin-dark: #1e40af;
+            --admin-light: #f8fafc;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #f8fafc;
+            background: #ffffff;
             color: #1e293b;
         }
 
@@ -45,12 +45,13 @@
             left: 0;
             height: 100vh;
             width: var(--sidebar-width);
-            background: var(--admin-primary);
+            background: #ffffff;
             z-index: 1000;
             transition: transform 0.3s ease;
-            box-shadow: 0 4px 20px rgba(30, 64, 175, 0.15);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
+            border-right: 1px solid #e5e7eb;
         }
         
         .admin-sidebar.collapsed {
@@ -58,7 +59,7 @@
         }
         
         .admin-sidebar .nav-link {
-            color: rgba(255, 255, 255, 0.9);
+            color: #6b7280;
             border-radius: 8px;
             margin: 4px 12px;
             transition: all 0.3s ease;
@@ -69,14 +70,14 @@
         }
 
         .admin-sidebar .nav-link:hover {
-            color: white;
-            background-color: var(--admin-secondary);
+            color: var(--admin-primary);
+            background-color: #f3f4f6;
             transform: translateX(5px);
         }
 
         .admin-sidebar .nav-link.active {
-            color: var(--admin-primary);
-            background-color: white;
+            color: white;
+            background-color: var(--admin-primary);
             transform: translateX(5px);
             font-weight: 600;
         }
@@ -104,7 +105,7 @@
 
         .admin-content {
             padding: 2rem;
-            background: #f8fafc;
+            background: #ffffff;
             min-height: calc(100vh - 80px);
         }
 
@@ -159,7 +160,7 @@
     <nav class="admin-sidebar" id="admin-sidebar">
         <div class="position-sticky">
             <!-- Brand -->
-            <div class="admin-brand px-3 py-3 border-bottom border-light border-opacity-25">
+            <div class="admin-brand px-3 py-3 border-bottom" style="color: var(--admin-primary); font-weight: 700;">
                 <i class="bi bi-shield-check me-2"></i>
                 Admin Panel
             </div>
@@ -203,9 +204,13 @@
                         <i class="bi bi-graph-up me-2"></i>Laporan
                     </a>
 
-                    <div class="nav-divider mt-4 mb-3" style="height: 1px; background: rgba(255, 255, 255, 0.1); margin: 0 16px;"></div>
+                    <a class="nav-link {{ request()->routeIs('admin.qr-scanner.*') ? 'active' : '' }}" href="{{ route('admin.qr-scanner.index') }}">
+                        <i class="bi bi-qr-code-scan me-2"></i>QR Scanner
+                    </a>
+
+                    <div class="nav-divider mt-4 mb-3" style="height: 1px; background: #e5e7eb; margin: 0 16px;"></div>
                     <div class="nav-section-title" style="padding: 8px 16px 4px;">
-                        <small class="text-white-50">PENGATURAN</small>
+                        <small style="color: #9ca3af;">PENGATURAN</small>
                     </div>
 
                     <a class="nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}" href="{{ route('admin.settings.index') }}">
@@ -219,21 +224,21 @@
             </div>
 
             <!-- User Info at Bottom -->
-            <div class="nav-user-info border-top border-light border-opacity-25">
+            <div class="nav-user-info border-top">
                 <div class="d-flex align-items-center p-3">
                     <div class="user-avatar me-3">
                         <img src="{{ auth()->user()->avatar_url }}" width="40" height="40"
                              class="rounded-circle" alt="Avatar">
                     </div>
                     <div class="user-details flex-grow-1">
-                        <div class="user-name text-white fw-semibold">{{ auth()->user()->name }}</div>
-                        <div class="user-role text-white-50 small">{{ auth()->user()->getRoleNames()->first() }}</div>
+                        <div class="user-name fw-semibold" style="color: #374151;">{{ auth()->user()->name }}</div>
+                        <div class="user-role small" style="color: #9ca3af;">{{ auth()->user()->getRoleNames()->first() }}</div>
                     </div>
                     <div class="dropdown">
-                        <button class="btn btn-link text-white p-0" type="button" data-bs-toggle="dropdown">
+                        <button class="btn btn-link p-0" type="button" data-bs-toggle="dropdown" style="color: #6b7280;">
                             <i class="bi bi-three-dots-vertical"></i>
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-dark">
+                        <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{ route('profile.index') }}">
                                 <i class="bi bi-person-circle me-2"></i>Profil</a></li>
                             <li><hr class="dropdown-divider"></li>

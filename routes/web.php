@@ -149,6 +149,14 @@ Route::middleware(['auth', 'verified', 'role.redirect'])->group(function () {
             Route::get('/payments', [App\Http\Controllers\Admin\ReportController::class, 'payments'])->name('payments');
             Route::get('/export/{type}', [App\Http\Controllers\Admin\ReportController::class, 'export'])->name('export');
         });
+
+        // QR Scanner (Admin & Superadmin only)
+        Route::prefix('qr-scanner')->name('qr-scanner.')->group(function () {
+            Route::get('/', [App\Http\Controllers\Admin\QRScannerController::class, 'index'])->name('index');
+            Route::post('/verify', [App\Http\Controllers\Admin\QRScannerController::class, 'verify'])->name('verify');
+            Route::post('/checkin', [App\Http\Controllers\Admin\QRScannerController::class, 'checkIn'])->name('checkin');
+            Route::get('/history', [App\Http\Controllers\Admin\QRScannerController::class, 'history'])->name('history');
+        });
         
         // Settings
         Route::prefix('settings')->name('settings.')->group(function () {
