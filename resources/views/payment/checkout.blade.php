@@ -80,26 +80,45 @@
                 </div>
                 <div class="card-body">
                     <div class="row g-3">
-                        <div class="col-md-4">
-                            <div class="payment-method-card p-3 border rounded text-center">
+                        <div class="col-md-3">
+                            <div class="payment-method-card p-3 border rounded text-center" data-method="credit_card">
                                 <i class="bi bi-credit-card fs-2 text-primary mb-2"></i>
                                 <div class="fw-semibold">Kartu Kredit/Debit</div>
                                 <small class="text-muted">Visa, Mastercard, JCB</small>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="payment-method-card p-3 border rounded text-center">
+                        <div class="col-md-3">
+                            <div class="payment-method-card p-3 border rounded text-center" data-method="bank_transfer">
                                 <i class="bi bi-bank fs-2 text-success mb-2"></i>
                                 <div class="fw-semibold">Transfer Bank</div>
                                 <small class="text-muted">BCA, BNI, BRI, Mandiri</small>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="payment-method-card p-3 border rounded text-center">
+                        <div class="col-md-3">
+                            <div class="payment-method-card p-3 border rounded text-center" data-method="ewallet">
                                 <i class="bi bi-phone fs-2 text-warning mb-2"></i>
                                 <div class="fw-semibold">E-Wallet</div>
-                                <small class="text-muted">GoPay, OVO, DANA</small>
+                                <small class="text-muted">GoPay, ShopeePay</small>
                             </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="payment-method-card p-3 border rounded text-center" data-method="qris">
+                                <i class="bi bi-qr-code fs-2 text-info mb-2"></i>
+                                <div class="fw-semibold">QRIS</div>
+                                <small class="text-muted">Scan QR Code</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Selected Payment Method Info -->
+                    <div id="selectedMethodInfo" class="mt-3 p-3 bg-light rounded" style="display: none;">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>Metode Terpilih:</strong> <span id="selectedMethodName">-</span>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="clearPaymentMethod()">
+                                <i class="bi bi-arrow-left me-1"></i>Ganti Metode
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -197,18 +216,38 @@
 document.addEventListener('DOMContentLoaded', function() {
     const agreeTerms = document.getElementById('agreeTerms');
     const payButton = document.getElementById('payButton');
+    let selectedPaymentMethod = null;
 
-    // Enable/disable pay button based on terms agreement
-    agreeTerms.addEventListener('change', function() {
-        payButton.disabled = !this.checked;
-    });
+    // Enable/disable pay button based on terms agreement and payment method
+    function updatePayButton() {
+        payButton.disabled = !agreeTerms.checked || !selectedPaymentMethod;
+    }
+
+    agreeTerms.addEventListener('change', updatePayButton);
 
     // Payment method selection
     const paymentMethods = document.querySelectorAll('.payment-method-card');
+    const selectedMethodInfo = document.getElementById('selectedMethodInfo');
+    const selectedMethodName = document.getElementById('selectedMethodName');
+
     paymentMethods.forEach(method => {
         method.addEventListener('click', function() {
+            // Remove previous selection
             paymentMethods.forEach(m => m.classList.remove('selected'));
+
+            // Add selection to clicked method
             this.classList.add('selected');
+
+            // Get method info
+            selectedPaymentMethod = this.getAttribute('data-method');
+            const methodName = this.querySelector('.fw-semibold').textContent;
+
+            // Show selected method info
+            selectedMethodName.textContent = methodName;
+            selectedMethodInfo.style.display = 'block';
+
+            // Update pay button
+            updatePayButton();
         });
     });
 
@@ -219,16 +258,24 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        if (!selectedPaymentMethod) {
+            alert('Harap pilih metode pembayaran terlebih dahulu');
+            return;
+        }
+
         this.disabled = true;
         this.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Memproses...';
 
-        // Process payment
+        // Process payment with selected method
+        const formData = new FormData();
+        formData.append('payment_method', selectedPaymentMethod);
+
         fetch(`{{ route('payment.process', $registration) }}`, {
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                'Content-Type': 'application/json',
             },
+            body: formData
         })
         .then(response => {
             if (!response.ok) {
@@ -269,6 +316,28 @@ document.addEventListener('DOMContentLoaded', function() {
             payButton.innerHTML = '<i class="bi bi-credit-card me-1"></i>Bayar Sekarang';
         });
     });
+
+    // Initialize pay button state
+    updatePayButton();
 });
+
+// Function to clear payment method selection
+function clearPaymentMethod() {
+    const paymentMethods = document.querySelectorAll('.payment-method-card');
+    const selectedMethodInfo = document.getElementById('selectedMethodInfo');
+    const payButton = document.getElementById('payButton');
+
+    // Remove all selections
+    paymentMethods.forEach(m => m.classList.remove('selected'));
+
+    // Hide selected method info
+    selectedMethodInfo.style.display = 'none';
+
+    // Reset selected method
+    selectedPaymentMethod = null;
+
+    // Update pay button
+    payButton.disabled = true;
+}
 </script>
 @endpush

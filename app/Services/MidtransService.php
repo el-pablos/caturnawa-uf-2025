@@ -20,19 +20,24 @@ class MidtransService
      */
     public function __construct()
     {
+        // Set your Merchant Server Key
         Config::$serverKey = config('midtrans.server_key');
-        Config::$isProduction = config('midtrans.is_production');
-        Config::$isSanitized = config('midtrans.is_sanitized');
-        Config::$is3ds = config('midtrans.is_3ds');
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        Config::$isProduction = config('midtrans.is_production', false);
+        // Set sanitization on (default)
+        Config::$isSanitized = config('midtrans.is_sanitized', true);
+        // Set 3DS transaction for credit card to true
+        Config::$is3ds = config('midtrans.is_3ds', true);
     }
 
     /**
      * Buat transaksi pembayaran baru
-     * 
+     *
      * @param \App\Models\Registration $registration
+     * @param string|null $paymentMethod
      * @return array
      */
-    public function createTransaction(Registration $registration)
+    public function createTransaction(Registration $registration, $paymentMethod = null)
     {
         // Buat atau update payment record
         $payment = Payment::firstOrCreate(
@@ -45,7 +50,7 @@ class MidtransService
         );
 
         // Siapkan parameter untuk Midtrans
-        $params = $this->buildTransactionParams($registration, $payment);
+        $params = $this->buildTransactionParams($registration, $payment, $paymentMethod);
 
         try {
             // Dapatkan Snap Token dari Midtrans
@@ -72,64 +77,79 @@ class MidtransService
 
     /**
      * Bangun parameter transaksi untuk Midtrans
-     * 
+     *
      * @param \App\Models\Registration $registration
      * @param \App\Models\Payment $payment
+     * @param string|null $paymentMethod
      * @return array
      */
-    protected function buildTransactionParams(Registration $registration, Payment $payment)
+    protected function buildTransactionParams(Registration $registration, Payment $payment, $paymentMethod = null)
     {
         $user = $registration->user;
         $competition = $registration->competition;
 
-        $params = [
-            'transaction_details' => [
-                'order_id' => $payment->order_id,
-                'gross_amount' => intval($registration->amount),
-            ],
-            'customer_details' => [
-                'first_name' => $user->name,
-                'email' => $user->email,
-                'phone' => $registration->phone ?: $user->phone,
-            ],
-            'item_details' => [
-                [
-                    'id' => $competition->id,
-                    'price' => intval($registration->amount),
-                    'quantity' => 1,
-                    'name' => "Pendaftaran {$competition->name}",
-                    'category' => $competition->category,
-                ]
-            ],
-            'callbacks' => [
-                'finish' => route('payment.finish', $payment->id),
-                'unfinish' => route('payment.unfinish', $payment->id),
-                'error' => route('payment.error', $payment->id),
-            ],
-            'expiry' => [
-                'start_time' => now()->format('Y-m-d H:i:s O'),
-                'unit' => config('midtrans.custom_expiry.unit', 'hours'),
-                'duration' => config('midtrans.custom_expiry.duration', 24),
-            ],
-            'custom_field1' => $registration->registration_number,
-            'custom_field2' => $competition->slug ?? 'competition',
-            'custom_field3' => config('app.name'),
+        // Required
+        $transaction_details = [
+            'order_id' => $payment->order_id,
+            'gross_amount' => intval($registration->amount), // no decimal allowed for creditcard
         ];
 
-        // Add enabled payment methods if configured
+        // Optional
+        $item_details = [
+            [
+                'id' => 'comp_' . $competition->id,
+                'price' => intval($registration->amount),
+                'quantity' => 1,
+                'name' => "Pendaftaran " . $competition->name,
+                'brand' => config('app.name'),
+                'category' => $competition->category,
+                'merchant_name' => config('app.name')
+            ]
+        ];
+
+        // Optional
+        $customer_details = [
+            'first_name'    => $user->name,
+            'last_name'     => '',
+            'email'         => $user->email,
+            'phone'         => $registration->phone ?: $user->phone,
+        ];
+
+        // Fill transaction details
+        $transaction = [
+            'transaction_details' => $transaction_details,
+            'customer_details' => $customer_details,
+            'item_details' => $item_details,
+        ];
+
+        // Optional: Add enabled payment methods
         $enabledPayments = config('midtrans.enabled_payments');
-        if (!empty($enabledPayments)) {
-            $params['enabled_payments'] = $enabledPayments;
-        }
 
-        // Add QRIS configuration for better QR code generation
-        if (in_array('other_qris', $enabledPayments) || in_array('qris', $enabledPayments)) {
-            $params['qris'] = [
-                'acquirer' => config('midtrans.qris.acquirer', 'gopay')
+        // If specific payment method is selected, filter enabled payments
+        if ($paymentMethod) {
+            $methodMapping = [
+                'credit_card' => ['credit_card'],
+                'bank_transfer' => ['bca_va', 'bni_va', 'bri_va', 'echannel', 'permata_va', 'other_va'],
+                'ewallet' => ['gopay', 'shopeepay'],
+                'qris' => ['other_qris'],
+                'convenience_store' => ['indomaret', 'alfamart']
             ];
+
+            if (isset($methodMapping[$paymentMethod])) {
+                $transaction['enabled_payments'] = $methodMapping[$paymentMethod];
+            }
+        } elseif (!empty($enabledPayments)) {
+            $transaction['enabled_payments'] = $enabledPayments;
         }
 
-        return $params;
+        // Optional: Add custom expiry
+        $transaction['custom_expiry'] = [
+            'order_time' => now()->format('Y-m-d H:i:s O'),
+            'expiry_duration' => config('midtrans.custom_expiry.duration', 24),
+            'unit' => config('midtrans.custom_expiry.unit', 'hour')
+        ];
+
+        return $transaction;
     }
 
     /**

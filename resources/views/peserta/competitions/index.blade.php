@@ -141,9 +141,9 @@
                                     <i class="bi bi-eye me-1"></i>Detail
                                 </a>
                                 @if($competition->isRegistrationOpen())
-                                    <button class="btn btn-primary flex-fill" onclick="registerCompetition({{ $competition->id }})">
+                                    <a href="{{ route('peserta.competitions.show', $competition) }}" class="btn btn-primary flex-fill">
                                         <i class="bi bi-plus-lg me-1"></i>Daftar
-                                    </button>
+                                    </a>
                                 @else
                                     <button class="btn btn-secondary flex-fill" disabled>
                                         <i class="bi bi-lock me-1"></i>Ditutup
@@ -207,49 +207,9 @@
 
 @push('scripts')
 <script>
-function registerCompetition(competitionId) {
-    confirmAction(
-        'Daftar Kompetisi',
-        'Apakah Anda yakin ingin mendaftar kompetisi ini?',
-        function() {
-            // Create form data with required fields
-            const formData = new FormData();
-            formData.append('_token', document.querySelector('meta[name="csrf-token"]').content);
-
-            fetch(`/peserta/competitions/${competitionId}/register`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                    'Accept': 'application/json',
-                },
-                body: formData
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    showSuccess(data.message || 'Berhasil mendaftar kompetisi!');
-                    if (data.redirect_url) {
-                        setTimeout(() => {
-                            window.location.href = data.redirect_url;
-                        }, 1500);
-                    } else {
-                        location.reload();
-                    }
-                } else {
-                    showError(data.message || 'Terjadi kesalahan');
-                }
-            })
-            .catch(error => {
-                console.error('Registration error:', error);
-                showError('Terjadi kesalahan sistem: ' + error.message);
-            });
-        }
-    );
-}
+// Competition list interactions
+document.addEventListener('DOMContentLoaded', function() {
+    // Add any future JavaScript functionality here
+});
 </script>
 @endpush

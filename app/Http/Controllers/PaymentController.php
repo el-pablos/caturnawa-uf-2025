@@ -73,9 +73,12 @@ class PaymentController extends Controller
             ]);
         }
 
+        // Get selected payment method
+        $paymentMethod = $request->input('payment_method');
+
         try {
-            $result = $this->midtransService->createTransaction($registration);
-            
+            $result = $this->midtransService->createTransaction($registration, $paymentMethod);
+
             if ($result['success']) {
                 return response()->json([
                     'success' => true,
@@ -90,7 +93,7 @@ class PaymentController extends Controller
             }
         } catch (\Exception $e) {
             Log::error('Payment process error: ' . $e->getMessage());
-            
+
             return response()->json([
                 'success' => false,
                 'message' => 'Terjadi kesalahan saat memproses pembayaran.'

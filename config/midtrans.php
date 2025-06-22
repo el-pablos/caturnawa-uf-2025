@@ -48,16 +48,17 @@ return [
      */
     'enabled_payments' => [
         'credit_card',
-        'gopay',
-        'shopeepay', 
-        'other_qris',
-        'bank_transfer',
+        'bca_va',
+        'bni_va',
+        'bri_va',
         'echannel',
-        'permata',
-        'bca',
-        'bni',
-        'bri',
-        'cstore',
+        'permata_va',
+        'other_va',
+        'gopay',
+        'shopeepay',
+        'other_qris',
+        'indomaret',
+        'alfamart'
     ],
 
     /**
