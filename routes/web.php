@@ -111,6 +111,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::delete('/{user}', [App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('destroy');
             Route::patch('/{user}/toggle-status', [App\Http\Controllers\Admin\UserController::class, 'toggleStatus'])->name('toggle-status');
         });
+
+        // Role Management (Super Admin only)
+        Route::middleware(['role:Super Admin'])->prefix('roles')->name('roles.')->group(function () {
+            Route::get('/', [App\Http\Controllers\Admin\RoleController::class, 'index'])->name('index');
+            Route::get('/create', [App\Http\Controllers\Admin\RoleController::class, 'create'])->name('create');
+            Route::post('/', [App\Http\Controllers\Admin\RoleController::class, 'store'])->name('store');
+            Route::get('/{role}', [App\Http\Controllers\Admin\RoleController::class, 'show'])->name('show');
+            Route::get('/{role}/edit', [App\Http\Controllers\Admin\RoleController::class, 'edit'])->name('edit');
+            Route::put('/{role}', [App\Http\Controllers\Admin\RoleController::class, 'update'])->name('update');
+            Route::delete('/{role}', [App\Http\Controllers\Admin\RoleController::class, 'destroy'])->name('destroy');
+        });
         
         // Reports
         Route::prefix('reports')->name('reports.')->group(function () {

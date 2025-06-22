@@ -194,49 +194,96 @@ class UserController extends Controller
 
     /**
      * Hapus pengguna
-     * 
+     *
      * @param \App\Models\User $user
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
     public function destroy(User $user)
     {
         // Prevent deleting current user
         if ($user->id === auth()->id()) {
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Tidak dapat menghapus akun sendiri.'
+                ]);
+            }
             return back()->with('error', 'Tidak dapat menghapus akun sendiri.');
         }
 
         // Prevent deleting super admin if only one exists
         if ($user->hasRole('Super Admin') && User::role('Super Admin')->count() <= 1) {
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Tidak dapat menghapus Super Admin terakhir.'
+                ]);
+            }
             return back()->with('error', 'Tidak dapat menghapus Super Admin terakhir.');
         }
 
         try {
             $user->delete();
+
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Pengguna berhasil dihapus.'
+                ]);
+            }
+
             return back()->with('success', 'Pengguna berhasil dihapus.');
         } catch (\Exception $e) {
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal menghapus pengguna: ' . $e->getMessage()
+                ]);
+            }
             return back()->with('error', 'Gagal menghapus pengguna: ' . $e->getMessage());
         }
     }
 
     /**
      * Toggle status aktif pengguna
-     * 
+     *
      * @param \App\Models\User $user
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
     public function toggleStatus(User $user)
     {
         // Prevent deactivating current user
         if ($user->id === auth()->id()) {
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Tidak dapat menonaktifkan akun sendiri.'
+                ]);
+            }
             return back()->with('error', 'Tidak dapat menonaktifkan akun sendiri.');
         }
 
         try {
             $user->update(['is_active' => !$user->is_active]);
-            
+
             $status = $user->is_active ? 'diaktifkan' : 'dinonaktifkan';
+
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => "Pengguna berhasil {$status}.",
+                    'user' => $user->fresh()
+                ]);
+            }
+
             return back()->with('success', "Pengguna berhasil {$status}.");
         } catch (\Exception $e) {
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal mengubah status pengguna: ' . $e->getMessage()
+                ]);
+            }
             return back()->with('error', 'Gagal mengubah status pengguna: ' . $e->getMessage());
         }
     }

@@ -15,7 +15,7 @@
     </a>
     @endcan
     
-    <a class="nav-link" href="#">
+    <a class="nav-link" href="{{ route('admin.roles.index') }}">
         <i class="bi bi-person-vcard-fill me-2"></i>Kelola Role
     </a>
     
@@ -53,61 +53,65 @@
 @endsection
 
 @section('content')
-<!-- Statistics Cards -->
-<div class="row mb-4">
-    <div class="col-lg-3 col-md-6 mb-3">
-        <div class="unas-stats-card">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <div class="unas-stats-number">{{ number_format($stats['total_users']) }}</div>
-                    <div class="unas-stats-label">Total Pengguna</div>
-                </div>
-                <div class="fs-1 text-primary opacity-75">
-                    <i class="bi bi-people-fill"></i>
-                </div>
+<!-- Statistics Cards - AdminLTE Style -->
+<div class="row">
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>{{ number_format($stats['total_users']) }}</h3>
+                <p>New Orders</p>
             </div>
+            <div class="icon">
+                <i class="bi bi-people-fill"></i>
+            </div>
+            <a href="{{ route('admin.users.index') }}" class="small-box-footer">
+                More info <i class="bi bi-arrow-right-circle"></i>
+            </a>
         </div>
     </div>
-    
-    <div class="col-lg-3 col-md-6 mb-3">
-        <div class="unas-stats-card">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <div class="unas-stats-number text-success">{{ number_format($stats['total_competitions']) }}</div>
-                    <div class="unas-stats-label">Total Kompetisi</div>
-                </div>
-                <div class="fs-1 text-success opacity-75">
-                    <i class="bi bi-trophy-fill"></i>
-                </div>
+
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>{{ number_format($stats['total_competitions']) }}<sup style="font-size: 20px">%</sup></h3>
+                <p>Bounce Rate</p>
             </div>
+            <div class="icon">
+                <i class="bi bi-trophy-fill"></i>
+            </div>
+            <a href="{{ route('admin.competitions.index') }}" class="small-box-footer">
+                More info <i class="bi bi-arrow-right-circle"></i>
+            </a>
         </div>
     </div>
-    
-    <div class="col-lg-3 col-md-6 mb-3">
-        <div class="unas-stats-card">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <div class="unas-stats-number text-warning">Rp {{ number_format($stats['total_revenue'], 0, ',', '.') }}</div>
-                    <div class="unas-stats-label">Total Pendapatan</div>
-                </div>
-                <div class="fs-1 text-warning opacity-75">
-                    <i class="bi bi-wallet-fill"></i>
-                </div>
+
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-warning">
+            <div class="inner">
+                <h3>{{ number_format($stats['total_registrations']) }}</h3>
+                <p>User Registrations</p>
             </div>
+            <div class="icon">
+                <i class="bi bi-person-check-fill"></i>
+            </div>
+            <a href="{{ route('admin.registrations.index') }}" class="small-box-footer">
+                More info <i class="bi bi-arrow-right-circle"></i>
+            </a>
         </div>
     </div>
-    
-    <div class="col-lg-3 col-md-6 mb-3">
-        <div class="unas-stats-card">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <div class="unas-stats-number text-info">{{ number_format($stats['total_registrations']) }}</div>
-                    <div class="unas-stats-label">Total Registrasi</div>
-                </div>
-                <div class="fs-1 text-info opacity-75">
-                    <i class="bi bi-clipboard-check-fill"></i>
-                </div>
+
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3>65</h3>
+                <p>Unique Visitors</p>
             </div>
+            <div class="icon">
+                <i class="bi bi-wallet-fill"></i>
+            </div>
+            <a href="{{ route('admin.reports.index') }}" class="small-box-footer">
+                More info <i class="bi bi-arrow-right-circle"></i>
+            </a>
         </div>
     </div>
 </div>
@@ -119,17 +123,10 @@
         <div class="unas-card h-100">
             <div class="unas-card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0 text-white">
-                    <i class="bi bi-graph-up me-2"></i>Tren Pendaftaran & Pendapatan
+                    <i class="bi bi-graph-up me-2"></i>Tren Pendaftaran & Pendapatan 2025
                 </h5>
-                <div class="dropdown">
-                    <button class="btn btn-sm btn-light dropdown-toggle" type="button"
-                            data-bs-toggle="dropdown">
-                        Tahun 2025
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Tahun 2025</a></li>
-                        <li><a class="dropdown-item" href="#">Tahun 2024</a></li>
-                    </ul>
+                <div class="badge bg-light text-dark">
+                    UNAS Fest 2025
                 </div>
             </div>
             <div class="card-body" id="chart-container">
@@ -230,6 +227,84 @@
 
 @push('styles')
 <style>
+    /* AdminLTE Style Small Boxes */
+    .small-box {
+        border-radius: 0.25rem;
+        box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+        display: block;
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .small-box > .inner {
+        padding: 10px;
+    }
+
+    .small-box > .small-box-footer {
+        background-color: rgba(0,0,0,.1);
+        color: rgba(255,255,255,.8);
+        display: block;
+        padding: 3px 0;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        z-index: 10;
+    }
+
+    .small-box > .small-box-footer:hover {
+        background-color: rgba(0,0,0,.15);
+        color: #fff;
+    }
+
+    .small-box h3 {
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin: 0 0 10px;
+        padding: 0;
+        white-space: nowrap;
+    }
+
+    .small-box p {
+        font-size: 1rem;
+    }
+
+    .small-box .icon {
+        color: rgba(0,0,0,.15);
+        z-index: 0;
+    }
+
+    .small-box .icon > i {
+        font-size: 70px;
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        transition: transform .3s linear;
+    }
+
+    .small-box:hover .icon > i {
+        transform: scale(1.1);
+    }
+
+    .small-box.bg-info {
+        background-color: #17a2b8!important;
+        color: #fff;
+    }
+
+    .small-box.bg-success {
+        background-color: #28a745!important;
+        color: #fff;
+    }
+
+    .small-box.bg-warning {
+        background-color: #ffc107!important;
+        color: #212529;
+    }
+
+    .small-box.bg-danger {
+        background-color: #dc3545!important;
+        color: #fff;
+    }
+
     /* Prevent layout shifts during loading */
     #chart-container,
     #user-distribution-container,
@@ -246,35 +321,6 @@
         position: relative;
         height: 300px;
         min-height: 300px;
-    }
-
-    /* Smooth transitions for content loading */
-    .unas-card {
-        opacity: 1;
-        transition: opacity 0.3s ease-in-out;
-    }
-
-    .loading-state {
-        opacity: 0.7;
-    }
-
-    /* Prevent horizontal scroll */
-    .container-fluid {
-        overflow-x: hidden;
-    }
-
-    /* Ensure proper spacing */
-    .row {
-        margin-left: 0;
-        margin-right: 0;
-    }
-
-    .col-lg-3,
-    .col-lg-4,
-    .col-lg-8,
-    .col-md-6 {
-        padding-left: 0.75rem;
-        padding-right: 0.75rem;
     }
 
     /* Prevent auto-scroll during initial load */
