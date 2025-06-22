@@ -20,48 +20,116 @@ use Carbon\Carbon;
 class DashboardController extends Controller
 {
     /**
-     * Tampilkan dashboard utama
-     * 
+     * Tampilkan dashboard utama dengan optimisasi performa
+     *
      * @return \Illuminate\View\View
      */
     public function index()
     {
-        // Statistik utama
-        $stats = $this->getMainStatistics();
-        
-        // Data untuk grafik
-        $chartData = $this->getChartData();
-        
-        // Data terbaru
-        $recentData = $this->getRecentData();
-        
-        // Distribusi pengguna berdasarkan role
-        $userDistribution = $this->getUserDistribution();
-        
-        return view('admin.dashboard', compact(
-            'stats', 
-            'chartData', 
-            'recentData', 
-            'userDistribution'
-        ));
+        // Hanya load statistik dasar untuk initial load
+        $stats = Cache::remember('admin_dashboard_stats', 300, function () {
+            return $this->getMainStatistics();
+        });
+
+        // Data lainnya akan di-load via AJAX untuk mengurangi initial load time
+        return view('admin.dashboard', compact('stats'));
     }
 
     /**
-     * Mendapatkan statistik utama untuk dashboard
-     * 
+     * Get chart data via AJAX untuk lazy loading
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getChartDataAjax()
+    {
+        $chartData = Cache::remember('admin_dashboard_charts', 600, function () {
+            return $this->getChartData();
+        });
+
+        return response()->json([
+            'success' => true,
+            'data' => $chartData
+        ]);
+    }
+
+    /**
+     * Get recent data via AJAX untuk lazy loading
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getRecentDataAjax()
+    {
+        $recentData = Cache::remember('admin_dashboard_recent', 180, function () {
+            return $this->getRecentData();
+        });
+
+        return response()->json([
+            'success' => true,
+            'data' => $recentData
+        ]);
+    }
+
+    /**
+     * Get user distribution via AJAX untuk lazy loading
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getUserDistributionAjax()
+    {
+        $userDistribution = Cache::remember('admin_dashboard_users', 900, function () {
+            return $this->getUserDistribution();
+        });
+
+        return response()->json([
+            'success' => true,
+            'data' => $userDistribution
+        ]);
+    }
+
+    /**
+     * Mendapatkan statistik utama untuk dashboard dengan optimisasi query
+     *
      * @return array
      */
     protected function getMainStatistics()
     {
+        // Optimisasi dengan single query untuk multiple counts
+        $userStats = DB::table('users')
+            ->selectRaw('COUNT(*) as total_users')
+            ->first();
+
+        $competitionStats = DB::table('competitions')
+            ->selectRaw('
+                COUNT(*) as total_competitions,
+                COUNT(CASE WHEN is_active = 1 THEN 1 END) as active_competitions
+            ')
+            ->first();
+
+        $registrationStats = DB::table('registrations')
+            ->selectRaw('
+                COUNT(*) as total_registrations,
+                COUNT(CASE WHEN status = "confirmed" THEN 1 END) as confirmed_registrations
+            ')
+            ->first();
+
+        $paymentStats = DB::table('payments')
+            ->selectRaw('
+                SUM(CASE WHEN transaction_status = "settlement" THEN gross_amount ELSE 0 END) as total_revenue,
+                COUNT(CASE WHEN transaction_status = "pending" THEN 1 END) as pending_payments
+            ')
+            ->first();
+
+        $submissionCount = DB::table('submissions')->count();
+
         return [
-            'total_users' => User::count(),
-            'total_competitions' => Competition::count(),
-            'total_revenue' => Payment::success()->sum('gross_amount'),
-            'total_registrations' => Registration::count(),
-            'active_competitions' => Competition::active()->count(),
-            'pending_payments' => Payment::pending()->count(),
-            'confirmed_registrations' => Registration::confirmed()->count(),
-            'total_submissions' => \App\Models\Submission::count(),
+            'total_users' => $userStats->total_users ?? 0,
+            'total_competitions' => $competitionStats->total_competitions ?? 0,
+            'active_competitions' => $competitionStats->active_competitions ?? 0,
+            'total_registrations' => $registrationStats->total_registrations ?? 0,
+            'confirmed_registrations' => $registrationStats->confirmed_registrations ?? 0,
+            'total_revenue' => $paymentStats->total_revenue ?? 0,
+            'pending_payments' => $paymentStats->pending_payments ?? 0,
+            'total_submissions' => $submissionCount ?? 0,
         ];
     }
 
@@ -122,25 +190,32 @@ class DashboardController extends Controller
     }
 
     /**
-     * Mendapatkan data terbaru untuk dashboard
-     * 
+     * Mendapatkan data terbaru untuk dashboard dengan optimisasi
+     *
      * @return array
      */
     protected function getRecentData()
     {
         return [
-            'recent_users' => User::with('roles')
+            'recent_users' => User::select('id', 'name', 'email', 'created_at')
+                ->with(['roles:id,name'])
                 ->latest()
-                ->take(5)
+                ->limit(5)
                 ->get(),
-                
-            'recent_competitions' => Competition::latest()
-                ->take(3)
-                ->get(),
-                
-            'recent_payments' => Payment::with(['registration.user', 'registration.competition'])
+
+            'recent_competitions' => Competition::select('id', 'name', 'category', 'created_at', 'is_active')
                 ->latest()
-                ->take(5)
+                ->limit(3)
+                ->get(),
+
+            'recent_payments' => Payment::select('id', 'order_id', 'gross_amount', 'transaction_status', 'created_at', 'registration_id')
+                ->with([
+                    'registration:id,user_id,competition_id',
+                    'registration.user:id,name,email',
+                    'registration.competition:id,name'
+                ])
+                ->latest()
+                ->limit(5)
                 ->get(),
         ];
     }

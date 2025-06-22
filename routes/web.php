@@ -64,6 +64,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         
         // Dashboard
         Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard/chart-data', [App\Http\Controllers\Admin\DashboardController::class, 'getChartDataAjax'])->name('dashboard.chart-data');
+        Route::get('/dashboard/user-distribution', [App\Http\Controllers\Admin\DashboardController::class, 'getUserDistributionAjax'])->name('dashboard.user-distribution');
+        Route::get('/dashboard/recent-data', [App\Http\Controllers\Admin\DashboardController::class, 'getRecentDataAjax'])->name('dashboard.recent-data');
         
         // Competition Management
         Route::prefix('competitions')->name('competitions.')->group(function () {
