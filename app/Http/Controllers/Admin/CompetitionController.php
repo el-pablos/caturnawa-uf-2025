@@ -27,7 +27,7 @@ class CompetitionController extends Controller
     {
         if ($request->ajax()) {
             $competitions = Competition::with('registrations')->select('competitions.*');
-            
+
             return DataTables::of($competitions)
                 ->addIndexColumn()
                 ->addColumn('participants_count', function($competition) {
@@ -45,34 +45,39 @@ class CompetitionController extends Controller
                     $status = $competition->registration_status;
                     $class = [
                         'upcoming' => 'info',
-                        'open' => 'success', 
+                        'open' => 'success',
                         'closed' => 'danger'
                     ][$status] ?? 'secondary';
-                    
+
                     $text = [
                         'upcoming' => 'Belum Dibuka',
                         'open' => 'Terbuka',
                         'closed' => 'Ditutup'
                     ][$status] ?? 'Tidak Diketahui';
-                    
+
                     return "<span class='badge bg-{$class}'>{$text}</span>";
                 })
                 ->addColumn('action', function($competition) {
-                    $viewBtn = '<a href="' . route('admin.competitions.show', $competition->id) . 
+                    $viewBtn = '<a href="' . route('admin.competitions.show', $competition->id) .
                               '" class="btn btn-sm btn-info me-1"><i class="bi bi-eye-fill"></i></a>';
-                    $editBtn = '<a href="' . route('admin.competitions.edit', $competition->id) . 
+                    $editBtn = '<a href="' . route('admin.competitions.edit', $competition->id) .
                               '" class="btn btn-sm btn-warning me-1"><i class="bi bi-pencil-square"></i></a>';
-                    $deleteBtn = '<button type="button" class="btn btn-sm btn-danger" 
+                    $deleteBtn = '<button type="button" class="btn btn-sm btn-danger"
                                  onclick="deleteCompetition(' . $competition->id . ')">
                                  <i class="bi bi-trash-fill"></i></button>';
-                    
+
                     return $viewBtn . $editBtn . $deleteBtn;
                 })
                 ->rawColumns(['status', 'registration_status', 'action'])
                 ->make(true);
         }
-        
-        return view('admin.competitions.index');
+
+        // Get competitions for regular view
+        $competitions = Competition::withCount('registrations')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('admin.competitions.index', compact('competitions'));
     }
 
     /**

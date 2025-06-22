@@ -194,11 +194,14 @@
                         <th>Terkonfirmasi</th>
                         <th>Status</th>
                         <th>Tanggal Dibuat</th>
+                        @if(auth()->user()->hasRole('Super Admin'))
+                        <th width="100">Aksi</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($topCompetitions ?? [] as $competition)
-                        <tr>
+                        <tr id="competition-row-{{ $competition->id ?? 0 }}">
                             <td>{{ $competition->name ?? '-' }}</td>
                             <td>{{ $competition->category ?? '-' }}</td>
                             <td>{{ $competition->registrations_count ?? 0 }}</td>
@@ -211,10 +214,25 @@
                                 @endif
                             </td>
                             <td>{{ $competition->created_at ? $competition->created_at->format('d/m/Y') : '-' }}</td>
+                            @if(auth()->user()->hasRole('Super Admin'))
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <a href="{{ route('admin.competitions.show', $competition->id ?? 0) }}"
+                                       class="btn btn-outline-info" title="Lihat Detail">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-outline-danger"
+                                            onclick="deleteCompetitionFromReport({{ $competition->id ?? 0 }})"
+                                            title="Hapus dari Laporan">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                            @endif
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center py-4">
+                            <td colspan="{{ auth()->user()->hasRole('Super Admin') ? '7' : '6' }}" class="text-center py-4">
                                 <i class="bi bi-inbox fs-1 text-muted d-block mb-2"></i>
                                 <p class="text-muted">Tidak ada data kompetisi</p>
                             </td>
@@ -311,6 +329,64 @@ function exportReport(format) {
     // Export all reports (general export)
     const baseUrl = '{{ url("admin/reports/export") }}';
     window.open(`${baseUrl}/registrations?${params.toString()}`, '_blank');
+}
+
+function deleteCompetitionFromReport(competitionId) {
+    if (confirm('Apakah Anda yakin ingin menghapus kompetisi ini dari laporan?\n\nPerhatian: Ini akan menghapus kompetisi secara permanen beserta semua data terkait (registrasi, pembayaran, submission).')) {
+        fetch(`/admin/competitions/${competitionId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Remove row from table
+                const row = document.getElementById(`competition-row-${competitionId}`);
+                if (row) {
+                    row.remove();
+                }
+
+                // Show success message
+                showAlert('success', 'Kompetisi berhasil dihapus dari laporan.');
+
+                // Refresh page after 2 seconds to update statistics
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            } else {
+                showAlert('error', data.message || 'Terjadi kesalahan saat menghapus kompetisi.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('error', 'Terjadi kesalahan saat menghapus kompetisi.');
+        });
+    }
+}
+
+function showAlert(type, message) {
+    const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+    const alertHtml = `
+        <div class="alert ${alertClass} alert-dismissible fade show" role="alert">
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    `;
+
+    // Insert alert at the top of the page
+    const container = document.querySelector('.container-fluid');
+    container.insertAdjacentHTML('afterbegin', alertHtml);
+
+    // Auto dismiss after 5 seconds
+    setTimeout(() => {
+        const alert = container.querySelector('.alert');
+        if (alert) {
+            alert.remove();
+        }
+    }, 5000);
 }
 </script>
 @endpush

@@ -78,20 +78,16 @@
                                     </span>
                                 </td>
                                 <td>
-                                    @if($competition->status === 'active')
-                                        <span class="unas-badge-success">Aktif</span>
-                                    @elseif($competition->status === 'inactive')
-                                        <span class="badge bg-secondary">Nonaktif</span>
-                                    @elseif($competition->status === 'draft')
-                                        <span class="unas-badge-warning">Draft</span>
+                                    @if($competition->is_active)
+                                        <span class="badge bg-success">Aktif</span>
                                     @else
-                                        <span class="badge bg-info">Selesai</span>
+                                        <span class="badge bg-secondary">Nonaktif</span>
                                     @endif
                                 </td>
                                 <td>
-                                    <div>Rp {{ number_format($competition->price, 0, ',', '.') }}</div>
-                                    @if($competition->early_bird_price)
-                                        <small class="text-muted">Early: Rp {{ number_format($competition->early_bird_price, 0, ',', '.') }}</small>
+                                    <div>Rp {{ number_format($competition->registration_fee ?? 0, 0, ',', '.') }}</div>
+                                    @if($competition->early_bird_fee)
+                                        <small class="text-muted">Early: Rp {{ number_format($competition->early_bird_fee, 0, ',', '.') }}</small>
                                     @endif
                                 </td>
                                 <td>
