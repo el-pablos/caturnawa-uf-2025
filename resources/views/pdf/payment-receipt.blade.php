@@ -48,20 +48,30 @@
         }
         
         .info-row {
-            display: flex;
-            justify-content: space-between;
             margin-bottom: 8px;
             border-bottom: 1px dotted #ddd;
             padding-bottom: 5px;
+            overflow: hidden;
         }
-        
+
         .info-label {
             font-weight: bold;
             color: #555;
+            float: left;
+            width: 40%;
         }
-        
+
         .info-value {
             color: #333;
+            float: right;
+            width: 55%;
+            text-align: right;
+        }
+
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
         }
         
         .competition-details {
@@ -170,57 +180,57 @@
     </div>
 
     <div class="receipt-info">
-        <h3>📄 Informasi Struk</h3>
-        <div class="info-row">
+        <h3>Informasi Struk</h3>
+        <div class="info-row clearfix">
             <span class="info-label">Order ID:</span>
             <span class="info-value">{{ $payment->order_id }}</span>
         </div>
-        <div class="info-row">
+        <div class="info-row clearfix">
             <span class="info-label">Tanggal Pembayaran:</span>
             <span class="info-value">{{ $payment->paid_at ? $payment->paid_at->format('d/m/Y H:i:s') : '-' }}</span>
         </div>
-        <div class="info-row">
+        <div class="info-row clearfix">
             <span class="info-label">Status:</span>
             <span class="info-value">
                 <span class="status-badge status-success">{{ $payment->status_label }}</span>
             </span>
         </div>
-        <div class="info-row">
+        <div class="info-row clearfix">
             <span class="info-label">Metode Pembayaran:</span>
             <span class="info-value">{{ $payment->payment_method }}</span>
         </div>
     </div>
 
     <div class="competition-details">
-        <h3>🏆 Detail Kompetisi</h3>
-        <div class="info-row">
+        <h3>Detail Kompetisi</h3>
+        <div class="info-row clearfix">
             <span class="info-label">Nama Kompetisi:</span>
             <span class="info-value">{{ $registration->competition->name }}</span>
         </div>
-        <div class="info-row">
+        <div class="info-row clearfix">
             <span class="info-label">Kategori:</span>
             <span class="info-value">{{ $registration->competition->category }}</span>
         </div>
-        <div class="info-row">
+        <div class="info-row clearfix">
             <span class="info-label">Nomor Registrasi:</span>
             <span class="info-value">{{ $registration->registration_number }}</span>
         </div>
-        <div class="info-row">
+        <div class="info-row clearfix">
             <span class="info-label">Nama Peserta:</span>
             <span class="info-value">{{ $registration->user->name }}</span>
         </div>
-        <div class="info-row">
+        <div class="info-row clearfix">
             <span class="info-label">Email:</span>
             <span class="info-value">{{ $registration->user->email }}</span>
         </div>
-        <div class="info-row">
+        <div class="info-row clearfix">
             <span class="info-label">No. Telepon:</span>
             <span class="info-value">{{ $registration->phone ?: $registration->user->phone }}</span>
         </div>
         
         @if($registration->team_members && count($registration->team_members) > 0)
         <div class="team-members">
-            <h4>👥 Anggota Tim:</h4>
+            <h4>Anggota Tim:</h4>
             <ul class="member-list">
                 @foreach($registration->team_members as $member)
                 <li>{{ $member['name'] }} - {{ $member['email'] }}</li>
@@ -231,14 +241,18 @@
     </div>
 
     <div class="amount-section">
-        <h3>💰 Total Pembayaran</h3>
+        <h3>Total Pembayaran</h3>
         <div class="amount">Rp {{ number_format($registration->amount, 0, ',', '.') }}</div>
     </div>
 
     @if($registration->qr_code)
     <div class="qr-section">
-        <h3>🎫 E-Ticket QR Code</h3>
-        <img src="data:image/png;base64,{{ base64_encode($registration->qr_code) }}" alt="QR Code">
+        <h3>E-Ticket QR Code</h3>
+        @if(is_string($registration->qr_code))
+            <img src="data:image/png;base64,{{ base64_encode($registration->qr_code) }}" alt="QR Code">
+        @else
+            <p>QR Code tersedia di dashboard peserta</p>
+        @endif
         <p style="margin: 10px 0 0 0; font-size: 10px; color: #666;">
             Tunjukkan QR Code ini saat check-in kompetisi
         </p>
