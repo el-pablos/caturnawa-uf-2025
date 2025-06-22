@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Exports\CompetitionReportExport;
+use App\Exports\RegistrationReportExport;
+use App\Exports\PaymentReportExport;
 
 /**
  * Controller untuk laporan dan analytics

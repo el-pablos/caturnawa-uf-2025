@@ -34,7 +34,7 @@ class TicketController extends Controller
         return view('ticket.scan');
     }
 
-    public function validate(Request $request)
+    public function validateTicket(Request $request)
     {
         $request->validate([
             'code' => 'required|string'

@@ -1,0 +1,315 @@
+/* UNAS Fest 2025 Theme - Inspired by caturnawa.unasfest.com */
+
+:root {
+    /* Primary Colors - Sky Blue Theme */
+    --unas-primary: #00BCD4;
+    --unas-primary-light: #4FC3F7;
+    --unas-primary-dark: #0097A7;
+    
+    /* Secondary Colors - Green Theme */
+    --unas-secondary: #4CAF50;
+    --unas-secondary-light: #8BC34A;
+    --unas-secondary-dark: #388E3C;
+    
+    /* Accent Colors */
+    --unas-accent: #FFEB3B;
+    --unas-accent-orange: #FF9800;
+    --unas-warning: #FFC107;
+    --unas-danger: #F44336;
+    --unas-info: #2196F3;
+    --unas-success: #4CAF50;
+    
+    /* Neutral Colors */
+    --unas-white: #FFFFFF;
+    --unas-light: #F8F9FA;
+    --unas-gray-100: #F5F5F5;
+    --unas-gray-200: #EEEEEE;
+    --unas-gray-300: #E0E0E0;
+    --unas-gray-400: #BDBDBD;
+    --unas-gray-500: #9E9E9E;
+    --unas-gray-600: #757575;
+    --unas-gray-700: #616161;
+    --unas-gray-800: #424242;
+    --unas-gray-900: #212121;
+    --unas-dark: #263238;
+    
+    /* Gradients */
+    --unas-gradient-primary: linear-gradient(135deg, #00BCD4 0%, #4FC3F7 100%);
+    --unas-gradient-secondary: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);
+    --unas-gradient-sky: linear-gradient(135deg, #87CEEB 0%, #98FB98 100%);
+    --unas-gradient-sunset: linear-gradient(135deg, #FF9800 0%, #FFEB3B 100%);
+    
+    /* Shadows */
+    --unas-shadow-sm: 0 2px 4px rgba(0, 188, 212, 0.1);
+    --unas-shadow: 0 4px 8px rgba(0, 188, 212, 0.15);
+    --unas-shadow-lg: 0 8px 16px rgba(0, 188, 212, 0.2);
+    --unas-shadow-xl: 0 12px 24px rgba(0, 188, 212, 0.25);
+    
+    /* Border Radius */
+    --unas-radius-sm: 8px;
+    --unas-radius: 12px;
+    --unas-radius-lg: 16px;
+    --unas-radius-xl: 20px;
+    --unas-radius-full: 50px;
+    
+    /* Typography */
+    --unas-font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --unas-font-size-xs: 0.75rem;
+    --unas-font-size-sm: 0.875rem;
+    --unas-font-size-base: 1rem;
+    --unas-font-size-lg: 1.125rem;
+    --unas-font-size-xl: 1.25rem;
+    --unas-font-size-2xl: 1.5rem;
+    --unas-font-size-3xl: 1.875rem;
+    --unas-font-size-4xl: 2.25rem;
+    
+    /* Spacing */
+    --unas-space-1: 0.25rem;
+    --unas-space-2: 0.5rem;
+    --unas-space-3: 0.75rem;
+    --unas-space-4: 1rem;
+    --unas-space-5: 1.25rem;
+    --unas-space-6: 1.5rem;
+    --unas-space-8: 2rem;
+    --unas-space-10: 2.5rem;
+    --unas-space-12: 3rem;
+    --unas-space-16: 4rem;
+    --unas-space-20: 5rem;
+}
+
+/* Global Styles */
+body {
+    font-family: var(--unas-font-family);
+    background: var(--unas-gradient-sky);
+    min-height: 100vh;
+    color: var(--unas-gray-800);
+}
+
+/* UNAS Theme Components */
+.unas-card {
+    background: var(--unas-white);
+    border-radius: var(--unas-radius);
+    box-shadow: var(--unas-shadow);
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.unas-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--unas-shadow-lg);
+}
+
+.unas-card-header {
+    background: var(--unas-gradient-primary);
+    color: var(--unas-white);
+    border-radius: var(--unas-radius) var(--unas-radius) 0 0;
+    padding: var(--unas-space-4) var(--unas-space-6);
+    border: none;
+}
+
+.unas-btn-primary {
+    background: var(--unas-gradient-primary);
+    border: none;
+    border-radius: var(--unas-radius-full);
+    padding: var(--unas-space-3) var(--unas-space-6);
+    font-weight: 600;
+    color: var(--unas-white);
+    transition: all 0.3s ease;
+    box-shadow: var(--unas-shadow-sm);
+}
+
+.unas-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--unas-shadow);
+    background: var(--unas-primary-dark);
+    color: var(--unas-white);
+}
+
+.unas-btn-secondary {
+    background: var(--unas-gradient-secondary);
+    border: none;
+    border-radius: var(--unas-radius-full);
+    padding: var(--unas-space-3) var(--unas-space-6);
+    font-weight: 600;
+    color: var(--unas-white);
+    transition: all 0.3s ease;
+    box-shadow: var(--unas-shadow-sm);
+}
+
+.unas-btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--unas-shadow);
+    background: var(--unas-secondary-dark);
+    color: var(--unas-white);
+}
+
+.unas-btn-accent {
+    background: var(--unas-gradient-sunset);
+    border: none;
+    border-radius: var(--unas-radius-full);
+    padding: var(--unas-space-3) var(--unas-space-6);
+    font-weight: 600;
+    color: var(--unas-gray-800);
+    transition: all 0.3s ease;
+    box-shadow: var(--unas-shadow-sm);
+}
+
+.unas-btn-accent:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--unas-shadow);
+    color: var(--unas-gray-800);
+}
+
+/* Stats Cards */
+.unas-stats-card {
+    background: var(--unas-white);
+    border-radius: var(--unas-radius-lg);
+    padding: var(--unas-space-6);
+    box-shadow: var(--unas-shadow);
+    border: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.unas-stats-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--unas-gradient-primary);
+}
+
+.unas-stats-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--unas-shadow-xl);
+}
+
+.unas-stats-number {
+    font-size: var(--unas-font-size-3xl);
+    font-weight: 700;
+    color: var(--unas-primary);
+    margin-bottom: var(--unas-space-2);
+}
+
+.unas-stats-label {
+    font-size: var(--unas-font-size-sm);
+    color: var(--unas-gray-600);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Navigation */
+.unas-navbar {
+    background: var(--unas-white);
+    box-shadow: var(--unas-shadow);
+    border: none;
+}
+
+.unas-nav-link {
+    color: var(--unas-gray-700);
+    font-weight: 500;
+    padding: var(--unas-space-3) var(--unas-space-4);
+    border-radius: var(--unas-radius);
+    transition: all 0.3s ease;
+    margin: 0 var(--unas-space-1);
+}
+
+.unas-nav-link:hover,
+.unas-nav-link.active {
+    background: var(--unas-gradient-primary);
+    color: var(--unas-white);
+    transform: translateY(-1px);
+}
+
+/* Forms */
+.unas-form-control {
+    border: 2px solid var(--unas-gray-200);
+    border-radius: var(--unas-radius);
+    padding: var(--unas-space-3) var(--unas-space-4);
+    transition: all 0.3s ease;
+    background: var(--unas-white);
+}
+
+.unas-form-control:focus {
+    border-color: var(--unas-primary);
+    box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.1);
+    background: var(--unas-white);
+}
+
+/* Badges */
+.unas-badge-primary {
+    background: var(--unas-gradient-primary);
+    color: var(--unas-white);
+    border-radius: var(--unas-radius-full);
+    padding: var(--unas-space-2) var(--unas-space-4);
+    font-weight: 600;
+    font-size: var(--unas-font-size-xs);
+}
+
+.unas-badge-success {
+    background: var(--unas-gradient-secondary);
+    color: var(--unas-white);
+    border-radius: var(--unas-radius-full);
+    padding: var(--unas-space-2) var(--unas-space-4);
+    font-weight: 600;
+    font-size: var(--unas-font-size-xs);
+}
+
+.unas-badge-warning {
+    background: var(--unas-gradient-sunset);
+    color: var(--unas-gray-800);
+    border-radius: var(--unas-radius-full);
+    padding: var(--unas-space-2) var(--unas-space-4);
+    font-weight: 600;
+    font-size: var(--unas-font-size-xs);
+}
+
+/* Animations */
+@keyframes unas-float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.unas-float {
+    animation: unas-float 3s ease-in-out infinite;
+}
+
+@keyframes unas-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.unas-pulse {
+    animation: unas-pulse 2s ease-in-out infinite;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .unas-stats-card {
+        padding: var(--unas-space-4);
+    }
+    
+    .unas-stats-number {
+        font-size: var(--unas-font-size-2xl);
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --unas-white: #1E1E1E;
+        --unas-light: #2D2D2D;
+        --unas-gray-100: #3D3D3D;
+        --unas-gray-800: #E0E0E0;
+        --unas-gray-900: #F5F5F5;
+    }
+    
+    body {
+        background: linear-gradient(135deg, #1E3A8A 0%, #065F46 100%);
+        color: var(--unas-gray-800);
+    }
+}

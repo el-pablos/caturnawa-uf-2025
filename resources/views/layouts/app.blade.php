@@ -15,12 +15,16 @@
     
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- UNAS Theme CSS -->
+    <link href="{{ asset('css/unas-theme.css') }}" rel="stylesheet">
+
     <!-- Custom CSS -->
     <style>
         :root {
-            --bs-primary: #007bff;
-            --bs-primary-rgb: 0, 123, 255;
             --sidebar-width: 280px;
         }
         
@@ -30,9 +34,10 @@
             left: 0;
             height: 100vh;
             width: var(--sidebar-width);
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--unas-gradient-primary);
             z-index: 1000;
             transition: transform 0.3s ease;
+            box-shadow: var(--unas-shadow-lg);
         }
         
         .sidebar.collapsed {
@@ -40,17 +45,20 @@
         }
         
         .sidebar .nav-link {
-            color: rgba(255, 255, 255, 0.8);
-            border-radius: 8px;
-            margin: 2px 0;
+            color: rgba(255, 255, 255, 0.9);
+            border-radius: var(--unas-radius);
+            margin: var(--unas-space-1) 0;
             transition: all 0.3s ease;
+            padding: var(--unas-space-3) var(--unas-space-4);
+            font-weight: 500;
         }
-        
+
         .sidebar .nav-link:hover,
         .sidebar .nav-link.active {
             color: white;
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.15);
             transform: translateX(5px);
+            box-shadow: var(--unas-shadow-sm);
         }
         
         .main-content {
@@ -69,17 +77,38 @@
         
         .card {
             border: none;
-            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-            border-radius: 12px;
+            box-shadow: var(--unas-shadow);
+            border-radius: var(--unas-radius);
+            transition: all 0.3s ease;
         }
-        
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--unas-shadow-lg);
+        }
+
         .btn {
-            border-radius: 8px;
-            font-weight: 500;
+            border-radius: var(--unas-radius);
+            font-weight: 600;
+            padding: var(--unas-space-3) var(--unas-space-5);
+            transition: all 0.3s ease;
         }
-        
+
+        .btn-primary {
+            background: var(--unas-gradient-primary);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: var(--unas-primary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--unas-shadow);
+        }
+
         .badge {
-            border-radius: 6px;
+            border-radius: var(--unas-radius-full);
+            padding: var(--unas-space-2) var(--unas-space-3);
+            font-weight: 600;
         }
         
         .table {
@@ -89,26 +118,51 @@
         
         .form-control,
         .form-select {
-            border-radius: 8px;
-            border: 1px solid #e9ecef;
+            border-radius: var(--unas-radius);
+            border: 2px solid var(--unas-gray-200);
+            padding: var(--unas-space-3) var(--unas-space-4);
+            transition: all 0.3s ease;
         }
-        
+
         .form-control:focus,
         .form-select:focus {
-            border-color: var(--bs-primary);
-            box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+            border-color: var(--unas-primary);
+            box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.1);
+            background: var(--unas-white);
         }
         
         .stats-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 15px;
-            padding: 1.5rem;
+            background: var(--unas-white);
+            color: var(--unas-gray-800);
+            border-radius: var(--unas-radius-lg);
+            padding: var(--unas-space-6);
+            box-shadow: var(--unas-shadow);
+            border: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-        
+
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--unas-gradient-primary);
+        }
+
+        .stats-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--unas-shadow-xl);
+        }
+
         .stats-card .stats-number {
-            font-size: 2rem;
+            font-size: var(--unas-font-size-3xl);
             font-weight: 700;
+            color: var(--unas-primary);
+            margin-bottom: var(--unas-space-2);
         }
         
         @media (max-width: 768px) {

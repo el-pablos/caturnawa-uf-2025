@@ -56,13 +56,13 @@
 <!-- Statistics Cards -->
 <div class="row mb-4">
     <div class="col-lg-3 col-md-6 mb-3">
-        <div class="stats-card">
+        <div class="unas-stats-card">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <div class="stats-number">{{ $stats['total_users'] }}</div>
-                    <div class="fw-semibold">Total Pengguna</div>
+                    <div class="unas-stats-number">{{ number_format($stats['total_users']) }}</div>
+                    <div class="unas-stats-label">Total Pengguna</div>
                 </div>
-                <div class="fs-1 opacity-50">
+                <div class="fs-1 text-primary opacity-75">
                     <i class="bi bi-people-fill"></i>
                 </div>
             </div>
@@ -70,48 +70,42 @@
     </div>
     
     <div class="col-lg-3 col-md-6 mb-3">
-        <div class="card border-0 bg-success text-white">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="stats-number">{{ $stats['total_competitions'] }}</div>
-                        <div class="fw-semibold">Total Kompetisi</div>
-                    </div>
-                    <div class="fs-1 opacity-50">
-                        <i class="bi bi-trophy-fill"></i>
-                    </div>
+        <div class="unas-stats-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="unas-stats-number text-success">{{ number_format($stats['total_competitions']) }}</div>
+                    <div class="unas-stats-label">Total Kompetisi</div>
+                </div>
+                <div class="fs-1 text-success opacity-75">
+                    <i class="bi bi-trophy-fill"></i>
                 </div>
             </div>
         </div>
     </div>
     
     <div class="col-lg-3 col-md-6 mb-3">
-        <div class="card border-0 bg-warning text-white">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="stats-number">Rp {{ number_format($stats['total_revenue'], 0, ',', '.') }}</div>
-                        <div class="fw-semibold">Total Pendapatan</div>
-                    </div>
-                    <div class="fs-1 opacity-50">
-                        <i class="bi bi-wallet-fill"></i>
-                    </div>
+        <div class="unas-stats-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="unas-stats-number text-warning">Rp {{ number_format($stats['total_revenue'], 0, ',', '.') }}</div>
+                    <div class="unas-stats-label">Total Pendapatan</div>
+                </div>
+                <div class="fs-1 text-warning opacity-75">
+                    <i class="bi bi-wallet-fill"></i>
                 </div>
             </div>
         </div>
     </div>
     
     <div class="col-lg-3 col-md-6 mb-3">
-        <div class="card border-0 bg-info text-white">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="stats-number">{{ $stats['total_registrations'] }}</div>
-                        <div class="fw-semibold">Total Penilaian</div>
-                    </div>
-                    <div class="fs-1 opacity-50">
-                        <i class="bi bi-award-fill"></i>
-                    </div>
+        <div class="unas-stats-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="unas-stats-number text-info">{{ number_format($stats['total_registrations']) }}</div>
+                    <div class="unas-stats-label">Total Registrasi</div>
+                </div>
+                <div class="fs-1 text-info opacity-75">
+                    <i class="bi bi-clipboard-check-fill"></i>
                 </div>
             </div>
         </div>
@@ -122,13 +116,13 @@
 <div class="row mb-4">
     <!-- Registration Trend Chart -->
     <div class="col-lg-8 mb-3">
-        <div class="card h-100">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="card-title mb-0">
+        <div class="unas-card h-100">
+            <div class="unas-card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 text-white">
                     <i class="bi bi-graph-up me-2"></i>Tren Pendaftaran & Pendapatan
                 </h5>
                 <div class="dropdown">
-                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
+                    <button class="btn btn-sm btn-light dropdown-toggle" type="button"
                             data-bs-toggle="dropdown">
                         Tahun 2025
                     </button>
@@ -150,9 +144,9 @@
 
     <!-- User Distribution Chart -->
     <div class="col-lg-4 mb-3">
-        <div class="card h-100">
-            <div class="card-header">
-                <h5 class="card-title mb-0">
+        <div class="unas-card h-100">
+            <div class="unas-card-header">
+                <h5 class="mb-0 text-white">
                     <i class="bi bi-pie-chart me-2"></i>Distribusi Pengguna
                 </h5>
             </div>
@@ -171,12 +165,12 @@
 <div class="row">
     <!-- Recent Users -->
     <div class="col-lg-4 mb-3">
-        <div class="card h-100">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h6 class="card-title mb-0">
+        <div class="unas-card h-100">
+            <div class="unas-card-header d-flex justify-content-between align-items-center">
+                <h6 class="mb-0 text-white">
                     <i class="bi bi-person-fill-add me-2"></i>Pengguna Terbaru
                 </h6>
-                <a href="{{ route('admin.users.index') }}" class="btn btn-sm btn-primary">
+                <a href="{{ route('admin.users.index') }}" class="unas-btn-accent btn-sm">
                     Lihat Semua
                 </a>
             </div>
@@ -192,12 +186,12 @@
     
     <!-- Active Competitions -->
     <div class="col-lg-4 mb-3">
-        <div class="card h-100">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h6 class="card-title mb-0">
+        <div class="unas-card h-100">
+            <div class="unas-card-header d-flex justify-content-between align-items-center">
+                <h6 class="mb-0 text-white">
                     <i class="bi bi-trophy-fill me-2"></i>Kompetisi Aktif
                 </h6>
-                <a href="{{ route('admin.competitions.index') }}" class="btn btn-sm btn-success">
+                <a href="{{ route('admin.competitions.index') }}" class="unas-btn-secondary btn-sm">
                     Lihat Semua
                 </a>
             </div>
@@ -213,12 +207,12 @@
     
     <!-- Recent Payments -->
     <div class="col-lg-4 mb-3">
-        <div class="card h-100">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h6 class="card-title mb-0">
+        <div class="unas-card h-100">
+            <div class="unas-card-header d-flex justify-content-between align-items-center">
+                <h6 class="mb-0 text-white">
                     <i class="bi bi-wallet-fill me-2"></i>Pembayaran Terbaru
                 </h6>
-                <a href="#" class="btn btn-sm btn-warning">
+                <a href="{{ route('admin.payments.index') }}" class="unas-btn-accent btn-sm">
                     Laporan Keuangan
                 </a>
             </div>

@@ -7,11 +7,11 @@
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h1 class="h3 mb-0 text-gray-800">Competitions Management</h1>
-            <p class="text-muted">Manage all competitions and their settings</p>
+            <h1 class="h3 mb-0 text-primary">Manajemen Kompetisi</h1>
+            <p class="text-muted">Kelola semua kompetisi dan pengaturannya</p>
         </div>
-        <a href="{{ route('admin.competitions.create') }}" class="btn btn-primary">
-            <i class="fas fa-plus"></i> Add New Competition
+        <a href="{{ route('admin.competitions.create') }}" class="unas-btn-primary">
+            <i class="bi bi-plus-lg me-2"></i>Tambah Kompetisi
         </a>
     </div>
 
@@ -31,24 +31,24 @@
     @endif
 
     <!-- Competitions Table -->
-    <div class="card shadow">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">
-                <i class="fas fa-list"></i> All Competitions
-            </h6>
+    <div class="unas-card">
+        <div class="unas-card-header">
+            <h5 class="mb-0 text-white">
+                <i class="bi bi-trophy me-2"></i>Daftar Kompetisi
+            </h5>
         </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="competitionsTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Category</th>
+                            <th>Nama Kompetisi</th>
+                            <th>Kategori</th>
                             <th>Status</th>
-                            <th>Price</th>
-                            <th>Registration</th>
-                            <th>Participants</th>
-                            <th>Actions</th>
+                            <th>Harga</th>
+                            <th>Pendaftaran</th>
+                            <th>Peserta</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -63,22 +63,19 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <span class="badge 
-                                        @if($competition->category === 'biodiversity') bg-success
-                                        @elseif($competition->category === 'health') bg-danger
-                                        @else bg-primary @endif">
+                                    <span class="unas-badge-primary">
                                         {{ ucfirst($competition->category) }}
                                     </span>
                                 </td>
                                 <td>
                                     @if($competition->status === 'active')
-                                        <span class="badge bg-success">Active</span>
+                                        <span class="unas-badge-success">Aktif</span>
                                     @elseif($competition->status === 'inactive')
-                                        <span class="badge bg-secondary">Inactive</span>
+                                        <span class="badge bg-secondary">Nonaktif</span>
                                     @elseif($competition->status === 'draft')
-                                        <span class="badge bg-warning">Draft</span>
+                                        <span class="unas-badge-warning">Draft</span>
                                     @else
-                                        <span class="badge bg-info">Completed</span>
+                                        <span class="badge bg-info">Selesai</span>
                                     @endif
                                 </td>
                                 <td>
@@ -102,18 +99,18 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="btn-group" role="group">
-                                        <a href="{{ route('admin.competitions.show', $competition) }}" 
-                                           class="btn btn-sm btn-outline-info" title="View">
-                                            <i class="fas fa-eye"></i>
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <a href="{{ route('admin.competitions.show', $competition) }}"
+                                           class="btn btn-outline-info" title="Lihat">
+                                            <i class="bi bi-eye"></i>
                                         </a>
-                                        <a href="{{ route('admin.competitions.edit', $competition) }}" 
-                                           class="btn btn-sm btn-outline-primary" title="Edit">
-                                            <i class="fas fa-edit"></i>
+                                        <a href="{{ route('admin.competitions.edit', $competition) }}"
+                                           class="btn btn-outline-primary" title="Edit">
+                                            <i class="bi bi-pencil"></i>
                                         </a>
-                                        <button type="button" class="btn btn-sm btn-outline-danger" 
-                                                onclick="deleteCompetition({{ $competition->id }})" title="Delete">
-                                            <i class="fas fa-trash"></i>
+                                        <button type="button" class="btn btn-outline-danger"
+                                                onclick="deleteCompetition({{ $competition->id }})" title="Hapus">
+                                            <i class="bi bi-trash"></i>
                                         </button>
                                     </div>
                                 </td>
@@ -121,11 +118,11 @@
                         @empty
                             <tr>
                                 <td colspan="7" class="text-center py-5">
-                                    <i class="fas fa-trophy fa-3x text-muted mb-3"></i>
-                                    <h5 class="text-muted">No Competitions Found</h5>
-                                    <p class="text-muted">Start by creating your first competition.</p>
-                                    <a href="{{ route('admin.competitions.create') }}" class="btn btn-primary">
-                                        <i class="fas fa-plus"></i> Create Competition
+                                    <i class="bi bi-trophy fs-1 text-muted mb-3"></i>
+                                    <h5 class="text-muted">Tidak Ada Kompetisi</h5>
+                                    <p class="text-muted">Mulai dengan membuat kompetisi pertama Anda.</p>
+                                    <a href="{{ route('admin.competitions.create') }}" class="unas-btn-primary">
+                                        <i class="bi bi-plus-lg me-2"></i>Buat Kompetisi
                                     </a>
                                 </td>
                             </tr>
@@ -141,20 +138,22 @@
 <div class="modal fade" id="deleteModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Delete Competition</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">
+                    <i class="bi bi-exclamation-triangle me-2"></i>Hapus Kompetisi
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to delete this competition?</p>
-                <p class="text-danger"><strong>Warning:</strong> This action cannot be undone and will affect all related registrations.</p>
+                <p>Apakah Anda yakin ingin menghapus kompetisi ini?</p>
+                <p class="text-danger"><strong>Peringatan:</strong> Tindakan ini tidak dapat dibatalkan dan akan mempengaruhi semua registrasi terkait.</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                 <form id="deleteForm" method="POST" style="display: inline;">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                    <button type="submit" class="btn btn-danger">Ya, Hapus</button>
                 </form>
             </div>
         </div>

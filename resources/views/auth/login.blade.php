@@ -8,10 +8,11 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #87CEEB 0%, #98FB98 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
+            font-family: 'Inter', sans-serif;
         }
         .login-card {
             border: none;
@@ -20,7 +21,7 @@
             overflow: hidden;
         }
         .login-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #00BCD4 0%, #4FC3F7 100%);
             color: white;
             padding: 2rem;
             text-align: center;
@@ -32,23 +33,34 @@
             font-size: 16px;
         }
         .form-control:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            border-color: #00BCD4;
+            box-shadow: 0 0 0 0.2rem rgba(0, 188, 212, 0.25);
         }
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #00BCD4 0%, #4FC3F7 100%);
             border: none;
             border-radius: 10px;
             padding: 12px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #0097A7 0%, #29B6F6 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 188, 212, 0.3);
         }
         .btn-outline-primary {
-            border: 2px solid #667eea;
+            border: 2px solid #00BCD4;
             border-radius: 10px;
             padding: 12px;
             font-weight: 600;
+            color: #00BCD4;
+        }
+        .btn-outline-primary:hover {
+            background: #00BCD4;
+            border-color: #00BCD4;
         }
         .input-group-text {
             background: transparent;

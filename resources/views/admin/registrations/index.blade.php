@@ -29,7 +29,7 @@
 
 @section('header-actions')
     <div class="d-flex gap-2">
-        <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exportModal">
+        <button class="unas-btn-secondary" data-bs-toggle="modal" data-bs-target="#exportModal">
             <i class="bi bi-download me-2"></i>Export
         </button>
     </div>
@@ -39,50 +39,66 @@
 <!-- Statistics Cards -->
 <div class="row mb-4">
     <div class="col-md-3">
-        <div class="card stats-card">
-            <div class="card-body text-center">
-                <i class="bi bi-people fs-1 mb-2"></i>
-                <div class="stats-number">{{ number_format($stats['total']) }}</div>
-                <div class="small">Total Registrasi</div>
+        <div class="unas-stats-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="unas-stats-number">{{ number_format($stats['total']) }}</div>
+                    <div class="unas-stats-label">Total Registrasi</div>
+                </div>
+                <div class="fs-1 text-primary opacity-75">
+                    <i class="bi bi-people"></i>
+                </div>
             </div>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="card border-warning">
-            <div class="card-body text-center">
-                <i class="bi bi-clock fs-1 mb-2 text-warning"></i>
-                <div class="stats-number text-warning">{{ number_format($stats['pending']) }}</div>
-                <div class="small">Menunggu</div>
+        <div class="unas-stats-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="unas-stats-number text-warning">{{ number_format($stats['pending']) }}</div>
+                    <div class="unas-stats-label">Menunggu</div>
+                </div>
+                <div class="fs-1 text-warning opacity-75">
+                    <i class="bi bi-clock"></i>
+                </div>
             </div>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="card border-success">
-            <div class="card-body text-center">
-                <i class="bi bi-check-circle fs-1 mb-2 text-success"></i>
-                <div class="stats-number text-success">{{ number_format($stats['confirmed']) }}</div>
-                <div class="small">Dikonfirmasi</div>
+        <div class="unas-stats-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="unas-stats-number text-success">{{ number_format($stats['confirmed']) }}</div>
+                    <div class="unas-stats-label">Dikonfirmasi</div>
+                </div>
+                <div class="fs-1 text-success opacity-75">
+                    <i class="bi bi-check-circle"></i>
+                </div>
             </div>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="card border-danger">
-            <div class="card-body text-center">
-                <i class="bi bi-x-circle fs-1 mb-2 text-danger"></i>
-                <div class="stats-number text-danger">{{ number_format($stats['cancelled']) }}</div>
-                <div class="small">Dibatalkan</div>
+        <div class="unas-stats-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="unas-stats-number text-danger">{{ number_format($stats['cancelled']) }}</div>
+                    <div class="unas-stats-label">Dibatalkan</div>
+                </div>
+                <div class="fs-1 text-danger opacity-75">
+                    <i class="bi bi-x-circle"></i>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Filters -->
-<div class="card mb-4">
+<div class="unas-card mb-4">
     <div class="card-body">
         <form method="GET" class="row g-3">
             <div class="col-md-3">
-                <label class="form-label">Status</label>
-                <select name="status" class="form-select">
+                <label class="form-label fw-semibold">Status</label>
+                <select name="status" class="unas-form-control">
                     <option value="">Semua Status</option>
                     <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Menunggu</option>
                     <option value="confirmed" {{ request('status') === 'confirmed' ? 'selected' : '' }}>Dikonfirmasi</option>
@@ -90,8 +106,8 @@
                 </select>
             </div>
             <div class="col-md-3">
-                <label class="form-label">Kompetisi</label>
-                <select name="competition_id" class="form-select">
+                <label class="form-label fw-semibold">Kompetisi</label>
+                <select name="competition_id" class="unas-form-control">
                     <option value="">Semua Kompetisi</option>
                     @foreach($competitions as $competition)
                         <option value="{{ $competition->id }}" {{ request('competition_id') == $competition->id ? 'selected' : '' }}>
@@ -101,16 +117,16 @@
                 </select>
             </div>
             <div class="col-md-4">
-                <label class="form-label">Cari</label>
-                <input type="text" name="search" class="form-control" placeholder="Nama atau email peserta..." value="{{ request('search') }}">
+                <label class="form-label fw-semibold">Cari</label>
+                <input type="text" name="search" class="unas-form-control" placeholder="Nama atau email peserta..." value="{{ request('search') }}">
             </div>
             <div class="col-md-2">
                 <label class="form-label">&nbsp;</label>
                 <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="unas-btn-primary">
                         <i class="bi bi-search"></i>
                     </button>
-                    <a href="{{ route('admin.registrations.index') }}" class="btn btn-outline-secondary">
+                    <a href="{{ route('admin.registrations.index') }}" class="unas-btn-secondary">
                         <i class="bi bi-arrow-clockwise"></i>
                     </a>
                 </div>
@@ -120,9 +136,11 @@
 </div>
 
 <!-- Registrations Table -->
-<div class="card">
-    <div class="card-header">
-        <h5 class="card-title mb-0">Daftar Registrasi</h5>
+<div class="unas-card">
+    <div class="unas-card-header">
+        <h5 class="mb-0 text-white">
+            <i class="bi bi-clipboard-check me-2"></i>Daftar Registrasi
+        </h5>
     </div>
     <div class="card-body">
         @if($registrations->count() > 0)
@@ -162,9 +180,9 @@
                                 <td>{{ $registration->created_at->format('d/m/Y H:i') }}</td>
                                 <td>
                                     @if($registration->status === 'pending')
-                                        <span class="badge bg-warning">Menunggu</span>
+                                        <span class="unas-badge-warning">Menunggu</span>
                                     @elseif($registration->status === 'confirmed')
-                                        <span class="badge bg-success">Dikonfirmasi</span>
+                                        <span class="unas-badge-success">Dikonfirmasi</span>
                                     @elseif($registration->status === 'cancelled')
                                         <span class="badge bg-danger">Dibatalkan</span>
                                     @endif
@@ -172,9 +190,9 @@
                                 <td>
                                     @if($registration->payment)
                                         @if($registration->payment->status === 'paid')
-                                            <span class="badge bg-success">Lunas</span>
+                                            <span class="unas-badge-success">Lunas</span>
                                         @elseif($registration->payment->status === 'pending')
-                                            <span class="badge bg-warning">Menunggu</span>
+                                            <span class="unas-badge-warning">Menunggu</span>
                                         @else
                                             <span class="badge bg-danger">Gagal</span>
                                         @endif

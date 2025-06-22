@@ -29,7 +29,7 @@
 
 @section('header-actions')
     <div class="d-flex gap-2">
-        <a href="{{ route('admin.users.create') }}" class="btn btn-primary">
+        <a href="{{ route('admin.users.create') }}" class="unas-btn-primary">
             <i class="bi bi-plus-lg me-2"></i>Tambah Pengguna
         </a>
     </div>
@@ -39,68 +39,68 @@
 <!-- Statistics Cards -->
 <div class="row mb-4">
     <div class="col-md-2">
-        <div class="card stats-card">
-            <div class="card-body text-center">
-                <i class="bi bi-people fs-1 mb-2"></i>
-                <div class="stats-number">{{ number_format($stats['total']) }}</div>
-                <div class="small">Total</div>
+        <div class="unas-stats-card">
+            <div class="text-center">
+                <i class="bi bi-people fs-1 mb-2 text-primary"></i>
+                <div class="unas-stats-number">{{ number_format($stats['total']) }}</div>
+                <div class="unas-stats-label">Total</div>
             </div>
         </div>
     </div>
     <div class="col-md-2">
-        <div class="card border-success">
-            <div class="card-body text-center">
+        <div class="unas-stats-card">
+            <div class="text-center">
                 <i class="bi bi-check-circle fs-1 mb-2 text-success"></i>
-                <div class="stats-number text-success">{{ number_format($stats['active']) }}</div>
-                <div class="small">Aktif</div>
+                <div class="unas-stats-number text-success">{{ number_format($stats['active']) }}</div>
+                <div class="unas-stats-label">Aktif</div>
             </div>
         </div>
     </div>
     <div class="col-md-2">
-        <div class="card border-danger">
-            <div class="card-body text-center">
+        <div class="unas-stats-card">
+            <div class="text-center">
                 <i class="bi bi-x-circle fs-1 mb-2 text-danger"></i>
-                <div class="stats-number text-danger">{{ number_format($stats['inactive']) }}</div>
-                <div class="small">Nonaktif</div>
+                <div class="unas-stats-number text-danger">{{ number_format($stats['inactive']) }}</div>
+                <div class="unas-stats-label">Nonaktif</div>
             </div>
         </div>
     </div>
     <div class="col-md-2">
-        <div class="card border-primary">
-            <div class="card-body text-center">
+        <div class="unas-stats-card">
+            <div class="text-center">
                 <i class="bi bi-shield-check fs-1 mb-2 text-primary"></i>
-                <div class="stats-number text-primary">{{ number_format($stats['super_admin']) }}</div>
-                <div class="small">Super Admin</div>
+                <div class="unas-stats-number text-primary">{{ number_format($stats['super_admin']) }}</div>
+                <div class="unas-stats-label">Super Admin</div>
             </div>
         </div>
     </div>
     <div class="col-md-2">
-        <div class="card border-info">
-            <div class="card-body text-center">
+        <div class="unas-stats-card">
+            <div class="text-center">
                 <i class="bi bi-person-badge fs-1 mb-2 text-info"></i>
-                <div class="stats-number text-info">{{ number_format($stats['juri']) }}</div>
-                <div class="small">Juri</div>
+                <div class="unas-stats-number text-info">{{ number_format($stats['juri']) }}</div>
+                <div class="unas-stats-label">Juri</div>
             </div>
         </div>
     </div>
     <div class="col-md-2">
-        <div class="card border-warning">
-            <div class="card-body text-center">
+        <div class="unas-stats-card">
+            <div class="text-center">
                 <i class="bi bi-person fs-1 mb-2 text-warning"></i>
-                <div class="stats-number text-warning">{{ number_format($stats['peserta']) }}</div>
-                <div class="small">Peserta</div>
+                <div class="unas-stats-number text-warning">{{ number_format($stats['peserta']) }}</div>
+                <div class="unas-stats-label">Peserta</div>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Filters -->
-<div class="card mb-4">
+<div class="unas-card mb-4">
     <div class="card-body">
         <form method="GET" class="row g-3">
             <div class="col-md-3">
-                <label class="form-label">Role</label>
-                <select name="role" class="form-select">
+                <label class="form-label fw-semibold">Role</label>
+                <select name="role" class="unas-form-control">
                     <option value="">Semua Role</option>
                     @foreach($roles as $role)
                         <option value="{{ $role->name }}" {{ request('role') === $role->name ? 'selected' : '' }}>
@@ -110,24 +110,24 @@
                 </select>
             </div>
             <div class="col-md-3">
-                <label class="form-label">Status</label>
-                <select name="status" class="form-select">
+                <label class="form-label fw-semibold">Status</label>
+                <select name="status" class="unas-form-control">
                     <option value="">Semua Status</option>
                     <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Aktif</option>
                     <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Nonaktif</option>
                 </select>
             </div>
             <div class="col-md-4">
-                <label class="form-label">Cari</label>
-                <input type="text" name="search" class="form-control" placeholder="Nama, email, atau telepon..." value="{{ request('search') }}">
+                <label class="form-label fw-semibold">Cari</label>
+                <input type="text" name="search" class="unas-form-control" placeholder="Nama, email, atau telepon..." value="{{ request('search') }}">
             </div>
             <div class="col-md-2">
                 <label class="form-label">&nbsp;</label>
                 <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="unas-btn-primary">
                         <i class="bi bi-search"></i>
                     </button>
-                    <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary">
+                    <a href="{{ route('admin.users.index') }}" class="unas-btn-secondary">
                         <i class="bi bi-arrow-clockwise"></i>
                     </a>
                 </div>
@@ -137,9 +137,11 @@
 </div>
 
 <!-- Users Table -->
-<div class="card">
-    <div class="card-header">
-        <h5 class="card-title mb-0">Daftar Pengguna</h5>
+<div class="unas-card">
+    <div class="unas-card-header">
+        <h5 class="mb-0 text-white">
+            <i class="bi bi-people me-2"></i>Daftar Pengguna
+        </h5>
     </div>
     <div class="card-body">
         @if($users->count() > 0)

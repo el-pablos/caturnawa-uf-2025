@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 // Public Landing Page
 Route::get('/', function () {
-    return redirect()->route('public.competitions');
-});
+    return view('public.home');
+})->name('home');
 
 // Authentication Routes
 Route::middleware('guest')->group(function () {
