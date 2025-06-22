@@ -123,6 +123,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::delete('/{role}', [App\Http\Controllers\Admin\RoleController::class, 'destroy'])->name('destroy');
         });
         
+        // Submission Management
+        Route::prefix('submissions')->name('submissions.')->group(function () {
+            Route::get('/', [App\Http\Controllers\Admin\SubmissionController::class, 'index'])->name('index');
+            Route::get('/{submission}', [App\Http\Controllers\Admin\SubmissionController::class, 'show'])->name('show');
+            Route::patch('/{submission}/approve', [App\Http\Controllers\Admin\SubmissionController::class, 'approve'])->name('approve');
+            Route::patch('/{submission}/reject', [App\Http\Controllers\Admin\SubmissionController::class, 'reject'])->name('reject');
+            Route::delete('/{submission}', [App\Http\Controllers\Admin\SubmissionController::class, 'destroy'])->name('destroy');
+        });
+
         // Reports
         Route::prefix('reports')->name('reports.')->group(function () {
             Route::get('/', [App\Http\Controllers\Admin\ReportController::class, 'index'])->name('index');
