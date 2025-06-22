@@ -13,65 +13,113 @@
 @endsection
 
 @section('content')
-<!-- Statistics Cards - AdminLTE Style -->
-<div class="row">
-    <div class="col-lg-3 col-6">
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>{{ number_format($stats['total_users']) }}</h3>
-                <p>New Orders</p>
+<!-- Statistics Cards - Modern White Design -->
+<div class="row mb-4">
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center"
+                             style="width: 60px; height: 60px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <i class="bi bi-people-fill text-white fs-4"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <div class="text-muted small">Total Pengguna</div>
+                        <div class="fs-2 fw-bold text-dark">{{ number_format($stats['total_users']) }}</div>
+                        <div class="text-success small">
+                            <i class="bi bi-arrow-up"></i> +12% dari bulan lalu
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="icon">
-                <i class="bi bi-people-fill"></i>
+            <div class="card-footer bg-transparent border-0">
+                <a href="{{ route('admin.users.index') }}" class="btn btn-outline-primary btn-sm w-100">
+                    <i class="bi bi-eye me-1"></i>Lihat Detail
+                </a>
             </div>
-            <a href="{{ route('admin.users.index') }}" class="small-box-footer">
-                More info <i class="bi bi-arrow-right-circle"></i>
-            </a>
         </div>
     </div>
 
-    <div class="col-lg-3 col-6">
-        <div class="small-box bg-success">
-            <div class="inner">
-                <h3>{{ number_format($stats['total_competitions']) }}<sup style="font-size: 20px">%</sup></h3>
-                <p>Bounce Rate</p>
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center"
+                             style="width: 60px; height: 60px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                            <i class="bi bi-trophy-fill text-white fs-4"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <div class="text-muted small">Total Kompetisi</div>
+                        <div class="fs-2 fw-bold text-dark">{{ number_format($stats['total_competitions']) }}</div>
+                        <div class="text-info small">
+                            <i class="bi bi-activity"></i> {{ $stats['active_competitions'] ?? 0 }} aktif
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="icon">
-                <i class="bi bi-trophy-fill"></i>
+            <div class="card-footer bg-transparent border-0">
+                <a href="{{ route('admin.competitions.index') }}" class="btn btn-outline-success btn-sm w-100">
+                    <i class="bi bi-eye me-1"></i>Lihat Detail
+                </a>
             </div>
-            <a href="{{ route('admin.competitions.index') }}" class="small-box-footer">
-                More info <i class="bi bi-arrow-right-circle"></i>
-            </a>
         </div>
     </div>
 
-    <div class="col-lg-3 col-6">
-        <div class="small-box bg-warning">
-            <div class="inner">
-                <h3>{{ number_format($stats['total_registrations']) }}</h3>
-                <p>User Registrations</p>
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center"
+                             style="width: 60px; height: 60px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                            <i class="bi bi-person-check-fill text-white fs-4"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <div class="text-muted small">Total Registrasi</div>
+                        <div class="fs-2 fw-bold text-dark">{{ number_format($stats['total_registrations']) }}</div>
+                        <div class="text-warning small">
+                            <i class="bi bi-clock"></i> {{ $stats['pending_registrations'] ?? 0 }} pending
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="icon">
-                <i class="bi bi-person-check-fill"></i>
+            <div class="card-footer bg-transparent border-0">
+                <a href="{{ route('admin.registrations.index') }}" class="btn btn-outline-info btn-sm w-100">
+                    <i class="bi bi-eye me-1"></i>Lihat Detail
+                </a>
             </div>
-            <a href="{{ route('admin.registrations.index') }}" class="small-box-footer">
-                More info <i class="bi bi-arrow-right-circle"></i>
-            </a>
         </div>
     </div>
 
-    <div class="col-lg-3 col-6">
-        <div class="small-box bg-danger">
-            <div class="inner">
-                <h3>65</h3>
-                <p>Unique Visitors</p>
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center"
+                             style="width: 60px; height: 60px; background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                            <i class="bi bi-wallet-fill text-white fs-4"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <div class="text-muted small">Total Pendapatan</div>
+                        <div class="fs-2 fw-bold text-dark">{{ number_format($stats['total_revenue'] ?? 0) }}</div>
+                        <div class="text-success small">
+                            <i class="bi bi-graph-up"></i> +8% dari bulan lalu
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="icon">
-                <i class="bi bi-wallet-fill"></i>
+            <div class="card-footer bg-transparent border-0">
+                <a href="{{ route('admin.reports.index') }}" class="btn btn-outline-warning btn-sm w-100">
+                    <i class="bi bi-eye me-1"></i>Lihat Detail
+                </a>
             </div>
-            <a href="{{ route('admin.reports.index') }}" class="small-box-footer">
-                More info <i class="bi bi-arrow-right-circle"></i>
-            </a>
         </div>
     </div>
 </div>
@@ -80,13 +128,15 @@
 <div class="row mb-4">
     <!-- Registration Trend Chart -->
     <div class="col-lg-8 mb-3">
-        <div class="unas-card h-100">
-            <div class="unas-card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0 text-white">
-                    <i class="bi bi-graph-up me-2"></i>Tren Pendaftaran & Pendapatan 2025
-                </h5>
-                <div class="badge bg-light text-dark">
-                    UNAS Fest 2025
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-header bg-white border-bottom">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0 text-dark fw-semibold">
+                        <i class="bi bi-graph-up me-2 text-primary"></i>Tren Pendaftaran & Pendapatan 2025
+                    </h6>
+                    <div class="badge bg-primary bg-opacity-10 text-primary">
+                        UNAS Fest 2025
+                    </div>
                 </div>
             </div>
             <div class="card-body" id="chart-container">
@@ -101,15 +151,15 @@
 
     <!-- User Distribution Chart -->
     <div class="col-lg-4 mb-3">
-        <div class="unas-card h-100">
-            <div class="unas-card-header">
-                <h5 class="mb-0 text-white">
-                    <i class="bi bi-pie-chart me-2"></i>Distribusi Pengguna
-                </h5>
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-header bg-white border-bottom">
+                <h6 class="mb-0 text-dark fw-semibold">
+                    <i class="bi bi-pie-chart me-2 text-success"></i>Distribusi Pengguna
+                </h6>
             </div>
             <div class="card-body" id="user-distribution-container">
                 <div class="d-flex justify-content-center align-items-center" style="height: 250px;">
-                    <div class="spinner-border text-primary" role="status">
+                    <div class="spinner-border text-success" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
@@ -122,60 +172,66 @@
 <div class="row">
     <!-- Recent Users -->
     <div class="col-lg-4 mb-3">
-        <div class="unas-card h-100">
-            <div class="unas-card-header d-flex justify-content-between align-items-center">
-                <h6 class="mb-0 text-white">
-                    <i class="bi bi-person-fill-add me-2"></i>Pengguna Terbaru
-                </h6>
-                <a href="{{ route('admin.users.index') }}" class="unas-btn-accent btn-sm">
-                    Lihat Semua
-                </a>
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-header bg-white border-bottom">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0 text-dark fw-semibold">
+                        <i class="bi bi-person-fill-add me-2 text-info"></i>Pengguna Terbaru
+                    </h6>
+                    <a href="{{ route('admin.users.index') }}" class="btn btn-outline-info btn-sm">
+                        Lihat Semua
+                    </a>
+                </div>
             </div>
             <div class="card-body p-0" id="recent-users-container">
                 <div class="d-flex justify-content-center align-items-center py-4">
-                    <div class="spinner-border spinner-border-sm text-primary" role="status">
+                    <div class="spinner-border spinner-border-sm text-info" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <!-- Active Competitions -->
     <div class="col-lg-4 mb-3">
-        <div class="unas-card h-100">
-            <div class="unas-card-header d-flex justify-content-between align-items-center">
-                <h6 class="mb-0 text-white">
-                    <i class="bi bi-trophy-fill me-2"></i>Kompetisi Aktif
-                </h6>
-                <a href="{{ route('admin.competitions.index') }}" class="unas-btn-secondary btn-sm">
-                    Lihat Semua
-                </a>
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-header bg-white border-bottom">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0 text-dark fw-semibold">
+                        <i class="bi bi-trophy-fill me-2 text-warning"></i>Kompetisi Aktif
+                    </h6>
+                    <a href="{{ route('admin.competitions.index') }}" class="btn btn-outline-warning btn-sm">
+                        Lihat Semua
+                    </a>
+                </div>
             </div>
             <div class="card-body p-0" id="recent-competitions-container">
                 <div class="d-flex justify-content-center align-items-center py-4">
-                    <div class="spinner-border spinner-border-sm text-primary" role="status">
+                    <div class="spinner-border spinner-border-sm text-warning" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <!-- Recent Payments -->
     <div class="col-lg-4 mb-3">
-        <div class="unas-card h-100">
-            <div class="unas-card-header d-flex justify-content-between align-items-center">
-                <h6 class="mb-0 text-white">
-                    <i class="bi bi-wallet-fill me-2"></i>Pembayaran Terbaru
-                </h6>
-                <a href="{{ route('admin.payments.index') }}" class="unas-btn-accent btn-sm">
-                    Laporan Keuangan
-                </a>
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-header bg-white border-bottom">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0 text-dark fw-semibold">
+                        <i class="bi bi-wallet-fill me-2 text-danger"></i>Pembayaran Terbaru
+                    </h6>
+                    <a href="{{ route('admin.reports.index') }}" class="btn btn-outline-danger btn-sm">
+                        Laporan Keuangan
+                    </a>
+                </div>
             </div>
             <div class="card-body p-0" id="recent-payments-container">
                 <div class="d-flex justify-content-center align-items-center py-4">
-                    <div class="spinner-border spinner-border-sm text-primary" role="status">
+                    <div class="spinner-border spinner-border-sm text-danger" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
@@ -187,85 +243,42 @@
 
 @push('styles')
 <style>
-    /* AdminLTE Style Small Boxes */
-    .small-box {
-        border-radius: 0.25rem;
-        box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
-        display: block;
-        margin-bottom: 20px;
-        position: relative;
+    /* Modern Dashboard Styles */
+    .card {
+        transition: all 0.3s ease;
+        border-radius: 12px;
     }
 
-    .small-box > .inner {
-        padding: 10px;
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
     }
 
-    .small-box > .small-box-footer {
-        background-color: rgba(0,0,0,.1);
-        color: rgba(255,255,255,.8);
-        display: block;
-        padding: 3px 0;
-        position: relative;
-        text-align: center;
-        text-decoration: none;
-        z-index: 10;
+    .card-header {
+        border-radius: 12px 12px 0 0 !important;
+        padding: 1.25rem;
     }
 
-    .small-box > .small-box-footer:hover {
-        background-color: rgba(0,0,0,.15);
-        color: #fff;
+    .card-body {
+        padding: 1.5rem;
     }
 
-    .small-box h3 {
-        font-size: 2.2rem;
-        font-weight: 700;
-        margin: 0 0 10px;
-        padding: 0;
-        white-space: nowrap;
+    .card-footer {
+        border-radius: 0 0 12px 12px !important;
+        padding: 1rem 1.5rem;
     }
 
-    .small-box p {
-        font-size: 1rem;
+    /* Statistics Cards Enhancements */
+    .fs-2 {
+        font-size: 2.5rem !important;
+        line-height: 1.2;
     }
 
-    .small-box .icon {
-        color: rgba(0,0,0,.15);
-        z-index: 0;
+    .rounded-circle {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
-    .small-box .icon > i {
-        font-size: 70px;
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        transition: transform .3s linear;
-    }
-
-    .small-box:hover .icon > i {
-        transform: scale(1.1);
-    }
-
-    .small-box.bg-info {
-        background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 100%)!important;
-        color: #fff;
-    }
-
-    .small-box.bg-success {
-        background: linear-gradient(135deg, var(--purple) 0%, var(--navy) 100%)!important;
-        color: #fff;
-    }
-
-    .small-box.bg-warning {
-        background: linear-gradient(135deg, var(--beige) 0%, #f0d982 100%)!important;
-        color: var(--navy);
-    }
-
-    .small-box.bg-danger {
-        background: linear-gradient(135deg, var(--navy) 0%, #1a2a6b 100%)!important;
-        color: #fff;
-    }
-
-    /* Prevent layout shifts during loading */
+    /* Chart Container Improvements */
     #chart-container,
     #user-distribution-container,
     #recent-users-container,
@@ -283,9 +296,83 @@
         min-height: 300px;
     }
 
+    /* Loading States */
+    .spinner-border {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .spinner-border-sm {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    /* List Group Enhancements */
+    .list-group-item {
+        border: none;
+        padding: 1rem 1.5rem;
+        transition: background-color 0.2s ease;
+    }
+
+    .list-group-item:hover {
+        background-color: rgba(0,0,0,0.02);
+    }
+
+    /* Badge Enhancements */
+    .badge {
+        font-size: 0.75rem;
+        padding: 0.5rem 0.75rem;
+        border-radius: 6px;
+    }
+
+    .bg-opacity-10 {
+        background-color: rgba(var(--bs-primary-rgb), 0.1) !important;
+    }
+
+    /* Button Enhancements */
+    .btn {
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-1px);
+    }
+
     /* Prevent auto-scroll during initial load */
     body.loading {
         overflow: hidden;
+    }
+
+    /* Background */
+    body {
+        background-color: #f8f9fa;
+    }
+
+    /* Shadow utilities */
+    .shadow-sm {
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+    }
+
+    /* Text utilities */
+    .fw-semibold {
+        font-weight: 600 !important;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .fs-2 {
+            font-size: 2rem !important;
+        }
+
+        .card-body {
+            padding: 1rem;
+        }
+
+        .card-header {
+            padding: 1rem;
+        }
     }
 </style>
 @endpush

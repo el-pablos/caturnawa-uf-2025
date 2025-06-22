@@ -184,39 +184,35 @@
             <table class="table table-striped" id="reportsTable">
                 <thead>
                     <tr>
-                        <th>Tanggal</th>
                         <th>Kompetisi</th>
-                        <th>Peserta</th>
-                        <th>Email</th>
+                        <th>Kategori</th>
+                        <th>Total Peserta</th>
+                        <th>Terkonfirmasi</th>
                         <th>Status</th>
-                        <th>Jumlah</th>
-                        <th>Metode Pembayaran</th>
+                        <th>Tanggal Dibuat</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($reports ?? [] as $report)
+                    @forelse($topCompetitions ?? [] as $competition)
                         <tr>
-                            <td>{{ $report->created_at->format('d/m/Y H:i') }}</td>
-                            <td>{{ $report->competition->name ?? '-' }}</td>
-                            <td>{{ $report->user->name ?? '-' }}</td>
-                            <td>{{ $report->user->email ?? '-' }}</td>
+                            <td>{{ $competition->name ?? '-' }}</td>
+                            <td>{{ $competition->category ?? '-' }}</td>
+                            <td>{{ $competition->registrations_count ?? 0 }}</td>
+                            <td>{{ $competition->confirmed_registrations_count ?? 0 }}</td>
                             <td>
-                                @if($report->status == 'paid')
-                                    <span class="badge bg-success">Terbayar</span>
-                                @elseif($report->status == 'pending')
-                                    <span class="badge bg-warning">Pending</span>
+                                @if($competition->is_active ?? false)
+                                    <span class="badge bg-success">Aktif</span>
                                 @else
-                                    <span class="badge bg-danger">Gagal</span>
+                                    <span class="badge bg-secondary">Tidak Aktif</span>
                                 @endif
                             </td>
-                            <td>Rp {{ number_format($report->amount ?? 0, 0, ',', '.') }}</td>
-                            <td>{{ $report->payment_method ?? '-' }}</td>
+                            <td>{{ $competition->created_at ? $competition->created_at->format('d/m/Y') : '-' }}</td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="text-center py-4">
+                            <td colspan="6" class="text-center py-4">
                                 <i class="bi bi-inbox fs-1 text-muted d-block mb-2"></i>
-                                <p class="text-muted">Tidak ada data laporan</p>
+                                <p class="text-muted">Tidak ada data kompetisi</p>
                             </td>
                         </tr>
                     @endforelse

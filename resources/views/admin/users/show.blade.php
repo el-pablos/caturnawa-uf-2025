@@ -40,18 +40,18 @@
                 <div class="row text-center">
                     <div class="col-4">
                         <div class="border-end">
-                            <h6 class="mb-0">{{ $user->registrations->count() }}</h6>
+                            <h6 class="mb-0">{{ $user->registrations ? $user->registrations->count() : 0 }}</h6>
                             <small class="text-muted">Registrasi</small>
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="border-end">
-                            <h6 class="mb-0">{{ $user->submissions->count() }}</h6>
+                            <h6 class="mb-0">{{ $user->submissions ? $user->submissions->count() : 0 }}</h6>
                             <small class="text-muted">Karya</small>
                         </div>
                     </div>
                     <div class="col-4">
-                        <h6 class="mb-0">{{ $user->payments->where('status', 'paid')->count() }}</h6>
+                        <h6 class="mb-0">{{ $user->payments ? $user->payments->where('status', 'paid')->count() : 0 }}</h6>
                         <small class="text-muted">Pembayaran</small>
                     </div>
                 </div>
@@ -148,11 +148,11 @@
         <div class="card mt-4">
             <div class="card-header">
                 <h6 class="mb-0">
-                    <i class="bi bi-list-check me-2"></i>Riwayat Registrasi ({{ $user->registrations->count() }})
+                    <i class="bi bi-list-check me-2"></i>Riwayat Registrasi ({{ $user->registrations ? $user->registrations->count() : 0 }})
                 </h6>
             </div>
             <div class="card-body">
-                @if($user->registrations->count() > 0)
+                @if($user->registrations && $user->registrations->count() > 0)
                     <div class="table-responsive">
                         <table class="table table-sm">
                             <thead>
@@ -215,11 +215,11 @@
         <div class="card mt-4">
             <div class="card-header">
                 <h6 class="mb-0">
-                    <i class="bi bi-file-earmark-text me-2"></i>Karya yang Dikirim ({{ $user->submissions->count() }})
+                    <i class="bi bi-file-earmark-text me-2"></i>Karya yang Dikirim ({{ $user->submissions ? $user->submissions->count() : 0 }})
                 </h6>
             </div>
             <div class="card-body">
-                @if($user->submissions->count() > 0)
+                @if($user->submissions && $user->submissions->count() > 0)
                     <div class="table-responsive">
                         <table class="table table-sm">
                             <thead>
