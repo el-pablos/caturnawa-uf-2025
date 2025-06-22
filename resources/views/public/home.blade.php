@@ -18,7 +18,7 @@
     
     <style>
         .hero-section {
-            background: var(--unas-gradient-sky);
+            background: #00BCD4;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -58,7 +58,7 @@
         }
         
         .competition-card .card-header {
-            background: var(--unas-gradient-primary);
+            background: #00BCD4;
             color: white;
             border: none;
             padding: var(--unas-space-4);
@@ -67,16 +67,13 @@
         .stats-counter {
             font-size: 3rem;
             font-weight: 800;
-            background: var(--unas-gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #00BCD4;
         }
         
         .feature-icon {
             width: 80px;
             height: 80px;
-            background: var(--unas-gradient-primary);
+            background: #00BCD4;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -93,9 +90,9 @@
         }
         
         .btn-cta {
-            background: var(--unas-gradient-sunset);
+            background: #FF9800;
             border: none;
-            color: var(--unas-gray-800);
+            color: white;
             font-weight: 700;
             padding: var(--unas-space-4) var(--unas-space-8);
             border-radius: var(--unas-radius-full);
@@ -103,11 +100,12 @@
             letter-spacing: 1px;
             transition: all 0.3s ease;
         }
-        
+
         .btn-cta:hover {
             transform: translateY(-3px);
             box-shadow: var(--unas-shadow-lg);
-            color: var(--unas-gray-800);
+            background: #E65100;
+            color: white;
         }
         
         .countdown-item {

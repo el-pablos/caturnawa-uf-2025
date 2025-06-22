@@ -34,7 +34,7 @@
             left: 0;
             height: 100vh;
             width: var(--sidebar-width);
-            background: var(--unas-gradient-primary);
+            background: var(--unas-primary);
             z-index: 1000;
             transition: transform 0.3s ease;
             box-shadow: var(--unas-shadow-lg);
@@ -95,7 +95,7 @@
         }
 
         .btn-primary {
-            background: var(--unas-gradient-primary);
+            background: var(--unas-primary);
             border: none;
         }
 
@@ -150,7 +150,7 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: var(--unas-gradient-primary);
+            background: var(--unas-primary);
         }
 
         .stats-card:hover {

@@ -8,7 +8,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #87CEEB 0%, #98FB98 100%);
+            background: #F8F9FA;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -21,7 +21,7 @@
             overflow: hidden;
         }
         .login-header {
-            background: linear-gradient(135deg, #00BCD4 0%, #4FC3F7 100%);
+            background: #00BCD4;
             color: white;
             padding: 2rem;
             text-align: center;
@@ -37,7 +37,7 @@
             box-shadow: 0 0 0 0.2rem rgba(0, 188, 212, 0.25);
         }
         .btn-primary {
-            background: linear-gradient(135deg, #00BCD4 0%, #4FC3F7 100%);
+            background: #00BCD4;
             border: none;
             border-radius: 10px;
             padding: 12px;
@@ -47,7 +47,7 @@
             transition: all 0.3s ease;
         }
         .btn-primary:hover {
-            background: linear-gradient(135deg, #0097A7 0%, #29B6F6 100%);
+            background: #0097A7;
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 188, 212, 0.3);
         }
