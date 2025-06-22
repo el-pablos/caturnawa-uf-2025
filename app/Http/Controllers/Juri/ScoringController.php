@@ -29,14 +29,21 @@ class ScoringController extends Controller
         $competitions = Competition::active()
             ->where('competition_start', '<=', now())
             ->withCount([
-                'submissions' => function($query) {
-                    $query->where('is_final', true);
+                'registrations' => function($query) {
+                    $query->where('status', 'confirmed');
                 },
                 'scores' => function($query) {
                     $query->where('jury_id', Auth::id())->where('is_final', true);
                 }
             ])
             ->get();
+
+        // Add submission counts manually
+        foreach ($competitions as $competition) {
+            $competition->submissions_count = Submission::whereHas('registration', function($query) use ($competition) {
+                $query->where('competition_id', $competition->id);
+            })->where('is_final', true)->count();
+        }
 
         return view('juri.scoring.index', compact('competitions'));
     }
@@ -83,7 +90,7 @@ class ScoringController extends Controller
         $jury = Auth::user();
         
         // Cari score yang sudah ada
-        $score = Score::where('competition_id', $submission->competition_id)
+        $score = Score::where('competition_id', $submission->registration->competition_id)
             ->where('registration_id', $submission->registration_id)
             ->where('jury_id', $jury->id)
             ->first();
@@ -91,7 +98,7 @@ class ScoringController extends Controller
         // Jika belum ada score, buat baru
         if (!$score) {
             $score = new Score([
-                'competition_id' => $submission->competition_id,
+                'competition_id' => $submission->registration->competition_id,
                 'registration_id' => $submission->registration_id,
                 'jury_id' => $jury->id,
                 'criteria_scores' => [],
@@ -140,7 +147,7 @@ class ScoringController extends Controller
         
         // Find or create score
         $score = Score::firstOrNew([
-            'competition_id' => $submission->competition_id,
+            'competition_id' => $submission->registration->competition_id,
             'registration_id' => $submission->registration_id,
             'jury_id' => $jury->id,
         ]);

@@ -256,10 +256,12 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
+            'institution' => 'nullable|string|max:255',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ], [
             'name.required' => 'Nama lengkap harus diisi',
             'phone.required' => 'Nomor telepon harus diisi',
+            'institution.max' => 'Nama institusi maksimal 255 karakter',
             'avatar.image' => 'File harus berupa gambar',
             'avatar.mimes' => 'Format gambar harus JPEG, PNG, atau JPG',
             'avatar.max' => 'Ukuran gambar maksimal 2MB',
@@ -274,6 +276,7 @@ class AuthController extends Controller
         $data = [
             'name' => $request->name,
             'phone' => $request->phone,
+            'institution' => $request->institution,
         ];
 
         // Handle avatar upload

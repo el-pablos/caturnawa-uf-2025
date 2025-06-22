@@ -50,7 +50,7 @@
                         </div>
                         <div class="col-6">
                             <small class="text-muted">Tanggal Mulai</small>
-                            <div class="fw-semibold">{{ $competition->start_date->format('d M Y') }}</div>
+                            <div class="fw-semibold">{{ $competition->competition_start ? $competition->competition_start->format('d M Y') : 'Belum ditentukan' }}</div>
                         </div>
                         <div class="col-6">
                             <small class="text-muted">Deadline Submission</small>

@@ -61,11 +61,17 @@ class SubmissionController extends Controller
             $q->where('user_id', $jury->id);
         })->orderBy('name')->get();
 
-        // Add review status to each submission
+        // Add review status and score info to each submission
         foreach ($submissions as $submission) {
             $submission->is_reviewed_by_me = $submission->comments()
                 ->where('jury_id', $jury->id)
                 ->exists();
+
+            // Add jury score information
+            $submission->jury_score = \App\Models\Score::where('competition_id', $submission->registration->competition_id)
+                ->where('registration_id', $submission->registration_id)
+                ->where('jury_id', $jury->id)
+                ->first();
         }
 
         return view('juri.submissions.index', compact('submissions', 'competitions'));

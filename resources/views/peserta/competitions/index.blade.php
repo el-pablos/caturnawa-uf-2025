@@ -222,8 +222,14 @@ function registerCompetition(competitionId) {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    showSuccess('Berhasil mendaftar kompetisi!');
-                    location.reload();
+                    showSuccess(data.message || 'Berhasil mendaftar kompetisi!');
+                    if (data.redirect_url) {
+                        setTimeout(() => {
+                            window.location.href = data.redirect_url;
+                        }, 1500);
+                    } else {
+                        location.reload();
+                    }
                 } else {
                     showError(data.message || 'Terjadi kesalahan');
                 }

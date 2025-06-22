@@ -105,23 +105,43 @@ class CompetitionController extends Controller
         
         // Validasi apakah kompetisi masih buka pendaftaran
         if (!$competition->isRegistrationOpen()) {
+            if ($request->expectsJson()) {
+                return response()->json(['success' => false, 'message' => 'Pendaftaran untuk kompetisi ini sudah ditutup.']);
+            }
             return back()->with('error', 'Pendaftaran untuk kompetisi ini sudah ditutup.');
         }
-        
+
         // Validasi apakah sudah mendaftar
         $existingRegistration = Registration::where('user_id', $user->id)
             ->where('competition_id', $competition->id)
             ->first();
-            
+
         if ($existingRegistration) {
+            if ($request->expectsJson()) {
+                return response()->json(['success' => false, 'message' => 'Anda sudah terdaftar dalam kompetisi ini.']);
+            }
             return back()->with('error', 'Anda sudah terdaftar dalam kompetisi ini.');
         }
-        
+
         // Validasi apakah masih ada slot
         if ($competition->isFullyBooked()) {
+            if ($request->expectsJson()) {
+                return response()->json(['success' => false, 'message' => 'Kompetisi ini sudah penuh.']);
+            }
             return back()->with('error', 'Kompetisi ini sudah penuh.');
         }
         
+        // For AJAX requests, use default values from user profile
+        if ($request->expectsJson()) {
+            $request->merge([
+                'phone' => $request->phone ?: $user->phone,
+                'institution' => $request->institution ?: $user->institution,
+                'emergency_contact' => $request->emergency_contact ?: $user->emergency_contact_name,
+                'emergency_phone' => $request->emergency_phone ?: $user->emergency_contact_phone,
+                'special_needs' => $request->special_needs ?: null,
+            ]);
+        }
+
         // Validasi form
         $rules = [
             'phone' => 'required|string|max:20',
@@ -185,6 +205,15 @@ class CompetitionController extends Controller
         
         $registration = Registration::create($registrationData);
         
+        // Check if this is an AJAX request
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Pendaftaran berhasil! Silakan lakukan pembayaran untuk mengkonfirmasi pendaftaran Anda.',
+                'redirect_url' => route('payment.checkout', $registration)
+            ]);
+        }
+
         // Redirect ke halaman pembayaran
         return redirect()->route('payment.checkout', $registration)
             ->with('success', 'Pendaftaran berhasil! Silakan lakukan pembayaran untuk mengkonfirmasi pendaftaran Anda.');

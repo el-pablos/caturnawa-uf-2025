@@ -109,12 +109,22 @@ class Registration extends Model
 
     /**
      * Relasi dengan model Submission (karya)
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function submission()
     {
         return $this->hasOne(Submission::class);
+    }
+
+    /**
+     * Relasi dengan model TeamMember (anggota tim)
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function teamMembers()
+    {
+        return $this->hasMany(TeamMember::class);
     }
 
     /**

@@ -39,7 +39,7 @@
                                 <label for="avatar" class="position-absolute bottom-0 end-0 btn btn-primary btn-sm rounded-circle shadow">
                                     <i class="bi bi-camera"></i>
                                 </label>
-                                <input type="file" id="avatar" name="avatar" class="d-none" accept="image/*">
+
                             </div>
                             <div class="mt-3">
                                 <h6 class="text-primary mb-1">{{ $user->name }}</h6>
@@ -96,6 +96,15 @@
                                                     @error('institution')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="avatar" class="form-label fw-semibold">Foto Profil</label>
+                                                    <input type="file" id="avatar" name="avatar" class="form-control @error('avatar') is-invalid @enderror" accept="image/*">
+                                                    @error('avatar')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                    <small class="text-muted">Format: JPG, PNG, JPEG. Maksimal 2MB</small>
                                                 </div>
 
                                                 <div class="d-grid">
