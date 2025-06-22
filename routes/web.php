@@ -242,6 +242,11 @@ Route::prefix('ticket')->name('ticket.')->group(function () {
 
 // Public Competition Information (Guest can view)
 Route::prefix('public')->name('public.')->group(function () {
+    // Redirect /public/ to /public/competitions
+    Route::get('/', function () {
+        return redirect()->route('public.competitions');
+    });
+
     Route::get('/competitions', [App\Http\Controllers\PublicController::class, 'competitions'])->name('competitions');
     Route::get('/competition/{competition}', [App\Http\Controllers\PublicController::class, 'competition'])->name('competition');
     Route::get('/about', [App\Http\Controllers\PublicController::class, 'about'])->name('about');

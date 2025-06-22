@@ -38,9 +38,7 @@ class CompetitionController extends Controller
         // Get scoring progress for each competition
         foreach ($competitions as $competition) {
             $totalParticipants = $competition->confirmed_registrations_count;
-            $scoredParticipants = Score::whereHas('registration.competition', function ($query) use ($competition) {
-                $query->where('id', $competition->id);
-            })
+            $scoredParticipants = Score::where('competition_id', $competition->id)
             ->where('jury_id', $jury->id)
             ->distinct('registration_id')
             ->count();
