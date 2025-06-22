@@ -109,19 +109,19 @@
                     </div>
                     
                     <div class="mb-3">
-                        <label for="avatar" class="form-label">Avatar</label>
-                        <input type="file" class="form-control @error('avatar') is-invalid @enderror" 
-                               id="avatar" name="avatar" accept="image/*">
+                        <label for="profile_photo" class="form-label">Foto Profil</label>
+                        <input type="file" class="form-control @error('profile_photo') is-invalid @enderror"
+                               id="profile_photo" name="profile_photo" accept="image/*">
                         <div class="form-text">Format: JPG, PNG, GIF. Maksimal 2MB</div>
-                        @error('avatar')
+                        @error('profile_photo')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
-                        
-                        @if($user->avatar)
+
+                        @if($user->profile_photo)
                             <div class="mt-2">
-                                <img src="{{ asset('storage/' . $user->avatar) }}" 
-                                     alt="Current Avatar" class="img-thumbnail" style="max-width: 100px;">
-                                <small class="text-muted d-block">Avatar saat ini</small>
+                                <img src="{{ asset('storage/' . $user->profile_photo) }}"
+                                     alt="Current Profile Photo" class="img-thumbnail" style="max-width: 100px;">
+                                <small class="text-muted d-block">Foto profil saat ini</small>
                             </div>
                         @endif
                     </div>

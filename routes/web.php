@@ -14,10 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Public Landing Page - Redirect to /public/competitions
-Route::get('/', function () {
-    return redirect()->route('public.competitions');
-})->name('home');
+// Public Landing Page - New unified home page
+Route::get('/', [App\Http\Controllers\Public\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\Public\HomeController::class, 'index']);
+Route::post('/contact', [App\Http\Controllers\Public\HomeController::class, 'sendContact'])->name('contact.send');
 
 // Authentication Routes
 Route::middleware('guest')->group(function () {
@@ -247,18 +247,23 @@ Route::prefix('ticket')->name('ticket.')->group(function () {
     Route::post('/validate', [App\Http\Controllers\TicketController::class, 'validate'])->name('validate');
 });
 
-// Public Competition Information (Guest can view)
+// Legacy public routes - redirect to new home page
 Route::prefix('public')->name('public.')->group(function () {
-    // Redirect /public/ to /public/competitions
     Route::get('/', function () {
-        return redirect()->route('public.competitions');
+        return redirect('/#competitions');
     });
+    Route::get('/competitions', function () {
+        return redirect('/#competitions');
+    })->name('competitions');
+    Route::get('/about', function () {
+        return redirect('/#about');
+    })->name('about');
+    Route::get('/contact', function () {
+        return redirect('/#contact');
+    })->name('contact');
 
-    Route::get('/competitions', [App\Http\Controllers\PublicController::class, 'competitions'])->name('competitions');
+    // Keep individual competition view
     Route::get('/competition/{competition}', [App\Http\Controllers\PublicController::class, 'competition'])->name('competition');
-    Route::get('/about', [App\Http\Controllers\PublicController::class, 'about'])->name('about');
-    Route::get('/contact', [App\Http\Controllers\PublicController::class, 'contact'])->name('contact');
-    Route::post('/contact', [App\Http\Controllers\PublicController::class, 'sendContact'])->name('contact.send');
 });
 
 // API Routes for AJAX calls
