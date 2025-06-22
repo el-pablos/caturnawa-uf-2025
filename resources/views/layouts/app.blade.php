@@ -26,18 +26,26 @@
     <style>
         :root {
             --sidebar-width: 280px;
+            --navy: #0B1D51;
+            --purple: #725CAD;
+            --blue: #8CCDEB;
+            --beige: #FFE3A9;
+            --navy-rgb: 11, 29, 81;
+            --purple-rgb: 114, 92, 173;
+            --blue-rgb: 140, 205, 235;
+            --beige-rgb: 255, 227, 169;
         }
-        
+
         .sidebar {
             position: fixed;
             top: 0;
             left: 0;
             height: 100vh;
             width: var(--sidebar-width);
-            background: var(--unas-primary);
+            background: linear-gradient(180deg, var(--navy) 0%, var(--purple) 100%);
             z-index: 1000;
             transition: transform 0.3s ease;
-            box-shadow: var(--unas-shadow-lg);
+            box-shadow: 0 0 20px rgba(var(--navy-rgb), 0.3);
         }
         
         .sidebar.collapsed {
@@ -46,23 +54,51 @@
         
         .sidebar .nav-link {
             color: rgba(255, 255, 255, 0.9);
-            border-radius: var(--unas-radius);
-            margin: var(--unas-space-1) 0;
+            border-radius: 8px;
+            margin: 4px 12px;
             transition: all 0.3s ease;
-            padding: var(--unas-space-3) var(--unas-space-4);
+            padding: 12px 16px;
             font-weight: 500;
+            display: flex;
+            align-items: center;
         }
 
-        .sidebar .nav-link:hover,
-        .sidebar .nav-link.active {
+        .sidebar .nav-link:hover {
             color: white;
-            background-color: rgba(255, 255, 255, 0.15);
+            background-color: rgba(var(--blue-rgb), 0.2);
             transform: translateX(5px);
-            box-shadow: var(--unas-shadow-sm);
+            box-shadow: 0 2px 8px rgba(var(--blue-rgb), 0.3);
+        }
+
+        .sidebar .nav-link.active {
+            color: var(--navy);
+            background-color: var(--beige);
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(var(--beige-rgb), 0.4);
+            font-weight: 600;
+        }
+
+        .nav-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 0 16px;
+        }
+
+        .nav-section-title {
+            padding: 8px 16px 4px;
+        }
+
+        .nav-user-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
         }
         
         .main-content {
             margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            background: linear-gradient(135deg, rgba(var(--blue-rgb), 0.1) 0%, rgba(var(--beige-rgb), 0.1) 100%);
             transition: margin-left 0.3s ease;
         }
         
@@ -204,52 +240,25 @@
             
             <!-- Navigation Menu -->
             <div class="nav nav-pills flex-column p-3" id="nav-tab">
-                @yield('sidebar-menu')
+                @include('partials.admin-sidebar')
             </div>
-            
-            <!-- User Info & Logout -->
-            <div class="position-absolute bottom-0 w-100 p-3 border-top border-light border-opacity-25">
-                <div class="dropdown">
-                    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" 
-                       data-bs-toggle="dropdown">
-                        <img src="{{ auth()->user()->avatar_url }}" width="32" height="32" 
-                             class="rounded-circle me-2" alt="Avatar">
-                        <div>
-                            <div class="fw-semibold">{{ auth()->user()->name }}</div>
-                            <small class="opacity-75">{{ auth()->user()->getRoleNames()->first() }}</small>
-                        </div>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                        <li><a class="dropdown-item" href="{{ route('profile.index') }}">
-                            <i class="bi bi-person-circle me-2"></i>Profil</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <form action="{{ route('logout') }}" method="POST">
-                                @csrf
-                                <button type="submit" class="dropdown-item">
-                                    <i class="bi bi-box-arrow-right me-2"></i>Logout
-                                </button>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+
         </div>
     </nav>
     
     <!-- Main Content -->
     <main class="main-content" id="main-content">
         <!-- Top Header -->
-        <header class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top">
+        <header class="navbar navbar-expand-lg navbar-light sticky-top" style="background: linear-gradient(90deg, var(--blue) 0%, var(--beige) 100%); border-bottom: 2px solid var(--navy);">
             <div class="container-fluid">
                 <!-- Sidebar Toggle -->
-                <button class="btn btn-outline-secondary me-3" type="button" onclick="toggleSidebar()">
+                <button class="btn btn-outline-dark me-3" type="button" onclick="toggleSidebar()" style="border-color: var(--navy); color: var(--navy);">
                     <i class="bi bi-list"></i>
                 </button>
-                
+
                 <!-- Page Title -->
-                <h1 class="navbar-brand mb-0 h1">@yield('page-title')</h1>
-                
+                <h1 class="navbar-brand mb-0 h1" style="color: var(--navy); font-weight: 700;">@yield('page-title')</h1>
+
                 <!-- Header Actions -->
                 <div class="navbar-nav ms-auto">
                     @yield('header-actions')
@@ -258,7 +267,7 @@
         </header>
         
         <!-- Content -->
-        <div class="container-fluid py-4">
+        <div class="container-fluid py-4" style="background: rgba(255, 255, 255, 0.9); border-radius: 20px 20px 0 0; margin-top: 20px; min-height: calc(100vh - 120px); box-shadow: 0 -4px 20px rgba(var(--navy-rgb), 0.1);">
             <!-- Alert Messages -->
             @if(session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">

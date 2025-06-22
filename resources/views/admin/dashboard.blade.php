@@ -4,47 +4,7 @@
 
 @section('page-title', 'Dashboard Super Admin')
 
-@section('sidebar-menu')
-    <a class="nav-link active" href="{{ route('admin.dashboard') }}">
-        <i class="bi bi-speedometer me-2"></i>Dashboard
-    </a>
-    
-    @can('users.view')
-    <a class="nav-link" href="{{ route('admin.users.index') }}">
-        <i class="bi bi-people-fill me-2"></i>Kelola Pengguna
-    </a>
-    @endcan
-    
-    <a class="nav-link" href="{{ route('admin.roles.index') }}">
-        <i class="bi bi-person-vcard-fill me-2"></i>Kelola Role
-    </a>
-    
-    <a class="nav-link" href="{{ route('admin.competitions.index') }}">
-        <i class="bi bi-trophy-fill me-2"></i>Kelola Kompetisi
-    </a>
-    
-    <a class="nav-link" href="#">
-        <i class="bi bi-award-fill me-2"></i>Penilaian
-    </a>
-    
-    <a class="nav-link" href="#">
-        <i class="bi bi-file-earmark-text-fill me-2"></i>Karya Peserta
-    </a>
-    
-    <a class="nav-link" href="#">
-        <i class="bi bi-wallet-fill me-2"></i>Pembayaran
-    </a>
-    
-    <a class="nav-link" href="#">
-        <i class="bi bi-flag-fill me-2"></i>Laporan
-    </a>
-    
-    @can('settings.view')
-    <a class="nav-link" href="#">
-        <i class="bi bi-gear-fill me-2"></i>Pengaturan
-    </a>
-    @endcan
-@endsection
+
 
 @section('header-actions')
     <button class="btn btn-primary" onclick="window.print()">
@@ -286,22 +246,22 @@
     }
 
     .small-box.bg-info {
-        background-color: #17a2b8!important;
+        background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 100%)!important;
         color: #fff;
     }
 
     .small-box.bg-success {
-        background-color: #28a745!important;
+        background: linear-gradient(135deg, var(--purple) 0%, var(--navy) 100%)!important;
         color: #fff;
     }
 
     .small-box.bg-warning {
-        background-color: #ffc107!important;
-        color: #212529;
+        background: linear-gradient(135deg, var(--beige) 0%, #f0d982 100%)!important;
+        color: var(--navy);
     }
 
     .small-box.bg-danger {
-        background-color: #dc3545!important;
+        background: linear-gradient(135deg, var(--navy) 0%, #1a2a6b 100%)!important;
         color: #fff;
     }
 
