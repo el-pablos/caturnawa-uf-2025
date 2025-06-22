@@ -3,14 +3,8 @@
 namespace App\Exports;
 
 use App\Models\Payment;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithStyles;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class PaymentReportExport implements FromCollection, WithHeadings, WithMapping, WithStyles, ShouldAutoSize
+class PaymentReportExport
 {
     protected $payments;
 
@@ -20,19 +14,14 @@ class PaymentReportExport implements FromCollection, WithHeadings, WithMapping, 
     }
 
     /**
-     * @return \Illuminate\Support\Collection
+     * Generate Excel file for payments
      */
-    public function collection()
+    public function export()
     {
-        return $this->payments;
-    }
+        $data = [];
 
-    /**
-     * @return array
-     */
-    public function headings(): array
-    {
-        return [
+        // Headers
+        $data[] = [
             'Order ID',
             'No. Registrasi',
             'Nama Peserta',
@@ -47,55 +36,26 @@ class PaymentReportExport implements FromCollection, WithHeadings, WithMapping, 
             'Bank/Provider',
             'VA Number',
         ];
-    }
 
-    /**
-     * @param mixed $payment
-     * @return array
-     */
-    public function map($payment): array
-    {
-        return [
-            $payment->order_id,
-            $payment->registration->registration_number,
-            $payment->registration->user->name,
-            $payment->registration->user->email,
-            $payment->registration->competition->name,
-            'Rp ' . number_format($payment->gross_amount, 0, ',', '.'),
-            $payment->payment_type ?: '-',
-            $payment->transaction_status ?: '-',
-            ucfirst($payment->status),
-            $payment->created_at->format('d/m/Y H:i'),
-            $payment->paid_at ? $payment->paid_at->format('d/m/Y H:i') : '-',
-            $payment->bank ?: '-',
-            $payment->va_number ?: '-',
-        ];
-    }
+        // Data rows
+        foreach ($this->payments as $payment) {
+            $data[] = [
+                $payment->order_id ?? '-',
+                $payment->registration->registration_number ?? '-',
+                $payment->registration->user->name ?? '-',
+                $payment->registration->user->email ?? '-',
+                $payment->registration->competition->name ?? '-',
+                'Rp ' . number_format($payment->amount ?? 0, 0, ',', '.'),
+                $payment->payment_method ?? '-',
+                $payment->transaction_status ?? '-',
+                ucfirst($payment->status ?? '-'),
+                $payment->created_at ? $payment->created_at->format('d/m/Y H:i') : '-',
+                $payment->paid_at ? $payment->paid_at->format('d/m/Y H:i') : '-',
+                $payment->bank ?? '-',
+                $payment->va_number ?? '-',
+            ];
+        }
 
-    /**
-     * @param Worksheet $sheet
-     * @return array
-     */
-    public function styles(Worksheet $sheet)
-    {
-        return [
-            // Style the first row as bold text.
-            1 => ['font' => ['bold' => true]],
-            
-            // Style the header row
-            'A1:M1' => [
-                'font' => [
-                    'bold' => true,
-                    'color' => ['rgb' => 'FFFFFF'],
-                ],
-                'fill' => [
-                    'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                    'startColor' => ['rgb' => 'FFC107'],
-                ],
-                'alignment' => [
-                    'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-                ],
-            ],
-        ];
+        return $data;
     }
 }

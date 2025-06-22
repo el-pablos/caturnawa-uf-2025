@@ -235,7 +235,25 @@ class ReportController extends Controller
             return $pdf->download('laporan-kompetisi.pdf');
         }
 
-        return \Maatwebsite\Excel\Facades\Excel::download(new CompetitionReportExport($competitions), 'laporan-kompetisi.xlsx');
+        // Generate CSV file manually for compatibility
+        $export = new CompetitionReportExport($competitions);
+        $data = $export->export();
+
+        $filename = 'laporan-kompetisi-' . date('Y-m-d-H-i-s') . '.csv';
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ];
+
+        $callback = function() use ($data) {
+            $file = fopen('php://output', 'w');
+            foreach ($data as $row) {
+                fputcsv($file, $row);
+            }
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 
     /**
@@ -250,7 +268,25 @@ class ReportController extends Controller
             return $pdf->download('laporan-registrasi.pdf');
         }
 
-        return \Maatwebsite\Excel\Facades\Excel::download(new RegistrationReportExport($registrations), 'laporan-registrasi.xlsx');
+        // Generate CSV file manually for compatibility
+        $export = new RegistrationReportExport($registrations);
+        $data = $export->export();
+
+        $filename = 'laporan-registrasi-' . date('Y-m-d-H-i-s') . '.csv';
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ];
+
+        $callback = function() use ($data) {
+            $file = fopen('php://output', 'w');
+            foreach ($data as $row) {
+                fputcsv($file, $row);
+            }
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 
     /**
@@ -265,6 +301,24 @@ class ReportController extends Controller
             return $pdf->download('laporan-pembayaran.pdf');
         }
 
-        return \Maatwebsite\Excel\Facades\Excel::download(new PaymentReportExport($payments), 'laporan-pembayaran.xlsx');
+        // Generate CSV file manually for compatibility
+        $export = new PaymentReportExport($payments);
+        $data = $export->export();
+
+        $filename = 'laporan-pembayaran-' . date('Y-m-d-H-i-s') . '.csv';
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ];
+
+        $callback = function() use ($data) {
+            $file = fopen('php://output', 'w');
+            foreach ($data as $row) {
+                fputcsv($file, $row);
+            }
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 }
