@@ -47,6 +47,18 @@ class Competition extends Model
         'allow_individual',
         'submission_deadline',
         'result_announcement',
+        'prize_amount',
+        'type',
+        'short_description',
+        'contact_person',
+        'contact_email',
+        'contact_phone',
+        'terms_conditions',
+        'judging_criteria',
+        'certificate_template',
+        'is_featured',
+        'view_count',
+        'registration_count',
     ];
 
     /**
@@ -70,6 +82,11 @@ class Competition extends Model
         'allow_individual' => 'boolean',
         'price' => 'decimal:2',
         'early_bird_price' => 'decimal:2',
+        'prize_amount' => 'decimal:2',
+        'judging_criteria' => 'array',
+        'is_featured' => 'boolean',
+        'view_count' => 'integer',
+        'registration_count' => 'integer',
     ];
 
     /**

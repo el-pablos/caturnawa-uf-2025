@@ -33,6 +33,18 @@ class User extends Authenticatable
         'is_active',
         'email_verified_at',
         'last_login_at',
+        'institution',
+        'bio',
+        'student_id',
+        'birth_date',
+        'gender',
+        'address',
+        'city',
+        'province',
+        'postal_code',
+        'emergency_contact_name',
+        'emergency_contact_phone',
+        'emergency_contact_relation',
     ];
 
     /**
@@ -54,6 +66,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'last_login_at' => 'datetime',
         'is_active' => 'boolean',
+        'birth_date' => 'date',
     ];
 
     /**

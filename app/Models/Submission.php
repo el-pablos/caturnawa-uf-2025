@@ -33,6 +33,18 @@ class Submission extends Model
         'is_final',
         'submitted_at',
         'status',
+        'file_path',
+        'video_url',
+        'github_url',
+        'preview_image',
+        'technologies',
+        'team_name',
+        'team_members',
+        'score',
+        'feedback',
+        'is_scored',
+        'scored_at',
+        'view_count',
     ];
 
     /**
@@ -45,6 +57,11 @@ class Submission extends Model
         'submitted_at' => 'datetime',
         'is_final' => 'boolean',
         'file_size' => 'integer',
+        'team_members' => 'array',
+        'score' => 'decimal:2',
+        'is_scored' => 'boolean',
+        'scored_at' => 'datetime',
+        'view_count' => 'integer',
     ];
 
     /**
