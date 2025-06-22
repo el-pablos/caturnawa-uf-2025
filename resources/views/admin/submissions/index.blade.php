@@ -57,7 +57,12 @@
 </div>
 
 <!-- Filters -->
-<div class="unas-card mb-4">
+<div class="card mb-4">
+    <div class="card-header">
+        <h6 class="mb-0">
+            <i class="bi bi-funnel me-2"></i>Filter Karya
+        </h6>
+    </div>
     <div class="card-body">
         <form method="GET" class="row g-3">
             <div class="col-md-3">
@@ -100,11 +105,11 @@
 </div>
 
 <!-- Submissions Table -->
-<div class="unas-card">
-    <div class="unas-card-header">
-        <h5 class="mb-0 text-white">
+<div class="card">
+    <div class="card-header">
+        <h6 class="mb-0">
             <i class="bi bi-file-earmark-text me-2"></i>Daftar Karya Peserta
-        </h5>
+        </h6>
     </div>
     <div class="card-body">
         @if($submissions->count() > 0)

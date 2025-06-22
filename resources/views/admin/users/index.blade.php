@@ -73,7 +73,12 @@
 </div>
 
 <!-- Filters -->
-<div class="unas-card mb-4">
+<div class="card mb-4">
+    <div class="card-header">
+        <h6 class="mb-0">
+            <i class="bi bi-funnel me-2"></i>Filter Pengguna
+        </h6>
+    </div>
     <div class="card-body">
         <form method="GET" class="row g-3">
             <div class="col-md-3">
@@ -115,11 +120,11 @@
 </div>
 
 <!-- Users Table -->
-<div class="unas-card">
-    <div class="unas-card-header">
-        <h5 class="mb-0 text-white">
+<div class="card">
+    <div class="card-header">
+        <h6 class="mb-0">
             <i class="bi bi-people me-2"></i>Daftar Pengguna
-        </h5>
+        </h6>
     </div>
     <div class="card-body">
         @if($users->count() > 0)

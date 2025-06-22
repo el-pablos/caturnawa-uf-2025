@@ -41,11 +41,11 @@
 
 
     <!-- Competitions Table -->
-    <div class="unas-card">
-        <div class="unas-card-header">
-            <h5 class="mb-0 text-white">
+    <div class="card">
+        <div class="card-header">
+            <h6 class="mb-0">
                 <i class="bi bi-trophy me-2"></i>Daftar Kompetisi
-            </h5>
+            </h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">

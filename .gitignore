@@ -143,7 +143,7 @@ mix-manifest.json
 # Package managers
 package-lock.json
 yarn.lock
-composer.lock
+# composer.lock should be committed in production
 
 # Local development
 .vagrant/
@@ -169,3 +169,45 @@ storage/framework/views/*
 # Payment gateway test files
 midtrans_*.json
 payment_test.php
+
+# Laravel Telescope (if installed)
+/storage/telescope
+
+# Laravel Horizon (if installed)
+/storage/horizon
+
+# Laravel Sanctum
+/storage/oauth-*.key
+
+# Application settings
+/storage/app/settings.json
+
+# Export files
+/storage/app/exports/*
+!/storage/app/exports/.gitkeep
+
+# Backup files
+/storage/app/backups/*
+!/storage/app/backups/.gitkeep
+
+# Mail templates cache
+/storage/framework/mail/*
+!/storage/framework/mail/.gitkeep
+
+# Security
+.env.local
+.env.*.local
+*.pem
+*.key
+*.crt
+
+# Development tools
+.php_cs.cache
+.php-cs-fixer.cache
+_ide_helper.php
+_ide_helper_models.php
+.phpstorm.meta.php
+
+# Profiling
+*.prof
+*.trace

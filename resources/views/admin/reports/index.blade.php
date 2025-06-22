@@ -239,8 +239,13 @@ document.addEventListener('DOMContentLoaded', function() {
         responsive: true,
         pageLength: 25,
         order: [[0, 'desc']],
+        columnDefs: [
+            { orderable: false, targets: [] }
+        ],
         language: {
-            url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/id.json'
+            url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/id.json',
+            emptyTable: "Tidak ada data laporan tersedia",
+            zeroRecords: "Tidak ada data yang cocok dengan pencarian"
         }
     });
     

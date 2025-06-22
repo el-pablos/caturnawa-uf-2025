@@ -15,11 +15,11 @@
 @section('content')
 <div class="row">
     <div class="col-lg-8">
-        <div class="unas-card">
-            <div class="unas-card-header">
-                <h5 class="mb-0 text-white">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0">
                     <i class="bi bi-gear me-2"></i>Konfigurasi Aplikasi
-                </h5>
+                </h6>
             </div>
             <div class="card-body">
                 <form action="{{ route('admin.settings.update') }}" method="POST">
@@ -155,8 +155,8 @@
     </div>
     
     <div class="col-lg-4">
-        <div class="unas-card">
-            <div class="card-header bg-info text-white">
+        <div class="card">
+            <div class="card-header">
                 <h6 class="mb-0">
                     <i class="bi bi-info-circle me-2"></i>Informasi Sistem
                 </h6>
@@ -205,8 +205,8 @@
             </div>
         </div>
         
-        <div class="unas-card mt-4">
-            <div class="card-header bg-warning text-dark">
+        <div class="card mt-4">
+            <div class="card-header">
                 <h6 class="mb-0">
                     <i class="bi bi-tools me-2"></i>Tools Maintenance
                 </h6>

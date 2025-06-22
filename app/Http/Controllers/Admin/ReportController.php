@@ -10,7 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Exports\CompetitionReportExport;
 use App\Exports\RegistrationReportExport;
@@ -235,7 +235,7 @@ class ReportController extends Controller
             return $pdf->download('laporan-kompetisi.pdf');
         }
 
-        return Excel::download(new CompetitionReportExport($competitions), 'laporan-kompetisi.xlsx');
+        return \Maatwebsite\Excel\Facades\Excel::download(new CompetitionReportExport($competitions), 'laporan-kompetisi.xlsx');
     }
 
     /**
@@ -250,7 +250,7 @@ class ReportController extends Controller
             return $pdf->download('laporan-registrasi.pdf');
         }
 
-        return Excel::download(new RegistrationReportExport($registrations), 'laporan-registrasi.xlsx');
+        return \Maatwebsite\Excel\Facades\Excel::download(new RegistrationReportExport($registrations), 'laporan-registrasi.xlsx');
     }
 
     /**
@@ -265,6 +265,6 @@ class ReportController extends Controller
             return $pdf->download('laporan-pembayaran.pdf');
         }
 
-        return Excel::download(new PaymentReportExport($payments), 'laporan-pembayaran.xlsx');
+        return \Maatwebsite\Excel\Facades\Excel::download(new PaymentReportExport($payments), 'laporan-pembayaran.xlsx');
     }
 }
