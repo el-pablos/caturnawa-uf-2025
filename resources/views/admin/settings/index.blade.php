@@ -35,8 +35,8 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="app_name" class="form-label fw-semibold">Nama Aplikasi</label>
-                                <input type="text" class="unas-form-control @error('app_name') is-invalid @enderror" 
-                                       id="app_name" name="app_name" value="{{ old('app_name', $settings['app_name']) }}" required>
+                                <input type="text" class="unas-form-control @error('app_name') is-invalid @enderror"
+                                       id="app_name" name="app_name" value="{{ old('app_name', $settings['app_name'] ?? 'UNAS Fest 2025') }}" required>
                                 @error('app_name')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -44,8 +44,8 @@
                             
                             <div class="col-md-6 mb-3">
                                 <label for="contact_email" class="form-label fw-semibold">Email Kontak</label>
-                                <input type="email" class="unas-form-control @error('contact_email') is-invalid @enderror" 
-                                       id="contact_email" name="contact_email" value="{{ old('contact_email', $settings['contact_email']) }}" required>
+                                <input type="email" class="unas-form-control @error('contact_email') is-invalid @enderror"
+                                       id="contact_email" name="contact_email" value="{{ old('contact_email', $settings['contact_email'] ?? 'info@unasfest.com') }}" required>
                                 @error('contact_email')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -55,8 +55,8 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="contact_phone" class="form-label fw-semibold">Nomor Telepon</label>
-                                <input type="text" class="unas-form-control @error('contact_phone') is-invalid @enderror" 
-                                       id="contact_phone" name="contact_phone" value="{{ old('contact_phone', $settings['contact_phone']) }}" required>
+                                <input type="text" class="unas-form-control @error('contact_phone') is-invalid @enderror"
+                                       id="contact_phone" name="contact_phone" value="{{ old('contact_phone', $settings['contact_phone'] ?? '+62 21 1234 5678') }}" required>
                                 @error('contact_phone')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -64,8 +64,8 @@
                             
                             <div class="col-md-6 mb-3">
                                 <label for="app_description" class="form-label fw-semibold">Deskripsi Aplikasi</label>
-                                <textarea class="unas-form-control @error('app_description') is-invalid @enderror" 
-                                          id="app_description" name="app_description" rows="3" required>{{ old('app_description', $settings['app_description']) }}</textarea>
+                                <textarea class="unas-form-control @error('app_description') is-invalid @enderror"
+                                          id="app_description" name="app_description" rows="3" required>{{ old('app_description', $settings['app_description'] ?? 'Festival Kompetisi Universitas Nasional') }}</textarea>
                                 @error('app_description')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -82,12 +82,12 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="max_file_size" class="form-label fw-semibold">Maksimal Ukuran File</label>
-                                <select class="unas-form-control @error('max_file_size') is-invalid @enderror" 
+                                <select class="unas-form-control @error('max_file_size') is-invalid @enderror"
                                         id="max_file_size" name="max_file_size" required>
-                                    <option value="5MB" {{ $settings['max_file_size'] === '5MB' ? 'selected' : '' }}>5 MB</option>
-                                    <option value="10MB" {{ $settings['max_file_size'] === '10MB' ? 'selected' : '' }}>10 MB</option>
-                                    <option value="20MB" {{ $settings['max_file_size'] === '20MB' ? 'selected' : '' }}>20 MB</option>
-                                    <option value="50MB" {{ $settings['max_file_size'] === '50MB' ? 'selected' : '' }}>50 MB</option>
+                                    <option value="5" {{ ($settings['max_file_size'] ?? 10) == 5 ? 'selected' : '' }}>5 MB</option>
+                                    <option value="10" {{ ($settings['max_file_size'] ?? 10) == 10 ? 'selected' : '' }}>10 MB</option>
+                                    <option value="20" {{ ($settings['max_file_size'] ?? 10) == 20 ? 'selected' : '' }}>20 MB</option>
+                                    <option value="50" {{ ($settings['max_file_size'] ?? 10) == 50 ? 'selected' : '' }}>50 MB</option>
                                 </select>
                                 @error('max_file_size')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -96,9 +96,9 @@
                             
                             <div class="col-md-6 mb-3">
                                 <label for="allowed_file_types" class="form-label fw-semibold">Tipe File yang Diizinkan</label>
-                                <input type="text" class="unas-form-control @error('allowed_file_types') is-invalid @enderror" 
-                                       id="allowed_file_types" name="allowed_file_types" 
-                                       value="{{ old('allowed_file_types', $settings['allowed_file_types']) }}" 
+                                <input type="text" class="unas-form-control @error('allowed_file_types') is-invalid @enderror"
+                                       id="allowed_file_types" name="allowed_file_types"
+                                       value="{{ old('allowed_file_types', $settings['allowed_file_types'] ?? 'pdf,doc,docx,jpg,png,zip') }}"
                                        placeholder="pdf,doc,docx,jpg,png,zip" required>
                                 <div class="form-text">Pisahkan dengan koma (,)</div>
                                 @error('allowed_file_types')
@@ -117,10 +117,10 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="registration_open" 
-                                           name="registration_open" value="1" 
-                                           {{ $settings['registration_open'] ? 'checked' : '' }}>
-                                    <label class="form-check-label fw-semibold" for="registration_open">
+                                    <input class="form-check-input" type="checkbox" id="registration_enabled"
+                                           name="registration_enabled" value="1"
+                                           {{ ($settings['registration_enabled'] ?? true) ? 'checked' : '' }}>
+                                    <label class="form-check-label fw-semibold" for="registration_enabled">
                                         Buka Pendaftaran
                                     </label>
                                     <div class="form-text">Mengizinkan peserta untuk mendaftar kompetisi</div>
@@ -129,9 +129,9 @@
                             
                             <div class="col-md-6 mb-3">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="maintenance_mode" 
-                                           name="maintenance_mode" value="1" 
-                                           {{ $settings['maintenance_mode'] ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="checkbox" id="maintenance_mode"
+                                           name="maintenance_mode" value="1"
+                                           {{ ($settings['maintenance_mode'] ?? false) ? 'checked' : '' }}>
                                     <label class="form-check-label fw-semibold" for="maintenance_mode">
                                         Mode Maintenance
                                     </label>

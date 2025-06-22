@@ -301,9 +301,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function exportReport(format) {
     const params = new URLSearchParams(window.location.search);
-    params.set('export', format);
-    
-    window.open(`{{ route('admin.reports.export') }}?${params.toString()}`, '_blank');
+
+    window.open(`{{ route('admin.reports.export', ['type' => '']) }}`.replace('', format) + `?${params.toString()}`, '_blank');
 }
 </script>
 @endpush
