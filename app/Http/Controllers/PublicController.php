@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Competition;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -10,7 +11,25 @@ class PublicController extends Controller
 {
     public function home()
     {
-        return view('public.home');
+        // Get active competitions for homepage banner
+        $competitions = Competition::where('is_active', true)
+            ->where('registration_start', '<=', now())
+            ->where('registration_end', '>=', now())
+            ->orderBy('created_at', 'desc')
+            ->take(6) // Limit to 6 competitions for homepage
+            ->get();
+
+        // Get statistics
+        $stats = [
+            'total_participants' => User::whereHas('roles', function($q) {
+                $q->where('name', 'Peserta');
+            })->count(),
+            'active_competitions' => Competition::where('is_active', true)->count(),
+            'total_universities' => User::whereNotNull('institution')->distinct('institution')->count(),
+            'total_prizes' => Competition::where('is_active', true)->sum('prize_amount')
+        ];
+
+        return view('public.home', compact('competitions', 'stats'));
     }
 
     public function competitions()

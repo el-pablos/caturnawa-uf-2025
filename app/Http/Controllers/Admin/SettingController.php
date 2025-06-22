@@ -54,19 +54,19 @@ class SettingController extends Controller
             'social_youtube' => 'nullable|url|max:255',
             
             // Payment Settings
-            'midtrans_server_key' => 'required|string|max:255',
-            'midtrans_client_key' => 'required|string|max:255',
+            'midtrans_server_key' => 'nullable|string|max:255',
+            'midtrans_client_key' => 'nullable|string|max:255',
             'midtrans_is_production' => 'boolean',
-            
+
             // Email Settings
-            'mail_driver' => 'required|string|max:50',
-            'mail_host' => 'required|string|max:255',
-            'mail_port' => 'required|integer|min:1|max:65535',
-            'mail_username' => 'required|string|max:255',
-            'mail_password' => 'required|string|max:255',
+            'mail_driver' => 'nullable|string|max:50',
+            'mail_host' => 'nullable|string|max:255',
+            'mail_port' => 'nullable|integer|min:1|max:65535',
+            'mail_username' => 'nullable|string|max:255',
+            'mail_password' => 'nullable|string|max:255',
             'mail_encryption' => 'nullable|string|max:10',
-            'mail_from_address' => 'required|email|max:255',
-            'mail_from_name' => 'required|string|max:255',
+            'mail_from_address' => 'nullable|email|max:255',
+            'mail_from_name' => 'nullable|string|max:255',
             
             // Registration Settings
             'registration_enabled' => 'boolean',
@@ -120,21 +120,36 @@ class SettingController extends Controller
             // Save settings to cache and file
             $this->saveSettings($settings);
 
-            // Update environment variables for critical settings
-            $this->updateEnvFile([
-                'APP_NAME' => $settings['app_name'],
-                'MAIL_MAILER' => $settings['mail_driver'],
-                'MAIL_HOST' => $settings['mail_host'],
-                'MAIL_PORT' => $settings['mail_port'],
-                'MAIL_USERNAME' => $settings['mail_username'],
-                'MAIL_PASSWORD' => $settings['mail_password'],
-                'MAIL_ENCRYPTION' => $settings['mail_encryption'] ?? 'null',
-                'MAIL_FROM_ADDRESS' => $settings['mail_from_address'],
-                'MAIL_FROM_NAME' => '"' . $settings['mail_from_name'] . '"',
-                'MIDTRANS_SERVER_KEY' => $settings['midtrans_server_key'],
-                'MIDTRANS_CLIENT_KEY' => $settings['midtrans_client_key'],
-                'MIDTRANS_IS_PRODUCTION' => $settings['midtrans_is_production'] ? 'true' : 'false',
-            ]);
+            // Update environment variables for critical settings (only if provided)
+            $envUpdates = [];
+
+            if (!empty($settings['app_name'])) {
+                $envUpdates['APP_NAME'] = '"' . $settings['app_name'] . '"';
+            }
+
+            // Mail settings (only update if all required fields are provided)
+            if (!empty($settings['mail_driver']) && !empty($settings['mail_host']) &&
+                !empty($settings['mail_port']) && !empty($settings['mail_from_address'])) {
+                $envUpdates['MAIL_MAILER'] = $settings['mail_driver'];
+                $envUpdates['MAIL_HOST'] = $settings['mail_host'];
+                $envUpdates['MAIL_PORT'] = $settings['mail_port'];
+                $envUpdates['MAIL_USERNAME'] = $settings['mail_username'] ?? '';
+                $envUpdates['MAIL_PASSWORD'] = $settings['mail_password'] ?? '';
+                $envUpdates['MAIL_ENCRYPTION'] = $settings['mail_encryption'] ?? 'null';
+                $envUpdates['MAIL_FROM_ADDRESS'] = $settings['mail_from_address'];
+                $envUpdates['MAIL_FROM_NAME'] = '"' . ($settings['mail_from_name'] ?? config('app.name')) . '"';
+            }
+
+            // Midtrans settings (only update if both keys are provided)
+            if (!empty($settings['midtrans_server_key']) && !empty($settings['midtrans_client_key'])) {
+                $envUpdates['MIDTRANS_SERVER_KEY'] = $settings['midtrans_server_key'];
+                $envUpdates['MIDTRANS_CLIENT_KEY'] = $settings['midtrans_client_key'];
+                $envUpdates['MIDTRANS_IS_PRODUCTION'] = ($settings['midtrans_is_production'] ?? false) ? 'true' : 'false';
+            }
+
+            if (!empty($envUpdates)) {
+                $this->updateEnvFile($envUpdates);
+            }
 
             return back()->with('success', 'Pengaturan berhasil disimpan.');
         } catch (\Exception $e) {
@@ -165,22 +180,27 @@ class SettingController extends Controller
                 'contact_email' => 'info@unasfest.ac.id',
                 'contact_phone' => '+62 21 1234567',
                 'contact_address' => 'Universitas Nasional, Jakarta',
-                'midtrans_server_key' => config('midtrans.server_key'),
-                'midtrans_client_key' => config('midtrans.client_key'),
+                'midtrans_server_key' => config('midtrans.server_key', ''),
+                'midtrans_client_key' => config('midtrans.client_key', ''),
                 'midtrans_is_production' => config('midtrans.is_production', false),
                 'mail_driver' => config('mail.default', 'smtp'),
-                'mail_host' => config('mail.mailers.smtp.host'),
+                'mail_host' => config('mail.mailers.smtp.host', ''),
                 'mail_port' => config('mail.mailers.smtp.port', 587),
-                'mail_username' => config('mail.mailers.smtp.username'),
-                'mail_password' => config('mail.mailers.smtp.password'),
-                'mail_encryption' => config('mail.mailers.smtp.encryption'),
-                'mail_from_address' => config('mail.from.address'),
-                'mail_from_name' => config('mail.from.name'),
+                'mail_username' => config('mail.mailers.smtp.username', ''),
+                'mail_password' => config('mail.mailers.smtp.password', ''),
+                'mail_encryption' => config('mail.mailers.smtp.encryption', 'tls'),
+                'mail_from_address' => config('mail.from.address', ''),
+                'mail_from_name' => config('mail.from.name', config('app.name')),
                 'registration_enabled' => true,
+                'maintenance_mode' => false,
                 'max_file_size' => 10, // MB
                 'allowed_file_types' => 'pdf,doc,docx,jpg,jpeg,png',
                 'email_notifications' => true,
                 'sms_notifications' => false,
+                'social_facebook' => '',
+                'social_instagram' => '',
+                'social_twitter' => '',
+                'social_youtube' => '',
             ];
         });
     }
