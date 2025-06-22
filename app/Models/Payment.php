@@ -139,12 +139,17 @@ class Payment extends Model
 
     /**
      * Update status pembayaran dari notifikasi Midtrans
-     * 
-     * @param array $notification
+     *
+     * @param array|object $notification
      * @return void
      */
     public function updateFromMidtrans($notification)
     {
+        // Convert object to array if needed
+        if (is_object($notification)) {
+            $notification = json_decode(json_encode($notification), true);
+        }
+
         // Determine status based on transaction_status
         $status = 'pending';
         if (in_array($notification['transaction_status'], ['settlement', 'capture'])) {

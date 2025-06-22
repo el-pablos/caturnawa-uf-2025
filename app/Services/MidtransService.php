@@ -167,9 +167,14 @@ class MidtransService
                 $notification = $notification->getResponse();
             }
 
+            // Convert object to array if needed
+            if (is_object($notification)) {
+                $notification = json_decode(json_encode($notification), true);
+            }
+
             // Cari payment berdasarkan order_id
             $payment = Payment::where('order_id', $notification['order_id'])->first();
-            
+
             if (!$payment) {
                 return [
                     'success' => false,
@@ -202,13 +207,18 @@ class MidtransService
 
     /**
      * Proses status transaksi dari notifikasi
-     * 
+     *
      * @param \App\Models\Payment $payment
-     * @param array $notification
+     * @param array|object $notification
      * @return void
      */
     protected function processTransactionStatus(Payment $payment, $notification)
     {
+        // Convert object to array if needed
+        if (is_object($notification)) {
+            $notification = json_decode(json_encode($notification), true);
+        }
+
         $transactionStatus = $notification['transaction_status'];
         $fraudStatus = $notification['fraud_status'] ?? null;
 

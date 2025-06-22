@@ -134,7 +134,12 @@ class PaymentController extends Controller
         try {
             $result = $this->midtransService->checkTransactionStatus($payment->order_id);
             if ($result['success']) {
-                $payment->updateFromMidtrans($result['data']);
+                // Convert object to array if needed
+                $data = $result['data'];
+                if (is_object($data)) {
+                    $data = json_decode(json_encode($data), true);
+                }
+                $payment->updateFromMidtrans($data);
             }
         } catch (\Exception $e) {
             Log::error('Error checking payment status on finish: ' . $e->getMessage());
@@ -221,8 +226,12 @@ class PaymentController extends Controller
                 
                 if ($payment) {
                     // Update payment dengan status terbaru
-                    $payment->updateFromMidtrans($result['data']);
-                    
+                    $data = $result['data'];
+                    if (is_object($data)) {
+                        $data = json_decode(json_encode($data), true);
+                    }
+                    $payment->updateFromMidtrans($data);
+
                     return response()->json([
                         'success' => true,
                         'data' => [
