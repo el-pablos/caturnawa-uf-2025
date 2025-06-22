@@ -89,12 +89,46 @@ class User extends Authenticatable
 
     /**
      * Relasi dengan model Score (penilaian juri)
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function scores()
     {
         return $this->hasMany(Score::class, 'jury_id');
+    }
+
+    /**
+     * Relasi dengan model Submission melalui Registration
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function submissions()
+    {
+        return $this->hasManyThrough(
+            Submission::class,
+            Registration::class,
+            'user_id',        // Foreign key on registrations table
+            'registration_id', // Foreign key on submissions table
+            'id',             // Local key on users table
+            'id'              // Local key on registrations table
+        );
+    }
+
+    /**
+     * Relasi dengan model Payment melalui Registration
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function payments()
+    {
+        return $this->hasManyThrough(
+            Payment::class,
+            Registration::class,
+            'user_id',        // Foreign key on registrations table
+            'registration_id', // Foreign key on payments table
+            'id',             // Local key on users table
+            'id'              // Local key on registrations table
+        );
     }
 
     /**
