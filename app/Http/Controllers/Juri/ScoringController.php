@@ -26,14 +26,16 @@ class ScoringController extends Controller
      */
     public function index()
     {
+        $jury = Auth::user();
+
         $competitions = Competition::active()
             ->where('competition_start', '<=', now())
             ->withCount([
                 'registrations' => function($query) {
                     $query->where('status', 'confirmed');
                 },
-                'scores' => function($query) {
-                    $query->where('jury_id', Auth::id())->where('is_final', true);
+                'scores' => function($query) use ($jury) {
+                    $query->where('jury_id', $jury->id)->where('is_final', true);
                 }
             ])
             ->get();
@@ -45,7 +47,40 @@ class ScoringController extends Controller
             })->where('is_final', true)->count();
         }
 
-        return view('juri.scoring.index', compact('competitions'));
+        // Get all submissions for statistics
+        $allSubmissions = Submission::whereHas('registration.competition', function($query) use ($jury) {
+            $query->whereHas('juries', function($q) use ($jury) {
+                $q->where('user_id', $jury->id);
+            });
+        })->where('is_final', true)->get();
+
+        // Calculate statistics
+        $totalSubmissions = $allSubmissions->count();
+        $scoredSubmissions = Score::where('jury_id', $jury->id)->where('is_final', true)->count();
+        $pendingSubmissions = $totalSubmissions - $scoredSubmissions;
+
+        // Calculate average score
+        $averageScore = Score::where('jury_id', $jury->id)
+            ->where('is_final', true)
+            ->avg('total_score') ?: 0;
+
+        // Get submissions for display (with pagination)
+        $submissions = Submission::with(['registration.user', 'registration.competition'])
+            ->whereHas('registration.competition.juries', function($query) use ($jury) {
+                $query->where('user_id', $jury->id);
+            })
+            ->where('is_final', true)
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+
+        return view('juri.scoring.index', compact(
+            'competitions',
+            'submissions',
+            'totalSubmissions',
+            'scoredSubmissions',
+            'pendingSubmissions',
+            'averageScore'
+        ));
     }
 
     /**

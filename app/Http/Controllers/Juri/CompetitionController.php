@@ -77,22 +77,56 @@ class CompetitionController extends Controller
             ->orderBy('created_at', 'asc')
             ->get();
 
-        // Calculate scoring statistics
-        $totalParticipants = $registrations->count();
-        $scoredParticipants = $registrations->filter(function ($registration) {
-            return $registration->scores->isNotEmpty();
-        })->count();
+        // Get submissions for this competition
+        $submissions = \App\Models\Submission::whereHas('registration', function($query) use ($competition) {
+            $query->where('competition_id', $competition->id);
+        })->where('is_final', true)->get();
 
-        $scoringProgress = $totalParticipants > 0 
-            ? round(($scoredParticipants / $totalParticipants) * 100, 2)
+        // Calculate statistics
+        $totalParticipants = $registrations->count();
+        $confirmedParticipants = $registrations->count();
+        $totalSubmissions = $submissions->count();
+
+        $scoredSubmissions = \App\Models\Score::where('competition_id', $competition->id)
+            ->where('jury_id', $jury->id)
+            ->where('is_final', true)
+            ->count();
+
+        $scoringProgress = $totalSubmissions > 0
+            ? round(($scoredSubmissions / $totalSubmissions) * 100, 2)
             : 0;
 
+        $statistics = [
+            'total_participants' => $totalParticipants,
+            'confirmed_participants' => $confirmedParticipants,
+            'total_submissions' => $totalSubmissions,
+            'scored_submissions' => $scoredSubmissions,
+            'scoring_progress' => $scoringProgress
+        ];
+
+        // Get recent submissions
+        $recentSubmissions = \App\Models\Submission::with(['registration.user'])
+            ->whereHas('registration', function($query) use ($competition) {
+                $query->where('competition_id', $competition->id);
+            })
+            ->where('is_final', true)
+            ->orderBy('submitted_at', 'desc')
+            ->take(5)
+            ->get();
+
+        // Add jury score info to recent submissions
+        foreach ($recentSubmissions as $submission) {
+            $submission->jury_score = \App\Models\Score::where('competition_id', $competition->id)
+                ->where('registration_id', $submission->registration_id)
+                ->where('jury_id', $jury->id)
+                ->first();
+        }
+
         return view('juri.competitions.show', compact(
-            'competition', 
-            'registrations', 
-            'totalParticipants', 
-            'scoredParticipants', 
-            'scoringProgress'
+            'competition',
+            'registrations',
+            'statistics',
+            'recentSubmissions'
         ));
     }
 
