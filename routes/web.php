@@ -61,7 +61,12 @@ Route::middleware(['auth', 'verified', 'role.redirect'])->group(function () {
 
     // Super Admin & Admin Routes
     Route::middleware(['role:Super Admin|Admin'])->prefix('admin')->name('admin.')->group(function () {
-        
+
+        // Competition Categories (Super Admin only)
+        Route::middleware(['role:Super Admin'])->group(function () {
+            Route::resource('competition-categories', App\Http\Controllers\Admin\CompetitionCategoryController::class);
+        });
+
         // Dashboard
         Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
         Route::get('/dashboard/chart-data', [App\Http\Controllers\Admin\DashboardController::class, 'getChartDataAjax'])->name('dashboard.chart-data');
