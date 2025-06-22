@@ -107,6 +107,7 @@ Route::middleware(['auth', 'verified', 'role.redirect'])->group(function () {
             Route::get('/{payment}', [App\Http\Controllers\Admin\PaymentController::class, 'show'])->name('show');
             Route::patch('/{payment}/verify', [App\Http\Controllers\Admin\PaymentController::class, 'verify'])->name('verify');
             Route::patch('/{payment}/reject', [App\Http\Controllers\Admin\PaymentController::class, 'reject'])->name('reject');
+            Route::patch('/{payment}/confirm', [App\Http\Controllers\Admin\PaymentController::class, 'confirmPayment'])->name('confirm');
         });
         
         // User Management (Super Admin only)
@@ -149,6 +150,8 @@ Route::middleware(['auth', 'verified', 'role.redirect'])->group(function () {
             Route::get('/payments', [App\Http\Controllers\Admin\ReportController::class, 'payments'])->name('payments');
             Route::get('/export/{type}', [App\Http\Controllers\Admin\ReportController::class, 'export'])->name('export');
             Route::get('/competition-distribution', [App\Http\Controllers\Admin\ReportController::class, 'getCompetitionDistribution'])->name('competition-distribution');
+            Route::get('/registration-trend', [App\Http\Controllers\Admin\ReportController::class, 'getRegistrationTrend'])->name('registration-trend');
+            Route::get('/revenue-trend', [App\Http\Controllers\Admin\ReportController::class, 'getRevenueTrend'])->name('revenue-trend');
         });
 
         // QR Scanner (Admin & Superadmin only)

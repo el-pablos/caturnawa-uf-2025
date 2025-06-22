@@ -345,4 +345,89 @@ class ReportController extends Controller
             ]);
         }
     }
+
+    /**
+     * Get registration trend data
+     */
+    public function getRegistrationTrend()
+    {
+        try {
+            $registrations = Registration::select(
+                    DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'),
+                    DB::raw('COUNT(*) as count')
+                )
+                ->where('created_at', '>=', now()->subMonths(6))
+                ->groupBy('month')
+                ->orderBy('month')
+                ->get();
+
+            $labels = [];
+            $values = [];
+
+            for ($i = 5; $i >= 0; $i--) {
+                $month = now()->subMonths($i)->format('Y-m');
+                $monthName = now()->subMonths($i)->format('M Y');
+                $labels[] = $monthName;
+
+                $found = $registrations->firstWhere('month', $month);
+                $values[] = $found ? $found->count : 0;
+            }
+
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'labels' => $labels,
+                    'values' => $values
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memuat trend registrasi'
+            ]);
+        }
+    }
+
+    /**
+     * Get revenue trend data
+     */
+    public function getRevenueTrend()
+    {
+        try {
+            $payments = Payment::select(
+                    DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'),
+                    DB::raw('SUM(gross_amount) as total')
+                )
+                ->whereIn('transaction_status', ['settlement', 'capture'])
+                ->where('created_at', '>=', now()->subMonths(6))
+                ->groupBy('month')
+                ->orderBy('month')
+                ->get();
+
+            $labels = [];
+            $values = [];
+
+            for ($i = 5; $i >= 0; $i--) {
+                $month = now()->subMonths($i)->format('Y-m');
+                $monthName = now()->subMonths($i)->format('M Y');
+                $labels[] = $monthName;
+
+                $found = $payments->firstWhere('month', $month);
+                $values[] = $found ? (float) $found->total : 0;
+            }
+
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'labels' => $labels,
+                    'values' => $values
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memuat trend pendapatan'
+            ]);
+        }
+    }
 }

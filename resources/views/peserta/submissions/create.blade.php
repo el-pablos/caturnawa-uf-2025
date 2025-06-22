@@ -46,13 +46,13 @@
                     </div>
                     
                     <div class="mb-3">
-                        <label for="file" class="form-label">File Karya <span class="text-danger">*</span></label>
-                        <input type="file" class="form-control @error('file') is-invalid @enderror" 
-                               id="file" name="file" required>
+                        <label for="files" class="form-label">File Karya <span class="text-danger">*</span></label>
+                        <input type="file" class="form-control @error('files.*') is-invalid @enderror"
+                               id="files" name="files[]" multiple required>
                         <div class="form-text">
-                            Format yang diterima: PDF, DOC, DOCX, ZIP, RAR (Maksimal 10MB)
+                            Format yang diterima: PDF, DOC, DOCX, ZIP, RAR (Maksimal 10MB per file). Anda dapat memilih beberapa file sekaligus.
                         </div>
-                        @error('file')
+                        @error('files.*')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
@@ -210,22 +210,24 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // File size validation
-    const fileInput = document.getElementById('file');
+    const fileInput = document.getElementById('files');
     const previewInput = document.getElementById('preview_image');
-    
+
     function validateFileSize(input, maxSize, unit = 'MB') {
         input.addEventListener('change', function() {
-            const file = this.files[0];
-            if (file) {
+            const files = this.files;
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
                 const fileSize = file.size / (1024 * 1024); // Convert to MB
                 if (fileSize > maxSize) {
-                    alert(`File terlalu besar! Maksimal ${maxSize}${unit}`);
+                    alert(`File "${file.name}" terlalu besar! Maksimal ${maxSize}${unit}`);
                     this.value = '';
+                    return;
                 }
             }
         });
     }
-    
+
     validateFileSize(fileInput, 10);
     validateFileSize(previewInput, 2);
     

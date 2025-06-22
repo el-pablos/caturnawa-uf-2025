@@ -208,17 +208,15 @@
                                         <a href="{{ route('admin.payments.show', $payment) }}" class="btn btn-outline-primary">
                                             <i class="bi bi-eye"></i>
                                         </a>
-                                        @if($payment->status === 'pending')
-                                            <button class="btn btn-outline-success" onclick="verifyPayment({{ $payment->id }})">
-                                                <i class="bi bi-check"></i>
+                                        @if($payment->transaction_status === 'pending')
+                                            <button class="btn btn-outline-success btn-sm" onclick="confirmPayment({{ $payment->id }})" title="Konfirmasi Pembayaran">
+                                                <i class="bi bi-check-circle"></i>
                                             </button>
-                                            <button class="btn btn-outline-danger" onclick="rejectPayment({{ $payment->id }})">
-                                                <i class="bi bi-x"></i>
+                                            <button class="btn btn-outline-danger btn-sm" onclick="rejectPayment({{ $payment->id }})" title="Tolak Pembayaran">
+                                                <i class="bi bi-x-circle"></i>
                                             </button>
-                                        @elseif($payment->status === 'paid')
-                                            <button class="btn btn-outline-warning" onclick="refundPayment({{ $payment->id }})">
-                                                <i class="bi bi-arrow-counterclockwise"></i>
-                                            </button>
+                                        @elseif(in_array($payment->transaction_status, ['settlement', 'capture']))
+                                            <span class="badge bg-success">Terkonfirmasi</span>
                                         @endif
                                     </div>
                                 </td>
@@ -338,6 +336,67 @@
 @push('scripts')
 <script>
 let currentPaymentId = null;
+
+function confirmPayment(paymentId) {
+    Swal.fire({
+        title: 'Konfirmasi Pembayaran',
+        text: 'Apakah Anda yakin ingin mengkonfirmasi pembayaran ini? QR code akan dibuat untuk peserta.',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#28a745',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Ya, Konfirmasi!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Show loading
+            Swal.fire({
+                title: 'Memproses...',
+                text: 'Sedang mengkonfirmasi pembayaran dan membuat QR code',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            fetch(`/admin/payments/${paymentId}/confirm`, {
+                method: 'PATCH',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: data.message,
+                        icon: 'success',
+                        timer: 3000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Gagal!',
+                        text: data.message,
+                        icon: 'error'
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Terjadi kesalahan saat mengkonfirmasi pembayaran',
+                    icon: 'error'
+                });
+            });
+        }
+    });
+}
 
 function verifyPayment(paymentId) {
     confirmAction(

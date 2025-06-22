@@ -267,36 +267,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Revenue Chart
-    const revenueCtx = document.getElementById('revenueChart').getContext('2d');
-    new Chart(revenueCtx, {
-        type: 'line',
-        data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-            datasets: [{
-                label: 'Pendapatan',
-                data: [12000000, 19000000, 15000000, 25000000, 22000000, 30000000],
-                borderColor: '#007bff',
-                backgroundColor: 'rgba(0, 123, 255, 0.1)',
-                fill: true,
-                tension: 0.4
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        callback: function(value) {
-                            return 'Rp ' + value.toLocaleString('id-ID');
-                        }
-                    }
-                }
-            }
-        }
-    });
+    // Load Charts with Real Data
+    loadRegistrationChart();
+    loadRevenueChart();
     
     // Load Competition Distribution Chart
     loadCompetitionDistribution();
@@ -365,6 +338,117 @@ function createCompetitionChart(data) {
                 }
             },
             cutout: '60%'
+        }
+    });
+}
+
+// Load registration chart with real data
+function loadRegistrationChart() {
+    fetch('/admin/reports/registration-trend')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                createRegistrationChart(data.data);
+            } else {
+                document.getElementById('registrationChart').parentElement.innerHTML =
+                    '<div class="alert alert-info text-center">Belum ada data registrasi</div>';
+            }
+        })
+        .catch(error => {
+            console.error('Error loading registration trend:', error);
+            document.getElementById('registrationChart').parentElement.innerHTML =
+                '<div class="alert alert-danger text-center">Gagal memuat data registrasi</div>';
+        });
+}
+
+// Create registration chart
+function createRegistrationChart(data) {
+    const ctx = document.getElementById('registrationChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: data.labels,
+            datasets: [{
+                label: 'Registrasi',
+                data: data.values,
+                borderColor: '#3b82f6',
+                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+// Load revenue chart with real data
+function loadRevenueChart() {
+    fetch('/admin/reports/revenue-trend')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                createRevenueChart(data.data);
+            } else {
+                document.getElementById('revenueChart').parentElement.innerHTML =
+                    '<div class="alert alert-info text-center">Belum ada data pendapatan</div>';
+            }
+        })
+        .catch(error => {
+            console.error('Error loading revenue trend:', error);
+            document.getElementById('revenueChart').parentElement.innerHTML =
+                '<div class="alert alert-danger text-center">Gagal memuat data pendapatan</div>';
+        });
+}
+
+// Create revenue chart
+function createRevenueChart(data) {
+    const ctx = document.getElementById('revenueChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: data.labels,
+            datasets: [{
+                label: 'Pendapatan',
+                data: data.values,
+                borderColor: '#10b981',
+                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return 'Rp ' + value.toLocaleString('id-ID');
+                        }
+                    }
+                }
+            }
         }
     });
 }

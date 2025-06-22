@@ -203,4 +203,45 @@ class PaymentController extends Controller
             return back()->with('error', 'Gagal memproses refund: ' . $e->getMessage());
         }
     }
+
+    /**
+     * Konfirmasi pembayaran manual oleh admin
+     */
+    public function confirmPayment(Payment $payment)
+    {
+        try {
+            DB::beginTransaction();
+
+            // Update payment status
+            $payment->update([
+                'transaction_status' => 'settlement',
+                'status_code' => '200',
+                'settlement_time' => now(),
+                'updated_at' => now()
+            ]);
+
+            // Update registration status
+            $payment->registration->update([
+                'status' => 'confirmed',
+                'confirmed_at' => now()
+            ]);
+
+            // Generate QR Code untuk e-ticket
+            $payment->registration->generateQRCode();
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Pembayaran berhasil dikonfirmasi dan QR code telah dibuat'
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mengkonfirmasi pembayaran: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 }
