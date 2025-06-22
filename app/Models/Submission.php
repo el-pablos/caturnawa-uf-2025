@@ -158,13 +158,20 @@ class Submission extends Model
     }
 
     /**
-     * Relasi dengan model Score
+     * Relasi dengan model Score melalui Registration
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
      */
     public function scores()
     {
-        return $this->hasMany(Score::class);
+        return $this->hasManyThrough(
+            Score::class,
+            Registration::class,
+            'id',
+            'registration_id',
+            'registration_id',
+            'id'
+        );
     }
 
     /**

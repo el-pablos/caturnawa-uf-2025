@@ -184,8 +184,8 @@
                             <div class="flex-grow-1">
                                 <div class="fw-semibold">{{ $submission->title }}</div>
                                 <small class="text-muted">
-                                    {{ $submission->registration->display_name }} - 
-                                    {{ $submission->competition->name }}
+                                    {{ $submission->registration->display_name }} -
+                                    {{ $submission->registration->competition->name }}
                                 </small>
                                 <div class="mt-1">
                                     <small class="text-muted">
@@ -228,7 +228,7 @@
                                 <div class="fw-semibold">
                                     Menilai {{ $activity->registration->display_name }}
                                 </div>
-                                <small class="text-muted">{{ $activity->competition->name }}</small>
+                                <small class="text-muted">{{ $activity->registration->competition->name }}</small>
                                 <div class="mt-1">
                                     <span class="badge bg-{{ $activity->is_final ? 'success' : 'warning' }}">
                                         {{ $activity->is_final ? 'Final' : 'Draft' }}

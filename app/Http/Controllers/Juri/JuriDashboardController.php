@@ -95,17 +95,19 @@ class JuriDashboardController extends Controller
     {
         $competitions = Competition::active()->get();
         $progress = [];
-        
+
         foreach ($competitions as $competition) {
-            $totalSubmissions = Submission::where('competition_id', $competition->id)
+            $totalSubmissions = Submission::whereHas('registration', function($query) use ($competition) {
+                $query->where('competition_id', $competition->id);
+            })
                 ->where('is_final', true)
                 ->count();
-                
+
             $scoredSubmissions = Score::where('competition_id', $competition->id)
                 ->where('jury_id', $jury->id)
                 ->where('is_final', true)
                 ->count();
-                
+
             $progress[] = [
                 'competition' => $competition,
                 'total' => $totalSubmissions,
@@ -113,7 +115,7 @@ class JuriDashboardController extends Controller
                 'percentage' => $totalSubmissions > 0 ? ($scoredSubmissions / $totalSubmissions) * 100 : 0,
             ];
         }
-        
+
         return $progress;
     }
 
@@ -125,7 +127,7 @@ class JuriDashboardController extends Controller
      */
     protected function getPendingSubmissions($jury)
     {
-        return Submission::with(['registration.user', 'competition'])
+        return Submission::with(['registration.user', 'registration.competition'])
             ->where('is_final', true)
             ->whereDoesntHave('scores', function($query) use ($jury) {
                 $query->where('jury_id', $jury->id)->where('is_final', true);
@@ -143,7 +145,7 @@ class JuriDashboardController extends Controller
      */
     protected function getRecentActivities($jury)
     {
-        return Score::with(['registration.user', 'competition'])
+        return Score::with(['registration.user', 'registration.competition'])
             ->where('jury_id', $jury->id)
             ->orderBy('updated_at', 'desc')
             ->take(10)
