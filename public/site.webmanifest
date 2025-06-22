@@ -1,0 +1,146 @@
+{
+    "name": "UNAS Fest 2025 - Festival Kompetisi Teknologi",
+    "short_name": "UNAS Fest 2025",
+    "description": "Festival kompetisi teknologi terbesar di Indonesia. Ikuti berbagai kompetisi programming, design, business plan, dan essay writing dengan total hadiah jutaan rupiah.",
+    "start_url": "/public",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#1e40af",
+    "orientation": "portrait-primary",
+    "scope": "/",
+    "lang": "id",
+    "dir": "ltr",
+    "categories": [
+        "education",
+        "technology",
+        "competition",
+        "event"
+    ],
+    "icons": [
+        {
+            "src": "/images/favicon-16x16.png",
+            "sizes": "16x16",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/images/favicon-32x32.png",
+            "sizes": "32x32",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/images/apple-touch-icon.png",
+            "sizes": "180x180",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/images/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/images/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/images/unas-fest-logo-144.png",
+            "sizes": "144x144",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/images/unas-fest-logo-256.png",
+            "sizes": "256x256",
+            "type": "image/png",
+            "purpose": "any"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Kompetisi",
+            "short_name": "Kompetisi",
+            "description": "Lihat semua kompetisi yang tersedia",
+            "url": "/public/competitions",
+            "icons": [
+                {
+                    "src": "/images/shortcut-competitions.png",
+                    "sizes": "96x96",
+                    "type": "image/png"
+                }
+            ]
+        },
+        {
+            "name": "Login",
+            "short_name": "Login",
+            "description": "Masuk ke akun Anda",
+            "url": "/login",
+            "icons": [
+                {
+                    "src": "/images/shortcut-login.png",
+                    "sizes": "96x96",
+                    "type": "image/png"
+                }
+            ]
+        },
+        {
+            "name": "Daftar",
+            "short_name": "Daftar",
+            "description": "Buat akun baru",
+            "url": "/register",
+            "icons": [
+                {
+                    "src": "/images/shortcut-register.png",
+                    "sizes": "96x96",
+                    "type": "image/png"
+                }
+            ]
+        },
+        {
+            "name": "Kontak",
+            "short_name": "Kontak",
+            "description": "Hubungi kami",
+            "url": "/public/contact",
+            "icons": [
+                {
+                    "src": "/images/shortcut-contact.png",
+                    "sizes": "96x96",
+                    "type": "image/png"
+                }
+            ]
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/images/screenshot-desktop-1.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Homepage UNAS Fest 2025"
+        },
+        {
+            "src": "/images/screenshot-mobile-1.png",
+            "sizes": "375x667",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Mobile view kompetisi"
+        }
+    ],
+    "related_applications": [
+        {
+            "platform": "web",
+            "url": "http://127.0.0.1:8000/public"
+        }
+    ],
+    "prefer_related_applications": false,
+    "edge_side_panel": {
+        "preferred_width": 400
+    },
+    "launch_handler": {
+        "client_mode": "navigate-existing"
+    }
+}

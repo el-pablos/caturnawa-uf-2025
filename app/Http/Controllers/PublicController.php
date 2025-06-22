@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Mail;
 
 class PublicController extends Controller
 {
+    public function home()
+    {
+        return view('public.home');
+    }
+
     public function competitions()
     {
         $competitions = Competition::where('is_active', true)

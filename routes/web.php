@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Public Landing Page
+// Public Landing Page - Redirect to /public
 Route::get('/', function () {
-    return view('public.home');
+    return redirect()->route('public.home');
 })->name('home');
 
 // Authentication Routes
@@ -242,6 +242,7 @@ Route::prefix('ticket')->name('ticket.')->group(function () {
 
 // Public Competition Information (Guest can view)
 Route::prefix('public')->name('public.')->group(function () {
+    Route::get('/', [App\Http\Controllers\PublicController::class, 'home'])->name('home');
     Route::get('/competitions', [App\Http\Controllers\PublicController::class, 'competitions'])->name('competitions');
     Route::get('/competition/{competition}', [App\Http\Controllers\PublicController::class, 'competition'])->name('competition');
     Route::get('/about', [App\Http\Controllers\PublicController::class, 'about'])->name('about');

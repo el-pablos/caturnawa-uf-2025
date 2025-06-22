@@ -1,0 +1,192 @@
+# Robots.txt for UNAS Fest 2025
+# This file tells search engine crawlers which pages or files the crawler can or can't request from your site
+
+# Allow all web crawlers access to all content
+User-agent: *
+Allow: /
+
+# Specifically allow important crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+# Disallow access to admin areas (for security)
+Disallow: /admin/
+Disallow: /juri/
+Disallow: /peserta/
+
+# Disallow access to private/sensitive directories
+Disallow: /storage/private/
+Disallow: /vendor/
+Disallow: /node_modules/
+Disallow: /.env
+Disallow: /.git/
+Disallow: /config/
+Disallow: /database/
+Disallow: /tests/
+
+# Disallow access to authentication pages (to prevent indexing of login forms)
+Disallow: /login
+Disallow: /register
+Disallow: /password/
+Disallow: /email/verify
+Disallow: /logout
+
+# Disallow access to API endpoints
+Disallow: /api/
+
+# Disallow access to temporary or cache files
+Disallow: /cache/
+Disallow: /tmp/
+Disallow: /*.tmp$
+Disallow: /*.cache$
+
+# Disallow access to search result pages with parameters
+Disallow: /*?search=*
+Disallow: /*?page=*
+Disallow: /*?sort=*
+Disallow: /*?filter=*
+
+# Allow access to important static files
+Allow: /css/
+Allow: /js/
+Allow: /images/
+Allow: /fonts/
+Allow: /favicon.ico
+Allow: /sitemap.xml
+Allow: /robots.txt
+
+# Allow access to public storage files
+Allow: /storage/public/
+
+# Allow access to important public pages
+Allow: /public/
+Allow: /public/competitions
+Allow: /public/about
+Allow: /public/contact
+
+# Crawl delay (be respectful to server resources)
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: http://127.0.0.1:8000/sitemap.xml
+
+# Additional sitemaps (if you have them)
+# Sitemap: http://127.0.0.1:8000/sitemap-competitions.xml
+# Sitemap: http://127.0.0.1:8000/sitemap-news.xml
+# Sitemap: http://127.0.0.1:8000/sitemap-images.xml
+
+# Host directive (specify preferred domain)
+Host: http://127.0.0.1:8000
+
+# Clean URLs - disallow URLs with certain parameters that create duplicate content
+Disallow: /*?utm_source=*
+Disallow: /*?utm_medium=*
+Disallow: /*?utm_campaign=*
+Disallow: /*?utm_term=*
+Disallow: /*?utm_content=*
+Disallow: /*?ref=*
+Disallow: /*?source=*
+Disallow: /*?fbclid=*
+Disallow: /*?gclid=*
+
+# Disallow printer-friendly versions
+Disallow: /*?print=*
+Disallow: /*/print/
+
+# Disallow session IDs
+Disallow: /*?PHPSESSID=*
+Disallow: /*?sessionid=*
+
+# Block access to WordPress-style admin (if any legacy exists)
+Disallow: /wp-admin/
+Disallow: /wp-content/
+Disallow: /wp-includes/
+
+# Block access to common CMS admin areas
+Disallow: /administrator/
+Disallow: /admin.php
+Disallow: /phpmyadmin/
+
+# Block access to development/testing files
+Disallow: /test/
+Disallow: /testing/
+Disallow: /dev/
+Disallow: /development/
+Disallow: /staging/
+
+# Block access to backup files
+Disallow: /*.sql$
+Disallow: /*.bak$
+Disallow: /*.backup$
+Disallow: /*.old$
+
+# Block access to log files
+Disallow: /*.log$
+Disallow: /logs/
+Disallow: /log/
+
+# Block access to configuration files
+Disallow: /*.conf$
+Disallow: /*.config$
+Disallow: /*.ini$
+
+# Block access to version control
+Disallow: /.svn/
+Disallow: /.git/
+Disallow: /.hg/
+Disallow: /.bzr/
+
+# Block access to IDE files
+Disallow: /.vscode/
+Disallow: /.idea/
+Disallow: /.sublime-project
+Disallow: /.sublime-workspace
+
+# Block access to package manager files
+Disallow: /composer.json
+Disallow: /composer.lock
+Disallow: /package.json
+Disallow: /package-lock.json
+Disallow: /yarn.lock
+
+# Allow specific file types that are important for SEO
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.gif$
+Allow: /*.svg$
+Allow: /*.webp$
+Allow: /*.ico$
+Allow: /*.pdf$
+
+# Note: This robots.txt is configured for development environment
+# For production, update the Host and Sitemap URLs to your actual domain

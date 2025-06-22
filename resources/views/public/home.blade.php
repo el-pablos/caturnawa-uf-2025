@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" prefix="og: http://ogp.me/ns#">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UNAS Fest 2025 - Competition Management System</title>
-    
+    {{-- SEO Component --}}
+    <x-seo
+        title="UNAS Fest 2025 - Festival Kompetisi Teknologi Terbesar Indonesia"
+        description="UNAS Fest 2025 adalah festival kompetisi teknologi terbesar di Indonesia. Ikuti berbagai kompetisi programming, design, business plan, dan essay writing dengan total hadiah jutaan rupiah. Daftar sekarang!"
+        keywords="unas fest 2025, kompetisi teknologi, programming contest, design competition, business plan competition, essay writing, universitas nasional, jakarta, indonesia, teknologi, inovasi, hadiah jutaan"
+        :image="asset('images/unas-fest-2025-og.jpg')"
+        :url="route('public.home')"
+        type="website"
+        author="UNAS Fest 2025 Committee"
+    />
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
