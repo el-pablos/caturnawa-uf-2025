@@ -7,44 +7,145 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        .hero-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 80px 0;
+        :root {
+            --bio-green: #4CAF50;
+            --bio-light: #81C784;
+            --nature-light: #A5D6A7;
+            --health-blue: #2196F3;
+            --health-light: #64B5F6;
+            --tech-purple: #9C27B0;
+            --tech-light: #BA68C8;
         }
-        .competition-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: none;
-            border-radius: 15px;
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--bio-green) 0%, var(--health-blue) 50%, var(--tech-purple) 100%);
+            color: white;
+            padding: 100px 0;
+            position: relative;
             overflow: hidden;
         }
-        .competition-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="%23ffffff" opacity="0.1"/><circle cx="80" cy="30" r="1.5" fill="%23ffffff" opacity="0.1"/><circle cx="50" cy="70" r="2.5" fill="%23ffffff" opacity="0.1"/></svg>') repeat;
+            animation: float 20s linear infinite;
         }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .floating-icon {
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-icon:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .floating-icon:nth-child(2) { top: 60%; right: 15%; animation-delay: 2s; }
+        .floating-icon:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 4s; }
+
+        .competition-card {
+            transition: all 0.3s ease;
+            border: none;
+            border-radius: 20px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .competition-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .bio-theme {
+            border-top: 4px solid var(--bio-green);
+        }
+
+        .health-theme {
+            border-top: 4px solid var(--health-blue);
+        }
+
+        .tech-theme {
+            border-top: 4px solid var(--tech-purple);
+        }
+
+        .stats-counter {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--bio-green), var(--health-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .theme-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-icon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s;
+        }
+
+        .theme-icon:hover::before {
+            animation: shine 0.6s ease-in-out;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
         .category-badge {
             position: absolute;
             top: 15px;
             right: 15px;
             z-index: 2;
         }
+
         .price-tag {
-            background: #28a745;
+            background: var(--bio-green);
             color: white;
             padding: 8px 15px;
             border-radius: 20px;
             font-weight: bold;
         }
+
         .early-bird {
             background: #ff6b35;
         }
+
         .card-img-top {
             height: 200px;
             object-fit: cover;
-        }
-        .navbar-brand {
-            font-weight: bold;
-            font-size: 1.5rem;
         }
     </style>
 </head>
@@ -89,25 +190,72 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="container text-center">
-            <h1 class="display-4 fw-bold mb-4">Welcome to UNAS Fest 2025</h1>
-            <p class="lead mb-4">Join the most exciting academic competitions and showcase your talents!</p>
+    <section class="hero-section position-relative">
+        <!-- Floating Icons -->
+        <div class="floating-icon">
+            <i class="fas fa-seedling fa-2x text-white opacity-50"></i>
+        </div>
+        <div class="floating-icon">
+            <i class="fas fa-heartbeat fa-2x text-white opacity-50"></i>
+        </div>
+        <div class="floating-icon">
+            <i class="fas fa-microchip fa-2x text-white opacity-50"></i>
+        </div>
+
+        <div class="container text-center position-relative">
+            <h1 class="display-3 fw-bold mb-4">
+                Innovating for a
+                <span style="background: linear-gradient(45deg, #FFD700, #FFA500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                    Sustainable Future
+                </span>
+            </h1>
+            <p class="lead mb-5 fs-4">Bergabunglah dalam kompetisi yang menggabungkan keanekaragaman hayati, kesehatan, dan teknologi masa depan</p>
+
             <div class="row text-center mt-5">
-                <div class="col-md-4">
-                    <i class="fas fa-leaf fa-3x mb-3"></i>
-                    <h5>Bio-diversity</h5>
-                    <p>Environmental and sustainability challenges</p>
+                <div class="col-md-4 mb-4">
+                    <div class="theme-icon" style="background: linear-gradient(135deg, var(--bio-green), var(--nature-light));">
+                        <i class="fas fa-tree fa-2x text-white"></i>
+                    </div>
+                    <h4 class="fw-bold">Bio Diversity</h4>
+                    <p class="lead">Solusi berkelanjutan untuk pelestarian keanekaragaman hayati dan lingkungan</p>
                 </div>
-                <div class="col-md-4">
-                    <i class="fas fa-heartbeat fa-3x mb-3"></i>
-                    <h5>Health</h5>
-                    <p>Healthcare innovation and wellness</p>
+                <div class="col-md-4 mb-4">
+                    <div class="theme-icon" style="background: linear-gradient(135deg, var(--health-blue), var(--health-light));">
+                        <i class="fas fa-heart-pulse fa-2x text-white"></i>
+                    </div>
+                    <h4 class="fw-bold">Health Innovation</h4>
+                    <p class="lead">Inovasi teknologi kesehatan untuk meningkatkan kualitas hidup masyarakat</p>
                 </div>
-                <div class="col-md-4">
-                    <i class="fas fa-microchip fa-3x mb-3"></i>
-                    <h5>Technology</h5>
-                    <p>Digital innovation and tech solutions</p>
+                <div class="col-md-4 mb-4">
+                    <div class="theme-icon" style="background: linear-gradient(135deg, var(--tech-purple), var(--tech-light));">
+                        <i class="fas fa-robot fa-2x text-white"></i>
+                    </div>
+                    <h4 class="fw-bold">Future Technology</h4>
+                    <p class="lead">Teknologi masa depan dengan AI, IoT, dan blockchain untuk transformasi digital</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="stats-counter">{{ number_format($stats['total_participants']) }}+</div>
+                    <h5 class="text-muted">Peserta Terdaftar</h5>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="stats-counter">{{ $stats['active_competitions'] }}+</div>
+                    <h5 class="text-muted">Kompetisi Aktif</h5>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="stats-counter">{{ $stats['total_universities'] }}+</div>
+                    <h5 class="text-muted">Universitas</h5>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="stats-counter">{{ number_format($stats['total_prizes'] / 1000000, 0) }}M+</div>
+                    <h5 class="text-muted">Total Hadiah (IDR)</h5>
                 </div>
             </div>
         </div>
@@ -125,9 +273,13 @@
 
             @if($competitions->count() > 0)
                 <div class="row">
-                    @foreach($competitions as $competition)
+                    @foreach($competitions as $index => $competition)
+                        @php
+                            $themes = ['bio-theme', 'health-theme', 'tech-theme'];
+                            $theme = $themes[$index % 3];
+                        @endphp
                         <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="card competition-card h-100 shadow-sm">
+                            <div class="card competition-card {{ $theme }} h-100 shadow-sm">
                                 <div class="position-relative">
                                     @if($competition->image)
                                         <img src="{{ asset('storage/' . $competition->image) }}" class="card-img-top" alt="{{ $competition->name }}">

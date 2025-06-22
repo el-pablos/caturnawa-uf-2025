@@ -86,12 +86,12 @@
                         <div class="col-6">
                             <i class="bi bi-calendar-event text-muted me-1"></i>
                             <strong>Mulai:</strong><br>
-                            {{ $competition->start_date->format('d M Y') }}
+                            {{ $competition->competition_start ? $competition->competition_start->format('d M Y') : 'TBA' }}
                         </div>
                         <div class="col-6">
                             <i class="bi bi-calendar-x text-muted me-1"></i>
                             <strong>Berakhir:</strong><br>
-                            {{ $competition->end_date->format('d M Y') }}
+                            {{ $competition->competition_end ? $competition->competition_end->format('d M Y') : 'TBA' }}
                         </div>
                         <div class="col-6">
                             <i class="bi bi-people text-muted me-1"></i>
@@ -109,10 +109,10 @@
                         </div>
                     </div>
                     
-                    @if($competition->registration_deadline)
+                    @if($competition->registration_end)
                         <div class="alert alert-info small mb-3">
                             <i class="bi bi-clock me-1"></i>
-                            Batas pendaftaran: {{ $competition->registration_deadline->format('d M Y H:i') }}
+                            Batas pendaftaran: {{ $competition->registration_end->format('d M Y H:i') }}
                         </div>
                     @endif
                     

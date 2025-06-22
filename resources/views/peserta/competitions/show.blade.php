@@ -52,7 +52,15 @@
                 @if($competition->rules)
                     <h5 class="mb-3">Peraturan</h5>
                     <div class="mb-4">
-                        {!! nl2br(e($competition->rules)) !!}
+                        @if(is_array($competition->rules))
+                            <ul class="list-unstyled">
+                                @foreach($competition->rules as $rule)
+                                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>{{ $rule }}</li>
+                                @endforeach
+                            </ul>
+                        @else
+                            {!! nl2br(e($competition->rules)) !!}
+                        @endif
                     </div>
                 @endif
 
@@ -60,7 +68,15 @@
                 @if($competition->prizes)
                     <h5 class="mb-3">Hadiah</h5>
                     <div class="mb-4">
-                        {!! nl2br(e($competition->prizes)) !!}
+                        @if(is_array($competition->prizes))
+                            <ul class="list-unstyled">
+                                @foreach($competition->prizes as $prize)
+                                    <li class="mb-2"><i class="bi bi-trophy text-warning me-2"></i>{{ $prize }}</li>
+                                @endforeach
+                            </ul>
+                        @else
+                            {!! nl2br(e($competition->prizes)) !!}
+                        @endif
                     </div>
                 @endif
 
@@ -68,7 +84,15 @@
                 @if($competition->requirements)
                     <h5 class="mb-3">Persyaratan</h5>
                     <div class="mb-4">
-                        {!! nl2br(e($competition->requirements)) !!}
+                        @if(is_array($competition->requirements))
+                            <ul class="list-unstyled">
+                                @foreach($competition->requirements as $requirement)
+                                    <li class="mb-2"><i class="bi bi-arrow-right text-primary me-2"></i>{{ $requirement }}</li>
+                                @endforeach
+                            </ul>
+                        @else
+                            {!! nl2br(e($competition->requirements)) !!}
+                        @endif
                     </div>
                 @endif
             </div>
@@ -177,14 +201,14 @@
                         <div class="timeline-marker bg-info"></div>
                         <div class="timeline-content">
                             <h6 class="mb-1">Kompetisi Dimulai</h6>
-                            <small class="text-muted">{{ $competition->start_date->format('d M Y') }}</small>
+                            <small class="text-muted">{{ $competition->competition_start ? $competition->competition_start->format('d M Y') : 'TBA' }}</small>
                         </div>
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-marker bg-success"></div>
                         <div class="timeline-content">
                             <h6 class="mb-1">Kompetisi Berakhir</h6>
-                            <small class="text-muted">{{ $competition->end_date->format('d M Y') }}</small>
+                            <small class="text-muted">{{ $competition->competition_end ? $competition->competition_end->format('d M Y') : 'TBA' }}</small>
                         </div>
                     </div>
                 </div>

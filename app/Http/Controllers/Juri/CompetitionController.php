@@ -27,19 +27,19 @@ class CompetitionController extends Controller
         
         // Get competitions assigned to this jury
         // Assuming there's a jury_competitions pivot table or similar relationship
-        $competitions = Competition::where('status', 'active')
+        $competitions = Competition::where('is_active', true)
             ->whereHas('juries', function ($query) use ($jury) {
                 $query->where('user_id', $jury->id);
             })
             ->withCount(['registrations', 'confirmedRegistrations'])
-            ->orderBy('start_date', 'asc')
+            ->orderBy('competition_start', 'asc')
             ->get();
 
         // Get scoring progress for each competition
         foreach ($competitions as $competition) {
             $totalParticipants = $competition->confirmed_registrations_count;
-            $scoredParticipants = Score::whereHas('registration', function ($query) use ($competition) {
-                $query->where('competition_id', $competition->id);
+            $scoredParticipants = Score::whereHas('registration.competition', function ($query) use ($competition) {
+                $query->where('id', $competition->id);
             })
             ->where('jury_id', $jury->id)
             ->distinct('registration_id')
@@ -114,7 +114,7 @@ class CompetitionController extends Controller
         }
 
         // Get confirmed registrations with their scores from this jury
-        $participants = Registration::where('competition_id', $competition->id)
+        $participants = $competition->registrations()
             ->where('status', 'confirmed')
             ->with([
                 'user',

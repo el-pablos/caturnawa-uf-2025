@@ -59,9 +59,7 @@ class CompetitionController extends Controller
         
         // Cek kompetisi yang sudah didaftari user
         $user = Auth::user();
-        $registeredCompetitions = Registration::where('user_id', $user->id)
-            ->pluck('competition_id')
-            ->toArray();
+        $registeredCompetitions = [];
         
         return view('peserta.competitions.index', compact('competitions', 'registeredCompetitions'));
     }
@@ -77,8 +75,8 @@ class CompetitionController extends Controller
         $user = Auth::user();
         
         // Cek apakah user sudah mendaftar
-        $existingRegistration = Registration::where('user_id', $user->id)
-            ->where('competition_id', $competition->id)
+        $existingRegistration = $competition->registrations()
+            ->where('user_id', $user->id)
             ->first();
         
         // Statistik kompetisi

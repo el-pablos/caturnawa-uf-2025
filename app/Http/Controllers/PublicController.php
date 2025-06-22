@@ -9,17 +9,16 @@ use Illuminate\Support\Facades\Mail;
 
 class PublicController extends Controller
 {
-    public function home()
-    {
-        // Get active competitions for homepage banner
-        $competitions = Competition::where('is_active', true)
-            ->where('registration_start', '<=', now())
-            ->where('registration_end', '>=', now())
-            ->orderBy('created_at', 'desc')
-            ->take(6) // Limit to 6 competitions for homepage
-            ->get();
 
-        // Get statistics
+
+    public function competitions()
+    {
+        // Get active competitions for main page
+        $competitions = Competition::where('is_active', true)
+            ->orderBy('registration_start', 'asc')
+            ->paginate(12);
+
+        // Get statistics for homepage display
         $stats = [
             'total_participants' => User::whereHas('roles', function($q) {
                 $q->where('name', 'Peserta');
@@ -29,16 +28,7 @@ class PublicController extends Controller
             'total_prizes' => Competition::where('is_active', true)->sum('prize_amount')
         ];
 
-        return view('public.home', compact('competitions', 'stats'));
-    }
-
-    public function competitions()
-    {
-        $competitions = Competition::where('is_active', true)
-            ->orderBy('registration_start', 'asc')
-            ->paginate(12);
-
-        return view('public.competitions', compact('competitions'));
+        return view('public.competitions', compact('competitions', 'stats'));
     }
 
     public function competition(Competition $competition)

@@ -50,7 +50,9 @@ class ScoringController extends Controller
     public function competition(Competition $competition)
     {
         $submissions = Submission::with(['registration.user', 'registration.competition'])
-            ->where('competition_id', $competition->id)
+            ->whereHas('registration', function ($query) use ($competition) {
+                $query->where('competition_id', $competition->id);
+            })
             ->where('is_final', true)
             ->get();
 
