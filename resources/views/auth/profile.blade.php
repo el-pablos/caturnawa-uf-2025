@@ -1,27 +1,15 @@
-@extends('layouts.app')
+@if(auth()->user()->hasRole('Super Admin') || auth()->user()->hasRole('Admin'))
+    @extends('layouts.admin')
+@elseif(auth()->user()->hasRole('Juri'))
+    @extends('layouts.juri')
+@elseif(auth()->user()->hasRole('Peserta'))
+    @extends('layouts.peserta')
+@else
+    @extends('layouts.app')
+@endif
 
 @section('title', 'Profil Saya')
 @section('page-title', 'Profil Saya')
-
-@section('sidebar-menu')
-    @if(auth()->user()->hasRole('Super Admin') || auth()->user()->hasRole('Admin'))
-        <a class="nav-link" href="{{ route('admin.dashboard') }}">
-            <i class="bi bi-speedometer2 me-2"></i>Dashboard
-        </a>
-    @elseif(auth()->user()->hasRole('Juri'))
-        <a class="nav-link" href="{{ route('juri.dashboard') }}">
-            <i class="bi bi-speedometer2 me-2"></i>Dashboard
-        </a>
-    @elseif(auth()->user()->hasRole('Peserta'))
-        <a class="nav-link" href="{{ route('peserta.dashboard') }}">
-            <i class="bi bi-speedometer2 me-2"></i>Dashboard
-        </a>
-    @endif
-    
-    <a class="nav-link active" href="{{ route('profile.index') }}">
-        <i class="bi bi-person-circle me-2"></i>Profil Saya
-    </a>
-@endsection
 
 @section('content')
 <div class="row">

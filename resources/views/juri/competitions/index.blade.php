@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.juri')
 
 @section('title', 'Kompetisi Saya')
 @section('page-title', 'Kompetisi yang Ditugaskan')

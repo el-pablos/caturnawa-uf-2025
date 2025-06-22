@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.peserta')
 
 @section('title', 'My Submissions')
 
