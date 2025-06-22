@@ -158,10 +158,8 @@
                 </h6>
             </div>
             <div class="card-body" id="user-distribution-container">
-                <div class="d-flex justify-content-center align-items-center" style="height: 250px;">
-                    <div class="spinner-border text-success" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
+                <div style="height: 300px; position: relative;">
+                    <canvas id="userDistributionChart"></canvas>
                 </div>
             </div>
         </div>

@@ -28,7 +28,7 @@ class HomeController extends Controller
             'total_universities' => User::whereNotNull('institution')
                 ->distinct('institution')
                 ->count('institution'),
-            'total_prizes' => Competition::where('is_active', true)->sum('registration_fee'),
+            'total_prizes' => Competition::where('is_active', true)->sum('price'),
         ];
 
         return view('public.home', compact('competitions', 'stats'));
