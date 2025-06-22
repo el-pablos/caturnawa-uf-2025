@@ -188,4 +188,90 @@ class RegistrationController extends Controller
         
         return $pdf->download('registrations.pdf');
     }
+
+    /**
+     * Re-enable registration untuk user yang sudah cancel
+     *
+     * @param \App\Models\Registration $registration
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function reEnable(Registration $registration)
+    {
+        try {
+            if ($registration->status !== 'cancelled') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Hanya registrasi yang dibatalkan yang dapat diaktifkan kembali.'
+                ]);
+            }
+
+            DB::beginTransaction();
+
+            $registration->update([
+                'status' => 'pending',
+                'cancelled_at' => null,
+                'cancelled_by' => null,
+                're_enabled_at' => now(),
+                're_enabled_by' => auth()->id(),
+            ]);
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Registrasi berhasil diaktifkan kembali. Peserta dapat mendaftar ulang.'
+            ]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mengaktifkan kembali registrasi: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * Hapus registrasi secara permanen
+     *
+     * @param \App\Models\Registration $registration
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(Registration $registration)
+    {
+        try {
+            DB::beginTransaction();
+
+            // Check if registration has payment
+            if ($registration->payment && $registration->payment->isSuccess()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Registrasi dengan pembayaran yang sudah berhasil tidak dapat dihapus.'
+                ]);
+            }
+
+            // Delete related data
+            if ($registration->payment) {
+                $registration->payment->delete();
+            }
+
+            if ($registration->submissions) {
+                $registration->submissions()->delete();
+            }
+
+            $registration->delete();
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Registrasi berhasil dihapus secara permanen.'
+            ]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menghapus registrasi: ' . $e->getMessage()
+            ]);
+        }
+    }
 }

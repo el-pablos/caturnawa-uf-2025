@@ -14,9 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Public Landing Page - New unified home page
-Route::get('/', [App\Http\Controllers\Public\HomeController::class, 'index'])->name('home');
-Route::get('/home', [App\Http\Controllers\Public\HomeController::class, 'index']);
+// Public Landing Page - Force redirect to /home
+Route::get('/', function () {
+    return redirect('/home');
+});
+Route::get('/home', [App\Http\Controllers\Public\HomeController::class, 'index'])->name('home');
 Route::post('/contact', [App\Http\Controllers\Public\HomeController::class, 'sendContact'])->name('contact.send');
 
 // Authentication Routes
@@ -93,6 +95,8 @@ Route::middleware(['auth', 'verified', 'role.redirect'])->group(function () {
             Route::get('/{registration}', [App\Http\Controllers\Admin\RegistrationController::class, 'show'])->name('show');
             Route::patch('/{registration}/confirm', [App\Http\Controllers\Admin\RegistrationController::class, 'confirm'])->name('confirm');
             Route::patch('/{registration}/cancel', [App\Http\Controllers\Admin\RegistrationController::class, 'cancel'])->name('cancel');
+            Route::patch('/{registration}/re-enable', [App\Http\Controllers\Admin\RegistrationController::class, 'reEnable'])->name('re-enable');
+            Route::delete('/{registration}', [App\Http\Controllers\Admin\RegistrationController::class, 'destroy'])->name('destroy');
             Route::get('/export/excel', [App\Http\Controllers\Admin\RegistrationController::class, 'exportExcel'])->name('export.excel');
             Route::get('/export/pdf', [App\Http\Controllers\Admin\RegistrationController::class, 'exportPdf'])->name('export.pdf');
         });

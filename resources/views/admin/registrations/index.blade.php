@@ -185,15 +185,25 @@
                                 </td>
                                 <td>
                                     <div class="btn-group btn-group-sm">
-                                        <a href="{{ route('admin.registrations.show', $registration) }}" class="btn btn-outline-primary">
+                                        <a href="{{ route('admin.registrations.show', $registration) }}" class="btn btn-outline-primary" title="Lihat Detail">
                                             <i class="bi bi-eye"></i>
                                         </a>
                                         @if($registration->status === 'pending')
-                                            <button class="btn btn-outline-success" onclick="confirmRegistration({{ $registration->id }})">
+                                            <button class="btn btn-outline-success" onclick="confirmRegistration({{ $registration->id }})" title="Konfirmasi">
                                                 <i class="bi bi-check"></i>
                                             </button>
-                                            <button class="btn btn-outline-danger" onclick="cancelRegistration({{ $registration->id }})">
+                                            <button class="btn btn-outline-danger" onclick="cancelRegistration({{ $registration->id }})" title="Batalkan">
                                                 <i class="bi bi-x"></i>
+                                            </button>
+                                        @elseif($registration->status === 'cancelled')
+                                            <button class="btn btn-outline-warning" onclick="reEnableRegistration({{ $registration->id }})" title="Aktifkan Kembali">
+                                                <i class="bi bi-arrow-clockwise"></i>
+                                            </button>
+                                        @endif
+
+                                        @if($registration->status !== 'confirmed' || !$registration->payment?->isSuccess())
+                                            <button class="btn btn-outline-danger" onclick="deleteRegistration({{ $registration->id }})" title="Hapus Permanen">
+                                                <i class="bi bi-trash"></i>
                                             </button>
                                         @endif
                                     </div>
@@ -332,6 +342,62 @@ function exportData() {
     
     const modal = bootstrap.Modal.getInstance(document.getElementById('exportModal'));
     modal.hide();
+}
+
+function reEnableRegistration(id) {
+    confirmAction(
+        'Aktifkan Kembali Registrasi',
+        'Apakah Anda yakin ingin mengaktifkan kembali registrasi ini? Peserta akan dapat mendaftar ulang.',
+        function() {
+            fetch(`/admin/registrations/${id}/re-enable`, {
+                method: 'PATCH',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showSuccess(data.message);
+                    location.reload();
+                } else {
+                    showError(data.message || 'Terjadi kesalahan');
+                }
+            })
+            .catch(error => {
+                showError('Terjadi kesalahan sistem');
+            });
+        }
+    );
+}
+
+function deleteRegistration(id) {
+    confirmAction(
+        'Hapus Registrasi',
+        'Apakah Anda yakin ingin menghapus registrasi ini secara permanen? Tindakan ini tidak dapat dibatalkan.',
+        function() {
+            fetch(`/admin/registrations/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showSuccess(data.message);
+                    location.reload();
+                } else {
+                    showError(data.message || 'Terjadi kesalahan');
+                }
+            })
+            .catch(error => {
+                showError('Terjadi kesalahan sistem');
+            });
+        }
+    );
 }
 </script>
 @endpush

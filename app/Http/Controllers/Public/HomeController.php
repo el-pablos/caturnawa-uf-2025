@@ -16,21 +16,19 @@ class HomeController extends Controller
     public function index()
     {
         // Get featured competitions (limit to 6 for homepage)
-        $competitions = Competition::where('status', 'active')
-            ->where('is_published', true)
-            ->orderBy('featured', 'desc')
+        $competitions = Competition::where('is_active', true)
             ->orderBy('created_at', 'desc')
             ->limit(6)
             ->get();
 
         // Get statistics
         $stats = [
-            'total_competitions' => Competition::where('is_published', true)->count(),
+            'total_competitions' => Competition::where('is_active', true)->count(),
             'total_participants' => Registration::where('status', 'confirmed')->count(),
             'total_universities' => User::whereNotNull('institution')
                 ->distinct('institution')
                 ->count('institution'),
-            'total_prizes' => Competition::where('is_published', true)->sum('prize_pool'),
+            'total_prizes' => Competition::where('is_active', true)->sum('registration_fee'),
         ];
 
         return view('public.home', compact('competitions', 'stats'));

@@ -223,23 +223,35 @@ class Registration extends Model
 
     /**
      * Generate QR Code untuk e-ticket
-     * 
+     *
      * @return void
      */
     public function generateQRCode()
     {
         $qrData = [
+            'type' => 'unas_fest_ticket',
             'registration_number' => $this->registration_number,
             'ticket_code' => $this->ticket_code,
+            'competition_id' => $this->competition_id,
             'competition' => $this->competition->name,
             'participant' => $this->user->name,
-            'verified_url' => route('ticket.verify', $this->ticket_code)
+            'participant_email' => $this->user->email,
+            'issued_at' => now()->toISOString(),
+            'verify_url' => route('ticket.verify', $this->ticket_code)
         ];
-        
+
         $qrCodeData = json_encode($qrData);
-        
-        // Simpan path QR code
+
+        // Generate QR Code menggunakan SimpleSoftwareIO
+        $qrCode = \SimpleSoftwareIO\QrCode\Facades\QrCode::format('png')
+            ->size(300)
+            ->margin(2)
+            ->generate($qrCodeData);
+
+        // Simpan QR code ke storage
         $qrPath = 'qrcodes/' . $this->ticket_code . '.png';
+        \Storage::disk('public')->put($qrPath, $qrCode);
+
         $this->update(['qr_code' => $qrPath]);
     }
 

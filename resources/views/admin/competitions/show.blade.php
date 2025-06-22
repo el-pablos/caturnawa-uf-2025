@@ -41,9 +41,15 @@
                     </div>
                     <div class="col-md-6">
                         <h6><i class="bi bi-flag me-2"></i>Status</h6>
-                        <span class="badge bg-{{ $competition->status === 'active' ? 'success' : ($competition->status === 'draft' ? 'warning' : 'secondary') }} fs-6">
-                            {{ ucfirst($competition->status) }}
-                        </span>
+                        <div class="d-flex align-items-center">
+                            <span id="status-badge" class="badge bg-{{ $competition->is_active ? 'success' : 'secondary' }} fs-6 me-2">
+                                {{ $competition->is_active ? 'Aktif' : 'Nonaktif' }}
+                            </span>
+                            <button type="button" class="btn btn-sm btn-outline-primary" onclick="toggleCompetitionStatus({{ $competition->id }})">
+                                <i class="bi bi-toggle-{{ $competition->is_active ? 'on' : 'off' }} me-1"></i>
+                                Toggle
+                            </button>
+                        </div>
                     </div>
                 </div>
                 
@@ -192,14 +198,10 @@
                         </a>
                     @endif
                     
-                    <form action="{{ route('admin.competitions.toggle-status', $competition) }}" method="POST" class="d-inline">
-                        @csrf
-                        @method('PATCH')
-                        <button type="submit" class="btn btn-{{ $competition->status === 'active' ? 'secondary' : 'primary' }} w-100">
-                            <i class="bi bi-{{ $competition->status === 'active' ? 'pause' : 'play' }} me-2"></i>
-                            {{ $competition->status === 'active' ? 'Nonaktifkan' : 'Aktifkan' }}
-                        </button>
-                    </form>
+                    <button type="button" class="btn btn-{{ $competition->is_active ? 'warning' : 'success' }} w-100" onclick="toggleCompetitionStatus({{ $competition->id }})">
+                        <i class="bi bi-{{ $competition->is_active ? 'pause-circle' : 'play-circle' }} me-2"></i>
+                        {{ $competition->is_active ? 'Nonaktifkan Kompetisi' : 'Aktifkan Kompetisi' }}
+                    </button>
                     
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
                         <i class="bi bi-trash me-2"></i>Hapus Kompetisi
@@ -273,3 +275,163 @@
     </div>
 </div>
 @endsection
+
+<!-- Toggle Status Modal -->
+<div class="modal fade" id="toggleStatusModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-toggle-on me-2"></i>Ubah Status Kompetisi
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-3">
+                    <i class="bi bi-question-circle-fill text-warning" style="font-size: 3rem;"></i>
+                </div>
+                <p class="text-center mb-3">
+                    Apakah Anda yakin ingin <span id="toggle-action-text">mengubah</span> status kompetisi ini?
+                </p>
+                <div class="alert alert-info">
+                    <h6 class="alert-heading">Informasi:</h6>
+                    <ul class="mb-0">
+                        <li><strong>Aktif:</strong> Kompetisi dapat dilihat dan diikuti peserta</li>
+                        <li><strong>Nonaktif:</strong> Kompetisi disembunyikan dari peserta</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="bi bi-x-lg me-2"></i>Batal
+                </button>
+                <button type="button" class="btn btn-primary" id="confirmToggleBtn">
+                    <i class="bi bi-check-lg me-2"></i>Ya, Ubah Status
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+<script>
+let currentCompetitionId = null;
+let currentStatus = null;
+
+function toggleCompetitionStatus(competitionId) {
+    currentCompetitionId = competitionId;
+
+    // Get current status from badge
+    const statusBadge = document.getElementById('status-badge');
+    const isActive = statusBadge.classList.contains('bg-success');
+    currentStatus = isActive;
+
+    // Update modal text
+    const actionText = isActive ? 'menonaktifkan' : 'mengaktifkan';
+    document.getElementById('toggle-action-text').textContent = actionText;
+
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('toggleStatusModal'));
+    modal.show();
+}
+
+document.getElementById('confirmToggleBtn').addEventListener('click', function() {
+    if (!currentCompetitionId) return;
+
+    // Show loading state
+    this.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Mengubah...';
+    this.disabled = true;
+
+    // Make AJAX request
+    fetch(`/admin/competitions/${currentCompetitionId}/toggle-status`, {
+        method: 'PATCH',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Update status badge
+            const statusBadge = document.getElementById('status-badge');
+            const newStatus = data.status;
+
+            if (newStatus) {
+                statusBadge.className = 'badge bg-success fs-6 me-2';
+                statusBadge.textContent = 'Aktif';
+            } else {
+                statusBadge.className = 'badge bg-secondary fs-6 me-2';
+                statusBadge.textContent = 'Nonaktif';
+            }
+
+            // Update toggle button in status section
+            const toggleBtn = statusBadge.nextElementSibling;
+            const toggleIcon = toggleBtn.querySelector('i');
+            toggleIcon.className = `bi bi-toggle-${newStatus ? 'on' : 'off'} me-1`;
+
+            // Update main action button
+            const mainActionBtn = document.querySelector('.btn.w-100[onclick*="toggleCompetitionStatus"]');
+            if (mainActionBtn) {
+                const icon = mainActionBtn.querySelector('i');
+                icon.className = `bi bi-${newStatus ? 'pause-circle' : 'play-circle'} me-2`;
+                mainActionBtn.className = `btn btn-${newStatus ? 'warning' : 'success'} w-100`;
+                mainActionBtn.innerHTML = `<i class="bi bi-${newStatus ? 'pause-circle' : 'play-circle'} me-2"></i>${newStatus ? 'Nonaktifkan Kompetisi' : 'Aktifkan Kompetisi'}`;
+            }
+
+            // Show success toast
+            showToast('success', data.message);
+
+            // Close modal
+            bootstrap.Modal.getInstance(document.getElementById('toggleStatusModal')).hide();
+        } else {
+            showToast('error', data.message || 'Terjadi kesalahan saat mengubah status');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showToast('error', 'Terjadi kesalahan saat mengubah status');
+    })
+    .finally(() => {
+        // Reset button
+        const btn = document.getElementById('confirmToggleBtn');
+        btn.innerHTML = '<i class="bi bi-check-lg me-2"></i>Ya, Ubah Status';
+        btn.disabled = false;
+    });
+});
+
+function showToast(type, message) {
+    const toastClass = type === 'success' ? 'bg-success' : 'bg-danger';
+    const toastHtml = `
+        <div class="toast align-items-center text-white ${toastClass} border-0" role="alert">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="bi bi-${type === 'success' ? 'check-circle' : 'exclamation-circle'} me-2"></i>
+                    ${message}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    `;
+
+    // Create toast container if not exists
+    let toastContainer = document.querySelector('.toast-container');
+    if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+        document.body.appendChild(toastContainer);
+    }
+
+    // Add toast
+    toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+    const toastElement = toastContainer.lastElementChild;
+    const toast = new bootstrap.Toast(toastElement);
+    toast.show();
+
+    // Remove toast element after it's hidden
+    toastElement.addEventListener('hidden.bs.toast', () => {
+        toastElement.remove();
+    });
+}
+</script>
+@endpush
