@@ -54,11 +54,11 @@ class PaymentController extends Controller
         // Statistik
         $stats = [
             'total' => Payment::count(),
-            'pending' => Payment::where('status', 'pending')->count(),
-            'paid' => Payment::where('status', 'paid')->count(),
-            'failed' => Payment::where('status', 'failed')->count(),
-            'cancelled' => Payment::where('status', 'cancelled')->count(),
-            'total_amount' => Payment::where('status', 'paid')->sum('amount'),
+            'pending' => Payment::where('transaction_status', 'pending')->count(),
+            'paid' => Payment::whereIn('transaction_status', ['settlement', 'capture'])->count(),
+            'failed' => Payment::whereIn('transaction_status', ['deny', 'cancel', 'expire', 'failure'])->count(),
+            'cancelled' => Payment::where('transaction_status', 'cancel')->count(),
+            'total_amount' => Payment::whereIn('transaction_status', ['settlement', 'capture'])->sum('gross_amount'),
         ];
 
         return view('admin.payments.index', compact('payments', 'stats'));

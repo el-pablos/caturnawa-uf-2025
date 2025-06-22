@@ -153,7 +153,9 @@
                 </h6>
             </div>
             <div class="card-body">
-                <canvas id="revenueChart" height="100"></canvas>
+                <div style="height: 400px;">
+                    <canvas id="revenueChart"></canvas>
+                </div>
             </div>
         </div>
     </div>
@@ -166,7 +168,9 @@
                 </h6>
             </div>
             <div class="card-body">
-                <canvas id="competitionChart"></canvas>
+                <div style="height: 300px;">
+                    <canvas id="competitionChart"></canvas>
+                </div>
             </div>
         </div>
     </div>

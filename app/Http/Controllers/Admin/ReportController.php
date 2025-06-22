@@ -36,7 +36,7 @@ class ReportController extends Controller
             'active_competitions' => Competition::where('status', 'active')->count(),
             'total_registrations' => Registration::count(),
             'confirmed_registrations' => Registration::where('status', 'confirmed')->count(),
-            'total_revenue' => Payment::where('status', 'paid')->sum('amount'),
+            'total_revenue' => Payment::whereIn('transaction_status', ['settlement', 'capture'])->sum('gross_amount'),
             'total_users' => User::count(),
         ];
 
@@ -56,9 +56,9 @@ class ReportController extends Controller
         $monthlyRevenue = Payment::select(
             DB::raw('MONTH(paid_at) as month'),
             DB::raw('YEAR(paid_at) as year'),
-            DB::raw('SUM(amount) as total')
+            DB::raw('SUM(gross_amount) as total')
         )
-        ->where('status', 'paid')
+        ->whereIn('transaction_status', ['settlement', 'capture'])
         ->where('paid_at', '>=', Carbon::now()->subMonths(12))
         ->groupBy('year', 'month')
         ->orderBy('year', 'asc')
