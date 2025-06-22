@@ -118,6 +118,16 @@ class Registration extends Model
     }
 
     /**
+     * Relasi dengan model Submission (karya) - plural
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function submissions()
+    {
+        return $this->hasMany(Submission::class);
+    }
+
+    /**
      * Relasi dengan model TeamMember (anggota tim)
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

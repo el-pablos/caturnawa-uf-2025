@@ -82,7 +82,7 @@ class MidtransService
         $user = $registration->user;
         $competition = $registration->competition;
 
-        return [
+        $params = [
             'transaction_details' => [
                 'order_id' => $payment->order_id,
                 'gross_amount' => intval($registration->amount),
@@ -108,13 +108,28 @@ class MidtransService
             ],
             'expiry' => [
                 'start_time' => now()->format('Y-m-d H:i:s O'),
-                'unit' => 'hours',
-                'duration' => 24,
+                'unit' => config('midtrans.custom_expiry.unit', 'hours'),
+                'duration' => config('midtrans.custom_expiry.duration', 24),
             ],
             'custom_field1' => $registration->registration_number,
-            'custom_field2' => $competition->slug,
+            'custom_field2' => $competition->slug ?? 'competition',
             'custom_field3' => config('app.name'),
         ];
+
+        // Add enabled payment methods if configured
+        $enabledPayments = config('midtrans.enabled_payments');
+        if (!empty($enabledPayments)) {
+            $params['enabled_payments'] = $enabledPayments;
+        }
+
+        // Add QRIS configuration for better QR code generation
+        if (in_array('other_qris', $enabledPayments) || in_array('qris', $enabledPayments)) {
+            $params['qris'] = [
+                'acquirer' => config('midtrans.qris.acquirer', 'gopay')
+            ];
+        }
+
+        return $params;
     }
 
     /**

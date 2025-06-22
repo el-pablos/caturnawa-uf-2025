@@ -188,7 +188,11 @@
 @endpush
 
 @push('scripts')
+@if(config('midtrans.is_production'))
+<script src="https://app.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
+@else
 <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
+@endif
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const agreeTerms = document.getElementById('agreeTerms');
@@ -226,28 +230,36 @@ document.addEventListener('DOMContentLoaded', function() {
                 'Content-Type': 'application/json',
             },
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
-            if (data.success) {
+            if (data.success && data.snap_token) {
                 // Open Midtrans Snap
                 snap.pay(data.snap_token, {
                     onSuccess: function(result) {
-                        window.location.href = `{{ route('payment.finish', ['payment' => '__PAYMENT_ID__']) }}`.replace('__PAYMENT_ID__', result.order_id);
+                        console.log('Payment success:', result);
+                        window.location.href = `{{ route('payment.finish', $registration) }}`;
                     },
                     onPending: function(result) {
-                        window.location.href = `{{ route('payment.status', ['payment' => '__PAYMENT_ID__']) }}`.replace('__PAYMENT_ID__', result.order_id);
+                        console.log('Payment pending:', result);
+                        window.location.href = `{{ route('payment.status', $registration) }}`;
                     },
                     onError: function(result) {
-                        window.location.href = `{{ route('payment.error', ['payment' => '__PAYMENT_ID__']) }}`.replace('__PAYMENT_ID__', result.order_id);
+                        console.log('Payment error:', result);
+                        window.location.href = `{{ route('payment.error', $registration) }}`;
                     },
                     onClose: function() {
-                        window.location.href = `{{ route('payment.unfinish', ['payment' => '__PAYMENT_ID__']) }}`.replace('__PAYMENT_ID__', 'unfinish');
+                        console.log('Payment popup closed');
+                        payButton.disabled = false;
+                        payButton.innerHTML = '<i class="bi bi-credit-card me-1"></i>Bayar Sekarang';
                     }
                 });
             } else {
-                alert(data.message || 'Terjadi kesalahan saat memproses pembayaran');
-                payButton.disabled = false;
-                payButton.innerHTML = '<i class="bi bi-credit-card me-1"></i>Bayar Sekarang';
+                throw new Error(data.message || 'Gagal mendapatkan token pembayaran');
             }
         })
         .catch(error => {

@@ -212,14 +212,24 @@ function registerCompetition(competitionId) {
         'Daftar Kompetisi',
         'Apakah Anda yakin ingin mendaftar kompetisi ini?',
         function() {
+            // Create form data with required fields
+            const formData = new FormData();
+            formData.append('_token', document.querySelector('meta[name="csrf-token"]').content);
+
             fetch(`/peserta/competitions/${competitionId}/register`, {
                 method: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                 },
+                body: formData
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
                     showSuccess(data.message || 'Berhasil mendaftar kompetisi!');
@@ -235,7 +245,8 @@ function registerCompetition(competitionId) {
                 }
             })
             .catch(error => {
-                showError('Terjadi kesalahan sistem');
+                console.error('Registration error:', error);
+                showError('Terjadi kesalahan sistem: ' + error.message);
             });
         }
     );

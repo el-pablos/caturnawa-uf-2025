@@ -144,8 +144,8 @@ class CompetitionController extends Controller
 
         // Validasi form
         $rules = [
-            'phone' => 'required|string|max:20',
-            'institution' => 'required|string|max:255',
+            'phone' => 'nullable|string|max:20',
+            'institution' => 'nullable|string|max:255',
             'emergency_contact' => 'nullable|string|max:255',
             'emergency_phone' => 'nullable|string|max:20',
             'special_needs' => 'nullable|string|max:500',
@@ -179,31 +179,50 @@ class CompetitionController extends Controller
         ]);
 
         if ($validator->fails()) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Data tidak valid: ' . $validator->errors()->first()
+                ]);
+            }
             return back()
                 ->withErrors($validator)
                 ->withInput();
         }
 
-        // Buat registrasi baru
-        $registrationData = [
-            'user_id' => $user->id,
-            'competition_id' => $competition->id,
-            'phone' => $request->phone,
-            'institution' => $request->institution,
-            'emergency_contact' => $request->emergency_contact,
-            'emergency_phone' => $request->emergency_phone,
-            'special_needs' => $request->special_needs,
-            'amount' => $competition->getCurrentPriceAttribute(),
-            'status' => 'pending',
-            'registered_at' => now(),
-        ];
-        
-        if ($competition->is_team_competition) {
-            $registrationData['team_name'] = $request->team_name;
-            $registrationData['team_members'] = $request->team_members;
+        try {
+            // Buat registrasi baru
+            $registrationData = [
+                'user_id' => $user->id,
+                'competition_id' => $competition->id,
+                'phone' => $request->phone ?: $user->phone,
+                'institution' => $request->institution ?: $user->institution,
+                'emergency_contact' => $request->emergency_contact,
+                'emergency_phone' => $request->emergency_phone,
+                'special_needs' => $request->special_needs,
+                'amount' => $competition->getCurrentPriceAttribute(),
+                'status' => 'pending',
+                'registered_at' => now(),
+            ];
+
+            if ($competition->is_team_competition) {
+                $registrationData['team_name'] = $request->team_name;
+                $registrationData['team_members'] = $request->team_members;
+            }
+
+            $registration = Registration::create($registrationData);
+        } catch (\Exception $e) {
+            \Log::error('Registration creation failed: ' . $e->getMessage());
+
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Terjadi kesalahan saat membuat pendaftaran: ' . $e->getMessage()
+                ]);
+            }
+
+            return back()->with('error', 'Terjadi kesalahan saat membuat pendaftaran.');
         }
-        
-        $registration = Registration::create($registrationData);
         
         // Check if this is an AJAX request
         if ($request->expectsJson()) {
