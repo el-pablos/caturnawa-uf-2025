@@ -35,16 +35,16 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="app_name" class="form-label fw-semibold">Nama Aplikasi</label>
-                                <input type="text" class="unas-form-control @error('app_name') is-invalid @enderror"
+                                <input type="text" class="form-control @error('app_name') is-invalid @enderror"
                                        id="app_name" name="app_name" value="{{ old('app_name', $settings['app_name'] ?? 'UNAS Fest 2025') }}" required>
                                 @error('app_name')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-                            
+
                             <div class="col-md-6 mb-3">
                                 <label for="contact_email" class="form-label fw-semibold">Email Kontak</label>
-                                <input type="email" class="unas-form-control @error('contact_email') is-invalid @enderror"
+                                <input type="email" class="form-control @error('contact_email') is-invalid @enderror"
                                        id="contact_email" name="contact_email" value="{{ old('contact_email', $settings['contact_email'] ?? 'info@unasfest.com') }}" required>
                                 @error('contact_email')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -55,16 +55,16 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="contact_phone" class="form-label fw-semibold">Nomor Telepon</label>
-                                <input type="text" class="unas-form-control @error('contact_phone') is-invalid @enderror"
+                                <input type="text" class="form-control @error('contact_phone') is-invalid @enderror"
                                        id="contact_phone" name="contact_phone" value="{{ old('contact_phone', $settings['contact_phone'] ?? '+62 21 1234 5678') }}" required>
                                 @error('contact_phone')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-                            
+
                             <div class="col-md-6 mb-3">
                                 <label for="app_description" class="form-label fw-semibold">Deskripsi Aplikasi</label>
-                                <textarea class="unas-form-control @error('app_description') is-invalid @enderror"
+                                <textarea class="form-control @error('app_description') is-invalid @enderror"
                                           id="app_description" name="app_description" rows="3" required>{{ old('app_description', $settings['app_description'] ?? 'Festival Kompetisi Universitas Nasional') }}</textarea>
                                 @error('app_description')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -82,7 +82,7 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="max_file_size" class="form-label fw-semibold">Maksimal Ukuran File</label>
-                                <select class="unas-form-control @error('max_file_size') is-invalid @enderror"
+                                <select class="form-control @error('max_file_size') is-invalid @enderror"
                                         id="max_file_size" name="max_file_size" required>
                                     <option value="5" {{ ($settings['max_file_size'] ?? 10) == 5 ? 'selected' : '' }}>5 MB</option>
                                     <option value="10" {{ ($settings['max_file_size'] ?? 10) == 10 ? 'selected' : '' }}>10 MB</option>
@@ -93,10 +93,10 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-                            
+
                             <div class="col-md-6 mb-3">
                                 <label for="allowed_file_types" class="form-label fw-semibold">Tipe File yang Diizinkan</label>
-                                <input type="text" class="unas-form-control @error('allowed_file_types') is-invalid @enderror"
+                                <input type="text" class="form-control @error('allowed_file_types') is-invalid @enderror"
                                        id="allowed_file_types" name="allowed_file_types"
                                        value="{{ old('allowed_file_types', $settings['allowed_file_types'] ?? 'pdf,doc,docx,jpg,png,zip') }}"
                                        placeholder="pdf,doc,docx,jpg,png,zip" required>
@@ -145,7 +145,7 @@
                         <button type="button" class="btn btn-secondary" onclick="window.location.reload()">
                             <i class="bi bi-x-circle me-2"></i>Batal
                         </button>
-                        <button type="submit" class="unas-btn-primary">
+                        <button type="submit" class="btn btn-primary">
                             <i class="bi bi-check-circle me-2"></i>Simpan Pengaturan
                         </button>
                     </div>

@@ -93,12 +93,17 @@
 </div>
 
 <!-- Filters -->
-<div class="unas-card mb-4">
+<div class="card mb-4">
+    <div class="card-header">
+        <h6 class="mb-0">
+            <i class="bi bi-funnel me-2"></i>Filter Registrasi
+        </h6>
+    </div>
     <div class="card-body">
         <form method="GET" class="row g-3">
             <div class="col-md-3">
                 <label class="form-label fw-semibold">Status</label>
-                <select name="status" class="unas-form-control">
+                <select name="status" class="form-control">
                     <option value="">Semua Status</option>
                     <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Menunggu</option>
                     <option value="confirmed" {{ request('status') === 'confirmed' ? 'selected' : '' }}>Dikonfirmasi</option>
@@ -107,7 +112,7 @@
             </div>
             <div class="col-md-3">
                 <label class="form-label fw-semibold">Kompetisi</label>
-                <select name="competition_id" class="unas-form-control">
+                <select name="competition_id" class="form-control">
                     <option value="">Semua Kompetisi</option>
                     @foreach($competitions as $competition)
                         <option value="{{ $competition->id }}" {{ request('competition_id') == $competition->id ? 'selected' : '' }}>
@@ -118,15 +123,15 @@
             </div>
             <div class="col-md-4">
                 <label class="form-label fw-semibold">Cari</label>
-                <input type="text" name="search" class="unas-form-control" placeholder="Nama atau email peserta..." value="{{ request('search') }}">
+                <input type="text" name="search" class="form-control" placeholder="Nama atau email peserta..." value="{{ request('search') }}">
             </div>
             <div class="col-md-2">
                 <label class="form-label">&nbsp;</label>
                 <div class="d-flex gap-2">
-                    <button type="submit" class="unas-btn-primary">
+                    <button type="submit" class="btn btn-primary">
                         <i class="bi bi-search"></i>
                     </button>
-                    <a href="{{ route('admin.registrations.index') }}" class="unas-btn-secondary">
+                    <a href="{{ route('admin.registrations.index') }}" class="btn btn-secondary">
                         <i class="bi bi-arrow-clockwise"></i>
                     </a>
                 </div>
@@ -136,11 +141,11 @@
 </div>
 
 <!-- Registrations Table -->
-<div class="unas-card">
-    <div class="unas-card-header">
-        <h5 class="mb-0 text-white">
+<div class="card">
+    <div class="card-header">
+        <h6 class="mb-0">
             <i class="bi bi-clipboard-check me-2"></i>Daftar Registrasi
-        </h5>
+        </h6>
     </div>
     <div class="card-body">
         @if($registrations->count() > 0)

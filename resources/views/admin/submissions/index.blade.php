@@ -67,7 +67,7 @@
         <form method="GET" class="row g-3">
             <div class="col-md-3">
                 <label class="form-label fw-semibold">Kompetisi</label>
-                <select name="competition_id" class="unas-form-control">
+                <select name="competition_id" class="form-control">
                     <option value="">Semua Kompetisi</option>
                     @foreach($competitions as $competition)
                         <option value="{{ $competition->id }}" {{ request('competition_id') == $competition->id ? 'selected' : '' }}>
@@ -78,7 +78,7 @@
             </div>
             <div class="col-md-3">
                 <label class="form-label fw-semibold">Status</label>
-                <select name="status" class="unas-form-control">
+                <select name="status" class="form-control">
                     <option value="">Semua Status</option>
                     <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Menunggu Review</option>
                     <option value="approved" {{ request('status') === 'approved' ? 'selected' : '' }}>Disetujui</option>
@@ -87,15 +87,15 @@
             </div>
             <div class="col-md-4">
                 <label class="form-label fw-semibold">Cari</label>
-                <input type="text" name="search" class="unas-form-control" placeholder="Nama peserta atau email..." value="{{ request('search') }}">
+                <input type="text" name="search" class="form-control" placeholder="Nama peserta atau email..." value="{{ request('search') }}">
             </div>
             <div class="col-md-2">
                 <label class="form-label">&nbsp;</label>
                 <div class="d-flex gap-2">
-                    <button type="submit" class="unas-btn-primary">
+                    <button type="submit" class="btn btn-primary">
                         <i class="bi bi-search"></i>
                     </button>
-                    <a href="{{ route('admin.submissions.index') }}" class="unas-btn-secondary">
+                    <a href="{{ route('admin.submissions.index') }}" class="btn btn-secondary">
                         <i class="bi bi-arrow-clockwise"></i>
                     </a>
                 </div>
