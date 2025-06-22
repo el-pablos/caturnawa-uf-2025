@@ -301,8 +301,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function exportReport(format) {
     const params = new URLSearchParams(window.location.search);
+    params.set('format', format);
 
-    window.open(`{{ route('admin.reports.export', ['type' => '']) }}`.replace('', format) + `?${params.toString()}`, '_blank');
+    // Export all reports (general export)
+    const baseUrl = '{{ url("admin/reports/export") }}';
+    window.open(`${baseUrl}/registrations?${params.toString()}`, '_blank');
 }
 </script>
 @endpush
