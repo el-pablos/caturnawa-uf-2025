@@ -298,16 +298,46 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Competition Chart
-    const competitionCtx = document.getElementById('competitionChart').getContext('2d');
-    new Chart(competitionCtx, {
+    // Load Competition Distribution Chart
+    loadCompetitionDistribution();
+});
+
+// Load competition distribution data
+function loadCompetitionDistribution() {
+    fetch('/admin/reports/competition-distribution')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.data.length > 0) {
+                createCompetitionChart(data.data);
+            } else {
+                document.getElementById('competitionChart').parentElement.innerHTML =
+                    '<div class="alert alert-info text-center">Belum ada data kompetisi</div>';
+            }
+        })
+        .catch(error => {
+            console.error('Error loading competition distribution:', error);
+            document.getElementById('competitionChart').parentElement.innerHTML =
+                '<div class="alert alert-danger text-center">Gagal memuat data kompetisi</div>';
+        });
+}
+
+// Create competition distribution chart
+function createCompetitionChart(data) {
+    const ctx = document.getElementById('competitionChart').getContext('2d');
+
+    const labels = data.map(item => item.category);
+    const values = data.map(item => item.count);
+    const colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
+
+    new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ['Programming', 'Design', 'Business', 'Essay'],
+            labels: labels,
             datasets: [{
-                data: [30, 25, 20, 25],
-                backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545'],
-                borderWidth: 2
+                data: values,
+                backgroundColor: colors.slice(0, data.length),
+                borderWidth: 2,
+                borderColor: '#ffffff'
             }]
         },
         options: {
@@ -315,12 +345,29 @@ document.addEventListener('DOMContentLoaded', function() {
             maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    position: 'bottom'
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        usePointStyle: true,
+                        font: {
+                            size: 12
+                        }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = ((context.parsed / total) * 100).toFixed(1);
+                            return `${context.label}: ${context.parsed} (${percentage}%)`;
+                        }
+                    }
                 }
-            }
+            },
+            cutout: '60%'
         }
     });
-});
+}
 
 function exportReport(format) {
     const params = new URLSearchParams(window.location.search);

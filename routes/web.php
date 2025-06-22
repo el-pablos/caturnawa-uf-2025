@@ -148,6 +148,7 @@ Route::middleware(['auth', 'verified', 'role.redirect'])->group(function () {
             Route::get('/registrations', [App\Http\Controllers\Admin\ReportController::class, 'registrations'])->name('registrations');
             Route::get('/payments', [App\Http\Controllers\Admin\ReportController::class, 'payments'])->name('payments');
             Route::get('/export/{type}', [App\Http\Controllers\Admin\ReportController::class, 'export'])->name('export');
+            Route::get('/competition-distribution', [App\Http\Controllers\Admin\ReportController::class, 'getCompetitionDistribution'])->name('competition-distribution');
         });
 
         // QR Scanner (Admin & Superadmin only)

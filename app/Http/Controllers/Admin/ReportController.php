@@ -321,4 +321,28 @@ class ReportController extends Controller
 
         return response()->stream($callback, 200, $headers);
     }
+
+    /**
+     * Get competition distribution data
+     */
+    public function getCompetitionDistribution()
+    {
+        try {
+            $distribution = Competition::select('category', DB::raw('COUNT(*) as count'))
+                ->where('is_active', true)
+                ->groupBy('category')
+                ->orderBy('count', 'desc')
+                ->get();
+
+            return response()->json([
+                'success' => true,
+                'data' => $distribution
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memuat distribusi kompetisi'
+            ]);
+        }
+    }
 }

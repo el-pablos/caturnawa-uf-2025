@@ -56,7 +56,7 @@ class PaymentController extends Controller
             'total' => Payment::count(),
             'pending' => Payment::where('transaction_status', 'pending')->count(),
             'paid' => Payment::whereIn('transaction_status', ['settlement', 'capture'])->count(),
-            'failed' => Payment::whereIn('transaction_status', ['deny', 'cancel', 'expire', 'failure'])->count(),
+            'failed' => Payment::whereIn('transaction_status', ['deny', 'expire', 'failure'])->count(),
             'cancelled' => Payment::where('transaction_status', 'cancel')->count(),
             'total_amount' => Payment::whereIn('transaction_status', ['settlement', 'capture'])->sum('gross_amount'),
         ];
