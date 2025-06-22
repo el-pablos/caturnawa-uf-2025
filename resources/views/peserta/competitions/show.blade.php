@@ -319,6 +319,7 @@
 
 @push('styles')
 <style>
+/* Timeline Styles */
 .timeline {
     position: relative;
     padding-left: 30px;
@@ -350,6 +351,178 @@
     bottom: 0;
     width: 2px;
     background: #e9ecef;
+}
+
+/* Enhanced Card Styles */
+.peserta-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.peserta-card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+}
+
+.peserta-card .card-body {
+    padding: 2rem;
+}
+
+.peserta-card .card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 1.25rem 2rem;
+    font-weight: 600;
+}
+
+/* Content Spacing */
+.peserta-card h5 {
+    color: #2d3748;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.peserta-card h6 {
+    color: #4a5568;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.peserta-card p,
+.peserta-card li {
+    line-height: 1.7;
+    color: #4a5568;
+    margin-bottom: 1rem;
+}
+
+.peserta-card ul {
+    padding-left: 0;
+}
+
+.peserta-card li {
+    padding: 0.75rem 1rem;
+    background: #f7fafc;
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+    border-left: 4px solid #667eea;
+    transition: all 0.2s ease;
+}
+
+.peserta-card li:hover {
+    background: #edf2f7;
+    transform: translateX(4px);
+}
+
+/* Badge Improvements */
+.badge {
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    border-radius: 20px;
+}
+
+/* Button Improvements */
+.btn {
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-peserta-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    color: white;
+}
+
+.btn-peserta-primary:hover {
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+    color: white;
+}
+
+/* Stats Cards */
+.text-center .h4 {
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+/* Modal Improvements */
+.modal-content {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 12px 12px 0 0;
+}
+
+.modal-body {
+    padding: 2rem;
+}
+
+.form-control {
+    border-radius: 8px;
+    border: 2px solid #e2e8f0;
+    padding: 0.75rem 1rem;
+    transition: all 0.2s ease;
+}
+
+.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-label {
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+}
+
+/* Alert Improvements */
+.alert {
+    border-radius: 8px;
+    border: none;
+    padding: 1.25rem;
+}
+
+.alert-info {
+    background: linear-gradient(135deg, #e6fffa 0%, #f0fff4 100%);
+    color: #2d3748;
+}
+
+/* Image Improvements */
+.img-fluid {
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Improvements */
+@media (max-width: 768px) {
+    .peserta-card .card-body {
+        padding: 1.5rem;
+    }
+
+    .peserta-card .card-header {
+        padding: 1rem 1.5rem;
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+    }
 }
 </style>
 @endpush

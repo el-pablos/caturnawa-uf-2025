@@ -228,6 +228,7 @@ Route::prefix('payment')->name('payment.')->group(function () {
         Route::get('/unfinish/{payment}', [PaymentController::class, 'unfinish'])->name('unfinish');
         Route::get('/error/{payment}', [PaymentController::class, 'error'])->name('error');
         Route::post('/check-status', [PaymentController::class, 'checkStatus'])->name('check-status');
+        Route::get('/receipt/{payment}', [PaymentController::class, 'downloadReceipt'])->name('receipt');
     });
     
     // Public callback routes for Midtrans

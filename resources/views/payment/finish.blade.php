@@ -131,15 +131,37 @@
                 </div>
             </div>
 
+            <!-- Download Receipt -->
+            <div class="card mt-4 border-primary">
+                <div class="card-header bg-primary text-white">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-receipt me-2"></i>Struk Pembayaran
+                    </h6>
+                </div>
+                <div class="card-body text-center">
+                    <p class="mb-3">Unduh struk pembayaran Anda sebagai bukti transaksi yang sah</p>
+                    <a href="{{ route('payment.receipt', $payment) }}" class="btn btn-primary btn-lg" id="downloadReceiptBtn">
+                        <i class="bi bi-download me-2"></i>Download Struk PDF
+                    </a>
+                    <p class="text-muted mt-2 small">
+                        <i class="bi bi-info-circle me-1"></i>
+                        Struk akan otomatis terdownload dan tersimpan di profil Anda
+                    </p>
+                </div>
+            </div>
+
             <!-- Action Buttons -->
             <div class="card mt-4">
                 <div class="card-body">
-                    <div class="d-flex justify-content-center gap-3">
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
                         <a href="{{ route('peserta.registrations.show', $registration) }}" class="btn btn-primary">
                             <i class="bi bi-eye me-1"></i>Lihat Pendaftaran
                         </a>
                         <a href="{{ route('peserta.submissions.index') }}" class="btn btn-success">
                             <i class="bi bi-upload me-1"></i>Upload Karya
+                        </a>
+                        <a href="{{ route('payment.receipt', $payment) }}" class="btn btn-outline-primary">
+                            <i class="bi bi-receipt me-1"></i>Download Struk
                         </a>
                         <a href="{{ route('peserta.dashboard') }}" class="btn btn-outline-secondary">
                             <i class="bi bi-house me-1"></i>Dashboard
@@ -174,12 +196,55 @@
 
 @push('scripts')
 <script>
-// Confetti animation (optional)
 document.addEventListener('DOMContentLoaded', function() {
-    // Simple celebration effect
+    // Auto download PDF receipt after 3 seconds
     setTimeout(() => {
-        console.log('🎉 Pembayaran berhasil! Selamat!');
-    }, 500);
+        // Create hidden link and trigger download
+        const downloadUrl = '{{ route("payment.receipt", $payment) }}';
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = 'struk-pembayaran-{{ $payment->order_id }}.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // Show notification
+        showNotification('Struk pembayaran berhasil diunduh!', 'success');
+    }, 3000);
+
+    // Manual download button
+    document.getElementById('downloadReceiptBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        const downloadUrl = this.href;
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = 'struk-pembayaran-{{ $payment->order_id }}.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        showNotification('Struk pembayaran berhasil diunduh!', 'success');
+    });
 });
+
+function showNotification(message, type = 'info') {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+    notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    notification.innerHTML = `
+        <i class="bi bi-check-circle me-2"></i>${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+
+    document.body.appendChild(notification);
+
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.remove();
+        }
+    }, 5000);
+}
 </script>
 @endpush

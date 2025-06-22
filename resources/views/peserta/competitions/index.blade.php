@@ -130,9 +130,19 @@
                                 <button class="btn btn-success w-100" disabled>
                                     <i class="bi bi-check-circle me-2"></i>Sudah Terdaftar
                                 </button>
+                            @elseif($userRegistration->status === 'cancelled')
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-danger w-100" disabled>
+                                        <i class="bi bi-x-circle me-2"></i>Registrasi Dibatalkan
+                                    </button>
+                                    <small class="text-muted text-center">
+                                        <i class="bi bi-info-circle me-1"></i>
+                                        Hubungi admin untuk membuka kembali pendaftaran
+                                    </small>
+                                </div>
                             @else
                                 <button class="btn btn-secondary w-100" disabled>
-                                    <i class="bi bi-x-circle me-2"></i>Registrasi Dibatalkan
+                                    <i class="bi bi-x-circle me-2"></i>{{ ucfirst($userRegistration->status) }}
                                 </button>
                             @endif
                         @else

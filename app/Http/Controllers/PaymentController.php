@@ -9,6 +9,7 @@ use App\Services\MidtransService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 /**
  * Controller untuk Payment Gateway dengan Midtrans
@@ -121,14 +122,24 @@ class PaymentController extends Controller
 
     /**
      * Halaman sukses pembayaran
-     * 
+     *
      * @param \App\Models\Payment $payment
      * @return \Illuminate\View\View
      */
     public function finish(Payment $payment)
     {
         $registration = $payment->registration;
-        
+
+        // Force check status dari Midtrans untuk memastikan status terbaru
+        try {
+            $result = $this->midtransService->checkTransactionStatus($payment->order_id);
+            if ($result['success']) {
+                $payment->updateFromMidtrans($result['data']);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error checking payment status on finish: ' . $e->getMessage());
+        }
+
         return view('payment.finish', compact('payment', 'registration'));
     }
 
@@ -279,6 +290,39 @@ class PaymentController extends Controller
             Log::error('Cancel payment error: ' . $e->getMessage());
             
             return back()->with('error', 'Terjadi kesalahan saat membatalkan pembayaran.');
+        }
+    }
+
+    /**
+     * Download PDF struk pembayaran
+     *
+     * @param \App\Models\Payment $payment
+     * @return \Illuminate\Http\Response
+     */
+    public function downloadReceipt(Payment $payment)
+    {
+        $registration = $payment->registration;
+
+        // Pastikan payment milik user yang sedang login
+        if ($registration->user_id !== Auth::id()) {
+            abort(403, 'Akses ditolak.');
+        }
+
+        // Pastikan payment sudah berhasil
+        if (!$payment->isSuccess()) {
+            return back()->with('error', 'Struk hanya tersedia untuk pembayaran yang berhasil.');
+        }
+
+        try {
+            $pdf = Pdf::loadView('pdf.payment-receipt', compact('payment', 'registration'));
+            $pdf->setPaper('A4', 'portrait');
+
+            $filename = 'struk-pembayaran-' . $payment->order_id . '.pdf';
+
+            return $pdf->download($filename);
+        } catch (\Exception $e) {
+            Log::error('Error generating PDF receipt: ' . $e->getMessage());
+            return back()->with('error', 'Terjadi kesalahan saat membuat struk PDF.');
         }
     }
 }

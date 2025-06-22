@@ -35,6 +35,10 @@ class Registration extends Model
         'status',
         'registered_at',
         'confirmed_at',
+        'cancelled_at',
+        'cancelled_reason',
+        'reopened_at',
+        'reopened_by',
         'ticket_code',
         'qr_code',
     ];
@@ -48,6 +52,8 @@ class Registration extends Model
         'team_members' => 'array',
         'registered_at' => 'datetime',
         'confirmed_at' => 'datetime',
+        'cancelled_at' => 'datetime',
+        'reopened_at' => 'datetime',
         'amount' => 'decimal:2',
     ];
 
@@ -293,21 +299,85 @@ class Registration extends Model
 
     /**
      * Cancel pendaftaran
-     * 
+     *
      * @return void
      */
     public function cancel()
     {
-        $this->update(['status' => self::STATUS_CANCELLED]);
+        $this->update([
+            'status' => self::STATUS_CANCELLED,
+            'cancelled_at' => now(),
+            'cancelled_reason' => 'Dibatalkan oleh peserta'
+        ]);
+    }
+
+    /**
+     * Reopen pendaftaran yang dibatalkan (hanya admin)
+     *
+     * @return void
+     */
+    public function reopen()
+    {
+        $this->update([
+            'status' => self::STATUS_PENDING,
+            'cancelled_at' => null,
+            'cancelled_reason' => null,
+            'reopened_at' => now(),
+            'reopened_by' => auth()->id()
+        ]);
     }
 
     /**
      * Expire pendaftaran yang belum dibayar
-     * 
+     *
      * @return void
      */
     public function expire()
     {
         $this->update(['status' => self::STATUS_EXPIRED]);
+    }
+
+    /**
+     * Cek apakah pendaftaran sudah expired
+     *
+     * @return bool
+     */
+    public function isExpired()
+    {
+        return $this->status === self::STATUS_EXPIRED;
+    }
+
+    /**
+     * Cek apakah pendaftaran dibatalkan
+     *
+     * @return bool
+     */
+    public function isCancelled()
+    {
+        return $this->status === self::STATUS_CANCELLED;
+    }
+
+    /**
+     * Cek apakah user bisa mendaftar lagi di kompetisi ini
+     *
+     * @param int $userId
+     * @param int $competitionId
+     * @return bool
+     */
+    public static function canRegisterAgain($userId, $competitionId)
+    {
+        $cancelledRegistration = self::where('user_id', $userId)
+            ->where('competition_id', $competitionId)
+            ->where('status', self::STATUS_CANCELLED)
+            ->first();
+
+        // Jika tidak ada registrasi yang dibatalkan, bisa daftar
+        if (!$cancelledRegistration) {
+            return true;
+        }
+
+        // Jika ada registrasi yang dibatalkan, tidak bisa daftar lagi
+        // kecuali admin sudah reopen
+        return false;
     }
 }
