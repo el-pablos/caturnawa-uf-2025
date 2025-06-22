@@ -1,22 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.juri')
 
 @section('title', 'Dashboard Juri')
 
 @section('page-title', 'Dashboard Juri')
-
-@section('sidebar-menu')
-    <a class="nav-link active" href="{{ route('juri.dashboard') }}">
-        <i class="bi bi-speedometer me-2"></i>Dashboard
-    </a>
-    
-    <a class="nav-link" href="{{ route('juri.scoring.index') }}">
-        <i class="bi bi-award-fill me-2"></i>Penilaian
-    </a>
-    
-    <a class="nav-link" href="#">
-        <i class="bi bi-file-earmark-text-fill me-2"></i>Karya Peserta
-    </a>
-@endsection
 
 @section('header-actions')
     <div class="dropdown">

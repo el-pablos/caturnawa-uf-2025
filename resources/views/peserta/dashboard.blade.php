@@ -1,26 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.peserta')
 
 @section('title', 'Dashboard Peserta')
 
 @section('page-title', 'Dashboard Peserta')
-
-@section('sidebar-menu')
-    <a class="nav-link active" href="{{ route('peserta.dashboard') }}">
-        <i class="bi bi-speedometer me-2"></i>Dashboard
-    </a>
-    
-    <a class="nav-link" href="{{ route('peserta.competitions.index') }}">
-        <i class="bi bi-trophy-fill me-2"></i>Kompetisi Tersedia
-    </a>
-    
-    <a class="nav-link" href="{{ route('peserta.registrations.index') }}">
-        <i class="bi bi-card-list me-2"></i>Pendaftaran Saya
-    </a>
-    
-    <a class="nav-link" href="{{ route('peserta.submissions.index') }}">
-        <i class="bi bi-file-earmark-text-fill me-2"></i>Submission Saya
-    </a>
-@endsection
 
 @section('header-actions')
     <a href="{{ route('peserta.competitions.index') }}" class="btn btn-primary">

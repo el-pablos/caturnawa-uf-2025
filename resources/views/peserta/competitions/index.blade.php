@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.peserta')
 
 @section('title', 'Kompetisi Tersedia')
 @section('page-title', 'Kompetisi Tersedia')
