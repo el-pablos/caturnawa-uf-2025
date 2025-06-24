@@ -258,6 +258,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function deleteFile(filename) {
     if (confirm('Apakah Anda yakin ingin menghapus file ini?')) {
         const deleteUrl = `${deleteFileBaseUrl}/${filename}`;
+        console.log('Delete URL:', deleteUrl); // Debug log
 
         fetch(deleteUrl, {
             method: 'DELETE',
