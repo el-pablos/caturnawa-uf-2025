@@ -5,14 +5,32 @@
 @section('page-title', 'Dashboard Juri')
 
 @section('header-actions')
-    <div class="dropdown">
-        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-            <i class="bi bi-download me-1"></i>Export
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Export Penilaian</a></li>
-            <li><a class="dropdown-item" href="#">Export Laporan</a></li>
-        </ul>
+    <div class="d-flex gap-2">
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                <i class="bi bi-download me-1"></i>Export & Laporan
+            </button>
+            <ul class="dropdown-menu">
+                <li><h6 class="dropdown-header">Export Data</h6></li>
+                <li><a class="dropdown-item" href="{{ route('juri.export.scores') }}">
+                    <i class="bi bi-file-earmark-spreadsheet me-2"></i>Export Penilaian (CSV)
+                </a></li>
+                <li><a class="dropdown-item" href="{{ route('juri.export.detailed-report') }}">
+                    <i class="bi bi-file-earmark-text me-2"></i>Laporan Detail (CSV)
+                </a></li>
+                <li><a class="dropdown-item" href="{{ route('juri.export.statistics') }}">
+                    <i class="bi bi-graph-up me-2"></i>Statistik (CSV)
+                </a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><h6 class="dropdown-header">Filter Export</h6></li>
+                <li><a class="dropdown-item" href="#" onclick="showExportModal()">
+                    <i class="bi bi-funnel me-2"></i>Export dengan Filter
+                </a></li>
+            </ul>
+        </div>
+        <a href="{{ route('juri.scoring.index') }}" class="btn btn-outline-primary">
+            <i class="bi bi-star me-1"></i>Mulai Penilaian
+        </a>
     </div>
 @endsection
 
@@ -250,4 +268,104 @@
         </div>
     </div>
 </div>
+
+<!-- Export Modal -->
+<div class="modal fade" id="exportModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-download me-2"></i>Export dengan Filter
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="exportForm" method="GET">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="export_type" class="form-label">Jenis Export</label>
+                        <select class="form-select" id="export_type" name="export_type" required>
+                            <option value="">Pilih jenis export...</option>
+                            <option value="scores">Penilaian</option>
+                            <option value="detailed-report">Laporan Detail</option>
+                            <option value="statistics">Statistik</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="competition_filter" class="form-label">Kompetisi</label>
+                        <select class="form-select" id="competition_filter" name="competition_id">
+                            <option value="">Semua Kompetisi</option>
+                            @foreach($activeCompetitions as $competition)
+                                <option value="{{ $competition->id }}">{{ $competition->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3" id="status_filter_group">
+                        <label for="status_filter" class="form-label">Status Penilaian</label>
+                        <select class="form-select" id="status_filter" name="status">
+                            <option value="">Semua Status</option>
+                            <option value="final">Final</option>
+                            <option value="draft">Draft</option>
+                        </select>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <small>File akan didownload dalam format CSV yang dapat dibuka dengan Excel atau Google Sheets.</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-download me-2"></i>Download
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
+
+@push('scripts')
+<script>
+function showExportModal() {
+    const modal = new bootstrap.Modal(document.getElementById('exportModal'));
+    modal.show();
+}
+
+document.getElementById('export_type').addEventListener('change', function() {
+    const exportType = this.value;
+    const form = document.getElementById('exportForm');
+    const statusGroup = document.getElementById('status_filter_group');
+
+    // Update form action based on export type
+    if (exportType) {
+        form.action = `{{ route('juri.export.scores') }}`.replace('scores', exportType);
+    }
+
+    // Hide status filter for statistics export
+    if (exportType === 'statistics') {
+        statusGroup.style.display = 'none';
+    } else {
+        statusGroup.style.display = 'block';
+    }
+});
+
+// Handle form submission
+document.getElementById('exportForm').addEventListener('submit', function(e) {
+    const exportType = document.getElementById('export_type').value;
+    if (!exportType) {
+        e.preventDefault();
+        alert('Silakan pilih jenis export terlebih dahulu.');
+        return;
+    }
+
+    // Close modal after submission
+    setTimeout(() => {
+        const modal = bootstrap.Modal.getInstance(document.getElementById('exportModal'));
+        modal.hide();
+    }, 100);
+});
+</script>
+@endpush

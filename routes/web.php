@@ -201,6 +201,14 @@ Route::middleware(['auth', 'verified', 'role.redirect'])->group(function () {
             Route::get('/{submission}', [App\Http\Controllers\Juri\SubmissionController::class, 'show'])->name('show');
             Route::post('/{submission}/comment', [App\Http\Controllers\Juri\SubmissionController::class, 'addComment'])->name('comment');
         });
+
+        // Export & Reports
+        Route::prefix('export')->name('export.')->group(function () {
+            Route::get('/scores', [App\Http\Controllers\Juri\ExportController::class, 'exportScores'])->name('scores');
+            Route::get('/detailed-report', [App\Http\Controllers\Juri\ExportController::class, 'exportDetailedReport'])->name('detailed-report');
+            Route::get('/statistics', [App\Http\Controllers\Juri\ExportController::class, 'exportStatistics'])->name('statistics');
+            Route::get('/pdf-report', [App\Http\Controllers\Juri\ExportController::class, 'generatePDFReport'])->name('pdf-report');
+        });
     });
 
     // Peserta Routes

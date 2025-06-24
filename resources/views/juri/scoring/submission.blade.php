@@ -113,9 +113,6 @@
             <div class="card-body">
                 <form action="{{ route('juri.scoring.store', $submission) }}" method="POST" id="scoring-form">
                     @csrf
-                    @if($score)
-                        @method('PUT')
-                    @endif
                     
                     @foreach($criteria as $criterion => $maxScore)
                     <div class="mb-4">
@@ -125,19 +122,19 @@
                         </label>
                         <div class="row">
                             <div class="col-md-8">
-                                <input type="range" class="form-range" 
-                                       id="{{ $criterion }}" 
-                                       name="{{ $criterion }}" 
-                                       min="0" max="{{ $maxScore }}" 
-                                       value="{{ old($criterion, $score?->{$criterion} ?? 0) }}"
+                                <input type="range" class="form-range"
+                                       id="{{ $criterion }}"
+                                       name="criteria[{{ $criterion }}]"
+                                       min="0" max="{{ $maxScore }}"
+                                       value="{{ old('criteria.'.$criterion, ($score && $score->criteria_scores) ? ($score->criteria_scores[$criterion] ?? 0) : 0) }}"
                                        oninput="updateScore('{{ $criterion }}', this.value, {{ $maxScore }})">
                             </div>
                             <div class="col-md-4">
                                 <div class="input-group">
-                                    <input type="number" class="form-control" 
-                                           id="{{ $criterion }}_input" 
-                                           min="0" max="{{ $maxScore }}" 
-                                           value="{{ old($criterion, $score?->{$criterion} ?? 0) }}"
+                                    <input type="number" class="form-control"
+                                           id="{{ $criterion }}_input"
+                                           min="0" max="{{ $maxScore }}"
+                                           value="{{ old('criteria.'.$criterion, ($score && $score->criteria_scores) ? ($score->criteria_scores[$criterion] ?? 0) : 0) }}"
                                            onchange="updateRange('{{ $criterion }}', this.value)">
                                     <span class="input-group-text">/{{ $maxScore }}</span>
                                 </div>

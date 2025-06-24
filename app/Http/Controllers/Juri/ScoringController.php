@@ -33,12 +33,17 @@ class ScoringController extends Controller
             ->withCount([
                 'registrations' => function($query) {
                     $query->where('status', 'confirmed');
-                },
-                'scores' => function($query) use ($jury) {
-                    $query->where('jury_id', $jury->id)->where('is_final', true);
                 }
             ])
             ->get();
+
+        // Add scores count manually to avoid relationship issues
+        foreach ($competitions as $competition) {
+            $competition->scores_count = Score::where('competition_id', $competition->id)
+                ->where('jury_id', $jury->id)
+                ->where('is_final', true)
+                ->count();
+        }
 
         // Add submission counts manually
         foreach ($competitions as $competition) {
@@ -189,11 +194,29 @@ class ScoringController extends Controller
 
         $score->criteria_scores = $request->criteria;
         $score->comments = $request->comments;
-        $score->is_final = false; // Save as draft first
+        $score->is_final = $request->has('is_final') && $request->is_final;
+
+        // Calculate total score
+        $totalScore = 0;
+        if ($request->criteria) {
+            foreach ($request->criteria as $criteriaKey => $value) {
+                $totalScore += (float) $value;
+            }
+        }
+        $score->total_score = $totalScore;
+
+        if ($score->is_final) {
+            $score->submitted_at = now();
+        }
+
         $score->save();
 
+        $message = $score->is_final ?
+            'Penilaian berhasil disubmit sebagai final.' :
+            'Penilaian berhasil disimpan sebagai draft.';
+
         return redirect()->route('juri.scoring.submission', $submission)
-            ->with('success', 'Penilaian berhasil disimpan sebagai draft.');
+            ->with('success', $message);
     }
 
     /**
