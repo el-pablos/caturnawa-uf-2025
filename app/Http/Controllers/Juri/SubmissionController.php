@@ -111,7 +111,13 @@ class SubmissionController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('juri.submissions.show', compact('submission', 'myComments', 'allComments'));
+        // Get my score for this submission
+        $myScore = \App\Models\Score::where('competition_id', $submission->registration->competition_id)
+            ->where('registration_id', $submission->registration_id)
+            ->where('jury_id', $jury->id)
+            ->first();
+
+        return view('juri.submissions.show', compact('submission', 'myComments', 'allComments', 'myScore'));
     }
 
     /**

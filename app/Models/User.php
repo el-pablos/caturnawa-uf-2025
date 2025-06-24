@@ -111,6 +111,17 @@ class User extends Authenticatable
     }
 
     /**
+     * Relasi many-to-many dengan Competition (sebagai juri)
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function juryCompetitions()
+    {
+        return $this->belongsToMany(Competition::class, 'competition_juries', 'user_id', 'competition_id')
+                    ->withTimestamps();
+    }
+
+    /**
      * Relasi dengan model Submission melalui Registration
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
