@@ -185,6 +185,9 @@
 
 @push('scripts')
 <script>
+// Define base URL for file deletion
+const deleteFileBaseUrl = '{{ url("/peserta/submissions/" . $submission->id . "/file") }}';
+
 document.addEventListener('DOMContentLoaded', function() {
     // File size validation
     const fileInput = document.getElementById('files');
@@ -254,7 +257,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function deleteFile(filename) {
     if (confirm('Apakah Anda yakin ingin menghapus file ini?')) {
-        fetch(`{{ route('peserta.submissions.delete-file', $submission) }}/${filename}`, {
+        const deleteUrl = `${deleteFileBaseUrl}/${filename}`;
+
+        fetch(deleteUrl, {
             method: 'DELETE',
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
@@ -264,16 +269,38 @@ function deleteFile(filename) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                location.reload();
+                showAlert('success', 'File berhasil dihapus');
+                setTimeout(() => location.reload(), 1000);
             } else {
-                alert('Gagal menghapus file: ' + data.message);
+                showAlert('error', 'Gagal menghapus file: ' + data.message);
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Terjadi kesalahan saat menghapus file');
+            showAlert('error', 'Terjadi kesalahan saat menghapus file');
         });
     }
+}
+
+function showAlert(type, message) {
+    const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+    const iconClass = type === 'success' ? 'check-circle' : 'x-circle';
+
+    const alertHtml = `
+        <div class="alert ${alertClass} alert-dismissible fade show" role="alert">
+            <i class="bi bi-${iconClass} me-2"></i>
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    `;
+
+    const container = document.querySelector('.container-fluid');
+    container.insertAdjacentHTML('afterbegin', alertHtml);
+
+    setTimeout(() => {
+        const alert = container.querySelector('.alert');
+        if (alert) alert.remove();
+    }, 5000);
 }
 </script>
 @endpush
