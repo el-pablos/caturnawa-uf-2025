@@ -134,7 +134,7 @@
                                                    class="btn btn-outline-primary">
                                                     <i class="bi bi-eye me-1"></i>Lihat
                                                 </a>
-                                                <a href="{{ route('juri.scoring.submission', $submission) }}" 
+                                                <a href="{{ route('juri.scoring.submission', $submission) }}"
                                                    class="btn btn-outline-success">
                                                     <i class="bi bi-star me-1"></i>Nilai
                                                 </a>

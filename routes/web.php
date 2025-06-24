@@ -186,9 +186,12 @@ Route::middleware(['auth', 'verified', 'role.redirect'])->group(function () {
         Route::prefix('scoring')->name('scoring.')->group(function () {
             Route::get('/', [App\Http\Controllers\Juri\ScoringController::class, 'index'])->name('index');
             Route::get('/competition/{competition}', [App\Http\Controllers\Juri\ScoringController::class, 'competition'])->name('competition');
+            Route::get('/submission/{submission}', [App\Http\Controllers\Juri\ScoringController::class, 'submission'])->name('submission');
+            Route::post('/submission/{submission}', [App\Http\Controllers\Juri\ScoringController::class, 'store'])->name('store');
             Route::get('/participant/{registration}', [App\Http\Controllers\Juri\ScoringController::class, 'participant'])->name('participant');
             Route::post('/score/{registration}', [App\Http\Controllers\Juri\ScoringController::class, 'score'])->name('score');
-            Route::put('/score/{score}', [App\Http\Controllers\Juri\ScoringController::class, 'updateScore'])->name('update-score');
+            Route::put('/score/{score}', [App\Http\Controllers\Juri\ScoringController::class, 'update'])->name('update');
+            Route::post('/score/{score}/submit', [App\Http\Controllers\Juri\ScoringController::class, 'submit'])->name('submit');
             Route::post('/finalize/{competition}', [App\Http\Controllers\Juri\ScoringController::class, 'finalize'])->name('finalize');
         });
         
