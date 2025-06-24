@@ -193,14 +193,60 @@
             .hero-title {
                 font-size: 2.5rem;
             }
-            
+
             .hero-section {
                 padding: 4rem 0;
             }
-            
+
             .stats-number {
                 font-size: 2rem;
             }
+
+            .navbar-nav {
+                max-height: 70vh;
+                overflow-y: auto;
+            }
+
+            .navbar-collapse {
+                background: rgba(255, 255, 255, 0.98);
+                margin-top: 1rem;
+                border-radius: 10px;
+                padding: 1rem;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+
+            .nav-link {
+                padding: 0.75rem 1rem;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-link:last-child {
+                border-bottom: none;
+            }
+        }
+
+        /* Scrollbar styling for mobile navbar */
+        .navbar-nav::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .navbar-nav::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .navbar-nav::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 2px;
         }
     </style>
     

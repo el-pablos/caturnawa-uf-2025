@@ -52,6 +52,8 @@
             display: flex;
             flex-direction: column;
             border-right: 1px solid #e5e7eb;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
         
         .admin-sidebar.collapsed {
@@ -141,14 +143,134 @@
         @media (max-width: 768px) {
             .admin-sidebar {
                 transform: translateX(-100%);
+                width: 100%;
+                max-width: 300px;
             }
-            
+
             .admin-sidebar.show {
                 transform: translateX(0);
             }
-            
+
             .admin-main-content {
                 margin-left: 0;
+            }
+
+            .admin-navbar .container-fluid {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .admin-brand {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            :root {
+                --sidebar-width: 100%;
+            }
+
+            .admin-sidebar {
+                width: 100%;
+            }
+
+            .admin-brand {
+                font-size: 0.9rem;
+            }
+
+            .admin-content {
+                padding: 1rem;
+            }
+        }
+
+        /* Scrollbar styling for sidebar */
+        .admin-sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .admin-sidebar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .admin-sidebar::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+
+        .admin-sidebar::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        /* Navigation menu container */
+        .nav-menu-container {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-bottom: 1rem;
+        }
+
+        /* Responsive navigation adjustments */
+        .nav-menu-container .nav {
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+        }
+
+        .admin-sidebar .nav-link {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 10px 12px;
+            margin: 2px 0;
+        }
+
+        /* Additional responsive utilities */
+        .min-width-0 {
+            min-width: 0;
+        }
+
+        .text-truncate {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Mobile navbar improvements */
+        @media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 1rem;
+            }
+
+            .btn-outline-primary {
+                padding: 0.375rem 0.75rem;
+            }
+        }
+
+        /* Sidebar overlay for mobile */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .sidebar-overlay.show {
+            display: block;
+        }
+
+        /* Improved scrolling for small screens */
+        @media (max-height: 600px) {
+            .nav-menu-container {
+                max-height: calc(100vh - 200px);
+            }
+
+            .nav-user-info {
+                position: sticky;
+                bottom: 0;
+                background: #ffffff;
             }
         }
     </style>
@@ -156,18 +278,20 @@
     @stack('styles')
 </head>
 <body>
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
     <!-- Admin Sidebar -->
     <nav class="admin-sidebar" id="admin-sidebar">
-        <div class="position-sticky">
-            <!-- Brand -->
-            <div class="admin-brand px-3 py-3 border-bottom" style="color: var(--admin-primary); font-weight: 700;">
-                <i class="bi bi-shield-check me-2"></i>
-                Admin Panel
-            </div>
-            
-            <!-- Navigation Menu -->
-            <div class="nav-menu-container flex-grow-1 overflow-auto">
-                <div class="nav nav-pills flex-column p-3">
+        <!-- Brand -->
+        <div class="admin-brand px-3 py-3 border-bottom flex-shrink-0" style="color: var(--admin-primary); font-weight: 700;">
+            <i class="bi bi-shield-check me-2"></i>
+            <span class="brand-text">Admin Panel</span>
+        </div>
+
+        <!-- Navigation Menu -->
+        <div class="nav-menu-container">
+            <div class="nav nav-pills flex-column p-3">
                     <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
                         <i class="bi bi-speedometer2 me-2"></i>Dashboard
                     </a>
@@ -223,22 +347,22 @@
                 </div>
             </div>
 
-            <!-- User Info at Bottom -->
-            <div class="nav-user-info border-top">
-                <div class="d-flex align-items-center p-3">
-                    <div class="user-avatar me-3">
-                        <img src="{{ auth()->user()->avatar_url }}" width="40" height="40"
-                             class="rounded-circle" alt="Avatar">
-                    </div>
-                    <div class="user-details flex-grow-1">
-                        <div class="user-name fw-semibold" style="color: #374151;">{{ auth()->user()->name }}</div>
-                        <div class="user-role small" style="color: #9ca3af;">{{ auth()->user()->getRoleNames()->first() }}</div>
-                    </div>
-                    <div class="dropdown">
-                        <button class="btn btn-link p-0" type="button" data-bs-toggle="dropdown" style="color: #6b7280;">
-                            <i class="bi bi-three-dots-vertical"></i>
-                        </button>
-                        <ul class="dropdown-menu">
+        <!-- User Info at Bottom -->
+        <div class="nav-user-info border-top flex-shrink-0">
+            <div class="d-flex align-items-center p-3">
+                <div class="user-avatar me-3">
+                    <img src="{{ auth()->user()->avatar_url }}" width="40" height="40"
+                         class="rounded-circle" alt="Avatar">
+                </div>
+                <div class="user-details flex-grow-1 min-width-0">
+                    <div class="user-name fw-semibold text-truncate" style="color: #374151;">{{ auth()->user()->name }}</div>
+                    <div class="user-role small text-truncate" style="color: #9ca3af;">{{ auth()->user()->getRoleNames()->first() }}</div>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-link p-0" type="button" data-bs-toggle="dropdown" style="color: #6b7280;">
+                        <i class="bi bi-three-dots-vertical"></i>
+                    </button>
+                    <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{ route('profile.index') }}">
                                 <i class="bi bi-person-circle me-2"></i>Profil</a></li>
                             <li><hr class="dropdown-divider"></li>
@@ -263,7 +387,7 @@
         <header class="admin-navbar navbar navbar-expand-lg sticky-top">
             <div class="container-fluid">
                 <!-- Sidebar Toggle -->
-                <button class="btn btn-outline-primary me-3" type="button" onclick="toggleAdminSidebar()">
+                <button class="btn btn-outline-primary me-3" type="button" id="sidebar-toggle" onclick="toggleAdminSidebar()">
                     <i class="bi bi-list"></i>
                 </button>
 
@@ -340,9 +464,12 @@
         function toggleAdminSidebar() {
             const sidebar = document.getElementById('admin-sidebar');
             const mainContent = document.getElementById('admin-main-content');
-            
+            const overlay = document.getElementById('sidebar-overlay');
+
             if (window.innerWidth <= 768) {
                 sidebar.classList.toggle('show');
+                overlay.classList.toggle('show');
+                document.body.classList.toggle('sidebar-open');
             } else {
                 sidebar.classList.toggle('collapsed');
                 mainContent.classList.toggle('expanded');
@@ -360,6 +487,40 @@
                     }
                 });
             }, 5000);
+
+            // Mobile sidebar functionality
+            const overlay = document.getElementById('sidebar-overlay');
+            const sidebar = document.getElementById('admin-sidebar');
+
+            // Close sidebar when clicking overlay
+            if (overlay) {
+                overlay.addEventListener('click', function() {
+                    sidebar.classList.remove('show');
+                    overlay.classList.remove('show');
+                    document.body.classList.remove('sidebar-open');
+                });
+            }
+
+            // Close sidebar on window resize if mobile
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    sidebar.classList.remove('show');
+                    overlay.classList.remove('show');
+                    document.body.classList.remove('sidebar-open');
+                }
+
+                // Handle sidebar scrolling on small screens
+                const navContainer = document.querySelector('.nav-menu-container');
+                if (navContainer && window.innerHeight < 600) {
+                    navContainer.style.maxHeight = (window.innerHeight - 200) + 'px';
+                }
+            });
+
+            // Initial sidebar scroll handling
+            const navContainer = document.querySelector('.nav-menu-container');
+            if (navContainer && window.innerHeight < 600) {
+                navContainer.style.maxHeight = (window.innerHeight - 200) + 'px';
+            }
         });
         
         // CSRF Token for AJAX

@@ -41,10 +41,9 @@
                             <label for="category" class="form-label">Kategori <span class="text-danger">*</span></label>
                             <select class="form-select @error('category') is-invalid @enderror" id="category" name="category" required>
                                 <option value="">Pilih Kategori</option>
-                                <option value="programming" {{ old('category') == 'programming' ? 'selected' : '' }}>Programming</option>
-                                <option value="design" {{ old('category') == 'design' ? 'selected' : '' }}>Design</option>
-                                <option value="business" {{ old('category') == 'business' ? 'selected' : '' }}>Business</option>
-                                <option value="essay" {{ old('category') == 'essay' ? 'selected' : '' }}>Essay</option>
+                                <option value="biodiversity" {{ old('category') == 'biodiversity' ? 'selected' : '' }}>Bio-diversity</option>
+                                <option value="health" {{ old('category') == 'health' ? 'selected' : '' }}>Health</option>
+                                <option value="technology" {{ old('category') == 'technology' ? 'selected' : '' }}>Technology</option>
                             </select>
                             @error('category')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -90,23 +89,48 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="registration_start" class="form-label">Mulai Pendaftaran <span class="text-danger">*</span></label>
-                            <input type="datetime-local" class="form-control @error('registration_start') is-invalid @enderror" 
-                                   id="registration_start" name="registration_start" value="{{ old('registration_start') }}" required>
+                            <input type="datetime-local" class="form-control @error('registration_start') is-invalid @enderror"
+                                   id="registration_start" name="registration_start"
+                                   value="{{ old('registration_start', now()->addDay()->format('Y-m-d\TH:i')) }}"
+                                   min="{{ now()->format('Y-m-d\TH:i') }}" required>
                             @error('registration_start')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        
+
                         <div class="col-md-6 mb-3">
                             <label for="registration_end" class="form-label">Akhir Pendaftaran <span class="text-danger">*</span></label>
-                            <input type="datetime-local" class="form-control @error('registration_end') is-invalid @enderror" 
-                                   id="registration_end" name="registration_end" value="{{ old('registration_end') }}" required>
+                            <input type="datetime-local" class="form-control @error('registration_end') is-invalid @enderror"
+                                   id="registration_end" name="registration_end"
+                                   value="{{ old('registration_end', now()->addWeeks(2)->format('Y-m-d\TH:i')) }}" required>
                             @error('registration_end')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
-                    
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="competition_start" class="form-label">Mulai Kompetisi <span class="text-danger">*</span></label>
+                            <input type="datetime-local" class="form-control @error('competition_start') is-invalid @enderror"
+                                   id="competition_start" name="competition_start"
+                                   value="{{ old('competition_start', now()->addWeeks(3)->format('Y-m-d\TH:i')) }}" required>
+                            @error('competition_start')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="competition_end" class="form-label">Akhir Kompetisi <span class="text-danger">*</span></label>
+                            <input type="datetime-local" class="form-control @error('competition_end') is-invalid @enderror"
+                                   id="competition_end" name="competition_end"
+                                   value="{{ old('competition_end', now()->addWeeks(4)->format('Y-m-d\TH:i')) }}" required>
+                            @error('competition_end')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="max_participants" class="form-label">Maksimal Peserta</label>
