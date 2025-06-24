@@ -124,10 +124,7 @@
                                 </td>
                                 <td>{{ $submission->created_at->format('d M Y H:i') }}</td>
                                 <td>
-                                    @php
-                                        $score = $submission->scores()->where('juri_id', auth()->id())->first();
-                                    @endphp
-                                    @if($score)
+                                    @if($submission->jury_score)
                                         <span class="badge bg-success">
                                             <i class="bi bi-check-circle me-1"></i>Sudah Dinilai
                                         </span>
@@ -138,29 +135,22 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if($score)
-                                        <span class="fw-bold text-success">{{ $score->total_score }}/100</span>
+                                    @if($submission->jury_score)
+                                        <span class="fw-bold text-success">{{ $submission->jury_score->total_score }}/100</span>
                                     @else
                                         <span class="text-muted">-</span>
                                     @endif
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <a href="{{ route('juri.scoring.show', $submission) }}" 
+                                        <a href="{{ route('juri.submissions.show', $submission) }}"
                                            class="btn btn-sm btn-outline-primary">
                                             <i class="bi bi-eye"></i>
                                         </a>
-                                        @if($score)
-                                            <a href="{{ route('juri.scoring.edit', $submission) }}" 
-                                               class="btn btn-sm btn-outline-warning">
-                                                <i class="bi bi-pencil"></i>
-                                            </a>
-                                        @else
-                                            <a href="{{ route('juri.scoring.create', $submission) }}" 
-                                               class="btn btn-sm btn-success">
-                                                <i class="bi bi-plus-circle"></i>
-                                            </a>
-                                        @endif
+                                        <a href="{{ route('juri.scoring.submission', $submission) }}"
+                                           class="btn btn-sm btn-{{ $submission->jury_score ? 'outline-warning' : 'success' }}">
+                                            <i class="bi bi-{{ $submission->jury_score ? 'pencil' : 'plus-circle' }}"></i>
+                                        </a>
                                     </div>
                                 </td>
                             </tr>

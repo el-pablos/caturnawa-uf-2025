@@ -78,6 +78,14 @@ class ScoringController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(20);
 
+        // Add score information to each submission
+        foreach ($submissions as $submission) {
+            $score = Score::where('registration_id', $submission->registration_id)
+                ->where('jury_id', $jury->id)
+                ->first();
+            $submission->jury_score = $score;
+        }
+
         return view('juri.scoring.index', compact(
             'competitions',
             'submissions',
