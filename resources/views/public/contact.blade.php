@@ -6,16 +6,59 @@
 
 @section('content')
 <!-- Hero Section -->
-<section class="hero-section py-5" style="min-height: 60vh;">
-    <div class="container">
-        <div class="row align-items-center justify-content-center text-center">
-            <div class="col-lg-8">
-                <h1 class="display-4 fw-bold text-white mb-4 font-poppins">
-                    Hubungi Kami
+<section class="contact-hero">
+    <div class="hero-background">
+        <div class="hero-pattern"></div>
+        <div class="floating-elements">
+            <div class="element element-1"></div>
+            <div class="element element-2"></div>
+            <div class="element element-3"></div>
+        </div>
+    </div>
+
+    <div class="container position-relative">
+        <div class="row align-items-center justify-content-center text-center py-5">
+            <div class="col-lg-8" data-aos="fade-up">
+                <div class="hero-badge">
+                    <i class="bi bi-headset me-2"></i>
+                    Customer Support 24/7
+                </div>
+
+                <h1 class="hero-title">
+                    Hubungi
+                    <span class="text-gradient">Tim Kami</span>
                 </h1>
-                <p class="lead text-white-50 mb-4">
-                    Ada pertanyaan tentang UNAS Fest 2025? Tim kami siap membantu Anda 24/7
+
+                <p class="hero-subtitle">
+                    Ada pertanyaan tentang UNAS Fest 2025? Tim profesional kami siap membantu Anda dengan respon cepat dan solusi terbaik
                 </p>
+
+                <div class="contact-methods" data-aos="fade-up" data-aos-delay="200">
+                    <a href="#contact-form" class="contact-method primary">
+                        <i class="bi bi-envelope"></i>
+                        <span>Kirim Pesan</span>
+                    </a>
+                    <a href="https://wa.me/6281234567890" class="contact-method whatsapp" target="_blank">
+                        <i class="bi bi-whatsapp"></i>
+                        <span>WhatsApp</span>
+                    </a>
+                    <a href="tel:+622178067000" class="contact-method phone">
+                        <i class="bi bi-telephone"></i>
+                        <span>Telepon</span>
+                    </a>
+                </div>
+
+                <div class="response-time" data-aos="fade-up" data-aos-delay="300">
+                    <div class="response-item">
+                        <i class="bi bi-clock text-warning"></i>
+                        <span>Respon dalam <strong>24 jam</strong></span>
+                    </div>
+                    <div class="response-divider"></div>
+                    <div class="response-item">
+                        <i class="bi bi-shield-check text-success"></i>
+                        <span>Support <strong>Profesional</strong></span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -246,14 +289,317 @@
 
 @push('styles')
 <style>
+    /* Contact Hero Section */
+    .contact-hero {
+        min-height: 70vh;
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+    }
+
+    .hero-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+
+    .hero-pattern {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image:
+            radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 2px, transparent 2px),
+            radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 2px, transparent 2px);
+        background-size: 60px 60px;
+        animation: patternFloat 15s linear infinite;
+    }
+
+    @keyframes patternFloat {
+        0% { transform: translate(0, 0); }
+        100% { transform: translate(60px, 60px); }
+    }
+
+    .floating-elements {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .element {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        animation: elementFloat 8s ease-in-out infinite;
+    }
+
+    .element-1 {
+        width: 100px;
+        height: 100px;
+        top: 15%;
+        right: 15%;
+        animation-delay: 0s;
+    }
+
+    .element-2 {
+        width: 60px;
+        height: 60px;
+        top: 70%;
+        right: 25%;
+        animation-delay: 3s;
+    }
+
+    .element-3 {
+        width: 80px;
+        height: 80px;
+        top: 45%;
+        left: 15%;
+        animation-delay: 6s;
+    }
+
+    @keyframes elementFloat {
+        0%, 100% { transform: translateY(0px) scale(1); }
+        50% { transform: translateY(-25px) scale(1.1); }
+    }
+
+    .hero-badge {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 25px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        color: white;
+        margin-bottom: 20px;
+        line-height: 1.1;
+    }
+
+    .text-gradient {
+        background: linear-gradient(135deg, var(--accent-color), #f59e0b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .hero-subtitle {
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 40px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.6;
+    }
+
+    .contact-methods {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 40px;
+        flex-wrap: wrap;
+    }
+
+    .contact-method {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 15px;
+        padding: 15px 25px;
+        color: white;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        min-width: 140px;
+        justify-content: center;
+    }
+
+    .contact-method:hover {
+        color: white;
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .contact-method.primary:hover {
+        background: rgba(37, 99, 235, 0.3);
+        border-color: rgba(37, 99, 235, 0.5);
+    }
+
+    .contact-method.whatsapp:hover {
+        background: rgba(34, 197, 94, 0.3);
+        border-color: rgba(34, 197, 94, 0.5);
+    }
+
+    .contact-method.phone:hover {
+        background: rgba(245, 158, 11, 0.3);
+        border-color: rgba(245, 158, 11, 0.5);
+    }
+
+    .response-time {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .response-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 0.9rem;
+    }
+
+    .response-divider {
+        width: 1px;
+        height: 20px;
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Contact Section */
+    .section {
+        padding: 80px 0;
+    }
+
+    /* Form Styles */
+    .card {
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    .form-control {
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 12px 16px;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .form-select {
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 12px 16px;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-select:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        border: none;
+        border-radius: 12px;
+        padding: 15px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+    }
+
+    /* Contact Info Cards */
     .sticky-top {
         z-index: 1020;
     }
-    
+
+    /* Map Section */
+    .bg-light {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
+    }
+
+    .ratio iframe {
+        border-radius: 15px;
+    }
+
+    /* Responsive Design */
     @media (max-width: 991px) {
         .sticky-top {
             position: relative !important;
             top: auto !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+        }
+
+        .contact-methods {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .contact-method {
+            width: 200px;
+        }
+
+        .response-time {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .response-divider {
+            width: 40px;
+            height: 1px;
+        }
+
+        .section {
+            padding: 60px 0;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .hero-title {
+            font-size: 2rem;
+        }
+
+        .contact-method {
+            width: 100%;
+            max-width: 250px;
+        }
+
+        .card-body {
+            padding: 20px !important;
         }
     }
 </style>

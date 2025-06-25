@@ -6,16 +6,56 @@
 
 @section('content')
 <!-- Hero Section -->
-<section class="hero-section py-5" style="min-height: 60vh;">
-    <div class="container">
-        <div class="row align-items-center justify-content-center text-center">
-            <div class="col-lg-8">
-                <h1 class="display-4 fw-bold text-white mb-4 font-poppins">
+<section class="testimonials-hero">
+    <div class="hero-background">
+        <div class="hero-pattern"></div>
+        <div class="floating-quotes">
+            <div class="quote quote-1">"</div>
+            <div class="quote quote-2">"</div>
+            <div class="quote quote-3">"</div>
+        </div>
+    </div>
+
+    <div class="container position-relative">
+        <div class="row align-items-center justify-content-center text-center py-5">
+            <div class="col-lg-8" data-aos="fade-up">
+                <div class="hero-badge">
+                    <i class="bi bi-chat-quote me-2"></i>
                     Testimoni Peserta
+                </div>
+
+                <h1 class="hero-title">
+                    Cerita
+                    <span class="text-gradient">Sukses</span> Mereka
                 </h1>
-                <p class="lead text-white-50 mb-4">
-                    Dengarkan pengalaman dan cerita sukses dari para peserta UNAS Fest yang telah merasakan manfaat mengikuti kompetisi nasional terbesar ini.
+
+                <p class="hero-subtitle">
+                    Dengarkan pengalaman dan cerita inspiratif dari para peserta UNAS Fest yang telah merasakan transformasi melalui kompetisi nasional terbesar ini
                 </p>
+
+                <div class="testimonial-stats" data-aos="fade-up" data-aos-delay="200">
+                    <div class="stat-item">
+                        <span class="stat-number">4.9</span>
+                        <div class="stat-stars">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                        <span class="stat-label">Rating Rata-rata</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">1000+</span>
+                        <span class="stat-label">Testimoni Positif</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">95%</span>
+                        <span class="stat-label">Kepuasan Peserta</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
