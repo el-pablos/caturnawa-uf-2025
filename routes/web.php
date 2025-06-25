@@ -20,6 +20,7 @@ Route::prefix('public')->name('public.')->group(function () {
     Route::get('/competitions', [App\Http\Controllers\Public\PublicController::class, 'competitions'])->name('competitions');
     Route::get('/about', [App\Http\Controllers\Public\PublicController::class, 'about'])->name('about');
     Route::get('/testimonials', [App\Http\Controllers\Public\PublicController::class, 'testimonials'])->name('testimonials');
+    Route::post('/testimonials', [App\Http\Controllers\Public\PublicController::class, 'storeTestimonial'])->name('testimonials.store');
     Route::get('/contact', [App\Http\Controllers\Public\PublicController::class, 'contact'])->name('contact');
     Route::post('/contact', [App\Http\Controllers\Public\PublicController::class, 'sendContact'])->name('contact.send');
     Route::get('/blog', [App\Http\Controllers\Public\PublicController::class, 'blog'])->name('blog');

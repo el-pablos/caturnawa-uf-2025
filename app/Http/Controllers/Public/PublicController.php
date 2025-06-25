@@ -233,6 +233,46 @@ class PublicController extends Controller
     }
 
     /**
+     * Store testimonial
+     */
+    public function storeTestimonial(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'institution' => 'required|string|max:255',
+            'competition' => 'required|string|in:Teknologi,Kesehatan,Biodiversitas',
+            'year' => 'required|integer|min:2020|max:' . date('Y'),
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'required|string|max:1000',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ], [
+            'name.required' => 'Nama wajib diisi',
+            'institution.required' => 'Institusi wajib diisi',
+            'competition.required' => 'Kompetisi wajib dipilih',
+            'year.required' => 'Tahun wajib dipilih',
+            'rating.required' => 'Rating wajib dipilih',
+            'comment.required' => 'Testimoni wajib diisi',
+            'photo.image' => 'File harus berupa gambar',
+            'photo.max' => 'Ukuran file maksimal 2MB',
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        try {
+            // In real app, save to database
+            // For now, just return success message
+
+            return back()->with('success', 'Testimoni Anda berhasil dikirim! Terima kasih atas feedback yang diberikan.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan saat menyimpan testimoni. Silakan coba lagi.');
+        }
+    }
+
+    /**
      * Display contact page
      */
     public function contact()

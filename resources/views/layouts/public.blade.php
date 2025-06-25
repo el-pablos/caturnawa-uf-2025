@@ -268,8 +268,10 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="{{ route('home') }}">
-                <i class="bi bi-trophy-fill me-2"></i>UNAS Fest 2025
+            <a class="navbar-brand font-poppins" href="{{ route('public.home') }}">
+                <img src="{{ asset('assets/images/logo/unas-fest-logo.png') }}" alt="UNAS Fest 2025" height="40" class="me-2"
+                     onerror="this.style.display='none'">
+                UNAS Fest 2025
             </a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -277,72 +279,44 @@
             </button>
             
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
+                        <a class="nav-link {{ request()->routeIs('public.home') ? 'active' : '' }}" href="{{ route('public.home') }}">
                             <i class="bi bi-house me-1"></i>Beranda
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#competitions">
+                        <a class="nav-link {{ request()->routeIs('public.competitions') ? 'active' : '' }}" href="{{ route('public.competitions') }}">
                             <i class="bi bi-trophy me-1"></i>Kompetisi
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#about">
-                            <i class="bi bi-info-circle me-1"></i>Tentang
+                        <a class="nav-link {{ request()->routeIs('public.about') ? 'active' : '' }}" href="{{ route('public.about') }}">
+                            <i class="bi bi-people me-1"></i>Tentang Kami
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#contact">
+                        <a class="nav-link {{ request()->routeIs('public.testimonials') ? 'active' : '' }}" href="{{ route('public.testimonials') }}">
+                            <i class="bi bi-chat-quote me-1"></i>Testimoni
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('public.blog') ? 'active' : '' }}" href="{{ route('public.blog') }}">
+                            <i class="bi bi-journal-text me-1"></i>Blog
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('public.contact') ? 'active' : '' }}" href="{{ route('public.contact') }}">
                             <i class="bi bi-envelope me-1"></i>Kontak
                         </a>
                     </li>
+                    <li class="nav-item ms-2">
+                        <a class="btn btn-primary" href="{{ route('login') }}">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>Masuk
+                        </a>
+                    </li>
                 </ul>
-                
-                <ul class="navbar-nav">
-                    @guest
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">
-                                <i class="bi bi-box-arrow-in-right me-1"></i>Masuk
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">
-                                <i class="bi bi-person-plus me-1"></i>Daftar
-                            </a>
-                        </li>
-                    @else
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                <i class="bi bi-person-circle me-1"></i>{{ Auth::user()->name }}
-                            </a>
-                            <ul class="dropdown-menu">
-                                @if(Auth::user()->hasRole(['Super Admin', 'Admin']))
-                                    <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">
-                                        <i class="bi bi-speedometer2 me-2"></i>Dashboard Admin
-                                    </a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                @endif
-                                <li><a class="dropdown-item" href="{{ route('peserta.dashboard') }}">
-                                    <i class="bi bi-person-workspace me-2"></i>Dashboard Peserta
-                                </a></li>
-                                <li><a class="dropdown-item" href="{{ route('profile.index') }}">
-                                    <i class="bi bi-person me-2"></i>Profil
-                                </a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <form action="{{ route('logout') }}" method="POST">
-                                        @csrf
-                                        <button type="submit" class="dropdown-item">
-                                            <i class="bi bi-box-arrow-right me-2"></i>Logout
-                                        </button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </li>
-                    @endguest
-                </ul>
+
             </div>
         </div>
     </nav>
@@ -353,73 +327,125 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="bg-dark text-white py-5">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-4 mb-4">
-                    <h5>UNAS Fest 2025</h5>
-                    <p class="text-muted">
-                        Festival kompetisi nasional yang menggabungkan inovasi teknologi, 
-                        kesehatan, dan biodiversitas untuk masa depan yang berkelanjutan.
-                    </p>
-                    <div class="social-links">
-                        <a href="#" class="me-3"><i class="bi bi-facebook fs-4"></i></a>
-                        <a href="#" class="me-3"><i class="bi bi-twitter fs-4"></i></a>
-                        <a href="#" class="me-3"><i class="bi bi-instagram fs-4"></i></a>
-                        <a href="#" class="me-3"><i class="bi bi-linkedin fs-4"></i></a>
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="{{ asset('assets/images/logo/unas-fest-logo-white.png') }}" alt="UNAS Fest 2025" height="40" class="me-3"
+                             onerror="this.style.display='none'">
+                        <h5 class="font-poppins mb-0">UNAS Fest 2025</h5>
+                    </div>
+                    <p class="text-light mb-3">Festival kompetisi nasional terbesar di Indonesia yang menggabungkan teknologi, kesehatan, dan biodiversitas.</p>
+                    <div class="d-flex gap-3">
+                        @php $seo = app(\App\Services\SEOService::class); @endphp
+                        @foreach($seo->getSocialLinks() as $platform => $url)
+                            <a href="{{ $url }}" class="text-white" target="_blank" rel="noopener">
+                                <i class="bi bi-{{ $platform }} fs-5"></i>
+                            </a>
+                        @endforeach
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-6 mb-4">
-                    <h5>Kompetisi</h5>
+
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="font-poppins mb-3">Navigasi</h6>
                     <ul class="list-unstyled">
-                        <li><a href="#">Biodiversity</a></li>
-                        <li><a href="#">Health</a></li>
-                        <li><a href="#">Technology</a></li>
+                        <li><a href="{{ route('public.home') }}" class="text-light text-decoration-none">Beranda</a></li>
+                        <li><a href="{{ route('public.competitions') }}" class="text-light text-decoration-none">Kompetisi</a></li>
+                        <li><a href="{{ route('public.about') }}" class="text-light text-decoration-none">Tentang Kami</a></li>
+                        <li><a href="{{ route('public.testimonials') }}" class="text-light text-decoration-none">Testimoni</a></li>
                     </ul>
                 </div>
-                <div class="col-lg-2 col-md-6 mb-4">
-                    <h5>Informasi</h5>
+
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="font-poppins mb-3">Kompetisi</h6>
                     <ul class="list-unstyled">
-                        <li><a href="#">Tentang Kami</a></li>
-                        <li><a href="#">Syarat & Ketentuan</a></li>
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Kontak</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Teknologi</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Kesehatan</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Biodiversitas</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Panduan Pendaftaran</a></li>
                     </ul>
                 </div>
-                <div class="col-lg-4 mb-4">
-                    <h5>Kontak</h5>
-                    <p class="text-muted">
-                        <i class="bi bi-geo-alt me-2"></i>
-                        Universitas Nasional, Jakarta Selatan
-                    </p>
-                    <p class="text-muted">
+
+                <div class="col-lg-3">
+                    <h6 class="font-poppins mb-3">Kontak</h6>
+                    @php $contact = $seo->getContactInfo(); @endphp
+                    <div class="d-flex align-items-center mb-2">
                         <i class="bi bi-envelope me-2"></i>
-                        info@unasfest.com
-                    </p>
-                    <p class="text-muted">
-                        <i class="bi bi-phone me-2"></i>
-                        +62 21 1234 5678
-                    </p>
+                        <a href="mailto:{{ $contact['email'] }}" class="text-light text-decoration-none">{{ $contact['email'] }}</a>
+                    </div>
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="bi bi-telephone me-2"></i>
+                        <a href="tel:{{ $contact['phone'] }}" class="text-light text-decoration-none">{{ $contact['phone'] }}</a>
+                    </div>
+                    <div class="d-flex align-items-start">
+                        <i class="bi bi-geo-alt me-2 mt-1"></i>
+                        <span class="text-light">{{ $contact['address'] }}</span>
+                    </div>
                 </div>
             </div>
+
             <hr class="my-4">
+
             <div class="row align-items-center">
                 <div class="col-md-6">
-                    <p class="text-muted mb-0">&copy; 2025 UNAS Fest. All rights reserved.</p>
+                    <p class="mb-0 text-light">&copy; {{ date('Y') }} UNAS Fest 2025. All rights reserved.</p>
                 </div>
                 <div class="col-md-6 text-md-end">
-                    <p class="text-muted mb-0">Made with <i class="bi bi-heart-fill text-danger"></i> by UNAS Team</p>
+                    <a href="#" class="text-light text-decoration-none me-3">Privacy Policy</a>
+                    <a href="#" class="text-light text-decoration-none">Terms of Service</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    
+    <!-- Back to Top -->
+    <button id="backToTop" class="btn btn-primary position-fixed bottom-0 end-0 m-4 rounded-circle d-none" style="z-index: 1000;">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+
+        // Back to top button
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.remove('d-none');
+            } else {
+                backToTop.classList.add('d-none');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = 'var(--shadow-md)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.boxShadow = 'none';
+            }
+        });
+    </script>
+
     @stack('scripts')
+
+    @php $seo = app(\App\Services\SEOService::class); @endphp
+    {!! $seo->generateStructuredData() !!}
 </body>
 </html>
