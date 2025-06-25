@@ -62,7 +62,15 @@ class PublicController extends Controller
             ->get()
             ->groupBy('category');
 
-        return view('public.competitions', compact('competitions'));
+        // Get statistics
+        $stats = [
+            'participants' => Registration::where('status', 'confirmed')->count(),
+            'competitions' => Competition::active()->count(),
+            'universities' => Registration::distinct('institution')->count(),
+            'total_prize' => 500000000, // 500 million
+        ];
+
+        return view('public.competitions', compact('competitions', 'stats'));
     }
 
     /**
