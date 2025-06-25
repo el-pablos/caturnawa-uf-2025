@@ -6,66 +6,136 @@
 
 @section('content')
 <!-- Hero Section -->
-<section class="hero-section">
-    <div class="container">
-        <div class="row align-items-center min-vh-100">
-            <div class="col-lg-8 mx-auto text-center hero-content" data-aos="fade-up">
-                <h1 class="display-3 fw-bold text-white mb-4 font-poppins">
-                    Kompetisi UNAS Fest 2025
+<section class="competitions-hero">
+    <div class="hero-background">
+        <div class="hero-pattern"></div>
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
+    </div>
+
+    <div class="container position-relative">
+        <div class="row align-items-center min-vh-100 py-5">
+            <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
+                <div class="hero-badge">
+                    <i class="bi bi-trophy me-2"></i>
+                    Kompetisi Nasional 2025
+                </div>
+
+                <h1 class="hero-title">
+                    Kompetisi
+                    <span class="text-gradient">UNAS Fest 2025</span>
                 </h1>
-                <p class="lead text-white-50 mb-4">
-                    Tunjukkan inovasi terbaikmu dalam tiga kategori kompetisi utama: 
-                    <strong class="text-warning">Teknologi</strong>, 
-                    <strong class="text-success">Kesehatan</strong>, dan 
-                    <strong class="text-info">Biodiversitas</strong>
+
+                <p class="hero-subtitle">
+                    Tunjukkan inovasi terbaikmu dalam tiga kategori kompetisi utama yang akan membentuk masa depan Indonesia
                 </p>
-                <div class="d-flex flex-wrap gap-3 justify-content-center">
-                    <a href="#technology" class="btn btn-warning btn-lg px-4 py-3">
-                        <i class="bi bi-laptop me-2"></i>Teknologi
+
+                <div class="competition-categories">
+                    <div class="category-pill technology" data-aos="fade-up" data-aos-delay="100">
+                        <i class="bi bi-laptop"></i>
+                        <span>Teknologi</span>
+                    </div>
+                    <div class="category-pill health" data-aos="fade-up" data-aos-delay="200">
+                        <i class="bi bi-heart-pulse"></i>
+                        <span>Kesehatan</span>
+                    </div>
+                    <div class="category-pill biodiversity" data-aos="fade-up" data-aos-delay="300">
+                        <i class="bi bi-tree"></i>
+                        <span>Biodiversitas</span>
+                    </div>
+                </div>
+
+                <div class="hero-actions" data-aos="fade-up" data-aos-delay="400">
+                    <a href="#competitions-list" class="btn-primary-custom">
+                        <span>Jelajahi Kompetisi</span>
+                        <i class="bi bi-arrow-down"></i>
                     </a>
-                    <a href="#health" class="btn btn-success btn-lg px-4 py-3">
-                        <i class="bi bi-heart me-2"></i>Kesehatan
+                    <a href="{{ route('login') }}" class="btn-secondary-custom">
+                        <i class="bi bi-person-plus me-2"></i>
+                        Daftar Sekarang
                     </a>
-                    <a href="#biodiversity" class="btn btn-info btn-lg px-4 py-3">
-                        <i class="bi bi-tree me-2"></i>Biodiversitas
-                    </a>
+                </div>
+
+                <div class="hero-stats" data-aos="fade-up" data-aos-delay="500">
+                    <div class="stat-item">
+                        <span class="stat-number">500M</span>
+                        <span class="stat-label">Total Hadiah</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">10K+</span>
+                        <span class="stat-label">Peserta</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">100+</span>
+                        <span class="stat-label">Universitas</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Statistics Section -->
-<section class="section bg-light">
+<!-- Competition Overview -->
+<section id="competitions-list" class="competitions-overview">
     <div class="container">
-        <div class="row g-4 text-center">
-            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
-                    <i class="bi bi-people fs-2"></i>
-                </div>
-                <h3 class="fw-bold text-primary mb-2">10,000+</h3>
-                <p class="text-muted mb-0">Peserta Terdaftar</p>
+        <div class="section-header text-center mb-5" data-aos="fade-up">
+            <div class="section-badge">
+                <i class="bi bi-award me-2"></i>
+                Kompetisi Utama
             </div>
-            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
-                    <i class="bi bi-trophy fs-2"></i>
+            <h2 class="section-title">Tiga Pilar Inovasi</h2>
+            <p class="section-subtitle">
+                Setiap kategori kompetisi dirancang untuk mendorong inovasi dalam bidang yang akan membentuk masa depan Indonesia
+            </p>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="quick-stats" data-aos="fade-up" data-aos-delay="200">
+            <div class="stats-grid">
+                <div class="quick-stat-item">
+                    <div class="stat-icon bg-gradient-primary">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number counter" data-target="10000">0</span>
+                        <span class="stat-label">Peserta Terdaftar</span>
+                    </div>
                 </div>
-                <h3 class="fw-bold text-success mb-2">15</h3>
-                <p class="text-muted mb-0">Kategori Kompetisi</p>
-            </div>
-            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                <div class="bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
-                    <i class="bi bi-gift fs-2"></i>
+
+                <div class="quick-stat-item">
+                    <div class="stat-icon bg-gradient-success">
+                        <i class="bi bi-trophy"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number">15</span>
+                        <span class="stat-label">Kategori Kompetisi</span>
+                    </div>
                 </div>
-                <h3 class="fw-bold text-warning mb-2">500 Juta</h3>
-                <p class="text-muted mb-0">Total Hadiah</p>
-            </div>
-            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
-                <div class="bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
-                    <i class="bi bi-building fs-2"></i>
+
+                <div class="quick-stat-item">
+                    <div class="stat-icon bg-gradient-warning">
+                        <i class="bi bi-gift"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number">500M</span>
+                        <span class="stat-label">Total Hadiah</span>
+                    </div>
                 </div>
-                <h3 class="fw-bold text-info mb-2">100+</h3>
-                <p class="text-muted mb-0">Universitas Partner</p>
+
+                <div class="quick-stat-item">
+                    <div class="stat-icon bg-gradient-info">
+                        <i class="bi bi-building"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number counter" data-target="100">0</span>
+                        <span class="stat-label">Universitas Partner</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -222,13 +292,434 @@
 
 @push('styles')
 <style>
-    .object-fit-cover {
-        object-fit: cover;
+    /* Competitions Hero Section */
+    .competitions-hero {
+        min-height: 100vh;
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
     }
-    
-    .card:hover {
-        transform: translateY(-2px);
+
+    .hero-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+
+    .hero-pattern {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image:
+            radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 2px, transparent 2px),
+            radial-gradient(circle at 75% 75%, rgba(255,255,255,0.1) 2px, transparent 2px);
+        background-size: 50px 50px;
+        animation: patternMove 20s linear infinite;
+    }
+
+    @keyframes patternMove {
+        0% { transform: translate(0, 0); }
+        100% { transform: translate(50px, 50px); }
+    }
+
+    .floating-shapes {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .shape {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        animation: float 6s ease-in-out infinite;
+    }
+
+    .shape-1 {
+        width: 120px;
+        height: 120px;
+        top: 20%;
+        right: 10%;
+        animation-delay: 0s;
+    }
+
+    .shape-2 {
+        width: 80px;
+        height: 80px;
+        top: 60%;
+        right: 20%;
+        animation-delay: 2s;
+    }
+
+    .shape-3 {
+        width: 100px;
+        height: 100px;
+        top: 40%;
+        left: 10%;
+        animation-delay: 4s;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-30px) rotate(180deg); }
+    }
+
+    .hero-badge {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 25px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .hero-title {
+        font-size: 4rem;
+        font-weight: 800;
+        color: white;
+        margin-bottom: 20px;
+        line-height: 1.1;
+    }
+
+    .text-gradient {
+        background: linear-gradient(135deg, var(--accent-color), #f59e0b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 40px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.6;
+    }
+
+    .competition-categories {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 40px;
+        flex-wrap: wrap;
+    }
+
+    .category-pill {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50px;
+        padding: 15px 25px;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 600;
         transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .category-pill:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: translateY(-5px);
+    }
+
+    .category-pill.technology:hover {
+        background: rgba(37, 99, 235, 0.3);
+        border-color: rgba(37, 99, 235, 0.5);
+    }
+
+    .category-pill.health:hover {
+        background: rgba(16, 185, 129, 0.3);
+        border-color: rgba(16, 185, 129, 0.5);
+    }
+
+    .category-pill.biodiversity:hover {
+        background: rgba(6, 182, 212, 0.3);
+        border-color: rgba(6, 182, 212, 0.5);
+    }
+
+    .hero-actions {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 50px;
+        flex-wrap: wrap;
+    }
+
+    .btn-primary-custom {
+        background: linear-gradient(135deg, var(--accent-color), #f59e0b);
+        color: white;
+        padding: 15px 30px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+    }
+
+    .btn-primary-custom:hover {
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(245, 158, 11, 0.4);
+    }
+
+    .btn-secondary-custom {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 13px 28px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-secondary-custom:hover {
+        background: rgba(255, 255, 255, 0.25);
+        color: white;
+        transform: translateY(-3px);
+    }
+
+    .hero-stats {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
+
+    .hero-stats .stat-item {
+        text-align: center;
+        color: white;
+    }
+
+    .hero-stats .stat-number {
+        display: block;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    .hero-stats .stat-label {
+        font-size: 0.9rem;
+        opacity: 0.8;
+    }
+
+    .stat-divider {
+        width: 1px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Competitions Overview Section */
+    .competitions-overview {
+        padding: 100px 0;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    }
+
+    .section-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+        color: white;
+        padding: 8px 20px;
+        border-radius: 25px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    .section-title {
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 20px;
+    }
+
+    .section-subtitle {
+        font-size: 1.1rem;
+        color: var(--text-muted);
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+
+    .quick-stats {
+        margin-top: 60px;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .quick-stat-item {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .quick-stat-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    }
+
+    .quick-stat-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        font-size: 1.5rem;
+        color: white;
+    }
+
+    .stat-content .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .stat-content .stat-label {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+
+    /* Gradient Backgrounds */
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    }
+
+    .bg-gradient-success {
+        background: linear-gradient(135deg, var(--secondary-color), #059669);
+    }
+
+    .bg-gradient-warning {
+        background: linear-gradient(135deg, var(--accent-color), #d97706);
+    }
+
+    .bg-gradient-info {
+        background: linear-gradient(135deg, #06b6d4, #0891b2);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+        }
+
+        .competition-categories {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .category-pill {
+            width: 200px;
+            justify-content: center;
+        }
+
+        .hero-actions {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .btn-primary-custom,
+        .btn-secondary-custom {
+            width: 250px;
+            justify-content: center;
+        }
+
+        .hero-stats {
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .stat-divider {
+            width: 40px;
+            height: 1px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+        }
+
+        .stats-grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .competitions-overview {
+            padding: 60px 0;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .hero-title {
+            font-size: 2rem;
+        }
+
+        .category-pill {
+            width: 100%;
+            max-width: 250px;
+        }
+
+        .btn-primary-custom,
+        .btn-secondary-custom {
+            width: 100%;
+            max-width: 280px;
+        }
+
+        .quick-stat-item {
+            padding: 20px;
+        }
+
+        .stat-content .stat-number {
+            font-size: 2rem;
+        }
     }
 </style>
 @endpush
