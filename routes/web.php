@@ -14,26 +14,36 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Public Pages with SEO optimization
-Route::prefix('public')->name('public.')->group(function () {
+// Public Pages Routes (Main Website)
+Route::name('public.')->group(function () {
+    // Home page - accessible via root and /home
     Route::get('/', [App\Http\Controllers\Public\PublicController::class, 'home'])->name('home');
+    Route::get('/home', [App\Http\Controllers\Public\PublicController::class, 'home'])->name('home.alt');
+
+    // Competition pages
     Route::get('/competitions', [App\Http\Controllers\Public\PublicController::class, 'competitions'])->name('competitions');
+    Route::get('/competition/{slug}', [App\Http\Controllers\Public\PublicController::class, 'competitionDetail'])->name('competition.detail');
+
+    // About and team pages
     Route::get('/about', [App\Http\Controllers\Public\PublicController::class, 'about'])->name('about');
+    Route::get('/team', [App\Http\Controllers\Public\PublicController::class, 'team'])->name('team');
+
+    // Testimonials
     Route::get('/testimonials', [App\Http\Controllers\Public\PublicController::class, 'testimonials'])->name('testimonials');
     Route::post('/testimonials', [App\Http\Controllers\Public\PublicController::class, 'storeTestimonial'])->name('testimonials.store');
+
+    // Contact
     Route::get('/contact', [App\Http\Controllers\Public\PublicController::class, 'contact'])->name('contact');
     Route::post('/contact', [App\Http\Controllers\Public\PublicController::class, 'sendContact'])->name('contact.send');
+
+    // Blog and articles
     Route::get('/blog', [App\Http\Controllers\Public\PublicController::class, 'blog'])->name('blog');
-});
+    Route::get('/blog/{slug}', [App\Http\Controllers\Public\PublicController::class, 'blogDetail'])->name('blog.detail');
 
-// Root redirect to public home
-Route::get('/', function () {
-    return redirect()->route('public.home');
-});
-
-// Legacy home route redirect
-Route::get('/home', function () {
-    return redirect()->route('public.home');
+    // Additional public pages
+    Route::get('/faq', [App\Http\Controllers\Public\PublicController::class, 'faq'])->name('faq');
+    Route::get('/privacy', [App\Http\Controllers\Public\PublicController::class, 'privacy'])->name('privacy');
+    Route::get('/terms', [App\Http\Controllers\Public\PublicController::class, 'terms'])->name('terms');
 });
 
 // Authentication Routes
@@ -289,23 +299,26 @@ Route::prefix('ticket')->name('ticket.')->group(function () {
     Route::post('/validate', [App\Http\Controllers\TicketController::class, 'validate'])->name('validate');
 });
 
-// Legacy public routes - redirect to new home page
-Route::prefix('public')->name('public.')->group(function () {
+// Legacy routes for backward compatibility
+Route::prefix('public')->group(function () {
     Route::get('/', function () {
-        return redirect('/#competitions');
+        return redirect()->route('public.home');
     });
     Route::get('/competitions', function () {
-        return redirect('/#competitions');
-    })->name('competitions');
+        return redirect()->route('public.competitions');
+    });
     Route::get('/about', function () {
-        return redirect('/#about');
-    })->name('about');
+        return redirect()->route('public.about');
+    });
     Route::get('/contact', function () {
-        return redirect('/#contact');
-    })->name('contact');
-
-    // Keep individual competition view
-    Route::get('/competition/{competition}', [App\Http\Controllers\PublicController::class, 'competition'])->name('competition');
+        return redirect()->route('public.contact');
+    });
+    Route::get('/testimonials', function () {
+        return redirect()->route('public.testimonials');
+    });
+    Route::get('/blog', function () {
+        return redirect()->route('public.blog');
+    });
 });
 
 // API Routes for AJAX calls

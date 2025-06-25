@@ -54,7 +54,7 @@ class PublicController extends Controller
     public function competitions()
     {
         $this->seoService->setPage('competitions');
-        
+
         $competitions = Competition::active()
             ->with(['registrations' => function($query) {
                 $query->where('status', 'confirmed');
@@ -63,6 +63,33 @@ class PublicController extends Controller
             ->groupBy('category');
 
         return view('public.competitions', compact('competitions'));
+    }
+
+    /**
+     * Display competition detail page
+     */
+    public function competitionDetail($slug)
+    {
+        $competition = Competition::where('slug', $slug)->firstOrFail();
+
+        $this->seoService->setPage('competitions')
+            ->setCustomData([
+                'title' => $competition->name . ' - UNAS Fest 2025',
+                'description' => $competition->description,
+            ]);
+
+        return view('public.competition-detail', compact('competition'));
+    }
+
+    /**
+     * Display team page
+     */
+    public function team()
+    {
+        $this->seoService->setPage('about');
+
+        // Same as about page but focused on team
+        return $this->about();
     }
 
     /**
@@ -350,5 +377,82 @@ class PublicController extends Controller
         ];
 
         return view('public.blog', compact('posts'));
+    }
+
+    /**
+     * Display blog detail page
+     */
+    public function blogDetail($slug)
+    {
+        // Sample blog post (in real app, this would come from database)
+        $post = [
+            'title' => 'Tips Sukses Mengikuti Kompetisi Teknologi',
+            'slug' => $slug,
+            'content' => 'Content of the blog post...',
+            'featured_image' => asset('assets/images/blog/tech-tips.jpg'),
+            'published_at' => now()->subDays(5),
+            'author' => 'Tim UNAS Fest',
+            'category' => 'Tips',
+            'tags' => ['teknologi', 'kompetisi', 'tips']
+        ];
+
+        $this->seoService->setPage('blog')
+            ->setCustomData([
+                'title' => $post['title'] . ' - UNAS Fest 2025 Blog',
+                'description' => 'Baca artikel lengkap: ' . $post['title'],
+            ]);
+
+        return view('public.blog-detail', compact('post'));
+    }
+
+    /**
+     * Display FAQ page
+     */
+    public function faq()
+    {
+        $this->seoService->setCustomData([
+            'title' => 'FAQ - Frequently Asked Questions | UNAS Fest 2025',
+            'description' => 'Temukan jawaban untuk pertanyaan yang sering diajukan seputar UNAS Fest 2025.',
+        ]);
+
+        $faqs = [
+            [
+                'question' => 'Bagaimana cara mendaftar kompetisi?',
+                'answer' => 'Anda dapat mendaftar melalui halaman kompetisi dengan mengklik tombol "Daftar Sekarang" pada kategori yang diminati.'
+            ],
+            [
+                'question' => 'Apakah ada biaya pendaftaran?',
+                'answer' => 'Biaya pendaftaran bervariasi tergantung kategori kompetisi. Informasi lengkap dapat dilihat di halaman detail kompetisi.'
+            ],
+            // Add more FAQs as needed
+        ];
+
+        return view('public.faq', compact('faqs'));
+    }
+
+    /**
+     * Display privacy policy page
+     */
+    public function privacy()
+    {
+        $this->seoService->setCustomData([
+            'title' => 'Privacy Policy | UNAS Fest 2025',
+            'description' => 'Kebijakan privasi UNAS Fest 2025 mengenai pengumpulan, penggunaan, dan perlindungan data pribadi.',
+        ]);
+
+        return view('public.privacy');
+    }
+
+    /**
+     * Display terms of service page
+     */
+    public function terms()
+    {
+        $this->seoService->setCustomData([
+            'title' => 'Terms of Service | UNAS Fest 2025',
+            'description' => 'Syarat dan ketentuan penggunaan layanan UNAS Fest 2025.',
+        ]);
+
+        return view('public.terms');
     }
 }
