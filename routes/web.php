@@ -14,12 +14,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Public Landing Page - Force redirect to /home
-Route::get('/', function () {
-    return redirect('/home');
+// Public Pages with SEO optimization
+Route::prefix('public')->name('public.')->group(function () {
+    Route::get('/', [App\Http\Controllers\Public\PublicController::class, 'home'])->name('home');
+    Route::get('/competitions', [App\Http\Controllers\Public\PublicController::class, 'competitions'])->name('competitions');
+    Route::get('/about', [App\Http\Controllers\Public\PublicController::class, 'about'])->name('about');
+    Route::get('/testimonials', [App\Http\Controllers\Public\PublicController::class, 'testimonials'])->name('testimonials');
+    Route::get('/contact', [App\Http\Controllers\Public\PublicController::class, 'contact'])->name('contact');
+    Route::post('/contact', [App\Http\Controllers\Public\PublicController::class, 'sendContact'])->name('contact.send');
+    Route::get('/blog', [App\Http\Controllers\Public\PublicController::class, 'blog'])->name('blog');
 });
-Route::get('/home', [App\Http\Controllers\Public\HomeController::class, 'index'])->name('home');
-Route::post('/contact', [App\Http\Controllers\Public\HomeController::class, 'sendContact'])->name('contact.send');
+
+// Root redirect to public home
+Route::get('/', function () {
+    return redirect()->route('public.home');
+});
+
+// Legacy home route redirect
+Route::get('/home', function () {
+    return redirect()->route('public.home');
+});
 
 // Authentication Routes
 Route::middleware('guest')->group(function () {
