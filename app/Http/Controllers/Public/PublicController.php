@@ -7,6 +7,7 @@ use App\Models\Competition;
 use App\Models\Registration;
 use App\Models\User;
 use App\Services\SEOService;
+use App\Services\ModernSEOService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -17,10 +18,12 @@ use Illuminate\Support\Facades\Validator;
 class PublicController extends Controller
 {
     protected $seoService;
+    protected $modernSeoService;
 
-    public function __construct(SEOService $seoService)
+    public function __construct(SEOService $seoService, ModernSEOService $modernSeoService)
     {
         $this->seoService = $seoService;
+        $this->modernSeoService = $modernSeoService;
     }
 
     /**
@@ -28,8 +31,10 @@ class PublicController extends Controller
      */
     public function home()
     {
-        $this->seoService->setPage('home');
-        
+        // Set modern SEO
+        $this->modernSeoService->setHomePage();
+        $this->modernSeoService->addOrganizationSchema();
+
         // Get active competitions
         $competitions = Competition::active()
             ->where('registration_start', '<=', now())
@@ -45,7 +50,7 @@ class PublicController extends Controller
             'total_prize' => 500000000, // 500 million
         ];
 
-        return view('public.home', compact('competitions', 'stats'));
+        return view('public.modern-home', compact('competitions', 'stats'));
     }
 
     /**
@@ -53,7 +58,8 @@ class PublicController extends Controller
      */
     public function competitions()
     {
-        $this->seoService->setPage('competitions');
+        // Set modern SEO
+        $this->modernSeoService->setCompetitionsPage();
 
         $competitions = Competition::active()
             ->with(['registrations' => function($query) {
@@ -105,7 +111,8 @@ class PublicController extends Controller
      */
     public function about()
     {
-        $this->seoService->setPage('about');
+        // Set modern SEO
+        $this->modernSeoService->setAboutPage();
         
         // Department structure
         $departments = [
