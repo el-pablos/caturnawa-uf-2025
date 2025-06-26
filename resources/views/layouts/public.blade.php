@@ -26,9 +26,6 @@
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- AOS CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
     
     <!-- Custom CSS -->
     <style>
@@ -416,8 +413,7 @@
         AOS.init({
             duration: 800,
             easing: 'ease-in-out',
-            once: true,
-            offset: 120,
+            once: true
         });
 
         // Back to top button

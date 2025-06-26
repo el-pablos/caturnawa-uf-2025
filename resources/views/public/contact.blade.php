@@ -275,9 +275,9 @@
                 <div class="card border-0 shadow-lg">
                     <div class="card-body p-0">
                         <div class="ratio ratio-21x9">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.8702243699854!2d106.83684327493809!3d-6.280786561479789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f211176e9827%3A0xb4bc144c3140a2d9!2sUniversitas%20Nasional!5e0!3m2!1sid!2sid!4v1750940993933!5m2!1sid!2sid" 
-                                width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-                            </iframe>                       
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.7461!2d106.8456!3d-6.2615!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3e945e34b9d%3A0x5371bf0fdad786a2!2sUniversitas%20Nasional!5e0!3m2!1sen!2sid!4v1640995200000!5m2!1sen!2sid" 
+                                    style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
                         </div>
                     </div>
                 </div>
