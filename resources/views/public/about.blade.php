@@ -10,9 +10,9 @@
     <div class="container">
         <div class="row align-items-center min-vh-100">
             <div class="col-lg-6 hero-content" data-aos="fade-right">
-                <h1 class="display-3 fw-bold text-white mb-4 font-poppins">
+                <h1 class="hero-title display-3 fw-bold text-white mb-4">
                     Tentang 
-                    <span class="text-warning">UNAS Fest 2025</span>
+                    <span class="text-gradient">UNAS Fest 2025</span>
                 </h1>
                 <p class="lead text-white-50 mb-4">
                     Festival kompetisi nasional terbesar di Indonesia yang menggabungkan inovasi teknologi, 
@@ -50,7 +50,7 @@
 
 <!-- Vision & Mission Section -->
 <section class="section">
-    <div class="container">
+    <div class="container py-5 position-relative">
         <div class="row g-5 align-items-center">
             <div class="col-lg-6" data-aos="fade-right">
                 <div class="card border-0 shadow-lg h-100">
@@ -105,7 +105,7 @@
 
 <!-- Statistics Section -->
 <section class="section bg-light">
-    <div class="container">
+    <div class="container py-5 position-relative">
         <div class="text-center mb-5" data-aos="fade-up">
             <h2 class="section-title font-poppins">UNAS Fest dalam Angka</h2>
             <p class="section-subtitle">
@@ -167,7 +167,7 @@
 
 <!-- Values Section -->
 <section class="section">
-    <div class="container">
+    <div class="container py-5 position-relative">
         <div class="text-center mb-5" data-aos="fade-up">
             <h2 class="section-title font-poppins">Nilai-Nilai Kami</h2>
             <p class="section-subtitle">

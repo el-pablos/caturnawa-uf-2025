@@ -20,7 +20,7 @@
         <div class="row align-items-center min-vh-100 py-5">
             <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
                 <div class="hero-badge">
-                    <i class="bi bi-trophy me-2"></i>
+                    <i class="bi bi-trophy me-2" ></i>
                     Kompetisi Nasional 2025
                 </div>
 
@@ -35,7 +35,7 @@
 
                 <div class="competition-categories">
                     <div class="category-pill technology" data-aos="fade-up" data-aos-delay="100">
-                        <i class="bi bi-laptop"></i>
+                        <i class="bi bi-cpu"></i>
                         <span>Teknologi</span>
                     </div>
                     <div class="category-pill health" data-aos="fade-up" data-aos-delay="200">
@@ -96,10 +96,10 @@
 
         <!-- Quick Stats -->
         <div class="quick-stats" data-aos="fade-up" data-aos-delay="200">
-            <div class="stats-grid">
+            <div class="stats-grid d-flex justify-content-center gap-4">
                 <div class="quick-stat-item">
-                    <div class="stat-icon bg-gradient-primary">
-                        <i class="bi bi-people"></i>
+                    <div class="stat-icon bg-primary">
+                        <i class="bi bi-person-fill"></i>
                     </div>
                     <div class="stat-content">
                         <span class="stat-number counter" data-target="10000">0</span>
@@ -109,7 +109,7 @@
 
                 <div class="quick-stat-item">
                     <div class="stat-icon bg-gradient-success">
-                        <i class="bi bi-trophy"></i>
+                        <i class="bi bi-award-fill"></i>
                     </div>
                     <div class="stat-content">
                         <span class="stat-number">15</span>
@@ -119,7 +119,7 @@
 
                 <div class="quick-stat-item">
                     <div class="stat-icon bg-gradient-warning">
-                        <i class="bi bi-gift"></i>
+                        <i class="bi bi-gift-fill"></i>
                     </div>
                     <div class="stat-content">
                         <span class="stat-number">500M</span>
@@ -129,7 +129,7 @@
 
                 <div class="quick-stat-item">
                     <div class="stat-icon bg-gradient-info">
-                        <i class="bi bi-building"></i>
+                        <i class="bi bi-patch-check-fill"></i>
                     </div>
                     <div class="stat-content">
                         <span class="stat-number counter" data-target="100">0</span>
@@ -143,10 +143,10 @@
 
 <!-- Technology Competition -->
 <section id="technology" class="section">
-    <div class="container">
+    <div class="container position-relative py-5 overflow-hidden">
         <div class="text-center mb-5" data-aos="fade-up">
-            <h2 class="section-title font-poppins text-primary">
-                <i class="bi bi-laptop me-3"></i>Kompetisi Teknologi
+            <h2 class="section-title font-poppins text-white">
+                <i class="bi bi-cpu me-3 text-warning"></i>Kompetisi Teknologi
             </h2>
             <p class="section-subtitle">
                 Wujudkan inovasi teknologi untuk menyelesaikan masalah nyata di masyarakat
@@ -156,21 +156,21 @@
         <div class="row g-4">
             <div class="col-lg-6" data-aos="fade-right">
                 <div class="card h-100 border-0 shadow-lg">
-                    <div class="card-img-top position-relative overflow-hidden" style="height: 300px;">
+                    <div class="card-img-top position-relative overflow-hidden" style="height: 250px;">
                         <img src="{{ asset('assets/images/competitions/technology-banner.jpg') }}" 
                              alt="Kompetisi Teknologi" 
                              class="w-100 h-100 object-fit-cover"
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <div class="position-absolute top-0 start-0 w-100 h-100 bg-primary bg-opacity-75 d-flex align-items-center justify-content-center">
-                            <i class="bi bi-cpu text-white" style="font-size: 5rem;"></i>
+                        <div class="position-absolute top-0 start-0 w-100 h-100 bg-warning bg-opacity-75 d-flex align-items-center justify-content-center">
+                            <i class="bi bi-cpu text-white" style="font-size: 7rem;"></i>
                         </div>
                     </div>
                     <div class="card-body p-4">
-                        <h4 class="card-title fw-bold text-primary mb-3">Kategori Teknologi</h4>
+                        <h4 class="card-title fw-bold text-dark mb-3">Kategori Teknologi</h4>
                         <ul class="list-unstyled mb-4">
                             <li class="mb-3">
                                 <div class="d-flex align-items-start">
-                                    <i class="bi bi-phone text-primary me-3 mt-1"></i>
+                                    <i class="bi bi-phone text-warning me-3 mt-1"></i>
                                     <div>
                                         <h6 class="fw-bold mb-1">Mobile App Development</h6>
                                         <small class="text-muted">Aplikasi mobile inovatif untuk Android/iOS</small>
@@ -179,7 +179,7 @@
                             </li>
                             <li class="mb-3">
                                 <div class="d-flex align-items-start">
-                                    <i class="bi bi-globe text-primary me-3 mt-1"></i>
+                                    <i class="bi bi-globe text-warning me-3 mt-1"></i>
                                     <div>
                                         <h6 class="fw-bold mb-1">Web Development</h6>
                                         <small class="text-muted">Platform web dengan teknologi terdepan</small>
@@ -188,7 +188,7 @@
                             </li>
                             <li class="mb-3">
                                 <div class="d-flex align-items-start">
-                                    <i class="bi bi-robot text-primary me-3 mt-1"></i>
+                                    <i class="bi bi-robot text-warning me-3 mt-1"></i>
                                     <div>
                                         <h6 class="fw-bold mb-1">AI & Machine Learning</h6>
                                         <small class="text-muted">Solusi berbasis kecerdasan buatan</small>
@@ -197,7 +197,7 @@
                             </li>
                             <li class="mb-3">
                                 <div class="d-flex align-items-start">
-                                    <i class="bi bi-wifi text-primary me-3 mt-1"></i>
+                                    <i class="bi bi-wifi text-warning me-3 mt-1"></i>
                                     <div>
                                         <h6 class="fw-bold mb-1">IoT Solutions</h6>
                                         <small class="text-muted">Internet of Things untuk smart city</small>
@@ -253,10 +253,262 @@
                         </div>
                         
                         <div class="d-grid gap-2">
+                            <a href="{{ route('login') }}" class="btn btn-warning btn-lg">
+                                <i class="bi bi-person-plus me-2"></i>Daftar Sekarang
+                            </a>
+                            <a href="{{ route('public.faq') }}" class="btn btn-outline-dark">
+                                <i class="bi bi-question-circle me-2"></i>FAQ & Panduan
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Health Competition -->
+<section id="health" class="section">
+    <div class="container position-relative py-5 overflow-hidden">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="section-title font-poppins text-white">
+                <i class="bi bi-heart-pulse me-3 text-success"></i>Kompetisi Kesehatan
+            </h2>
+            <p class="section-subtitle">
+                Ciptakan solusi inovatif untuk meningkatkan kualitas hidup dan kesehatan masyarakat Indonesia
+            </p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-6" data-aos="fade-right">
+                <div class="card h-100 border-0 shadow-lg">
+                    <div class="card-img-top position-relative overflow-hidden" style="height: 300px;">
+                        <img src="{{ asset('assets/images/competitions/health-banner.jpg') }}" 
+                             alt="Kompetisi Kesehatan" 
+                             class="w-100 h-100 object-fit-cover"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="position-absolute top-0 start-0 w-100 h-100 bg-success bg-opacity-75 d-flex align-items-center justify-content-center">
+                            <i class="bi bi-heart-pulse text-white" style="font-size: 7rem;"></i>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <h4 class="card-title fw-bold text-suscess mb-3">Kategori Kesehatan</h4>
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-3">
+                                <div class="d-flex align-items-start">
+                                    <i class="bi bi-lightbulb text-success me-3 mt-1"></i>
+                                    <div>
+                                        <h6 class="fw-bold mb-1">Health Tech Innovations</h6>
+                                        <small class="text-muted">Inovasi teknologi kesehatan untuk meningkatkan kualitas hidup dan kesehatan masyarakat.</small>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="mb-3">
+                                <div class="d-flex align-items-start">
+                                    <i class="bi bi-pencil text-success me-3 mt-1"></i>
+                                    <div>
+                                        <h6 class="fw-bold mb-1">Medical Device Desain</h6>
+                                        <small class="text-muted">Desain alat kesehatan untuk meningkatkan kesehatan dan kualitas hidup masyarakat.</small>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="mb-3">
+                                <div class="d-flex align-items-start">
+                                    <i class="bi bi-globe-asia-australia text-success me-3 mt-1"></i>
+                                    <div>
+                                        <h6 class="fw-bold mb-1">Public Health Solutions</h6>
+                                        <small class="text-muted">Solusi kesehatan publik untuk meningkatkan kualitas hidup dan kesehatan masyarakat, termasuk peningkatan kesehatan masyarakat.</small><small class="text-muted"><small> </small></small>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="mb-3">
+                                <div class="d-flex align-items-start">
+                                    <i class="bi bi-phone text-success me-3 mt-1"></i>
+                                    <div>
+                                        <h6 class="fw-bold mb-1">Digital Health Platform</h6>
+                                        <small class="text-muted">Platform edukasi kesehatan, telemedicine, atau sistem informasi kesehatan masyarakat.</small>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6" data-aos="fade-left">
+                <div class="card h-100 border-0 shadow-lg">
+                    <div class="card-body p-4">
+                        <h4 class="card-title fw-bold text-primary mb-4">
+                            <i class="bi bi-info-circle me-2"></i>Informasi Kompetisi
+                        </h4>
+                        
+                        <div class="mb-4">
+                            <h6 class="fw-bold text-dark mb-2">
+                                <i class="bi bi-calendar-event text-primary me-2"></i>Timeline
+                            </h6>
+                            <ul class="list-unstyled ms-4">
+                                <li class="mb-2"><strong>Pendaftaran:</strong> 1 Jan - 28 Feb 2025</li>
+                                <li class="mb-2"><strong>Pengumpulan:</strong> 1 - 15 Mar 2025</li>
+                                <li class="mb-2"><strong>Penilaian:</strong> 16 - 25 Mar 2025</li>
+                                <li class="mb-2"><strong>Pengumuman:</strong> 30 Mar 2025</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h6 class="fw-bold text-dark mb-2">
+                                <i class="bi bi-trophy text-warning me-2"></i>Hadiah
+                            </h6>
+                            <ul class="list-unstyled ms-4">
+                                <li class="mb-2"><strong>Juara 1:</strong> Rp 50.000.000 + Sertifikat</li>
+                                <li class="mb-2"><strong>Juara 2:</strong> Rp 30.000.000 + Sertifikat</li>
+                                <li class="mb-2"><strong>Juara 3:</strong> Rp 20.000.000 + Sertifikat</li>
+                                <li class="mb-2"><strong>Harapan:</strong> Rp 5.000.000 + Sertifikat</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h6 class="fw-bold text-dark mb-2">
+                                <i class="bi bi-people text-success me-2"></i>Persyaratan
+                            </h6>
+                            <ul class="list-unstyled ms-4">
+                                <li class="mb-2">• Mahasiswa aktif S1/D3/D4</li>
+                                <li class="mb-2">• Tim maksimal 3 orang</li>
+                                <li class="mb-2">• Karya original dan belum dipublikasi</li>
+                                <li class="mb-2">• Solusi harus relevan dengan isu kesehatan masyarakat</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <a href="{{ route('login') }}" class="btn btn-success btn-lg">
+                                <i class="bi bi-person-plus me-2"></i>Daftar Sekarang
+                            </a>
+                            <a href="{{ route('public.faq') }}" class="btn btn-outline-dark">
+                                <i class="bi bi-question-circle me-2"></i>FAQ & Panduan
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Biodiversity Competition -->
+<section id="health" class="section">
+    <div class="container position-relative py-5 overflow-hidden">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="section-title font-poppins text-white">
+                <i class="bi bi-tree-fill me-3 text-primary"></i>Kompetisi Biodiversitas
+            </h2>
+            <p class="section-subtitle">
+                Ciptakan solusi inovatif untuk meningkatkan kualitas hidup dan kesehatan masyarakat Indonesia
+            </p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-6" data-aos="fade-right">
+                <div class="card h-100 border-0 shadow-lg">
+                    <div class="card-img-top position-relative overflow-hidden" style="height: 300px;">
+                        <img src="{{ asset('assets/images/competitions/biodiversity-banner.jpg') }}" 
+                             alt="Kompetisi Biodiversitas" 
+                             class="w-100 h-100 object-fit-cover"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="position-absolute top-0 start-0 w-100 h-100 bg-primary bg-opacity-75 d-flex align-items-center justify-content-center">
+                            <i class="bi bi-tree-fill text-white" style="font-size: 7rem;"></i>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <h4 class="card-title fw-bold text-dark mb-3">Kategori Biodiversitas</h4>
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-3">
+                                <div class="d-flex align-items-start">
+                                    <i class="bi bi-tree text-primary me-3 mt-1"></i>
+                                    <div>
+                                        <h6 class="fw-bold mb-1">Environmental Conservation</h6></h6>
+                                        <small class="text-muted">Solusi untuk menjaga kelestarian lingkungan dan kualitas hidup masyarakat.</small><small class="text-muted"><small></small>.</small>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="mb-3">
+                                <div class="d-flex align-items-start">
+                                    <i class="bi bi-recycle text-primary me-3 mt-1"></i>
+                                    <div>
+                                        <h6 class="fw-bold mb-1">Sustainable Development</h6>
+                                        <small class="text-muted">Solusi untuk menjaga kelestarian lingkungan dan kualitas hidup masyarakat.</small>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="mb-3">
+                                <div class="d-flex align-items-start">
+                                    <i class="bi bi-trash text-primary me-3 mt-1"></i>
+                                    <div>
+                                        <h6 class="fw-bold mb-1">Eco Innovations</h6>
+                                        <small class="text-muted">Solusi untuk menjaga kelestarian lingkungan dan kualitas hidup masyarakat.</small><small class="text-muted"><small> </small></small>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="mb-3">
+                                <div class="d-flex align-items-start">
+                                    <i class="bi bi-cpu text-primary me-3 mt-1"></i>
+                                    <div>
+                                        <h6 class="fw-bold mb-1">Green Technology</h6>
+                                        <small class="text-muted">Solusi untuk menjaga kelestarian lingkungan dan kualitas hidup masyarakat.</small>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6" data-aos="fade-left">
+                <div class="card h-100 border-0 shadow-lg">
+                    <div class="card-body p-4">
+                        <h4 class="card-title fw-bold text-primary mb-4">
+                            <i class="bi bi-info-circle me-2"></i>Informasi Kompetisi
+                        </h4>
+                        
+                        <div class="mb-4">
+                            <h6 class="fw-bold text-dark mb-2">
+                                <i class="bi bi-calendar-event text-primary me-2"></i>Timeline
+                            </h6>
+                            <ul class="list-unstyled ms-4">
+                                <li class="mb-2"><strong>Pendaftaran:</strong> 1 Jan - 28 Feb 2025</li>
+                                <li class="mb-2"><strong>Pengumpulan:</strong> 1 - 15 Mar 2025</li>
+                                <li class="mb-2"><strong>Penilaian:</strong> 16 - 25 Mar 2025</li>
+                                <li class="mb-2"><strong>Pengumuman:</strong> 30 Mar 2025</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h6 class="fw-bold text-dark mb-2">
+                                <i class="bi bi-trophy text-warning me-2"></i>Hadiah
+                            </h6>
+                            <ul class="list-unstyled ms-4">
+                                <li class="mb-2"><strong>Juara 1:</strong> Rp 50.000.000 + Sertifikat</li>
+                                <li class="mb-2"><strong>Juara 2:</strong> Rp 30.000.000 + Sertifikat</li>
+                                <li class="mb-2"><strong>Juara 3:</strong> Rp 20.000.000 + Sertifikat</li>
+                                <li class="mb-2"><strong>Harapan:</strong> Rp 5.000.000 + Sertifikat</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h6 class="fw-bold text-dark mb-2">
+                                <i class="bi bi-people text-success me-2"></i>Persyaratan
+                            </h6>
+                            <ul class="list-unstyled ms-4">
+                                <li class="mb-2">• Mahasiswa aktif S1/D3/D4</li>
+                                <li class="mb-2">• Tim maksimal 3 orang</li>
+                                <li class="mb-2">• Karya original dan belum dipublikasi</li>
+                                <li class="mb-2">• Solusi harus relevan dengan isu kesehatan masyarakat</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
                             <a href="{{ route('login') }}" class="btn btn-primary btn-lg">
                                 <i class="bi bi-person-plus me-2"></i>Daftar Sekarang
                             </a>
-                            <a href="{{ route('public.faq') }}" class="btn btn-outline-primary">
+                            <a href="{{ route('public.faq') }}" class="btn btn-outline-dark">
                                 <i class="bi bi-question-circle me-2"></i>FAQ & Panduan
                             </a>
                         </div>
@@ -269,7 +521,7 @@
 
 <!-- Call to Action -->
 <section class="section bg-primary text-white">
-    <div class="container text-center">
+    <div class="container text-center py-5 position-relative">
         <div class="row justify-content-center">
             <div class="col-lg-8" data-aos="fade-up">
                 <h2 class="fw-bold mb-4">Siap Menunjukkan Inovasimu?</h2>
@@ -300,6 +552,7 @@
         overflow: hidden;
         display: flex;
         align-items: center;
+        z-index: 2;
     }
 
     .hero-background {
@@ -309,6 +562,7 @@
         width: 100%;
         height: 100%;
         z-index: 1;
+        pointer-events: none;
     }
 
     .hero-pattern {
@@ -322,6 +576,8 @@
             radial-gradient(circle at 75% 75%, rgba(255,255,255,0.1) 2px, transparent 2px);
         background-size: 50px 50px;
         animation: patternMove 20s linear infinite;
+        z-index: 1;
+        pointer-events: none;
     }
 
     @keyframes patternMove {
@@ -334,6 +590,8 @@
         width: 100%;
         height: 100%;
         overflow: hidden;
+        pointer-events: none;
+        z-index: 1;
     }
 
     .shape {
