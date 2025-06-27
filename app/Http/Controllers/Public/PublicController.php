@@ -86,11 +86,8 @@ class PublicController extends Controller
     {
         $competition = Competition::where('slug', $slug)->firstOrFail();
 
-        $this->seoService->setPage('competitions')
-            ->setCustomData([
-                'title' => $competition->name . ' - UNAS Fest 2025',
-                'description' => $competition->description,
-            ]);
+        // Set modern SEO for competition
+        $this->modernSeoService->setCompetitionPage($competition);
 
         return view('public.competition-detail', compact('competition'));
     }
@@ -100,7 +97,8 @@ class PublicController extends Controller
      */
     public function team()
     {
-        $this->seoService->setPage('about');
+        // Set modern SEO
+        $this->modernSeoService->setAboutPage();
 
         // Same as about page but focused on team
         return $this->about();
@@ -238,7 +236,8 @@ class PublicController extends Controller
      */
     public function testimonials()
     {
-        $this->seoService->setPage('testimonials');
+        // Set modern SEO
+        $this->modernSeoService->setTestimonialsPage();
         
         // Sample testimonials (in real app, this would come from database)
         $testimonials = [
@@ -319,7 +318,8 @@ class PublicController extends Controller
      */
     public function contact()
     {
-        $this->seoService->setPage('contact');
+        // Set modern SEO
+        $this->modernSeoService->setContactPage();
         
         return view('public.contact');
     }
@@ -363,7 +363,8 @@ class PublicController extends Controller
      */
     public function blog()
     {
-        $this->seoService->setPage('blog');
+        // Set basic SEO for blog
+        $this->modernSeoService->setHomePage(); // Use home page SEO as fallback
         
         // Sample blog posts (in real app, this would come from database)
         $posts = [
@@ -411,11 +412,8 @@ class PublicController extends Controller
             'tags' => ['teknologi', 'kompetisi', 'tips']
         ];
 
-        $this->seoService->setPage('blog')
-            ->setCustomData([
-                'title' => $post['title'] . ' - UNAS Fest 2025 Blog',
-                'description' => 'Baca artikel lengkap: ' . $post['title'],
-            ]);
+        // Set basic SEO for blog detail
+        $this->modernSeoService->setHomePage(); // Use home page SEO as fallback
 
         return view('public.blog-detail', compact('post'));
     }
