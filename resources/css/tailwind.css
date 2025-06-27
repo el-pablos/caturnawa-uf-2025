@@ -11,53 +11,81 @@
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
-    @apply font-inter text-gray-900 antialiased;
+    font-family: 'Inter', sans-serif;
     line-height: 1.6;
   }
-  
+
   h1, h2, h3, h4, h5, h6 {
-    @apply font-clash font-semibold leading-tight;
+    font-family: 'Clash Display', sans-serif;
+    font-weight: 700;
   }
   
   h1 {
-    @apply text-4xl md:text-5xl lg:text-6xl;
+    font-size: 2.5rem;
   }
-  
+
   h2 {
-    @apply text-3xl md:text-4xl lg:text-5xl;
+    font-size: 2rem;
   }
-  
+
   h3 {
-    @apply text-2xl md:text-3xl;
+    font-size: 1.5rem;
   }
-  
+
   h4 {
-    @apply text-xl md:text-2xl;
+    font-size: 1.25rem;
   }
-  
+
   p {
-    @apply text-gray-600 leading-relaxed;
+    color: #6b7280;
+    line-height: 1.625;
   }
-  
+
   .lead {
-    @apply text-lg md:text-xl text-gray-700 leading-relaxed;
+    font-size: 1.125rem;
+    color: #374151;
+    line-height: 1.625;
   }
 }
 
 @layer components {
   /* Button Components */
   .btn-primary {
-    @apply inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-accent-500 to-accent-600 text-white font-semibold rounded-2xl shadow-lg hover:shadow-glow-accent transform hover:scale-105 transition-all duration-300 ease-out;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    background: linear-gradient(to right, #f59e0b, #d97706);
+    color: white;
+    font-weight: 600;
+    border-radius: 1rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
   }
-  
+
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-8 py-4 border-2 border-violet-600 text-violet-600 font-semibold rounded-2xl hover:bg-violet-600 hover:text-white transform hover:scale-105 transition-all duration-300 ease-out;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    border: 2px solid #7c3aed;
+    color: #7c3aed;
+    font-weight: 600;
+    border-radius: 1rem;
+    transition: all 0.3s ease;
   }
-  
+
   .btn-ghost {
-    @apply inline-flex items-center justify-center px-6 py-3 text-gray-600 font-medium hover:text-violet-600 hover:bg-violet-50 rounded-xl transition-all duration-200;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    color: #6b7280;
+    font-weight: 500;
+    border-radius: 0.75rem;
+    transition: all 0.2s ease;
   }
   
   /* Card Components */
