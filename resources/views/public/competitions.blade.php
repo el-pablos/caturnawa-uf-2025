@@ -61,18 +61,18 @@
 
                 <div class="hero-stats" data-aos="fade-up" data-aos-delay="500">
                     <div class="stat-item">
-                        <span class="stat-number">500M</span>
-                        <span class="stat-label">Total Hadiah</span>
-                    </div>
-                    <div class="stat-divider"></div>
-                    <div class="stat-item">
                         <span class="stat-number">10K+</span>
                         <span class="stat-label">Peserta</span>
                     </div>
                     <div class="stat-divider"></div>
                     <div class="stat-item">
-                        <span class="stat-number">100+</span>
-                        <span class="stat-label">Universitas</span>
+                        <span class="stat-number">15</span>
+                        <span class="stat-label">Kompetisi</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">3</span>
+                        <span class="stat-label">Kategori Utama</span>
                     </div>
                 </div>
             </div>
@@ -119,21 +119,21 @@
 
                 <div class="quick-stat-item">
                     <div class="stat-icon bg-gradient-warning">
-                        <i class="bi bi-gift"></i>
+                        <i class="bi bi-award"></i>
                     </div>
                     <div class="stat-content">
-                        <span class="stat-number">500M</span>
-                        <span class="stat-label">Total Hadiah</span>
+                        <span class="stat-number">15</span>
+                        <span class="stat-label">Kategori Kompetisi</span>
                     </div>
                 </div>
 
                 <div class="quick-stat-item">
                     <div class="stat-icon bg-gradient-info">
-                        <i class="bi bi-building"></i>
+                        <i class="bi bi-calendar-event"></i>
                     </div>
                     <div class="stat-content">
-                        <span class="stat-number counter" data-target="100">0</span>
-                        <span class="stat-label">Universitas Partner</span>
+                        <span class="stat-number">3</span>
+                        <span class="stat-label">Bulan Festival</span>
                     </div>
                 </div>
             </div>

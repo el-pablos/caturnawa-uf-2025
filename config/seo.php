@@ -109,8 +109,8 @@ return [
 
     'contact' => [
         'email' => 'info@unasfest.com',
-        'phone' => '+62 21 7806700',
-        'whatsapp' => '+62 812 3456 7890',
+        'phone' => '0858-1737-8442',
+        'whatsapp' => '0858-1737-8442',
         'telegram' => '@unasfest_bot',
         'address' => 'Universitas Nasional, Jl. Sawo Manila No.61, Pejaten, Jakarta Selatan 12560',
     ],
@@ -132,7 +132,7 @@ return [
             ],
             'contactPoint' => [
                 '@type' => 'ContactPoint',
-                'telephone' => '+62-21-7806700',
+                'telephone' => '0858-1737-8442',
                 'contactType' => 'customer service',
             ],
             'sameAs' => [

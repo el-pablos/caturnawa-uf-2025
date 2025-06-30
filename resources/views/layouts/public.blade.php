@@ -260,6 +260,58 @@
             background: #c1c1c1;
             border-radius: 2px;
         }
+
+        /* Visitor Stats Widget */
+        .visitor-stats-widget {
+            margin-bottom: 1rem;
+        }
+
+        .stats-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stats-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #60a5fa;
+        }
+
+        .stats-content {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+        }
+
+        .stat-number {
+            font-size: 16px;
+            font-weight: 700;
+            color: #60a5fa;
+        }
+
+        /* Map Styling */
+        #footer-map {
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
     </style>
     
     @stack('styles')
@@ -330,7 +382,7 @@
     <footer class="bg-dark text-white py-5">
         <div class="container">
             <div class="row g-4">
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class="d-flex align-items-center mb-3">
                         <img src="{{ asset('assets/images/logo/unas-fest-logo-white.png') }}" alt="UNAS Fest 2025" height="40" class="me-3"
                              onerror="this.style.display='none'">
@@ -357,7 +409,7 @@
                     </ul>
                 </div>
 
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-2 col-md-6">
                     <h6 class="font-poppins mb-3">Kompetisi</h6>
                     <ul class="list-unstyled">
                         <li><a href="#" class="text-light text-decoration-none">Teknologi</a></li>
@@ -367,7 +419,7 @@
                     </ul>
                 </div>
 
-                <div class="col-lg-3">
+                <div class="col-lg-2">
                     <h6 class="font-poppins mb-3">Kontak</h6>
                     @php $contact = $seo->getContactInfo(); @endphp
                     <div class="d-flex align-items-center mb-2">
@@ -381,6 +433,43 @@
                     <div class="d-flex align-items-start">
                         <i class="bi bi-geo-alt me-2 mt-1"></i>
                         <span class="text-light">{{ $contact['address'] }}</span>
+                    </div>
+                </div>
+
+                <div class="col-lg-3">
+                    <div class="row g-3">
+                        <!-- Visitor Stats -->
+                        <div class="col-12">
+                            <h6 class="font-poppins mb-3">Statistik Pengunjung</h6>
+                            <div class="visitor-stats-widget">
+                                <div class="stats-card">
+                                    <div class="stats-header">
+                                        <i class="bi bi-graph-up"></i>
+                                        <span>STATS</span>
+                                    </div>
+                                    <div class="stats-content">
+                                        <div class="stat-item">
+                                            <span class="stat-label">HARI INI</span>
+                                            <span class="stat-number" id="today-visitors">0</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span class="stat-label">MINGGU INI</span>
+                                            <span class="stat-number" id="week-visitors">0</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span class="stat-label">TOTAL</span>
+                                            <span class="stat-number" id="total-visitors">0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Location Map -->
+                        <div class="col-12">
+                            <h6 class="font-poppins mb-3">Lokasi Kami</h6>
+                            <div id="footer-map" style="height: 200px; border-radius: 10px; overflow: hidden;"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -407,6 +496,9 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Google Maps API -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dO9O8nce6hq9qU&callback=initFooterMap"></script>
 
     <script>
         // Initialize AOS
@@ -439,6 +531,152 @@
             } else {
                 navbar.style.background = 'rgba(255, 255, 255, 0.95)';
                 navbar.style.boxShadow = 'none';
+            }
+        });
+
+        // Initialize Footer Map
+        function initFooterMap() {
+            const universitas = { lat: -6.2697, lng: 106.8049 }; // Universitas Nasional Jakarta coordinates
+
+            const map = new google.maps.Map(document.getElementById('footer-map'), {
+                zoom: 15,
+                center: universitas,
+                styles: [
+                    {
+                        "featureType": "all",
+                        "elementType": "labels.text.fill",
+                        "stylers": [{"color": "#ffffff"}]
+                    },
+                    {
+                        "featureType": "all",
+                        "elementType": "labels.text.stroke",
+                        "stylers": [{"color": "#000000"}, {"lightness": 13}]
+                    },
+                    {
+                        "featureType": "administrative",
+                        "elementType": "geometry.fill",
+                        "stylers": [{"color": "#000000"}]
+                    },
+                    {
+                        "featureType": "administrative",
+                        "elementType": "geometry.stroke",
+                        "stylers": [{"color": "#144b53"}, {"lightness": 14}, {"weight": 1.4}]
+                    },
+                    {
+                        "featureType": "landscape",
+                        "elementType": "all",
+                        "stylers": [{"color": "#08304b"}]
+                    },
+                    {
+                        "featureType": "poi",
+                        "elementType": "geometry",
+                        "stylers": [{"color": "#0c4152"}, {"lightness": 5}]
+                    },
+                    {
+                        "featureType": "road.highway",
+                        "elementType": "geometry.fill",
+                        "stylers": [{"color": "#000000"}]
+                    },
+                    {
+                        "featureType": "road.highway",
+                        "elementType": "geometry.stroke",
+                        "stylers": [{"color": "#0b434f"}, {"lightness": 25}]
+                    },
+                    {
+                        "featureType": "road.arterial",
+                        "elementType": "geometry.fill",
+                        "stylers": [{"color": "#000000"}]
+                    },
+                    {
+                        "featureType": "road.arterial",
+                        "elementType": "geometry.stroke",
+                        "stylers": [{"color": "#0b3d51"}, {"lightness": 16}]
+                    },
+                    {
+                        "featureType": "road.local",
+                        "elementType": "geometry",
+                        "stylers": [{"color": "#000000"}]
+                    },
+                    {
+                        "featureType": "transit",
+                        "elementType": "all",
+                        "stylers": [{"color": "#146474"}]
+                    },
+                    {
+                        "featureType": "water",
+                        "elementType": "all",
+                        "stylers": [{"color": "#021019"}]
+                    }
+                ],
+                disableDefaultUI: true,
+                zoomControl: false,
+                mapTypeControl: false,
+                scaleControl: false,
+                streetViewControl: false,
+                rotateControl: false,
+                fullscreenControl: false
+            });
+
+            const marker = new google.maps.Marker({
+                position: universitas,
+                map: map,
+                title: 'Universitas Nasional Jakarta',
+                icon: {
+                    url: 'data:image/svg+xml;charset=UTF-8,<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="16" fill="%2360a5fa"/><circle cx="16" cy="16" r="8" fill="white"/></svg>',
+                    scaledSize: new google.maps.Size(32, 32)
+                }
+            });
+
+            const infoWindow = new google.maps.InfoWindow({
+                content: '<div style="color: #333; font-weight: 600;">Universitas Nasional Jakarta</div>'
+            });
+
+            marker.addListener('click', () => {
+                infoWindow.open(map, marker);
+            });
+        }
+
+        // Visitor Stats Counter
+        function animateCounter(element, target, duration = 2000) {
+            const start = 0;
+            const increment = target / (duration / 16);
+            let current = start;
+
+            const counter = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target.toLocaleString();
+                    clearInterval(counter);
+                } else {
+                    element.textContent = Math.floor(current).toLocaleString();
+                }
+            }, 16);
+        }
+
+        // Initialize visitor stats
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simulated visitor data - in real implementation, fetch from API
+            const visitorData = {
+                today: Math.floor(Math.random() * 500) + 200,
+                week: Math.floor(Math.random() * 2000) + 1500,
+                total: Math.floor(Math.random() * 50000) + 130000
+            };
+
+            // Animate counters when footer is visible
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounter(document.getElementById('today-visitors'), visitorData.today);
+                        animateCounter(document.getElementById('week-visitors'), visitorData.week);
+                        animateCounter(document.getElementById('total-visitors'), visitorData.total);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            });
+
+            const statsWidget = document.querySelector('.visitor-stats-widget');
+            if (statsWidget) {
+                observer.observe(statsWidget);
             }
         });
     </script>
