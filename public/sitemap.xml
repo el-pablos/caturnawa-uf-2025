@@ -1,95 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+    
     <!-- Homepage -->
     <url>
-        <loc>{{ url('/') }}</loc>
-        <lastmod>{{ now()->toW3cString() }}</lastmod>
+        <loc>https://caturnawa2025.unasfest.com/</loc>
+        <lastmod>2025-01-01T00:00:00+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
+        <image:image>
+            <image:loc>https://caturnawa2025.unasfest.com/assets/images/og/caturnawa-2025-og.jpg</image:loc>
+            <image:caption>Caturnawa UNAS Fest 2025 - Festival Kompetisi Nasional</image:caption>
+            <image:title>Caturnawa 2025</image:title>
+        </image:image>
     </url>
-
-    <!-- Competitions -->
+    
+    <!-- Competitions Page -->
     <url>
-        <loc>{{ route('public.competitions') }}</loc>
-        <lastmod>{{ now()->toW3cString() }}</lastmod>
+        <loc>https://caturnawa2025.unasfest.com/competitions</loc>
+        <lastmod>2025-01-01T00:00:00+00:00</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
-
-    <!-- About -->
+    
+    <!-- Individual Competition Pages -->
     <url>
-        <loc>{{ route('public.about') }}</loc>
-        <lastmod>{{ now()->toW3cString() }}</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://caturnawa2025.unasfest.com/competitions/kdbi</loc>
+        <lastmod>2025-01-01T00:00:00+00:00</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
-
-    <!-- Testimonials -->
+    
     <url>
-        <loc>{{ route('public.testimonials') }}</loc>
-        <lastmod>{{ now()->toW3cString() }}</lastmod>
+        <loc>https://caturnawa2025.unasfest.com/competitions/edc</loc>
+        <lastmod>2025-01-01T00:00:00+00:00</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://caturnawa2025.unasfest.com/competitions/short-movie</loc>
+        <lastmod>2025-01-01T00:00:00+00:00</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://caturnawa2025.unasfest.com/competitions/scientific-paper</loc>
+        <lastmod>2025-01-01T00:00:00+00:00</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- Timeline Page -->
+    <url>
+        <loc>https://caturnawa2025.unasfest.com/timeline</loc>
+        <lastmod>2025-01-01T00:00:00+00:00</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
-
-    <!-- Blog -->
+    
+    <!-- FAQ Page -->
     <url>
-        <loc>{{ route('public.blog') }}</loc>
-        <lastmod>{{ now()->toW3cString() }}</lastmod>
-        <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-    </url>
-
-    <!-- Contact -->
-    <url>
-        <loc>{{ route('public.contact') }}</loc>
-        <lastmod>{{ now()->toW3cString() }}</lastmod>
+        <loc>https://caturnawa2025.unasfest.com/faq</loc>
+        <lastmod>2025-01-01T00:00:00+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
-
-    <!-- FAQ -->
+    
+    <!-- Contact Page -->
     <url>
-        <loc>{{ route('public.faq') }}</loc>
-        <lastmod>{{ now()->toW3cString() }}</lastmod>
+        <loc>https://caturnawa2025.unasfest.com/contact</loc>
+        <lastmod>2025-01-01T00:00:00+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
-
+    
+    <!-- About Page -->
+    <url>
+        <loc>https://caturnawa2025.unasfest.com/about</loc>
+        <lastmod>2025-01-01T00:00:00+00:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
     <!-- Privacy Policy -->
     <url>
-        <loc>{{ route('public.privacy') }}</loc>
-        <lastmod>{{ now()->toW3cString() }}</lastmod>
+        <loc>https://caturnawa2025.unasfest.com/privacy</loc>
+        <lastmod>2025-01-01T00:00:00+00:00</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>
-
-    <!-- Terms of Service -->
+    
+    <!-- Terms and Conditions -->
     <url>
-        <loc>{{ route('public.terms') }}</loc>
-        <lastmod>{{ now()->toW3cString() }}</lastmod>
+        <loc>https://caturnawa2025.unasfest.com/terms</loc>
+        <lastmod>2025-01-01T00:00:00+00:00</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>
-
-    <!-- Login -->
-    <url>
-        <loc>{{ route('login') }}</loc>
-        <lastmod>{{ now()->toW3cString() }}</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-
-    <!-- Register -->
-    <url>
-        <loc>{{ route('register') }}</loc>
-        <lastmod>{{ now()->toW3cString() }}</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-
+    
 </urlset>

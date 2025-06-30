@@ -1,38 +1,80 @@
 User-agent: *
 Allow: /
 
-# Sitemap
-Sitemap: {{ url('/sitemap.xml') }}
+# Important pages for crawling
+Allow: /competitions
+Allow: /timeline
+Allow: /faq
+Allow: /contact
+Allow: /about
 
-# Block admin areas
+# Block admin and private areas
 Disallow: /admin/
 Disallow: /dashboard/
 Disallow: /api/
 Disallow: /storage/
 Disallow: /vendor/
+Disallow: /node_modules/
 
-# Block authentication pages from indexing
-Disallow: /login
-Disallow: /register
-Disallow: /password/
-Disallow: /forgot-password
-Disallow: /reset-password
+# Block temporary and cache files
+Disallow: /tmp/
+Disallow: /cache/
+Disallow: /*.log$
+Disallow: /*.txt$
+Disallow: /*.bak$
 
-# Block development/testing files
-Disallow: /*.log
-Disallow: /*.sql
-Disallow: /*.env
-Disallow: /test/
-Disallow: /tests/
+# Block sensitive files
+Disallow: /.env
+Disallow: /.git/
+Disallow: /composer.json
+Disallow: /composer.lock
+Disallow: /package.json
+Disallow: /package-lock.json
+Disallow: /webpack.mix.js
+Disallow: /artisan
 
-# Allow important CSS and JS files
+# Allow specific static assets
 Allow: /assets/
 Allow: /css/
 Allow: /js/
 Allow: /images/
+Allow: /fonts/
 
-# Crawl delay (optional)
+# Crawl delay (be nice to servers)
 Crawl-delay: 1
 
-# Host
-Host: {{ config('app.url') }}
+# Sitemap location
+Sitemap: https://caturnawa2025.unasfest.com/sitemap.xml
+Sitemap: https://caturnawa2025.unasfest.com/sitemap-news.xml
+
+# Block specific bots if needed (uncomment if necessary)
+# User-agent: SemrushBot
+# Disallow: /
+
+# User-agent: AhrefsBot  
+# Disallow: /
+
+# User-agent: MJ12bot
+# Disallow: /
+
+# Special instructions for search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Allow social media crawlers
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /

@@ -1,17 +1,15 @@
 {
-  "name": "UNAS Fest 2025 - Festival Kompetisi Nasional",
-  "short_name": "UNAS Fest 2025",
-  "description": "Festival Kompetisi Nasional terbesar di Indonesia yang menggabungkan Teknologi, Kesehatan, dan Biodiversitas untuk masa depan berkelanjutan",
+  "name": "Caturnawa UNAS Fest 2025",
+  "short_name": "Caturnawa 2025",
+  "description": "Festival Kompetisi Nasional Terbesar di Indonesia - Kompetisi Debat, Film Pendek, dan Karya Ilmiah",
   "start_url": "/",
   "display": "standalone",
+  "background_color": "#1E40AF",
+  "theme_color": "#1E40AF",
   "orientation": "portrait-primary",
-  "theme_color": "#2563eb",
-  "background_color": "#2563eb",
-  "scope": "/",
-  "id": "unas-fest-2025",
+  "categories": ["education", "competition", "events"],
   "lang": "id",
-  "dir": "ltr",
-  "categories": ["education", "competitions", "events", "technology", "health", "environment"],
+  "scope": "/",
   "icons": [
     {
       "src": "/assets/images/favicon/android-chrome-192x192.png",
@@ -36,106 +34,76 @@
       "sizes": "512x512",
       "type": "image/png", 
       "purpose": "maskable"
-    },
-    {
-      "src": "/assets/images/favicon/apple-touch-icon.png",
-      "sizes": "180x180",
-      "type": "image/png",
-      "purpose": "any"
     }
   ],
   "screenshots": [
     {
-      "src": "/assets/images/screenshots/desktop-homepage.png",
-      "sizes": "1920x1080",
+      "src": "/assets/images/screenshots/desktop-home.png",
+      "sizes": "1280x720",
       "type": "image/png",
       "platform": "wide",
-      "label": "Homepage UNAS Fest 2025 - Desktop View"
+      "label": "Homepage on desktop"
     },
     {
-      "src": "/assets/images/screenshots/mobile-homepage.png", 
-      "sizes": "390x844",
+      "src": "/assets/images/screenshots/mobile-home.png", 
+      "sizes": "414x896",
       "type": "image/png",
       "platform": "narrow",
-      "label": "Homepage UNAS Fest 2025 - Mobile View"
-    },
-    {
-      "src": "/assets/images/screenshots/desktop-competitions.png",
-      "sizes": "1920x1080", 
-      "type": "image/png",
-      "platform": "wide",
-      "label": "Halaman Kompetisi - Desktop View"
-    },
-    {
-      "src": "/assets/images/screenshots/mobile-competitions.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "platform": "narrow", 
-      "label": "Halaman Kompetisi - Mobile View"
+      "label": "Homepage on mobile"
     }
   ],
   "shortcuts": [
     {
-      "name": "Kompetisi",
-      "short_name": "Kompetisi",
-      "description": "Lihat semua kompetisi yang tersedia",
-      "url": "/competitions",
-      "icons": [
-        {
-          "src": "/assets/images/icons/competition-shortcut-192.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Daftar Akun",
-      "short_name": "Daftar", 
-      "description": "Buat akun baru untuk mengikuti kompetisi",
+      "name": "Daftar Kompetisi",
+      "short_name": "Daftar",
+      "description": "Daftar kompetisi Caturnawa 2025",
       "url": "/register",
       "icons": [
         {
-          "src": "/assets/images/icons/register-shortcut-192.png",
-          "sizes": "192x192",
-          "type": "image/png"
+          "src": "/assets/images/icons/register-shortcut.png",
+          "sizes": "96x96"
         }
       ]
     },
     {
-      "name": "Masuk",
-      "short_name": "Login",
-      "description": "Masuk ke akun Anda",
-      "url": "/login", 
+      "name": "Lihat Kompetisi", 
+      "short_name": "Kompetisi",
+      "description": "Lihat semua kategori kompetisi",
+      "url": "/competitions",
       "icons": [
         {
-          "src": "/assets/images/icons/login-shortcut-192.png",
-          "sizes": "192x192",
-          "type": "image/png"
+          "src": "/assets/images/icons/competitions-shortcut.png",
+          "sizes": "96x96"
         }
       ]
     },
     {
-      "name": "Kontak",
-      "short_name": "Kontak",
-      "description": "Hubungi panitia UNAS Fest 2025",
-      "url": "/contact",
+      "name": "Timeline",
+      "short_name": "Timeline", 
+      "description": "Lihat jadwal kompetisi",
+      "url": "/timeline",
       "icons": [
         {
-          "src": "/assets/images/icons/contact-shortcut-192.png", 
-          "sizes": "192x192",
-          "type": "image/png"
+          "src": "/assets/images/icons/timeline-shortcut.png",
+          "sizes": "96x96"
         }
       ]
     }
   ],
   "prefer_related_applications": false,
+  "related_applications": [
+    {
+      "platform": "web",
+      "url": "https://caturnawa2025.unasfest.com"
+    }
+  ],
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
+  "handle_links": "preferred",
   "edge_side_panel": {
     "preferred_width": 400
   },
-  "launch_handler": {
-    "client_mode": "navigate-existing"
-  },
-  "display_override": ["window-controls-overlay", "standalone", "minimal-ui", "browser"],
   "protocol_handlers": [
     {
       "protocol": "mailto",
