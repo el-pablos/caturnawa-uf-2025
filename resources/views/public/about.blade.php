@@ -1,237 +1,145 @@
-    gap: var(--space-2);
-    font-weight: var(--font-medium);
-    color: var(--primary);
-    transition: var(--transition-normal);
-}
+@extends('layouts.simple')
 
-.value-highlight i {
-    font-size: var(--text-sm);
-}
+@php
+    $seoPage = 'about';
+@endphp
 
-/* Team Section */
-.team-section {
-    background: var(--light);
-}
-
-.team-overview {
-    background: var(--white);
-    border-radius: var(--radius-2xl);
-    padding: var(--space-10);
-    box-shadow: var(--shadow-md);
-    text-align: center;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.team-overview h3 {
-    font-size: var(--text-2xl);
-    font-weight: var(--font-bold);
-    color: var(--primary);
-    margin-bottom: var(--space-4);
-}
-
-.team-overview p {
-    color: var(--text-secondary);
-    line-height: 1.7;
-    margin-bottom: var(--space-8);
-    font-size: var(--text-lg);
-}
-
-.team-stats {
-    display: flex;
-    justify-content: center;
-    gap: var(--space-8);
-    flex-wrap: wrap;
-}
-
-.team-stat {
-    text-align: center;
-}
-
-.team-stat .stat-number {
-    display: block;
-    font-size: var(--text-3xl);
-    font-weight: var(--font-extrabold);
-    color: var(--primary);
-    margin-bottom: var(--space-2);
-}
-
-.team-stat .stat-label {
-    font-size: var(--text-sm);
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-/* Mobile Responsive */
-@media (max-width: 991px) {
-    .about-illustration {
-        height: 300px;
-    }
-    
-    .illustration-container {
-        width: 250px;
-        height: 250px;
-    }
-    
-    .about-icon {
-        width: 60px;
-        height: 60px;
-        font-size: var(--text-xl);
-    }
-    
-    .visi-misi-card {
-        padding: var(--space-8);
-        margin-bottom: var(--space-6);
-    }
-    
-    .team-stats {
-        gap: var(--space-6);
-    }
-}
-
-@media (max-width: 767px) {
-    .about-illustration {
-        height: 250px;
-    }
-    
-    .illustration-container {
-        width: 200px;
-        height: 200px;
-    }
-    
-    .about-icon {
-        width: 50px;
-        height: 50px;
-        font-size: var(--text-lg);
-    }
-    
-    .visi-misi-card {
-        padding: var(--space-6);
-    }
-    
-    .visi-misi-card .card-icon {
-        width: 60px;
-        height: 60px;
-        font-size: var(--text-xl);
-    }
-    
-    .visi-misi-card .card-title {
-        font-size: var(--text-xl);
-    }
-    
-    .visi-misi-card .card-description {
-        font-size: var(--text-base);
-    }
-    
-    .value-card {
-        padding: var(--space-6);
-        margin-bottom: var(--space-6);
-    }
-    
-    .value-icon {
-        width: 60px;
-        height: 60px;
-        font-size: var(--text-xl);
-    }
-    
-    .value-title {
-        font-size: var(--text-lg);
-    }
-    
-    .team-overview {
-        padding: var(--space-8);
-    }
-    
-    .team-stats {
-        flex-direction: column;
-        gap: var(--space-4);
-    }
-    
-    .team-stat .stat-number {
-        font-size: var(--text-2xl);
-    }
-}
-</style>
-@endpush
-
-@push('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize counter animations
-    const counters = document.querySelectorAll('.counter');
-    
-    if (counters.length > 0) {
-        const observerOptions = {
-            threshold: 0.5,
-            rootMargin: '0px 0px -100px 0px'
-        };
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateCounter(entry.target);
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-        
-        counters.forEach(counter => observer.observe(counter));
-    }
-    
-    function animateCounter(element) {
-        const target = parseInt(element.getAttribute('data-target'));
-        const duration = 2000; // 2 seconds
-        const start = 0;
-        const increment = target / (duration / 16); // 60fps
-        let current = start;
-        
-        const timer = setInterval(() => {
-            current += increment;
+@section('content')
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="text-center mb-5">
+                <h1 class="display-4 fw-bold text-primary">Tentang UNAS Fest 2025</h1>
+                <p class="lead text-muted">Kompetisi teknologi terbesar yang menggabungkan inovasi, kreativitas, dan kolaborasi</p>
+            </div>
             
-            if (current >= target) {
-                element.textContent = target.toLocaleString('id-ID');
-                clearInterval(timer);
-            } else {
-                element.textContent = Math.floor(current).toLocaleString('id-ID');
-            }
-        }, 16);
-    }
-    
-    // Progress bars animation
-    const progressBars = document.querySelectorAll('.progress-fill');
-    
-    if (progressBars.length > 0) {
-        const progressObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const progress = entry.target.getAttribute('data-progress');
-                    entry.target.style.width = `${progress}%`;
-                    progressObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
-        
-        progressBars.forEach(bar => progressObserver.observe(bar));
-    }
-    
-    // Smooth scroll for internal links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href').substring(1);
-            const targetElement = document.getElementById(targetId);
-            
-            if (targetElement) {
-                const navbarHeight = document.getElementById('navbar')?.offsetHeight || 0;
-                const targetPosition = targetElement.offsetTop - navbarHeight - 20;
+            <div class="row mb-5">
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body p-5">
+                            <div class="text-center mb-4">
+                                <i class="bi bi-eye-fill text-primary fs-1"></i>
+                            </div>
+                            <h3 class="text-center mb-4">Visi Kami</h3>
+                            <p class="text-muted">
+                                Menjadi platform kompetisi teknologi terdepan yang menginspirasi generasi muda Indonesia 
+                                untuk menciptakan inovasi digital yang berkelanjutan dan berdampak positif bagi kemajuan bangsa.
+                            </p>
+                            <div class="mt-4">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                    <span>Inovasi Berkelanjutan</span>
+                                </div>
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                    <span>Dampak Positif</span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                    <span>Kemajuan Bangsa</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-});
-</script>
-@endpush
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body p-5">
+                            <div class="text-center mb-4">
+                                <i class="bi bi-target text-primary fs-1"></i>
+                            </div>
+                            <h3 class="text-center mb-4">Misi Kami</h3>
+                            <div class="mission-list">
+                                <div class="d-flex mb-4">
+                                    <div class="badge bg-primary rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;">1</div>
+                                    <div>
+                                        <h6 class="mb-1">Mengembangkan Talenta Digital</h6>
+                                        <small class="text-muted">Memberikan wadah bagi mahasiswa untuk mengasah kemampuan teknologi dan inovasi</small>
+                                    </div>
+                                </div>
+                                <div class="d-flex mb-4">
+                                    <div class="badge bg-primary rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;">2</div>
+                                    <div>
+                                        <h6 class="mb-1">Membangun Ekosistem Kolaboratif</h6>
+                                        <small class="text-muted">Menciptakan jaringan kolaborasi antara akademisi, industri, dan pemerintah</small>
+                                    </div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="badge bg-primary rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;">3</div>
+                                    <div>
+                                        <h6 class="mb-1">Mendorong Inovasi Berkelanjutan</h6>
+                                        <small class="text-muted">Menghasilkan solusi teknologi yang dapat diimplementasikan untuk kemajuan masyarakat</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mb-5">
+                <h2 class="fw-bold text-primary mb-3">Nilai-Nilai Kami</h2>
+                <p class="text-muted">Prinsip-prinsip yang menjadi fondasi dalam setiap kegiatan UNAS Fest 2025</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm text-center">
+                        <div class="card-body p-4">
+                            <i class="bi bi-lightbulb-fill text-warning fs-1 mb-3"></i>
+                            <h5>Inovasi</h5>
+                            <p class="text-muted small">Mendorong pemikiran kreatif dan solusi out-of-the-box untuk tantangan teknologi masa depan</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm text-center">
+                        <div class="card-body p-4">
+                            <i class="bi bi-people-fill text-info fs-1 mb-3"></i>
+                            <h5>Kolaborasi</h5>
+                            <p class="text-muted small">Membangun sinergi antar peserta, mentor, dan stakeholder untuk mencapai tujuan bersama</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm text-center">
+                        <div class="card-body p-4">
+                            <i class="bi bi-award-fill text-success fs-1 mb-3"></i>
+                            <h5>Keunggulan</h5>
+                            <p class="text-muted small">Berkomitmen untuk memberikan pengalaman kompetisi berkualitas tinggi dan standar internasional</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm text-center">
+                        <div class="card-body p-4">
+                            <i class="bi bi-shield-check-fill text-primary fs-1 mb-3"></i>
+                            <h5>Integritas</h5>
+                            <p class="text-muted small">Menjunjung tinggi kejujuran, transparansi, dan fair play dalam setiap aspek kompetisi</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm text-center">
+                        <div class="card-body p-4">
+                            <i class="bi bi-globe text-danger fs-1 mb-3"></i>
+                            <h5>Dampak Sosial</h5>
+                            <p class="text-muted small">Mengutamakan solusi yang memberikan manfaat nyata bagi masyarakat dan lingkungan</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm text-center">
+                        <div class="card-body p-4">
+                            <i class="bi bi-graph-up text-success fs-1 mb-3"></i>
+                            <h5>Pertumbuhan</h5>
+                            <p class="text-muted small">Memberikan kesempatan belajar dan berkembang bagi semua peserta dan stakeholder</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
