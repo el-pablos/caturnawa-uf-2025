@@ -1509,3 +1509,13 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 @endpush
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+});
+</script>
+@endpush
