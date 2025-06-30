@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="id" data-bs-theme="light" prefix="og: http://ogp.me/ns#">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     {{-- SEO Component --}}
     <x-seo
         :title="isset($seoTitle) ? $seoTitle : (isset($title) ? $title . ' - ' . config('app.name') : config('app.name'))"
@@ -23,6 +27,9 @@
 
     <!-- UNAS Theme CSS -->
     <link href="{{ asset('css/unas-theme.css') }}" rel="stylesheet">
+
+    <!-- Vite Assets -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- Custom CSS -->
     <style>

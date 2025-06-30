@@ -1,293 +1,779 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    
-    <!-- SEO Meta Tags -->
-    {!! SEOTools::generate() !!}
-    
-    <!-- Preconnect for performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
-    
-    <!-- Styles -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
-    <!-- Alpine.js -->
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #1e293b;
+            scroll-behavior: smooth;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .hero-modern {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        }
+    </style>
+
+    <!-- External CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Title -->
+    <title>@stack('title', 'UNAS Fest 2025 - Festival Kompetisi Nasional')</title>
+
     @stack('styles')
 </head>
-<body class="antialiased bg-gray-50" x-data="{ mobileMenuOpen: false }" :class="{ 'overflow-hidden': mobileMenuOpen }">
+<body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="visually-hidden-focusable">Skip to main content</a>
+
     <!-- Navigation -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100" x-data="{ scrolled: false }" 
-         @scroll.window="scrolled = window.pageYOffset > 20" 
-         :class="{ 'shadow-lg': scrolled }">
-        <div class="container-custom">
-            <div class="flex items-center justify-between h-20">
-                <!-- Logo -->
-                <div class="flex items-center space-x-4">
-                    <a href="{{ route('public.home') }}" class="flex items-center space-x-3">
-                        <div class="w-10 h-10 bg-gradient-to-r from-violet-600 to-blue-600 rounded-xl flex items-center justify-center">
-                            <span class="text-white font-bold text-lg">UF</span>
-                        </div>
-                        <div class="hidden sm:block">
-                            <h1 class="text-xl font-clash font-bold text-gray-900">UNAS Fest</h1>
-                            <p class="text-xs text-gray-500 -mt-1">2025</p>
-                        </div>
-                    </a>
-                </div>
-                
-                <!-- Desktop Navigation -->
-                <div class="hidden lg:flex items-center space-x-8">
-                    <a href="{{ route('public.home') }}" class="nav-link {{ request()->routeIs('public.home') ? 'text-violet-600' : '' }}">
-                        Beranda
-                    </a>
-                    <a href="{{ route('public.competitions') }}" class="nav-link {{ request()->routeIs('public.competitions') ? 'text-violet-600' : '' }}">
-                        Kompetisi
-                    </a>
-                    <a href="{{ route('public.about') }}" class="nav-link {{ request()->routeIs('public.about') ? 'text-violet-600' : '' }}">
-                        Tentang
-                    </a>
-                    <a href="{{ route('public.testimonials') }}" class="nav-link {{ request()->routeIs('public.testimonials') ? 'text-violet-600' : '' }}">
-                        Testimoni
-                    </a>
-                    <a href="{{ route('public.contact') }}" class="nav-link {{ request()->routeIs('public.contact') ? 'text-violet-600' : '' }}">
-                        Kontak
-                    </a>
-                </div>
-                
-                <!-- CTA Button -->
-                <div class="hidden lg:flex items-center space-x-4">
-                    @auth
-                        <a href="{{ route('dashboard') }}" class="btn-ghost">
-                            Dashboard
+    <nav class="navbar navbar-expand-lg fixed-top" id="mainNavbar">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{{ route('public.home') }}" aria-label="UNAS Fest 2025 Home">
+                <img src="{{ asset('assets/images/logo/unas-fest-logo.webp') }}" 
+                     alt="UNAS Fest 2025 Logo" 
+                     height="40" 
+                     width="40" 
+                     class="me-2"
+                     loading="eager"
+                     onerror="this.style.display='none'">
+                <span class="fw-bold text-primary fs-4">UNAS Fest 2025</span>
+            </a>
+            
+            <button class="navbar-toggler border-0" 
+                    type="button" 
+                    data-bs-toggle="collapse" 
+                    data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" 
+                    aria-expanded="false" 
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('public.home') ? 'active' : '' }}" 
+                           href="{{ route('public.home') }}"
+                           aria-current="{{ request()->routeIs('public.home') ? 'page' : 'false' }}">
+                            <i class="bi bi-house-door me-1"></i>Beranda
                         </a>
-                        <form method="POST" action="{{ route('logout') }}" class="inline">
-                            @csrf
-                            <button type="submit" class="btn-ghost">
-                                Logout
-                            </button>
-                        </form>
-                    @else
-                        <a href="{{ route('login') }}" class="btn-ghost">
-                            Masuk
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('public.competitions') ? 'active' : '' }}" 
+                           href="{{ route('public.competitions') }}">
+                            <i class="bi bi-trophy me-1"></i>Kompetisi
                         </a>
-                        <a href="{{ route('register') }}" class="btn-primary">
-                            Daftar Sekarang
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('public.about') ? 'active' : '' }}" 
+                           href="{{ route('public.about') }}">
+                            <i class="bi bi-people me-1"></i>Tentang
                         </a>
-                    @endauth
-                </div>
-                
-                <!-- Mobile Menu Button -->
-                <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden p-2 rounded-xl hover:bg-gray-100 transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path x-show="!mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        <path x-show="mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        
-        <!-- Mobile Menu -->
-        <div x-show="mobileMenuOpen" 
-             x-transition:enter="transition ease-out duration-200"
-             x-transition:enter-start="opacity-0 transform -translate-y-2"
-             x-transition:enter-end="opacity-100 transform translate-y-0"
-             x-transition:leave="transition ease-in duration-150"
-             x-transition:leave-start="opacity-100 transform translate-y-0"
-             x-transition:leave-end="opacity-0 transform -translate-y-2"
-             class="lg:hidden bg-white border-t border-gray-100">
-            <div class="container-custom py-6">
-                <div class="flex flex-col space-y-4">
-                    <a href="{{ route('public.home') }}" class="text-gray-900 hover:text-violet-600 font-medium py-2 transition-colors">
-                        Beranda
-                    </a>
-                    <a href="{{ route('public.competitions') }}" class="text-gray-900 hover:text-violet-600 font-medium py-2 transition-colors">
-                        Kompetisi
-                    </a>
-                    <a href="{{ route('public.about') }}" class="text-gray-900 hover:text-violet-600 font-medium py-2 transition-colors">
-                        Tentang
-                    </a>
-                    <a href="{{ route('public.testimonials') }}" class="text-gray-900 hover:text-violet-600 font-medium py-2 transition-colors">
-                        Testimoni
-                    </a>
-                    <a href="{{ route('public.contact') }}" class="text-gray-900 hover:text-violet-600 font-medium py-2 transition-colors">
-                        Kontak
-                    </a>
-                    
-                    <div class="pt-4 border-t border-gray-100">
-                        @auth
-                            <a href="{{ route('dashboard') }}" class="block w-full text-center py-3 px-4 bg-gray-100 text-gray-900 rounded-xl font-medium mb-3 transition-colors hover:bg-gray-200">
-                                Dashboard
-                            </a>
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit" class="block w-full text-center py-3 px-4 bg-red-100 text-red-600 rounded-xl font-medium transition-colors hover:bg-red-200">
-                                    Logout
-                                </button>
-                            </form>
-                        @else
-                            <a href="{{ route('login') }}" class="block w-full text-center py-3 px-4 bg-gray-100 text-gray-900 rounded-xl font-medium mb-3 transition-colors hover:bg-gray-200">
-                                Masuk
-                            </a>
-                            <a href="{{ route('register') }}" class="block w-full text-center py-3 px-4 bg-gradient-to-r from-accent-500 to-accent-600 text-white rounded-xl font-medium transition-all hover:shadow-lg">
-                                Daftar Sekarang
-                            </a>
-                        @endauth
-                    </div>
-                </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('public.testimonials') ? 'active' : '' }}" 
+                           href="{{ route('public.testimonials') }}">
+                            <i class="bi bi-chat-quote me-1"></i>Testimoni
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('public.blog') ? 'active' : '' }}" 
+                           href="{{ route('public.blog') }}">
+                            <i class="bi bi-journal-text me-1"></i>Blog
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('public.contact') ? 'active' : '' }}" 
+                           href="{{ route('public.contact') }}">
+                            <i class="bi bi-envelope me-1"></i>Kontak
+                        </a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <a class="btn btn-primary rounded-pill px-3" 
+                           href="{{ route('login') }}"
+                           aria-label="Masuk ke dashboard">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>Masuk
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
-    
+
     <!-- Main Content -->
-    <main class="pt-20">
+    <main id="main-content">
         @yield('content')
     </main>
-    
+
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white">
-        <div class="container-custom">
-            <!-- Main Footer -->
-            <div class="py-16">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <!-- Brand -->
-                    <div class="lg:col-span-2">
-                        <div class="flex items-center space-x-3 mb-6">
-                            <div class="w-12 h-12 bg-gradient-to-r from-violet-600 to-blue-600 rounded-xl flex items-center justify-center">
-                                <span class="text-white font-bold text-xl">UF</span>
-                            </div>
-                            <div>
-                                <h3 class="text-2xl font-clash font-bold">UNAS Fest 2025</h3>
-                                <p class="text-gray-400 text-sm">Festival Kompetisi Nasional</p>
-                            </div>
+    <footer class="footer-modern">
+        <div class="container">
+            <!-- Main Footer Content -->
+            <div class="row g-4 py-5">
+                <div class="col-lg-4 col-md-6">
+                    <div class="footer-brand">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="{{ asset('assets/images/logo/unas-fest-logo-white.webp') }}" 
+                                 alt="UNAS Fest 2025" 
+                                 height="40" 
+                                 width="40" 
+                                 class="me-3"
+                                 loading="lazy"
+                                 onerror="this.style.display='none'">
+                            <h5 class="text-white fw-bold mb-0">UNAS Fest 2025</h5>
                         </div>
-                        <p class="text-gray-400 leading-relaxed mb-6 max-w-md">
-                            Festival kompetisi nasional terbesar di Indonesia yang menggabungkan teknologi, kesehatan, dan biodiversitas untuk masa depan berkelanjutan.
+                        <p class="text-light mb-4">
+                            Festival kompetisi nasional terbesar di Indonesia yang menggabungkan 
+                            teknologi, kesehatan, dan biodiversitas untuk masa depan berkelanjutan.
                         </p>
-                        <div class="flex space-x-4">
-                            <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-violet-600 transition-colors">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
-                                </svg>
+                        <div class="social-links">
+                            <a href="https://instagram.com/unasfest" 
+                               class="social-link" 
+                               target="_blank" 
+                               rel="noopener noreferrer"
+                               aria-label="Follow UNAS Fest di Instagram">
+                                <i class="bi bi-instagram"></i>
                             </a>
-                            <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-violet-600 transition-colors">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
-                                </svg>
+                            <a href="https://youtube.com/@unasfest" 
+                               class="social-link" 
+                               target="_blank" 
+                               rel="noopener noreferrer"
+                               aria-label="Subscribe YouTube UNAS Fest">
+                                <i class="bi bi-youtube"></i>
                             </a>
-                            <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-violet-600 transition-colors">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.746-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001.012.001z"/>
-                                </svg>
+                            <a href="https://linkedin.com/company/unasfest" 
+                               class="social-link" 
+                               target="_blank" 
+                               rel="noopener noreferrer"
+                               aria-label="Follow UNAS Fest di LinkedIn">
+                                <i class="bi bi-linkedin"></i>
+                            </a>
+                            <a href="https://tiktok.com/@unasfest" 
+                               class="social-link" 
+                               target="_blank" 
+                               rel="noopener noreferrer"
+                               aria-label="Follow UNAS Fest di TikTok">
+                                <i class="bi bi-tiktok"></i>
                             </a>
                         </div>
                     </div>
-                    
-                    <!-- Quick Links -->
-                    <div>
-                        <h4 class="text-lg font-semibold mb-6">Menu Utama</h4>
-                        <ul class="space-y-3">
-                            <li><a href="{{ route('public.home') }}" class="text-gray-400 hover:text-white transition-colors">Beranda</a></li>
-                            <li><a href="{{ route('public.competitions') }}" class="text-gray-400 hover:text-white transition-colors">Kompetisi</a></li>
-                            <li><a href="{{ route('public.about') }}" class="text-gray-400 hover:text-white transition-colors">Tentang Kami</a></li>
-                            <li><a href="{{ route('public.testimonials') }}" class="text-gray-400 hover:text-white transition-colors">Testimoni</a></li>
-                            <li><a href="{{ route('public.contact') }}" class="text-gray-400 hover:text-white transition-colors">Kontak</a></li>
-                        </ul>
-                    </div>
-                    
-                    <!-- Contact Info -->
-                    <div>
-                        <h4 class="text-lg font-semibold mb-6">Kontak</h4>
-                        <ul class="space-y-3">
-                            <li class="flex items-start space-x-3">
-                                <svg class="w-5 h-5 text-violet-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                                </svg>
-                                <span class="text-gray-400">info@unasfest.com</span>
-                            </li>
-                            <li class="flex items-start space-x-3">
-                                <svg class="w-5 h-5 text-violet-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-                                </svg>
-                                <span class="text-gray-400">+62 21 7806700</span>
-                            </li>
-                            <li class="flex items-start space-x-3">
-                                <svg class="w-5 h-5 text-violet-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                </svg>
-                                <span class="text-gray-400">Jakarta Selatan, Indonesia</span>
-                            </li>
-                        </ul>
+                </div>
+
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="footer-title">Navigasi</h6>
+                    <ul class="footer-links">
+                        <li><a href="{{ route('public.home') }}">Beranda</a></li>
+                        <li><a href="{{ route('public.competitions') }}">Kompetisi</a></li>
+                        <li><a href="{{ route('public.about') }}">Tentang Kami</a></li>
+                        <li><a href="{{ route('public.testimonials') }}">Testimoni</a></li>
+                        <li><a href="{{ route('public.blog') }}">Blog</a></li>
+                        <li><a href="{{ route('public.contact') }}">Kontak</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="footer-title">Kompetisi</h6>
+                    <ul class="footer-links">
+                        <li><a href="{{ route('public.competitions') }}#technology">Teknologi</a></li>
+                        <li><a href="{{ route('public.competitions') }}#health">Kesehatan</a></li>
+                        <li><a href="{{ route('public.competitions') }}#biodiversity">Biodiversitas</a></li>
+                        <li><a href="{{ route('public.faq') }}">FAQ</a></li>
+                        <li><a href="#timeline">Timeline</a></li>
+                        <li><a href="#benefits">Benefits</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="footer-title">Kontak</h6>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="bi bi-envelope"></i>
+                            <a href="mailto:info@unasfest.com">info@unasfest.com</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="bi bi-telephone"></i>
+                            <a href="tel:+62218690406">+62 21 8690 406</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="bi bi-geo-alt"></i>
+                            <span>Jl. Sawo Manila, Pejaten Timur<br>Jakarta Selatan 12520</span>
+                        </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Bottom Footer -->
-            <div class="border-t border-gray-800 py-6">
-                <div class="flex flex-col md:flex-row justify-between items-center">
-                    <p class="text-gray-400 text-sm">
-                        © {{ date('Y') }} UNAS Fest. All rights reserved.
-                    </p>
-                    <div class="flex space-x-6 mt-4 md:mt-0">
-                        <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">Privacy Policy</a>
-                        <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">Terms of Service</a>
-                        <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">Cookie Policy</a>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <p class="mb-0 text-light">
+                            &copy; {{ date('Y') }} UNAS Fest 2025. All rights reserved.
+                        </p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <div class="footer-legal">
+                            <a href="{{ route('public.privacy') }}">Privacy Policy</a>
+                            <a href="{{ route('public.terms') }}">Terms of Service</a>
+                            <a href="/sitemap.xml">Sitemap</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
-    
-    <!-- Scripts -->
-    @stack('scripts')
-    
-    <!-- Scroll to Top Button -->
-    <button x-data="{ show: false }" 
-            @scroll.window="show = window.pageYOffset > 500"
-            x-show="show"
-            x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0 transform translate-y-2"
-            x-transition:enter-end="opacity-100 transform translate-y-0"
-            x-transition:leave="transition ease-in duration-200"
-            x-transition:leave-start="opacity-100 transform translate-y-0"
-            x-transition:leave-end="opacity-0 transform translate-y-2"
-            @click="window.scrollTo({ top: 0, behavior: 'smooth' })"
-            class="fixed bottom-8 right-8 w-12 h-12 bg-violet-600 text-white rounded-full shadow-lg hover:bg-violet-700 transition-colors z-40 flex items-center justify-center">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
-        </svg>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" 
+            class="back-to-top" 
+            aria-label="Back to top"
+            style="display: none;">
+        <i class="bi bi-arrow-up"></i>
     </button>
+
+    <!-- Loading Spinner -->
+    <div id="pageLoader" class="page-loader">
+        <div class="loader-content">
+            <div class="spinner"></div>
+            <p>Loading UNAS Fest 2025...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Intersection Observer for Animations -->
+    <!-- Core JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Remove loading spinner
+            const loader = document.getElementById('pageLoader');
+            if (loader) {
+                setTimeout(() => {
+                    loader.style.opacity = '0';
+                    setTimeout(() => {
+                        loader.style.display = 'none';
+                    }, 300);
+                }, 500);
+            }
+
+            // Navbar scroll effect
+            const navbar = document.getElementById('mainNavbar');
+            let lastScrollTop = 0;
+            
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                if (scrollTop > 100) {
+                    navbar.classList.add('navbar-scrolled');
+                } else {
+                    navbar.classList.remove('navbar-scrolled');
+                }
+                
+                // Hide/show navbar on scroll
+                if (scrollTop > lastScrollTop && scrollTop > 200) {
+                    navbar.style.transform = 'translateY(-100%)';
+                } else {
+                    navbar.style.transform = 'translateY(0)';
+                }
+                
+                lastScrollTop = scrollTop;
+            });
+
+            // Back to top button
+            const backToTop = document.getElementById('backToTop');
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTop.style.display = 'flex';
+                } else {
+                    backToTop.style.display = 'none';
+                }
+            });
+
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        const offsetTop = target.offsetTop - 80;
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Mobile menu close on click
+            const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+            const navbarToggler = document.querySelector('.navbar-toggler');
+            const navbarCollapse = document.querySelector('.navbar-collapse');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navbarCollapse.classList.contains('show')) {
+                        navbarToggler.click();
+                    }
+                });
+            });
+
+            // Intersection Observer for animations
             const observerOptions = {
                 threshold: 0.1,
                 rootMargin: '0px 0px -50px 0px'
             };
-            
+
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.classList.add('animate');
+                        entry.target.classList.add('animate-in');
                     }
                 });
             }, observerOptions);
-            
-            // Observe all elements with animation classes
-            document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right, .scale-in').forEach(el => {
+
+            // Observe all animatable elements
+            document.querySelectorAll('[data-aos]').forEach(el => {
                 observer.observe(el);
             });
+
+            // Preload images
+            const images = document.querySelectorAll('img[loading="lazy"]');
+            const imageObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        if (img.dataset.src) {
+                            img.src = img.dataset.src;
+                            img.removeAttribute('data-src');
+                        }
+                        imageObserver.unobserve(img);
+                    }
+                });
+            });
+
+            images.forEach(img => imageObserver.observe(img));
+
+            // Error handling for failed image loads
+            document.querySelectorAll('img').forEach(img => {
+                img.addEventListener('error', function() {
+                    this.style.display = 'none';
+                });
+            });
+
+            // CSRF token setup for AJAX requests
+            const token = document.querySelector('meta[name="csrf-token"]');
+            if (token) {
+                window.axios = window.axios || {};
+                window.axios.defaults = window.axios.defaults || {};
+                window.axios.defaults.headers = window.axios.defaults.headers || {};
+                window.axios.defaults.headers.common = window.axios.defaults.headers.common || {};
+                window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.getAttribute('content');
+            }
         });
+
+        // Performance monitoring
+        window.addEventListener('load', () => {
+            if ('performance' in window) {
+                const navigation = performance.getEntriesByType('navigation')[0];
+                if (navigation.loadEventEnd - navigation.loadEventStart > 3000) {
+                    console.warn('Page load time is slow:', navigation.loadEventEnd - navigation.loadEventStart, 'ms');
+                }
+            }
+        });
+
+        // Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => console.log('SW registered'))
+                    .catch(error => console.log('SW registration failed'));
+            });
+        }
     </script>
+
+    @stack('scripts')
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "UNAS Fest 2025",
+        "url": "{{ url('/') }}",
+        "logo": "{{ asset('assets/images/logo/unas-fest-logo.webp') }}",
+        "description": "Festival Kompetisi Nasional terbesar di Indonesia",
+        "sameAs": [
+            "https://instagram.com/unasfest",
+            "https://youtube.com/@unasfest",
+            "https://linkedin.com/company/unasfest",
+            "https://tiktok.com/@unasfest"
+        ],
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+62218690406",
+            "contactType": "customer service",
+            "email": "info@unasfest.com"
+        },
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Jl. Sawo Manila, Pejaten Timur",
+            "addressLocality": "Jakarta Selatan",
+            "postalCode": "12520",
+            "addressCountry": "ID"
+        }
+    }
+    </script>
+
+    <!-- Additional Styles -->
+    <style>
+        /* Navbar Styles */
+        .navbar {
+            transition: all 0.3s ease;
+            padding: 1rem 0;
+        }
+
+        .navbar-scrolled {
+            background: rgba(255, 255, 255, 0.98) !important;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+            padding: 0.5rem 0;
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            color: var(--primary) !important;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link {
+            font-weight: 500;
+            color: #64748b !important;
+            margin: 0 0.5rem;
+            padding: 0.75rem 1rem !important;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            color: var(--primary) !important;
+            background: rgba(37, 99, 235, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .navbar-toggler {
+            border: none;
+            padding: 0.25rem;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+        /* Footer Styles */
+        .footer-modern {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-modern::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        }
+
+        .footer-title {
+            color: #f8fafc;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: #60a5fa;
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e2e8f0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            color: #cbd5e1;
+            font-size: 0.9rem;
+        }
+
+        .contact-item i {
+            color: #60a5fa;
+            margin-top: 0.1rem;
+            flex-shrink: 0;
+        }
+
+        .contact-item a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item a:hover {
+            color: #60a5fa;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            margin-top: 2rem;
+        }
+
+        .footer-legal {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-legal a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-legal a:hover {
+            color: #60a5fa;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            cursor: pointer;
+        }
+
+        .back-to-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+        }
+
+        /* Page Loader */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        }
+
+        .loader-content {
+            text-align: center;
+            color: white;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        .loader-content p {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Accessibility */
+        .visually-hidden-focusable:not(:focus):not(:focus-within) {
+            position: absolute !important;
+            width: 1px !important;
+            height: 1px !important;
+            padding: 0 !important;
+            margin: -1px !important;
+            overflow: hidden !important;
+            clip: rect(0, 0, 0, 0) !important;
+            white-space: nowrap !important;
+            border: 0 !important;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .navbar-collapse {
+                background: rgba(255, 255, 255, 0.98);
+                border-radius: 1rem;
+                padding: 1rem;
+                margin-top: 1rem;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                border: 1px solid rgba(0, 0, 0, 0.05);
+            }
+
+            .navbar-nav .nav-link {
+                margin: 0.25rem 0;
+            }
+
+            .footer-legal {
+                flex-direction: column;
+                gap: 0.5rem;
+                margin-top: 1rem;
+            }
+
+            .social-links {
+                justify-content: center;
+                margin-top: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .back-to-top {
+                width: 45px;
+                height: 45px;
+                bottom: 1rem;
+                right: 1rem;
+            }
+
+            .footer-modern {
+                text-align: center;
+            }
+
+            .contact-item {
+                justify-content: center;
+            }
+        }
+
+        /* Performance optimizations */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Print styles */
+        @media print {
+            .navbar,
+            .footer-modern,
+            .back-to-top,
+            .page-loader {
+                display: none !important;
+            }
+
+            body {
+                background: white !important;
+                color: black !important;
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                color-scheme: dark;
+            }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .spinner {
+                animation: none !important;
+            }
+        }
+    </style>
 </body>
 </html>

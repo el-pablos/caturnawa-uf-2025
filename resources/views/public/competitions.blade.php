@@ -723,3 +723,522 @@
     }
 </style>
 @endpush
+        width: 40px;
+        height: 40px;
+        background: var(--gradient-primary);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    .step-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        margin: 2rem auto 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .step-card:hover .step-icon {
+        transform: scale(1.1);
+    }
+
+    .step-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+    }
+
+    .step-description {
+        color: var(--text-secondary);
+        line-height: 1.6;
+        font-size: 0.95rem;
+    }
+
+    /* CTA Section */
+    .competitions-cta {
+        background: var(--gradient-primary);
+        color: white;
+        padding: 5rem 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .competitions-cta::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="25" cy="25" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1.5" fill="rgba(255,255,255,0.08)"/></svg>');
+        opacity: 0.5;
+    }
+
+    .cta-content {
+        position: relative;
+        z-index: 10;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .cta-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+    }
+
+    .cta-description {
+        font-size: 1.125rem;
+        line-height: 1.6;
+        margin-bottom: 2.5rem;
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    .cta-actions {
+        margin-bottom: 2rem;
+    }
+
+    .btn-xl {
+        padding: 1.25rem 2.5rem;
+        font-size: 1.125rem;
+        border-radius: 1rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-xl.btn-primary {
+        background: var(--accent);
+        color: var(--dark);
+        border: none;
+        box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+    }
+
+    .btn-xl.btn-primary:hover {
+        background: #f59e0b;
+        color: var(--dark);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px rgba(245, 158, 11, 0.5);
+    }
+
+    .cta-note {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-size: 0.95rem;
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .cta-note i {
+        color: var(--accent);
+        font-size: 1.1rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+        .competition-category.reverse .row {
+            flex-direction: column-reverse;
+        }
+
+        .hero-stats {
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .category-title {
+            font-size: 2rem;
+        }
+
+        .category-actions {
+            justify-content: center;
+        }
+
+        .info-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .competitions-hero {
+            padding: 6rem 0 4rem;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: clamp(2rem, 8vw, 2.5rem);
+        }
+
+        .hero-stats {
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .category-title {
+            font-size: 1.75rem;
+        }
+
+        .category-description {
+            font-size: 1rem;
+        }
+
+        .category-actions {
+            flex-direction: column;
+        }
+
+        .btn-lg,
+        .btn-xl {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .cta-title {
+            font-size: 2rem;
+        }
+
+        .step-card {
+            margin-bottom: 2rem;
+        }
+
+        .highlight-item:hover {
+            transform: none;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .competitions-section {
+            padding: 4rem 0;
+        }
+
+        .competition-category {
+            margin-bottom: 5rem;
+        }
+
+        .highlight-item {
+            padding: 1rem;
+        }
+
+        .info-item {
+            padding: 1rem;
+        }
+
+        .step-card {
+            padding: 1.5rem;
+        }
+
+        .registration-process {
+            padding: 4rem 0;
+        }
+
+        .competitions-cta {
+            padding: 4rem 0;
+        }
+    }
+
+    /* Print Styles */
+    @media print {
+        .competitions-hero,
+        .competitions-cta,
+        .registration-process {
+            background: white !important;
+            color: black !important;
+        }
+
+        .category-badge,
+        .hero-badge {
+            background: #f0f0f0 !important;
+            color: black !important;
+        }
+    }
+
+    /* Dark Mode Support */
+    @media (prefers-color-scheme: dark) {
+        .step-card,
+        .info-item,
+        .highlight-item {
+            background: #1e293b;
+            color: #e2e8f0;
+        }
+
+        .highlight-item {
+            background: #334155;
+        }
+    }
+
+    /* Animation Classes */
+    .animate-in {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Loading States */
+    .loading {
+        opacity: 0.6;
+        pointer-events: none;
+    }
+
+    /* Focus States for Accessibility */
+    .btn:focus,
+    .step-card:focus-within,
+    .info-item:focus-within {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+    }
+
+    /* High Contrast Mode */
+    @media (prefers-contrast: high) {
+        .category-badge,
+        .hero-badge {
+            border: 2px solid currentColor;
+        }
+
+        .step-card,
+        .info-item {
+            border: 2px solid var(--border);
+        }
+    }
+
+    /* Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+        .step-card:hover,
+        .info-item:hover,
+        .highlight-item:hover {
+            transform: none;
+        }
+
+        .step-icon {
+            transition: none;
+        }
+
+        .step-card:hover .step-icon {
+            transform: none;
+        }
+    }
+</style>
+@endpush
+
+@push('scripts')
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize AOS
+    AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: true,
+        offset: 50
+    });
+
+    // Smooth scrolling for category links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                const offsetTop = target.offsetTop - 100;
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+    // Intersection Observer for section highlighting
+    const sections = document.querySelectorAll('[id]');
+    const navLinks = document.querySelectorAll('a[href^="#"]');
+
+    const observerOptions = {
+        threshold: 0.3,
+        rootMargin: '-100px 0px -100px 0px'
+    };
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const sectionId = entry.target.getAttribute('id');
+                
+                // Update active nav link
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${sectionId}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, observerOptions);
+
+    sections.forEach(section => {
+        sectionObserver.observe(section);
+    });
+
+    // Registration button click tracking
+    document.querySelectorAll('a[href*="login"]').forEach(button => {
+        button.addEventListener('click', function(e) {
+            // Track registration intent
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'registration_intent', {
+                    'category': 'Competition',
+                    'label': 'Registration Button Click'
+                });
+            }
+        });
+    });
+
+    // Guideline modal handling
+    const guidelineButtons = document.querySelectorAll('[data-bs-target="#guidelineModal"]');
+    guidelineButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Determine which competition category
+            const category = this.closest('.competition-category');
+            let categoryName = 'Unknown';
+            
+            if (category.querySelector('.tech-badge')) {
+                categoryName = 'Technology';
+            } else if (category.querySelector('.health-badge')) {
+                categoryName = 'Health';
+            } else if (category.querySelector('.bio-badge')) {
+                categoryName = 'Biodiversity';
+            }
+
+            // Show guideline modal or redirect to guidelines page
+            alert(`Guideline untuk kompetisi ${categoryName} akan segera tersedia. Silakan hubungi panitia untuk informasi lebih lanjut.`);
+        });
+    });
+
+    // Lazy loading for images
+    const images = document.querySelectorAll('img[loading="lazy"]');
+    const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.src;
+                img.classList.add('loaded');
+                imageObserver.unobserve(img);
+            }
+        });
+    });
+
+    images.forEach(img => {
+        imageObserver.observe(img);
+    });
+
+    // Performance monitoring
+    if ('performance' in window) {
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const navigation = performance.getEntriesByType('navigation')[0];
+                const loadTime = navigation.loadEventEnd - navigation.loadEventStart;
+                
+                if (loadTime > 3000) {
+                    console.warn('Page load time is slow:', loadTime, 'ms');
+                }
+
+                // Track page performance
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'page_load_time', {
+                        'custom_parameter': loadTime
+                    });
+                }
+            }, 0);
+        });
+    }
+
+    // Error handling for failed image loads
+    document.querySelectorAll('img').forEach(img => {
+        img.addEventListener('error', function() {
+            this.style.display = 'none';
+            console.warn('Failed to load image:', this.src);
+        });
+    });
+
+    // Keyboard navigation for step cards
+    document.querySelectorAll('.step-card').forEach(card => {
+        card.setAttribute('tabindex', '0');
+        card.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                this.click();
+            }
+        });
+    });
+
+    // Accessibility improvements
+    document.querySelectorAll('.btn').forEach(button => {
+        if (!button.hasAttribute('aria-label') && !button.textContent.trim()) {
+            button.setAttribute('aria-label', 'Button');
+        }
+    });
+
+    // Form validation for future contact forms
+    const forms = document.querySelectorAll('form');
+    forms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            const requiredFields = form.querySelectorAll('[required]');
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.classList.add('is-invalid');
+                } else {
+                    field.classList.remove('is-invalid');
+                }
+            });
+
+            if (!isValid) {
+                e.preventDefault();
+                alert('Mohon lengkapi semua field yang wajib diisi');
+            }
+        });
+    });
+});
+
+// Additional utility functions
+function scrollToSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    if (section) {
+        const offsetTop = section.offsetTop - 100;
+        window.scrollTo({
+            top: offsetTop,
+            behavior: 'smooth'
+        });
+    }
+}
+
+function trackCTAClick(category) {
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'cta_click', {
+            'category': 'Competition',
+            'label': category
+        });
+    }
+}
+
+// Export functions for external use
+window.competitionsPage = {
+    scrollToSection,
+    trackCTAClick
+};
+</script>
+@endpush

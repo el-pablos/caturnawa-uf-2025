@@ -1,135 +1,189 @@
 @extends('layouts.modern')
 
+@php
+    $seoPage = 'home';
+@endphp
+
+@push('meta')
+<meta name="description" content="UNAS Fest 2025 - Festival Kompetisi Nasional terbesar di Indonesia. Bergabunglah dengan kompetisi Teknologi, Kesehatan, dan Biodiversitas. Hadiah total 500 juta rupiah.">
+<meta name="keywords" content="UNAS Fest 2025, kompetisi nasional, teknologi, kesehatan, biodiversitas, universitas nasional, festival mahasiswa, lomba, hadiah">
+<meta name="author" content="Universitas Nasional">
+<meta name="robots" content="index, follow">
+<meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+
+<!-- Open Graph Meta Tags -->
+<meta property="og:title" content="UNAS Fest 2025 - Festival Kompetisi Nasional">
+<meta property="og:description" content="Festival Kompetisi Nasional terbesar di Indonesia. Bergabunglah dengan kompetisi Teknologi, Kesehatan, dan Biodiversitas. Hadiah total 500 juta rupiah.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ url('/') }}">
+<meta property="og:image" content="{{ asset('assets/images/og/unas-fest-2025-og.jpg') }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="UNAS Fest 2025">
+<meta property="og:locale" content="id_ID">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="UNAS Fest 2025 - Festival Kompetisi Nasional">
+<meta name="twitter:description" content="Festival Kompetisi Nasional terbesar di Indonesia. Bergabunglah dengan kompetisi Teknologi, Kesehatan, dan Biodiversitas.">
+<meta name="twitter:image" content="{{ asset('assets/images/og/unas-fest-2025-twitter.jpg') }}">
+<meta name="twitter:creator" content="@unasfest">
+
+<!-- Canonical URL -->
+<link rel="canonical" href="{{ url('/') }}">
+
+<!-- Additional SEO Tags -->
+<meta name="theme-color" content="#2563eb">
+<meta name="msapplication-TileColor" content="#2563eb">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/images/favicon/apple-touch-icon.png') }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/images/favicon/favicon-32x32.png') }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/images/favicon/favicon-16x16.png') }}">
+<link rel="manifest" href="{{ asset('assets/images/favicon/site.webmanifest') }}">
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "UNAS Fest 2025",
+  "description": "Festival Kompetisi Nasional terbesar di Indonesia yang menggabungkan Teknologi, Kesehatan, dan Biodiversitas",
+  "startDate": "2025-01-01",
+  "endDate": "2025-03-30",
+  "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "location": {
+    "@type": "Place",
+    "name": "Universitas Nasional",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Jl. Sawo Manila, Pejaten Timur",
+      "addressLocality": "Jakarta Selatan",
+      "postalCode": "12520",
+      "addressCountry": "ID"
+    }
+  },
+  "organizer": {
+    "@type": "Organization",
+    "name": "Universitas Nasional",
+    "url": "https://unas.ac.id"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "IDR",
+    "availability": "https://schema.org/InStock",
+    "validFrom": "2025-01-01"
+  }
+}
+</script>
+@endpush
+
 @section('content')
-<!-- Hero Section with Asymmetric Layout -->
-<section class="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-violet-900 via-blue-900 to-indigo-900">
-    <!-- Animated Background Blobs -->
-    <div class="absolute inset-0">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
+<!-- Hero Section with Modern Design -->
+<section id="hero" class="hero-modern">
+    <div class="hero-background">
+        <div class="hero-particles"></div>
+        <div class="hero-gradient"></div>
     </div>
-
-    <!-- Floating Elements -->
-    <div class="absolute inset-0 overflow-hidden">
-        <div class="floating-element w-20 h-20 bg-white/10 rounded-full top-20 left-20 animate-float"></div>
-        <div class="floating-element w-32 h-32 bg-accent-400/20 rounded-full top-40 right-32 animate-float" style="animation-delay: 2s;"></div>
-        <div class="floating-element w-16 h-16 bg-violet-400/30 rounded-full bottom-32 left-40 animate-float" style="animation-delay: 4s;"></div>
-    </div>
-
-    <div class="container-custom relative z-10">
-        <div class="grid lg:grid-cols-2 gap-12 items-center">
-            <!-- Left Content - Asymmetric -->
-            <div class="space-y-8 fade-in-left">
-                <div class="space-y-6">
-                    <div class="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 text-white">
-                        <svg class="w-5 h-5 text-accent-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                        </svg>
-                        <span class="text-sm font-medium">Festival Kompetisi #1 di Indonesia</span>
+    
+    <div class="container">
+        <div class="row align-items-center min-vh-100">
+            <div class="col-lg-6" data-aos="fade-right" data-aos-duration="1000">
+                <div class="hero-content">
+                    <!-- Badge -->
+                    <div class="hero-badge" data-aos="fade-up" data-aos-delay="200">
+                        <i class="bi bi-star-fill"></i>
+                        <span>Festival Kompetisi Nasional #1</span>
                     </div>
-
-                    <h1 class="text-5xl md:text-7xl font-clash font-bold text-white leading-tight">
-                        UNAS Fest
-                        <span class="block text-gradient-accent">2025</span>
+                    
+                    <!-- Main Title -->
+                    <h1 class="hero-title" data-aos="fade-up" data-aos-delay="400">
+                        <span class="title-main">UNAS Fest</span>
+                        <span class="title-year">2025</span>
                     </h1>
-
-                    <p class="text-xl text-gray-300 leading-relaxed max-w-2xl">
+                    
+                    <!-- Subtitle -->
+                    <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="600">
                         Bergabunglah dengan festival kompetisi nasional terbesar di Indonesia yang menggabungkan
-                        <span class="text-accent-400 font-semibold">Teknologi</span>,
-                        <span class="text-emerald-400 font-semibold">Kesehatan</span>, dan
-                        <span class="text-cyan-400 font-semibold">Biodiversitas</span>
+                        <span class="highlight-tech">Teknologi</span>,
+                        <span class="highlight-health">Kesehatan</span>, dan
+                        <span class="highlight-bio">Biodiversitas</span>
                         untuk masa depan berkelanjutan.
                     </p>
-                </div>
-
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="{{ route('public.competitions') }}" class="btn-primary group">
-                        <span>Daftar Kompetisi</span>
-                        <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                        </svg>
-                    </a>
-                    <a href="{{ route('public.about') }}" class="btn-secondary">
-                        Pelajari Lebih Lanjut
-                    </a>
-                </div>
-
-                <!-- Quick Stats -->
-                <div class="grid grid-cols-3 gap-6 pt-8">
-                    <div class="text-center">
-                        <div class="text-3xl font-bold text-white mb-1">500M</div>
-                        <div class="text-sm text-gray-400">Total Hadiah</div>
+                    
+                    <!-- CTA Buttons -->
+                    <div class="hero-actions" data-aos="fade-up" data-aos-delay="800">
+                        <a href="{{ route('public.competitions') }}" class="btn btn-primary btn-cta" aria-label="Daftar kompetisi UNAS Fest 2025">
+                            <span class="btn-text">Daftar Kompetisi</span>
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <a href="#kompetisi" class="btn btn-outline btn-cta" aria-label="Lihat informasi kompetisi">
+                            <span class="btn-text">Lihat Kompetisi</span>
+                            <i class="bi bi-play-circle"></i>
+                        </a>
                     </div>
-                    <div class="text-center">
-                        <div class="text-3xl font-bold text-white mb-1">10K+</div>
-                        <div class="text-sm text-gray-400">Peserta</div>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-3xl font-bold text-white mb-1">100+</div>
-                        <div class="text-sm text-gray-400">Universitas</div>
+                    
+                    <!-- Quick Info -->
+                    <div class="hero-info" data-aos="fade-up" data-aos-delay="1000">
+                        <div class="info-item">
+                            <i class="bi bi-calendar-event"></i>
+                            <div>
+                                <span class="info-label">Pendaftaran</span>
+                                <span class="info-value">1 Jan - 28 Feb 2025</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="bi bi-gift"></i>
+                            <div>
+                                <span class="info-label">Total Hadiah</span>
+                                <span class="info-value">500 Juta Rupiah</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Right Content - Visual Stats -->
-            <div class="relative fade-in-right">
-                <div class="relative">
-                    <!-- Main Visual Element -->
-                    <div class="relative w-full h-96 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
-                        <!-- Floating Stats Cards -->
-                        <div class="absolute -top-6 -left-6 bg-white rounded-2xl p-6 shadow-xl scale-in" style="animation-delay: 0.5s;">
-                            <div class="flex items-center space-x-4">
-                                <div class="w-12 h-12 bg-gradient-to-r from-violet-500 to-purple-600 rounded-xl flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="text-2xl font-bold text-gray-900">10,000+</div>
-                                    <div class="text-sm text-gray-600">Peserta Terdaftar</div>
-                                </div>
+            
+            <div class="col-lg-6" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="400">
+                <div class="hero-visual">
+                    <!-- Main Illustration -->
+                    <div class="hero-illustration">
+                        <img src="{{ asset('assets/images/hero/hero-2025.webp') }}" 
+                             alt="UNAS Fest 2025 - Festival Kompetisi Nasional" 
+                             class="hero-image"
+                             loading="eager"
+                             width="600"
+                             height="500">
+                    </div>
+                    
+                    <!-- Floating Elements -->
+                    <div class="floating-stats">
+                        <div class="stat-card stat-1" data-aos="zoom-in" data-aos-delay="1200">
+                            <div class="stat-icon">
+                                <i class="bi bi-people"></i>
+                            </div>
+                            <div class="stat-content">
+                                <span class="stat-number">10K+</span>
+                                <span class="stat-label">Peserta</span>
                             </div>
                         </div>
-
-                        <div class="absolute -top-6 -right-6 bg-white rounded-2xl p-6 shadow-xl scale-in" style="animation-delay: 0.7s;">
-                            <div class="flex items-center space-x-4">
-                                <div class="w-12 h-12 bg-gradient-to-r from-accent-500 to-orange-600 rounded-xl flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="text-2xl font-bold text-gray-900">500M</div>
-                                    <div class="text-sm text-gray-600">Total Hadiah</div>
-                                </div>
+                        
+                        <div class="stat-card stat-2" data-aos="zoom-in" data-aos-delay="1400">
+                            <div class="stat-icon">
+                                <i class="bi bi-trophy"></i>
+                            </div>
+                            <div class="stat-content">
+                                <span class="stat-number">15</span>
+                                <span class="stat-label">Kategori</span>
                             </div>
                         </div>
-
-                        <div class="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-white rounded-2xl p-6 shadow-xl scale-in" style="animation-delay: 0.9s;">
-                            <div class="flex items-center space-x-4">
-                                <div class="w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="text-2xl font-bold text-gray-900">100+</div>
-                                    <div class="text-sm text-gray-600">Universitas Partner</div>
-                                </div>
+                        
+                        <div class="stat-card stat-3" data-aos="zoom-in" data-aos-delay="1600">
+                            <div class="stat-icon">
+                                <i class="bi bi-building"></i>
                             </div>
-                        </div>
-
-                        <!-- Central Content -->
-                        <div class="flex items-center justify-center h-full">
-                            <div class="text-center text-white">
-                                <div class="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
-                                    </svg>
-                                </div>
-                                <h3 class="text-xl font-semibold mb-2">Festival Terpercaya</h3>
-                                <p class="text-gray-300 text-sm">Diselenggarakan oleh Universitas Nasional</p>
+                            <div class="stat-content">
+                                <span class="stat-number">100+</span>
+                                <span class="stat-label">Universitas</span>
                             </div>
                         </div>
                     </div>
@@ -137,484 +191,1323 @@
             </div>
         </div>
     </div>
-
+    
     <!-- Scroll Indicator -->
-    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
-        <div class="flex flex-col items-center space-y-2">
-            <span class="text-sm">Scroll untuk melihat lebih banyak</span>
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-            </svg>
+    <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="2000">
+        <a href="#stats" class="scroll-link" aria-label="Scroll ke statistik">
+            <span>Scroll untuk lebih banyak</span>
+            <div class="scroll-arrow">
+                <i class="bi bi-chevron-down"></i>
+            </div>
+        </a>
+    </div>
+</section>
+
+<!-- Statistics Section -->
+<section id="stats" class="stats-section">
+    <div class="container">
+        <div class="section-header text-center" data-aos="fade-up">
+            <h2 class="section-title">Mengapa UNAS Fest 2025?</h2>
+            <p class="section-subtitle">Data dan fakta yang menunjukkan skala besar festival kompetisi ini</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="stats-card">
+                    <div class="stats-icon bg-primary">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                    <div class="stats-content">
+                        <h3 class="stats-number counter" data-target="10000">0</h3>
+                        <p class="stats-label">Peserta Terdaftar</p>
+                        <div class="stats-bar">
+                            <div class="progress-fill" data-progress="85"></div>
+                        </div>
+                        <small class="stats-note">85% dari target</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="stats-card">
+                    <div class="stats-icon bg-success">
+                        <i class="bi bi-trophy-fill"></i>
+                    </div>
+                    <div class="stats-content">
+                        <h3 class="stats-number counter" data-target="15">0</h3>
+                        <p class="stats-label">Kategori Kompetisi</p>
+                        <div class="stats-bar">
+                            <div class="progress-fill" data-progress="100"></div>
+                        </div>
+                        <small class="stats-note">Lengkap tersedia</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="stats-card">
+                    <div class="stats-icon bg-warning">
+                        <i class="bi bi-cash-stack"></i>
+                    </div>
+                    <div class="stats-content">
+                        <h3 class="stats-number">500</h3>
+                        <p class="stats-label">Juta Rupiah Hadiah</p>
+                        <div class="stats-bar">
+                            <div class="progress-fill" data-progress="95"></div>
+                        </div>
+                        <small class="stats-note">Total untuk semua kategori</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="stats-card">
+                    <div class="stats-icon bg-info">
+                        <i class="bi bi-building"></i>
+                    </div>
+                    <div class="stats-content">
+                        <h3 class="stats-number counter" data-target="100">0</h3>
+                        <p class="stats-label">Universitas Partner</p>
+                        <div class="stats-bar">
+                            <div class="progress-fill" data-progress="75"></div>
+                        </div>
+                        <small class="stats-note">Se-Indonesia</small>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- Competition Categories Section -->
-<section class="section bg-gray-50">
-    <div class="container-custom">
-        <div class="text-center mb-16 fade-in-up">
-            <div class="inline-flex items-center space-x-2 bg-violet-100 text-violet-700 rounded-full px-6 py-3 mb-6">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
-                </svg>
-                <span class="font-semibold">Kategori Kompetisi</span>
+<!-- Competition Categories -->
+<section id="kompetisi" class="competitions-section">
+    <div class="container">
+        <div class="section-header text-center" data-aos="fade-up">
+            <div class="section-badge">
+                <i class="bi bi-trophy"></i>
+                <span>Kategori Kompetisi</span>
             </div>
-            <h2 class="text-4xl md:text-5xl font-clash font-bold text-gray-900 mb-6">
-                Tiga Pilar <span class="text-gradient">Inovasi</span>
-            </h2>
-            <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                Setiap kategori kompetisi dirancang untuk mendorong inovasi dalam bidang yang akan membentuk masa depan Indonesia
+            <h2 class="section-title">Tiga Pilar Kompetisi Utama</h2>
+            <p class="section-subtitle">
+                Bergabunglah dengan kompetisi yang menggabungkan inovasi untuk masa depan berkelanjutan
             </p>
         </div>
-
-        <div class="grid lg:grid-cols-3 gap-8">
+        
+        <div class="row g-4">
             <!-- Technology Competition -->
-            <div class="group card card-hover p-8 fade-in-up" style="animation-delay: 0.1s;" x-data="{ expanded: false }">
-                <div class="relative mb-8">
-                    <div class="w-20 h-20 bg-gradient-to-r from-blue-500 to-violet-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
-                        </svg>
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                <article class="competition-card tech-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="bi bi-cpu-fill"></i>
+                        </div>
+                        <div class="card-badge">Teknologi</div>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Teknologi</h3>
-                    <p class="text-gray-600 leading-relaxed mb-6">
-                        Kompetisi pengembangan aplikasi, AI, IoT, dan solusi teknologi inovatif untuk menyelesaikan masalah nyata di masyarakat.
-                    </p>
-                </div>
-
-                <div class="space-y-3 mb-8" x-show="expanded" x-transition>
-                    <div class="flex items-center space-x-3">
-                        <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
-                        <span class="text-gray-700">Mobile App Development</span>
+                    
+                    <div class="card-image">
+                        <img src="{{ asset('assets/images/competitions/technology-2025.webp') }}" 
+                             alt="Kompetisi Teknologi UNAS Fest 2025" 
+                             loading="lazy"
+                             width="400"
+                             height="250">
+                        <div class="image-overlay">
+                            <div class="overlay-content">
+                                <i class="bi bi-laptop"></i>
+                                <span>Inovasi Tech</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="flex items-center space-x-3">
-                        <div class="w-2 h-2 bg-violet-500 rounded-full"></div>
-                        <span class="text-gray-700">Web Development</span>
+                    
+                    <div class="card-content">
+                        <h3 class="card-title">Kompetisi Teknologi</h3>
+                        <p class="card-description">
+                            Kompetisi pengembangan aplikasi, AI, IoT, dan solusi teknologi inovatif untuk 
+                            menyelesaikan masalah nyata di masyarakat Indonesia.
+                        </p>
+                        
+                        <div class="card-features">
+                            <div class="feature-item">
+                                <i class="bi bi-phone-fill"></i>
+                                <span>Mobile App Development</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="bi bi-globe"></i>
+                                <span>Web Development</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="bi bi-robot"></i>
+                                <span>AI & Machine Learning</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="bi bi-wifi"></i>
+                                <span>IoT Solutions</span>
+                            </div>
+                        </div>
+                        
+                        <div class="card-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">200 Juta</span>
+                                <span class="stat-label">Hadiah Utama</span>
+                            </div>
+                            <div class="stat-divider"></div>
+                            <div class="stat-item">
+                                <span class="stat-value">3000+</span>
+                                <span class="stat-label">Peserta</span>
+                            </div>
+                        </div>
+                        
+                        <a href="{{ route('public.competitions') }}#technology" class="card-button">
+                            <span>Lihat Detail</span>
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
                     </div>
-                    <div class="flex items-center space-x-3">
-                        <div class="w-2 h-2 bg-indigo-500 rounded-full"></div>
-                        <span class="text-gray-700">AI & Machine Learning</span>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
-                        <span class="text-gray-700">IoT Solutions</span>
-                    </div>
-                </div>
-
-                <div class="flex items-center justify-between">
-                    <button @click="expanded = !expanded" class="text-blue-600 hover:text-blue-700 font-medium transition-colors">
-                        <span x-text="expanded ? 'Tutup Detail' : 'Lihat Detail'"></span>
-                    </button>
-                    <a href="{{ route('public.competitions') }}#technology" class="btn-ghost text-blue-600 hover:bg-blue-50">
-                        Daftar →
-                    </a>
-                </div>
-
-                <!-- Prize Badge -->
-                <div class="absolute top-4 right-4 bg-gradient-to-r from-blue-500 to-violet-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                    50M
-                </div>
+                </article>
             </div>
-
+            
             <!-- Health Competition -->
-            <div class="group card card-hover p-8 fade-in-up" style="animation-delay: 0.2s;" x-data="{ expanded: false }">
-                <div class="relative mb-8">
-                    <div class="w-20 h-20 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                        </svg>
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                <article class="competition-card health-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="bi bi-heart-pulse-fill"></i>
+                        </div>
+                        <div class="card-badge">Kesehatan</div>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Kesehatan</h3>
-                    <p class="text-gray-600 leading-relaxed mb-6">
-                        Ciptakan inovasi kesehatan untuk meningkatkan kualitas hidup masyarakat melalui teknologi dan penelitian medis.
-                    </p>
-                </div>
-
-                <div class="space-y-3 mb-8" x-show="expanded" x-transition>
-                    <div class="flex items-center space-x-3">
-                        <div class="w-2 h-2 bg-emerald-500 rounded-full"></div>
-                        <span class="text-gray-700">Health Tech Innovation</span>
+                    
+                    <div class="card-image">
+                        <img src="{{ asset('assets/images/competitions/health-2025.webp') }}" 
+                             alt="Kompetisi Kesehatan UNAS Fest 2025" 
+                             loading="lazy"
+                             width="400"
+                             height="250">
+                        <div class="image-overlay">
+                            <div class="overlay-content">
+                                <i class="bi bi-heart-pulse"></i>
+                                <span>Health Innovation</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="flex items-center space-x-3">
-                        <div class="w-2 h-2 bg-teal-500 rounded-full"></div>
-                        <span class="text-gray-700">Medical Device Design</span>
+                    
+                    <div class="card-content">
+                        <h3 class="card-title">Kompetisi Kesehatan</h3>
+                        <p class="card-description">
+                            Inovasi dalam bidang kesehatan masyarakat, teknologi medis, dan solusi kesehatan 
+                            digital untuk meningkatkan kualitas hidup.
+                        </p>
+                        
+                        <div class="card-features">
+                            <div class="feature-item">
+                                <i class="bi bi-heart-fill"></i>
+                                <span>Health Tech Innovation</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="bi bi-bandaid-fill"></i>
+                                <span>Medical Device Design</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="bi bi-people-fill"></i>
+                                <span>Public Health Solutions</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="bi bi-tablet-fill"></i>
+                                <span>Digital Health Platform</span>
+                            </div>
+                        </div>
+                        
+                        <div class="card-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">150 Juta</span>
+                                <span class="stat-label">Hadiah Utama</span>
+                            </div>
+                            <div class="stat-divider"></div>
+                            <div class="stat-item">
+                                <span class="stat-value">2500+</span>
+                                <span class="stat-label">Peserta</span>
+                            </div>
+                        </div>
+                        
+                        <a href="{{ route('public.competitions') }}#health" class="card-button">
+                            <span>Lihat Detail</span>
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
                     </div>
-                    <div class="flex items-center space-x-3">
-                        <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span class="text-gray-700">Public Health Solutions</span>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <div class="w-2 h-2 bg-cyan-500 rounded-full"></div>
-                        <span class="text-gray-700">Digital Health Platform</span>
-                    </div>
-                </div>
-
-                <div class="flex items-center justify-between">
-                    <button @click="expanded = !expanded" class="text-emerald-600 hover:text-emerald-700 font-medium transition-colors">
-                        <span x-text="expanded ? 'Tutup Detail' : 'Lihat Detail'"></span>
-                    </button>
-                    <a href="{{ route('public.competitions') }}#health" class="btn-ghost text-emerald-600 hover:bg-emerald-50">
-                        Daftar →
-                    </a>
-                </div>
-
-                <!-- Prize Badge -->
-                <div class="absolute top-4 right-4 bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                    45M
-                </div>
+                </article>
             </div>
-
+            
             <!-- Biodiversity Competition -->
-            <div class="group card card-hover p-8 fade-in-up" style="animation-delay: 0.3s;" x-data="{ expanded: false }">
-                <div class="relative mb-8">
-                    <div class="w-20 h-20 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9m0 9c-5 0-9-4-9-9s4-9 9-9"></path>
-                        </svg>
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                <article class="competition-card bio-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="bi bi-tree-fill"></i>
+                        </div>
+                        <div class="card-badge">Biodiversitas</div>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Biodiversitas</h3>
-                    <p class="text-gray-600 leading-relaxed mb-6">
-                        Kembangkan solusi berkelanjutan untuk pelestarian lingkungan dan keanekaragaman hayati Indonesia.
-                    </p>
-                </div>
-
-                <div class="space-y-3 mb-8" x-show="expanded" x-transition>
-                    <div class="flex items-center space-x-3">
-                        <div class="w-2 h-2 bg-cyan-500 rounded-full"></div>
-                        <span class="text-gray-700">Environmental Conservation</span>
+                    
+                    <div class="card-image">
+                        <img src="{{ asset('assets/images/competitions/biodiversity-2025.webp') }}" 
+                             alt="Kompetisi Biodiversitas UNAS Fest 2025" 
+                             loading="lazy"
+                             width="400"
+                             height="250">
+                        <div class="image-overlay">
+                            <div class="overlay-content">
+                                <i class="bi bi-globe-americas"></i>
+                                <span>Eco Innovation</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="flex items-center space-x-3">
-                        <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
-                        <span class="text-gray-700">Sustainable Technology</span>
+                    
+                    <div class="card-content">
+                        <h3 class="card-title">Kompetisi Biodiversitas</h3>
+                        <p class="card-description">
+                            Solusi inovatif untuk konservasi lingkungan, pelestarian biodiversitas, dan 
+                            pembangunan berkelanjutan di Indonesia.
+                        </p>
+                        
+                        <div class="card-features">
+                            <div class="feature-item">
+                                <i class="bi bi-tree-fill"></i>
+                                <span>Environmental Conservation</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="bi bi-recycle"></i>
+                                <span>Sustainable Development</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="bi bi-lightbulb-fill"></i>
+                                <span>Eco-Innovation</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="bi bi-leaf-fill"></i>
+                                <span>Green Technology</span>
+                            </div>
+                        </div>
+                        
+                        <div class="card-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">150 Juta</span>
+                                <span class="stat-label">Hadiah Utama</span>
+                            </div>
+                            <div class="stat-divider"></div>
+                            <div class="stat-item">
+                                <span class="stat-value">2000+</span>
+                                <span class="stat-label">Peserta</span>
+                            </div>
+                        </div>
+                        
+                        <a href="{{ route('public.competitions') }}#biodiversity" class="card-button">
+                            <span>Lihat Detail</span>
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
                     </div>
-                    <div class="flex items-center space-x-3">
-                        <div class="w-2 h-2 bg-teal-500 rounded-full"></div>
-                        <span class="text-gray-700">Ecosystem Research</span>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <div class="w-2 h-2 bg-indigo-500 rounded-full"></div>
-                        <span class="text-gray-700">Climate Solutions</span>
-                    </div>
-                </div>
-
-                <div class="flex items-center justify-between">
-                    <button @click="expanded = !expanded" class="text-cyan-600 hover:text-cyan-700 font-medium transition-colors">
-                        <span x-text="expanded ? 'Tutup Detail' : 'Lihat Detail'"></span>
-                    </button>
-                    <a href="{{ route('public.competitions') }}#biodiversity" class="btn-ghost text-cyan-600 hover:bg-cyan-50">
-                        Daftar →
-                    </a>
-                </div>
-
-                <!-- Prize Badge -->
-                <div class="absolute top-4 right-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                    40M
-                </div>
+                </article>
             </div>
         </div>
     </div>
 </section>
+        color: var(--text-muted);
+        font-weight: 500;
+    }
 
-<!-- Interactive Timeline Section -->
-<section class="section bg-white">
-    <div class="container-custom">
-        <div class="text-center mb-16 fade-in-up">
-            <div class="inline-flex items-center space-x-2 bg-accent-100 text-accent-700 rounded-full px-6 py-3 mb-6">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                <span class="font-semibold">Timeline Kompetisi</span>
-            </div>
-            <h2 class="text-4xl md:text-5xl font-clash font-bold text-gray-900 mb-6">
-                Jadwal <span class="text-gradient-accent">Penting</span>
-            </h2>
-            <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                Ikuti setiap tahapan kompetisi dengan cermat agar tidak melewatkan kesempatan emas ini
-            </p>
-        </div>
+    /* Competitions Section */
+    .competitions-section {
+        background: var(--white);
+        position: relative;
+    }
 
-        <div class="relative max-w-4xl mx-auto" x-data="{ activeStep: 1 }">
-            <!-- Timeline Line -->
-            <div class="timeline-line h-full"></div>
+    .competition-card {
+        background: var(--white);
+        border-radius: 1.5rem;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: all 0.4s ease;
+        height: 100%;
+        position: relative;
+    }
 
-            <!-- Timeline Items -->
-            <div class="space-y-16">
-                <!-- Step 1: Registration -->
-                <div class="relative flex items-center" @click="activeStep = 1">
-                    <div class="timeline-dot cursor-pointer" :class="{ 'active': activeStep === 1 }"></div>
-                    <div class="ml-8 lg:ml-16 w-full">
-                        <div class="grid lg:grid-cols-2 gap-8 items-center">
-                            <div class="fade-in-left">
-                                <div class="flex items-center space-x-3 mb-4">
-                                    <span class="bg-violet-100 text-violet-700 px-3 py-1 rounded-full text-sm font-semibold">Tahap 1</span>
-                                    <span class="text-gray-500">1 Jan - 28 Feb 2025</span>
-                                </div>
-                                <h3 class="text-2xl font-bold text-gray-900 mb-4">Pendaftaran Dibuka</h3>
-                                <p class="text-gray-600 leading-relaxed mb-6">
-                                    Daftarkan tim Anda dan pilih kategori kompetisi yang sesuai dengan keahlian dan minat. Proses pendaftaran mudah dan cepat.
-                                </p>
-                                <div class="space-y-2">
-                                    <div class="flex items-center space-x-2">
-                                        <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                        </svg>
-                                        <span class="text-gray-700">Registrasi online 24/7</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                        </svg>
-                                        <span class="text-gray-700">Tim maksimal 4 orang</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                        </svg>
-                                        <span class="text-gray-700">Konfirmasi otomatis</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="fade-in-right">
-                                <div class="bg-gradient-to-br from-violet-50 to-blue-50 rounded-3xl p-8">
-                                    <div class="text-center">
-                                        <div class="w-20 h-20 bg-gradient-to-r from-violet-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                                            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
-                                            </svg>
-                                        </div>
-                                        <h4 class="text-xl font-bold text-gray-900 mb-2">Mulai Perjalanan Anda</h4>
-                                        <p class="text-gray-600 mb-6">Bergabung dengan ribuan peserta lainnya</p>
-                                        <a href="{{ route('register') }}" class="btn-primary">
-                                            Daftar Sekarang
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    .competition-card:hover {
+        transform: translateY(-12px);
+        box-shadow: var(--shadow-xl);
+    }
 
-                <!-- Step 2: Submission -->
-                <div class="relative flex items-center" @click="activeStep = 2">
-                    <div class="timeline-dot cursor-pointer" :class="{ 'active': activeStep === 2 }"></div>
-                    <div class="ml-8 lg:ml-16 w-full">
-                        <div class="grid lg:grid-cols-2 gap-8 items-center">
-                            <div class="lg:order-2 fade-in-right">
-                                <div class="flex items-center space-x-3 mb-4">
-                                    <span class="bg-accent-100 text-accent-700 px-3 py-1 rounded-full text-sm font-semibold">Tahap 2</span>
-                                    <span class="text-gray-500">1 - 15 Mar 2025</span>
-                                </div>
-                                <h3 class="text-2xl font-bold text-gray-900 mb-4">Pengumpulan Karya</h3>
-                                <p class="text-gray-600 leading-relaxed mb-6">
-                                    Kumpulkan hasil karya terbaik tim Anda. Pastikan semua dokumen dan file telah sesuai dengan ketentuan yang berlaku.
-                                </p>
-                                <div class="space-y-2">
-                                    <div class="flex items-center space-x-2">
-                                        <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                        </svg>
-                                        <span class="text-gray-700">Upload sistem terintegrasi</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                        </svg>
-                                        <span class="text-gray-700">Format file fleksibel</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                        </svg>
-                                        <span class="text-gray-700">Bantuan teknis 24/7</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="lg:order-1 fade-in-left">
-                                <div class="bg-gradient-to-br from-accent-50 to-orange-50 rounded-3xl p-8">
-                                    <div class="text-center">
-                                        <div class="w-20 h-20 bg-gradient-to-r from-accent-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                                            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                                            </svg>
-                                        </div>
-                                        <h4 class="text-xl font-bold text-gray-900 mb-2">Wujudkan Ide Anda</h4>
-                                        <p class="text-gray-600 mb-6">Saatnya menunjukkan karya terbaik</p>
-                                        <div class="bg-white rounded-xl p-4">
-                                            <div class="text-2xl font-bold text-accent-600">15 Hari</div>
-                                            <div class="text-sm text-gray-600">Waktu pengumpulan</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    .card-header {
+        padding: 1.5rem;
+        background: var(--gradient-primary);
+        color: var(--white);
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
 
-                <!-- Step 3: Evaluation -->
-                <div class="relative flex items-center" @click="activeStep = 3">
-                    <div class="timeline-dot cursor-pointer" :class="{ 'active': activeStep === 3 }"></div>
-                    <div class="ml-8 lg:ml-16 w-full">
-                        <div class="grid lg:grid-cols-2 gap-8 items-center">
-                            <div class="fade-in-left">
-                                <div class="flex items-center space-x-3 mb-4">
-                                    <span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-semibold">Tahap 3</span>
-                                    <span class="text-gray-500">16 - 25 Mar 2025</span>
-                                </div>
-                                <h3 class="text-2xl font-bold text-gray-900 mb-4">Penilaian Juri</h3>
-                                <p class="text-gray-600 leading-relaxed mb-6">
-                                    Tim juri profesional akan mengevaluasi setiap karya berdasarkan kriteria yang telah ditetapkan dengan standar internasional.
-                                </p>
-                                <div class="space-y-2">
-                                    <div class="flex items-center space-x-2">
-                                        <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                        </svg>
-                                        <span class="text-gray-700">Juri berpengalaman internasional</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                        </svg>
-                                        <span class="text-gray-700">Penilaian transparan</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                        </svg>
-                                        <span class="text-gray-700">Feedback konstruktif</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="fade-in-right">
-                                <div class="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-3xl p-8">
-                                    <div class="text-center">
-                                        <div class="w-20 h-20 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                                            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
-                                            </svg>
-                                        </div>
-                                        <h4 class="text-xl font-bold text-gray-900 mb-2">Evaluasi Profesional</h4>
-                                        <p class="text-gray-600 mb-6">Standar penilaian internasional</p>
-                                        <div class="grid grid-cols-2 gap-4">
-                                            <div class="bg-white rounded-xl p-3">
-                                                <div class="text-lg font-bold text-emerald-600">15+</div>
-                                                <div class="text-xs text-gray-600">Juri Ahli</div>
-                                            </div>
-                                            <div class="bg-white rounded-xl p-3">
-                                                <div class="text-lg font-bold text-emerald-600">10</div>
-                                                <div class="text-xs text-gray-600">Hari Evaluasi</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    .tech-card .card-header {
+        background: var(--gradient-tech);
+    }
 
-                <!-- Step 4: Announcement -->
-                <div class="relative flex items-center" @click="activeStep = 4">
-                    <div class="timeline-dot cursor-pointer" :class="{ 'active': activeStep === 4 }"></div>
-                    <div class="ml-8 lg:ml-16 w-full">
-                        <div class="grid lg:grid-cols-2 gap-8 items-center">
-                            <div class="lg:order-2 fade-in-right">
-                                <div class="flex items-center space-x-3 mb-4">
-                                    <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-semibold">Tahap 4</span>
-                                    <span class="text-gray-500">30 Mar 2025</span>
-                                </div>
-                                <h3 class="text-2xl font-bold text-gray-900 mb-4">Pengumuman Pemenang</h3>
-                                <p class="text-gray-600 leading-relaxed mb-6">
-                                    Momen yang ditunggu-tunggu! Pengumuman pemenang akan dilakukan secara live streaming dan dihadiri oleh seluruh peserta.
-                                </p>
-                                <div class="space-y-2">
-                                    <div class="flex items-center space-x-2">
-                                        <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                        </svg>
-                                        <span class="text-gray-700">Live streaming ceremony</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                        </svg>
-                                        <span class="text-gray-700">Sertifikat digital</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                        </svg>
-                                        <span class="text-gray-700">Networking session</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="lg:order-1 fade-in-left">
-                                <div class="bg-gradient-to-br from-yellow-50 to-amber-50 rounded-3xl p-8">
-                                    <div class="text-center">
-                                        <div class="w-20 h-20 bg-gradient-to-r from-yellow-500 to-amber-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                                            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
-                                            </svg>
-                                        </div>
-                                        <h4 class="text-xl font-bold text-gray-900 mb-2">Momen Bersejarah</h4>
-                                        <p class="text-gray-600 mb-6">Rayakan pencapaian luar biasa</p>
-                                        <div class="bg-white rounded-xl p-4">
-                                            <div class="text-2xl font-bold text-yellow-600">500M</div>
-                                            <div class="text-sm text-gray-600">Total Hadiah</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+    .health-card .card-header {
+        background: var(--gradient-health);
+    }
 
-<!-- CTA Section -->
-<section class="section bg-gradient-to-br from-violet-900 via-blue-900 to-indigo-900 text-white">
-    <div class="container-custom text-center">
-        <div class="max-w-4xl mx-auto fade-in-up">
-            <h2 class="text-4xl md:text-5xl font-clash font-bold mb-6">
-                Siap Menjadi Bagian dari <span class="text-gradient-accent">Sejarah?</span>
-            </h2>
-            <p class="text-xl text-gray-300 mb-8 leading-relaxed">
-                Bergabunglah dengan ribuan mahasiswa terbaik Indonesia dan wujudkan inovasi yang akan mengubah masa depan bangsa
-            </p>
+    .bio-card .card-header {
+        background: var(--gradient-bio);
+    }
 
-            <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-                <a href="{{ route('register') }}" class="btn-primary text-lg px-8 py-4">
-                    <span>Daftar Sekarang</span>
-                    <svg class="w-6 h-6 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                    </svg>
-                </a>
-                <a href="{{ route('public.competitions') }}" class="btn-secondary text-lg px-8 py-4 border-white text-white hover:bg-white hover:text-gray-900">
-                    Lihat Kompetisi
-                </a>
-            </div>
+    .card-icon {
+        width: 50px;
+        height: 50px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+    }
 
-            <!-- Trust Indicators -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 pt-8 border-t border-white/20">
-                <div class="text-center">
-                    <div class="text-2xl font-bold mb-1">10,000+</div>
-                    <div class="text-sm text-gray-400">Peserta Terdaftar</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-2xl font-bold mb-1">100+</div>
-                    <div class="text-sm text-gray-400">Universitas Partner</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-2xl font-bold mb-1">15</div>
-                    <div class="text-sm text-gray-400">Kategori Kompetisi</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-2xl font-bold mb-1">500M</div>
-                    <div class="text-sm text-gray-400">Total Hadiah</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-@endsection
+    .card-badge {
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    .card-image {
+        height: 250px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+
+    .competition-card:hover .card-image img {
+        transform: scale(1.1);
+    }
+
+    .image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .competition-card:hover .image-overlay {
+        opacity: 1;
+    }
+
+    .overlay-content {
+        text-align: center;
+        color: var(--white);
+    }
+
+    .overlay-content i {
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    .overlay-content span {
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    .card-content {
+        padding: 2rem;
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+    }
+
+    .card-description {
+        color: var(--text-secondary);
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+
+    .card-features {
+        margin-bottom: 1.5rem;
+    }
+
+    .feature-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+    }
+
+    .feature-item i {
+        color: var(--primary);
+        width: 16px;
+        flex-shrink: 0;
+    }
+
+    .card-stats {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        padding: 1.25rem;
+        background: var(--light);
+        border-radius: 1rem;
+    }
+
+    .stat-item {
+        flex: 1;
+        text-align: center;
+    }
+
+    .stat-value {
+        display: block;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+    }
+
+    .stat-divider {
+        width: 1px;
+        height: 2rem;
+        background: var(--border);
+    }
+
+    .card-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        width: 100%;
+        padding: 1rem;
+        background: var(--gradient-primary);
+        color: var(--white);
+        text-decoration: none;
+        border-radius: 0.75rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .card-button:hover {
+        color: var(--white);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+    }
+
+    /* Timeline Section */
+    .timeline-section {
+        background: linear-gradient(135deg, var(--light) 0%, var(--white) 100%);
+        position: relative;
+    }
+
+    .timeline-container {
+        position: relative;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .timeline-line {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: var(--gradient-primary);
+        transform: translateX(-50%);
+        z-index: 1;
+    }
+
+    .timeline-item {
+        position: relative;
+        margin-bottom: 3rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .timeline-item:nth-child(even) {
+        flex-direction: row-reverse;
+    }
+
+    .timeline-marker {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 60px;
+        background: var(--gradient-primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 1.25rem;
+        z-index: 10;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    .timeline-content {
+        width: calc(50% - 40px);
+        padding: 0 2rem;
+    }
+
+    .timeline-card {
+        background: var(--white);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        box-shadow: var(--shadow);
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .timeline-card::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        width: 0;
+        height: 0;
+        border: 10px solid transparent;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-card::before {
+        right: -20px;
+        border-left-color: var(--white);
+        transform: translateY(-50%);
+    }
+
+    .timeline-item:nth-child(even) .timeline-card::before {
+        left: -20px;
+        border-right-color: var(--white);
+        transform: translateY(-50%);
+    }
+
+    .timeline-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .timeline-date {
+        color: var(--primary);
+        font-size: 0.875rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .timeline-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 0.75rem;
+    }
+
+    .timeline-description {
+        color: var(--text-secondary);
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+
+    .timeline-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 1rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+    }
+
+    .timeline-status.ongoing {
+        background: rgba(16, 185, 129, 0.1);
+        color: var(--secondary);
+    }
+
+    .timeline-status.upcoming {
+        background: rgba(245, 158, 11, 0.1);
+        color: var(--accent);
+    }
+
+    /* Benefits Section */
+    .benefits-section {
+        background: var(--white);
+        position: relative;
+    }
+
+    .benefit-card {
+        background: var(--white);
+        border-radius: 1.25rem;
+        padding: 2rem;
+        box-shadow: var(--shadow);
+        transition: all 0.3s ease;
+        height: 100%;
+        text-align: center;
+        border: 1px solid var(--border);
+    }
+
+    .benefit-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-xl);
+        border-color: var(--primary);
+    }
+
+    .benefit-icon {
+        width: 80px;
+        height: 80px;
+        background: var(--gradient-primary);
+        color: var(--white);
+        border-radius: 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        margin: 0 auto 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .benefit-card:hover .benefit-icon {
+        transform: scale(1.1);
+    }
+
+    .benefit-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+    }
+
+    .benefit-description {
+        color: var(--text-secondary);
+        line-height: 1.6;
+    }
+
+    /* CTA Section */
+    .cta-section {
+        background: var(--gradient-primary);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cta-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1.5" fill="rgba(255,255,255,0.15)"/></svg>');
+        opacity: 0.5;
+    }
+
+    .cta-content {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 2rem;
+        padding: 3rem;
+        color: var(--white);
+        position: relative;
+        z-index: 10;
+    }
+
+    .cta-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+    }
+
+    .cta-description {
+        font-size: 1.125rem;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    .cta-features {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .cta-features .feature-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: var(--white);
+        font-weight: 500;
+    }
+
+    .cta-features .feature-item i {
+        color: var(--accent);
+        font-size: 1.25rem;
+    }
+
+    .cta-actions {
+        text-align: center;
+    }
+
+    .btn-xl {
+        padding: 1.25rem 2.5rem;
+        font-size: 1.125rem;
+        border-radius: 1rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .btn-xl.btn-primary {
+        background: var(--accent);
+        color: var(--dark);
+        border: none;
+        box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+    }
+
+    .btn-xl.btn-primary:hover {
+        background: #f59e0b;
+        color: var(--dark);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px rgba(245, 158, 11, 0.5);
+    }
+
+    .btn-xl.btn-outline {
+        background: transparent;
+        color: var(--white);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-xl.btn-outline:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--white);
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: translateY(-3px);
+    }
+
+    .cta-note {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.8);
+        margin-top: 1rem;
+    }
+
+    .cta-note i {
+        color: var(--accent);
+    }
+
+    /* FAQ Section */
+    .faq-section {
+        background: linear-gradient(135deg, var(--light) 0%, var(--white) 100%);
+    }
+
+    .faq-accordion .accordion-item {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        margin-bottom: 1rem;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+    }
+
+    .faq-accordion .accordion-button {
+        background: var(--white);
+        color: var(--text-primary);
+        font-weight: 600;
+        padding: 1.5rem;
+        border: none;
+        box-shadow: none;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .faq-accordion .accordion-button:not(.collapsed) {
+        background: var(--primary);
+        color: var(--white);
+    }
+
+    .faq-accordion .accordion-button:focus {
+        box-shadow: none;
+        border: none;
+    }
+
+    .faq-accordion .accordion-button::after {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+        transition: transform 0.3s ease;
+    }
+
+    .faq-accordion .accordion-button:not(.collapsed)::after {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+        transform: rotate(180deg);
+    }
+
+    .faq-accordion .accordion-body {
+        padding: 1.5rem;
+        color: var(--text-secondary);
+        line-height: 1.6;
+        border-top: 1px solid var(--border);
+    }
+
+    .faq-more {
+        margin-top: 3rem;
+    }
+
+    .faq-more p {
+        color: var(--text-secondary);
+        margin-bottom: 1rem;
+    }
+
+    /* Animations */
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(-20px);
+        }
+    }
+
+    @keyframes bounce {
+        0%, 20%, 53%, 80%, 100% {
+            transform: translate3d(0, 0, 0);
+        }
+        40%, 43% {
+            transform: translate3d(0, -10px, 0);
+        }
+        70% {
+            transform: translate3d(0, -5px, 0);
+        }
+        90% {
+            transform: translate3d(0, -2px, 0);
+        }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1200px) {
+        .floating-stats {
+            display: none;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .hero-title {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+        }
+
+        .hero-actions {
+            justify-content: center;
+        }
+
+        .hero-info {
+            justify-content: center;
+        }
+
+        .timeline-line {
+            left: 30px;
+        }
+
+        .timeline-marker {
+            left: 30px;
+        }
+
+        .timeline-item {
+            flex-direction: row !important;
+        }
+
+        .timeline-content {
+            width: calc(100% - 80px);
+            margin-left: 80px;
+            padding: 0;
+        }
+
+        .timeline-card::before {
+            left: -20px !important;
+            right: auto !important;
+            border-right-color: var(--white) !important;
+            border-left-color: transparent !important;
+        }
+
+        .cta-title {
+            font-size: 2rem;
+        }
+
+        .btn-xl {
+            width: auto;
+            margin: 0 0.5rem 1rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        section {
+            padding: 3rem 0;
+        }
+
+        .hero-modern {
+            min-height: 80vh;
+            padding: 2rem 0;
+        }
+
+        .hero-title {
+            font-size: clamp(2rem, 8vw, 3rem);
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+        }
+
+        .hero-actions {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .btn-cta {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .hero-info {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .info-item {
+            width: 100%;
+        }
+
+        .section-title {
+            font-size: clamp(1.75rem, 6vw, 2.5rem);
+        }
+
+        .section-subtitle {
+            font-size: 1rem;
+        }
+
+        .stats-number {
+            font-size: 2rem;
+        }
+
+        .card-stats {
+            flex-direction: column;
+            gap: 1rem;
+            text-align: center;
+        }
+
+        .stat-divider {
+            width: 100%;
+            height: 1px;
+        }
+
+        .cta-content {
+            padding: 2rem;
+        }
+
+        .cta-title {
+            font-size: 1.75rem;
+        }
+
+        .cta-features {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .timeline-line {
+            left: 20px;
+        }
+
+        .timeline-marker {
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            font-size: 1rem;
+        }
+
+        .timeline-content {
+            margin-left: 60px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .hero-content {
+            text-align: center;
+        }
+
+        .hero-badge {
+            font-size: 0.8rem;
+            padding: 0.5rem 1rem;
+        }
+
+        .section-header {
+            margin-bottom: 2rem;
+        }
+
+        .stats-card,
+        .benefit-card,
+        .competition-card {
+            margin-bottom: 2rem;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .cta-content {
+            padding: 1.5rem;
+        }
+
+        .timeline-content {
+            margin-left: 50px;
+        }
+
+        .timeline-card {
+            padding: 1rem;
+        }
+    }
+
+    /* Performance Optimizations */
+    .hero-image,
+    .card-image img {
+        will-change: transform;
+    }
+
+    .stats-card,
+    .benefit-card,
+    .competition-card {
+        will-change: transform;
+    }
+
+    /* Accessibility */
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+
+        .hero-particles,
+        .floating-stats,
+        .scroll-arrow {
+            animation: none !important;
+        }
+    }
+
+    /* Print Styles */
+    @media print {
+        .hero-background,
+        .floating-stats,
+        .scroll-indicator {
+            display: none !important;
+        }
+
+        .hero-modern {
+            background: var(--white) !important;
+            color: var(--dark) !important;
+        }
+
+        .hero-content * {
+            color: var(--dark) !important;
+        }
+    }
+</style>
+@endpush
+
+@push('scripts')
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize AOS
+    AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: true,
+        offset: 50
+    });
+
+    // Counter Animation
+    const counters = document.querySelectorAll('.counter');
+    const observerOptions = {
+        threshold: 0.5,
+        rootMargin: '0px 0px -100px 0px'
+    };
+
+    const animateCounter = (counter) => {
+        const target = parseInt(counter.getAttribute('data-target'));
+        const duration = 2000;
+        const step = target / (duration / 16);
+        let current = 0;
+
+        const updateCounter = () => {
+            current += step;
+            if (current < target) {
+                counter.textContent = Math.floor(current).toLocaleString();
+                requestAnimationFrame(updateCounter);
+            } else {
+                counter.textContent = target.toLocaleString();
+            }
+        };
+
+        updateCounter();
+    };
+
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCounter(entry.target);
+                counterObserver.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    counters.forEach(counter => {
+        counterObserver.observe(counter);
+    });
+
+    // Progress Bar Animation
+    const progressBars = document.querySelectorAll('.progress-fill');
+    const progressObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const progressBar = entry.target;
+                const progress = progressBar.getAttribute('data-progress');
+                setTimeout(() => {
+                    progressBar.style.width = progress + '%';
+                }, 200);
+                progressObserver.unobserve(progressBar);
+            }
+        });
+    }, observerOptions);
+
+    progressBars.forEach(bar => {
+        progressObserver.observe(bar);
+    });
+
+    // Smooth Scrolling for Anchor Links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Parallax Effect for Hero
+    const hero = document.querySelector('.hero-modern');
+    const heroContent = document.querySelector('.hero-content');
+    
+    if (hero && heroContent) {
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = scrolled * 0.3;
+            
+            if (scrolled < window.innerHeight) {
+                heroContent.style.transform = `translateY(${parallax}px)`;
+            }
+        });
+    }
+
+    // Floating Animation for Stats Cards
+    const floatingElements = document.querySelectorAll('.stat-card');
+    floatingElements.forEach((element, index) => {
+        element.style.animationDelay = `${index * 0.5}s`;
+    });
+
+    // Dynamic Background Particles
+    function createParticle() {
+        const particle = document.createElement('div');
+        particle.style.cssText = `
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 15s linear infinite;
+        `;
+        
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 15 + 's';
+        
+        return particle;
+    }
+
+    // Add particles to hero background
+    const heroParticles = document.querySelector('.hero-particles');
+    if (heroParticles) {
+        for (let i = 0; i < 20; i++) {
+            heroParticles.appendChild(createParticle());
+        }
+    }
+
+    // Lazy loading for images
+    const images = document.querySelectorAll('img[loading="lazy"]');
+    const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.src; // Trigger load
+                img.classList.add('loaded');
+                imageObserver.unobserve(img);
+            }
+        });
+    });
+
+    images.forEach(img => {
+        imageObserver.observe(img);
+    });
+
+    // Performance monitoring
+    if ('performance' in window) {
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const navigation = performance.getEntriesByType('navigation')[0];
+                console.log('Page Load Time:', navigation.loadEventEnd - navigation.loadEventStart, 'ms');
+            }, 0);
+        });
+    }
+});
+
+// Service Worker Registration for PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+                console.log('SW registered: ', registration);
+            })
+            .catch((registrationError) => {
+                console.log('SW registration failed: ', registrationError);
+            });
+    });
+}
+</script>
+@endpush

@@ -1,643 +1,460 @@
-# 🏆 UNAS Fest 2025 - Competition Management System
-
-<div align="center">
-
-![UNAS Fest 2025](https://img.shields.io/badge/UNAS%20Fest-2025-blue?style=for-the-badge)
-![Laravel](https://img.shields.io/badge/Laravel-10.x-red?style=for-the-badge&logo=laravel)
-![PHP](https://img.shields.io/badge/PHP-8.1+-777BB4?style=for-the-badge&logo=php)
-![MySQL](https://img.shields.io/badge/MySQL-8.0+-4479A1?style=for-the-badge&logo=mysql)
-
-**Sistem Manajemen Kompetisi Nasional yang Komprehensif**
-
-*Menggabungkan inovasi teknologi, kesehatan, dan biodiversitas untuk masa depan berkelanjutan*
-
-</div>
-
----
-
-## 📋 Daftar Isi
-
-- [🎯 Tentang Proyek](#-tentang-proyek)
-- [✨ Fitur Utama](#-fitur-utama)
-- [🏗️ Arsitektur Sistem](#️-arsitektur-sistem)
-- [🚀 Instalasi](#-instalasi)
-- [⚙️ Konfigurasi](#️-konfigurasi)
-- [👥 Manajemen Pengguna](#-manajemen-pengguna)
-- [🔧 Penggunaan](#-penggunaan)
-- [📱 Responsive Design](#-responsive-design)
-- [🔒 Keamanan](#-keamanan)
-- [📊 Monitoring & Analytics](#-monitoring--analytics)
-
----
-
-## 🎯 Tentang Proyek
-
-**UNAS Fest 2025** adalah platform kompetisi nasional yang dirancang khusus untuk mengelola berbagai jenis kompetisi dalam bidang:
-
-- 🌱 **Bio-diversity** - Kompetisi inovasi lingkungan dan keanekaragaman hayati
-- 🏥 **Health** - Kompetisi solusi kesehatan dan teknologi medis
-- 💻 **Technology** - Kompetisi pengembangan teknologi dan inovasi digital
-
-### 🎪 Visi & Misi
-
-**Visi:** Menjadi platform terdepan dalam menyelenggarakan kompetisi nasional yang mendorong inovasi berkelanjutan.
-
-**Misi:**
-- Memfasilitasi kompetisi berkualitas tinggi
-- Mendorong kolaborasi antar institusi pendidikan
-- Mengembangkan talenta muda Indonesia
-- Mempromosikan solusi inovatif untuk tantangan nasional
-
----
-
-## ✨ Fitur Utama
-
-### 🔐 **Sistem Autentikasi & Otorisasi**
-- Multi-role authentication (Super Admin, Admin, Juri, Peserta)
-- Role-based access control (RBAC)
-- Secure session management
-- Password reset & email verification
-
-### 👨‍💼 **Panel Super Admin**
-- **Dashboard Analytics** - Real-time statistics & insights
-- **User Management** - CRUD operations untuk semua pengguna
-- **Competition Management** - Kelola kompetisi dari A-Z
-- **Payment Oversight** - Monitor & konfirmasi pembayaran
-- **System Reports** - Laporan komprehensif dengan export
-- **QR Scanner** - Sistem check-in peserta dengan QR code
-
-### 👩‍💻 **Panel Admin**
-- **Competition Control** - Toggle status kompetisi dengan pop-up
-- **Registration Management** - Re-enable/delete registrations
-- **Payment Processing** - Konfirmasi & tolak pembayaran
-- **Participant Monitoring** - Track progress peserta
-- **Report Generation** - Generate laporan dengan data real
-
-### ⚖️ **Panel Juri**
-- **Submission Review** - Evaluasi karya peserta
-- **Scoring System** - Penilaian multi-kriteria
-- **Comment System** - Feedback untuk peserta
-- **Progress Tracking** - Monitor status penilaian
-- **Competition Assignment** - Akses kompetisi yang ditugaskan
-
-### 🎓 **Panel Peserta**
-- **Registration System** - Daftar kompetisi dengan mudah
-- **Submission Management** - Upload & edit karya
-- **Payment Integration** - Pembayaran dengan Midtrans QRIS
-- **E-Ticket System** - QR code untuk check-in event
-- **Progress Tracking** - Monitor status registrasi & submission
-
-### 💳 **Sistem Pembayaran**
-- **Midtrans Integration** - QRIS payment gateway
-- **Multiple Payment Methods** - Transfer bank, e-wallet, dll
-- **Payment Confirmation** - Admin dapat konfirmasi manual
-- **Refund System** - Proses refund otomatis
-- **Transaction History** - Riwayat pembayaran lengkap
-
-### 📱 **QR Code System**
-- **E-Ticket Generation** - QR code otomatis setelah payment
-- **Real-time Scanning** - Scanner dengan camera integration
-- **Check-in Management** - Track kehadiran peserta
-- **Verification System** - Multi-layer validation
-- **History Tracking** - Riwayat check-in komprehensif
-
----
-
-## 🏗️ Arsitektur Sistem
-
-### 🗄️ **Database Schema**
+/caturnawa-uf-2025.git
+cd caturnawa-uf-2025
 ```
-├── users (Super Admin, Admin, Juri, Peserta)
-├── competitions (Bio-diversity, Health, Technology)
-├── registrations (Pendaftaran peserta)
-├── submissions (Karya peserta)
-├── payments (Transaksi pembayaran)
-├── scores (Penilaian juri)
-├── qr_codes (E-ticket system)
-└── reports (Analytics & reporting)
-```
-
-### 🔄 **Workflow Sistem**
-1. **Registration** → Peserta daftar kompetisi
-2. **Payment** → Pembayaran via Midtrans
-3. **Confirmation** → Admin konfirmasi pembayaran
-4. **QR Generation** → Sistem generate e-ticket
-5. **Submission** → Peserta upload karya
-6. **Review** → Juri evaluasi submission
-7. **Scoring** → Penilaian multi-kriteria
-8. **Check-in** → QR scanner untuk event
-
----
-
-## 🚀 Instalasi
-
-### 📋 **Persyaratan Sistem**
-- **PHP** 8.1 atau lebih tinggi
-- **Laravel** 10.x
-- **MySQL** 8.0+ atau **PostgreSQL** 13+
-- **Composer** 2.x
-- **Node.js** 16+ & **NPM**
-- **Git** untuk version control
-
-### 🛠️ **Langkah Instalasi**
-
-1. **Clone Repository**
-   ```bash
-   git clone https://github.com/username/unas-fest-2025.git
-   cd unas-fest-2025
-   ```
 
 2. **Install Dependencies**
-   ```bash
-   composer install
-   npm install
-   ```
-
-3. **Environment Setup**
-   ```bash
-   cp .env.example .env
-   php artisan key:generate
-   ```
-
-4. **Database Configuration**
-   ```env
-   DB_CONNECTION=mysql
-   DB_HOST=127.0.0.1
-   DB_PORT=3306
-   DB_DATABASE=unas_fest_2025
-   DB_USERNAME=your_username
-   DB_PASSWORD=your_password
-   ```
-
-5. **Database Migration & Seeding**
-   ```bash
-   php artisan migrate
-   php artisan db:seed
-   ```
-
-6. **Storage Setup**
-   ```bash
-   php artisan storage:link
-   ```
-
-7. **Build Assets**
-   ```bash
-   npm run build
-   ```
-
-8. **Start Development Server**
-   ```bash
-   php artisan serve
-   ```
-
----
-
-## ⚙️ Konfigurasi
-
-### 💳 **Midtrans Payment Gateway**
-```env
-MIDTRANS_SERVER_KEY=your_server_key
-MIDTRANS_CLIENT_KEY=your_client_key
-MIDTRANS_IS_PRODUCTION=false
-MIDTRANS_IS_SANITIZED=true
-MIDTRANS_IS_3DS=true
+```bash
+composer install
+npm install
 ```
 
-### 📧 **Email Configuration**
+3. **Environment Configuration**
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+4. **Database Configuration**
+```bash
+# Edit .env file with your database configuration
+php artisan migrate --seed
+```
+
+5. **Build Assets**
+```bash
+npm run build
+# or for development
+npm run dev
+```
+
+6. **Start Development Server**
+```bash
+php artisan serve
+```
+
+## ⚙️ Konfigurasi | Configuration
+
+### Environment Variables
 ```env
+# Application
+APP_NAME="UNAS Fest 2025"
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://caturnawa.unasfest.com
+
+# Database
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=unas_fest_2025
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+
+# Cache & Session
+CACHE_DRIVER=redis
+SESSION_DRIVER=redis
+REDIS_HOST=127.0.0.1
+REDIS_PASSWORD=null
+REDIS_PORT=6379
+
+# Mail Configuration
 MAIL_MAILER=smtp
 MAIL_HOST=smtp.gmail.com
 MAIL_PORT=587
 MAIL_USERNAME=your_email@gmail.com
 MAIL_PASSWORD=your_app_password
 MAIL_ENCRYPTION=tls
-MAIL_FROM_ADDRESS=noreply@unasfest.com
-MAIL_FROM_NAME="UNAS Fest 2025"
+
+# Payment Gateway (Midtrans)
+MIDTRANS_SERVER_KEY=your_server_key
+MIDTRANS_CLIENT_KEY=your_client_key
+MIDTRANS_IS_PRODUCTION=false
+
+# SEO & Analytics
+GOOGLE_ANALYTICS_ID=G-XXXXXXXXXX
+GOOGLE_SITE_VERIFICATION=your_verification_code
 ```
 
-### 📁 **File Storage**
-```env
-FILESYSTEM_DISK=public
-AWS_ACCESS_KEY_ID=your_access_key
-AWS_SECRET_ACCESS_KEY=your_secret_key
-AWS_DEFAULT_REGION=ap-southeast-1
-AWS_BUCKET=unas-fest-2025
+## 🏗️ Struktur Proyek | Project Structure
+
+```
+caturnawa-uf-2025/
+├── app/
+│   ├── Http/Controllers/
+│   │   ├── Admin/           # Admin controllers
+│   │   ├── Juri/            # Judge controllers
+│   │   ├── Peserta/         # Participant controllers
+│   │   └── Public/          # Public pages
+│   ├── Models/              # Eloquent models
+│   ├── Services/            # Business logic services
+│   └── Providers/           # Service providers
+├── resources/
+│   ├── views/
+│   │   ├── layouts/         # Layout templates
+│   │   ├── public/          # Public pages
+│   │   ├── admin/           # Admin dashboard
+│   │   ├── juri/            # Judge dashboard
+│   │   └── peserta/         # Participant dashboard
+│   ├── js/                  # JavaScript files
+│   └── scss/                # Styling files
+├── public/
+│   ├── assets/              # Static assets
+│   ├── sitemap.xml          # SEO sitemap
+│   ├── robots.txt           # Search engine directives
+│   ├── manifest.json        # PWA manifest
+│   └── sw.js                # Service worker
+├── database/
+│   ├── migrations/          # Database migrations
+│   ├── seeders/             # Data seeders
+│   └── factories/           # Model factories
+└── routes/
+    ├── web.php              # Web routes
+    ├── api.php              # API routes
+    └── auth.php             # Authentication routes
 ```
 
----
+## 👥 Roles & Permissions
 
-## 👥 Manajemen Pengguna
+### 🔐 User Roles
 
-### 🔑 **Default Accounts**
-Setelah seeding, akun default tersedia:
+**Super Admin**
+- Kelola semua aspek sistem
+- Manajemen user dan role
+- Konfigurasi sistem
+- Akses semua fitur
 
-| Role | Email | Password | Akses |
-|------|-------|----------|-------|
-| Super Admin | superadmin@unasfest.com | password | Full system access |
-| Admin | admin@unasfest.com | password | Competition management |
-| Juri | juri@unasfest.com | password | Submission evaluation |
-| Peserta | peserta@unasfest.com | password | Competition participation |
+**Admin**
+- Kelola kompetisi
+- Kelola pendaftaran
+- Kelola pembayaran
+- Review submission
 
-### 🎭 **Role & Permissions**
+**Juri**
+- Akses kompetisi yang ditugaskan
+- Sistem penilaian
+- Review dan scoring
+- Export hasil
 
-#### 🔴 **Super Admin**
-- ✅ Semua akses sistem
-- ✅ User management (CRUD)
-- ✅ Competition management
-- ✅ Payment oversight
-- ✅ System configuration
-- ✅ QR Scanner access
-- ✅ Advanced reporting
-
-#### 🟠 **Admin**
-- ✅ Competition management
-- ✅ Registration oversight
-- ✅ Payment confirmation
-- ✅ Basic reporting
-- ✅ QR Scanner access
-- ❌ User management
-- ❌ System configuration
-
-#### 🟡 **Juri**
-- ✅ Assigned competitions
-- ✅ Submission review
-- ✅ Scoring system
-- ✅ Comment system
-- ❌ Competition management
-- ❌ Payment access
-- ❌ User management
-
-#### 🟢 **Peserta**
-- ✅ Competition registration
-- ✅ Submission management
-- ✅ Payment processing
-- ✅ E-ticket access
-- ❌ Admin functions
-- ❌ Scoring access
-- ❌ Other participants' data
-
----
-
-## 🔧 Penggunaan
-
-### 🏁 **Getting Started**
-
-1. **Akses Sistem**
-   - Buka browser dan kunjungi `http://localhost:8000`
-   - Login menggunakan akun default sesuai role
-
-2. **Super Admin Workflow**
-   ```
-   Dashboard → User Management → Create Users
-   → Competition Setup → Assign Juries
-   → Monitor Registrations → Confirm Payments
-   ```
-
-3. **Admin Workflow**
-   ```
-   Dashboard → Competition Management
-   → Registration Oversight → Payment Processing
-   → Generate Reports
-   ```
-
-4. **Juri Workflow**
-   ```
-   Dashboard → Assigned Competitions
-   → Review Submissions → Score Participants
-   → Add Comments
-   ```
-
-5. **Peserta Workflow**
-   ```
-   Register → Choose Competition → Make Payment
-   → Upload Submission → Get E-ticket
-   → Attend Event
-   ```
-
-### 📊 **Dashboard Features**
-
-#### **Super Admin Dashboard**
-- 📈 Real-time analytics
-- 👥 User statistics
-- 💰 Revenue tracking
-- 🏆 Competition overview
-- 📱 QR scanner access
-
-#### **Admin Dashboard**
-- 🎯 Competition metrics
-- 📝 Registration status
-- 💳 Payment overview
-- 📊 Basic reports
-
-#### **Juri Dashboard**
-- 📋 Assigned competitions
-- ⭐ Scoring progress
-- 💬 Comment history
-- 📈 Evaluation stats
-
-#### **Peserta Dashboard**
-- 🎫 My registrations
-- 📤 Submission status
-- 💰 Payment history
-- 🎟️ E-tickets
-
----
+**Peserta**
+- Daftar kompetisi
+- Upload submission
+- Tracking progress
+- Download sertifikat
 
 ## 📱 Responsive Design
 
-### 📱 **Mobile-First Approach**
-- Responsive navbar dengan scrollable menu
-- Touch-friendly interface
-- Optimized untuk semua screen sizes
-- Progressive Web App (PWA) ready
+### Breakpoints
+```scss
+// Mobile First Approach
+$mobile: 320px;
+$tablet: 768px;
+$desktop: 1024px;
+$large-desktop: 1200px;
+$xl-desktop: 1400px;
+```
 
-### 💻 **Cross-Platform Compatibility**
-- **Desktop** - Full feature access
-- **Tablet** - Adaptive layout
-- **Mobile** - Optimized experience
-- **All Browsers** - Chrome, Firefox, Safari, Edge
+### Browser Support
+- ✅ Chrome 90+
+- ✅ Firefox 88+
+- ✅ Safari 14+
+- ✅ Edge 90+
+- ✅ Opera 76+
 
-### 🎨 **UI/UX Features**
-- Modern Bootstrap 5 design
-- Professional white admin theme
-- Smooth animations & transitions
-- Intuitive navigation
-- Accessibility compliant
+## 🔧 Development
 
----
+### Menjalankan Development | Running Development
 
-## 🔒 Keamanan
+**Bahasa Indonesia:**
+```bash
+# Start development server
+php artisan serve
 
-### 🛡️ **Security Features**
-- **CSRF Protection** - Laravel built-in CSRF tokens
-- **SQL Injection Prevention** - Eloquent ORM protection
-- **XSS Protection** - Input sanitization
-- **Authentication** - Secure session management
-- **Authorization** - Role-based access control
-- **Password Hashing** - Bcrypt encryption
-- **File Upload Security** - Type & size validation
+# Watch assets untuk perubahan
+npm run dev
 
-### 🔐 **Data Protection**
-- Encrypted sensitive data
-- Secure payment processing
-- GDPR compliance ready
-- Regular security updates
-- Audit trail logging
+# Jalankan queue worker
+php artisan queue:work
 
----
+# Clear cache
+php artisan optimize:clear
+```
 
-## 📊 Monitoring & Analytics
+**English:**
+```bash
+# Start development server
+php artisan serve
 
-### 📈 **Real-time Analytics**
-- Competition participation rates
-- Payment success rates
-- User engagement metrics
-- System performance monitoring
+# Watch assets for changes
+npm run dev
 
-### 📋 **Reporting System**
-- **Competition Reports** - Participant statistics
-- **Financial Reports** - Revenue & payment tracking
-- **User Reports** - Registration & activity data
-- **Export Options** - PDF, Excel, CSV formats
+# Run queue worker
+php artisan queue:work
 
-### 🔍 **System Monitoring**
-- Error logging & tracking
-- Performance metrics
-- User activity logs
-- Security event monitoring
+# Clear cache
+php artisan optimize:clear
+```
 
----
+### Testing
+```bash
+# Run all tests
+php artisan test
 
-## 🤝 Kontribusi
+# Run specific test suite
+php artisan test --testsuite=Feature
 
-### 🔄 **Development Workflow**
-1. Fork repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open Pull Request
+# Generate coverage report
+php artisan test --coverage
+```
 
-### 📝 **Coding Standards**
+### Code Quality
+```bash
+# PHP CS Fixer
+vendor/bin/php-cs-fixer fix
+
+# PHPStan analysis
+vendor/bin/phpstan analyse
+
+# Psalm static analysis
+vendor/bin/psalm
+```
+
+## 🚀 Deployment
+
+### Production Deployment
+
+**Bahasa Indonesia:**
+
+1. **Server Requirements**
+   - PHP 8.1+ dengan ekstensi yang diperlukan
+   - MySQL 8.0+ atau PostgreSQL 13+
+   - Nginx atau Apache
+   - SSL Certificate
+   - Redis (recommended)
+
+2. **Deployment Steps**
+```bash
+# 1. Clone & install
+git clone https://github.com/el-pablos/caturnawa-uf-2025.git
+cd caturnawa-uf-2025
+composer install --optimize-autoloader --no-dev
+
+# 2. Environment setup
+cp .env.example .env
+# Edit .env dengan konfigurasi production
+
+# 3. Generate key & optimize
+php artisan key:generate
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+
+# 4. Database migration
+php artisan migrate --force
+
+# 5. Build assets
+npm ci --only=production
+npm run build
+
+# 6. Set permissions
+chmod -R 755 storage
+chmod -R 755 bootstrap/cache
+```
+
+**English:**
+
+1. **Server Requirements**
+   - PHP 8.1+ with required extensions
+   - MySQL 8.0+ or PostgreSQL 13+
+   - Nginx or Apache
+   - SSL Certificate
+   - Redis (recommended)
+
+2. **Deployment Process**
+```bash
+# 1. Clone & install dependencies
+git clone https://github.com/el-pablos/caturnawa-uf-2025.git
+cd caturnawa-uf-2025
+composer install --optimize-autoloader --no-dev
+
+# 2. Environment configuration
+cp .env.example .env
+# Edit .env with production settings
+
+# 3. Generate keys & optimize
+php artisan key:generate
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+
+# 4. Run database migrations
+php artisan migrate --force
+
+# 5. Build production assets
+npm ci --only=production
+npm run build
+
+# 6. Set proper permissions
+chmod -R 755 storage
+chmod -R 755 bootstrap/cache
+```
+
+### Nginx Configuration
+```nginx
+server {
+    listen 80;
+    listen [::]:80;
+    server_name caturnawa.unasfest.com;
+    return 301 https://$server_name$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name caturnawa.unasfest.com;
+    root /var/www/caturnawa-uf-2025/public;
+
+    ssl_certificate /path/to/ssl/cert.pem;
+    ssl_certificate_key /path/to/ssl/private.key;
+
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-Content-Type-Options "nosniff";
+    add_header X-XSS-Protection "1; mode=block";
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains";
+
+    index index.php;
+
+    charset utf-8;
+
+    # Gzip compression
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_types text/plain text/css text/xml text/javascript application/javascript application/xml+rss application/json;
+
+    # Cache static assets
+    location ~* \.(jpg|jpeg|png|gif|ico|css|js|pdf|webp|svg)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    error_page 404 /index.php;
+
+    location ~ \.php$ {
+        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\.(?!well-known).* {
+        deny all;
+    }
+}
+```
+
+## 📊 Performance & SEO
+
+### Core Web Vitals
+- **LCP (Largest Contentful Paint)**: < 2.5s
+- **FID (First Input Delay)**: < 100ms
+- **CLS (Cumulative Layout Shift)**: < 0.1
+
+### SEO Features
+- ✅ **Meta Tags Optimization** - Dinamis untuk setiap halaman
+- ✅ **Open Graph & Twitter Cards** - Social media optimization
+- ✅ **Structured Data (JSON-LD)** - Rich snippets
+- ✅ **XML Sitemap** - Auto-generated sitemap
+- ✅ **Robots.txt** - Search engine directives
+- ✅ **Canonical URLs** - Prevent duplicate content
+- ✅ **Image Alt Tags** - Accessibility & SEO
+- ✅ **Page Speed Optimization** - Optimized loading times
+
+### Performance Optimizations
+- Image lazy loading
+- CSS/JS minification
+- GZIP compression
+- Browser caching
+- Database query optimization
+- Redis caching
+- CDN integration ready
+
+## 🤝 Contributing
+
+### Contribution Guidelines
+
+**Bahasa Indonesia:**
+
+1. Fork repository ini
+2. Buat feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit perubahan (`git commit -m 'Add some AmazingFeature'`)
+4. Push ke branch (`git push origin feature/AmazingFeature`)
+5. Buat Pull Request
+
+**English:**
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+### Code Standards
 - Follow PSR-12 coding standards
-- Write comprehensive tests
-- Document new features
-- Follow Laravel best practices
+- Write meaningful commit messages
+- Include tests for new features
+- Update documentation as needed
+- Ensure all tests pass
 
-### 🐛 **Bug Reports**
-- Use GitHub Issues
-- Provide detailed description
-- Include steps to reproduce
-- Add relevant screenshots
+## 📝 License
 
----
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 📞 Support & Contact
+## 👨‍💻 Author
 
-### 🆘 **Technical Support**
-- **Email**: support@unasfest.com
-- **Documentation**: [Wiki](https://github.com/username/unas-fest-2025/wiki)
-- **Issues**: [GitHub Issues](https://github.com/username/unas-fest-2025/issues)
+**Developer**: el-pablos  
+**Email**: yeteprem.end23juni@gmail.com  
+**GitHub**: [@el-pablos](https://github.com/el-pablos)
 
-### 🏢 **Organization**
-- **Universitas Nasional**
-- **Jakarta Selatan, Indonesia**
-- **Website**: [unasfest.com](https://unasfest.com)
+## 🙏 Acknowledgments
 
----
+- **Universitas Nasional** - For the project opportunity
+- **Laravel Community** - For the amazing framework
+- **Bootstrap Team** - For the excellent UI framework
+- **Contributors** - For their valuable contributions
 
-## 📄 Lisensi
+## 📞 Support
 
-Proyek ini dilisensikan di bawah [MIT License](LICENSE).
+**Bahasa Indonesia:**
 
-```
-Copyright (c) 2025 UNAS Fest
+Jika Anda mengalami masalah atau memiliki pertanyaan:
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+1. Cek [Issues](https://github.com/el-pablos/caturnawa-uf-2025/issues) yang sudah ada
+2. Buat issue baru jika belum ada
+3. Hubungi developer: yeteprem.end23juni@gmail.com
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-```
+**English:**
+
+If you encounter any issues or have questions:
+
+1. Check existing [Issues](https://github.com/el-pablos/caturnawa-uf-2025/issues)
+2. Create a new issue if none exists
+3. Contact developer: yeteprem.end23juni@gmail.com
 
 ---
 
 <div align="center">
 
-**🏆 UNAS Fest 2025 - Membangun Masa Depan Melalui Kompetisi Inovatif 🏆**
+**🏆 UNAS Fest 2025 - Wujudkan Inovasi untuk Masa Depan Indonesia**
 
-*Made with ❤️ by UNAS Development Team*
+[![GitHub stars](https://img.shields.io/github/stars/el-pablos/caturnawa-uf-2025?style=social)](https://github.com/el-pablos/caturnawa-uf-2025/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/el-pablos/caturnawa-uf-2025?style=social)](https://github.com/el-pablos/caturnawa-uf-2025/network)
+
+[🌐 Live Demo](https://caturnawa.unasfest.com) • [📖 Documentation](https://github.com/el-pablos/caturnawa-uf-2025/wiki) • [🐛 Report Bug](https://github.com/el-pablos/caturnawa-uf-2025/issues) • [✨ Request Feature](https://github.com/el-pablos/caturnawa-uf-2025/issues)
 
 </div>
-- Git
-
-## Installation
-
-### 1. Clone Repository
-```bash
-git clone <repository-url>
-cd unas-fest-2025
-```
-
-### 2. Install Dependencies
-```bash
-composer install
-npm install
-```
-
-### 3. Environment Setup
-```bash
-cp .env.example .env
-php artisan key:generate
-```
-
-### 4. Database Setup
-```bash
-# Edit .env file dengan konfigurasi database
-php artisan migrate --seed
-```
-
-### 5. Midtrans Configuration
-Tambahkan konfigurasi Midtrans di `.env`:
-```
-MIDTRANS_SERVER_KEY=your_server_key
-MIDTRANS_CLIENT_KEY=your_client_key
-MIDTRANS_IS_PRODUCTION=false
-MIDTRANS_IS_SANITIZED=true
-MIDTRANS_IS_3DS=true
-```
-
-### 6. Storage Link
-```bash
-php artisan storage:link
-```
-
-### 7. Run Application
-```bash
-php artisan serve
-npm run dev
-```
-
-## Default Accounts
-
-### Super Admin
-- Email: superadmin@unasfest.ac.id
-- Password: superadmin123
-
-### Admin
-- Email: admin@unasfest.ac.id
-- Password: admin123
-
-### Juri
-- Email: juri@unasfest.ac.id
-- Password: juri123
-
-## Project Structure
-```
-├── app/
-│   ├── Http/Controllers/
-│   │   ├── Admin/
-│   │   ├── Auth/
-│   │   ├── Juri/
-│   │   └── Peserta/
-│   ├── Models/
-│   ├── Services/
-│   └── Traits/
-├── database/
-│   ├── migrations/
-│   └── seeders/
-├── resources/
-│   ├── views/
-│   │   ├── admin/
-│   │   ├── auth/
-│   │   ├── juri/
-│   │   └── peserta/
-│   └── js/
-└── routes/
-```
-
-## API Documentation
-- `/api/competitions` - Daftar kompetisi
-- `/api/payments` - Handle pembayaran
-- `/api/tickets` - Generate e-ticket
-
-## Contributing
-1. Fork repository
-2. Create feature branch
-3. Commit changes
-4. Push to branch
-5. Create Pull Request
-
-## 📁 File Structure Update
-
-Semua file yang diperlukan telah dibuat lengkap termasuk:
-
-### ✅ Controllers Lengkap
-- `app/Http/Controllers/Auth/AuthController.php`
-- `app/Http/Controllers/Admin/DashboardController.php`
-- `app/Http/Controllers/Admin/CompetitionController.php`
-- `app/Http/Controllers/Juri/JuriDashboardController.php`
-- `app/Http/Controllers/Juri/ScoringController.php`
-- `app/Http/Controllers/Peserta/PesertaDashboardController.php`
-- `app/Http/Controllers/Peserta/CompetitionController.php`
-- `app/Http/Controllers/PaymentController.php`
-
-### ✅ Views Dashboard
-- `resources/views/layouts/app.blade.php` (Main layout)
-- `resources/views/auth/login.blade.php`
-- `resources/views/admin/dashboard.blade.php`
-- `resources/views/juri/dashboard.blade.php`
-- `resources/views/peserta/dashboard.blade.php`
-
-### ✅ Frontend Assets
-- `resources/css/app.css` (Custom styling)
-- `resources/js/app.js` (Interactive JavaScript)
-- `vite.config.js` (Build configuration)
-
-### ✅ Core Laravel Files
-- `bootstrap/app.php` (Application bootstrap)
-- `public/index.php` (Entry point)
-- `routes/web.php` (Web routes)
-- `routes/api.php` (API routes)
-- `routes/console.php` (Console commands)
-
-### ✅ Database Structure
-- 6 Migration files (Users, Competitions, Registrations, Payments, Submissions, Scores)
-- Seeders dengan data awal dan role permissions
-
-### ✅ Storage Directories
-- `storage/app/public/` (File uploads)
-- `storage/framework/` (Cache, sessions, views)
-- `storage/logs/` (Application logs)
-
-## 🚀 Ready to Run!
-
-Proyek sekarang sudah 100% lengkap dan siap dijalankan:
-
-```bash
-# Windows
-setup.bat
-
-# Linux/Mac
-chmod +x setup.sh
-./setup.sh
-
-# Manual
-composer install
-npm install
-cp .env.example .env
-php artisan key:generate
-php artisan migrate --seed
-npm run build
-php artisan serve
-```
-
-## License
-This project is licensed under the MIT License.
-
-## Contact
-- Email: support@unasfest.ac.id
-- Website: https://unasfest.ac.id

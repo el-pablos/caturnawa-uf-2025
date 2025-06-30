@@ -1,0 +1,77 @@
+{
+    "name": "UNAS Fest 2025 - Festival Kompetisi Nasional",
+    "short_name": "UNAS Fest 2025",
+    "description": "Festival Kompetisi Nasional terbesar di Indonesia yang menggabungkan Teknologi, Kesehatan, dan Biodiversitas",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#2563eb",
+    "theme_color": "#2563eb",
+    "orientation": "portrait-primary",
+    "scope": "/",
+    "lang": "id",
+    "icons": [
+        {
+            "src": "/assets/images/favicon/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/assets/images/favicon/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/assets/images/favicon/apple-touch-icon.png",
+            "sizes": "180x180",
+            "type": "image/png",
+            "purpose": "any"
+        }
+    ],
+    "categories": ["education", "competitions", "events"],
+    "screenshots": [
+        {
+            "src": "/assets/images/screenshots/homepage.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "platform": "wide",
+            "label": "Homepage UNAS Fest 2025"
+        },
+        {
+            "src": "/assets/images/screenshots/competitions.png",
+            "sizes": "640x1136",
+            "type": "image/png",
+            "platform": "narrow",
+            "label": "Halaman Kompetisi"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Kompetisi",
+            "short_name": "Kompetisi",
+            "description": "Lihat semua kompetisi yang tersedia",
+            "url": "/competitions",
+            "icons": [
+                {
+                    "src": "/assets/images/icons/competition-shortcut.png",
+                    "sizes": "192x192",
+                    "type": "image/png"
+                }
+            ]
+        },
+        {
+            "name": "Daftar",
+            "short_name": "Daftar",
+            "description": "Daftar akun baru",
+            "url": "/register",
+            "icons": [
+                {
+                    "src": "/assets/images/icons/register-shortcut.png",
+                    "sizes": "192x192",
+                    "type": "image/png"
+                }
+            ]
+        }
+    ]
+}
