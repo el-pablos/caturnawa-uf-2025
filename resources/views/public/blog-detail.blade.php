@@ -1,4 +1,4 @@
-@extends('layouts.modern')
+@extends('layouts.simple')
 
 @section('content')
 <!-- Hero Section -->

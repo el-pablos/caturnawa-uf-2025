@@ -1,4 +1,4 @@
-@extends('layouts.modern')
+@extends('layouts.simple')
 
 @section('title', 'UNAS Fest 2025 - Festival Kompetisi Nasional Terbesar Indonesia')
 

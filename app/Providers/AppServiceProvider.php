@@ -14,6 +14,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(\App\Services\SEOService::class, function ($app) {
             return new \App\Services\SEOService();
         });
+
+        $this->app->singleton(\App\Services\ModernSEOService::class, function ($app) {
+            return new \App\Services\ModernSEOService();
+        });
     }
 
     /**

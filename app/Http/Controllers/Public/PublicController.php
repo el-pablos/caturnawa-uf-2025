@@ -7,7 +7,7 @@ use App\Models\Competition;
 use App\Models\Registration;
 use App\Models\User;
 use App\Services\SEOService;
-use App\Services\ModernSEOService;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -18,12 +18,10 @@ use Illuminate\Support\Facades\Validator;
 class PublicController extends Controller
 {
     protected $seoService;
-    protected $modernSeoService;
 
-    public function __construct(SEOService $seoService, ModernSEOService $modernSeoService)
+    public function __construct(SEOService $seoService)
     {
         $this->seoService = $seoService;
-        $this->modernSeoService = $modernSeoService;
     }
 
     /**
@@ -31,10 +29,6 @@ class PublicController extends Controller
      */
     public function home()
     {
-        // Set modern SEO
-        $this->modernSeoService->setHomePage();
-        $this->modernSeoService->addOrganizationSchema();
-
         // Get active competitions
         $competitions = Competition::active()
             ->where('registration_start', '<=', now())
@@ -50,7 +44,7 @@ class PublicController extends Controller
             'total_prize' => 500000000, // 500 million
         ];
 
-        return view('public.modern-home', compact('competitions', 'stats'));
+        return view('public.home-simple', compact('competitions', 'stats'));
     }
 
     /**
@@ -58,9 +52,6 @@ class PublicController extends Controller
      */
     public function competitions()
     {
-        // Set modern SEO
-        $this->modernSeoService->setCompetitionsPage();
-
         $competitions = Competition::active()
             ->with(['registrations' => function($query) {
                 $query->where('status', 'confirmed');
@@ -76,7 +67,7 @@ class PublicController extends Controller
             'total_prize' => 500000000, // 500 million
         ];
 
-        return view('public.competitions', compact('competitions', 'stats'));
+        return view('public.competitions-simple', compact('competitions', 'stats'));
     }
 
     /**
@@ -86,10 +77,7 @@ class PublicController extends Controller
     {
         $competition = Competition::where('slug', $slug)->firstOrFail();
 
-        // Set modern SEO for competition
-        $this->modernSeoService->setCompetitionPage($competition);
-
-        return view('public.competition-detail', compact('competition'));
+        return view('public.competition', compact('competition'));
     }
 
     /**
@@ -97,9 +85,6 @@ class PublicController extends Controller
      */
     public function team()
     {
-        // Set modern SEO
-        $this->modernSeoService->setAboutPage();
-
         // Same as about page but focused on team
         return $this->about();
     }
@@ -109,8 +94,6 @@ class PublicController extends Controller
      */
     public function about()
     {
-        // Set modern SEO
-        $this->modernSeoService->setAboutPage();
         
         // Department structure
         $departments = [
@@ -236,8 +219,6 @@ class PublicController extends Controller
      */
     public function testimonials()
     {
-        // Set modern SEO
-        $this->modernSeoService->setTestimonialsPage();
         
         // Sample testimonials (in real app, this would come from database)
         $testimonials = [
@@ -318,8 +299,6 @@ class PublicController extends Controller
      */
     public function contact()
     {
-        // Set modern SEO
-        $this->modernSeoService->setContactPage();
         
         return view('public.contact');
     }
@@ -363,8 +342,6 @@ class PublicController extends Controller
      */
     public function blog()
     {
-        // Set basic SEO for blog
-        $this->modernSeoService->setHomePage(); // Use home page SEO as fallback
         
         // Sample blog posts (in real app, this would come from database)
         $posts = [
@@ -412,8 +389,7 @@ class PublicController extends Controller
             'tags' => ['teknologi', 'kompetisi', 'tips']
         ];
 
-        // Set basic SEO for blog detail
-        $this->modernSeoService->setHomePage(); // Use home page SEO as fallback
+
 
         return view('public.blog-detail', compact('post'));
     }

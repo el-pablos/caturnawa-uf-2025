@@ -1,4 +1,4 @@
-@extends('layouts.modern')
+@extends('layouts.simple')
 
 @php
     $seoPage = 'competitions';
