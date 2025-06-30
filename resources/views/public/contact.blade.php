@@ -1,606 +1,731 @@
-@extends('layouts.simple')
+wrap: wrap;
+}
 
-@php
-    $seoPage = 'contact';
-@endphp
+.response-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
 
-@section('content')
-<!-- Hero Section -->
-<section class="contact-hero">
-    <div class="hero-background">
-        <div class="hero-pattern"></div>
-        <div class="floating-elements">
-            <div class="element element-1"></div>
-            <div class="element element-2"></div>
-            <div class="element element-3"></div>
-        </div>
-    </div>
+.response-item i {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    font-size: var(--text-lg);
+}
 
-    <div class="container position-relative">
-        <div class="row align-items-center justify-content-center text-center py-5">
-            <div class="col-lg-8" data-aos="fade-up">
-                <div class="hero-badge">
-                    <i class="bi bi-headset me-2"></i>
-                    Customer Support 24/7
-                </div>
+.response-label {
+    display: block;
+    font-size: var(--text-sm);
+    opacity: 0.8;
+    color: var(--white);
+}
 
-                <h1 class="hero-title">
-                    Hubungi
-                    <span class="text-gradient">Tim Kami</span>
-                </h1>
+.response-value {
+    display: block;
+    font-weight: var(--font-semibold);
+    font-size: var(--text-base);
+    color: var(--white);
+}
 
-                <p class="hero-subtitle">
-                    Ada pertanyaan tentang UNAS Fest 2025? Tim profesional kami siap membantu Anda dengan respon cepat dan solusi terbaik
-                </p>
+.contact-stats {
+    position: relative;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-                <div class="contact-methods" data-aos="fade-up" data-aos-delay="200">
-                    <a href="#contact-form" class="contact-method primary">
-                        <i class="bi bi-envelope"></i>
-                        <span>Kirim Pesan</span>
-                    </a>
-                    <a href="https://wa.me/6281234567890" class="contact-method whatsapp" target="_blank">
-                        <i class="bi bi-whatsapp"></i>
-                        <span>WhatsApp</span>
-                    </a>
-                    <a href="tel:+622178067000" class="contact-method phone">
-                        <i class="bi bi-telephone"></i>
-                        <span>Telepon</span>
-                    </a>
-                </div>
+.contact-stats .stat-card {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-xl);
+    padding: var(--space-5);
+    box-shadow: var(--shadow-lg);
+    min-width: 120px;
+    text-align: center;
+    transition: var(--transition-normal);
+}
 
-                <div class="response-time" data-aos="fade-up" data-aos-delay="300">
-                    <div class="response-item">
-                        <i class="bi bi-clock text-warning"></i>
-                        <span>Respon dalam <strong>24 jam</strong></span>
-                    </div>
-                    <div class="response-divider"></div>
-                    <div class="response-item">
-                        <i class="bi bi-shield-check text-success"></i>
-                        <span>Support <strong>Profesional</strong></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+.contact-stats .stat-1 {
+    top: 20%;
+    right: 10%;
+    animation: float 6s ease-in-out infinite;
+}
 
-<!-- Contact Section -->
-<section class="section">
-    <div class="container">
-        <!-- Alerts -->
-        @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert" data-aos="fade-down">
-                <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        @endif
+.contact-stats .stat-2 {
+    bottom: 30%;
+    right: 5%;
+    animation: float 8s ease-in-out infinite;
+    animation-delay: 2s;
+}
 
-        @if(session('error'))
-            <div class="alert alert-danger alert-dismissible fade show" role="alert" data-aos="fade-down">
-                <i class="bi bi-exclamation-triangle me-2"></i>{{ session('error') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        @endif
+.contact-stats .stat-3 {
+    top: 50%;
+    left: 15%;
+    animation: float 7s ease-in-out infinite;
+    animation-delay: 4s;
+}
 
-        <div class="row g-5">
-            <!-- Contact Form -->
-            <div class="col-lg-8" data-aos="fade-right">
-                <div class="card border-0 shadow-lg">
-                    <div class="card-body p-5">
-                        <h2 class="fw-bold mb-4">
-                            <i class="bi bi-envelope text-primary me-2"></i>Kirim Pesan
-                        </h2>
-                        
-                        <form action="{{ route('public.contact.send') }}" method="POST">
-                            @csrf
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label for="name" class="form-label">Nama Lengkap</label>
-                                    <input type="text" class="form-control @error('name') is-invalid @enderror" 
-                                           id="name" name="name" value="{{ old('name') }}" required>
-                                    @error('name')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                
-                                <div class="col-md-6">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control @error('email') is-invalid @enderror" 
-                                           id="email" name="email" value="{{ old('email') }}" required>
-                                    @error('email')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                
-                                <div class="col-12">
-                                    <label for="subject" class="form-label">Subjek</label>
-                                    <select class="form-select @error('subject') is-invalid @enderror" 
-                                            id="subject" name="subject" required>
-                                        <option value="">Pilih Subjek</option>
-                                        <option value="Informasi Kompetisi" {{ old('subject') == 'Informasi Kompetisi' ? 'selected' : '' }}>Informasi Kompetisi</option>
-                                        <option value="Pendaftaran" {{ old('subject') == 'Pendaftaran' ? 'selected' : '' }}>Pendaftaran</option>
-                                        <option value="Pembayaran" {{ old('subject') == 'Pembayaran' ? 'selected' : '' }}>Pembayaran</option>
-                                        <option value="Teknis Website" {{ old('subject') == 'Teknis Website' ? 'selected' : '' }}>Teknis Website</option>
-                                        <option value="Kerjasama" {{ old('subject') == 'Kerjasama' ? 'selected' : '' }}>Kerjasama</option>
-                                        <option value="Lainnya" {{ old('subject') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
-                                    </select>
-                                    @error('subject')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                
-                                <div class="col-12">
-                                    <label for="message" class="form-label">Pesan</label>
-                                    <textarea class="form-control @error('message') is-invalid @enderror" 
-                                              id="message" name="message" rows="5" 
-                                              placeholder="Tuliskan pesan Anda di sini..." required>{{ old('message') }}</textarea>
-                                    @error('message')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-primary btn-lg w-100">
-                                        <i class="bi bi-send me-2"></i>Kirim Pesan
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Contact Info -->
-            <div class="col-lg-4" data-aos="fade-left">
-                <div class="sticky-top" style="top: 100px;">
-                    <!-- Contact Details -->
-                    <div class="card border-0 shadow-lg mb-4">
-                        <div class="card-body p-4">
-                            <h4 class="fw-bold mb-4">
-                                <i class="bi bi-info-circle text-primary me-2"></i>Informasi Kontak
-                            </h4>
-                            
-                            @php $seo = app(\App\Services\SEOService::class); @endphp
-                            @php $contact = $seo->getContactInfo(); @endphp
-                            
-                            <div class="mb-3">
-                                <div class="d-flex align-items-start">
-                                    <i class="bi bi-envelope text-primary me-3 mt-1"></i>
-                                    <div>
-                                        <h6 class="fw-bold mb-1">Email</h6>
-                                        <a href="mailto:{{ $contact['email'] }}" class="text-muted text-decoration-none">
-                                            {{ $contact['email'] }}
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <div class="d-flex align-items-start">
-                                    <i class="bi bi-telephone text-success me-3 mt-1"></i>
-                                    <div>
-                                        <h6 class="fw-bold mb-1">Telepon</h6>
-                                        <a href="tel:{{ $contact['phone'] }}" class="text-muted text-decoration-none">
-                                            {{ $contact['phone'] }}
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="mb-0">
-                                <div class="d-flex align-items-start">
-                                    <i class="bi bi-geo-alt text-danger me-3 mt-1"></i>
-                                    <div>
-                                        <h6 class="fw-bold mb-1">Alamat</h6>
-                                        <p class="text-muted mb-0">{{ $contact['address'] }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Quick Actions -->
-                    <div class="card border-0 shadow-lg mb-4">
-                        <div class="card-body p-4">
-                            <h5 class="fw-bold mb-3">
-                                <i class="bi bi-lightning text-warning me-2"></i>Aksi Cepat
-                            </h5>
-                            
-                            <div class="d-grid gap-2">
-                                <a href="https://wa.me/6281234567890" 
-                                   class="btn btn-success" target="_blank">
-                                    <i class="bi bi-whatsapp me-2"></i>Chat WhatsApp
-                                </a>
-                                <a href="{{ route('public.faq') }}" class="btn btn-outline-primary">
-                                    <i class="bi bi-question-circle me-2"></i>Lihat FAQ
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Office Hours -->
-                    <div class="card border-0 shadow-lg">
-                        <div class="card-body p-4">
-                            <h5 class="fw-bold mb-3">
-                                <i class="bi bi-clock text-primary me-2"></i>Jam Operasional
-                            </h5>
-                            
-                            <div class="mb-2">
-                                <div class="d-flex justify-content-between">
-                                    <span class="text-muted">Senin - Jumat</span>
-                                    <span class="fw-bold">08:00 - 17:00</span>
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <div class="d-flex justify-content-between">
-                                    <span class="text-muted">Sabtu</span>
-                                    <span class="fw-bold">08:00 - 12:00</span>
-                                </div>
-                            </div>
-                            <div class="mb-0">
-                                <div class="d-flex justify-content-between">
-                                    <span class="text-muted">Minggu</span>
-                                    <span class="text-danger">Tutup</span>
-                                </div>
-                            </div>
-                            
-                            <hr class="my-3">
-                            
-                            <div class="text-center">
-                                <small class="text-muted">
-                                    <i class="bi bi-info-circle me-1"></i>
-                                    Respon email dalam 24 jam
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+/* Contact Section */
+.contact-section {
+    background: var(--light);
+}
 
-<!-- Map Section -->
-<section class="section bg-light">
-    <div class="container">
-        <div class="text-center mb-5" data-aos="fade-up">
-            <h2 class="section-title font-poppins">Lokasi Kami</h2>
-            <p class="section-subtitle">
-                Kunjungi kantor kami di Universitas Nasional, Jakarta Selatan
-            </p>
-        </div>
-        
-        <div class="row justify-content-center">
-            <div class="col-lg-10" data-aos="fade-up" data-aos-delay="200">
-                <div class="card border-0 shadow-lg">
-                    <div class="card-body p-0">
-                        <div class="ratio ratio-21x9">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.7461!2d106.8456!3d-6.2615!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3e945e34b9d%3A0x5371bf0fdad786a2!2sUniversitas%20Nasional!5e0!3m2!1sen!2sid!4v1640995200000!5m2!1sen!2sid" 
-                                    style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-                            </iframe>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-@endsection
+.contact-form-card {
+    background: var(--white);
+    border-radius: var(--radius-3xl);
+    padding: var(--space-10);
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
 
-@push('styles')
-<style>
-    /* Contact Hero Section */
-    .contact-hero {
-        min-height: 70vh;
-        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-        position: relative;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-    }
+.form-header {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+}
 
-    .hero-background {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-    }
+.form-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--gradient-primary);
+    color: var(--white);
+    border-radius: var(--radius-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-xl);
+    flex-shrink: 0;
+}
 
-    .hero-pattern {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image:
-            radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 2px, transparent 2px),
-            radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 2px, transparent 2px);
-        background-size: 60px 60px;
-        animation: patternFloat 15s linear infinite;
-    }
+.form-title h2 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--text-primary);
+    margin-bottom: var(--space-2);
+}
 
-    @keyframes patternFloat {
-        0% { transform: translate(0, 0); }
-        100% { transform: translate(60px, 60px); }
-    }
+.form-title p {
+    color: var(--text-secondary);
+    margin-bottom: 0;
+    line-height: 1.6;
+}
 
-    .floating-elements {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-    }
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+    margin-bottom: var(--space-8);
+}
 
-    .element {
-        position: absolute;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.1);
-        animation: elementFloat 8s ease-in-out infinite;
-    }
+.form-group-full {
+    grid-column: 1 / -1;
+}
 
-    .element-1 {
-        width: 100px;
-        height: 100px;
-        top: 15%;
-        right: 15%;
-        animation-delay: 0s;
-    }
+.form-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+    font-weight: var(--font-medium);
+    color: var(--text-primary);
+}
 
-    .element-2 {
-        width: 60px;
-        height: 60px;
-        top: 70%;
-        right: 25%;
-        animation-delay: 3s;
-    }
+.form-label i {
+    color: var(--primary);
+    font-size: var(--text-sm);
+}
 
-    .element-3 {
-        width: 80px;
-        height: 80px;
-        top: 45%;
-        left: 15%;
-        animation-delay: 6s;
-    }
+.form-actions {
+    text-align: center;
+}
 
-    @keyframes elementFloat {
-        0%, 100% { transform: translateY(0px) scale(1); }
-        50% { transform: translateY(-25px) scale(1.1); }
-    }
+/* Contact Sidebar */
+.contact-sidebar {
+    position: sticky;
+    top: 100px;
+}
 
-    .hero-badge {
-        display: inline-block;
-        background: rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(10px);
-        color: white;
-        padding: 10px 20px;
-        border-radius: 25px;
-        font-size: 0.9rem;
-        font-weight: 600;
-        margin-bottom: 20px;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-    }
+.contact-info-card,
+.quick-actions-card,
+.office-hours-card {
+    background: var(--white);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-8);
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
 
-    .hero-title {
-        font-size: 3.5rem;
-        font-weight: 800;
-        color: white;
-        margin-bottom: 20px;
-        line-height: 1.1;
-    }
+.card-header {
+    margin-bottom: var(--space-6);
+}
 
-    .text-gradient {
-        background: linear-gradient(135deg, var(--accent-color), #f59e0b);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
+.card-header h3 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    color: var(--text-primary);
+    margin-bottom: var(--space-2);
+}
 
-    .hero-subtitle {
-        font-size: 1.1rem;
-        color: rgba(255, 255, 255, 0.8);
-        margin-bottom: 40px;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-        line-height: 1.6;
-    }
+.card-header p {
+    color: var(--text-secondary);
+    margin-bottom: 0;
+    font-size: var(--text-sm);
+}
 
+.contact-items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+}
+
+.contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+}
+
+.contact-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-lg);
+    color: var(--white);
+    flex-shrink: 0;
+}
+
+.contact-icon.email {
+    background: var(--gradient-primary);
+}
+
+.contact-icon.phone {
+    background: var(--gradient-secondary);
+}
+
+.contact-icon.whatsapp {
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+}
+
+.contact-icon.location {
+    background: var(--gradient-accent);
+}
+
+.contact-details h4 {
+    font-size: var(--text-base);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+    margin-bottom: var(--space-1);
+}
+
+.contact-details a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: var(--font-medium);
+    display: block;
+    margin-bottom: var(--space-1);
+    transition: var(--transition-fast);
+}
+
+.contact-details a:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+.contact-details small {
+    color: var(--text-muted);
+    font-size: var(--text-xs);
+}
+
+.contact-details span {
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+/* Quick Actions */
+.quick-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.quick-action {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: var(--light);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    color: var(--text-primary);
+    font-weight: var(--font-medium);
+    transition: var(--transition-normal);
+    border: 1px solid transparent;
+}
+
+.quick-action:hover {
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.quick-action.whatsapp:hover {
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    border-color: #25D366;
+}
+
+.quick-action.faq:hover {
+    background: var(--gradient-primary);
+    border-color: var(--primary);
+}
+
+.quick-action.competitions:hover {
+    background: var(--gradient-accent);
+    border-color: var(--accent);
+}
+
+.quick-action i:first-child {
+    font-size: var(--text-lg);
+}
+
+.quick-action i:last-child {
+    margin-left: auto;
+    font-size: var(--text-sm);
+}
+
+/* Office Hours */
+.office-hours {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+}
+
+.hour-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-3);
+    background: var(--light);
+    border-radius: var(--radius-md);
+}
+
+.hour-item .day {
+    color: var(--text-primary);
+    font-weight: var(--font-medium);
+}
+
+.hour-item .time {
+    color: var(--text-secondary);
+    font-weight: var(--font-medium);
+}
+
+.hour-item .time.active {
+    color: var(--secondary);
+}
+
+.hour-item .time.closed {
+    color: var(--danger);
+}
+
+.office-note {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    background: rgba(30, 64, 175, 0.05);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--primary);
+}
+
+.office-note i {
+    color: var(--primary);
+}
+
+.office-note span {
+    color: var(--text-primary);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+}
+
+/* Map Section */
+.map-section {
+    background: var(--white);
+}
+
+.map-container {
+    position: relative;
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+    height: 500px;
+}
+
+.map-frame {
+    width: 100%;
+    height: 100%;
+}
+
+.map-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.map-overlay {
+    position: absolute;
+    top: var(--space-6);
+    left: var(--space-6);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    max-width: 300px;
+}
+
+.map-info {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+}
+
+.map-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--gradient-primary);
+    color: var(--white);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-lg);
+    flex-shrink: 0;
+}
+
+.map-details h4 {
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--text-primary);
+    margin-bottom: var(--space-2);
+}
+
+.map-details p {
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: var(--space-3);
+}
+
+.map-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: var(--font-medium);
+    font-size: var(--text-sm);
+    transition: var(--transition-fast);
+}
+
+.map-link:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+/* Mobile Responsive */
+@media (max-width: 991px) {
     .contact-methods {
-        display: flex;
         justify-content: center;
-        gap: 20px;
-        margin-bottom: 40px;
-        flex-wrap: wrap;
     }
+    
+    .response-info {
+        justify-content: center;
+    }
+    
+    .contact-sidebar {
+        position: relative;
+        top: auto;
+    }
+    
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-5);
+    }
+    
+    .contact-form-card {
+        padding: var(--space-8);
+    }
+    
+    .map-overlay {
+        position: relative;
+        top: auto;
+        left: auto;
+        margin: var(--space-6);
+        max-width: none;
+    }
+}
 
+@media (max-width: 767px) {
+    .contact-methods {
+        flex-direction: column;
+        align-items: center;
+    }
+    
     .contact-method {
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        border-radius: 15px;
-        padding: 15px 25px;
-        color: white;
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        min-width: 140px;
-        justify-content: center;
+        width: 100%;
+        max-width: 250px;
     }
-
-    .contact-method:hover {
-        color: white;
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    
+    .response-info {
+        flex-direction: column;
+        gap: var(--space-4);
+        text-align: center;
     }
-
-    .contact-method.primary:hover {
-        background: rgba(37, 99, 235, 0.3);
-        border-color: rgba(37, 99, 235, 0.5);
+    
+    .contact-stats .stat-card {
+        position: relative;
+        display: inline-block;
+        margin: var(--space-2);
     }
-
-    .contact-method.whatsapp:hover {
-        background: rgba(34, 197, 94, 0.3);
-        border-color: rgba(34, 197, 94, 0.5);
+    
+    .contact-stats .stat-1,
+    .contact-stats .stat-2,
+    .contact-stats .stat-3 {
+        position: relative;
+        top: auto;
+        right: auto;
+        bottom: auto;
+        left: auto;
+        animation: none;
     }
-
-    .contact-method.phone:hover {
-        background: rgba(245, 158, 11, 0.3);
-        border-color: rgba(245, 158, 11, 0.5);
+    
+    .form-header {
+        flex-direction: column;
+        text-align: center;
     }
-
-    .response-time {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 20px;
-        flex-wrap: wrap;
+    
+    .contact-form-card {
+        padding: var(--space-6);
     }
-
-    .response-item {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        color: rgba(255, 255, 255, 0.9);
-        font-size: 0.9rem;
+    
+    .contact-info-card,
+    .quick-actions-card,
+    .office-hours-card {
+        padding: var(--space-6);
+        margin-bottom: var(--space-4);
     }
-
-    .response-divider {
-        width: 1px;
-        height: 20px;
-        background: rgba(255, 255, 255, 0.3);
+    
+    .contact-item {
+        flex-direction: column;
+        text-align: center;
     }
-
-    /* Contact Section */
-    .section {
-        padding: 80px 0;
+    
+    .map-container {
+        height: 300px;
     }
-
-    /* Form Styles */
-    .card {
-        border: none;
-        border-radius: 20px;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-        transition: all 0.3s ease;
+    
+    .map-overlay {
+        margin: var(--space-4);
     }
-
-    .card:hover {
-        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    
+    .map-info {
+        flex-direction: column;
+        text-align: center;
     }
+}
 
-    .form-control {
-        border: 2px solid #e5e7eb;
-        border-radius: 12px;
-        padding: 12px 16px;
-        font-size: 0.95rem;
-        transition: all 0.3s ease;
+@media (max-width: 575px) {
+    .contact-stats {
+        height: auto;
+        flex-direction: column;
+        gap: var(--space-4);
     }
-
-    .form-control:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    
+    .hero-title {
+        font-size: 2.5rem;
     }
-
-    .form-select {
-        border: 2px solid #e5e7eb;
-        border-radius: 12px;
-        padding: 12px 16px;
-        font-size: 0.95rem;
-        transition: all 0.3s ease;
+    
+    .contact-method {
+        padding: var(--space-3) var(--space-5);
     }
-
-    .form-select:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    
+    .form-grid {
+        gap: var(--space-4);
     }
-
-    .btn-primary {
-        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-        border: none;
-        border-radius: 12px;
-        padding: 15px;
-        font-weight: 600;
-        transition: all 0.3s ease;
+    
+    .contact-form-card {
+        padding: var(--space-5);
     }
-
-    .btn-primary:hover {
-        background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
-        transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+    
+    .office-hours {
+        gap: var(--space-2);
     }
-
-    /* Contact Info Cards */
-    .sticky-top {
-        z-index: 1020;
+    
+    .hour-item {
+        padding: var(--space-2);
+        font-size: var(--text-sm);
     }
-
-    /* Map Section */
-    .bg-light {
-        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
-    }
-
-    .ratio iframe {
-        border-radius: 15px;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 991px) {
-        .sticky-top {
-            position: relative !important;
-            top: auto !important;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .hero-title {
-            font-size: 2.5rem;
-        }
-
-        .hero-subtitle {
-            font-size: 1rem;
-        }
-
-        .contact-methods {
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .contact-method {
-            width: 200px;
-        }
-
-        .response-time {
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .response-divider {
-            width: 40px;
-            height: 1px;
-        }
-
-        .section {
-            padding: 60px 0;
-        }
-    }
-
-    @media (max-width: 576px) {
-        .hero-title {
-            font-size: 2rem;
-        }
-
-        .contact-method {
-            width: 100%;
-            max-width: 250px;
-        }
-
-        .card-body {
-            padding: 20px !important;
-        }
-    }
+}
 </style>
+@endpush
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Smooth scroll for contact form
+    const contactMethods = document.querySelectorAll('.contact-method[href^="#"]');
+    contactMethods.forEach(method => {
+        method.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            
+            if (targetElement) {
+                const navbarHeight = document.getElementById('navbar')?.offsetHeight || 0;
+                const targetPosition = targetElement.offsetTop - navbarHeight - 20;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+    
+    // Form validation enhancements
+    const form = document.getElementById('contact-form');
+    if (form) {
+        // Real-time validation feedback
+        const inputs = form.querySelectorAll('input, textarea, select');
+        inputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                validateField(this);
+            });
+            
+            input.addEventListener('input', function() {
+                if (this.classList.contains('is-invalid')) {
+                    validateField(this);
+                }
+            });
+        });
+        
+        // Enhanced form submission
+        form.addEventListener('submit', function(e) {
+            let isValid = true;
+            
+            inputs.forEach(input => {
+                if (!validateField(input)) {
+                    isValid = false;
+                }
+            });
+            
+            if (!isValid) {
+                e.preventDefault();
+                
+                // Show error toast
+                if (window.caturnawaApp && window.caturnawaApp.showToast) {
+                    window.caturnawaApp.showToast('Mohon lengkapi semua field yang diperlukan', 'error');
+                }
+                
+                // Focus on first invalid field
+                const firstInvalid = form.querySelector('.is-invalid');
+                if (firstInvalid) {
+                    firstInvalid.focus();
+                }
+            }
+        });
+    }
+    
+    function validateField(field) {
+        const value = field.value.trim();
+        const required = field.hasAttribute('required');
+        let isValid = true;
+        let errorMessage = '';
+        
+        // Clear previous validation
+        field.classList.remove('is-invalid');
+        const existingFeedback = field.parentNode.querySelector('.invalid-feedback');
+        if (existingFeedback) {
+            existingFeedback.remove();
+        }
+        
+        // Required validation
+        if (required && !value) {
+            isValid = false;
+            errorMessage = 'Field ini wajib diisi';
+        }
+        
+        // Email validation
+        if (field.type === 'email' && value) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(value)) {
+                isValid = false;
+                errorMessage = 'Format email tidak valid';
+            }
+        }
+        
+        // Name validation
+        if (field.name === 'name' && value && value.length < 2) {
+            isValid = false;
+            errorMessage = 'Nama minimal 2 karakter';
+        }
+        
+        // Message validation
+        if (field.name === 'message' && value && value.length < 10) {
+            isValid = false;
+            errorMessage = 'Pesan minimal 10 karakter';
+        }
+        
+        // Show error if invalid
+        if (!isValid) {
+            field.classList.add('is-invalid');
+            
+            const feedback = document.createElement('div');
+            feedback.className = 'invalid-feedback';
+            feedback.textContent = errorMessage;
+            field.parentNode.appendChild(feedback);
+        }
+        
+        return isValid;
+    }
+    
+    // Auto-dismiss alerts
+    const alerts = document.querySelectorAll('.alert');
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.style.opacity = '0';
+            alert.style.transform = 'translateY(-20px)';
+            setTimeout(() => {
+                if (alert.parentNode) {
+                    alert.parentNode.removeChild(alert);
+                }
+            }, 300);
+        }, 5000);
+    });
+    
+    // Track contact method clicks
+    document.querySelectorAll('.contact-method, .quick-action').forEach(element => {
+        element.addEventListener('click', function() {
+            const action = this.querySelector('span')?.textContent || 'unknown';
+            
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'contact_method_click', {
+                    method: action,
+                    location: 'contact_page'
+                });
+            }
+        });
+    });
+});
+</script>
 @endpush
