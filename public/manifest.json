@@ -1,77 +1,145 @@
 {
-    "name": "UNAS Fest 2025 - Festival Kompetisi Nasional",
-    "short_name": "UNAS Fest 2025",
-    "description": "Festival Kompetisi Nasional terbesar di Indonesia yang menggabungkan Teknologi, Kesehatan, dan Biodiversitas",
-    "start_url": "/",
-    "display": "standalone",
-    "background_color": "#2563eb",
-    "theme_color": "#2563eb",
-    "orientation": "portrait-primary",
-    "scope": "/",
-    "lang": "id",
-    "icons": [
+  "name": "UNAS Fest 2025 - Festival Kompetisi Nasional",
+  "short_name": "UNAS Fest 2025",
+  "description": "Festival Kompetisi Nasional terbesar di Indonesia yang menggabungkan Teknologi, Kesehatan, dan Biodiversitas untuk masa depan berkelanjutan",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#2563eb",
+  "background_color": "#2563eb",
+  "scope": "/",
+  "id": "unas-fest-2025",
+  "lang": "id",
+  "dir": "ltr",
+  "categories": ["education", "competitions", "events", "technology", "health", "environment"],
+  "icons": [
+    {
+      "src": "/assets/images/favicon/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/images/favicon/android-chrome-512x512.png", 
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/images/favicon/maskable-icon-192x192.png",
+      "sizes": "192x192", 
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/images/favicon/maskable-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png", 
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/images/favicon/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/assets/images/screenshots/desktop-homepage.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "platform": "wide",
+      "label": "Homepage UNAS Fest 2025 - Desktop View"
+    },
+    {
+      "src": "/assets/images/screenshots/mobile-homepage.png", 
+      "sizes": "390x844",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Homepage UNAS Fest 2025 - Mobile View"
+    },
+    {
+      "src": "/assets/images/screenshots/desktop-competitions.png",
+      "sizes": "1920x1080", 
+      "type": "image/png",
+      "platform": "wide",
+      "label": "Halaman Kompetisi - Desktop View"
+    },
+    {
+      "src": "/assets/images/screenshots/mobile-competitions.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "platform": "narrow", 
+      "label": "Halaman Kompetisi - Mobile View"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Kompetisi",
+      "short_name": "Kompetisi",
+      "description": "Lihat semua kompetisi yang tersedia",
+      "url": "/competitions",
+      "icons": [
         {
-            "src": "/assets/images/favicon/android-chrome-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "any maskable"
-        },
-        {
-            "src": "/assets/images/favicon/android-chrome-512x512.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "any maskable"
-        },
-        {
-            "src": "/assets/images/favicon/apple-touch-icon.png",
-            "sizes": "180x180",
-            "type": "image/png",
-            "purpose": "any"
+          "src": "/assets/images/icons/competition-shortcut-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
         }
-    ],
-    "categories": ["education", "competitions", "events"],
-    "screenshots": [
+      ]
+    },
+    {
+      "name": "Daftar Akun",
+      "short_name": "Daftar", 
+      "description": "Buat akun baru untuk mengikuti kompetisi",
+      "url": "/register",
+      "icons": [
         {
-            "src": "/assets/images/screenshots/homepage.png",
-            "sizes": "1280x720",
-            "type": "image/png",
-            "platform": "wide",
-            "label": "Homepage UNAS Fest 2025"
-        },
-        {
-            "src": "/assets/images/screenshots/competitions.png",
-            "sizes": "640x1136",
-            "type": "image/png",
-            "platform": "narrow",
-            "label": "Halaman Kompetisi"
+          "src": "/assets/images/icons/register-shortcut-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
         }
-    ],
-    "shortcuts": [
+      ]
+    },
+    {
+      "name": "Masuk",
+      "short_name": "Login",
+      "description": "Masuk ke akun Anda",
+      "url": "/login", 
+      "icons": [
         {
-            "name": "Kompetisi",
-            "short_name": "Kompetisi",
-            "description": "Lihat semua kompetisi yang tersedia",
-            "url": "/competitions",
-            "icons": [
-                {
-                    "src": "/assets/images/icons/competition-shortcut.png",
-                    "sizes": "192x192",
-                    "type": "image/png"
-                }
-            ]
-        },
-        {
-            "name": "Daftar",
-            "short_name": "Daftar",
-            "description": "Daftar akun baru",
-            "url": "/register",
-            "icons": [
-                {
-                    "src": "/assets/images/icons/register-shortcut.png",
-                    "sizes": "192x192",
-                    "type": "image/png"
-                }
-            ]
+          "src": "/assets/images/icons/login-shortcut-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
         }
-    ]
+      ]
+    },
+    {
+      "name": "Kontak",
+      "short_name": "Kontak",
+      "description": "Hubungi panitia UNAS Fest 2025",
+      "url": "/contact",
+      "icons": [
+        {
+          "src": "/assets/images/icons/contact-shortcut-192.png", 
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui", "browser"],
+  "protocol_handlers": [
+    {
+      "protocol": "mailto",
+      "url": "/contact?email=%s"
+    }
+  ]
 }

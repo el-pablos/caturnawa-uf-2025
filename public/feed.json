@@ -1,0 +1,30 @@
+{
+  "version": "https://jsonfeed.org/version/1.1",
+  "title": "UNAS Fest 2025 - Blog Feed",
+  "description": "Latest news and updates from UNAS Fest 2025",
+  "home_page_url": "{{ url('/') }}",
+  "feed_url": "{{ url('/feed.json') }}",
+  "language": "id",
+  "author": {
+    "name": "UNAS Fest 2025",
+    "url": "{{ url('/') }}"
+  },
+  "items": [
+    {
+      "id": "1",
+      "url": "{{ url('/blog/pembukaan-pendaftaran-unas-fest-2025') }}",
+      "title": "Pembukaan Pendaftaran UNAS Fest 2025",
+      "content_text": "UNAS Fest 2025 resmi membuka pendaftaran untuk ketiga kategori kompetisi: Teknologi, Kesehatan, dan Biodiversitas. Bergabunglah dengan ribuan mahasiswa terbaik Indonesia!",
+      "date_published": "2025-01-01T00:00:00+07:00",
+      "tags": ["pendaftaran", "kompetisi", "teknologi", "kesehatan", "biodiversitas"]
+    },
+    {
+      "id": "2", 
+      "url": "{{ url('/blog/tips-sukses-kompetisi-teknologi') }}",
+      "title": "Tips Sukses Mengikuti Kompetisi Teknologi",
+      "content_text": "Pelajari strategi dan tips dari juara kompetisi sebelumnya untuk meningkatkan peluang Anda meraih kemenangan di kategori teknologi UNAS Fest 2025.",
+      "date_published": "2025-01-05T10:00:00+07:00",
+      "tags": ["tips", "teknologi", "strategi", "kompetisi"]
+    }
+  ]
+}

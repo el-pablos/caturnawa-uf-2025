@@ -1,0 +1,8 @@
+Contact: mailto:security@unasfest.com
+Contact: https://unasfest.com/contact
+Expires: 2025-12-31T23:59:59.000Z
+Encryption: https://unasfest.com/pgp-key.txt
+Acknowledgments: https://unasfest.com/security/acknowledgments
+Preferred-Languages: id, en
+Canonical: https://unasfest.com/.well-known/security.txt
+Policy: https://unasfest.com/security/policy
