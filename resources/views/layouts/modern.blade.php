@@ -24,8 +24,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Title -->
-    <title>@stack('title', 'UNAS Fest 2025 - Festival Kompetisi Nasional')</title>
+    <title>@hasSection('title')@yield('title')@else UNAS Fest 2025 - Festival Kompetisi Nasional @endif</title>
 
+    <!-- Meta from pages -->
+    @stack('meta')
+
+    <!-- Additional styles -->
     @stack('styles')
 </head>
 <body>

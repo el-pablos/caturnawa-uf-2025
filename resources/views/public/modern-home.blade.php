@@ -1,8 +1,6 @@
 @extends('layouts.modern')
 
-@php
-    $seoPage = 'home';
-@endphp
+@section('title', 'UNAS Fest 2025 - Festival Kompetisi Nasional Terbesar Indonesia')
 
 @push('meta')
 <meta name="description" content="UNAS Fest 2025 - Festival Kompetisi Nasional terbesar di Indonesia. Bergabunglah dengan kompetisi Teknologi, Kesehatan, dan Biodiversitas. Hadiah total 500 juta rupiah.">

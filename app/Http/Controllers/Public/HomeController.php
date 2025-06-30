@@ -31,7 +31,7 @@ class HomeController extends Controller
             'total_prizes' => Competition::where('is_active', true)->sum('price'),
         ];
 
-        return view('public.home', compact('competitions', 'stats'));
+        return view('public.modern-home', compact('competitions', 'stats'));
     }
 
     /**
