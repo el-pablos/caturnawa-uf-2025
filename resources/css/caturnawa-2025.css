@@ -1,0 +1,1241 @@
+ }
+.mt-4 { margin-top: var(--space-4); }
+.mt-5 { margin-top: var(--space-5); }
+.mt-6 { margin-top: var(--space-6); }
+
+.p-0 { padding: 0; }
+.p-1 { padding: var(--space-1); }
+.p-2 { padding: var(--space-2); }
+.p-3 { padding: var(--space-3); }
+.p-4 { padding: var(--space-4); }
+.p-5 { padding: var(--space-5); }
+.p-6 { padding: var(--space-6); }
+
+/* ==== ANIMATION CLASSES ==== */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.6s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+.slide-up {
+  transform: translateY(30px);
+  opacity: 0;
+  animation: slideUp 0.6s ease-out forwards;
+}
+
+@keyframes slideUp {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.scale-in {
+  transform: scale(0.9);
+  opacity: 0;
+  animation: scaleIn 0.5s ease-out forwards;
+}
+
+@keyframes scaleIn {
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ==== LOADING STATES ==== */
+.loading {
+  position: relative;
+  pointer-events: none;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid var(--primary);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ==== ACCESSIBILITY ==== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.focus-visible:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card,
+  .competition-card,
+  .stats-card,
+  .timeline-card {
+    border: 2px solid var(--text-primary);
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --white: #0F172A;
+    --light: #1E293B;
+    --light-gray: #334155;
+    --text-primary: #F8FAFC;
+    --text-secondary: #CBD5E1;
+    --text-muted: #64748B;
+  }
+  
+  .navbar {
+    background: rgba(15, 23, 42, 0.9);
+  }
+  
+  .card,
+  .competition-card,
+  .stats-card,
+  .timeline-card {
+    background: var(--light);
+    border-color: var(--light-gray);
+  }
+}
+
+/* Print styles */
+@media print {
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  
+  .navbar,
+  .scroll-indicator,
+  .floating-stats,
+  .btn {
+    display: none !important;
+  }
+  
+  .section {
+    page-break-inside: avoid;
+  }
+  
+  h1, h2, h3 {
+    page-break-after: avoid;
+  }
+}
+1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.back-to-top:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-xl);
+}
+
+/* ==== DROPDOWN STYLES ==== */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.dropdown-toggle::after {
+  content: '\f282';
+  font-family: 'bootstrap-icons';
+  font-size: var(--text-sm);
+  margin-left: var(--space-1);
+  transition: transform var(--transition-fast);
+}
+
+.dropdown-toggle[aria-expanded="true"]::after {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: var(--white);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  padding: var(--space-2);
+  margin-top: var(--space-2);
+  min-width: 180px;
+  z-index: var(--z-dropdown);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all var(--transition-fast);
+}
+
+.dropdown-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  color: var(--text-primary);
+  text-decoration: none;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: var(--text-sm);
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: var(--transition-fast);
+}
+
+.dropdown-item:hover {
+  background: var(--light);
+  color: var(--primary);
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.1);
+  margin: var(--space-2) 0;
+  border: none;
+}
+
+/* ==== RESPONSIVE NAVIGATION ==== */
+@media (max-width: 991px) {
+  .navbar {
+    padding: var(--space-3) 0;
+  }
+  
+  .footer {
+    padding: var(--space-16) 0 var(--space-6);
+  }
+  
+  .footer-legal {
+    justify-content: center;
+    margin-top: var(--space-4);
+  }
+  
+  .back-to-top {
+    bottom: var(--space-6);
+    right: var(--space-6);
+    width: 45px;
+    height: 45px;
+  }
+}
+
+@media (max-width: 767px) {
+  .navbar-brand {
+    font-size: var(--text-lg);
+  }
+  
+  .navbar-brand span {
+    display: none;
+  }
+  
+  .footer {
+    text-align: center;
+  }
+  
+  .footer-section {
+    margin-bottom: var(--space-8);
+  }
+  
+  .footer-bottom .row {
+    text-align: center;
+  }
+  
+  .footer-legal {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  
+  .contact-item {
+    justify-content: center;
+  }
+  
+  .back-to-top {
+    bottom: var(--space-4);
+    right: var(--space-4);
+    width: 40px;
+    height: 40px;
+    font-size: var(--text-base);
+  }
+}
+
+/* ==== LOADING OVERLAY ==== */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-modal);
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-normal);
+}
+
+.loading-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid var(--light-gray);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* ==== TOAST NOTIFICATIONS ==== */
+.toast-container {
+  position: fixed;
+  top: var(--space-8);
+  right: var(--space-8);
+  z-index: var(--z-toast);
+  max-width: 400px;
+}
+
+.toast {
+  background: var(--white);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  padding: var(--space-4);
+  margin-bottom: var(--space-3);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  transform: translateX(100%);
+  opacity: 0;
+  transition: all var(--transition-normal);
+}
+
+.toast.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.toast-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-size: var(--text-sm);
+  flex-shrink: 0;
+}
+
+.toast.success .toast-icon {
+  background: var(--success);
+}
+
+.toast.error .toast-icon {
+  background: var(--danger);
+}
+
+.toast.warning .toast-icon {
+  background: var(--accent);
+}
+
+.toast.info .toast-icon {
+  background: var(--info);
+}
+
+.toast-content {
+  flex: 1;
+}
+
+.toast-title {
+  font-weight: var(--font-semibold);
+  margin-bottom: var(--space-1);
+  color: var(--text-primary);
+}
+
+.toast-message {
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: var(--text-lg);
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast);
+}
+
+.toast-close:hover {
+  color: var(--text-primary);
+}
+
+/* ==== MODAL STYLES ==== */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--z-modal);
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-normal);
+}
+
+.modal.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+.modal-dialog {
+  position: relative;
+  width: 90%;
+  max-width: 500px;
+  margin: var(--space-8) auto;
+  z-index: var(--z-modal);
+  transform: scale(0.9);
+  transition: transform var(--transition-normal);
+}
+
+.modal.show .modal-dialog {
+  transform: scale(1);
+}
+
+.modal-content {
+  background: var(--white);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-2xl);
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: var(--space-6);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-title {
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: var(--text-xl);
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+  transition: var(--transition-fast);
+}
+
+.modal-close:hover {
+  background: var(--light);
+  color: var(--text-primary);
+}
+
+.modal-body {
+  padding: var(--space-6);
+}
+
+.modal-footer {
+  padding: var(--space-6);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  gap: var(--space-3);
+  justify-content: flex-end;
+}
+
+/* ==== SEARCH BAR ==== */
+.search-bar {
+  position: relative;
+  max-width: 400px;
+  width: 100%;
+}
+
+.search-input {
+  width: 100%;
+  padding: var(--space-3) var(--space-12) var(--space-3) var(--space-4);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius-full);
+  font-size: var(--text-base);
+  transition: var(--transition-fast);
+  background: var(--white);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+}
+
+.search-btn {
+  position: absolute;
+  right: var(--space-2);
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--primary);
+  color: var(--white);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.search-btn:hover {
+  background: var(--primary-dark);
+}
+
+/* ==== BREADCRUMB ==== */
+.breadcrumb {
+  background: var(--light);
+  padding: var(--space-4) 0;
+  margin-bottom: var(--space-8);
+}
+
+.breadcrumb-list {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+}
+
+.breadcrumb-item:not(:last-child)::after {
+  content: '/';
+  color: var(--text-muted);
+}
+
+.breadcrumb-link {
+  color: var(--primary);
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+.breadcrumb-link:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb-current {
+  color: var(--text-primary);
+  font-weight: var(--font-medium);
+}
+
+/* ==== PAGINATION ==== */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  margin: var(--space-8) 0;
+}
+
+.page-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--white);
+  color: var(--text-primary);
+  text-decoration: none;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-md);
+  font-weight: var(--font-medium);
+  transition: var(--transition-fast);
+}
+
+.page-link:hover {
+  background: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+}
+
+.page-link.active {
+  background: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+}
+
+.page-link.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ==== RESPONSIVE UTILITIES ==== */
+@media (max-width: 991px) {
+  .toast-container {
+    top: var(--space-6);
+    right: var(--space-6);
+    left: var(--space-6);
+    max-width: none;
+  }
+  
+  .modal-dialog {
+    width: 95%;
+    margin: var(--space-6) auto;
+  }
+}
+
+@media (max-width: 575px) {
+  .toast-container {
+    top: var(--space-4);
+    right: var(--space-4);
+    left: var(--space-4);
+  }
+  
+  .modal-dialog {
+    width: 100%;
+    margin: var(--space-4) auto;
+  }
+  
+  .modal-header,
+  .modal-body,
+  .modal-footer {
+    padding: var(--space-4);
+  }
+  
+  .pagination {
+    gap: var(--space-1);
+  }
+  
+  .page-link {
+    width: 36px;
+    height: 36px;
+    font-size: var(--text-sm);
+  }
+}
+tersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazy');
+                        imageObserver.unobserve(img);
+                    }
+                });
+            });
+            
+            images.forEach(img => imageObserver.observe(img));
+        }
+    }
+
+    initPerformanceMonitoring() {
+        // Monitor Core Web Vitals
+        if ('web-vitals' in window) {
+            // This would require the web-vitals library
+            // getCLS(console.log);
+            // getFID(console.log);
+            // getLCP(console.log);
+        }
+        
+        // Basic performance logging
+        if (performance.timing) {
+            const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+            console.log(`Page load time: ${loadTime}ms`);
+            
+            // Track slow loads
+            if (loadTime > 3000) {
+                this.trackEvent('slow_page_load', { load_time: loadTime });
+            }
+        }
+    }
+
+    // Utility methods
+    trackEvent(eventName, properties = {}) {
+        // Google Analytics 4 event tracking
+        if (typeof gtag !== 'undefined') {
+            gtag('event', eventName, properties);
+        }
+        
+        // Custom analytics tracking can be added here
+        console.log('Event tracked:', eventName, properties);
+    }
+
+    showToast(message, type = 'info', duration = 5000) {
+        const toastContainer = this.getOrCreateToastContainer();
+        
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        
+        const iconMap = {
+            success: 'check-circle-fill',
+            error: 'exclamation-triangle-fill',
+            warning: 'exclamation-triangle-fill',
+            info: 'info-circle-fill'
+        };
+        
+        toast.innerHTML = `
+            <div class="toast-icon">
+                <i class="bi bi-${iconMap[type]}"></i>
+            </div>
+            <div class="toast-content">
+                <div class="toast-message">${message}</div>
+            </div>
+            <button class="toast-close" type="button">
+                <i class="bi bi-x"></i>
+            </button>
+        `;
+        
+        const closeBtn = toast.querySelector('.toast-close');
+        closeBtn.addEventListener('click', () => {
+            this.hideToast(toast);
+        });
+        
+        toastContainer.appendChild(toast);
+        
+        // Show toast
+        setTimeout(() => {
+            toast.classList.add('show');
+        }, 100);
+        
+        // Auto hide
+        setTimeout(() => {
+            this.hideToast(toast);
+        }, duration);
+        
+        return toast;
+    }
+
+    hideToast(toast) {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            if (toast.parentNode) {
+                toast.parentNode.removeChild(toast);
+            }
+        }, 300);
+    }
+
+    getOrCreateToastContainer() {
+        let container = document.querySelector('.toast-container');
+        
+        if (!container) {
+            container = document.createElement('div');
+            container.className = 'toast-container';
+            document.body.appendChild(container);
+        }
+        
+        return container;
+    }
+
+    showModal(content, title = '', options = {}) {
+        const modal = document.createElement('div');
+        modal.className = 'modal';
+        
+        modal.innerHTML = `
+            <div class="modal-backdrop"></div>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    ${title ? `
+                        <div class="modal-header">
+                            <h3 class="modal-title">${title}</h3>
+                            <button class="modal-close" type="button">
+                                <i class="bi bi-x"></i>
+                            </button>
+                        </div>
+                    ` : ''}
+                    <div class="modal-body">
+                        ${content}
+                    </div>
+                    ${options.showFooter ? `
+                        <div class="modal-footer">
+                            <button class="btn btn-ghost" data-modal-action="cancel">Batal</button>
+                            <button class="btn btn-primary" data-modal-action="confirm">OK</button>
+                        </div>
+                    ` : ''}
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        // Event listeners
+        const backdrop = modal.querySelector('.modal-backdrop');
+        const closeBtn = modal.querySelector('.modal-close');
+        const cancelBtn = modal.querySelector('[data-modal-action="cancel"]');
+        const confirmBtn = modal.querySelector('[data-modal-action="confirm"]');
+        
+        const closeModal = () => {
+            modal.classList.remove('show');
+            setTimeout(() => {
+                if (modal.parentNode) {
+                    modal.parentNode.removeChild(modal);
+                }
+            }, 300);
+        };
+        
+        if (backdrop) backdrop.addEventListener('click', closeModal);
+        if (closeBtn) closeBtn.addEventListener('click', closeModal);
+        if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+        
+        if (confirmBtn && options.onConfirm) {
+            confirmBtn.addEventListener('click', () => {
+                options.onConfirm();
+                closeModal();
+            });
+        }
+        
+        // Show modal
+        setTimeout(() => {
+            modal.classList.add('show');
+        }, 100);
+        
+        return modal;
+    }
+
+    // Competition specific methods
+    initCompetitionCards() {
+        const cards = document.querySelectorAll('.competition-card');
+        
+        cards.forEach(card => {
+            // Add hover sound effect (optional)
+            card.addEventListener('mouseenter', () => {
+                // this.playHoverSound();
+            });
+            
+            // Track card interactions
+            card.addEventListener('click', () => {
+                const competitionType = card.dataset.competition || 'unknown';
+                this.trackEvent('competition_card_click', {
+                    competition: competitionType
+                });
+            });
+        });
+    }
+
+    initCountdown() {
+        const countdownElements = document.querySelectorAll('[data-countdown]');
+        
+        countdownElements.forEach(element => {
+            const targetDate = new Date(element.dataset.countdown);
+            this.startCountdown(element, targetDate);
+        });
+    }
+
+    startCountdown(element, targetDate) {
+        const updateCountdown = () => {
+            const now = new Date().getTime();
+            const distance = targetDate.getTime() - now;
+            
+            if (distance < 0) {
+                element.innerHTML = '<span class="countdown-expired">Waktu telah berakhir</span>';
+                return;
+            }
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            element.innerHTML = `
+                <div class="countdown-item">
+                    <span class="countdown-number">${days}</span>
+                    <span class="countdown-label">Hari</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number">${hours}</span>
+                    <span class="countdown-label">Jam</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number">${minutes}</span>
+                    <span class="countdown-label">Menit</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number">${seconds}</span>
+                    <span class="countdown-label">Detik</span>
+                </div>
+            `;
+        };
+        
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    }
+
+    // Registration form helpers
+    initRegistrationForm() {
+        const form = document.getElementById('registrationForm');
+        
+        if (form) {
+            // Multi-step form logic
+            this.initMultiStepForm(form);
+            
+            // File upload handling
+            this.initFileUploads(form);
+            
+            // Dynamic field validation
+            this.initDynamicValidation(form);
+        }
+    }
+
+    initMultiStepForm(form) {
+        const steps = form.querySelectorAll('.form-step');
+        const nextBtns = form.querySelectorAll('.btn-next');
+        const prevBtns = form.querySelectorAll('.btn-prev');
+        const progressBar = form.querySelector('.form-progress-bar');
+        
+        let currentStep = 0;
+        
+        const showStep = (stepIndex) => {
+            steps.forEach((step, index) => {
+                step.classList.toggle('active', index === stepIndex);
+            });
+            
+            if (progressBar) {
+                const progress = ((stepIndex + 1) / steps.length) * 100;
+                progressBar.style.width = `${progress}%`;
+            }
+        };
+        
+        nextBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (this.validateCurrentStep(steps[currentStep])) {
+                    currentStep++;
+                    showStep(currentStep);
+                }
+            });
+        });
+        
+        prevBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentStep--;
+                showStep(currentStep);
+            });
+        });
+        
+        showStep(0);
+    }
+
+    validateCurrentStep(step) {
+        const inputs = step.querySelectorAll('input[required], textarea[required], select[required]');
+        let isValid = true;
+        
+        inputs.forEach(input => {
+            if (!this.validateField(input)) {
+                isValid = false;
+            }
+        });
+        
+        return isValid;
+    }
+
+    initFileUploads(form) {
+        const fileInputs = form.querySelectorAll('input[type="file"]');
+        
+        fileInputs.forEach(input => {
+            input.addEventListener('change', (e) => {
+                this.handleFileUpload(e.target);
+            });
+        });
+    }
+
+    handleFileUpload(input) {
+        const files = input.files;
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+        
+        for (let file of files) {
+            if (file.size > maxSize) {
+                this.showToast('File terlalu besar. Maksimal 5MB.', 'error');
+                input.value = '';
+                return;
+            }
+            
+            if (!allowedTypes.includes(file.type)) {
+                this.showToast('Format file tidak didukung.', 'error');
+                input.value = '';
+                return;
+            }
+        }
+        
+        // Show file preview
+        this.showFilePreview(input, files);
+    }
+
+    showFilePreview(input, files) {
+        const previewContainer = input.parentNode.querySelector('.file-preview') || 
+                               this.createFilePreviewContainer(input);
+        
+        previewContainer.innerHTML = '';
+        
+        for (let file of files) {
+            const previewItem = document.createElement('div');
+            previewItem.className = 'file-preview-item';
+            
+            if (file.type.startsWith('image/')) {
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.className = 'file-preview-image';
+                previewItem.appendChild(img);
+            }
+            
+            const fileName = document.createElement('span');
+            fileName.className = 'file-name';
+            fileName.textContent = file.name;
+            previewItem.appendChild(fileName);
+            
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'file-remove-btn';
+            removeBtn.innerHTML = '<i class="bi bi-x"></i>';
+            removeBtn.addEventListener('click', () => {
+                input.value = '';
+                previewContainer.innerHTML = '';
+            });
+            previewItem.appendChild(removeBtn);
+            
+            previewContainer.appendChild(previewItem);
+        }
+    }
+
+    createFilePreviewContainer(input) {
+        const container = document.createElement('div');
+        container.className = 'file-preview';
+        input.parentNode.appendChild(container);
+        return container;
+    }
+
+    initDynamicValidation(form) {
+        // University selection affects available competitions
+        const universitySelect = form.querySelector('select[name="university"]');
+        const competitionSelect = form.querySelector('select[name="competition"]');
+        
+        if (universitySelect && competitionSelect) {
+            universitySelect.addEventListener('change', () => {
+                this.updateCompetitionOptions(universitySelect.value, competitionSelect);
+            });
+        }
+    }
+
+    updateCompetitionOptions(university, competitionSelect) {
+        // This would be populated based on API call or predefined rules
+        const competitionsByUniversity = {
+            'default': [
+                { value: 'kdbi', text: 'Kompetisi Debat Bahasa Indonesia' },
+                { value: 'edc', text: 'English Debate Competition' },
+                { value: 'sm', text: 'Short Movie Competition' },
+                { value: 'spc', text: 'Scientific Paper Competition' }
+            ]
+        };
+        
+        const options = competitionsByUniversity[university] || competitionsByUniversity['default'];
+        
+        competitionSelect.innerHTML = '<option value="">Pilih Kompetisi</option>';
+        options.forEach(option => {
+            const optionEl = document.createElement('option');
+            optionEl.value = option.value;
+            optionEl.textContent = option.text;
+            competitionSelect.appendChild(optionEl);
+        });
+    }
+
+    // Search functionality
+    initSearch() {
+        const searchInputs = document.querySelectorAll('.search-input');
+        
+        searchInputs.forEach(input => {
+            let searchTimeout;
+            
+            input.addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    this.performSearch(e.target.value);
+                }, 300);
+            });
+        });
+    }
+
+    performSearch(query) {
+        if (query.length < 3) return;
+        
+        // Implement search logic here
+        console.log('Searching for:', query);
+        
+        // Track search events
+        this.trackEvent('search', { query: query });
+    }
+
+    // Accessibility helpers
+    initAccessibility() {
+        // Focus management
+        this.initFocusManagement();
+        
+        // Keyboard navigation
+        this.initKeyboardNavigation();
+        
+        // Screen reader announcements
+        this.initScreenReaderSupport();
+    }
+
+    initFocusManagement() {
+        // Skip to main content link
+        const skipLink = document.createElement('a');
+        skipLink.href = '#main-content';
+        skipLink.className = 'skip-link sr-only';
+        skipLink.textContent = 'Skip to main content';
+        document.body.insertBefore(skipLink, document.body.firstChild);
+        
+        skipLink.addEventListener('focus', () => {
+            skipLink.classList.remove('sr-only');
+        });
+        
+        skipLink.addEventListener('blur', () => {
+            skipLink.classList.add('sr-only');
+        });
+    }
+
+    initKeyboardNavigation() {
+        // Escape key to close modals and menus
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                // Close modals
+                const openModal = document.querySelector('.modal.show');
+                if (openModal) {
+                    const closeBtn = openModal.querySelector('.modal-close');
+                    if (closeBtn) closeBtn.click();
+                }
+                
+                // Close mobile menu
+                const mobileNav = document.getElementById('mobileNav');
+                if (mobileNav && mobileNav.classList.contains('active')) {
+                    const menuBtn = document.getElementById('mobileMenuBtn');
+                    if (menuBtn) menuBtn.click();
+                }
+            }
+        });
+    }
+
+    initScreenReaderSupport() {
+        // Add ARIA labels where needed
+        const buttons = document.querySelectorAll('button:not([aria-label])');
+        buttons.forEach(button => {
+            const text = button.textContent.trim();
+            if (!text && !button.getAttribute('aria-label')) {
+                button.setAttribute('aria-label', 'Button');
+            }
+        });
+        
+        // Announce dynamic content changes
+        this.createAriaLiveRegion();
+    }
+
+    createAriaLiveRegion() {
+        const liveRegion = document.createElement('div');
+        liveRegion.setAttribute('aria-live', 'polite');
+        liveRegion.setAttribute('aria-atomic', 'true');
+        liveRegion.className = 'sr-only';
+        liveRegion.id = 'aria-live-region';
+        document.body.appendChild(liveRegion);
+    }
+
+    announceToScreenReader(message) {
+        const liveRegion = document.getElementById('aria-live-region');
+        if (liveRegion) {
+            liveRegion.textContent = message;
+        }
+    }
+}
+
+// Initialize the app when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    window.caturnawaApp = new CaturnawaApp();
+});
+
+// Export for module systems
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = CaturnawaApp;
+}

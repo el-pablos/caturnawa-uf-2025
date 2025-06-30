@@ -1,200 +1,332 @@
-/caturnawa-uf-2025.git
-cd caturnawa-uf-2025
-```
+# Caturnawa UNAS Fest 2025 🏆
 
-2. **Install Dependencies**
+[![Laravel](https://img.shields.io/badge/Laravel-10.x-red.svg)](https://laravel.com)
+[![PHP](https://img.shields.io/badge/PHP-8.1+-blue.svg)](https://php.net)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen.svg)](#)
+
+> **Festival Kompetisi Nasional Terbesar di Indonesia**  
+> Platform digital modern untuk kompetisi debat, film pendek, dan karya ilmiah dengan total hadiah 200 juta rupiah.
+
+[🇮🇩 Bahasa Indonesia](#bahasa-indonesia) | [🇺🇸 English](#english)
+
+---
+
+## 🇮🇩 Bahasa Indonesia
+
+### 🌟 Tentang Caturnawa 2025
+
+Caturnawa UNAS Fest 2025 adalah festival kompetisi nasional yang menggabungkan empat kategori utama:
+
+- **🎯 KDBI** - Kompetisi Debat Bahasa Indonesia
+- **🌍 EDC** - English Debate Competition  
+- **🎬 Short Movie** - Kompetisi Film Pendek
+- **📚 SPC** - Scientific Paper Competition
+
+### ✨ Fitur Utama
+
+- **Modern UI/UX** - Desain responsif dengan teknologi terdepan
+- **SEO Optimized** - Struktur SEO yang sempurna untuk ranking tinggi
+- **Real-time Dashboard** - Monitoring peserta dan kompetisi secara real-time
+- **Multi-Payment Gateway** - Integrasi dengan Midtrans untuk pembayaran aman
+- **Document Management** - Sistem upload dan validasi dokumen otomatis
+- **Notification System** - Email dan SMS notification untuk update terkini
+
+### 🛠️ Tech Stack
+
+#### Backend
+- **Framework**: Laravel 10.x
+- **Database**: MySQL 8.0
+- **Cache**: Redis
+- **Queue**: Redis
+- **Storage**: AWS S3 / Local
+
+#### Frontend
+- **CSS Framework**: Custom CSS dengan Design System
+- **JavaScript**: Vanilla JS (ES6+)
+- **Icons**: Bootstrap Icons 1.11
+- **Animation**: AOS (Animate On Scroll)
+- **Build Tool**: Vite
+
+### 📦 Instalasi
+
+#### Persyaratan Sistem
+- PHP >= 8.1
+- Composer >= 2.0
+- Node.js >= 16.x
+- MySQL >= 8.0
+- Redis >= 6.x
+
+#### Langkah Instalasi
 ```bash
+# 1. Clone Repository
+git clone https://github.com/el-pablos/caturnawa-uf-2025.git
+cd caturnawa-uf-2025
+
+# 2. Install Dependencies
 composer install
 npm install
-```
 
-3. **Environment Configuration**
-```bash
+# 3. Environment Setup
 cp .env.example .env
 php artisan key:generate
-```
 
-4. **Database Configuration**
-```bash
-# Edit .env file with your database configuration
+# 4. Database Setup
 php artisan migrate --seed
-```
 
-5. **Build Assets**
-```bash
+# 5. Build Assets
 npm run build
-# or for development
-npm run dev
-```
 
-6. **Start Development Server**
-```bash
+# 6. Start Development Server
 php artisan serve
 ```
 
-## ⚙️ Konfigurasi | Configuration
+### ⚙️ Konfigurasi Environment
 
-### Environment Variables
 ```env
 # Application
-APP_NAME="UNAS Fest 2025"
+APP_NAME="Caturnawa UNAS Fest 2025"
 APP_ENV=production
-APP_DEBUG=false
-APP_URL=https://caturnawa.unasfest.com
+APP_URL=https://caturnawa2025.unasfest.com
 
 # Database
 DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
+DB_HOST=localhost
 DB_PORT=3306
-DB_DATABASE=unas_fest_2025
-DB_USERNAME=your_username
-DB_PASSWORD=your_password
+DB_DATABASE=caturnawa_2025
 
-# Cache & Session
-CACHE_DRIVER=redis
-SESSION_DRIVER=redis
-REDIS_HOST=127.0.0.1
-REDIS_PASSWORD=null
-REDIS_PORT=6379
+# Payment (Midtrans)
+MIDTRANS_SERVER_KEY=your-server-key
+MIDTRANS_CLIENT_KEY=your-client-key
 
-# Mail Configuration
+# Email
 MAIL_MAILER=smtp
 MAIL_HOST=smtp.gmail.com
-MAIL_PORT=587
-MAIL_USERNAME=your_email@gmail.com
-MAIL_PASSWORD=your_app_password
-MAIL_ENCRYPTION=tls
-
-# Payment Gateway (Midtrans)
-MIDTRANS_SERVER_KEY=your_server_key
-MIDTRANS_CLIENT_KEY=your_client_key
-MIDTRANS_IS_PRODUCTION=false
-
-# SEO & Analytics
-GOOGLE_ANALYTICS_ID=G-XXXXXXXXXX
-GOOGLE_SITE_VERIFICATION=your_verification_code
+MAIL_FROM_ADDRESS=noreply@caturnawa2025.com
 ```
 
-## 🏗️ Struktur Proyek | Project Structure
+### 🚀 Deployment
+
+#### Server Requirements
+- **Server**: VPS/Dedicated (Min 2GB RAM)
+- **Web Server**: Nginx/Apache
+- **PHP**: 8.1+ dengan extensions yang diperlukan
+- **Database**: MySQL 8.0+
+- **SSL**: Let's Encrypt
+
+#### Production Deployment
+```bash
+# 1. Clone & Install
+git clone https://github.com/el-pablos/caturnawa-uf-2025.git
+cd caturnawa-uf-2025
+composer install --optimize-autoloader --no-dev
+
+# 2. Environment Setup
+cp .env.example .env
+# Edit .env dengan konfigurasi production
+
+# 3. Optimize & Build
+php artisan key:generate
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+npm run build
+
+# 4. Database
+php artisan migrate --force
+
+# 5. Permissions
+chmod -R 755 storage bootstrap/cache
+```
+
+---
+
+## 🇺🇸 English
+
+### 🌟 About Caturnawa 2025
+
+Caturnawa UNAS Fest 2025 is a national competition festival featuring four main categories:
+
+- **🎯 KDBI** - Indonesian Language Debate Competition
+- **🌍 EDC** - English Debate Competition  
+- **🎬 Short Movie** - Short Film Competition
+- **📚 SPC** - Scientific Paper Competition
+
+### ✨ Key Features
+
+- **Modern UI/UX** - Responsive design with cutting-edge technology
+- **SEO Optimized** - Perfect SEO structure for high rankings
+- **Real-time Dashboard** - Real-time monitoring of participants and competitions
+- **Multi-Payment Gateway** - Secure payment integration with Midtrans
+- **Document Management** - Automated document upload and validation system
+- **Notification System** - Email and SMS notifications for updates
+
+### 🛠️ Tech Stack
+
+#### Backend
+- **Framework**: Laravel 10.x
+- **Database**: MySQL 8.0
+- **Cache**: Redis
+- **Queue**: Redis
+- **Storage**: AWS S3 / Local
+
+#### Frontend
+- **CSS Framework**: Custom CSS with Design System
+- **JavaScript**: Vanilla JS (ES6+)
+- **Icons**: Bootstrap Icons 1.11
+- **Animation**: AOS (Animate On Scroll)
+- **Build Tool**: Vite
+
+### 📦 Installation
+
+#### System Requirements
+- PHP >= 8.1
+- Composer >= 2.0
+- Node.js >= 16.x
+- MySQL >= 8.0
+- Redis >= 6.x
+
+#### Installation Steps
+```bash
+# 1. Clone Repository
+git clone https://github.com/el-pablos/caturnawa-uf-2025.git
+cd caturnawa-uf-2025
+
+# 2. Install Dependencies
+composer install
+npm install
+
+# 3. Environment Setup
+cp .env.example .env
+php artisan key:generate
+
+# 4. Database Setup
+php artisan migrate --seed
+
+# 5. Build Assets
+npm run build
+
+# 6. Start Development Server
+php artisan serve
+```
+
+### ⚙️ Environment Configuration
+
+```env
+# Application
+APP_NAME="Caturnawa UNAS Fest 2025"
+APP_ENV=production
+APP_URL=https://caturnawa2025.unasfest.com
+
+# Database
+DB_CONNECTION=mysql
+DB_HOST=localhost
+DB_PORT=3306
+DB_DATABASE=caturnawa_2025
+
+# Payment (Midtrans)
+MIDTRANS_SERVER_KEY=your-server-key
+MIDTRANS_CLIENT_KEY=your-client-key
+
+# Email
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_FROM_ADDRESS=noreply@caturnawa2025.com
+```
+
+### 🚀 Deployment
+
+#### Server Requirements
+- **Server**: VPS/Dedicated (Min 2GB RAM)
+- **Web Server**: Nginx/Apache
+- **PHP**: 8.1+ with required extensions
+- **Database**: MySQL 8.0+
+- **SSL**: Let's Encrypt
+
+#### Production Deployment
+```bash
+# 1. Clone & Install
+git clone https://github.com/el-pablos/caturnawa-uf-2025.git
+cd caturnawa-uf-2025
+composer install --optimize-autoloader --no-dev
+
+# 2. Environment Setup
+cp .env.example .env
+# Edit .env with production configuration
+
+# 3. Optimize & Build
+php artisan key:generate
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+npm run build
+
+# 4. Database
+php artisan migrate --force
+
+# 5. Permissions
+chmod -R 755 storage bootstrap/cache
+```
+
+---
+
+## 🏗️ Project Structure
 
 ```
 caturnawa-uf-2025/
 ├── app/
 │   ├── Http/Controllers/
-│   │   ├── Admin/           # Admin controllers
-│   │   ├── Juri/            # Judge controllers
-│   │   ├── Peserta/         # Participant controllers
-│   │   └── Public/          # Public pages
-│   ├── Models/              # Eloquent models
-│   ├── Services/            # Business logic services
-│   └── Providers/           # Service providers
+│   │   ├── Admin/          # Admin panel controllers
+│   │   ├── Auth/           # Authentication controllers
+│   │   ├── Public/         # Public website controllers
+│   │   └── API/            # API controllers
+│   ├── Models/             # Eloquent models
+│   ├── Services/           # Business logic services
+│   └── Traits/             # Reusable traits
 ├── resources/
 │   ├── views/
-│   │   ├── layouts/         # Layout templates
-│   │   ├── public/          # Public pages
-│   │   ├── admin/           # Admin dashboard
-│   │   ├── juri/            # Judge dashboard
-│   │   └── peserta/         # Participant dashboard
-│   ├── js/                  # JavaScript files
-│   └── scss/                # Styling files
+│   │   ├── layouts/        # Blade layouts
+│   │   ├── public/         # Public pages
+│   │   ├── admin/          # Admin pages
+│   │   └── components/     # Reusable components
+│   ├── css/                # Custom CSS files
+│   └── js/                 # JavaScript files
 ├── public/
-│   ├── assets/              # Static assets
-│   ├── sitemap.xml          # SEO sitemap
-│   ├── robots.txt           # Search engine directives
-│   ├── manifest.json        # PWA manifest
-│   └── sw.js                # Service worker
-├── database/
-│   ├── migrations/          # Database migrations
-│   ├── seeders/             # Data seeders
-│   └── factories/           # Model factories
-└── routes/
-    ├── web.php              # Web routes
-    ├── api.php              # API routes
-    └── auth.php             # Authentication routes
+│   ├── assets/             # Static assets
+│   └── storage/            # Public storage link
+└── database/
+    ├── migrations/         # Database migrations
+    ├── seeders/            # Database seeders
+    └── factories/          # Model factories
 ```
 
-## 👥 Roles & Permissions
+## 📊 Performance & SEO
 
-### 🔐 User Roles
+### Core Web Vitals
+- **LCP**: < 2.5s ✅
+- **FID**: < 100ms ✅
+- **CLS**: < 0.1 ✅
 
-**Super Admin**
-- Kelola semua aspek sistem
-- Manajemen user dan role
-- Konfigurasi sistem
-- Akses semua fitur
+### SEO Features
+- ✅ Structured data (JSON-LD)
+- ✅ Optimized meta tags
+- ✅ Clean URL structure
+- ✅ XML sitemap
+- ✅ Social media integration
+- ✅ Mobile-first responsive design
 
-**Admin**
-- Kelola kompetisi
-- Kelola pendaftaran
-- Kelola pembayaran
-- Review submission
+## 🔐 Security Features
 
-**Juri**
-- Akses kompetisi yang ditugaskan
-- Sistem penilaian
-- Review dan scoring
-- Export hasil
+- CSRF protection
+- XSS prevention
+- SQL injection protection
+- Rate limiting
+- Secure headers
+- File upload validation
+- User input sanitization
 
-**Peserta**
-- Daftar kompetisi
-- Upload submission
-- Tracking progress
-- Download sertifikat
+## 🧪 Testing
 
-## 📱 Responsive Design
-
-### Breakpoints
-```scss
-// Mobile First Approach
-$mobile: 320px;
-$tablet: 768px;
-$desktop: 1024px;
-$large-desktop: 1200px;
-$xl-desktop: 1400px;
-```
-
-### Browser Support
-- ✅ Chrome 90+
-- ✅ Firefox 88+
-- ✅ Safari 14+
-- ✅ Edge 90+
-- ✅ Opera 76+
-
-## 🔧 Development
-
-### Menjalankan Development | Running Development
-
-**Bahasa Indonesia:**
-```bash
-# Start development server
-php artisan serve
-
-# Watch assets untuk perubahan
-npm run dev
-
-# Jalankan queue worker
-php artisan queue:work
-
-# Clear cache
-php artisan optimize:clear
-```
-
-**English:**
-```bash
-# Start development server
-php artisan serve
-
-# Watch assets for changes
-npm run dev
-
-# Run queue worker
-php artisan queue:work
-
-# Clear cache
-php artisan optimize:clear
-```
-
-### Testing
 ```bash
 # Run all tests
 php artisan test
@@ -202,201 +334,13 @@ php artisan test
 # Run specific test suite
 php artisan test --testsuite=Feature
 
-# Generate coverage report
+# Run with coverage
 php artisan test --coverage
 ```
 
-### Code Quality
-```bash
-# PHP CS Fixer
-vendor/bin/php-cs-fixer fix
-
-# PHPStan analysis
-vendor/bin/phpstan analyse
-
-# Psalm static analysis
-vendor/bin/psalm
-```
-
-## 🚀 Deployment
-
-### Production Deployment
-
-**Bahasa Indonesia:**
-
-1. **Server Requirements**
-   - PHP 8.1+ dengan ekstensi yang diperlukan
-   - MySQL 8.0+ atau PostgreSQL 13+
-   - Nginx atau Apache
-   - SSL Certificate
-   - Redis (recommended)
-
-2. **Deployment Steps**
-```bash
-# 1. Clone & install
-git clone https://github.com/el-pablos/caturnawa-uf-2025.git
-cd caturnawa-uf-2025
-composer install --optimize-autoloader --no-dev
-
-# 2. Environment setup
-cp .env.example .env
-# Edit .env dengan konfigurasi production
-
-# 3. Generate key & optimize
-php artisan key:generate
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
-
-# 4. Database migration
-php artisan migrate --force
-
-# 5. Build assets
-npm ci --only=production
-npm run build
-
-# 6. Set permissions
-chmod -R 755 storage
-chmod -R 755 bootstrap/cache
-```
-
-**English:**
-
-1. **Server Requirements**
-   - PHP 8.1+ with required extensions
-   - MySQL 8.0+ or PostgreSQL 13+
-   - Nginx or Apache
-   - SSL Certificate
-   - Redis (recommended)
-
-2. **Deployment Process**
-```bash
-# 1. Clone & install dependencies
-git clone https://github.com/el-pablos/caturnawa-uf-2025.git
-cd caturnawa-uf-2025
-composer install --optimize-autoloader --no-dev
-
-# 2. Environment configuration
-cp .env.example .env
-# Edit .env with production settings
-
-# 3. Generate keys & optimize
-php artisan key:generate
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
-
-# 4. Run database migrations
-php artisan migrate --force
-
-# 5. Build production assets
-npm ci --only=production
-npm run build
-
-# 6. Set proper permissions
-chmod -R 755 storage
-chmod -R 755 bootstrap/cache
-```
-
-### Nginx Configuration
-```nginx
-server {
-    listen 80;
-    listen [::]:80;
-    server_name caturnawa.unasfest.com;
-    return 301 https://$server_name$request_uri;
-}
-
-server {
-    listen 443 ssl http2;
-    listen [::]:443 ssl http2;
-    server_name caturnawa.unasfest.com;
-    root /var/www/caturnawa-uf-2025/public;
-
-    ssl_certificate /path/to/ssl/cert.pem;
-    ssl_certificate_key /path/to/ssl/private.key;
-
-    add_header X-Frame-Options "SAMEORIGIN";
-    add_header X-Content-Type-Options "nosniff";
-    add_header X-XSS-Protection "1; mode=block";
-    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains";
-
-    index index.php;
-
-    charset utf-8;
-
-    # Gzip compression
-    gzip on;
-    gzip_vary on;
-    gzip_min_length 1024;
-    gzip_types text/plain text/css text/xml text/javascript application/javascript application/xml+rss application/json;
-
-    # Cache static assets
-    location ~* \.(jpg|jpeg|png|gif|ico|css|js|pdf|webp|svg)$ {
-        expires 1y;
-        add_header Cache-Control "public, immutable";
-    }
-
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
-
-    location = /favicon.ico { access_log off; log_not_found off; }
-    location = /robots.txt  { access_log off; log_not_found off; }
-
-    error_page 404 /index.php;
-
-    location ~ \.php$ {
-        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
-        include fastcgi_params;
-    }
-
-    location ~ /\.(?!well-known).* {
-        deny all;
-    }
-}
-```
-
-## 📊 Performance & SEO
-
-### Core Web Vitals
-- **LCP (Largest Contentful Paint)**: < 2.5s
-- **FID (First Input Delay)**: < 100ms
-- **CLS (Cumulative Layout Shift)**: < 0.1
-
-### SEO Features
-- ✅ **Meta Tags Optimization** - Dinamis untuk setiap halaman
-- ✅ **Open Graph & Twitter Cards** - Social media optimization
-- ✅ **Structured Data (JSON-LD)** - Rich snippets
-- ✅ **XML Sitemap** - Auto-generated sitemap
-- ✅ **Robots.txt** - Search engine directives
-- ✅ **Canonical URLs** - Prevent duplicate content
-- ✅ **Image Alt Tags** - Accessibility & SEO
-- ✅ **Page Speed Optimization** - Optimized loading times
-
-### Performance Optimizations
-- Image lazy loading
-- CSS/JS minification
-- GZIP compression
-- Browser caching
-- Database query optimization
-- Redis caching
-- CDN integration ready
-
 ## 🤝 Contributing
 
-### Contribution Guidelines
-
-**Bahasa Indonesia:**
-
-1. Fork repository ini
-2. Buat feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit perubahan (`git commit -m 'Add some AmazingFeature'`)
-4. Push ke branch (`git push origin feature/AmazingFeature`)
-5. Buat Pull Request
-
-**English:**
+### How to Contribute
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
@@ -409,52 +353,56 @@ server {
 - Write meaningful commit messages
 - Include tests for new features
 - Update documentation as needed
-- Ensure all tests pass
 
 ## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👨‍💻 Author
+## 👨‍💻 Author & Contributors
 
-**Developer**: el-pablos  
-**Email**: yeteprem.end23juni@gmail.com  
-**GitHub**: [@el-pablos](https://github.com/el-pablos)
+### Project Lead
+- **Pablo** - Full Stack Developer
+  - GitHub: [@el-pablos](https://github.com/el-pablos)
+  - Email: yeteprem.end23juni@gmail.com
+
+### Contributors
+- **UNAS Fest Team** - Product Requirements & Testing
+- **UI/UX Team** - Design System & User Experience
+- **QA Team** - Quality Assurance & Testing
+
+## 📞 Support & Contact
+
+### Official Channels
+- **Website**: [https://caturnawa2025.unasfest.com](https://caturnawa2025.unasfest.com)
+- **Email**: info@caturnawa2025.com
+- **Phone**: +62 21 7806700
+
+### Social Media
+- **Instagram**: [@caturnawa2025](https://instagram.com/caturnawa2025)
+- **TikTok**: [@caturnawa2025](https://tiktok.com/@caturnawa2025)
+- **YouTube**: [Caturnawa 2025](https://youtube.com/@caturnawa2025)
+- **LinkedIn**: [Caturnawa](https://linkedin.com/company/caturnawa)
+
+### Technical Support
+- **GitHub Issues**: [Report bugs](https://github.com/el-pablos/caturnawa-uf-2025/issues)
+- **GitHub Discussions**: [Community support](https://github.com/el-pablos/caturnawa-uf-2025/discussions)
 
 ## 🙏 Acknowledgments
 
-- **Universitas Nasional** - For the project opportunity
+- **Universitas Nasional** - For institutional support
 - **Laravel Community** - For the amazing framework
-- **Bootstrap Team** - For the excellent UI framework
-- **Contributors** - For their valuable contributions
-
-## 📞 Support
-
-**Bahasa Indonesia:**
-
-Jika Anda mengalami masalah atau memiliki pertanyaan:
-
-1. Cek [Issues](https://github.com/el-pablos/caturnawa-uf-2025/issues) yang sudah ada
-2. Buat issue baru jika belum ada
-3. Hubungi developer: yeteprem.end23juni@gmail.com
-
-**English:**
-
-If you encounter any issues or have questions:
-
-1. Check existing [Issues](https://github.com/el-pablos/caturnawa-uf-2025/issues)
-2. Create a new issue if none exists
-3. Contact developer: yeteprem.end23juni@gmail.com
+- **Open Source Community** - For tools and libraries
+- **All Contributors** - For code, documentation, and ideas
 
 ---
 
 <div align="center">
 
-**🏆 UNAS Fest 2025 - Wujudkan Inovasi untuk Masa Depan Indonesia**
+**Dibuat dengan ❤️ untuk masa depan kompetisi yang lebih baik**
+
+[⭐ Star this repo](https://github.com/el-pablos/caturnawa-uf-2025) • [🐛 Report bug](https://github.com/el-pablos/caturnawa-uf-2025/issues) • [💡 Feature request](https://github.com/el-pablos/caturnawa-uf-2025/discussions)
 
 [![GitHub stars](https://img.shields.io/github/stars/el-pablos/caturnawa-uf-2025?style=social)](https://github.com/el-pablos/caturnawa-uf-2025/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/el-pablos/caturnawa-uf-2025?style=social)](https://github.com/el-pablos/caturnawa-uf-2025/network)
-
-[🌐 Live Demo](https://caturnawa.unasfest.com) • [📖 Documentation](https://github.com/el-pablos/caturnawa-uf-2025/wiki) • [🐛 Report Bug](https://github.com/el-pablos/caturnawa-uf-2025/issues) • [✨ Request Feature](https://github.com/el-pablos/caturnawa-uf-2025/issues)
 
 </div>

@@ -1519,3 +1519,1544 @@ if ('serviceWorker' in navigator) {
 });
 </script>
 @endpush
+ed",
+  "location": {
+    "@type": "Place",
+    "name": "Universitas Nasional",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Jl. Sawo Manila, Pejaten Timur",
+      "addressLocality": "Jakarta Selatan",
+      "postalCode": "12520",
+      "addressCountry": "ID"
+    }
+  },
+  "organizer": {
+    "@type": "Organization",
+    "name": "Universitas Nasional",
+    "url": "https://unas.ac.id"
+  },
+  "offers": {
+    "@type": "AggregateOffer",
+    "lowPrice": "75000",
+    "highPrice": "150000",
+    "priceCurrency": "IDR",
+    "availability": "https://schema.org/InStock",
+    "validFrom": "2025-01-15"
+  },
+  "image": "{{ asset('assets/images/og/caturnawa-2025-og.jpg') }}",
+  "url": "{{ url('/') }}"
+}
+</script>
+@endpush
+
+@section('content')
+<!-- Hero Section -->
+<section id="hero" class="hero-modern">
+    <div class="hero-background">
+        <div class="hero-particles"></div>
+        <div class="hero-gradient"></div>
+    </div>
+    
+    <div class="container">
+        <div class="row align-items-center min-vh-100">
+            <div class="col-lg-6" data-aos="fade-right" data-aos-duration="1000">
+                <div class="hero-content">
+                    <!-- Badge -->
+                    <div class="hero-badge" data-aos="fade-up" data-aos-delay="200">
+                        <i class="bi bi-star-fill"></i>
+                        <span>Festival Kompetisi Nasional #1</span>
+                    </div>
+                    
+                    <!-- Main Title -->
+                    <h1 class="hero-title" data-aos="fade-up" data-aos-delay="400">
+                        <span class="title-main">Caturnawa</span>
+                        <span class="title-year">2025</span>
+                    </h1>
+                    
+                    <!-- Subtitle -->
+                    <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="600">
+                        Bergabunglah dengan festival kompetisi nasional terbesar di Indonesia yang menggabungkan
+                        <span class="highlight-tech">Debat Indonesia</span>,
+                        <span class="highlight-health">English Debate</span>,
+                        <span class="highlight-bio">Film Pendek</span>, dan
+                        <span class="highlight-tech">Karya Ilmiah</span>
+                        untuk membentuk generasi yang kompetitif dan inovatif.
+                    </p>
+                    
+                    <!-- CTA Buttons -->
+                    <div class="hero-actions" data-aos="fade-up" data-aos-delay="800">
+                        <a href="{{ route('register') }}" class="btn btn-primary btn-cta" aria-label="Daftar kompetisi Caturnawa 2025">
+                            <span class="btn-text">Daftar Sekarang</span>
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <a href="#kompetisi" class="btn btn-outline btn-cta" aria-label="Lihat informasi kompetisi">
+                            <span class="btn-text">Lihat Kompetisi</span>
+                            <i class="bi bi-play-circle"></i>
+                        </a>
+                    </div>
+                    
+                    <!-- Quick Info -->
+                    <div class="hero-info" data-aos="fade-up" data-aos-delay="1000">
+                        <div class="info-item">
+                            <i class="bi bi-calendar-event"></i>
+                            <div>
+                                <span class="info-label">Pendaftaran</span>
+                                <span class="info-value">15 Jan - 15 Mar 2025</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="bi bi-gift"></i>
+                            <div>
+                                <span class="info-label">Total Hadiah</span>
+                                <span class="info-value">200 Juta Rupiah</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="400">
+                <div class="hero-visual">
+                    <!-- Countdown Timer -->
+                    <div class="countdown-container" data-countdown="2025-03-15T23:59:59">
+                        <h3 class="countdown-title">Batas Pendaftaran</h3>
+                        <div class="countdown-timer" id="mainCountdown">
+                            <!-- JavaScript will populate this -->
+                        </div>
+                    </div>
+                    
+                    <!-- Floating Statistics -->
+                    <div class="floating-stats">
+                        <div class="stat-card stat-1" data-aos="zoom-in" data-aos-delay="1200">
+                            <div class="stat-icon">
+                                <i class="bi bi-people"></i>
+                            </div>
+                            <div class="stat-content">
+                                <span class="stat-number">5K+</span>
+                                <span class="stat-label">Peserta</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card stat-2" data-aos="zoom-in" data-aos-delay="1400">
+                            <div class="stat-icon">
+                                <i class="bi bi-trophy"></i>
+                            </div>
+                            <div class="stat-content">
+                                <span class="stat-number">4</span>
+                                <span class="stat-label">Kategori</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card stat-3" data-aos="zoom-in" data-aos-delay="1600">
+                            <div class="stat-icon">
+                                <i class="bi bi-building"></i>
+                            </div>
+                            <div class="stat-content">
+                                <span class="stat-number">100+</span>
+                                <span class="stat-label">Universitas</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="2000">
+        <a href="#stats" class="scroll-link" aria-label="Scroll ke statistik">
+            <span>Scroll untuk lebih banyak</span>
+            <div class="scroll-arrow">
+                <i class="bi bi-chevron-down"></i>
+            </div>
+        </a>
+    </div>
+</section>
+
+<!-- Statistics Section -->
+<section id="stats" class="stats-section section">
+    <div class="container">
+        <div class="section-header text-center" data-aos="fade-up">
+            <h2 class="section-title">Mengapa Caturnawa 2025?</h2>
+            <p class="section-subtitle">Data dan fakta yang menunjukkan skala besar festival kompetisi ini</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-3 col-md-6 mb-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="stats-card">
+                    <div class="stats-icon bg-primary">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                    <div class="stats-content">
+                        <h3 class="stats-number counter" data-target="5000">0</h3>
+                        <p class="stats-label">Peserta Terdaftar</p>
+                        <div class="stats-bar">
+                            <div class="progress-fill" data-progress="80"></div>
+                        </div>
+                        <small class="stats-note">80% dari target</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="stats-card">
+                    <div class="stats-icon bg-success">
+                        <i class="bi bi-trophy-fill"></i>
+                    </div>
+                    <div class="stats-content">
+                        <h3 class="stats-number counter" data-target="4">0</h3>
+                        <p class="stats-label">Kategori Kompetisi</p>
+                        <div class="stats-bar">
+                            <div class="progress-fill" data-progress="100"></div>
+                        </div>
+                        <small class="stats-note">Lengkap tersedia</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="stats-card">
+                    <div class="stats-icon bg-warning">
+                        <i class="bi bi-cash-stack"></i>
+                    </div>
+                    <div class="stats-content">
+                        <h3 class="stats-number">200</h3>
+                        <p class="stats-label">Juta Rupiah Hadiah</p>
+                        <div class="stats-bar">
+                            <div class="progress-fill" data-progress="100"></div>
+                        </div>
+                        <small class="stats-note">Total untuk semua kategori</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="stats-card">
+                    <div class="stats-icon bg-info">
+                        <i class="bi bi-building"></i>
+                    </div>
+                    <div class="stats-content">
+                        <h3 class="stats-number counter" data-target="100">0</h3>
+                        <p class="stats-label">Universitas Partner</p>
+                        <div class="stats-bar">
+                            <div class="progress-fill" data-progress="75"></div>
+                        </div>
+                        <small class="stats-note">Se-Indonesia</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Competition Categories -->
+<section id="kompetisi" class="competitions-section section">
+    <div class="container">
+        <div class="section-header text-center" data-aos="fade-up">
+            <div class="section-badge">
+                <i class="bi bi-trophy"></i>
+                <span>Kategori Kompetisi</span>
+            </div>
+            <h2 class="section-title">Empat Pilar Kompetisi Utama</h2>
+            <p class="section-subtitle">
+                Bergabunglah dengan kompetisi yang menggabungkan kemampuan berbicara, kreativitas, dan penelitian ilmiah
+            </p>
+        </div>
+        
+        <div class="row">
+            <!-- KDBI Competition -->
+            <div class="col-lg-6 mb-6" data-aos="fade-up" data-aos-delay="100">
+                <article class="competition-card kdbi-card" data-competition="kdbi">
+                    <div class="comp-card-header">
+                        <div class="comp-card-icon">
+                            <i class="bi bi-chat-quote-fill"></i>
+                        </div>
+                        <div class="comp-card-badge">KDBI</div>
+                    </div>
+                    
+                    <div class="comp-card-image">
+                        <img src="{{ asset('assets/images/competitions/kdbi-2025.jpg') }}" 
+                             alt="Kompetisi Debat Bahasa Indonesia UNAS Fest 2025" 
+                             loading="lazy"
+                             width="600"
+                             height="280">
+                        <div class="image-overlay">
+                            <div class="overlay-content">
+                                <i class="bi bi-megaphone"></i>
+                                <span>Debat Indonesia</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="comp-card-content">
+                        <h3 class="comp-card-title">Kompetisi Debat Bahasa Indonesia</h3>
+                        <p class="comp-card-description">
+                            Kompetisi debat dengan menggunakan Bahasa Indonesia yang mengasah kemampuan 
+                            argumentasi, analisis kritis, dan public speaking peserta.
+                        </p>
+                        
+                        <div class="comp-card-features">
+                            <div class="feature-item">
+                                <i class="bi bi-people-fill"></i>
+                                <span>Format Tim (3 Orang)</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="bi bi-clock-fill"></i>
+                                <span>Durasi: 60 Menit per Babak</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="bi bi-award-fill"></i>
+                                <span>Sertifikat Nasional</span>
+                            </div>
+                        </div>
+                        
+                        <div class="comp-card-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">75 Juta</span>
+                                <span class="stat-label">Hadiah Utama</span>
+                            </div>
+                            <div class="stat-divider"></div>
+                            <div class="stat-item">
+                                <span class="stat-value">150K</span>
+                                <span class="stat-label">Biaya Daftar</span>
+                            </div>
+                        </div>
+                        
+                        <a href="{{ route('public.competitions') }}#kdbi" class="comp-card-button">
+                            <span>Lihat Detail</span>
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+            </div>
+            
+            <!-- EDC Competition -->
+            <div class="col-lg-6 mb-6" data-aos="fade-up" data-aos-delay="200">
+                <article class="competition-card edc-card" data-competition="edc">
+                    <div class="comp-card-header">
+                        <div class="comp-card-icon">
+                            <i class="bi bi-globe2"></i>
+                        </div>
+                        <div class="comp-card-badge">EDC</div>
+                    </div>
+                    
+                    <div class="comp-card-image">
+                        <img src="{{ asset('assets/images/competitions/edc-2025.jpg') }}" 
+                             alt="English Debate Competition UNAS Fest 2025" 
+                             loading="lazy"
+                             width="600"
+                             height="280">
+                        <div class="image-overlay">
+                            <div class="overlay-content">
+                                <i class="bi bi-translate"></i>
+                                <span>English Debate</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="comp-card-content">
+                        <h3 class="comp-card-title">English Debate Competition</h3>
+                        <p class="comp-card-description">
+                            Kompetisi debat internasional menggunakan Bahasa Inggris dengan format British Parliamentary 
+                            yang mengasah kemampuan berbahasa Inggris dan berpikir kritis.
+                        </p>
+                        
+                        <div class="comp-card-features">
+                            <div class="feature-item">
+                                <i class="bi bi-people-fill"></i>
+                                <span>Format Tim (2 Orang)</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="bi bi-clock-fill"></i>
+                                <span>Durasi: 45 Menit per Babak</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="bi bi-award-fill"></i>
+                                <span>Sertifikat Internasional</span>
+                            </div>
+                        </div>
+                        
+                        <div class="comp-card-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">50 Juta</span>
+                                <span class="stat-label">Hadiah Utama</span>
+                            </div>
+                            <div class="stat-divider"></div>
+                            <div class="stat-item">
+                                <span class="stat-value">125K</span>
+                                <span class="stat-label">Biaya Daftar</span>
+                            </div>
+                        </div>
+                        
+                        <a href="{{ route('public.competitions') }}#edc" class="comp-card-button">
+                            <span>Lihat Detail</span>
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+            </div>
+            
+            <!-- Short Movie Competition -->
+            <div class="col-lg-6 mb-6" data-aos="fade-up" data-aos-delay="300">
+                <article class="competition-card sm-card" data-competition="sm">
+                    <div class="comp-card-header">
+                        <div class="comp-card-icon">
+                            <i class="bi bi-camera-video-fill"></i>
+                        </div>
+                        <div class="comp-card-badge">Short Movie</div>
+                    </div>
+                    
+                    <div class="comp-card-image">
+                        <img src="{{ asset('assets/images/competitions/sm-2025.jpg') }}" 
+                             alt="Short Movie Competition UNAS Fest 2025" 
+                             loading="lazy"
+                             width="600"
+                             height="280">
+                        <div class="image-overlay">
+                            <div class="overlay-content">
+                                <i class="bi bi-film"></i>
+                                <span>Film Pendek</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="comp-card-content">
+                        <h3 class="comp-card-title">Short Movie Competition</h3>
+                        <p class="comp-card-description">
+                            Kompetisi pembuatan film pendek yang mengasah kreativitas dalam bercerita, 
+                            teknik sinematografi, dan penyampaian pesan melalui media visual.
+                        </p>
+                        
+                        <div class="comp-card-features">
+                            <div class="feature-item">
+                                <i class="bi bi-people-fill"></i>
+                                <span>Format Tim (Max 5 Orang)</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="bi bi-clock-fill"></i>
+                                <span>Durasi Film: Max 10 Menit</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="bi bi-award-fill"></i>
+                                <span>Peralatan Produksi</span>
+                            </div>
+                        </div>
+                        
+                        <div class="comp-card-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">50 Juta</span>
+                                <span class="stat-label">Hadiah Utama</span>
+                            </div>
+                            <div class="stat-divider"></div>
+                            <div class="stat-item">
+                                <span class="stat-value">100K</span>
+                                <span class="stat-label">Biaya Daftar</span>
+                            </div>
+                        </div>
+                        
+                        <a href="{{ route('public.competitions') }}#sm" class="comp-card-button">
+                            <span>Lihat Detail</span>
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+            </div>
+            
+            <!-- Scientific Paper Competition -->
+            <div class="col-lg-6 mb-6" data-aos="fade-up" data-aos-delay="400">
+                <article class="competition-card spc-card" data-competition="spc">
+                    <div class="comp-card-header">
+                        <div class="comp-card-icon">
+                            <i class="bi bi-journal-text"></i>
+                        </div>
+                        <div class="comp-card-badge">SPC</div>
+                    </div>
+                    
+                    <div class="comp-card-image">
+                        <img src="{{ asset('assets/images/competitions/spc-2025.jpg') }}" 
+                             alt="Scientific Paper Competition UNAS Fest 2025" 
+                             loading="lazy"
+                             width="600"
+                             height="280">
+                        <div class="image-overlay">
+                            <div class="overlay-content">
+                                <i class="bi bi-lightbulb"></i>
+                                <span>Karya Ilmiah</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="comp-card-content">
+                        <h3 class="comp-card-title">Scientific Paper Competition</h3>
+                        <p class="comp-card-description">
+                            Kompetisi penulisan karya ilmiah yang mengasah kemampuan penelitian, 
+                            analisis data, dan penyajian hasil penelitian secara akademis.
+                        </p>
+                        
+                        <div class="comp-card-features">
+                            <div class="feature-item">
+                                <i class="bi bi-people-fill"></i>
+                                <span>Format Tim (Max 3 Orang)</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="bi bi-file-text-fill"></i>
+                                <span>Max 15 Halaman</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="bi bi-award-fill"></i>
+                                <span>Publikasi Jurnal</span>
+                            </div>
+                        </div>
+                        
+                        <div class="comp-card-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">25 Juta</span>
+                                <span class="stat-label">Hadiah Utama</span>
+                            </div>
+                            <div class="stat-divider"></div>
+                            <div class="stat-item">
+                                <span class="stat-value">75K</span>
+                                <span class="stat-label">Biaya Daftar</span>
+                            </div>
+                        </div>
+                        
+                        <a href="{{ route('public.competitions') }}#spc" class="comp-card-button">
+                            <span>Lihat Detail</span>
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+erta</span>
+            </div>
+            <h2 class="section-title">Mengapa Harus Ikut Caturnawa 2025?</h2>
+            <p class="section-subtitle">
+                Raih berbagai keuntungan dan manfaat yang akan mengembangkan potensi diri Anda
+            </p>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="bi bi-award-fill"></i>
+                    </div>
+                    <h4 class="benefit-title">Sertifikat Nasional</h4>
+                    <p class="benefit-description">
+                        Dapatkan sertifikat nasional yang diakui oleh berbagai institusi 
+                        pendidikan dan perusahaan di Indonesia sebagai bukti prestasi Anda.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                    <h4 class="benefit-title">Networking Luas</h4>
+                    <p class="benefit-description">
+                        Bangun jaringan dengan peserta dari seluruh Indonesia, bertemu 
+                        dengan talenta terbaik dan profesional dari berbagai bidang.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="bi bi-trophy-fill"></i>
+                    </div>
+                    <h4 class="benefit-title">Hadiah Menarik</h4>
+                    <p class="benefit-description">
+                        Total hadiah 200 juta rupiah dengan berbagai kategori hadiah 
+                        untuk juara dan peserta terbaik di setiap kompetisi.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="bi bi-lightbulb-fill"></i>
+                    </div>
+                    <h4 class="benefit-title">Pengembangan Skill</h4>
+                    <p class="benefit-description">
+                        Asah kemampuan public speaking, critical thinking, kreativitas, 
+                        dan penelitian melalui kompetisi berkualitas tinggi.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-6" data-aos="fade-up" data-aos-delay="500">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="bi bi-journal-bookmark-fill"></i>
+                    </div>
+                    <h4 class="benefit-title">Publikasi Karya</h4>
+                    <p class="benefit-description">
+                        Kesempatan publikasi karya terbaik di jurnal nasional dan 
+                        media partner resmi Caturnawa UNAS Fest 2025.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-6" data-aos="fade-up" data-aos-delay="600">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="bi bi-star-fill"></i>
+                    </div>
+                    <h4 class="benefit-title">Prestise Nasional</h4>
+                    <p class="benefit-description">
+                        Menjadi bagian dari festival kompetisi nasional terbesar yang 
+                        diikuti ribuan peserta dari seluruh Indonesia.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section id="testimonials" class="testimonials-section section">
+    <div class="container">
+        <div class="section-header text-center" data-aos="fade-up">
+            <div class="section-badge">
+                <i class="bi bi-chat-heart"></i>
+                <span>Testimoni Peserta</span>
+            </div>
+            <h2 class="section-title">Apa Kata Mereka?</h2>
+            <p class="section-subtitle">
+                Dengarkan pengalaman peserta Caturnawa tahun-tahun sebelumnya
+            </p>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-4 mb-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="testimonial-stars">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="testimonial-text">
+                            "Caturnawa benar-benar mengubah cara saya berpikir dan berbicara. 
+                            Kompetisi debat yang berkualitas dengan juri yang profesional."
+                        </p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="{{ asset('assets/images/testimonials/sarah.jpg') }}" alt="Sarah Putri" class="author-photo">
+                        <div class="author-info">
+                            <h5 class="author-name">Sarah Putri</h5>
+                            <p class="author-title">Juara 1 KDBI 2024</p>
+                            <p class="author-university">Universitas Indonesia</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 mb-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="testimonial-stars">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="testimonial-text">
+                            "Melalui Short Movie Competition, saya belajar banyak tentang sinematografi 
+                            dan storytelling. Pengalaman yang tak terlupakan!"
+                        </p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="{{ asset('assets/images/testimonials/rizki.jpg') }}" alt="Rizki Pratama" class="author-photo">
+                        <div class="author-info">
+                            <h5 class="author-name">Rizki Pratama</h5>
+                            <p class="author-title">Juara 2 Short Movie 2024</p>
+                            <p class="author-university">Institut Teknologi Bandung</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 mb-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="testimonial-stars">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="testimonial-text">
+                            "English Debate Competition di Caturnawa memberikan pengalaman internasional. 
+                            Level kompetisinya sangat tinggi dan challenging."
+                        </p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="{{ asset('assets/images/testimonials/amanda.jpg') }}" alt="Amanda Sari" class="author-photo">
+                        <div class="author-info">
+                            <h5 class="author-name">Amanda Sari</h5>
+                            <p class="author-title">Best Speaker EDC 2024</p>
+                            <p class="author-university">Universitas Gadjah Mada</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section id="cta" class="cta-section section">
+    <div class="container">
+        <div class="cta-content" data-aos="zoom-in">
+            <h2 class="cta-title">Siap Berkompetisi?</h2>
+            <p class="cta-description">
+                Jangan lewatkan kesempatan emas untuk menunjukkan kemampuan terbaik Anda. 
+                Bergabunglah dengan ribuan peserta lainnya dalam festival kompetisi nasional terbesar di Indonesia.
+            </p>
+            
+            <div class="cta-features">
+                <div class="feature-item">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>Pendaftaran Online Mudah</span>
+                </div>
+                <div class="feature-item">
+                    <i class="bi bi-shield-check"></i>
+                    <span>Pembayaran Aman</span>
+                </div>
+                <div class="feature-item">
+                    <i class="bi bi-headset"></i>
+                    <span>Support 24/7</span>
+                </div>
+                <div class="feature-item">
+                    <i class="bi bi-award"></i>
+                    <span>Sertifikat Resmi</span>
+                </div>
+            </div>
+            
+            <div class="cta-actions">
+                <a href="{{ route('register') }}" class="btn btn-cta-primary btn-xl">
+                    <span>Daftar Sekarang</span>
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+                <a href="{{ route('public.competitions') }}" class="btn btn-cta-outline btn-xl">
+                    <span>Lihat Panduan</span>
+                    <i class="bi bi-book"></i>
+                </a>
+            </div>
+            
+            <div class="cta-countdown">
+                <p>Batas pendaftaran dalam:</p>
+                <div class="countdown-compact" data-countdown="2025-03-15T23:59:59">
+                    <!-- JavaScript will populate this -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section id="faq" class="faq-section section">
+    <div class="container">
+        <div class="section-header text-center" data-aos="fade-up">
+            <div class="section-badge">
+                <i class="bi bi-question-circle"></i>
+                <span>FAQ</span>
+            </div>
+            <h2 class="section-title">Pertanyaan yang Sering Diajukan</h2>
+            <p class="section-subtitle">
+                Temukan jawaban untuk pertanyaan umum seputar Caturnawa 2025
+            </p>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="faq-accordion" data-aos="fade-up" data-aos-delay="200">
+                    
+                    <div class="faq-item">
+                        <button class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            <span>Bagaimana cara mendaftar Caturnawa 2025?</span>
+                            <i class="bi bi-chevron-down"></i>
+                        </button>
+                        <div id="faq1" class="faq-answer collapse">
+                            <div class="faq-content">
+                                Pendaftaran dapat dilakukan melalui website resmi dengan mengisi formulir online, 
+                                mengunggah dokumen yang diperlukan, dan melakukan pembayaran biaya pendaftaran. 
+                                Proses pendaftaran sangat mudah dan dapat diselesaikan dalam beberapa menit.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <button class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            <span>Berapa biaya pendaftaran untuk setiap kompetisi?</span>
+                            <i class="bi bi-chevron-down"></i>
+                        </button>
+                        <div id="faq2" class="faq-answer collapse">
+                            <div class="faq-content">
+                                Biaya pendaftaran bervariasi: KDBI Rp 150.000, EDC Rp 125.000, 
+                                Short Movie Rp 100.000, dan Scientific Paper Rp 75.000. 
+                                Biaya sudah termasuk kit peserta, sertifikat, dan konsumsi selama acara.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <button class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq3">
+                            <span>Siapa saja yang boleh ikut kompetisi?</span>
+                            <i class="bi bi-chevron-down"></i>
+                        </button>
+                        <div id="faq3" class="faq-answer collapse">
+                            <div class="faq-content">
+                                Kompetisi terbuka untuk mahasiswa aktif dari universitas/institut di seluruh Indonesia. 
+                                Peserta harus memiliki Kartu Tanda Mahasiswa (KTM) yang masih berlaku dan 
+                                surat keterangan aktif kuliah dari institusi masing-masing.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <button class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq4">
+                            <span>Apakah bisa mendaftar lebih dari satu kompetisi?</span>
+                            <i class="bi bi-chevron-down"></i>
+                        </button>
+                        <div id="faq4" class="faq-answer collapse">
+                            <div class="faq-content">
+                                Ya, peserta diperbolehkan mendaftar maksimal 2 kompetisi dengan membayar 
+                                biaya pendaftaran untuk masing-masing kompetisi. Namun, pastikan jadwal 
+                                kompetisi tidak bertabrakan.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <button class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq5">
+                            <span>Bagaimana sistem penilaian kompetisi?</span>
+                            <i class="bi bi-chevron-down"></i>
+                        </button>
+                        <div id="faq5" class="faq-answer collapse">
+                            <div class="faq-content">
+                                Setiap kompetisi memiliki kriteria penilaian yang berbeda dan akan dijelaskan 
+                                secara detail saat technical meeting. Penilaian dilakukan oleh juri yang 
+                                kompeten dan berpengalaman di bidangnya masing-masing.
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div class="text-center mt-8" data-aos="fade-up" data-aos-delay="400">
+                    <p class="text-muted mb-4">Masih ada pertanyaan lain?</p>
+                    <a href="{{ route('public.contact') }}" class="btn btn-primary">
+                        <i class="bi bi-chat-dots"></i>
+                        <span>Hubungi Kami</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@endsection
+
+@push('styles')
+<style>
+/* Countdown Styles */
+.countdown-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-8);
+    text-align: center;
+    color: var(--white);
+    margin-bottom: var(--space-8);
+}
+
+.countdown-title {
+    font-size: var(--text-xl);
+    font-weight: var(--font-semibold);
+    margin-bottom: var(--space-6);
+    color: var(--white);
+}
+
+.countdown-timer {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+}
+
+.countdown-item {
+    text-align: center;
+    min-width: 80px;
+}
+
+.countdown-number {
+    display: block;
+    font-size: var(--text-3xl);
+    font-weight: var(--font-extrabold);
+    line-height: 1;
+    margin-bottom: var(--space-2);
+}
+
+.countdown-label {
+    font-size: var(--text-sm);
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.countdown-compact {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-3);
+    margin-top: var(--space-4);
+}
+
+.countdown-compact .countdown-item {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    padding: var(--space-3);
+    min-width: 60px;
+}
+
+.countdown-compact .countdown-number {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-1);
+}
+
+.countdown-compact .countdown-label {
+    font-size: var(--text-xs);
+}
+
+/* Testimonial Styles */
+.testimonial-card {
+    background: var(--white);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-8);
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+    height: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.testimonial-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+}
+
+.testimonial-content {
+    margin-bottom: var(--space-6);
+}
+
+.testimonial-stars {
+    display: flex;
+    gap: var(--space-1);
+    margin-bottom: var(--space-4);
+    color: var(--accent);
+}
+
+.testimonial-text {
+    font-style: italic;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 0;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.author-photo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--light);
+}
+
+.author-name {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+    margin-bottom: var(--space-1);
+}
+
+.author-title {
+    font-size: var(--text-sm);
+    color: var(--primary);
+    font-weight: var(--font-medium);
+    margin-bottom: var(--space-1);
+}
+
+.author-university {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    margin-bottom: 0;
+}
+
+/* FAQ Styles */
+.faq-accordion {
+    background: var(--white);
+    border-radius: var(--radius-2xl);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.faq-item {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.faq-item:last-child {
+    border-bottom: none;
+}
+
+.faq-question {
+    width: 100%;
+    padding: var(--space-6);
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: var(--text-lg);
+    font-weight: var(--font-medium);
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: var(--transition-fast);
+}
+
+.faq-question:hover {
+    background: var(--light);
+}
+
+.faq-question i {
+    transition: transform var(--transition-fast);
+}
+
+.faq-question[aria-expanded="true"] i {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    background: var(--light);
+}
+
+.faq-content {
+    padding: 0 var(--space-6) var(--space-6);
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+/* Mobile Responsive */
+@media (max-width: 767px) {
+    .countdown-timer {
+        gap: var(--space-2);
+    }
+    
+    .countdown-item {
+        min-width: 60px;
+    }
+    
+    .countdown-number {
+        font-size: var(--text-2xl);
+    }
+    
+    .countdown-label {
+        font-size: var(--text-xs);
+    }
+    
+    .testimonial-author {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .author-photo {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .cta-features {
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-4);
+    }
+    
+    .cta-actions {
+        flex-direction: column;
+        gap: var(--space-3);
+    }
+    
+    .faq-question {
+        font-size: var(--text-base);
+        padding: var(--space-4);
+    }
+    
+    .faq-content {
+        padding: 0 var(--space-4) var(--space-4);
+    }
+}
+</style>
+@endpush
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize countdown timers
+    const countdownElements = document.querySelectorAll('[data-countdown]');
+    countdownElements.forEach(element => {
+        const targetDate = new Date(element.dataset.countdown);
+        startCountdown(element, targetDate);
+    });
+    
+    function startCountdown(element, targetDate) {
+        const updateCountdown = () => {
+            const now = new Date().getTime();
+            const distance = targetDate.getTime() - now;
+            
+            if (distance < 0) {
+                element.innerHTML = '<span class="countdown-expired">Pendaftaran telah berakhir</span>';
+                return;
+            }
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            element.innerHTML = `
+                <div class="countdown-item">
+                    <span class="countdown-number">${days}</span>
+                    <span class="countdown-label">Hari</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number">${hours}</span>
+                    <span class="countdown-label">Jam</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number">${minutes}</span>
+                    <span class="countdown-label">Menit</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number">${seconds}</span>
+                    <span class="countdown-label">Detik</span>
+                </div>
+            `;
+        };
+        
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    }
+    
+    // Competition card tracking
+    const competitionCards = document.querySelectorAll('.competition-card');
+    competitionCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const competition = card.dataset.competition;
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'competition_card_click', {
+                    competition_type: competition
+                });
+            }
+        });
+    });
+});
+</script>
+@endpush_HOST=localhost
+DB_PORT=3306
+DB_DATABASE=caturnawa_2025
+DB_USERNAME=root
+DB_PASSWORD=
+
+# Cache & Session
+CACHE_DRIVER=redis
+SESSION_DRIVER=redis
+QUEUE_CONNECTION=redis
+
+# Redis
+REDIS_HOST=127.0.0.1
+REDIS_PASSWORD=null
+REDIS_PORT=6379
+
+# Email Configuration
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=your-email@gmail.com
+MAIL_PASSWORD=your-app-password
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=noreply@caturnawa2025.com
+MAIL_FROM_NAME="Caturnawa 2025"
+
+# Midtrans Payment
+MIDTRANS_SERVER_KEY=your-server-key
+MIDTRANS_CLIENT_KEY=your-client-key
+MIDTRANS_IS_PRODUCTION=false
+MIDTRANS_IS_SANITIZED=true
+MIDTRANS_IS_3DS=true
+
+# File Storage
+FILESYSTEM_DISK=public
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_DEFAULT_REGION=
+AWS_BUCKET=
+AWS_USE_PATH_STYLE_ENDPOINT=false
+
+# Analytics
+GOOGLE_ANALYTICS_ID=GA_MEASUREMENT_ID
+GOOGLE_TAG_MANAGER_ID=GTM-XXXXXXX
+
+# Social Media
+INSTAGRAM_URL=https://instagram.com/caturnawa2025
+TIKTOK_URL=https://tiktok.com/@caturnawa2025
+YOUTUBE_URL=https://youtube.com/@caturnawa2025
+LINKEDIN_URL=https://linkedin.com/company/caturnawa
+```
+
+### Database Configuration
+
+Buat database MySQL dan import struktur:
+
+```sql
+CREATE DATABASE caturnawa_2025 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+## 🏗️ Struktur Proyek
+
+```
+caturnawa-uf-2025/
+├── app/
+│   ├── Http/Controllers/
+│   │   ├── Admin/          # Admin panel controllers
+│   │   ├── Auth/           # Authentication controllers
+│   │   ├── Public/         # Public website controllers
+│   │   └── API/            # API controllers
+│   ├── Models/             # Eloquent models
+│   ├── Services/           # Business logic services
+│   └── Traits/             # Reusable traits
+├── database/
+│   ├── migrations/         # Database migrations
+│   ├── seeders/           # Database seeders
+│   └── factories/         # Model factories
+├── resources/
+│   ├── views/
+│   │   ├── layouts/       # Blade layouts
+│   │   ├── public/        # Public pages
+│   │   ├── admin/         # Admin pages
+│   │   └── components/    # Reusable components
+│   ├── css/               # Custom CSS files
+│   └── js/                # JavaScript files
+├── public/
+│   ├── assets/
+│   │   ├── images/        # Image assets
+│   │   ├── css/           # Compiled CSS
+│   │   └── js/            # Compiled JavaScript
+│   └── storage/           # Public storage link
+├── routes/
+│   ├── web.php            # Web routes
+│   ├── api.php            # API routes
+│   └── admin.php          # Admin routes
+└── storage/
+    ├── app/               # Application files
+    ├── logs/              # Log files
+    └── framework/         # Framework cache
+```
+
+## 🎨 Design System
+
+### Color Palette
+- **Primary**: `#1E40AF` (Deep Blue)
+- **Secondary**: `#10B981` (Emerald)
+- **Accent**: `#F59E0B` (Amber)
+- **Success**: `#059669` (Green)
+- **Warning**: `#DC2626` (Red)
+
+### Typography
+- **Primary Font**: Inter (Body text)
+- **Secondary Font**: Poppins (Headings)
+- **Monospace**: JetBrains Mono
+
+### Components
+- Modern card designs dengan glassmorphism
+- Responsive grid system
+- Smooth animations dan transitions
+- Accessible form controls
+- Interactive buttons dan CTAs
+
+## 📊 Performa & SEO
+
+### Core Web Vitals
+- **LCP**: < 2.5s ✅
+- **FID**: < 100ms ✅
+- **CLS**: < 0.1 ✅
+
+### SEO Features
+- Structured data (JSON-LD)
+- Optimized meta tags
+- Clean URL structure
+- XML sitemap
+- Robot.txt optimization
+- Social media integration
+
+### Performance Optimizations
+- Image lazy loading
+- CSS/JS minification
+- Browser caching
+- Database query optimization
+- CDN integration ready
+
+## 🔐 Keamanan
+
+- CSRF protection
+- XSS prevention
+- SQL injection protection
+- Rate limiting
+- Secure headers
+- File upload validation
+- User input sanitization
+
+## 🚦 Testing
+
+```bash
+# Run all tests
+php artisan test
+
+# Run specific test suite
+php artisan test --testsuite=Feature
+php artisan test --testsuite=Unit
+
+# Run with coverage
+php artisan test --coverage
+```
+
+## 📈 Monitoring & Analytics
+
+### Application Monitoring
+- Laravel Telescope (Development)
+- Laravel Horizon (Queue monitoring)
+- Custom error logging
+
+### User Analytics
+- Google Analytics 4
+- Event tracking
+- Conversion tracking
+- User behavior analysis
+
+## 🌐 Deployment
+
+### Production Server Requirements
+- **Server**: VPS/Dedicated (Min 2GB RAM)
+- **Web Server**: Nginx/Apache
+- **PHP**: 8.1+ dengan extensions yang diperlukan
+- **Database**: MySQL 8.0+ / PostgreSQL 13+
+- **Cache**: Redis
+- **SSL**: Let's Encrypt
+
+### Deployment Script
+
+```bash
+#!/bin/bash
+# deploy.sh
+
+# Pull latest changes
+git pull origin main
+
+# Install/update dependencies
+composer install --optimize-autoloader --no-dev
+npm ci && npm run build
+
+# Run optimizations
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+php artisan optimize
+
+# Run migrations
+php artisan migrate --force
+
+# Restart services
+sudo supervisorctl restart laravel-worker
+sudo systemctl reload nginx
+```
+
+## 📚 API Documentation
+
+API endpoint tersedia di `/api/docs` dengan dokumentasi lengkap menggunakan OpenAPI 3.0.
+
+### Authentication
+```http
+POST /api/auth/login
+POST /api/auth/register
+POST /api/auth/logout
+```
+
+### Competitions
+```http
+GET /api/competitions
+GET /api/competitions/{id}
+POST /api/competitions/{id}/register
+```
+
+### Payments
+```http
+POST /api/payments/create
+GET /api/payments/{id}/status
+POST /api/payments/callback
+```
+
+## 🤝 Kontribusi
+
+Kami sangat menghargai kontribusi dari developer lain! Silakan ikuti panduan berikut:
+
+### Development Workflow
+
+1. **Fork** repository ini
+2. **Clone** fork Anda ke local machine
+3. **Create** branch baru untuk fitur/bugfix
+4. **Commit** perubahan dengan pesan yang jelas
+5. **Push** ke fork repository Anda
+6. **Submit** Pull Request
+
+### Coding Standards
+
+- Ikuti **PSR-12** coding standard
+- Gunakan **meaningful variable names**
+- Tulis **unit tests** untuk fitur baru
+- **Comment** kode yang kompleks
+- Pastikan **no breaking changes**
+
+### Commit Message Convention
+
+```
+feat: add new payment gateway integration
+fix: resolve registration form validation
+docs: update API documentation
+style: format code according to PSR-12
+refactor: optimize database queries
+test: add unit tests for user registration
+```
+
+## 🐛 Bug Reports & Feature Requests
+
+### Melaporkan Bug
+1. Gunakan [GitHub Issues](https://github.com/el-pablos/caturnawa-uf-2025/issues)
+2. Gunakan template yang tersedia
+3. Sertakan informasi lingkungan (OS, PHP version, dll)
+4. Berikan langkah reproduksi yang jelas
+
+### Request Fitur Baru
+1. Diskusikan terlebih dahulu di [Discussions](https://github.com/el-pablos/caturnawa-uf-2025/discussions)
+2. Jelaskan use case dan manfaat
+3. Berikan mockup/wireframe jika perlu
+
+## 📋 Changelog
+
+### v2.0.0 (2025-01-01)
+- ✨ Complete redesign dengan modern UI/UX
+- 🚀 Performance improvements (Core Web Vitals)
+- 🔐 Enhanced security features
+- 📱 Full responsive design
+- 🎯 SEO optimization
+- 🔄 Real-time notifications
+- 💳 Multiple payment gateways
+
+### v1.0.0 (2024-01-01)
+- 🎉 Initial release
+- 📝 Basic registration system
+- 💰 Midtrans payment integration
+- 📧 Email notifications
+- 👨‍💼 Admin dashboard
+
+## 👥 Tim Development
+
+### Project Lead
+- **Pablo** - Full Stack Developer
+  - GitHub: [@el-pablos](https://github.com/el-pablos)
+  - Email: yeteprem.end23juni@gmail.com
+
+### Contributors
+- **UNAS Fest Team** - Product Requirements & Testing
+- **UI/UX Team** - Design System & User Experience
+- **QA Team** - Quality Assurance & Testing
+
+## 📄 Lisensi
+
+Proyek ini menggunakan **MIT License**. Lihat file [LICENSE](LICENSE) untuk detail lengkap.
+
+```
+MIT License
+
+Copyright (c) 2025 Caturnawa UNAS Fest
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+## 🌟 Ucapan Terima Kasih
+
+Terima kasih kepada semua pihak yang telah berkontribusi dalam pengembangan Caturnawa UNAS Fest 2025:
+
+- **Universitas Nasional** - Dukungan institusi
+- **Laravel Community** - Framework yang luar biasa
+- **Open Source Community** - Tools dan libraries
+- **Beta Testers** - Feedback dan testing
+- **All Contributors** - Code, documentation, dan ideas
+
+## 📞 Kontak & Support
+
+### Official Channels
+- **Website**: [https://caturnawa2025.unasfest.com](https://caturnawa2025.unasfest.com)
+- **Email**: info@caturnawa2025.com
+- **Phone**: +62 21 7806700
+
+### Social Media
+- **Instagram**: [@caturnawa2025](https://instagram.com/caturnawa2025)
+- **TikTok**: [@caturnawa2025](https://tiktok.com/@caturnawa2025)
+- **YouTube**: [Caturnawa 2025](https://youtube.com/@caturnawa2025)
+- **LinkedIn**: [Caturnawa](https://linkedin.com/company/caturnawa)
+
+### Technical Support
+- **GitHub Issues**: [Report bugs](https://github.com/el-pablos/caturnawa-uf-2025/issues)
+- **GitHub Discussions**: [Community support](https://github.com/el-pablos/caturnawa-uf-2025/discussions)
+- **Developer Email**: tech@caturnawa2025.com
+
+---
+
+<div align="center">
+
+**Dibuat dengan ❤️ untuk masa depan kompetisi yang lebih baik**
+
+[⭐ Star this repo](https://github.com/el-pablos/caturnawa-uf-2025) • [🐛 Report bug](https://github.com/el-pablos/caturnawa-uf-2025/issues) • [💡 Feature request](https://github.com/el-pablos/caturnawa-uf-2025/discussions)
+
+</div>
