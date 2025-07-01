@@ -70,6 +70,8 @@
                                     <td>
                                         @if($registration->status === 'confirmed')
                                             <span class="badge bg-success">Confirmed</span>
+                                        @elseif($registration->status === 'paid')
+                                            <span class="badge bg-info">Paid</span>
                                         @elseif($registration->status === 'pending')
                                             <span class="badge bg-warning">Pending</span>
                                         @else

@@ -20,7 +20,7 @@
 
     <!-- Statistics -->
     <div class="row mt-5">
-        <div class="col-md-3 mb-4">
+        <div class="col-md-6 mb-4">
             <div class="card text-center">
                 <div class="card-body">
                     <i class="bi bi-people-fill text-primary" style="font-size: 2rem;"></i>
@@ -29,30 +29,12 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3 mb-4">
+        <div class="col-md-6 mb-4">
             <div class="card text-center">
                 <div class="card-body">
                     <i class="bi bi-trophy-fill text-warning" style="font-size: 2rem;"></i>
                     <h3 class="mt-2">{{ $stats['competitions'] ?? 0 }}</h3>
                     <p class="text-muted">Kompetisi</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 mb-4">
-            <div class="card text-center">
-                <div class="card-body">
-                    <i class="bi bi-building text-success" style="font-size: 2rem;"></i>
-                    <h3 class="mt-2">{{ $stats['universities'] ?? 0 }}</h3>
-                    <p class="text-muted">Universitas</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 mb-4">
-            <div class="card text-center">
-                <div class="card-body">
-                    <i class="bi bi-currency-dollar text-info" style="font-size: 2rem;"></i>
-                    <h3 class="mt-2">500M</h3>
-                    <p class="text-muted">Total Hadiah</p>
                 </div>
             </div>
         </div>

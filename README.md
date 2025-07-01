@@ -399,68 +399,13 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-## 📸 Screenshots
-
-### Homepage
-![Homepage](docs/screenshots/homepage.png)
-
-### Competition Details
-![Competition Details](docs/screenshots/competition-detail.png)
-
-### Dashboard
-![Dashboard](docs/screenshots/dashboard.png)
-
----
-
-<div align="center">
-  <p>Made with ❤️ for UNAS Fest 2025</p>
-  <p>© 2025 Universitas Nasional Jakarta. All rights reserved.</p>
-</div> test --testsuite=Feature
-```
-
-### 🚀 Deployment
-
-#### 1. Production Environment
-```bash
-# Optimisasi untuk production
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
-php artisan optimize
-```
-
-#### 2. Database Migration
-```bash
-php artisan migrate --force
-```
-
-#### 3. Asset Compilation
-```bash
-npm run production
-```
-
-#### 4. Permission Setup
-```bash
-chmod -R 755 storage
-chmod -R 755 bootstrap/cache
-```
-
-### 📞 Kontak & Dukungan
-
-- **Email**: info@unasfest.com
-- **Telepon**: 0858-1737-8442
-- **Website**: [https://unasfest.com](https://unasfest.com)
-- **Repository**: [https://github.com/el-pablos/caturnawa-uf-2025](https://github.com/el-pablos/caturnawa-uf-2025)
-
----
-
 ## 🇺🇸 English
 
 ### About UNAS Fest 2025
 
 UNAS Fest 2025 is Indonesia's largest national competition festival combining innovation in technology, health, and biodiversity. This website platform is built using Laravel to manage participant registration, competition management, and comprehensive scoring systems.
 
-### ✨ Key Features
+### Key Features
 
 #### 🏆 Competition System
 - **Three Main Categories**: Technology, Health, and Biodiversity
@@ -488,7 +433,7 @@ UNAS Fest 2025 is Indonesia's largest national competition festival combining in
 - **Real-time Verification**: QR scanner for event check-in
 - **Attendance Tracking**: Participant monitoring and event statistics
 
-### 🛠 Technology Stack
+### Technology Stack
 
 - **Backend**: Laravel 10.x
 - **Frontend**: Bootstrap 5, Tailwind CSS, AOS Animation
@@ -499,7 +444,7 @@ UNAS Fest 2025 is Indonesia's largest national competition festival combining in
 - **Authentication**: Laravel Sanctum
 - **File Storage**: Laravel Storage with optimization
 
-### 📋 System Requirements
+### System Requirements
 
 - PHP 8.1 or higher
 - Composer 2.x
@@ -507,51 +452,48 @@ UNAS Fest 2025 is Indonesia's largest national competition festival combining in
 - MySQL 5.7 or higher
 - PHP Extensions: OpenSSL, PDO, Mbstring, Tokenizer, XML, Ctype, JSON, GD
 
-### 🚀 Installation & Setup
+### Installation & Setup
 
-#### 1. Clone Repository
-```bash
-git clone https://github.com/el-pablos/caturnawa-uf-2025.git
-cd caturnawa-uf-2025
-```
+1. **Clone Repository**
+   ```bash
+   git clone https://github.com/el-pablos/caturnawa-uf-2025.git
+   cd caturnawa-uf-2025
+   ```
 
-#### 2. Install Dependencies
-```bash
-composer install
-npm install
-```
+2. **Install Dependencies**
+   ```bash
+   composer install
+   npm install
+   ```
 
-#### 3. Environment Setup
-```bash
-cp .env.example .env
-php artisan key:generate
-```
+3. **Environment Setup**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-#### 4. Database Configuration
-```bash
-# Edit .env file according to your database configuration
-php artisan migrate
-php artisan db:seed
-```
+4. **Database Configuration**
+   ```bash
+   php artisan migrate
+   php artisan db:seed
+   ```
 
-#### 5. Build Assets
-```bash
-npm run build
-# For development: npm run dev
-```
+5. **Build Assets**
+   ```bash
+   npm run build
+   ```
 
-#### 6. Storage Configuration
-```bash
-php artisan storage:link
-```
+6. **Storage Configuration**
+   ```bash
+   php artisan storage:link
+   ```
 
-#### 7. Start Development Server
-```bash
-php artisan serve
-# Access: http://localhost:8000
-```
+7. **Start Development Server**
+   ```bash
+   php artisan serve
+   ```
 
-### ⚙ Environment Configuration
+### Environment Configuration
 
 ```env
 # Database Configuration
@@ -581,40 +523,33 @@ MAIL_FROM_ADDRESS=info@unasfest.com
 MAIL_FROM_NAME="UNAS Fest 2025"
 ```
 
-### 🔧 SEO & Performance Optimization
+### SEO & Performance Optimization
 
 - **Auto Meta Tags**: SEO-friendly meta tags for all pages
 - **Structured Data**: JSON-LD for rich snippets
 - **Image Optimization**: Lazy loading and automatic compression
 - **CDN Ready**: Asset optimization for production
 - **XML Sitemap**: Auto-generated sitemap for search engines
-- **High PA/DA Score**: Search engine ranking optimization
 - **Mobile-First Design**: Responsive and mobile-optimized
 
-### 📡 API Endpoints
+### API Endpoints
 
 #### Authentication
-```
-POST /api/login          - User login
-POST /api/register       - User registration
-POST /api/logout         - User logout
-```
+- `POST /api/login` - User login
+- `POST /api/register` - User registration
+- `POST /api/logout` - User logout
 
 #### Competitions
-```
-GET  /api/competitions           - List all competitions
-GET  /api/competitions/{id}      - Competition details
-POST /api/competitions/{id}/register - Register for competition
-```
+- `GET /api/competitions` - List all competitions
+- `GET /api/competitions/{id}` - Competition details
+- `POST /api/competitions/{id}/register` - Register for competition
 
 #### Submissions
-```
-GET  /api/submissions        - List user submissions
-POST /api/submissions        - Create new submission
-PUT  /api/submissions/{id}   - Update submission
-```
+- `GET /api/submissions` - List user submissions
+- `POST /api/submissions` - Create new submission
+- `PUT /api/submissions/{id}` - Update submission
 
-### 🧪 Testing
+### Testing
 
 ```bash
 # Run all tests
@@ -627,34 +562,33 @@ php artisan test --coverage
 php artisan test --testsuite=Feature
 ```
 
-### 🚀 Deployment
+### Deployment
 
-#### 1. Production Environment
-```bash
-# Optimize for production
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
-php artisan optimize
-```
+1. **Production Environment**
+   ```bash
+   php artisan config:cache
+   php artisan route:cache
+   php artisan view:cache
+   php artisan optimize
+   ```
 
-#### 2. Database Migration
-```bash
-php artisan migrate --force
-```
+2. **Database Migration**
+   ```bash
+   php artisan migrate --force
+   ```
 
-#### 3. Asset Compilation
-```bash
-npm run production
-```
+3. **Asset Compilation**
+   ```bash
+   npm run production
+   ```
 
-#### 4. Permission Setup
-```bash
-chmod -R 755 storage
-chmod -R 755 bootstrap/cache
-```
+4. **Permission Setup**
+   ```bash
+   chmod -R 755 storage
+   chmod -R 755 bootstrap/cache
+   ```
 
-### 🤝 Contributing
+### Contributing
 
 We welcome contributions from the community! Please follow these guidelines:
 
@@ -664,18 +598,18 @@ We welcome contributions from the community! Please follow these guidelines:
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-### 📄 License
+### License
 
-This project is licensed under the [MIT License](LICENSE) - see the LICENSE file for details.
+This project is licensed under the [MIT License](LICENSE).
 
-### 📞 Contact & Support
+### Contact & Support
 
 - **Email**: info@unasfest.com
 - **Phone**: +62 858-1737-8442
 - **Website**: [https://unasfest.com](https://unasfest.com)
 - **Repository**: [https://github.com/el-pablos/caturnawa-uf-2025](https://github.com/el-pablos/caturnawa-uf-2025)
 
-### 📊 Project Statistics
+### Project Statistics
 
 - **Total Files**: 150+
 - **Lines of Code**: 15,000+
@@ -683,7 +617,7 @@ This project is licensed under the [MIT License](LICENSE) - see the LICENSE file
 - **API Endpoints**: 30+
 - **Supported Languages**: Indonesian, English
 
-### 🎯 Project Goals
+### Project Goals
 
 - Create the largest national competition platform in Indonesia
 - Foster innovation in technology, health, and biodiversity
@@ -691,7 +625,7 @@ This project is licensed under the [MIT License](LICENSE) - see the LICENSE file
 - Maintain high performance and security standards
 - Support Indonesia's digital transformation
 
-### 🔮 Future Roadmap
+### Future Roadmap
 
 - [ ] Mobile Application (React Native)
 - [ ] AI-powered recommendation system

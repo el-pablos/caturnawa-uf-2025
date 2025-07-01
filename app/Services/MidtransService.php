@@ -271,23 +271,27 @@ class MidtransService
 
     /**
      * Proses pembayaran berhasil
-     * 
+     *
      * @param \App\Models\Payment $payment
      * @return void
      */
     protected function processSuccessfulPayment(Payment $payment)
     {
-        // Konfirmasi pendaftaran
+        // Hanya update status pembayaran, TIDAK otomatis konfirmasi registrasi
+        // Registrasi harus dikonfirmasi manual oleh admin
         $registration = $payment->registration;
-        if (!$registration->isConfirmed()) {
-            $registration->confirm();
+
+        // Update status registrasi menjadi 'paid' (menunggu konfirmasi admin)
+        if ($registration->status === 'pending') {
+            $registration->update(['status' => 'paid']);
         }
 
         // Log event
-        $this->logTransactionEvent($payment, 'Payment successful, registration confirmed');
-        
-        // TODO: Kirim email konfirmasi dan e-ticket
-        // $this->sendConfirmationEmail($registration);
+        $this->logTransactionEvent($payment, 'Payment successful, waiting for admin confirmation');
+
+        // TODO: Kirim notifikasi ke admin untuk konfirmasi
+        // TODO: Kirim email konfirmasi pembayaran ke peserta
+        // $this->sendPaymentConfirmationEmail($registration);
     }
 
     /**

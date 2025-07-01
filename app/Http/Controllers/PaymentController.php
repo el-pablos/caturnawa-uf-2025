@@ -323,15 +323,27 @@ class PaymentController extends Controller
         }
 
         try {
+            // Load view dengan data yang diperlukan
             $pdf = Pdf::loadView('pdf.payment-receipt', compact('payment', 'registration'));
+
+            // Set paper dan options
             $pdf->setPaper('A4', 'portrait');
+            $pdf->setOptions([
+                'isHtml5ParserEnabled' => true,
+                'isPhpEnabled' => true,
+                'defaultFont' => 'DejaVu Sans',
+                'dpi' => 150,
+                'defaultPaperSize' => 'A4',
+                'chroot' => public_path(),
+            ]);
 
             $filename = 'struk-pembayaran-' . $payment->order_id . '.pdf';
 
             return $pdf->download($filename);
         } catch (\Exception $e) {
             Log::error('Error generating PDF receipt: ' . $e->getMessage());
-            return back()->with('error', 'Terjadi kesalahan saat membuat struk PDF.');
+            Log::error('PDF Error Stack Trace: ' . $e->getTraceAsString());
+            return back()->with('error', 'Terjadi kesalahan saat membuat struk PDF: ' . $e->getMessage());
         }
     }
 }

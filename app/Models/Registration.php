@@ -61,6 +61,7 @@ class Registration extends Model
      * Konstanta untuk status pendaftaran
      */
     const STATUS_PENDING = 'pending';
+    const STATUS_PAID = 'paid';
     const STATUS_CONFIRMED = 'confirmed';
     const STATUS_CANCELLED = 'cancelled';
     const STATUS_EXPIRED = 'expired';
@@ -248,11 +249,12 @@ class Registration extends Model
             ->margin(2)
             ->generate($qrCodeData);
 
-        // Simpan QR code ke storage
+        // Simpan QR code ke storage dan database
         $qrPath = 'qrcodes/' . $this->ticket_code . '.png';
         \Storage::disk('public')->put($qrPath, $qrCode);
 
-        $this->update(['qr_code' => $qrPath]);
+        // Simpan binary data QR code ke database untuk ditampilkan langsung
+        $this->update(['qr_code' => $qrCode]);
     }
 
     /**

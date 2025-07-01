@@ -140,8 +140,8 @@
                                     @endif
                                 </small>
                                 <div class="mt-1">
-                                    <span class="badge bg-{{ $registration->status === 'confirmed' ? 'success' : ($registration->status === 'pending' ? 'warning' : 'danger') }}">
-                                        {{ ucfirst($registration->status) }}
+                                    <span class="badge bg-{{ $registration->status === 'confirmed' ? 'success' : ($registration->status === 'paid' ? 'info' : ($registration->status === 'pending' ? 'warning' : 'danger')) }}">
+                                        {{ $registration->status === 'paid' ? 'Dibayar' : ucfirst($registration->status) }}
                                     </span>
                                     @if($registration->isPaid())
                                         <span class="badge bg-success ms-1">Lunas</span>

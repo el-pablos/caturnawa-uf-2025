@@ -40,8 +40,8 @@
                             <tr>
                                 <td class="fw-semibold">Status:</td>
                                 <td>
-                                    <span class="badge bg-{{ $registration->status === 'confirmed' ? 'success' : ($registration->status === 'pending' ? 'warning' : 'danger') }}">
-                                        {{ ucfirst($registration->status) }}
+                                    <span class="badge bg-{{ $registration->status === 'confirmed' ? 'success' : ($registration->status === 'paid' ? 'info' : ($registration->status === 'pending' ? 'warning' : 'danger')) }}">
+                                        {{ $registration->status === 'paid' ? 'Dibayar' : ucfirst($registration->status) }}
                                     </span>
                                 </td>
                             </tr>
@@ -224,6 +224,19 @@
             <div class="card-body">
                 @if($registration->status === 'pending')
                     <div class="d-grid gap-2">
+                        <button class="btn btn-success" onclick="confirmRegistration('{{ $registration->id }}')">
+                            <i class="bi bi-check-circle me-2"></i>Konfirmasi Pendaftaran
+                        </button>
+                        <button class="btn btn-danger" onclick="cancelRegistration('{{ $registration->id }}')">
+                            <i class="bi bi-x-circle me-2"></i>Batalkan Pendaftaran
+                        </button>
+                    </div>
+                @elseif($registration->status === 'paid')
+                    <div class="d-grid gap-2">
+                        <div class="alert alert-info">
+                            <i class="bi bi-credit-card me-2"></i>
+                            Pembayaran telah diterima, menunggu konfirmasi admin
+                        </div>
                         <button class="btn btn-success" onclick="confirmRegistration('{{ $registration->id }}')">
                             <i class="bi bi-check-circle me-2"></i>Konfirmasi Pendaftaran
                         </button>

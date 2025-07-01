@@ -452,7 +452,9 @@
         </div>
     </div>
 </section>
-@endsection@push('styles')
+@endsection
+
+@push('styles')
 <style>
     /* Competition Hero Section */
     .competition-hero {
@@ -1368,12 +1370,29 @@
         }
     }
 </style>
-@endpush                    }, 100);
-                }
+@endpush
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Progress bar animation for participants
+        const progressFill = document.querySelector('.progress-fill');
+        if (progressFill) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const targetWidth = entry.target.style.width;
+                        entry.target.style.width = '0%';
+                        setTimeout(() => {
+                            entry.target.style.width = targetWidth;
+                            entry.target.style.transition = 'width 1.5s ease-out';
+                        }, 100);
+                    }
+                });
             });
-        });
-        observer.observe(progressFill);
-    }
+            observer.observe(progressFill);
+        }
+    });
 
     // Add loading animation for images
     const images = document.querySelectorAll('img[loading="lazy"]');

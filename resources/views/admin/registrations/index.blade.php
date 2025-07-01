@@ -164,6 +164,8 @@
                                 <td>
                                     @if($registration->status === 'pending')
                                         <span class="unas-badge-warning">Menunggu</span>
+                                    @elseif($registration->status === 'paid')
+                                        <span class="unas-badge-info">Dibayar</span>
                                     @elseif($registration->status === 'confirmed')
                                         <span class="unas-badge-success">Dikonfirmasi</span>
                                     @elseif($registration->status === 'cancelled')

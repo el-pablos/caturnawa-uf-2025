@@ -18,7 +18,7 @@
 
     <!-- Statistics -->
     <div class="row mb-5">
-        <div class="col-md-3 mb-4">
+        <div class="col-md-6 mb-4">
             <div class="card text-center">
                 <div class="card-body">
                     <i class="bi bi-people-fill text-primary" style="font-size: 2rem;"></i>
@@ -27,30 +27,12 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3 mb-4">
+        <div class="col-md-6 mb-4">
             <div class="card text-center">
                 <div class="card-body">
                     <i class="bi bi-trophy-fill text-warning" style="font-size: 2rem;"></i>
                     <h3 class="mt-2">{{ $stats['competitions'] ?? 0 }}</h3>
                     <p class="text-muted">Kompetisi Aktif</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 mb-4">
-            <div class="card text-center">
-                <div class="card-body">
-                    <i class="bi bi-calendar-event text-success" style="font-size: 2rem;"></i>
-                    <h3 class="mt-2">3</h3>
-                    <p class="text-muted">Kategori Utama</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 mb-4">
-            <div class="card text-center">
-                <div class="card-body">
-                    <i class="bi bi-award text-info" style="font-size: 2rem;"></i>
-                    <h3 class="mt-2">15+</h3>
-                    <p class="text-muted">Sub Kompetisi</p>
                 </div>
             </div>
         </div>

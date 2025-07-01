@@ -248,11 +248,7 @@
     @if($registration->qr_code)
     <div class="qr-section">
         <h3>E-Ticket QR Code</h3>
-        @if(is_string($registration->qr_code))
-            <img src="data:image/png;base64,{{ base64_encode($registration->qr_code) }}" alt="QR Code">
-        @else
-            <p>QR Code tersedia di dashboard peserta</p>
-        @endif
+        <img src="data:image/png;base64,{{ base64_encode($registration->qr_code) }}" alt="QR Code" style="max-width: 200px; height: auto;">
         <p style="margin: 10px 0 0 0; font-size: 10px; color: #666;">
             Tunjukkan QR Code ini saat check-in kompetisi
         </p>

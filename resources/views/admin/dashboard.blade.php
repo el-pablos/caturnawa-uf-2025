@@ -15,7 +15,7 @@
 @section('content')
 <!-- Statistics Cards - Modern White Design -->
 <div class="row mb-4">
-    <div class="col-lg-3 col-md-6 mb-3">
+    <div class="col-lg-6 col-md-6 mb-3">
         <div class="card h-100 shadow-sm border-0">
             <div class="card-body">
                 <div class="d-flex align-items-center">
@@ -26,7 +26,7 @@
                         </div>
                     </div>
                     <div class="flex-grow-1 ms-3">
-                        <div class="text-muted small">Total Pengguna</div>
+                        <div class="text-muted small">Peserta</div>
                         <div class="fs-2 fw-bold text-dark">{{ number_format($stats['total_users']) }}</div>
                         <div class="text-success small">
                             <i class="bi bi-arrow-up"></i> +12% dari bulan lalu
@@ -42,7 +42,7 @@
         </div>
     </div>
 
-    <div class="col-lg-3 col-md-6 mb-3">
+    <div class="col-lg-6 col-md-6 mb-3">
         <div class="card h-100 shadow-sm border-0">
             <div class="card-body">
                 <div class="d-flex align-items-center">
@@ -53,7 +53,7 @@
                         </div>
                     </div>
                     <div class="flex-grow-1 ms-3">
-                        <div class="text-muted small">Total Kompetisi</div>
+                        <div class="text-muted small">Kompetisi</div>
                         <div class="fs-2 fw-bold text-dark">{{ number_format($stats['total_competitions']) }}</div>
                         <div class="text-info small">
                             <i class="bi bi-activity"></i> {{ $stats['active_competitions'] ?? 0 }} aktif
@@ -63,60 +63,6 @@
             </div>
             <div class="card-footer bg-transparent border-0">
                 <a href="{{ route('admin.competitions.index') }}" class="btn btn-outline-success btn-sm w-100">
-                    <i class="bi bi-eye me-1"></i>Lihat Detail
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-md-6 mb-3">
-        <div class="card h-100 shadow-sm border-0">
-            <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <div class="flex-shrink-0">
-                        <div class="rounded-circle d-flex align-items-center justify-content-center"
-                             style="width: 60px; height: 60px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-                            <i class="bi bi-person-check-fill text-white fs-4"></i>
-                        </div>
-                    </div>
-                    <div class="flex-grow-1 ms-3">
-                        <div class="text-muted small">Total Registrasi</div>
-                        <div class="fs-2 fw-bold text-dark">{{ number_format($stats['total_registrations']) }}</div>
-                        <div class="text-warning small">
-                            <i class="bi bi-clock"></i> {{ $stats['pending_registrations'] ?? 0 }} pending
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer bg-transparent border-0">
-                <a href="{{ route('admin.registrations.index') }}" class="btn btn-outline-info btn-sm w-100">
-                    <i class="bi bi-eye me-1"></i>Lihat Detail
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-md-6 mb-3">
-        <div class="card h-100 shadow-sm border-0">
-            <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <div class="flex-shrink-0">
-                        <div class="rounded-circle d-flex align-items-center justify-content-center"
-                             style="width: 60px; height: 60px; background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
-                            <i class="bi bi-wallet-fill text-white fs-4"></i>
-                        </div>
-                    </div>
-                    <div class="flex-grow-1 ms-3">
-                        <div class="text-muted small">Total Pendapatan</div>
-                        <div class="fs-2 fw-bold text-dark">{{ number_format($stats['total_revenue'] ?? 0) }}</div>
-                        <div class="text-success small">
-                            <i class="bi bi-graph-up"></i> +8% dari bulan lalu
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer bg-transparent border-0">
-                <a href="{{ route('admin.reports.index') }}" class="btn btn-outline-warning btn-sm w-100">
                     <i class="bi bi-eye me-1"></i>Lihat Detail
                 </a>
             </div>
