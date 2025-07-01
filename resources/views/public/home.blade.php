@@ -124,17 +124,17 @@
                     <!-- Quick Info -->
                     <div class="hero-info" data-aos="fade-up" data-aos-delay="1000">
                         <div class="info-item">
-                            <i class="bi bi-calendar-event"></i>
+                            <i class="bi bi-people"></i>
                             <div>
-                                <span class="info-label">Pendaftaran</span>
-                                <span class="info-value">1 Jan - 28 Feb 2025</span>
+                                <span class="info-label">Peserta</span>
+                                <span class="info-value">10,000+ Terdaftar</span>
                             </div>
                         </div>
                         <div class="info-item">
-                            <i class="bi bi-gift"></i>
+                            <i class="bi bi-trophy"></i>
                             <div>
-                                <span class="info-label">Total Hadiah</span>
-                                <span class="info-value">500 Juta Rupiah</span>
+                                <span class="info-label">Kompetisi</span>
+                                <span class="info-value">15 Kategori</span>
                             </div>
                         </div>
                     </div>
@@ -172,16 +172,6 @@
                             <div class="stat-content">
                                 <span class="stat-number">15</span>
                                 <span class="stat-label">Kategori</span>
-                            </div>
-                        </div>
-                        
-                        <div class="stat-card stat-3" data-aos="zoom-in" data-aos-delay="1600">
-                            <div class="stat-icon">
-                                <i class="bi bi-building"></i>
-                            </div>
-                            <div class="stat-content">
-                                <span class="stat-number">100+</span>
-                                <span class="stat-label">Universitas</span>
                             </div>
                         </div>
                     </div>
@@ -1606,10 +1596,10 @@ ed",
                             </div>
                         </div>
                         <div class="info-item">
-                            <i class="bi bi-gift"></i>
+                            <i class="bi bi-trophy"></i>
                             <div>
-                                <span class="info-label">Total Hadiah</span>
-                                <span class="info-value">200 Juta Rupiah</span>
+                                <span class="info-label">Kompetisi</span>
+                                <span class="info-value">15 Kategori</span>
                             </div>
                         </div>
                     </div>
@@ -2073,7 +2063,7 @@ erta</span>
                     </div>
                     <h4 class="benefit-title">Hadiah Menarik</h4>
                     <p class="benefit-description">
-                        Total hadiah 200 juta rupiah dengan berbagai kategori hadiah 
+                        Beragam hadiah menarik menanti pemenang dari setiap kategori kompetisi
                         untuk juara dan peserta terbaik di setiap kompetisi.
                     </p>
                 </div>

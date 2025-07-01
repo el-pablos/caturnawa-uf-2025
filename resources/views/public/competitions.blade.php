@@ -113,27 +113,7 @@
                     </div>
                     <div class="stat-content">
                         <span class="stat-number">15</span>
-                        <span class="stat-label">Kategori Kompetisi</span>
-                    </div>
-                </div>
-
-                <div class="quick-stat-item">
-                    <div class="stat-icon bg-gradient-warning">
-                        <i class="bi bi-award"></i>
-                    </div>
-                    <div class="stat-content">
-                        <span class="stat-number">15</span>
-                        <span class="stat-label">Kategori Kompetisi</span>
-                    </div>
-                </div>
-
-                <div class="quick-stat-item">
-                    <div class="stat-icon bg-gradient-info">
-                        <i class="bi bi-calendar-event"></i>
-                    </div>
-                    <div class="stat-content">
-                        <span class="stat-number">3</span>
-                        <span class="stat-label">Bulan Festival</span>
+                        <span class="stat-label">Kompetisi</span>
                     </div>
                 </div>
             </div>

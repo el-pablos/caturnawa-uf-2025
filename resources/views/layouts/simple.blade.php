@@ -236,9 +236,9 @@
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 15px;
-            padding: 2rem;
+            padding: 1.5rem;
             text-align: center;
-            height: 300px;
+            min-height: 250px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -345,12 +345,25 @@
 
             .map-container,
             .visitor-counter {
-                height: 250px;
+                min-height: 200px;
                 margin-bottom: 2rem;
+            }
+
+            .visitor-counter {
+                padding: 1rem;
             }
 
             .counter-grid {
                 grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            .counter-item {
+                padding: 0.75rem;
+            }
+
+            .counter-number {
+                font-size: 1.5rem;
             }
 
             .social-links {
@@ -498,24 +511,16 @@
                                 <h6><i class="bi bi-graph-up me-2"></i>Data Real-time</h6>
                                 <div class="counter-grid">
                                     <div class="counter-item">
-                                        <span class="counter-number" data-target="67">0</span>
+                                        <span class="counter-number" data-target="0">0</span>
                                         <span class="counter-label">Hari Ini</span>
                                     </div>
                                     <div class="counter-item">
-                                        <span class="counter-number" data-target="200">0</span>
+                                        <span class="counter-number" data-target="0">0</span>
                                         <span class="counter-label">Minggu Ini</span>
-                                    </div>
-                                    <div class="counter-item">
-                                        <span class="counter-number" data-target="622">0</span>
-                                        <span class="counter-label">Bulan Lalu</span>
-                                    </div>
-                                    <div class="counter-item">
-                                        <span class="counter-number" data-target="1651">0</span>
-                                        <span class="counter-label">Bulan Ini</span>
                                     </div>
                                 </div>
                                 <div class="total-visitors">
-                                    <span class="counter-number" data-target="50532">0</span>
+                                    <span class="counter-number" data-target="0">0</span>
                                     <span class="counter-label">Total Pengunjung</span>
                                 </div>
                             </div>
@@ -532,7 +537,7 @@
                         <p>&copy; 2025 <a href="{{ route('public.home') }}">UNAS Fest</a>. Seluruh hak cipta dilindungi.</p>
                     </div>
                     <div class="col-md-6 text-md-end text-center">
-                        <p>Dikembangkan dengan ❤️ oleh <a href="https://unasfest.com" target="_blank">Tim UNAS Fest</a></p>
+                        <p>Dikembangkan oleh <a href="https://unasfest.com" target="_blank">Tim UNAS Fest</a></p>
                     </div>
                 </div>
             </div>
