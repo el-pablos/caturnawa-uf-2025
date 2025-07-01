@@ -36,6 +36,7 @@ class ReportController extends Controller
             'active_competitions' => Competition::where('status', 'active')->count(),
             'total_registrations' => Registration::count(),
             'confirmed_registrations' => Registration::where('status', 'confirmed')->count(),
+            'paid_registrations' => Registration::where('status', 'paid')->count(),
             'total_revenue' => Payment::whereIn('transaction_status', ['settlement', 'capture'])->sum('gross_amount'),
             'total_users' => User::count(),
         ];
@@ -192,9 +193,9 @@ class ReportController extends Controller
         // Summary statistics
         $summary = [
             'total_payments' => $query->count(),
-            'total_amount' => $query->sum('amount'),
-            'paid_amount' => $query->where('status', 'paid')->sum('amount'),
-            'pending_amount' => $query->where('status', 'pending')->sum('amount'),
+            'total_amount' => $query->sum('gross_amount'),
+            'paid_amount' => $query->where('status', 'paid')->sum('gross_amount'),
+            'pending_amount' => $query->where('status', 'pending')->sum('gross_amount'),
         ];
 
         return view('admin.reports.payments', compact('payments', 'summary'));

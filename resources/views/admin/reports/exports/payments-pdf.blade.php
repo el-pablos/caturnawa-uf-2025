@@ -144,19 +144,19 @@
         <h3>Ringkasan Pembayaran</h3>
         <div class="summary-grid">
             <div class="summary-item">
-                <div class="summary-number">{{ $payments->where('status', 'paid')->count() }}</div>
+                <div class="summary-number">{{ $payments->whereIn('transaction_status', ['settlement', 'capture'])->count() }}</div>
                 <div class="summary-label">Berhasil</div>
             </div>
             <div class="summary-item">
-                <div class="summary-number">{{ $payments->where('status', 'pending')->count() }}</div>
+                <div class="summary-number">{{ $payments->where('transaction_status', 'pending')->count() }}</div>
                 <div class="summary-label">Pending</div>
             </div>
             <div class="summary-item">
-                <div class="summary-number">{{ $payments->where('status', 'failed')->count() }}</div>
+                <div class="summary-number">{{ $payments->whereIn('transaction_status', ['deny', 'cancel', 'expire', 'failure'])->count() }}</div>
                 <div class="summary-label">Gagal</div>
             </div>
             <div class="summary-item">
-                <div class="summary-number">Rp {{ number_format($payments->where('status', 'paid')->sum('amount'), 0, ',', '.') }}</div>
+                <div class="summary-number">Rp {{ number_format($payments->whereIn('transaction_status', ['settlement', 'capture'])->sum('gross_amount'), 0, ',', '.') }}</div>
                 <div class="summary-label">Total Pendapatan</div>
             </div>
         </div>
@@ -181,17 +181,17 @@
                     <td>{{ $payment->created_at->format('d/m/Y H:i') }}</td>
                     <td>{{ $payment->registration->user->name ?? '-' }}</td>
                     <td>{{ $payment->registration->competition->name ?? '-' }}</td>
-                    <td class="amount">Rp {{ number_format($payment->amount ?? 0, 0, ',', '.') }}</td>
+                    <td class="amount">Rp {{ number_format($payment->gross_amount ?? $payment->amount ?? 0, 0, ',', '.') }}</td>
                     <td>
-                        @if($payment->status == 'paid')
+                        @if(in_array($payment->transaction_status, ['settlement', 'capture']))
                             <span class="status paid">Berhasil</span>
-                        @elseif($payment->status == 'pending')
+                        @elseif($payment->transaction_status == 'pending')
                             <span class="status pending">Pending</span>
                         @else
                             <span class="status failed">Gagal</span>
                         @endif
                     </td>
-                    <td>{{ $payment->payment_method ?? '-' }}</td>
+                    <td>{{ $payment->payment_method_label ?? '-' }}</td>
                 </tr>
             @empty
                 <tr>

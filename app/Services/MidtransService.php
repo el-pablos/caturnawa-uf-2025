@@ -137,9 +137,19 @@ class MidtransService
 
             if (isset($methodMapping[$paymentMethod])) {
                 $transaction['enabled_payments'] = $methodMapping[$paymentMethod];
+
+                // Add specific QRIS configuration
+                if ($paymentMethod === 'qris') {
+                    $transaction['qris'] = config('midtrans.qris');
+                }
             }
         } elseif (!empty($enabledPayments)) {
             $transaction['enabled_payments'] = $enabledPayments;
+        }
+
+        // Add QRIS configuration if QRIS is enabled
+        if (in_array('other_qris', $transaction['enabled_payments'] ?? [])) {
+            $transaction['qris'] = config('midtrans.qris');
         }
 
         // Optional: Add custom expiry

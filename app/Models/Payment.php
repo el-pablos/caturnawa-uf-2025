@@ -275,12 +275,15 @@ class Payment extends Model
 
     /**
      * Accessor untuk metode pembayaran dalam bahasa Indonesia
-     * 
+     *
      * @return string
      */
-    public function getPaymentMethodAttribute()
+    public function getPaymentMethodLabelAttribute()
     {
-        switch ($this->payment_type) {
+        // Use payment_method column if available, otherwise use payment_type
+        $paymentType = $this->attributes['payment_method'] ?? $this->payment_type;
+
+        switch ($paymentType) {
             case 'bank_transfer':
                 return 'Transfer Bank';
             case 'echannel':
@@ -298,13 +301,17 @@ class Payment extends Model
             case 'shopeepay':
                 return 'ShopeePay';
             case 'qris':
+            case 'other_qris':
                 return 'QRIS';
             case 'credit_card':
                 return 'Kartu Kredit';
             case 'cstore':
-                return 'Convenience Store';
+            case 'indomaret':
+                return 'Indomaret';
+            case 'alfamart':
+                return 'Alfamart';
             default:
-                return $this->payment_type ? ucwords(str_replace('_', ' ', $this->payment_type)) : '-';
+                return $paymentType ? ucwords(str_replace('_', ' ', $paymentType)) : '-';
         }
     }
 

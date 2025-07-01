@@ -138,7 +138,7 @@ return [
      * QRIS Configuration
      */
     'qris' => [
-        'acquirer' => 'gopay',
+        'acquirer' => 'airpay_shopee',
     ],
 
     /**
