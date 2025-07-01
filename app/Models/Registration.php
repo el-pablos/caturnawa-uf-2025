@@ -243,8 +243,8 @@ class Registration extends Model
 
         $qrCodeData = json_encode($qrData);
 
-        // Generate QR Code menggunakan SimpleSoftwareIO
-        $qrCode = \SimpleSoftwareIO\QrCode\Facades\QrCode::format('png')
+        // Generate QR Code menggunakan SimpleSoftwareIO dengan SVG format (tidak perlu imagick)
+        $qrCode = \SimpleSoftwareIO\QrCode\Facades\QrCode::format('svg')
             ->size(300)
             ->margin(2)
             ->generate($qrCodeData);

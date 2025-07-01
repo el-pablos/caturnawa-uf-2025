@@ -110,8 +110,16 @@
                         <h6 class="text-muted mb-3">QR Code Check-in</h6>
                         @if($registration->qr_code)
                             <div class="qr-code-container mb-3">
-                                <img src="data:image/png;base64,{{ base64_encode($registration->qr_code) }}" 
-                                     alt="QR Code" class="qr-code-image">
+                                @if(str_starts_with($registration->qr_code, '<svg'))
+                                    <!-- SVG QR Code -->
+                                    <div class="qr-code-svg">
+                                        {!! $registration->qr_code !!}
+                                    </div>
+                                @else
+                                    <!-- PNG QR Code (fallback) -->
+                                    <img src="data:image/png;base64,{{ base64_encode($registration->qr_code) }}"
+                                         alt="QR Code" class="qr-code-image">
+                                @endif
                             </div>
                         @else
                             <div class="alert alert-info">
@@ -194,13 +202,19 @@
     box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
 }
 
-.qr-code-image {
+.qr-code-image, .qr-code-svg {
     max-width: 200px;
     height: auto;
     border: 2px solid #dee2e6;
     border-radius: 8px;
     padding: 10px;
     background: white;
+}
+
+.qr-code-svg svg {
+    width: 100%;
+    height: auto;
+    max-width: 180px;
 }
 
 .schedule-item {
@@ -231,7 +245,7 @@
         font-size: 12px;
     }
     
-    .qr-code-image {
+    .qr-code-image, .qr-code-svg {
         max-width: 150px;
     }
 }
@@ -240,8 +254,8 @@
     .card-body {
         padding: 2rem !important;
     }
-    
-    .qr-code-image {
+
+    .qr-code-image, .qr-code-svg {
         max-width: 150px;
     }
 }

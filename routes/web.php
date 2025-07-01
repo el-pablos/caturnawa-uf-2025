@@ -367,6 +367,16 @@ Route::get('/500', function () {
     return view('errors.500');
 })->name('errors.500');
 
+// Development Tools (only in local/development environment)
+if (app()->environment(['local', 'development'])) {
+    Route::prefix('dev')->name('dev.')->group(function () {
+        Route::get('/', [App\Http\Controllers\DevController::class, 'index'])->name('index');
+        Route::post('/reset-payments', [App\Http\Controllers\DevController::class, 'resetPayments'])->name('reset-payments');
+        Route::post('/regenerate-qr', [App\Http\Controllers\DevController::class, 'regenerateQR'])->name('regenerate-qr');
+        Route::post('/test-payment', [App\Http\Controllers\DevController::class, 'testPayment'])->name('test-payment');
+    });
+}
+
 // Fallback route for 404
 Route::fallback(function () {
     return view('errors.404');
