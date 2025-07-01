@@ -495,10 +495,10 @@
                             <h5>Lokasi Kami</h5>
                             <div class="map-container">
                                 <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.6479849388844!2d106.84437731476919!3d-6.309021595432588!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ec72c799ba61%3A0x5c2f6a1adb5b0c0c!2sUniversitas%20Nasional!5e0!3m2!1sid!2sid!4v1625123456789!5m2!1sid!2sid"
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.7037296897583!2d106.83746531476911!3d-6.301582695377932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ecbc1b26f799%3A0x5b99b2d1c95b8c7d!2sJl.%20Sawo%20Manila%20No.61%2C%20RT.14%2FRW.7%2C%20Pejaten%20Bar.%2C%20Ps.%20Minggu%2C%20Kota%20Jakarta%20Selatan%2C%20Daerah%20Khusus%20Ibukota%20Jakarta%2012520!5e0!3m2!1sid!2sid!4v1625123456789!5m2!1sid!2sid"
                                     loading="lazy"
                                     referrerpolicy="no-referrer-when-downgrade"
-                                    title="Lokasi Universitas Nasional Jakarta">
+                                    title="Lokasi Universitas Nasional Jakarta - Jl. Sawo Manila No.61">
                                 </iframe>
                             </div>
                         </div>
@@ -511,16 +511,16 @@
                                 <h6><i class="bi bi-graph-up me-2"></i>Data Real-time</h6>
                                 <div class="counter-grid">
                                     <div class="counter-item">
-                                        <span class="counter-number" data-target="0">0</span>
+                                        <span class="counter-number" data-target="{{ $visitorStats['today'] ?? 0 }}">0</span>
                                         <span class="counter-label">Hari Ini</span>
                                     </div>
                                     <div class="counter-item">
-                                        <span class="counter-number" data-target="0">0</span>
+                                        <span class="counter-number" data-target="{{ $visitorStats['this_week'] ?? 0 }}">0</span>
                                         <span class="counter-label">Minggu Ini</span>
                                     </div>
                                 </div>
                                 <div class="total-visitors">
-                                    <span class="counter-number" data-target="0">0</span>
+                                    <span class="counter-number" data-target="{{ $visitorStats['total'] ?? 0 }}">0</span>
                                     <span class="counter-label">Total Pengunjung</span>
                                 </div>
                             </div>

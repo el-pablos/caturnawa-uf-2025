@@ -25,6 +25,21 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Share visitor statistics with all views
+        view()->composer('*', function ($view) {
+            if (class_exists(\App\Models\VisitorStatistic::class)) {
+                try {
+                    $visitorStats = \App\Models\VisitorStatistic::getFooterStats();
+                    $view->with('visitorStats', $visitorStats);
+                } catch (\Exception $e) {
+                    // Fallback to default values if database is not ready
+                    $view->with('visitorStats', [
+                        'today' => 0,
+                        'this_week' => 0,
+                        'total' => 0,
+                    ]);
+                }
+            }
+        });
     }
 }
