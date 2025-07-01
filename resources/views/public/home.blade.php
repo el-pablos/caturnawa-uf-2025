@@ -3038,7 +3038,7 @@ Terima kasih kepada semua pihak yang telah berkontribusi dalam pengembangan Catu
 ### Official Channels
 - **Website**: [https://caturnawa2025.unasfest.com](https://caturnawa2025.unasfest.com)
 - **Email**: info@caturnawa2025.com
-- **Phone**: +62 21 7806700
+- **Phone**: 0858-1737-8442
 
 ### Social Media
 - **Instagram**: [@caturnawa2025](https://instagram.com/caturnawa2025)
@@ -3049,7 +3049,7 @@ Terima kasih kepada semua pihak yang telah berkontribusi dalam pengembangan Catu
 ### Technical Support
 - **GitHub Issues**: [Report bugs](https://github.com/el-pablos/caturnawa-uf-2025/issues)
 - **GitHub Discussions**: [Community support](https://github.com/el-pablos/caturnawa-uf-2025/discussions)
-- **Developer Email**: tech@caturnawa2025.com
+- **Developer Email**: info@unasfest.com
 
 ---
 
