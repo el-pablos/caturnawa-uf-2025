@@ -200,7 +200,7 @@
         </div>
         
         <div class="row g-4">
-            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="col-lg-6 col-md-6" data-aos="fade-up" data-aos-delay="100">
                 <div class="stats-card">
                     <div class="stats-icon bg-primary">
                         <i class="bi bi-people-fill"></i>
@@ -216,7 +216,7 @@
                 </div>
             </div>
             
-            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="col-lg-6 col-md-6" data-aos="fade-up" data-aos-delay="200">
                 <div class="stats-card">
                     <div class="stats-icon bg-success">
                         <i class="bi bi-trophy-fill"></i>
@@ -228,38 +228,6 @@
                             <div class="progress-fill" data-progress="100"></div>
                         </div>
                         <small class="stats-note">Lengkap tersedia</small>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                <div class="stats-card">
-                    <div class="stats-icon bg-warning">
-                        <i class="bi bi-cash-stack"></i>
-                    </div>
-                    <div class="stats-content">
-                        <h3 class="stats-number">500</h3>
-                        <p class="stats-label">Juta Rupiah Hadiah</p>
-                        <div class="stats-bar">
-                            <div class="progress-fill" data-progress="95"></div>
-                        </div>
-                        <small class="stats-note">Total untuk semua kategori</small>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
-                <div class="stats-card">
-                    <div class="stats-icon bg-info">
-                        <i class="bi bi-building"></i>
-                    </div>
-                    <div class="stats-content">
-                        <h3 class="stats-number counter" data-target="100">0</h3>
-                        <p class="stats-label">Universitas Partner</p>
-                        <div class="stats-bar">
-                            <div class="progress-fill" data-progress="75"></div>
-                        </div>
-                        <small class="stats-note">Se-Indonesia</small>
                     </div>
                 </div>
             </div>
@@ -1637,16 +1605,6 @@ ed",
                                 <span class="stat-label">Kategori</span>
                             </div>
                         </div>
-                        
-                        <div class="stat-card stat-3" data-aos="zoom-in" data-aos-delay="1600">
-                            <div class="stat-icon">
-                                <i class="bi bi-building"></i>
-                            </div>
-                            <div class="stat-content">
-                                <span class="stat-number">100+</span>
-                                <span class="stat-label">Universitas</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -1673,7 +1631,7 @@ ed",
         </div>
         
         <div class="row">
-            <div class="col-lg-3 col-md-6 mb-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="col-lg-6 col-md-6 mb-6" data-aos="fade-up" data-aos-delay="100">
                 <div class="stats-card">
                     <div class="stats-icon bg-primary">
                         <i class="bi bi-people-fill"></i>
@@ -1689,7 +1647,7 @@ ed",
                 </div>
             </div>
             
-            <div class="col-lg-3 col-md-6 mb-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="col-lg-6 col-md-6 mb-6" data-aos="fade-up" data-aos-delay="200">
                 <div class="stats-card">
                     <div class="stats-icon bg-success">
                         <i class="bi bi-trophy-fill"></i>
@@ -1701,38 +1659,6 @@ ed",
                             <div class="progress-fill" data-progress="100"></div>
                         </div>
                         <small class="stats-note">Lengkap tersedia</small>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-3 col-md-6 mb-6" data-aos="fade-up" data-aos-delay="300">
-                <div class="stats-card">
-                    <div class="stats-icon bg-warning">
-                        <i class="bi bi-cash-stack"></i>
-                    </div>
-                    <div class="stats-content">
-                        <h3 class="stats-number">200</h3>
-                        <p class="stats-label">Juta Rupiah Hadiah</p>
-                        <div class="stats-bar">
-                            <div class="progress-fill" data-progress="100"></div>
-                        </div>
-                        <small class="stats-note">Total untuk semua kategori</small>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-3 col-md-6 mb-6" data-aos="fade-up" data-aos-delay="400">
-                <div class="stats-card">
-                    <div class="stats-icon bg-info">
-                        <i class="bi bi-building"></i>
-                    </div>
-                    <div class="stats-content">
-                        <h3 class="stats-number counter" data-target="100">0</h3>
-                        <p class="stats-label">Universitas Partner</p>
-                        <div class="stats-bar">
-                            <div class="progress-fill" data-progress="75"></div>
-                        </div>
-                        <small class="stats-note">Se-Indonesia</small>
                     </div>
                 </div>
             </div>
