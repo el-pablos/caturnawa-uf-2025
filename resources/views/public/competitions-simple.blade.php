@@ -11,7 +11,7 @@
                 <h1 class="display-4">Kompetisi UNAS Fest 2025</h1>
                 <p class="lead">Bergabunglah dengan kompetisi nasional terbesar di Indonesia</p>
                 <hr class="my-4">
-                <p>Tiga kategori kompetisi: Teknologi, Kesehatan, dan Biodiversitas dengan total hadiah 500 Juta Rupiah!</p>
+                <p>Tiga kategori kompetisi: Teknologi, Kesehatan, dan Biodiversitas. Bergabunglah dalam festival kompetisi nasional terbesar!</p>
             </div>
         </div>
     </div>
@@ -39,18 +39,18 @@
         <div class="col-md-3 mb-4">
             <div class="card text-center">
                 <div class="card-body">
-                    <i class="bi bi-building text-success" style="font-size: 2rem;"></i>
-                    <h3 class="mt-2">{{ $stats['universities'] ?? 0 }}</h3>
-                    <p class="text-muted">Universitas</p>
+                    <i class="bi bi-calendar-event text-success" style="font-size: 2rem;"></i>
+                    <h3 class="mt-2">3</h3>
+                    <p class="text-muted">Kategori Utama</p>
                 </div>
             </div>
         </div>
         <div class="col-md-3 mb-4">
             <div class="card text-center">
                 <div class="card-body">
-                    <i class="bi bi-currency-dollar text-info" style="font-size: 2rem;"></i>
-                    <h3 class="mt-2">500M</h3>
-                    <p class="text-muted">Total Hadiah</p>
+                    <i class="bi bi-award text-info" style="font-size: 2rem;"></i>
+                    <h3 class="mt-2">15+</h3>
+                    <p class="text-muted">Sub Kompetisi</p>
                 </div>
             </div>
         </div>

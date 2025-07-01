@@ -1368,4 +1368,70 @@
         }
     }
 </style>
+@endpush                    }, 100);
+                }
+            });
+        });
+        observer.observe(progressFill);
+    }
+
+    // Add loading animation for images
+    const images = document.querySelectorAll('img[loading="lazy"]');
+    images.forEach(img => {
+        img.addEventListener('load', function() {
+            this.style.opacity = '1';
+        });
+        img.style.opacity = '0';
+        img.style.transition = 'opacity 0.3s ease';
+    });
+
+    // Enhanced hover effects for cards
+    const cards = document.querySelectorAll('.detail-card, .sidebar-card, .related-card');
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-8px) scale(1.02)';
+        });
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+
+    // Countdown timer for early bird deadline
+    const earlyBirdDeadline = document.querySelector('.price-note');
+    if (earlyBirdDeadline && earlyBirdDeadline.textContent.includes('Valid sampai')) {
+        // Add countdown functionality if needed
+        console.log('Early bird pricing active');
+    }
+
+    // Add pulse animation to CTA buttons
+    const ctaButtons = document.querySelectorAll('.btn-hero-primary, .btn-register');
+    ctaButtons.forEach(button => {
+        if (!button.disabled) {
+            button.addEventListener('mouseenter', function() {
+                this.style.animation = 'pulse 0.6s ease-in-out';
+            });
+            button.addEventListener('mouseleave', function() {
+                this.style.animation = '';
+            });
+        }
+    });
+
+    // Parallax effect for hero background
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const heroPattern = document.querySelector('.hero-pattern');
+        if (heroPattern) {
+            heroPattern.style.transform = `translateY(${scrolled * 0.3}px)`;
+        }
+    });
+
+    // Enhanced floating shapes animation
+    const shapes = document.querySelectorAll('.shape');
+    shapes.forEach((shape, index) => {
+        const randomDelay = Math.random() * 2;
+        const randomDuration = 6 + Math.random() * 4;
+        shape.style.animationDelay = `${randomDelay}s`;
+        shape.style.animationDuration = `${randomDuration}s`;
+    });
+</script>
 @endpush
