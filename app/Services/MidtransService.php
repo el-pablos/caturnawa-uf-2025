@@ -7,6 +7,8 @@ use App\Models\Payment;
 use Midtrans\Config;
 use Midtrans\Snap;
 use Midtrans\Notification;
+use Illuminate\Support\Facades\Log;
+use App\Helpers\MidtransHelper;
 
 /**
  * Service untuk integrasi Midtrans Payment Gateway
@@ -20,14 +22,8 @@ class MidtransService
      */
     public function __construct()
     {
-        // Set your Merchant Server Key
-        Config::$serverKey = config('midtrans.server_key');
-        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-        Config::$isProduction = config('midtrans.is_production', false);
-        // Set sanitization on (default)
-        Config::$isSanitized = config('midtrans.is_sanitized', true);
-        // Set 3DS transaction for credit card to true
-        Config::$is3ds = config('midtrans.is_3ds', true);
+        // Use helper to initialize Midtrans config
+        MidtransHelper::initMidtransConfig();
     }
 
     /**
@@ -122,35 +118,8 @@ class MidtransService
             'item_details' => $item_details,
         ];
 
-        // Optional: Add enabled payment methods
-        $enabledPayments = config('midtrans.enabled_payments');
-
-        // If specific payment method is selected, filter enabled payments
-        if ($paymentMethod) {
-            $methodMapping = [
-                'credit_card' => ['credit_card'],
-                'bank_transfer' => ['bca_va', 'bni_va', 'bri_va', 'echannel', 'permata_va', 'other_va'],
-                'ewallet' => ['gopay', 'shopeepay'],
-                'qris' => ['other_qris'],
-                'convenience_store' => ['indomaret', 'alfamart']
-            ];
-
-            if (isset($methodMapping[$paymentMethod])) {
-                $transaction['enabled_payments'] = $methodMapping[$paymentMethod];
-
-                // Add specific QRIS configuration
-                if ($paymentMethod === 'qris') {
-                    $transaction['qris'] = config('midtrans.qris');
-                }
-            }
-        } elseif (!empty($enabledPayments)) {
-            $transaction['enabled_payments'] = $enabledPayments;
-        }
-
-        // Add QRIS configuration if QRIS is enabled
-        if (in_array('other_qris', $transaction['enabled_payments'] ?? [])) {
-            $transaction['qris'] = config('midtrans.qris');
-        }
+        // Keep it simple - don't add enabled_payments unless specifically needed
+        // This allows all payment methods to be available by default
 
         // Optional: Add custom expiry
         $transaction['custom_expiry'] = [

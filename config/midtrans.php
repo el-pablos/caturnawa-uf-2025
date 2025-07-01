@@ -47,18 +47,8 @@ return [
      * Kosongkan array untuk mengaktifkan semua metode
      */
     'enabled_payments' => [
-        'credit_card',
-        'bca_va',
-        'bni_va',
-        'bri_va',
-        'echannel',
-        'permata_va',
-        'other_va',
-        'gopay',
-        'shopeepay',
-        'other_qris',
-        'indomaret',
-        'alfamart'
+        // Keep empty to enable all payment methods by default
+        // This allows Midtrans to show all available payment options
     ],
 
     /**
@@ -134,12 +124,7 @@ return [
         'callback_url' => env('APP_URL') . '/payment/shopeepay-callback',
     ],
 
-    /**
-     * QRIS Configuration
-     */
-    'qris' => [
-        'acquirer' => 'airpay_shopee',
-    ],
+
 
     /**
      * E-Channel (Mandiri Bill Payment) Configuration
