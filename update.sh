@@ -61,33 +61,50 @@ check_project_directory() {
 load_environment() {
     log "Loading environment variables..."
     cd "$PROJECT_DIR"
-    
+
     if [ -f ".env" ]; then
-        source .env
-        
-        # Export critical variables for PHP processes
-        export APP_NAME="$APP_NAME"
-        export APP_ENV="$APP_ENV"
-        export APP_KEY="$APP_KEY"
-        export APP_DEBUG="$APP_DEBUG"
-        export APP_URL="$APP_URL"
-        export DB_CONNECTION="$DB_CONNECTION"
-        export DB_HOST="$DB_HOST"
-        export DB_PORT="$DB_PORT"
-        export DB_DATABASE="$DB_DATABASE"
-        export DB_USERNAME="$DB_USERNAME"
-        export DB_PASSWORD="$DB_PASSWORD"
-        export MIDTRANS_SERVER_KEY="$MIDTRANS_SERVER_KEY"
-        export MIDTRANS_CLIENT_KEY="$MIDTRANS_CLIENT_KEY"
-        export MIDTRANS_IS_PRODUCTION="$MIDTRANS_IS_PRODUCTION"
-        
-        log "Environment variables loaded and exported"
-        
+        # Load .env file line by line to handle special characters
+        while IFS= read -r line || [ -n "$line" ]; do
+            # Skip comments and empty lines
+            if [[ "$line" =~ ^[[:space:]]*# ]] || [[ -z "$line" ]]; then
+                continue
+            fi
+
+            # Export the variable
+            if [[ "$line" =~ ^[[:space:]]*([A-Za-z_][A-Za-z0-9_]*)=(.*)$ ]]; then
+                var_name="${BASH_REMATCH[1]}"
+                var_value="${BASH_REMATCH[2]}"
+
+                # Remove quotes if present
+                var_value=$(echo "$var_value" | sed 's/^"//;s/"$//')
+                var_value=$(echo "$var_value" | sed "s/^'//;s/'$//")
+
+                # Export the variable
+                export "$var_name"="$var_value"
+            fi
+        done < .env
+
+        log "Environment variables loaded from .env file"
+
+        # Debug: Show critical variables (masked)
+        log "Critical environment variables:"
+        log "APP_ENV: ${APP_ENV:-'not set'}"
+        log "APP_KEY: ${APP_KEY:+***set***}"
+        log "DB_PASSWORD: ${DB_PASSWORD:+***set***}"
+        log "MIDTRANS_SERVER_KEY: ${MIDTRANS_SERVER_KEY:+***set***}"
+        log "MIDTRANS_CLIENT_KEY: ${MIDTRANS_CLIENT_KEY:+***set***}"
+
         # Validate critical variables
-        if [ -z "$DB_PASSWORD" ]; then
-            error "DB_PASSWORD not set in .env file"
-            exit 1
-        fi
+        critical_vars=("APP_KEY" "DB_PASSWORD" "MIDTRANS_SERVER_KEY" "MIDTRANS_CLIENT_KEY")
+        for var in "${critical_vars[@]}"; do
+            if [ -z "${!var}" ]; then
+                error "$var not set in .env file"
+                log "Please check your .env file and ensure $var is properly configured"
+                exit 1
+            fi
+        done
+
+        log "All critical environment variables validated"
     else
         error ".env file not found"
         exit 1
@@ -139,23 +156,46 @@ disable_maintenance() {
     log "Maintenance mode disabled"
 }
 
+# Git stash and push first
+git_stash_and_push() {
+    log "Git stash and push..."
+    cd "$PROJECT_DIR"
+
+    # Add all changes
+    git add . 2>/dev/null || warning "Git add failed"
+
+    # Commit if there are changes
+    if ! git diff --cached --quiet 2>/dev/null; then
+        git commit -m "Auto-commit before update $(date)" 2>/dev/null || warning "Git commit failed"
+        log "Changes committed"
+    else
+        log "No changes to commit"
+    fi
+
+    # Push to remote
+    git push origin "$BRANCH" 2>/dev/null || warning "Git push failed"
+    log "Changes pushed to remote"
+
+    # Stash any remaining local changes
+    git stash push -m "Auto-stash before update $(date)" 2>/dev/null || log "No changes to stash"
+
+    log "Git stash and push completed"
+}
+
 # Update code from repository
 update_code() {
     log "Updating code from branch: $BRANCH"
     cd "$PROJECT_DIR"
-    
-    # Stash any local changes
-    git stash push -m "Auto-stash before update $(date)" 2>/dev/null || log "No changes to stash"
-    
+
     # Fetch latest changes
     git fetch origin
-    
+
     # Checkout specified branch
     git checkout "$BRANCH"
-    
+
     # Pull latest changes
     git pull origin "$BRANCH"
-    
+
     log "Code updated successfully"
 }
 
@@ -442,6 +482,7 @@ main() {
     # Run all steps
     check_permissions
     check_project_directory
+    git_stash_and_push
     load_environment
     create_backup
     enable_maintenance
