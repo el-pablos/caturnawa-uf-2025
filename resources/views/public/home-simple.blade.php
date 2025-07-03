@@ -10,7 +10,7 @@
                 <h1 class="display-4">UNAS Fest 2025</h1>
                 <p class="lead">Festival Kompetisi Nasional Terbesar Indonesia</p>
                 <hr class="my-4">
-                <p>Bergabunglah dengan kompetisi Teknologi, Kesehatan, dan Biodiversitas dengan total hadiah 500 Juta Rupiah!</p>
+                <p>Bergabunglah dengan kompetisi Teknologi, Kesehatan, dan Biodiversitas menanti!</p>
                 <a class="btn btn-light btn-lg" href="{{ route('public.competitions') }}" role="button">
                     <i class="bi bi-trophy"></i> Lihat Kompetisi
                 </a>
