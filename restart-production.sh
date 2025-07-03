@@ -103,6 +103,49 @@ create_backup() {
     log "Backup completed"
 }
 
+# Verify and fix .env file
+verify_env_file() {
+    log "Verifying .env file..."
+    cd "$PROJECT_DIR"
+
+    # Check if .env exists
+    if [ ! -f ".env" ]; then
+        error ".env file not found"
+        exit 1
+    fi
+
+    # Check for critical variables
+    critical_vars=("APP_KEY" "DB_PASSWORD" "MIDTRANS_SERVER_KEY" "MIDTRANS_CLIENT_KEY")
+    for var in "${critical_vars[@]}"; do
+        if ! grep -q "^$var=" .env; then
+            error "$var not found in .env file"
+            exit 1
+        fi
+
+        value=$(grep "^$var=" .env | cut -d'=' -f2- | tr -d '"' | tr -d "'")
+        if [ -z "$value" ]; then
+            error "$var is empty in .env file"
+            exit 1
+        fi
+    done
+
+    log ".env file verification completed"
+}
+
+# Debug environment variables
+debug_env() {
+    log "Environment Debug Information:"
+    log "APP_ENV: ${APP_ENV:-'not set'}"
+    log "APP_DEBUG: ${APP_DEBUG:-'not set'}"
+    log "DB_CONNECTION: ${DB_CONNECTION:-'not set'}"
+    log "DB_HOST: ${DB_HOST:-'not set'}"
+    log "DB_DATABASE: ${DB_DATABASE:-'not set'}"
+    log "DB_USERNAME: ${DB_USERNAME:-'not set'}"
+    log "DB_PASSWORD: ${DB_PASSWORD:+'***set***'}"
+    log "MIDTRANS_SERVER_KEY: ${MIDTRANS_SERVER_KEY:+'***set***'}"
+    log "MIDTRANS_CLIENT_KEY: ${MIDTRANS_CLIENT_KEY:+'***set***'}"
+}
+
 # Put application in maintenance mode
 enable_maintenance() {
     log "Enabling maintenance mode..."
@@ -319,6 +362,7 @@ main() {
     if [ -f "$PROJECT_DIR/.env" ]; then
         source "$PROJECT_DIR/.env"
         log "Environment variables loaded from .env"
+        debug_env
     else
         error ".env file not found"
         exit 1
@@ -333,10 +377,23 @@ main() {
     if [ "$APP_ENV" != "production" ]; then
         warning "APP_ENV is not set to 'production' (current: $APP_ENV)"
     fi
+
+    # Check DB_PASSWORD specifically
+    if [ -z "$DB_PASSWORD" ]; then
+        error "DB_PASSWORD not set in .env file"
+        log "Current DB_PASSWORD value: '$DB_PASSWORD'"
+        log "Please check your .env file and ensure DB_PASSWORD is properly set"
+        exit 1
+    else
+        log "DB_PASSWORD is configured"
+    fi
     
     # Start deployment
     log "Starting deployment process..."
-    
+
+    # Verify .env file first
+    verify_env_file
+
     # Create backup
     create_backup
     
