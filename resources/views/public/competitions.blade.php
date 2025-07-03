@@ -52,7 +52,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row text-center">
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-6 mb-3">
                             <div class="card border-primary">
                                 <div class="card-body">
                                     <i class="bi bi-people-fill text-primary mb-2" style="font-size: 2rem;"></i>
@@ -61,7 +61,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-6 mb-3">
                             <div class="card border-success">
                                 <div class="card-body">
                                     <i class="bi bi-trophy-fill text-success mb-2" style="font-size: 2rem;"></i>
@@ -70,24 +70,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3 mb-3">
-                            <div class="card border-warning">
-                                <div class="card-body">
-                                    <i class="bi bi-building text-warning mb-2" style="font-size: 2rem;"></i>
-                                    <h3 class="text-warning">{{ $stats['total_universities'] ?? '0' }}</h3>
-                                    <p class="text-muted mb-0">Universitas</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <div class="card border-danger">
-                                <div class="card-body">
-                                    <i class="bi bi-currency-dollar text-danger mb-2" style="font-size: 2rem;"></i>
-                                    <h3 class="text-danger">{{ number_format($stats['total_prizes'] ?? 500000000, 0, ',', '.') }}</h3>
-                                    <p class="text-muted mb-0">Total Hadiah</p>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
