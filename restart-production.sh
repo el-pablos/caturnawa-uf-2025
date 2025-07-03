@@ -264,10 +264,26 @@ optimize_application() {
 build_assets() {
     log "Building frontend assets..."
     cd "$PROJECT_DIR"
-    
-    # Build production assets
-    npm run build
-    
+
+    # Check if vite is available
+    if command -v vite >/dev/null 2>&1; then
+        log "Building with Vite..."
+        npm run build
+    elif [ -f "node_modules/.bin/vite" ]; then
+        log "Building with local Vite..."
+        npx vite build
+    else
+        warning "Vite not found, installing dev dependencies..."
+        npm install
+        if [ -f "node_modules/.bin/vite" ]; then
+            log "Building with newly installed Vite..."
+            npx vite build
+        else
+            warning "Skipping asset build - Vite not available"
+            return 0
+        fi
+    fi
+
     log "Frontend assets built successfully"
 }
 
@@ -436,22 +452,22 @@ main() {
     
     # Run migrations
     run_migrations
-    
+
+    # Optimize application (before building assets)
+    optimize_application
+
     # Build assets
     build_assets
-    
-    # Optimize application
-    optimize_application
-    
+
     # Fix permissions
     fix_permissions
-    
+
     # Restart services
     restart_services
-    
+
     # Wait a moment for services to start
-    sleep 5
-    
+    sleep 10
+
     # Disable maintenance mode
     disable_maintenance
     
