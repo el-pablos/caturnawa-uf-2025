@@ -1,17 +1,31 @@
 #!/bin/bash
 
 # UNAS Fest 2025 - Production Restart Script
+# Server: uf25.tams.my.id
 # Usage: ./restart-production.sh [branch_name]
-# Default branch: main
+# Default branch: master
+#
+# This script will:
+# 1. Create backup of database and files
+# 2. Enable maintenance mode
+# 3. Pull latest code from repository
+# 4. Install/update dependencies
+# 5. Run database migrations
+# 6. Build frontend assets
+# 7. Optimize Laravel caches
+# 8. Fix file permissions
+# 9. Restart web services
+# 10. Disable maintenance mode
+# 11. Run health checks
 
 set -e  # Exit on any error
 
 # Configuration
 PROJECT_NAME="UNAS Fest 2025"
-PROJECT_DIR="/var/www/unas-fest-2025"
-BRANCH=${1:-main}
-BACKUP_DIR="/var/backups/unas-fest"
-LOG_FILE="/var/log/unas-fest-deploy.log"
+PROJECT_DIR="/var/www/uf25.tams.my.id"
+BRANCH=${1:-master}
+BACKUP_DIR="/var/backups/uf25-tams"
+LOG_FILE="/var/log/uf25-deploy.log"
 MAINTENANCE_FILE="$PROJECT_DIR/storage/framework/down"
 
 # Colors for output
@@ -238,8 +252,10 @@ health_check() {
     cd "$PROJECT_DIR"
     
     # Check if application is responding
-    if curl -f -s "http://localhost" > /dev/null; then
+    if curl -f -s "http://uf25.tams.my.id" > /dev/null; then
         log "✅ Application is responding"
+    elif curl -f -s "http://localhost" > /dev/null; then
+        log "✅ Application is responding (localhost)"
     else
         error "❌ Application is not responding"
         return 1
@@ -277,6 +293,7 @@ main() {
     echo "🚀 $PROJECT_NAME - Production Restart"
     echo "=================================="
     echo "Branch: $BRANCH"
+    echo "Directory: $PROJECT_DIR"
     echo "Time: $(date)"
     echo "=================================="
     
@@ -337,6 +354,7 @@ main() {
         echo "=================================="
         echo "✅ $PROJECT_NAME is now updated"
         echo "✅ Branch: $BRANCH"
+        echo "✅ Directory: $PROJECT_DIR"
         echo "✅ Time: $(date)"
         echo "=================================="
     else
