@@ -146,11 +146,38 @@ debug_env() {
     log "MIDTRANS_CLIENT_KEY: ${MIDTRANS_CLIENT_KEY:+'***set***'}"
 }
 
+# Export environment variables for PHP processes
+export_env_vars() {
+    log "Exporting environment variables for PHP..."
+
+    # Export all critical environment variables
+    export APP_NAME="$APP_NAME"
+    export APP_ENV="$APP_ENV"
+    export APP_KEY="$APP_KEY"
+    export APP_DEBUG="$APP_DEBUG"
+    export APP_URL="$APP_URL"
+    export DB_CONNECTION="$DB_CONNECTION"
+    export DB_HOST="$DB_HOST"
+    export DB_PORT="$DB_PORT"
+    export DB_DATABASE="$DB_DATABASE"
+    export DB_USERNAME="$DB_USERNAME"
+    export DB_PASSWORD="$DB_PASSWORD"
+    export MIDTRANS_SERVER_KEY="$MIDTRANS_SERVER_KEY"
+    export MIDTRANS_CLIENT_KEY="$MIDTRANS_CLIENT_KEY"
+    export MIDTRANS_IS_PRODUCTION="$MIDTRANS_IS_PRODUCTION"
+    export MIDTRANS_IS_SANITIZED="$MIDTRANS_IS_SANITIZED"
+    export MIDTRANS_IS_3DS="$MIDTRANS_IS_3DS"
+
+    log "Environment variables exported"
+}
+
 # Put application in maintenance mode
 enable_maintenance() {
     log "Enabling maintenance mode..."
     cd "$PROJECT_DIR"
-    sudo -u www-data php artisan down --retry=60 --secret="caturnawa-secret" --render="errors::503"
+
+    # Run artisan command with environment variables
+    sudo -u www-data -E php artisan down --retry=60 --secret="caturnawa-secret" --render="errors::503"
     log "Maintenance mode enabled"
 }
 
@@ -158,7 +185,7 @@ enable_maintenance() {
 disable_maintenance() {
     log "Disabling maintenance mode..."
     cd "$PROJECT_DIR"
-    sudo -u www-data php artisan up
+    sudo -u www-data -E php artisan up
     log "Maintenance mode disabled"
 }
 
@@ -186,13 +213,13 @@ pull_code() {
 install_dependencies() {
     log "Installing Composer dependencies..."
     cd "$PROJECT_DIR"
-    
+
     # Install PHP dependencies
-    sudo -u www-data composer install --no-dev --optimize-autoloader --no-interaction
-    
+    sudo -u www-data -E composer install --no-dev --optimize-autoloader --no-interaction
+
     log "Installing NPM dependencies..."
     npm ci --production
-    
+
     log "Dependencies installed successfully"
 }
 
@@ -200,10 +227,10 @@ install_dependencies() {
 run_migrations() {
     log "Running database migrations..."
     cd "$PROJECT_DIR"
-    
+
     # Run migrations
-    sudo -u www-data php artisan migrate --force
-    
+    sudo -u www-data -E php artisan migrate --force
+
     log "Database migrations completed"
 }
 
@@ -213,20 +240,20 @@ optimize_application() {
     cd "$PROJECT_DIR"
     
     # Clear all caches
-    sudo -u www-data php artisan config:clear
-    sudo -u www-data php artisan route:clear
-    sudo -u www-data php artisan view:clear
-    sudo -u www-data php artisan cache:clear
-    
+    sudo -u www-data -E php artisan config:clear
+    sudo -u www-data -E php artisan route:clear
+    sudo -u www-data -E php artisan view:clear
+    sudo -u www-data -E php artisan cache:clear
+
     # Optimize for production
-    sudo -u www-data php artisan config:cache
-    sudo -u www-data php artisan route:cache
-    sudo -u www-data php artisan view:cache
-    sudo -u www-data php artisan event:cache
+    sudo -u www-data -E php artisan config:cache
+    sudo -u www-data -E php artisan route:cache
+    sudo -u www-data -E php artisan view:cache
+    sudo -u www-data -E php artisan event:cache
 
     # Generate storage link if not exists
     if [ ! -L "$PROJECT_DIR/public/storage" ]; then
-        sudo -u www-data php artisan storage:link
+        sudo -u www-data -E php artisan storage:link
         log "Storage link created"
     fi
     
@@ -316,7 +343,7 @@ health_check() {
     fi
     
     # Check database connection
-    if sudo -u www-data php artisan tinker --execute="DB::connection()->getPdo(); echo 'Database OK';" | grep -q "Database OK"; then
+    if sudo -u www-data -E php artisan tinker --execute="DB::connection()->getPdo(); echo 'Database OK';" | grep -q "Database OK"; then
         log "✅ Database connection is working"
     else
         error "❌ Database connection failed"
@@ -324,7 +351,7 @@ health_check() {
     fi
     
     # Check storage permissions
-    if sudo -u www-data touch "$PROJECT_DIR/storage/test-file" && rm "$PROJECT_DIR/storage/test-file"; then
+    if sudo -u www-data -E touch "$PROJECT_DIR/storage/test-file" && rm "$PROJECT_DIR/storage/test-file"; then
         log "✅ Storage permissions are correct"
     else
         error "❌ Storage permissions are incorrect"
@@ -363,6 +390,7 @@ main() {
         source "$PROJECT_DIR/.env"
         log "Environment variables loaded from .env"
         debug_env
+        export_env_vars
     else
         error ".env file not found"
         exit 1
