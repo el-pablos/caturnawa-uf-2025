@@ -145,12 +145,15 @@ fix_500_error() {
     
     # Restart services
     log "Restarting services..."
-    if systemctl is-active --quiet php8.1-fpm; then
-        systemctl restart php8.1-fpm
-        log "PHP-FPM 8.1 restarted"
+    if systemctl is-active --quiet php8.3-fpm; then
+        systemctl restart php8.3-fpm
+        log "PHP-FPM 8.3 restarted"
     elif systemctl is-active --quiet php8.2-fpm; then
         systemctl restart php8.2-fpm
         log "PHP-FPM 8.2 restarted"
+    elif systemctl is-active --quiet php8.1-fpm; then
+        systemctl restart php8.1-fpm
+        log "PHP-FPM 8.1 restarted"
     fi
     
     if systemctl is-active --quiet nginx; then

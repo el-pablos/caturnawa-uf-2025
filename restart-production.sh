@@ -308,12 +308,15 @@ restart_services() {
     log "Restarting services..."
     
     # Restart PHP-FPM
-    if systemctl is-active --quiet php8.1-fpm; then
-        systemctl restart php8.1-fpm
-        log "PHP-FPM restarted"
+    if systemctl is-active --quiet php8.3-fpm; then
+        systemctl restart php8.3-fpm
+        log "PHP-FPM 8.3 restarted"
     elif systemctl is-active --quiet php8.2-fpm; then
         systemctl restart php8.2-fpm
-        log "PHP-FPM restarted"
+        log "PHP-FPM 8.2 restarted"
+    elif systemctl is-active --quiet php8.1-fpm; then
+        systemctl restart php8.1-fpm
+        log "PHP-FPM 8.1 restarted"
     else
         warning "PHP-FPM service not found"
     fi
