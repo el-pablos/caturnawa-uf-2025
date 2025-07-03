@@ -21,11 +21,14 @@
 set -e  # Exit on any error
 
 # Configuration
-PROJECT_NAME="UNAS Fest 2025"
+PROJECT_NAME="Caturnawa - UNAS Fest 2025"
 PROJECT_DIR="/var/www/uf25.tams.my.id"
 BRANCH=${1:-master}
 BACKUP_DIR="/var/backups/uf25-tams"
 LOG_FILE="/var/log/uf25-deploy.log"
+DB_NAME="uf25_database"
+DB_USER="uf25_user"
+DB_PASSWORD="nigajawir"
 MAINTENANCE_FILE="$PROJECT_DIR/storage/framework/down"
 
 # Colors for output
@@ -79,7 +82,7 @@ create_backup() {
     BACKUP_NAME="backup-$(date +%Y%m%d-%H%M%S)"
     
     # Backup database
-    if mysqldump -u root -p"$DB_PASSWORD" "$DB_NAME" > "$BACKUP_DIR/$BACKUP_NAME.sql" 2>/dev/null; then
+    if mysqldump -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" > "$BACKUP_DIR/$BACKUP_NAME.sql" 2>/dev/null; then
         log "Database backup created: $BACKUP_NAME.sql"
     else
         warning "Database backup failed - continuing without backup"
@@ -104,7 +107,7 @@ create_backup() {
 enable_maintenance() {
     log "Enabling maintenance mode..."
     cd "$PROJECT_DIR"
-    sudo -u www-data php artisan down --retry=60 --secret="unas-fest-secret" --render="errors::503"
+    sudo -u www-data php artisan down --retry=60 --secret="caturnawa-secret" --render="errors::503"
     log "Maintenance mode enabled"
 }
 
@@ -177,6 +180,12 @@ optimize_application() {
     sudo -u www-data php artisan route:cache
     sudo -u www-data php artisan view:cache
     sudo -u www-data php artisan event:cache
+
+    # Generate storage link if not exists
+    if [ ! -L "$PROJECT_DIR/public/storage" ]; then
+        sudo -u www-data php artisan storage:link
+        log "Storage link created"
+    fi
     
     log "Application optimized"
 }
@@ -252,8 +261,10 @@ health_check() {
     cd "$PROJECT_DIR"
     
     # Check if application is responding
-    if curl -f -s "http://uf25.tams.my.id" > /dev/null; then
-        log "✅ Application is responding"
+    if curl -f -s "https://uf25.tams.my.id" > /dev/null; then
+        log "✅ Application is responding (HTTPS)"
+    elif curl -f -s "http://uf25.tams.my.id" > /dev/null; then
+        log "✅ Application is responding (HTTP)"
     elif curl -f -s "http://localhost" > /dev/null; then
         log "✅ Application is responding (localhost)"
     else
@@ -307,9 +318,20 @@ main() {
     # Load environment variables
     if [ -f "$PROJECT_DIR/.env" ]; then
         source "$PROJECT_DIR/.env"
+        log "Environment variables loaded from .env"
     else
         error ".env file not found"
         exit 1
+    fi
+
+    # Verify critical environment variables
+    if [ -z "$APP_KEY" ]; then
+        error "APP_KEY not set in .env file"
+        exit 1
+    fi
+
+    if [ "$APP_ENV" != "production" ]; then
+        warning "APP_ENV is not set to 'production' (current: $APP_ENV)"
     fi
     
     # Start deployment
