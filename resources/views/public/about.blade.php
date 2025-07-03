@@ -4,137 +4,189 @@
     $seoPage = 'about';
 @endphp
 
+@section('title', 'Tentang Kami - UNAS Fest 2025')
+
 @section('content')
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-10">
-            <div class="text-center mb-5">
-                <h1 class="display-4 fw-bold text-primary">Tentang UNAS Fest 2025</h1>
-                <p class="lead text-muted">Kompetisi teknologi terbesar yang menggabungkan inovasi, kreativitas, dan kolaborasi</p>
-            </div>
-            
-            <div class="row mb-5">
-                <div class="col-lg-6 mb-4">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <div class="card-body p-5">
-                            <div class="text-center mb-4">
-                                <i class="bi bi-eye-fill text-primary fs-1"></i>
-                            </div>
-                            <h3 class="text-center mb-4">Visi Kami</h3>
-                            <p class="text-muted">
-                                Menjadi platform kompetisi teknologi terdepan yang menginspirasi generasi muda Indonesia 
-                                untuk menciptakan inovasi digital yang berkelanjutan dan berdampak positif bagi kemajuan bangsa.
-                            </p>
-                            <div class="mt-4">
-                                <div class="d-flex align-items-center mb-2">
-                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                    <span>Inovasi Berkelanjutan</span>
-                                </div>
-                                <div class="d-flex align-items-center mb-2">
-                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                    <span>Dampak Positif</span>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                    <span>Kemajuan Bangsa</span>
-                                </div>
-                            </div>
+<div class="container my-5">
+    <!-- Hero Section -->
+    <div class="row">
+        <div class="col-12">
+            <div class="jumbotron bg-primary text-white p-5 rounded mb-5">
+                <div class="text-center">
+                    <h1 class="display-4 fw-bold mb-3">
+                        Tentang <span class="text-warning">UNAS Fest 2025</span>
+                    </h1>
+                    <p class="lead mb-4">
+                        Festival kompetisi nasional terbesar di Indonesia yang menggabungkan inovasi teknologi,
+                        kesehatan, dan biodiversitas untuk menciptakan masa depan yang berkelanjutan.
+                    </p>
+                    <div class="row justify-content-center">
+                        <div class="col-md-3 mb-3">
+                            <a href="{{ route('public.competitions') }}" class="btn btn-warning btn-lg w-100">
+                                <i class="bi bi-trophy me-2"></i>Lihat Kompetisi
+                            </a>
                         </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-6 mb-4">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <div class="card-body p-5">
-                            <div class="text-center mb-4">
-                                <i class="bi bi-target text-primary fs-1"></i>
-                            </div>
-                            <h3 class="text-center mb-4">Misi Kami</h3>
-                            <div class="mission-list">
-                                <div class="d-flex mb-4">
-                                    <div class="badge bg-primary rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;">1</div>
-                                    <div>
-                                        <h6 class="mb-1">Mengembangkan Talenta Digital</h6>
-                                        <small class="text-muted">Memberikan wadah bagi mahasiswa untuk mengasah kemampuan teknologi dan inovasi</small>
-                                    </div>
-                                </div>
-                                <div class="d-flex mb-4">
-                                    <div class="badge bg-primary rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;">2</div>
-                                    <div>
-                                        <h6 class="mb-1">Membangun Ekosistem Kolaboratif</h6>
-                                        <small class="text-muted">Menciptakan jaringan kolaborasi antara akademisi, industri, dan pemerintah</small>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="badge bg-primary rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;">3</div>
-                                    <div>
-                                        <h6 class="mb-1">Mendorong Inovasi Berkelanjutan</h6>
-                                        <small class="text-muted">Menghasilkan solusi teknologi yang dapat diimplementasikan untuk kemajuan masyarakat</small>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="{{ route('public.contact') }}" class="btn btn-light btn-lg w-100">
+                                <i class="bi bi-envelope me-2"></i>Hubungi Kami
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <div class="text-center mb-5">
-                <h2 class="fw-bold text-primary mb-3">Nilai-Nilai Kami</h2>
-                <p class="text-muted">Prinsip-prinsip yang menjadi fondasi dalam setiap kegiatan UNAS Fest 2025</p>
+        </div>
+    </div>
+
+    <!-- Vision & Mission Section -->
+    <div class="row g-4 mb-5">
+        <div class="col-lg-6">
+            <div class="card shadow h-100">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3 class="card-title mb-0">
+                        <i class="bi bi-eye me-2"></i>Visi Kami
+                    </h3>
+                </div>
+                <div class="card-body text-center">
+                    <p class="mb-0">
+                        Menjadi festival kompetisi nasional terdepan yang menginspirasi inovasi berkelanjutan
+                        dalam bidang teknologi, kesehatan, dan biodiversitas untuk masa depan Indonesia yang lebih baik.
+                    </p>
+                </div>
             </div>
-            
-            <div class="row">
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100 border-0 shadow-sm text-center">
-                        <div class="card-body p-4">
-                            <i class="bi bi-lightbulb-fill text-warning fs-1 mb-3"></i>
-                            <h5>Inovasi</h5>
-                            <p class="text-muted small">Mendorong pemikiran kreatif dan solusi out-of-the-box untuk tantangan teknologi masa depan</p>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card shadow h-100">
+                <div class="card-header bg-success text-white text-center">
+                    <h3 class="card-title mb-0">
+                        <i class="bi bi-bullseye me-2"></i>Misi Kami
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2 d-flex align-items-start">
+                            <i class="bi bi-check-circle text-success me-3 mt-1"></i>
+                            <span>Memberikan platform kompetisi berkualitas tinggi untuk mahasiswa Indonesia</span>
+                        </li>
+                        <li class="mb-2 d-flex align-items-start">
+                            <i class="bi bi-check-circle text-success me-3 mt-1"></i>
+                            <span>Mendorong inovasi dan kreativitas dalam menyelesaikan masalah nyata</span>
+                        </li>
+                        <li class="mb-2 d-flex align-items-start">
+                            <i class="bi bi-check-circle text-success me-3 mt-1"></i>
+                            <span>Membangun jaringan kolaborasi antar universitas di seluruh Indonesia</span>
+                        </li>
+                        <li class="mb-0 d-flex align-items-start">
+                            <i class="bi bi-check-circle text-success me-3 mt-1"></i>
+                            <span>Mengembangkan solusi berkelanjutan untuk tantangan masa depan</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Section -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="text-center mb-4">
+                <i class="bi bi-graph-up text-info"></i> 
+                UNAS Fest dalam Angka
+            </h2>
+        </div>
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white text-center">
+                    <h3 class="card-title mb-0">Pencapaian Kami</h3>
+                    <p class="mb-0">Dampak yang telah kami ciptakan bersama komunitas mahasiswa Indonesia</p>
+                </div>
+                <div class="card-body">
+                    <div class="row g-4 text-center">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="p-3">
+                                <i class="bi bi-people text-primary" style="font-size: 3rem;"></i>
+                                <h3 class="fw-bold text-primary mt-2">10,000+</h3>
+                                <p class="text-muted mb-0">Peserta Terdaftar</p>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6">
+                            <div class="p-3">
+                                <i class="bi bi-trophy text-success" style="font-size: 3rem;"></i>
+                                <h3 class="fw-bold text-success mt-2">15</h3>
+                                <p class="text-muted mb-0">Kategori Kompetisi</p>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6">
+                            <div class="p-3">
+                                <i class="bi bi-gift text-warning" style="font-size: 3rem;"></i>
+                                <h3 class="fw-bold text-warning mt-2">500 Juta</h3>
+                                <p class="text-muted mb-0">Total Hadiah</p>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6">
+                            <div class="p-3">
+                                <i class="bi bi-building text-info" style="font-size: 3rem;"></i>
+                                <h3 class="fw-bold text-info mt-2">100+</h3>
+                                <p class="text-muted mb-0">Universitas Partner</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100 border-0 shadow-sm text-center">
-                        <div class="card-body p-4">
-                            <i class="bi bi-people-fill text-info fs-1 mb-3"></i>
-                            <h5>Kolaborasi</h5>
-                            <p class="text-muted small">Membangun sinergi antar peserta, mentor, dan stakeholder untuk mencapai tujuan bersama</p>
-                        </div>
-                    </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Values Section -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white text-center">
+                    <h2 class="card-title mb-0">Nilai-Nilai Kami</h2>
+                    <p class="mb-0">Prinsip-prinsip yang menjadi fondasi dalam menyelenggarakan UNAS Fest 2025</p>
                 </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100 border-0 shadow-sm text-center">
-                        <div class="card-body p-4">
-                            <i class="bi bi-award-fill text-success fs-1 mb-3"></i>
-                            <h5>Keunggulan</h5>
-                            <p class="text-muted small">Berkomitmen untuk memberikan pengalaman kompetisi berkualitas tinggi dan standar internasional</p>
+                <div class="card-body">
+                    <div class="row g-4">
+                        <div class="col-lg-3 col-md-6 text-center">
+                            <div class="p-3">
+                                <i class="bi bi-lightbulb text-primary" style="font-size: 3rem;"></i>
+                                <h4 class="fw-bold text-primary mt-2">Inovasi</h4>
+                                <p class="text-muted">
+                                    Mendorong kreativitas dan pemikiran out-of-the-box untuk menciptakan solusi inovatif yang berdampak.
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100 border-0 shadow-sm text-center">
-                        <div class="card-body p-4">
-                            <i class="bi bi-shield-check-fill text-primary fs-1 mb-3"></i>
-                            <h5>Integritas</h5>
-                            <p class="text-muted small">Menjunjung tinggi kejujuran, transparansi, dan fair play dalam setiap aspek kompetisi</p>
+
+                        <div class="col-lg-3 col-md-6 text-center">
+                            <div class="p-3">
+                                <i class="bi bi-people text-success" style="font-size: 3rem;"></i>
+                                <h4 class="fw-bold text-success mt-2">Kolaborasi</h4>
+                                <p class="text-muted">
+                                    Membangun kerjasama yang solid antar peserta, panitia, dan stakeholder untuk mencapai tujuan bersama.
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100 border-0 shadow-sm text-center">
-                        <div class="card-body p-4">
-                            <i class="bi bi-globe text-danger fs-1 mb-3"></i>
-                            <h5>Dampak Sosial</h5>
-                            <p class="text-muted small">Mengutamakan solusi yang memberikan manfaat nyata bagi masyarakat dan lingkungan</p>
+
+                        <div class="col-lg-3 col-md-6 text-center">
+                            <div class="p-3">
+                                <i class="bi bi-award text-warning" style="font-size: 3rem;"></i>
+                                <h4 class="fw-bold text-warning mt-2">Kualitas</h4>
+                                <p class="text-muted">
+                                    Menjaga standar tinggi dalam setiap aspek penyelenggaraan kompetisi dan pelayanan peserta.
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100 border-0 shadow-sm text-center">
-                        <div class="card-body p-4">
-                            <i class="bi bi-graph-up text-success fs-1 mb-3"></i>
-                            <h5>Pertumbuhan</h5>
-                            <p class="text-muted small">Memberikan kesempatan belajar dan berkembang bagi semua peserta dan stakeholder</p>
+
+                        <div class="col-lg-3 col-md-6 text-center">
+                            <div class="p-3">
+                                <i class="bi bi-globe text-info" style="font-size: 3rem;"></i>
+                                <h4 class="fw-bold text-info mt-2">Berkelanjutan</h4>
+                                <p class="text-muted">
+                                    Fokus pada solusi yang memberikan dampak jangka panjang bagi masyarakat dan lingkungan.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>

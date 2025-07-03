@@ -95,13 +95,13 @@
                     </div>
                     
                     <!-- Main Title -->
-                    <h1 class="hero-title" data-aos="fade-up" data-aos-delay="400">
+                    <h1 class="hero-title font-poppins" data-aos="fade-up" data-aos-delay="400">
                         <span class="title-main">UNAS Fest</span>
                         <span class="title-year">2025</span>
                     </h1>
                     
                     <!-- Subtitle -->
-                    <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="600">
+                    <p class="hero-subtitle font-poppins" data-aos="fade-up" data-aos-delay="600">
                         Bergabunglah dengan festival kompetisi nasional terbesar di Indonesia yang menggabungkan
                         <span class="highlight-tech">Teknologi</span>,
                         <span class="highlight-health">Kesehatan</span>, dan
@@ -195,8 +195,8 @@
 <section id="stats" class="stats-section">
     <div class="container">
         <div class="section-header text-center" data-aos="fade-up">
-            <h2 class="section-title">Mengapa UNAS Fest 2025?</h2>
-            <p class="section-subtitle">Data dan fakta yang menunjukkan skala besar festival kompetisi ini</p>
+            <h2 class="section-title font-poppins">Mengapa UNAS Fest 2025?</h2>
+            <p class="section-subtitle font-poppins">Data dan fakta yang menunjukkan skala besar festival kompetisi ini</p>
         </div>
         
         <div class="row g-4">
@@ -243,8 +243,8 @@
                 <i class="bi bi-trophy"></i>
                 <span>Kategori Kompetisi</span>
             </div>
-            <h2 class="section-title">Tiga Pilar Kompetisi Utama</h2>
-            <p class="section-subtitle">
+            <h2 class="section-title font-poppins">Tiga Pilar Kompetisi Utama</h2>
+            <p class="section-subtitle font-poppins">
                 Bergabunglah dengan kompetisi yang menggabungkan inovasi untuk masa depan berkelanjutan
             </p>
         </div>
@@ -275,7 +275,7 @@
                     </div>
                     
                     <div class="card-content">
-                        <h3 class="card-title">Kompetisi Teknologi</h3>
+                        <h3 class="card-title font-poppins">Kompetisi Teknologi</h3>
                         <p class="card-description">
                             Kompetisi pengembangan aplikasi, AI, IoT, dan solusi teknologi inovatif untuk 
                             menyelesaikan masalah nyata di masyarakat Indonesia.
@@ -345,7 +345,7 @@
                     </div>
                     
                     <div class="card-content">
-                        <h3 class="card-title">Kompetisi Kesehatan</h3>
+                        <h3 class="card-title font-poppins">Kompetisi Kesehatan</h3>
                         <p class="card-description">
                             Inovasi dalam bidang kesehatan masyarakat, teknologi medis, dan solusi kesehatan 
                             digital untuk meningkatkan kualitas hidup.
@@ -415,7 +415,7 @@
                     </div>
                     
                     <div class="card-content">
-                        <h3 class="card-title">Kompetisi Biodiversitas</h3>
+                        <h3 class="card-title font-poppins">Kompetisi Biodiversitas</h3>
                         <p class="card-description">
                             Solusi inovatif untuk konservasi lingkungan, pelestarian biodiversitas, dan 
                             pembangunan berkelanjutan di Indonesia.
@@ -2288,6 +2288,10 @@ erta</span>
 
 @push('styles')
 <style>
+.font-poppins {
+    font-family: 'Poppins', sans-serif;
+}
+
 /* Countdown Styles */
 .countdown-container {
     background: rgba(255, 255, 255, 0.1);

@@ -52,22 +52,23 @@ class PublicController extends Controller
      */
     public function competitions()
     {
+        // Get active competitions without grouping by category
         $competitions = Competition::active()
             ->with(['registrations' => function($query) {
                 $query->where('status', 'confirmed');
             }])
-            ->get()
-            ->groupBy('category');
+            ->orderBy('registration_start', 'asc')
+            ->paginate(12);
 
         // Get statistics
         $stats = [
-            'participants' => Registration::where('status', 'confirmed')->count(),
-            'competitions' => Competition::active()->count(),
-            'universities' => Registration::distinct('institution')->count(),
-            'total_prize' => 500000000, // 500 million
+            'total_participants' => Registration::where('status', 'confirmed')->count(),
+            'active_competitions' => Competition::active()->count(),
+            'total_universities' => Registration::distinct('institution')->count(),
+            'total_prizes' => Competition::active()->sum('prize_amount') ?: 500000000,
         ];
 
-        return view('public.competitions-simple', compact('competitions', 'stats'));
+        return view('public.competitions', compact('competitions', 'stats'));
     }
 
     /**
@@ -407,13 +408,52 @@ class PublicController extends Controller
         $faqs = [
             [
                 'question' => 'Bagaimana cara mendaftar kompetisi?',
-                'answer' => 'Anda dapat mendaftar melalui halaman kompetisi dengan mengklik tombol "Daftar Sekarang" pada kategori yang diminati.'
+                'answer' => 'Anda dapat mendaftar melalui halaman kompetisi dengan mengklik tombol "Daftar Sekarang" pada kategori yang diminati. Pastikan Anda sudah membuat akun dan login terlebih dahulu.'
             ],
             [
                 'question' => 'Apakah ada biaya pendaftaran?',
-                'answer' => 'Biaya pendaftaran bervariasi tergantung kategori kompetisi. Informasi lengkap dapat dilihat di halaman detail kompetisi.'
+                'answer' => 'Biaya pendaftaran bervariasi tergantung kategori kompetisi. Informasi lengkap dapat dilihat di halaman detail kompetisi. Pembayaran dapat dilakukan melalui berbagai metode yang tersedia.'
             ],
-            // Add more FAQs as needed
+            [
+                'question' => 'Siapa saja yang bisa mengikuti UNAS Fest 2025?',
+                'answer' => 'UNAS Fest 2025 terbuka untuk seluruh mahasiswa aktif di universitas/institusi pendidikan tinggi di Indonesia. Peserta harus menunjukkan bukti status mahasiswa aktif saat pendaftaran.'
+            ],
+            [
+                'question' => 'Berapa total hadiah yang tersedia?',
+                'answer' => 'Total hadiah UNAS Fest 2025 mencapai 500 juta rupiah yang tersebar di berbagai kategori kompetisi: Teknologi, Kesehatan, dan Biodiversitas.'
+            ],
+            [
+                'question' => 'Apakah boleh mendaftar lebih dari satu kompetisi?',
+                'answer' => 'Ya, peserta diperbolehkan mendaftar di beberapa kategori kompetisi sekaligus. Namun pastikan Anda dapat mengikuti semua kompetisi yang didaftarkan dengan baik.'
+            ],
+            [
+                'question' => 'Bagaimana format kompetisi yang akan diselenggarakan?',
+                'answer' => 'Kompetisi dilaksanakan secara hybrid (online dan offline). Tahap awal berupa seleksi berkas online, kemudian dilanjutkan dengan presentasi dan penjurian di kampus UNAS Jakarta.'
+            ],
+            [
+                'question' => 'Kapan deadline pendaftaran?',
+                'answer' => 'Deadline pendaftaran berbeda untuk setiap kategori kompetisi. Silakan cek halaman detail kompetisi untuk informasi tanggal yang tepat. Kami sarankan untuk mendaftar lebih awal.'
+            ],
+            [
+                'question' => 'Apakah ada akomodasi untuk peserta dari luar Jakarta?',
+                'answer' => 'Tim panitia akan membantu mencarikan informasi akomodasi terdekat dengan harga terjangkau. Untuk informasi lebih lanjut, silakan hubungi tim kami melalui WhatsApp atau email.'
+            ],
+            [
+                'question' => 'Bagaimana cara mengetahui status pendaftaran saya?',
+                'answer' => 'Setelah login ke akun Anda, masuk ke dashboard peserta untuk melihat status semua pendaftaran kompetisi. Anda juga akan menerima notifikasi email untuk setiap perubahan status.'
+            ],
+            [
+                'question' => 'Apa yang harus disiapkan untuk kompetisi?',
+                'answer' => 'Persiapan berbeda untuk setiap kategori. Secara umum: proposal/karya ilmiah, materi presentasi, dan dokumen pendukung lainnya. Detail lengkap tersedia di guidebook yang akan dikirimkan setelah pendaftaran dikonfirmasi.'
+            ],
+            [
+                'question' => 'Apakah ada sertifikat untuk peserta?',
+                'answer' => 'Ya, semua peserta yang mengikuti kompetisi hingga selesai akan mendapatkan sertifikat partisipasi. Pemenang akan mendapatkan sertifikat khusus dan trophy.'
+            ],
+            [
+                'question' => 'Bagaimana jika ingin membatalkan pendaftaran?',
+                'answer' => 'Pembatalan pendaftaran dapat dilakukan melalui dashboard peserta atau dengan menghubungi tim kami. Syarat dan ketentuan refund dapat dilihat di halaman terms of service.'
+            ]
         ];
 
         return view('public.faq', compact('faqs'));

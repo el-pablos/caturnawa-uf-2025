@@ -15,6 +15,23 @@ auth.json
 npm-debug.log
 yarn-error.log
 
+# Claude Desktop App Files
+claude.exe
+*.exe
+*.dll
+*.pak
+icudtl.dat
+snapshot_blob.bin
+v8_context_snapshot.bin
+squirrel.exe
+/locales/
+/resources/app.asar*
+/resources/build-props.json
+/resources/*.json
+/resources/*.ico
+/resources/*.png
+Squirrel-UpdateSelf.log
+
 # IDE
 /.fleet
 /.idea

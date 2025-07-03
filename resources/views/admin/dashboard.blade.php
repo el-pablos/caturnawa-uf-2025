@@ -104,8 +104,8 @@
                 </h6>
             </div>
             <div class="card-body" id="user-distribution-container">
-                <div style="height: 300px; position: relative;">
-                    <canvas id="userDistributionChart"></canvas>
+                <div style="height: 250px; position: relative;">
+                    <canvas id="userDistributionChart" style="max-height: 200px;"></canvas>
                 </div>
             </div>
         </div>
@@ -436,7 +436,9 @@ function loadUserDistribution() {
             if (data.success) {
                 const container = document.getElementById('user-distribution-container');
                 container.innerHTML = `
-                    <canvas id="userDistributionChart"></canvas>
+                    <div style="height: 200px; position: relative;">
+                        <canvas id="userDistributionChart" style="max-height: 180px;"></canvas>
+                    </div>
                     <div class="mt-3" id="user-legend"></div>
                 `;
 
@@ -455,9 +457,18 @@ function loadUserDistribution() {
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
+                        aspectRatio: 1,
                         plugins: {
                             legend: {
                                 display: false
+                            }
+                        },
+                        layout: {
+                            padding: {
+                                top: 10,
+                                bottom: 10,
+                                left: 10,
+                                right: 10
                             }
                         }
                     }
@@ -471,9 +482,9 @@ function loadUserDistribution() {
                             <div class="d-flex align-items-center">
                                 <div class="rounded-circle me-2"
                                      style="width: 12px; height: 12px; background-color: ${data.data.colors[index]}"></div>
-                                <span>${label}</span>
+                                <span class="small">${label}</span>
                             </div>
-                            <span class="fw-semibold">${data.data.data[index]}</span>
+                            <span class="fw-semibold small">${data.data.data[index]}</span>
                         </div>
                     `;
                 });

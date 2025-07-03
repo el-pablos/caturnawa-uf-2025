@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Registration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class QRScannerController extends Controller
 {
@@ -18,79 +19,70 @@ class QRScannerController extends Controller
     }
 
     /**
-     * Verify QR Code
+     * Scan QR Code and validate registration
      */
-    public function verify(Request $request)
+    public function scan(Request $request)
     {
         $request->validate([
             'qr_data' => 'required|string'
         ]);
 
         try {
-            $qrData = json_decode($request->qr_data, true);
-
-            if (!$qrData || !isset($qrData['type']) || $qrData['type'] !== 'unas_fest_ticket') {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'QR Code tidak valid atau bukan untuk UNAS Fest'
-                ]);
-            }
-
-            $registration = Registration::where('ticket_code', $qrData['ticket_code'])
-                ->where('registration_number', $qrData['registration_number'])
-                ->with(['user', 'competition', 'payment'])
-                ->first();
-
+            $qrData = $request->qr_data;
+            
+            // Try to find registration by QR data
+            // QR data could be registration number, ticket code, or registration ID
+            $registration = $this->findRegistrationByQRData($qrData);
+            
             if (!$registration) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Tiket tidak ditemukan dalam sistem'
-                ]);
+                    'message' => 'QR Code tidak valid atau tidak ditemukan'
+                ], 404);
             }
 
             if ($registration->status !== 'confirmed') {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Tiket belum dikonfirmasi atau tidak valid',
-                    'status' => $registration->status
-                ]);
-            }
-
-            if (!$registration->payment || !$registration->payment->isSuccess()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Pembayaran belum dikonfirmasi'
-                ]);
+                    'message' => 'Registrasi belum dikonfirmasi'
+                ], 400);
             }
 
             // Check if already checked in
             if ($registration->checked_in_at) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Peserta sudah melakukan check-in',
-                    'checked_in_at' => $registration->checked_in_at->format('d M Y H:i:s'),
-                    'registration' => $this->formatRegistrationData($registration)
-                ]);
+                    'message' => 'Peserta sudah melakukan check-in pada ' . $registration->checked_in_at->format('d/m/Y H:i:s'),
+                    'data' => [
+                        'registration' => $registration->load(['user', 'competition']),
+                        'already_checked_in' => true
+                    ]
+                ], 400);
             }
 
             return response()->json([
                 'success' => true,
                 'message' => 'QR Code valid',
-                'registration' => $this->formatRegistrationData($registration)
+                'data' => [
+                    'registration' => $registration->load(['user', 'competition']),
+                    'can_check_in' => true
+                ]
             ]);
 
         } catch (\Exception $e) {
+            Log::error('QR Scanner Error: ' . $e->getMessage());
+            
             return response()->json([
                 'success' => false,
-                'message' => 'Error memproses QR Code: ' . $e->getMessage()
-            ]);
+                'message' => 'Terjadi kesalahan saat memproses QR Code'
+            ], 500);
         }
     }
 
     /**
      * Check-in participant
      */
-    public function checkIn(Request $request)
+    public function checkin(Request $request)
     {
         $request->validate([
             'registration_id' => 'required|exists:registrations,id'
@@ -101,13 +93,21 @@ class QRScannerController extends Controller
 
             $registration = Registration::findOrFail($request->registration_id);
 
+            if ($registration->status !== 'confirmed') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Registrasi belum dikonfirmasi'
+                ], 400);
+            }
+
             if ($registration->checked_in_at) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Peserta sudah melakukan check-in sebelumnya'
-                ]);
+                    'message' => 'Peserta sudah melakukan check-in'
+                ], 400);
             }
 
+            // Update check-in status
             $registration->update([
                 'checked_in_at' => now(),
                 'checked_in_by' => auth()->id()
@@ -118,51 +118,80 @@ class QRScannerController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Check-in berhasil',
-                'checked_in_at' => $registration->checked_in_at->format('d M Y H:i:s')
+                'data' => [
+                    'registration' => $registration->load(['user', 'competition']),
+                    'checked_in_at' => $registration->checked_in_at->format('d/m/Y H:i:s')
+                ]
             ]);
 
         } catch (\Exception $e) {
             DB::rollback();
+            Log::error('Check-in Error: ' . $e->getMessage());
+            
             return response()->json([
                 'success' => false,
-                'message' => 'Error saat check-in: ' . $e->getMessage()
-            ]);
+                'message' => 'Terjadi kesalahan saat melakukan check-in'
+            ], 500);
         }
     }
 
     /**
      * Get check-in history
      */
-    public function history()
+    public function history(Request $request)
     {
-        $checkedInRegistrations = Registration::whereNotNull('checked_in_at')
-            ->with(['user', 'competition'])
-            ->orderBy('checked_in_at', 'desc')
-            ->paginate(20);
+        $query = Registration::with(['user', 'competition'])
+            ->whereNotNull('checked_in_at')
+            ->orderBy('checked_in_at', 'desc');
 
-        return view('admin.qr-scanner.history', compact('checkedInRegistrations'));
+        if ($request->has('competition_id') && $request->competition_id) {
+            $query->where('competition_id', $request->competition_id);
+        }
+
+        if ($request->has('date') && $request->date) {
+            $query->whereDate('checked_in_at', $request->date);
+        }
+
+        $registrations = $query->paginate(20);
+
+        return response()->json([
+            'success' => true,
+            'data' => $registrations
+        ]);
     }
 
     /**
-     * Format registration data for response
+     * Find registration by QR data
      */
-    private function formatRegistrationData($registration)
+    private function findRegistrationByQRData($qrData)
     {
-        return [
-            'id' => $registration->id,
-            'registration_number' => $registration->registration_number,
-            'ticket_code' => $registration->ticket_code,
-            'participant_name' => $registration->user->name,
-            'participant_email' => $registration->user->email,
-            'competition_name' => $registration->competition->name,
-            'competition_category' => $registration->competition->category,
-            'institution' => $registration->institution,
-            'phone' => $registration->phone ?: $registration->user->phone,
-            'registered_at' => $registration->registered_at->format('d M Y H:i:s'),
-            'confirmed_at' => $registration->confirmed_at?->format('d M Y H:i:s'),
-            'checked_in_at' => $registration->checked_in_at?->format('d M Y H:i:s'),
-            'team_members' => $registration->team_members,
-            'payment_status' => $registration->payment?->status_label
-        ];
+        // Try different methods to find registration
+        $registration = null;
+
+        // Method 1: Direct registration ID
+        if (is_numeric($qrData)) {
+            $registration = Registration::find($qrData);
+        }
+
+        // Method 2: Registration number
+        if (!$registration) {
+            $registration = Registration::where('registration_number', $qrData)->first();
+        }
+
+        // Method 3: Ticket code
+        if (!$registration) {
+            $registration = Registration::where('ticket_code', $qrData)->first();
+        }
+
+        // Method 4: Try to extract from URL or complex QR data
+        if (!$registration && str_contains($qrData, 'registration')) {
+            // Extract ID from URL like: https://domain.com/registration/123
+            preg_match('/registration[\/=](\d+)/', $qrData, $matches);
+            if (isset($matches[1])) {
+                $registration = Registration::find($matches[1]);
+            }
+        }
+
+        return $registration;
     }
 }

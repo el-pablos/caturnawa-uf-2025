@@ -46,6 +46,9 @@ Route::name('public.')->group(function () {
     Route::get('/terms', [App\Http\Controllers\Public\PublicController::class, 'terms'])->name('terms');
 });
 
+// Route alias for backward compatibility
+Route::get('/home-alias', [App\Http\Controllers\Public\PublicController::class, 'home'])->name('home');
+
 // Authentication Routes
 Route::middleware('guest')->group(function () {
     Route::get('/login', [App\Http\Controllers\Auth\AuthController::class, 'showLogin'])->name('login');
@@ -179,18 +182,18 @@ Route::middleware(['auth', 'verified', 'role.redirect'])->group(function () {
             Route::get('/revenue-trend', [App\Http\Controllers\Admin\ReportController::class, 'getRevenueTrend'])->name('revenue-trend');
         });
 
-        // QR Scanner (Admin & Superadmin only)
-        Route::prefix('qr-scanner')->name('qr-scanner.')->group(function () {
-            Route::get('/', [App\Http\Controllers\Admin\QRScannerController::class, 'index'])->name('index');
-            Route::post('/verify', [App\Http\Controllers\Admin\QRScannerController::class, 'verify'])->name('verify');
-            Route::post('/checkin', [App\Http\Controllers\Admin\QRScannerController::class, 'checkIn'])->name('checkin');
-            Route::get('/history', [App\Http\Controllers\Admin\QRScannerController::class, 'history'])->name('history');
-        });
-        
         // Settings
         Route::prefix('settings')->name('settings.')->group(function () {
             Route::get('/', [App\Http\Controllers\Admin\SettingController::class, 'index'])->name('index');
             Route::put('/', [App\Http\Controllers\Admin\SettingController::class, 'update'])->name('update');
+        });
+
+        // QR Scanner
+        Route::prefix('qr-scanner')->name('qr-scanner.')->group(function () {
+            Route::get('/', [App\Http\Controllers\Admin\QRScannerController::class, 'index'])->name('index');
+            Route::post('/scan', [App\Http\Controllers\Admin\QRScannerController::class, 'scan'])->name('scan');
+            Route::post('/checkin', [App\Http\Controllers\Admin\QRScannerController::class, 'checkin'])->name('checkin');
+            Route::get('/history', [App\Http\Controllers\Admin\QRScannerController::class, 'history'])->name('history');
         });
     });
 
@@ -290,13 +293,6 @@ Route::prefix('payment')->name('payment.')->group(function () {
     
     // Public callback routes for Midtrans
     Route::post('/notification', [PaymentController::class, 'notification'])->name('notification');
-});
-
-// Public Routes for Ticket Verification
-Route::prefix('ticket')->name('ticket.')->group(function () {
-    Route::get('/verify/{code}', [App\Http\Controllers\TicketController::class, 'verify'])->name('verify');
-    Route::get('/scan', [App\Http\Controllers\TicketController::class, 'scan'])->name('scan');
-    Route::post('/validate', [App\Http\Controllers\TicketController::class, 'validate'])->name('validate');
 });
 
 // Legacy routes for backward compatibility

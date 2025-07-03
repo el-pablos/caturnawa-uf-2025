@@ -1,7 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Satoshi:wght@300;400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
 /* CSS Variables */
 :root {
@@ -29,15 +26,15 @@ html {
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   line-height: 1.6;
   color: #111827;
   background-color: #ffffff;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Clash Display', sans-serif;
-  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
   line-height: 1.2;
 }
 
@@ -49,8 +46,7 @@ h5 { font-size: 1.25rem; }
 h6 { font-size: 1.125rem; }
 
 /* Font families */
-.font-clash { font-family: 'Clash Display', sans-serif; }
-.font-inter { font-family: 'Inter', sans-serif; }
+.font-poppins { font-family: 'Poppins', sans-serif; }
 
 /* Font sizes */
 .text-xs { font-size: 0.75rem; }
@@ -77,6 +73,7 @@ p {
   color: #6b7280;
   line-height: 1.625;
   margin-bottom: 1rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Container */

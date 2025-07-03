@@ -1,5 +1,7 @@
 @extends('layouts.simple')
 
+@extends('layouts.simple')
+
 @php
     $seoPage = 'competitions';
 @endphp
@@ -24,29 +26,14 @@
                     Kompetisi Nasional 2025
                 </div>
 
-                <h1 class="hero-title">
+                <h1 class="hero-title font-poppins">
                     Kompetisi
                     <span class="text-gradient">UNAS Fest 2025</span>
                 </h1>
 
-                <p class="hero-subtitle">
-                    Tunjukkan inovasi terbaikmu dalam tiga kategori kompetisi utama yang akan membentuk masa depan Indonesia
+                <p class="hero-subtitle font-poppins">
+                    Tunjukkan inovasi terbaikmu dalam berbagai kompetisi yang akan membentuk masa depan Indonesia
                 </p>
-
-                <div class="competition-categories">
-                    <div class="category-pill technology" data-aos="fade-up" data-aos-delay="100">
-                        <i class="bi bi-laptop"></i>
-                        <span>Teknologi</span>
-                    </div>
-                    <div class="category-pill health" data-aos="fade-up" data-aos-delay="200">
-                        <i class="bi bi-heart-pulse"></i>
-                        <span>Kesehatan</span>
-                    </div>
-                    <div class="category-pill biodiversity" data-aos="fade-up" data-aos-delay="300">
-                        <i class="bi bi-tree"></i>
-                        <span>Biodiversitas</span>
-                    </div>
-                </div>
 
                 <div class="hero-actions" data-aos="fade-up" data-aos-delay="400">
                     <a href="#competitions-list" class="btn-primary-custom">
@@ -61,18 +48,18 @@
 
                 <div class="hero-stats" data-aos="fade-up" data-aos-delay="500">
                     <div class="stat-item">
-                        <span class="stat-number">10K+</span>
+                        <span class="stat-number">{{ $stats['total_participants'] ?? '10K+' }}</span>
                         <span class="stat-label">Peserta</span>
                     </div>
                     <div class="stat-divider"></div>
                     <div class="stat-item">
-                        <span class="stat-number">15</span>
+                        <span class="stat-number">{{ $stats['active_competitions'] ?? '15' }}</span>
                         <span class="stat-label">Kompetisi</span>
                     </div>
                     <div class="stat-divider"></div>
                     <div class="stat-item">
-                        <span class="stat-number">3</span>
-                        <span class="stat-label">Kategori Utama</span>
+                        <span class="stat-number">{{ number_format($stats['total_prizes'] ?? 500000000) }}</span>
+                        <span class="stat-label">Total Hadiah</span>
                     </div>
                 </div>
             </div>
@@ -80,170 +67,114 @@
     </div>
 </section>
 
-<!-- Competition Overview -->
-<section id="competitions-list" class="competitions-overview">
+<!-- All Competitions Section -->
+<section id="competitions-list" class="all-competitions-section">
     <div class="container">
         <div class="section-header text-center mb-5" data-aos="fade-up">
             <div class="section-badge">
                 <i class="bi bi-award me-2"></i>
-                Kompetisi Utama
+                Semua Kompetisi
             </div>
-            <h2 class="section-title">Tiga Pilar Inovasi</h2>
-            <p class="section-subtitle">
-                Setiap kategori kompetisi dirancang untuk mendorong inovasi dalam bidang yang akan membentuk masa depan Indonesia
+            <h2 class="section-title font-poppins">Kompetisi UNAS Fest 2025</h2>
+            <p class="section-subtitle font-poppins">
+                Pilih kompetisi yang sesuai dengan minat dan keahlianmu
             </p>
         </div>
 
-        <!-- Quick Stats -->
-        <div class="quick-stats" data-aos="fade-up" data-aos-delay="200">
-            <div class="stats-grid">
-                <div class="quick-stat-item">
-                    <div class="stat-icon bg-gradient-primary">
-                        <i class="bi bi-people"></i>
-                    </div>
-                    <div class="stat-content">
-                        <span class="stat-number counter" data-target="10000">0</span>
-                        <span class="stat-label">Peserta Terdaftar</span>
-                    </div>
-                </div>
-
-                <div class="quick-stat-item">
-                    <div class="stat-icon bg-gradient-success">
-                        <i class="bi bi-trophy"></i>
-                    </div>
-                    <div class="stat-content">
-                        <span class="stat-number">15</span>
-                        <span class="stat-label">Kompetisi</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Technology Competition -->
-<section id="technology" class="section">
-    <div class="container">
-        <div class="text-center mb-5" data-aos="fade-up">
-            <h2 class="section-title font-poppins text-primary">
-                <i class="bi bi-laptop me-3"></i>Kompetisi Teknologi
-            </h2>
-            <p class="section-subtitle">
-                Wujudkan inovasi teknologi untuk menyelesaikan masalah nyata di masyarakat
-            </p>
-        </div>
-        
+        <!-- Competitions Grid -->
         <div class="row g-4">
-            <div class="col-lg-6" data-aos="fade-right">
-                <div class="card h-100 border-0 shadow-lg">
-                    <div class="card-img-top position-relative overflow-hidden" style="height: 300px;">
-                        <img src="{{ asset('assets/images/competitions/technology-banner.jpg') }}" 
-                             alt="Kompetisi Teknologi" 
-                             class="w-100 h-100 object-fit-cover"
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <div class="position-absolute top-0 start-0 w-100 h-100 bg-primary bg-opacity-75 d-flex align-items-center justify-content-center">
-                            <i class="bi bi-cpu text-white" style="font-size: 5rem;"></i>
-                        </div>
-                    </div>
-                    <div class="card-body p-4">
-                        <h4 class="card-title fw-bold text-primary mb-3">Kategori Teknologi</h4>
-                        <ul class="list-unstyled mb-4">
-                            <li class="mb-3">
-                                <div class="d-flex align-items-start">
-                                    <i class="bi bi-phone text-primary me-3 mt-1"></i>
-                                    <div>
-                                        <h6 class="fw-bold mb-1">Mobile App Development</h6>
-                                        <small class="text-muted">Aplikasi mobile inovatif untuk Android/iOS</small>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="mb-3">
-                                <div class="d-flex align-items-start">
-                                    <i class="bi bi-globe text-primary me-3 mt-1"></i>
-                                    <div>
-                                        <h6 class="fw-bold mb-1">Web Development</h6>
-                                        <small class="text-muted">Platform web dengan teknologi terdepan</small>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="mb-3">
-                                <div class="d-flex align-items-start">
-                                    <i class="bi bi-robot text-primary me-3 mt-1"></i>
-                                    <div>
-                                        <h6 class="fw-bold mb-1">AI & Machine Learning</h6>
-                                        <small class="text-muted">Solusi berbasis kecerdasan buatan</small>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="mb-3">
-                                <div class="d-flex align-items-start">
-                                    <i class="bi bi-wifi text-primary me-3 mt-1"></i>
-                                    <div>
-                                        <h6 class="fw-bold mb-1">IoT Solutions</h6>
-                                        <small class="text-muted">Internet of Things untuk smart city</small>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-6" data-aos="fade-left">
-                <div class="card h-100 border-0 shadow-lg">
-                    <div class="card-body p-4">
-                        <h4 class="card-title fw-bold text-primary mb-4">
-                            <i class="bi bi-info-circle me-2"></i>Informasi Kompetisi
-                        </h4>
-                        
-                        <div class="mb-4">
-                            <h6 class="fw-bold text-dark mb-2">
-                                <i class="bi bi-calendar-event text-primary me-2"></i>Timeline
-                            </h6>
-                            <ul class="list-unstyled ms-4">
-                                <li class="mb-2"><strong>Pendaftaran:</strong> 1 Jan - 28 Feb 2025</li>
-                                <li class="mb-2"><strong>Pengumpulan:</strong> 1 - 15 Mar 2025</li>
-                                <li class="mb-2"><strong>Penilaian:</strong> 16 - 25 Mar 2025</li>
-                                <li class="mb-2"><strong>Pengumuman:</strong> 30 Mar 2025</li>
-                            </ul>
+            @forelse($competitions as $competition)
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                    <div class="competition-card h-100">
+                        <div class="card-header">
+                            <div class="card-badge">{{ $competition->category ?? 'Kompetisi' }}</div>
+                            <div class="card-status">
+                                @if($competition->registration_start > now())
+                                    <span class="badge bg-warning">Segera Dibuka</span>
+                                @elseif($competition->registration_end < now())
+                                    <span class="badge bg-danger">Pendaftaran Ditutup</span>
+                                @else
+                                    <span class="badge bg-success">Pendaftaran Dibuka</span>
+                                @endif
+                            </div>
                         </div>
                         
-                        <div class="mb-4">
-                            <h6 class="fw-bold text-dark mb-2">
-                                <i class="bi bi-trophy text-warning me-2"></i>Hadiah
-                            </h6>
-                            <ul class="list-unstyled ms-4">
-                                <li class="mb-2"><strong>Juara 1:</strong> Rp 50.000.000 + Sertifikat</li>
-                                <li class="mb-2"><strong>Juara 2:</strong> Rp 30.000.000 + Sertifikat</li>
-                                <li class="mb-2"><strong>Juara 3:</strong> Rp 20.000.000 + Sertifikat</li>
-                                <li class="mb-2"><strong>Harapan:</strong> Rp 5.000.000 + Sertifikat</li>
-                            </ul>
+                        <div class="card-image">
+                            @if($competition->image)
+                                <img src="{{ asset('storage/' . $competition->image) }}" 
+                                     alt="{{ $competition->name }}" 
+                                     class="competition-image">
+                            @else
+                                <div class="default-image">
+                                    <i class="bi bi-trophy"></i>
+                                </div>
+                            @endif
                         </div>
                         
-                        <div class="mb-4">
-                            <h6 class="fw-bold text-dark mb-2">
-                                <i class="bi bi-people text-success me-2"></i>Persyaratan
-                            </h6>
-                            <ul class="list-unstyled ms-4">
-                                <li class="mb-2">• Mahasiswa aktif S1/D3/D4</li>
-                                <li class="mb-2">• Tim maksimal 3 orang</li>
-                                <li class="mb-2">• Karya original dan belum dipublikasi</li>
-                                <li class="mb-2">• Menggunakan teknologi terbaru</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="d-grid gap-2">
-                            <a href="{{ route('login') }}" class="btn btn-primary btn-lg">
-                                <i class="bi bi-person-plus me-2"></i>Daftar Sekarang
-                            </a>
-                            <a href="{{ route('public.faq') }}" class="btn btn-outline-primary">
-                                <i class="bi bi-question-circle me-2"></i>FAQ & Panduan
-                            </a>
+                        <div class="card-content">
+                            <h3 class="card-title font-poppins">{{ $competition->name }}</h3>
+                            <p class="card-description">{{ Str::limit($competition->description ?? 'Kompetisi inovatif yang menantang kreativitas dan kemampuan peserta.', 120) }}</p>
+                            
+                            <div class="card-info">
+                                <div class="info-item">
+                                    <i class="bi bi-calendar3"></i>
+                                    <div>
+                                        <strong>Pendaftaran:</strong><br>
+                                        {{ $competition->registration_start ? \Carbon\Carbon::parse($competition->registration_start)->format('d M Y') : 'TBA' }} - 
+                                        {{ $competition->registration_end ? \Carbon\Carbon::parse($competition->registration_end)->format('d M Y') : 'TBA' }}
+                                    </div>
+                                </div>
+                                
+                                <div class="info-item">
+                                    <i class="bi bi-trophy"></i>
+                                    <div>
+                                        <strong>Hadiah:</strong><br>
+                                        {{ $competition->prize_amount ? 'Rp ' . number_format($competition->prize_amount) : 'Sertifikat & Hadiah Menarik' }}
+                                    </div>
+                                </div>
+                                
+                                <div class="info-item">
+                                    <i class="bi bi-people"></i>
+                                    <div>
+                                        <strong>Tim:</strong><br>
+                                        {{ $competition->max_team_members ?? 'Maksimal 3' }} orang
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card-actions">
+                                <a href="{{ route('public.competition', $competition) }}" class="btn-detail">
+                                    <span>Lihat Detail</span>
+                                    <i class="bi bi-arrow-right"></i>
+                                </a>
+                                
+                                @if($competition->registration_start <= now() && $competition->registration_end >= now())
+                                    <a href="{{ route('login') }}" class="btn-register">
+                                        <i class="bi bi-person-plus me-2"></i>
+                                        Daftar
+                                    </a>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @empty
+                <div class="col-12 text-center" data-aos="fade-up">
+                    <div class="empty-state">
+                        <i class="bi bi-trophy" style="font-size: 4rem; color: var(--primary-color);"></i>
+                        <h3 class="mt-3 font-poppins">Belum Ada Kompetisi</h3>
+                        <p class="text-muted">Kompetisi akan segera dibuka. Pantau terus website kami!</p>
+                    </div>
+                </div>
+            @endforelse
         </div>
+
+        <!-- Pagination -->
+        @if($competitions->hasPages())
+            <div class="pagination-wrapper mt-5" data-aos="fade-up">
+                {{ $competitions->links() }}
+            </div>
+        @endif
     </div>
 </section>
 
@@ -252,8 +183,8 @@
     <div class="container text-center">
         <div class="row justify-content-center">
             <div class="col-lg-8" data-aos="fade-up">
-                <h2 class="fw-bold mb-4">Siap Menunjukkan Inovasimu?</h2>
-                <p class="lead mb-4">
+                <h2 class="fw-bold mb-4 font-poppins">Siap Menunjukkan Inovasimu?</h2>
+                <p class="lead mb-4 font-poppins">
                     Bergabunglah dengan ribuan peserta lainnya dan wujudkan ide terbaikmu di UNAS Fest 2025!
                 </p>
                 <div class="d-flex flex-wrap gap-3 justify-content-center">
@@ -271,11 +202,16 @@
 @endsection
 
 @push('styles')
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 <style>
+    .font-poppins {
+        font-family: 'Poppins', sans-serif;
+    }
+
     /* Competitions Hero Section */
     .competitions-hero {
         min-height: 100vh;
-        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
         position: relative;
         overflow: hidden;
         display: flex;
@@ -390,49 +326,6 @@
         line-height: 1.6;
     }
 
-    .competition-categories {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        margin-bottom: 40px;
-        flex-wrap: wrap;
-    }
-
-    .category-pill {
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        border-radius: 50px;
-        padding: 15px 25px;
-        color: white;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        cursor: pointer;
-    }
-
-    .category-pill:hover {
-        background: rgba(255, 255, 255, 0.25);
-        transform: translateY(-5px);
-    }
-
-    .category-pill.technology:hover {
-        background: rgba(37, 99, 235, 0.3);
-        border-color: rgba(37, 99, 235, 0.5);
-    }
-
-    .category-pill.health:hover {
-        background: rgba(16, 185, 129, 0.3);
-        border-color: rgba(16, 185, 129, 0.5);
-    }
-
-    .category-pill.biodiversity:hover {
-        background: rgba(6, 182, 212, 0.3);
-        border-color: rgba(6, 182, 212, 0.5);
-    }
-
     .hero-actions {
         display: flex;
         justify-content: center;
@@ -510,8 +403,8 @@
         background: rgba(255, 255, 255, 0.3);
     }
 
-    /* Competitions Overview Section */
-    .competitions-overview {
+    /* All Competitions Section */
+    .all-competitions-section {
         padding: 100px 0;
         background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
     }
@@ -536,90 +429,210 @@
 
     .section-subtitle {
         font-size: 1.1rem;
-        color: var(--text-muted);
+        color: #64748b;
         max-width: 600px;
         margin: 0 auto;
         line-height: 1.6;
     }
 
-    .quick-stats {
-        margin-top: 60px;
-    }
-
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 30px;
-        max-width: 1000px;
-        margin: 0 auto;
-    }
-
-    .quick-stat-item {
+    /* Competition Cards */
+    .competition-card {
         background: white;
         border-radius: 20px;
-        padding: 30px;
-        text-align: center;
+        overflow: hidden;
         box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         transition: all 0.3s ease;
         position: relative;
-        overflow: hidden;
     }
 
-    .quick-stat-item::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 4px;
-        background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-    }
-
-    .quick-stat-item:hover {
+    .competition-card:hover {
         transform: translateY(-10px);
         box-shadow: 0 20px 40px rgba(0,0,0,0.15);
     }
 
-    .stat-icon {
-        width: 60px;
-        height: 60px;
-        border-radius: 15px;
+    .card-header {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        padding: 20px;
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .card-badge {
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    .card-status .badge {
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 5px 10px;
+    }
+
+    .card-image {
+        height: 200px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .competition-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .competition-card:hover .competition-image {
+        transform: scale(1.1);
+    }
+
+    .default-image {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 0 auto 20px;
-        font-size: 1.5rem;
         color: white;
+        font-size: 3rem;
     }
 
-    .stat-content .stat-number {
-        font-size: 2.5rem;
+    .card-content {
+        padding: 25px;
+    }
+
+    .card-title {
+        font-size: 1.3rem;
         font-weight: 700;
         color: var(--primary-color);
-        display: block;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
     }
 
-    .stat-content .stat-label {
-        color: var(--text-muted);
+    .card-description {
+        color: #64748b;
+        line-height: 1.6;
+        margin-bottom: 20px;
         font-size: 0.9rem;
     }
 
-    /* Gradient Backgrounds */
-    .bg-gradient-primary {
-        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    .card-info {
+        margin-bottom: 25px;
     }
 
-    .bg-gradient-success {
-        background: linear-gradient(135deg, var(--secondary-color), #059669);
+    .info-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+        margin-bottom: 15px;
+        padding: 12px;
+        background: #f8fafc;
+        border-radius: 10px;
+        border-left: 4px solid var(--primary-color);
     }
 
-    .bg-gradient-warning {
-        background: linear-gradient(135deg, var(--accent-color), #d97706);
+    .info-item i {
+        color: var(--primary-color);
+        font-size: 1.2rem;
+        margin-top: 2px;
+        flex-shrink: 0;
     }
 
-    .bg-gradient-info {
-        background: linear-gradient(135deg, #06b6d4, #0891b2);
+    .info-item strong {
+        color: var(--primary-color);
+        font-size: 0.85rem;
+    }
+
+    .info-item div {
+        font-size: 0.85rem;
+        color: #64748b;
+    }
+
+    .card-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .btn-detail {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px 20px;
+        background: transparent;
+        color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+    }
+
+    .btn-detail:hover {
+        background: var(--primary-color);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .btn-register {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px 20px;
+        background: linear-gradient(135deg, var(--accent-color), #f59e0b);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+    }
+
+    .btn-register:hover {
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+    }
+
+    /* Empty State */
+    .empty-state {
+        padding: 60px 20px;
+        text-align: center;
+    }
+
+    /* Pagination */
+    .pagination-wrapper {
+        display: flex;
+        justify-content: center;
+    }
+
+    .pagination-wrapper .pagination {
+        gap: 5px;
+    }
+
+    .pagination-wrapper .page-link {
+        color: var(--primary-color);
+        border: 1px solid var(--primary-color);
+        border-radius: 10px;
+        padding: 10px 15px;
+        transition: all 0.3s ease;
+    }
+
+    .pagination-wrapper .page-link:hover {
+        background: var(--primary-color);
+        color: white;
+    }
+
+    .pagination-wrapper .page-item.active .page-link {
+        background: var(--primary-color);
+        border-color: var(--primary-color);
     }
 
     /* Responsive Design */
@@ -630,16 +643,6 @@
 
         .hero-subtitle {
             font-size: 1rem;
-        }
-
-        .competition-categories {
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .category-pill {
-            width: 200px;
-            justify-content: center;
         }
 
         .hero-actions {
@@ -667,24 +670,23 @@
             font-size: 2rem;
         }
 
-        .stats-grid {
-            grid-template-columns: 1fr;
-            gap: 20px;
+        .all-competitions-section {
+            padding: 60px 0;
         }
 
-        .competitions-overview {
-            padding: 60px 0;
+        .card-actions {
+            flex-direction: column;
+        }
+
+        .btn-detail,
+        .btn-register {
+            width: 100%;
         }
     }
 
     @media (max-width: 576px) {
         .hero-title {
             font-size: 2rem;
-        }
-
-        .category-pill {
-            width: 100%;
-            max-width: 250px;
         }
 
         .btn-primary-custom,
@@ -693,322 +695,16 @@
             max-width: 280px;
         }
 
-        .quick-stat-item {
+        .competition-card {
+            margin-bottom: 20px;
+        }
+
+        .card-content {
             padding: 20px;
         }
 
-        .stat-content .stat-number {
-            font-size: 2rem;
-        }
-    }
-</style>
-@endpush
-        width: 40px;
-        height: 40px;
-        background: var(--gradient-primary);
-        color: white;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        font-size: 1.1rem;
-        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-    }
-
-    .step-icon {
-        width: 80px;
-        height: 80px;
-        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-        color: white;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2rem;
-        margin: 2rem auto 1.5rem;
-        transition: all 0.3s ease;
-    }
-
-    .step-card:hover .step-icon {
-        transform: scale(1.1);
-    }
-
-    .step-title {
-        font-size: 1.25rem;
-        font-weight: 700;
-        color: var(--text-primary);
-        margin-bottom: 1rem;
-    }
-
-    .step-description {
-        color: var(--text-secondary);
-        line-height: 1.6;
-        font-size: 0.95rem;
-    }
-
-    /* CTA Section */
-    .competitions-cta {
-        background: var(--gradient-primary);
-        color: white;
-        padding: 5rem 0;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .competitions-cta::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="25" cy="25" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1.5" fill="rgba(255,255,255,0.08)"/></svg>');
-        opacity: 0.5;
-    }
-
-    .cta-content {
-        position: relative;
-        z-index: 10;
-        max-width: 800px;
-        margin: 0 auto;
-    }
-
-    .cta-title {
-        font-size: 2.5rem;
-        font-weight: 800;
-        margin-bottom: 1.5rem;
-        line-height: 1.2;
-    }
-
-    .cta-description {
-        font-size: 1.125rem;
-        line-height: 1.6;
-        margin-bottom: 2.5rem;
-        color: rgba(255, 255, 255, 0.9);
-    }
-
-    .cta-actions {
-        margin-bottom: 2rem;
-    }
-
-    .btn-xl {
-        padding: 1.25rem 2.5rem;
-        font-size: 1.125rem;
-        border-radius: 1rem;
-        font-weight: 600;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.75rem;
-        text-decoration: none;
-        transition: all 0.3s ease;
-    }
-
-    .btn-xl.btn-primary {
-        background: var(--accent);
-        color: var(--dark);
-        border: none;
-        box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
-    }
-
-    .btn-xl.btn-primary:hover {
-        background: #f59e0b;
-        color: var(--dark);
-        transform: translateY(-3px);
-        box-shadow: 0 12px 35px rgba(245, 158, 11, 0.5);
-    }
-
-    .cta-note {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        font-size: 0.95rem;
-        color: rgba(255, 255, 255, 0.8);
-    }
-
-    .cta-note i {
-        color: var(--accent);
-        font-size: 1.1rem;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 992px) {
-        .competition-category.reverse .row {
-            flex-direction: column-reverse;
-        }
-
-        .hero-stats {
-            justify-content: center;
-            gap: 2rem;
-        }
-
-        .category-title {
-            font-size: 2rem;
-        }
-
-        .category-actions {
-            justify-content: center;
-        }
-
-        .info-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .competitions-hero {
-            padding: 6rem 0 4rem;
-            text-align: center;
-        }
-
-        .hero-title {
-            font-size: clamp(2rem, 8vw, 2.5rem);
-        }
-
-        .hero-stats {
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .category-title {
-            font-size: 1.75rem;
-        }
-
-        .category-description {
-            font-size: 1rem;
-        }
-
-        .category-actions {
-            flex-direction: column;
-        }
-
-        .btn-lg,
-        .btn-xl {
-            width: 100%;
-            justify-content: center;
-        }
-
-        .cta-title {
-            font-size: 2rem;
-        }
-
-        .step-card {
-            margin-bottom: 2rem;
-        }
-
-        .highlight-item:hover {
-            transform: none;
-        }
-    }
-
-    @media (max-width: 576px) {
-        .competitions-section {
-            padding: 4rem 0;
-        }
-
-        .competition-category {
-            margin-bottom: 5rem;
-        }
-
-        .highlight-item {
-            padding: 1rem;
-        }
-
         .info-item {
-            padding: 1rem;
-        }
-
-        .step-card {
-            padding: 1.5rem;
-        }
-
-        .registration-process {
-            padding: 4rem 0;
-        }
-
-        .competitions-cta {
-            padding: 4rem 0;
-        }
-    }
-
-    /* Print Styles */
-    @media print {
-        .competitions-hero,
-        .competitions-cta,
-        .registration-process {
-            background: white !important;
-            color: black !important;
-        }
-
-        .category-badge,
-        .hero-badge {
-            background: #f0f0f0 !important;
-            color: black !important;
-        }
-    }
-
-    /* Dark Mode Support */
-    @media (prefers-color-scheme: dark) {
-        .step-card,
-        .info-item,
-        .highlight-item {
-            background: #1e293b;
-            color: #e2e8f0;
-        }
-
-        .highlight-item {
-            background: #334155;
-        }
-    }
-
-    /* Animation Classes */
-    .animate-in {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    /* Loading States */
-    .loading {
-        opacity: 0.6;
-        pointer-events: none;
-    }
-
-    /* Focus States for Accessibility */
-    .btn:focus,
-    .step-card:focus-within,
-    .info-item:focus-within {
-        outline: 2px solid var(--primary);
-        outline-offset: 2px;
-    }
-
-    /* High Contrast Mode */
-    @media (prefers-contrast: high) {
-        .category-badge,
-        .hero-badge {
-            border: 2px solid currentColor;
-        }
-
-        .step-card,
-        .info-item {
-            border: 2px solid var(--border);
-        }
-    }
-
-    /* Reduced Motion */
-    @media (prefers-reduced-motion: reduce) {
-        .step-card:hover,
-        .info-item:hover,
-        .highlight-item:hover {
-            transform: none;
-        }
-
-        .step-icon {
-            transition: none;
-        }
-
-        .step-card:hover .step-icon {
-            transform: none;
+            padding: 10px;
         }
     }
 </style>
@@ -1017,208 +713,25 @@
 @push('scripts')
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
     // Initialize AOS
     AOS.init({
         duration: 800,
         easing: 'ease-in-out',
-        once: true,
-        offset: 50
+        once: true
     });
 
-    // Smooth scrolling for category links
+    // Smooth scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
-                const offsetTop = target.offsetTop - 100;
-                window.scrollTo({
-                    top: offsetTop,
-                    behavior: 'smooth'
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
                 });
             }
         });
     });
-
-    // Intersection Observer for section highlighting
-    const sections = document.querySelectorAll('[id]');
-    const navLinks = document.querySelectorAll('a[href^="#"]');
-
-    const observerOptions = {
-        threshold: 0.3,
-        rootMargin: '-100px 0px -100px 0px'
-    };
-
-    const sectionObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const sectionId = entry.target.getAttribute('id');
-                
-                // Update active nav link
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${sectionId}`) {
-                        link.classList.add('active');
-                    }
-                });
-            }
-        });
-    }, observerOptions);
-
-    sections.forEach(section => {
-        sectionObserver.observe(section);
-    });
-
-    // Registration button click tracking
-    document.querySelectorAll('a[href*="login"]').forEach(button => {
-        button.addEventListener('click', function(e) {
-            // Track registration intent
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'registration_intent', {
-                    'category': 'Competition',
-                    'label': 'Registration Button Click'
-                });
-            }
-        });
-    });
-
-    // Guideline modal handling
-    const guidelineButtons = document.querySelectorAll('[data-bs-target="#guidelineModal"]');
-    guidelineButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Determine which competition category
-            const category = this.closest('.competition-category');
-            let categoryName = 'Unknown';
-            
-            if (category.querySelector('.tech-badge')) {
-                categoryName = 'Technology';
-            } else if (category.querySelector('.health-badge')) {
-                categoryName = 'Health';
-            } else if (category.querySelector('.bio-badge')) {
-                categoryName = 'Biodiversity';
-            }
-
-            // Show guideline modal or redirect to guidelines page
-            alert(`Guideline untuk kompetisi ${categoryName} akan segera tersedia. Silakan hubungi panitia untuk informasi lebih lanjut.`);
-        });
-    });
-
-    // Lazy loading for images
-    const images = document.querySelectorAll('img[loading="lazy"]');
-    const imageObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                img.src = img.src;
-                img.classList.add('loaded');
-                imageObserver.unobserve(img);
-            }
-        });
-    });
-
-    images.forEach(img => {
-        imageObserver.observe(img);
-    });
-
-    // Performance monitoring
-    if ('performance' in window) {
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const navigation = performance.getEntriesByType('navigation')[0];
-                const loadTime = navigation.loadEventEnd - navigation.loadEventStart;
-                
-                if (loadTime > 3000) {
-                    console.warn('Page load time is slow:', loadTime, 'ms');
-                }
-
-                // Track page performance
-                if (typeof gtag !== 'undefined') {
-                    gtag('event', 'page_load_time', {
-                        'custom_parameter': loadTime
-                    });
-                }
-            }, 0);
-        });
-    }
-
-    // Error handling for failed image loads
-    document.querySelectorAll('img').forEach(img => {
-        img.addEventListener('error', function() {
-            this.style.display = 'none';
-            console.warn('Failed to load image:', this.src);
-        });
-    });
-
-    // Keyboard navigation for step cards
-    document.querySelectorAll('.step-card').forEach(card => {
-        card.setAttribute('tabindex', '0');
-        card.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                this.click();
-            }
-        });
-    });
-
-    // Accessibility improvements
-    document.querySelectorAll('.btn').forEach(button => {
-        if (!button.hasAttribute('aria-label') && !button.textContent.trim()) {
-            button.setAttribute('aria-label', 'Button');
-        }
-    });
-
-    // Form validation for future contact forms
-    const forms = document.querySelectorAll('form');
-    forms.forEach(form => {
-        form.addEventListener('submit', function(e) {
-            const requiredFields = form.querySelectorAll('[required]');
-            let isValid = true;
-
-            requiredFields.forEach(field => {
-                if (!field.value.trim()) {
-                    isValid = false;
-                    field.classList.add('is-invalid');
-                } else {
-                    field.classList.remove('is-invalid');
-                }
-            });
-
-            if (!isValid) {
-                e.preventDefault();
-                alert('Mohon lengkapi semua field yang wajib diisi');
-            }
-        });
-    });
-});
-
-// Additional utility functions
-function scrollToSection(sectionId) {
-    const section = document.getElementById(sectionId);
-    if (section) {
-        const offsetTop = section.offsetTop - 100;
-        window.scrollTo({
-            top: offsetTop,
-            behavior: 'smooth'
-        });
-    }
-}
-
-function trackCTAClick(category) {
-    if (typeof gtag !== 'undefined') {
-        gtag('event', 'cta_click', {
-            'category': 'Competition',
-            'label': category
-        });
-    }
-}
-
-// Export functions for external use
-window.competitionsPage = {
-    scrollToSection,
-    trackCTAClick
-};
 </script>
 @endpush

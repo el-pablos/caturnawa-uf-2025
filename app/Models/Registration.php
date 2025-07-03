@@ -217,44 +217,6 @@ class Registration extends Model
             'status' => self::STATUS_CONFIRMED,
             'confirmed_at' => now(),
         ]);
-        
-        // Generate QR Code untuk e-ticket
-        $this->generateQRCode();
-    }
-
-    /**
-     * Generate QR Code untuk e-ticket
-     *
-     * @return void
-     */
-    public function generateQRCode()
-    {
-        $qrData = [
-            'type' => 'unas_fest_ticket',
-            'registration_number' => $this->registration_number,
-            'ticket_code' => $this->ticket_code,
-            'competition_id' => $this->competition_id,
-            'competition' => $this->competition->name,
-            'participant' => $this->user->name,
-            'participant_email' => $this->user->email,
-            'issued_at' => now()->toISOString(),
-            'verify_url' => route('ticket.verify', $this->ticket_code)
-        ];
-
-        $qrCodeData = json_encode($qrData);
-
-        // Generate QR Code menggunakan SimpleSoftwareIO dengan SVG format (tidak perlu imagick)
-        $qrCode = \SimpleSoftwareIO\QrCode\Facades\QrCode::format('svg')
-            ->size(300)
-            ->margin(2)
-            ->generate($qrCodeData);
-
-        // Simpan QR code ke storage dan database
-        $qrPath = 'qrcodes/' . $this->ticket_code . '.png';
-        \Storage::disk('public')->put($qrPath, $qrCode);
-
-        // Simpan binary data QR code ke database untuk ditampilkan langsung
-        $this->update(['qr_code' => $qrCode]);
     }
 
     /**
@@ -294,8 +256,13 @@ class Registration extends Model
      */
     public function getQrCodeUrlAttribute()
     {
-        if ($this->qr_code) {
-            return asset('storage/' . $this->qr_code);
+        if ($this->qr_code && $this->isConfirmed()) {
+            // Jika qr_code berisi path file
+            if (str_contains($this->qr_code, 'qrcodes/')) {
+                return asset('storage/' . $this->qr_code);
+            }
+            // Jika qr_code berisi SVG data langsung
+            return 'data:image/svg+xml;base64,' . base64_encode($this->qr_code);
         }
         
         return null;
@@ -303,12 +270,41 @@ class Registration extends Model
 
     /**
      * Accessor untuk mendapatkan nama tim atau peserta
-     * 
+     *
      * @return string
      */
     public function getDisplayNameAttribute()
     {
         return $this->team_name ?: $this->user->name;
+    }
+
+    /**
+     * Generate QR Code untuk registrasi
+     *
+     * @return void
+     */
+    public function generateQRCode()
+    {
+        if (!$this->isConfirmed()) {
+            return;
+        }
+
+        try {
+            // Data yang akan di-encode dalam QR Code
+            $qrData = $this->registration_number;
+
+            // Generate QR Code menggunakan library SimpleSoftwareIO/simple-qrcode
+            $qrCode = \SimpleSoftwareIO\QrCode\Facades\QrCode::format('svg')
+                ->size(300)
+                ->margin(2)
+                ->generate($qrData);
+
+            // Simpan QR Code sebagai SVG string
+            $this->update(['qr_code' => $qrCode]);
+
+        } catch (\Exception $e) {
+            \Log::error('Failed to generate QR Code for registration ' . $this->id . ': ' . $e->getMessage());
+        }
     }
 
     /**

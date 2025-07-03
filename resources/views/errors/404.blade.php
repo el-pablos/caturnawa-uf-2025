@@ -24,7 +24,7 @@
                         <a href="{{ route('dashboard') }}" class="btn btn-primary">
                             <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
                         </a>
-                        <a href="{{ route('home') }}" class="btn btn-outline-secondary">
+                        <a href="{{ route('public.home') }}" class="btn btn-outline-secondary">
                             <i class="bi bi-house me-2"></i>Go Home
                         </a>
                     </div>

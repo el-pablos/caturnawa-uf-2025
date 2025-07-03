@@ -178,7 +178,17 @@ class SubmissionController extends Controller
 
         // Only allow submitting for draft submissions
         if ($submission->status !== 'draft') {
-            return redirect()->back()->with('error', 'Submission already submitted');
+            return redirect()->back()->with('error', 'Submission sudah di-submit sebelumnya');
+        }
+
+        // Validasi minimal requirements
+        if (empty($submission->title) || empty($submission->description)) {
+            return redirect()->back()->with('error', 'Judul dan deskripsi harus diisi sebelum submit final');
+        }
+
+        // Validasi minimal ada file
+        if (empty($submission->files) || count($submission->files) === 0) {
+            return redirect()->back()->with('error', 'Minimal harus ada 1 file sebelum submit final');
         }
 
         DB::beginTransaction();
@@ -189,14 +199,25 @@ class SubmissionController extends Controller
                 'submitted_at' => now(),
             ]);
 
+            // Log submission activity
+            \Log::info('Submission submitted successfully', [
+                'submission_id' => $submission->id,
+                'user_id' => Auth::id(),
+                'submitted_at' => now()
+            ]);
+
             DB::commit();
 
             return redirect()->route('peserta.submissions.show', $submission)
-                ->with('success', 'Submission submitted successfully');
+                ->with('success', 'Karya berhasil di-submit! Status telah berubah menjadi "Submitted"');
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Failed to submit submission: ' . $e->getMessage());
+            \Log::error('Failed to submit submission: ' . $e->getMessage(), [
+                'submission_id' => $submission->id,
+                'user_id' => Auth::id()
+            ]);
+            return redirect()->back()->with('error', 'Gagal submit karya: ' . $e->getMessage());
         }
     }
 

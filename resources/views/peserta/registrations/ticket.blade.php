@@ -104,35 +104,6 @@
                 </div>
                 @endif
                 
-                <!-- QR Code Section -->
-                <div class="text-center mb-4">
-                    <div class="qr-code-section p-4 bg-light rounded">
-                        <h6 class="text-muted mb-3">QR Code Check-in</h6>
-                        @if($registration->qr_code)
-                            <div class="qr-code-container mb-3">
-                                @if(str_starts_with($registration->qr_code, '<svg'))
-                                    <!-- SVG QR Code -->
-                                    <div class="qr-code-svg">
-                                        {!! $registration->qr_code !!}
-                                    </div>
-                                @else
-                                    <!-- PNG QR Code (fallback) -->
-                                    <img src="data:image/png;base64,{{ base64_encode($registration->qr_code) }}"
-                                         alt="QR Code" class="qr-code-image">
-                                @endif
-                            </div>
-                        @else
-                            <div class="alert alert-info">
-                                <i class="bi bi-info-circle me-2"></i>
-                                QR Code akan tersedia setelah pembayaran dikonfirmasi
-                            </div>
-                        @endif
-                        <p class="text-muted small mb-0">
-                            Tunjukkan QR Code ini kepada panitia saat check-in kompetisi
-                        </p>
-                    </div>
-                </div>
-                
                 <!-- Competition Schedule -->
                 <div class="competition-schedule">
                     <h6 class="text-muted mb-3">Jadwal Kompetisi</h6>
@@ -169,7 +140,6 @@
             <ul class="mb-0">
                 <li>Pastikan untuk membawa identitas diri yang valid saat check-in</li>
                 <li>Datang minimal 30 menit sebelum kompetisi dimulai</li>
-                <li>QR Code ini bersifat unik dan tidak dapat dipindahtangankan</li>
                 <li>Hubungi panitia jika ada pertanyaan atau kendala</li>
             </ul>
         </div>

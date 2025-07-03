@@ -25,6 +25,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Production environment validation
+        if (app()->environment('production')) {
+            $this->validateProductionEnvironment();
+        }
+
         // Share visitor statistics with all views
         view()->composer('*', function ($view) {
             if (class_exists(\App\Models\VisitorStatistic::class)) {
@@ -41,5 +46,34 @@ class AppServiceProvider extends ServiceProvider
                 }
             }
         });
+    }
+
+    /**
+     * Validate production environment settings
+     */
+    private function validateProductionEnvironment(): void
+    {
+        // Check debug mode
+        if (config('app.debug')) {
+            throw new \Exception('Debug mode must be disabled in production!');
+        }
+
+        // Check required environment variables
+        $requiredEnvVars = [
+            'DB_PASSWORD',
+            'MIDTRANS_SERVER_KEY',
+            'MIDTRANS_CLIENT_KEY',
+        ];
+
+        foreach ($requiredEnvVars as $envVar) {
+            if (empty(env($envVar))) {
+                throw new \Exception("Required environment variable {$envVar} is not set!");
+            }
+        }
+
+        // Check Midtrans production mode
+        if (!env('MIDTRANS_IS_PRODUCTION', false)) {
+            \Log::warning('Midtrans is not in production mode!');
+        }
     }
 }

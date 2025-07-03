@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Custom CSS -->
     <style>
@@ -41,7 +41,7 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             color: #1e293b;
@@ -201,6 +201,10 @@
             margin-bottom: 3rem;
         }
 
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+
         @media (max-width: 768px) {
             .hero-title {
                 font-size: 2.5rem;
@@ -350,6 +354,11 @@
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('public.testimonials') ? 'active' : '' }}" href="{{ route('public.testimonials') }}">
                             <i class="bi bi-chat-quote me-1"></i>Testimoni
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('public.faq') ? 'active' : '' }}" href="{{ route('public.faq') }}">
+                            <i class="bi bi-question-circle me-1"></i>FAQ
                         </a>
                     </li>
                     <li class="nav-item">

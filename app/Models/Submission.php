@@ -346,8 +346,11 @@ class Submission extends Model
         
         foreach ($this->files as $file) {
             if (($file['filename'] ?? $file['name'] ?? '') === $filename) {
-                $path = $file['path'] ?? ('submissions/' . $this->id . '/' . $filename);
-                return Storage::disk('public')->url($path);
+                // Return download route instead of direct storage URL
+                return route('download.submission', [
+                    'submission' => $this->id,
+                    'filename' => $filename
+                ]);
             }
         }
         

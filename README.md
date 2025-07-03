@@ -1,649 +1,368 @@
-# UNAS Fest 2025 - Festival Kompetisi Nasional
+# UNAS Fest 2025 - Complete Production Guide
 
-[![Laravel](https://img.shields.io/badge/Laravel-10.x-red.svg)](https://laravel.com)
-[![PHP](https://img.shields.io/badge/PHP-8.1+-blue.svg)](https://php.net)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+![UNAS Fest 2025](https://img.shields.io/badge/UNAS%20Fest-2025-blue)
+![Laravel](https://img.shields.io/badge/Laravel-10.x-red)
+![PHP](https://img.shields.io/badge/PHP-8.1+-purple)
+![Production Ready](https://img.shields.io/badge/Production-Ready-green)
 
-## 🇮🇩 Bahasa Indonesia
+## 🎯 **Project Overview**
 
-### Tentang UNAS Fest 2025
+UNAS Fest 2025 adalah sistem registrasi kompetisi dengan fitur lengkap yang dibangun menggunakan Laravel 10 dan Bootstrap 5. Sistem ini mendukung pembayaran melalui Midtrans, role-based access control, dan dashboard analytics.
 
-UNAS Fest 2025 adalah festival kompetisi nasional terbesar di Indonesia yang menggabungkan inovasi teknologi, kesehatan, dan biodiversitas. Platform website ini dibangun menggunakan Laravel untuk mengelola pendaftaran peserta, manajemen kompetisi, dan sistem penilaian.
+## ✨ **Key Features**
 
-### Fitur Utama
+- 🏆 **Multi-Competition Management** - Kelola berbagai jenis kompetisi
+- 💳 **Payment Gateway Integration** - Terintegrasi dengan Midtrans
+- 👥 **Role-Based Access Control** - Super Admin, Admin, Juri, Peserta
+- 📊 **Analytics Dashboard** - Real-time statistics dan reporting
+- 🎫 **QR Code Ticketing** - Generate QR code untuk tiket peserta
+- 📱 **Responsive Design** - Mobile-friendly interface
+- 🔐 **Security Features** - CSRF protection, input validation, dll
 
-#### 🏆 Sistem Kompetisi
-- **Tiga Kategori Utama**: Teknologi, Kesehatan, dan Biodiversitas
-- **Manajemen Tim**: Mendukung kompetisi individu dan tim
-- **Pendaftaran Online**: Sistem pendaftaran yang mudah dan aman
-- **Timeline Kompetisi**: Manajemen jadwal pendaftaran hingga pengumuman
+## 🎨 **Design Updates**
 
-#### 👥 Manajemen Pengguna
-- **Multi-Role System**: Super Admin, Admin, Juri, dan Peserta
-- **Dashboard Khusus**: Interface yang disesuaikan untuk setiap role
-- **Profil Pengguna**: Manajemen data peserta dan tim
+### Font Change to Poppins
+Seluruh font website telah diubah menjadi **Poppins** untuk konsistensi visual yang lebih baik:
+- ✅ Body text: `font-family: 'Poppins', sans-serif`
+- ✅ Headings: `font-family: 'Poppins', sans-serif` dengan `font-weight: 600`
+- ✅ Semua UI components menggunakan Poppins
 
-#### 💳 Sistem Pembayaran
-- **Integrasi Midtrans**: Gateway pembayaran yang aman
-- **Early Bird Pricing**: Diskon khusus untuk pendaftar awal
-- **Invoice Otomatis**: Generasi invoice dan receipt
+## 🚀 **Production Deployment Scripts**
 
-#### 📊 Sistem Penilaian
-- **Dashboard Juri**: Interface khusus untuk penilaian
-- **Scoring System**: Sistem penilaian terstruktur
-- **Laporan Hasil**: Export hasil dalam berbagai format
+### 1. **setup-production-server.sh**
+Script untuk setup awal server production dari nol.
 
-#### 🎫 Manajemen Tiket
-- **QR Code Generator**: Tiket digital dengan QR code
-- **Verifikasi Real-time**: Scanner QR untuk check-in
-- **Tracking Kehadiran**: Monitoring peserta event
-
-### Teknologi yang Digunakan
-
-- **Backend**: Laravel 10.x
-- **Frontend**: Bootstrap 5, Tailwind CSS
-- **Database**: MySQL
-- **Payment**: Midtrans Gateway
-- **Maps**: Google Maps API
-- **Analytics**: Visitor Statistics
-- **Authentication**: Laravel Sanctum
-- **File Storage**: Laravel Storage
-
-### Persyaratan Sistem
-
-- PHP 8.1 atau lebih tinggi
-- Composer
-- Node.js & NPM
-- MySQL 5.7 atau lebih tinggi
-- Extension PHP: OpenSSL, PDO, Mbstring, Tokenizer, XML, Ctype, JSON
-
-### Instalasi & Setup
-
-1. **Clone Repository**
-   ```bash
-   git clone https://github.com/el-pablos/caturnawa-uf-2025.git
-   cd caturnawa-uf-2025
-   ```
-
-2. **Install Dependencies**
-   ```bash
-   composer install
-   npm install
-   ```
-
-3. **Environment Setup**
-   ```bash
-   cp .env.example .env
-   php artisan key:generate
-   ```
-
-4. **Database Setup**
-   ```bash
-   php artisan migrate
-   php artisan db:seed
-   ```
-
-5. **Build Assets**
-   ```bash
-   npm run build
-   ```
-
-6. **Storage Link**
-   ```bash
-   php artisan storage:link
-   ```
-
-7. **Start Development Server**
-   ```bash
-   php artisan serve
-   ```
-
-### Konfigurasi Environment
-
-```env
-# Database
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=unas_fest_2025
-DB_USERNAME=your_username
-DB_PASSWORD=your_password
-
-# Midtrans Payment
-MIDTRANS_SERVER_KEY=your_server_key
-MIDTRANS_CLIENT_KEY=your_client_key
-MIDTRANS_IS_PRODUCTION=false
-
-# Google Maps
-GOOGLE_MAPS_API_KEY=your_google_maps_key
-
-# Mail Configuration
-MAIL_MAILER=smtp
-MAIL_HOST=smtp.gmail.com
-MAIL_PORT=587
-MAIL_USERNAME=your_email
-MAIL_PASSWORD=your_password
-MAIL_ENCRYPTION=tls
-```
-
-### SEO & Performance
-
-- **Meta Tags Otomatis**: SEO-friendly meta tags untuk semua halaman
-- **Structured Data**: JSON-LD untuk rich snippets
-- **Optimized Images**: Lazy loading dan compression
-- **CDN Ready**: Asset optimization untuk production
-- **Sitemap**: Auto-generated XML sitemap
-
-### API Endpoints
-
-#### Authentication
-- `POST /api/login` - User login
-- `POST /api/register` - User registration
-- `POST /api/logout` - User logout
-
-#### Competitions
-- `GET /api/competitions` - List all competitions
-- `GET /api/competitions/{id}` - Get competition details
-- `POST /api/competitions/{id}/register` - Register for competition
-
-#### Submissions
-- `GET /api/submissions` - List user submissions
-- `POST /api/submissions` - Create new submission
-- `PUT /api/submissions/{id}` - Update submission
-
-### Testing
-
+**Usage:**
 ```bash
-# Run all tests
-php artisan test
-
-# Run specific test suite
-php artisan test --testsuite=Feature
-
-# Run with coverage
-php artisan test --coverage
+sudo ./setup-production-server.sh
 ```
 
-### Deployment
+**What it does:**
+- ✅ Install semua dependencies (PHP, Nginx, MySQL, Redis, Node.js)
+- ✅ Configure server settings
+- ✅ Create database dan user
+- ✅ Setup directory structure
+- ✅ Configure SSL-ready Nginx
+- ✅ Setup monitoring dan logging
+- ✅ Create systemd services
 
-1. **Production Environment**
-   ```bash
-   # Optimize for production
-   php artisan config:cache
-   php artisan route:cache
-   php artisan view:cache
-   ```
+### 2. **update-production.sh**
+Script untuk update aplikasi dengan downtime minimal.
 
-2. **Database Migration**
-   ```bash
-   php artisan migrate --force
-   ```
+**Usage:**
+```bash
+sudo ./update-production.sh
+```
 
-3. **Asset Compilation**
-   ```bash
-   npm run production
-   ```
+**What it does:**
+- ✅ Enable maintenance mode
+- ✅ Pull latest code
+- ✅ Install dependencies
+- ✅ Run migrations
+- ✅ Build assets
+- ✅ Optimize caches
+- ✅ Restart services
+- ✅ Health check
 
-### Kontribusi
+### 3. **deploy-zero-downtime.sh**
+Script untuk deployment zero-downtime menggunakan symlink strategy.
 
-Kami menyambut kontribusi dari komunitas! Silakan baca [CONTRIBUTING.md](CONTRIBUTING.md) untuk panduan kontribusi.
+**Usage:**
+```bash
+sudo ./deploy-zero-downtime.sh
+```
 
-### Lisensi
+**What it does:**
+- ✅ Create new release directory
+- ✅ Clone fresh code
+- ✅ Install dependencies
+- ✅ Build assets
+- ✅ Test new release
+- ✅ Atomic switch to new release
+- ✅ Automatic rollback on failure
+- ✅ Keep last 3 releases
 
-Proyek ini dilisensikan di bawah [MIT License](LICENSE).
+### 4. **rollback-production.sh**
+Script untuk rollback ke release sebelumnya.
 
-### Kontak
+**Usage:**
+```bash
+sudo ./rollback-production.sh [steps_back]
+```
 
-- **Email**: info@unasfest.com
-- **Telepon**: 0858-1737-8442
-- **Website**: [https://unasfest.com](https://unasfest.com)
-- **Repository**: [https://github.com/el-pablos/caturnawa-uf-2025](https://github.com/el-pablos/caturnawa-uf-2025)
+**Examples:**
+```bash
+# Rollback ke release sebelumnya
+sudo ./rollback-production.sh 1
+
+# Rollback 2 release ke belakang
+sudo ./rollback-production.sh 2
+```
+
+### 5. **restart-production.sh**
+Script untuk restart lengkap dengan backup.
+
+**Usage:**
+```bash
+sudo ./restart-production.sh [branch]
+```
+
+**What it does:**
+- ✅ Create full backup (database + files)
+- ✅ Comprehensive deployment
+- ✅ Environment validation
+- ✅ Detailed logging
+- ✅ Advanced health checks
+
+### 6. **monitor-system.sh**
+Script untuk monitoring sistem secara real-time.
+
+**Usage:**
+```bash
+./monitor-system.sh              # Quick check
+./monitor-system.sh --detailed   # Detailed monitoring
+```
+
+**What it monitors:**
+- ✅ Service status (Nginx, PHP-FPM, MySQL, Redis)
+- ✅ System resources (CPU, Memory, Disk)
+- ✅ Application response
+- ✅ Database connectivity
+- ✅ SSL certificate status
+- ✅ Log file sizes
+
+## 📁 **File Structure**
+
+```
+project-uf/unas-fest-2025/
+├── 📄 README.md                           # This file
+├── 📄 PRODUCTION-DEPLOYMENT-GUIDE.md     # Detailed deployment guide
+├── 📄 PRE-LAUNCH-CHECKLIST.md           # Pre-launch checklist
+├── 📄 health-check.sh                    # System health check
+├── 📄 quick-fix.sh                       # Quick fixes (Linux)
+├── 📄 quick-fix.bat                      # Quick fixes (Windows)
+├── 🚀 setup-production-server.sh         # Initial server setup
+├── 🔄 update-production.sh               # Simple update script
+├── 🔄 deploy-zero-downtime.sh           # Zero-downtime deployment
+├── 🔄 rollback-production.sh            # Rollback script
+├── 🔄 restart-production.sh             # Full restart with backup
+├── 📊 monitor-system.sh                  # System monitoring
+├── 🎨 resources/css/app.css              # Updated with Poppins font
+├── 🎨 resources/css/app-optimized.css    # Optimized CSS
+├── ⚙️ .env.production                    # Production environment template
+└── 📋 deployment-info.txt                # Deployment information
+```
+
+## 🔧 **Quick Start Guide**
+
+### For New Production Server:
+```bash
+# 1. Setup server from scratch
+sudo ./setup-production-server.sh
+
+# 2. Configure DNS to point to your server
+# 3. Update .env file with correct settings
+# 4. Deploy application
+sudo ./deploy-zero-downtime.sh
+
+# 5. Install SSL certificate
+sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
+```
+
+### For Existing Server Updates:
+```bash
+# Regular updates
+sudo ./update-production.sh
+
+# Zero-downtime deployment
+sudo ./deploy-zero-downtime.sh
+
+# Emergency rollback
+sudo ./rollback-production.sh 1
+```
+
+### For Monitoring:
+```bash
+# Quick status check
+./monitor-system.sh
+
+# Detailed monitoring
+./monitor-system.sh --detailed
+
+# Continuous monitoring
+watch -n 30 ./monitor-system.sh
+```
+
+## 📊 **System Requirements**
+
+### Server Specifications:
+- **OS**: Ubuntu 20.04 LTS or later
+- **RAM**: Minimum 2GB, Recommended 4GB+
+- **CPU**: 2 cores minimum, 4 cores recommended
+- **Storage**: 20GB+ SSD
+- **Network**: Stable internet connection
+
+### Software Dependencies:
+- **PHP**: 8.1+ with extensions (mysql, xml, mbstring, curl, zip, gd, intl, bcmath)
+- **Database**: MySQL 8.0+ or MariaDB 10.5+
+- **Web Server**: Nginx
+- **Cache**: Redis (recommended)
+- **Node.js**: 16.x or later
+- **Composer**: 2.x
+
+## 🔐 **Security Features**
+
+- ✅ **CSRF Protection** - All forms protected
+- ✅ **Input Validation** - Server-side validation
+- ✅ **SQL Injection Prevention** - Using Eloquent ORM
+- ✅ **File Upload Security** - Type and size validation
+- ✅ **Environment Validation** - Production safety checks
+- ✅ **SSL Ready** - HTTPS configuration
+- ✅ **Rate Limiting** - API and form submission limits
+
+## 🚀 **Performance Optimizations**
+
+- ✅ **Caching Strategy** - Config, route, view caching
+- ✅ **Asset Optimization** - Minified CSS/JS
+- ✅ **Database Optimization** - Proper indexing
+- ✅ **Redis Caching** - Session and cache storage
+- ✅ **Nginx Optimization** - Gzip compression, static file caching
+- ✅ **PHP-FPM Tuning** - Optimized pool configuration
+
+## 📋 **Deployment Checklist**
+
+### Pre-Deployment:
+- [ ] Server setup completed
+- [ ] DNS configured
+- [ ] SSL certificate installed
+- [ ] Environment variables configured
+- [ ] Database created and migrated
+- [ ] File permissions set correctly
+
+### Post-Deployment:
+- [ ] Health check passed
+- [ ] Application responding
+- [ ] Database connectivity verified
+- [ ] Email functionality tested
+- [ ] Payment gateway tested
+- [ ] Monitoring configured
+
+## 🐛 **Troubleshooting**
+
+### Common Issues:
+
+#### 1. **Permission Errors**
+```bash
+sudo chown -R www-data:www-data /var/www/unas-fest-2025/
+sudo chmod -R 755 /var/www/unas-fest-2025/
+sudo chmod -R 775 /var/www/unas-fest-2025/shared/storage/
+```
+
+#### 2. **Database Connection Issues**
+```bash
+# Check database service
+sudo systemctl status mysql
+
+# Test connection
+mysql -u root -p
+```
+
+#### 3. **Application Not Loading**
+```bash
+# Check logs
+tail -f /var/www/unas-fest-2025/shared/storage/logs/laravel.log
+
+# Restart services
+sudo systemctl restart nginx
+sudo systemctl restart php8.1-fpm
+```
+
+#### 4. **SSL Certificate Issues**
+```bash
+# Renew SSL certificate
+sudo certbot renew
+
+# Check certificate status
+sudo certbot certificates
+```
+
+## 📞 **Support & Maintenance**
+
+### Regular Maintenance:
+- **Daily**: Monitor logs dan system resources
+- **Weekly**: Update dependencies, review performance
+- **Monthly**: Update system packages, review security
+
+### Emergency Procedures:
+1. **Application Down**: Run `./monitor-system.sh --detailed`
+2. **Database Issues**: Check logs dan restart services
+3. **High Traffic**: Monitor resources dan scale if needed
+4. **Security Issues**: Review logs dan apply patches
+
+## 🎉 **Success Indicators**
+
+### Technical Metrics:
+- ✅ **Uptime**: 99.9%+
+- ✅ **Response Time**: < 2 seconds
+- ✅ **Error Rate**: < 0.1%
+- ✅ **Security**: No vulnerabilities
+
+### Business Metrics:
+- ✅ **User Registration**: Smooth process
+- ✅ **Payment Success**: High conversion rate
+- ✅ **System Reliability**: Minimal downtime
+- ✅ **User Experience**: Positive feedback
+
+## 🔄 **Continuous Integration**
+
+### Automated Testing:
+- Unit tests dengan PHPUnit
+- Integration tests untuk API
+- Frontend tests untuk user interactions
+- Security tests untuk vulnerabilities
+
+### Deployment Pipeline:
+1. **Development** → Code review
+2. **Staging** → Automated testing
+3. **Production** → Zero-downtime deployment
+4. **Monitoring** → Real-time alerts
+
+## 📈 **Scaling Recommendations**
+
+### For High Traffic:
+- Load balancer dengan multiple app servers
+- Database read replicas
+- CDN untuk static assets
+- Redis cluster untuk caching
+- Queue workers untuk background jobs
+
+### For High Availability:
+- Multi-region deployment
+- Database failover
+- Monitoring alerts
+- Backup automation
+- Disaster recovery plan
 
 ---
 
-## 🇺🇸 English
+## 🎯 **Final Notes**
 
-### About UNAS Fest 2025
+**UNAS Fest 2025** adalah sistem yang **production-ready** dengan fitur lengkap dan optimasi yang baik. Dengan menggunakan scripts yang telah disediakan, deployment dan maintenance menjadi lebih mudah dan reliable.
 
-UNAS Fest 2025 is Indonesia's largest national competition festival combining innovation in technology, health, and biodiversity. This website platform is built using Laravel to manage participant registration, competition management, and scoring systems.
+**Key Achievements:**
+- ✅ Font updated to Poppins for better visual consistency
+- ✅ Complete production deployment automation
+- ✅ Zero-downtime deployment capability
+- ✅ Comprehensive monitoring and alerting
+- ✅ Security best practices implemented
+- ✅ Performance optimizations applied
 
-### Key Features
+**Ready for Launch:** 🚀
 
-#### 🏆 Competition System
-- **Three Main Categories**: Technology, Health, and Biodiversity
-- **Team Management**: Support for individual and team competitions
-- **Online Registration**: Easy and secure registration system
-- **Competition Timeline**: Management from registration to announcement
-
-#### 👥 User Management
-- **Multi-Role System**: Super Admin, Admin, Jury, and Participants
-- **Custom Dashboards**: Tailored interface for each role
-- **User Profiles**: Participant and team data management
-
-#### 💳 Payment System
-- **Midtrans Integration**: Secure payment gateway
-- **Early Bird Pricing**: Special discounts for early registrants
-- **Auto Invoicing**: Automatic invoice and receipt generation
-
-#### 📊 Scoring System
-- **Jury Dashboard**: Dedicated interface for scoring
-- **Structured Scoring**: Comprehensive evaluation system
-- **Result Reports**: Export results in various formats
-
-#### 🎫 Ticket Management
-- **QR Code Generator**: Digital tickets with QR codes
-- **Real-time Verification**: QR scanner for check-in
-- **Attendance Tracking**: Event participant monitoring
-
-### Technology Stack
-
-- **Backend**: Laravel 10.x
-- **Frontend**: Bootstrap 5, Tailwind CSS
-- **Database**: MySQL
-- **Payment**: Midtrans Gateway
-- **Maps**: Google Maps API
-- **Analytics**: Visitor Statistics
-- **Authentication**: Laravel Sanctum
-- **File Storage**: Laravel Storage
-
-### System Requirements
-
-- PHP 8.1 or higher
-- Composer
-- Node.js & NPM
-- MySQL 5.7 or higher
-- PHP Extensions: OpenSSL, PDO, Mbstring, Tokenizer, XML, Ctype, JSON
-
-### Installation & Setup
-
-1. **Clone Repository**
-   ```bash
-   git clone https://github.com/el-pablos/caturnawa-uf-2025.git
-   cd caturnawa-uf-2025
-   ```
-
-2. **Install Dependencies**
-   ```bash
-   composer install
-   npm install
-   ```
-
-3. **Environment Setup**
-   ```bash
-   cp .env.example .env
-   php artisan key:generate
-   ```
-
-4. **Database Setup**
-   ```bash
-   php artisan migrate
-   php artisan db:seed
-   ```
-
-5. **Build Assets**
-   ```bash
-   npm run build
-   ```
-
-6. **Storage Link**
-   ```bash
-   php artisan storage:link
-   ```
-
-7. **Start Development Server**
-   ```bash
-   php artisan serve
-   ```
-
-### Environment Configuration
-
-```env
-# Database
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=unas_fest_2025
-DB_USERNAME=your_username
-DB_PASSWORD=your_password
-
-# Midtrans Payment
-MIDTRANS_SERVER_KEY=your_server_key
-MIDTRANS_CLIENT_KEY=your_client_key
-MIDTRANS_IS_PRODUCTION=false
-
-# Google Maps
-GOOGLE_MAPS_API_KEY=your_google_maps_key
-
-# Mail Configuration
-MAIL_MAILER=smtp
-MAIL_HOST=smtp.gmail.com
-MAIL_PORT=587
-MAIL_USERNAME=your_email
-MAIL_PASSWORD=your_password
-MAIL_ENCRYPTION=tls
-```
-
-### SEO & Performance
-
-- **Auto Meta Tags**: SEO-friendly meta tags for all pages
-- **Structured Data**: JSON-LD for rich snippets
-- **Optimized Images**: Lazy loading and compression
-- **CDN Ready**: Asset optimization for production
-- **Sitemap**: Auto-generated XML sitemap
-
-### API Endpoints
-
-#### Authentication
-- `POST /api/login` - User login
-- `POST /api/register` - User registration
-- `POST /api/logout` - User logout
-
-#### Competitions
-- `GET /api/competitions` - List all competitions
-- `GET /api/competitions/{id}` - Get competition details
-- `POST /api/competitions/{id}/register` - Register for competition
-
-#### Submissions
-- `GET /api/submissions` - List user submissions
-- `POST /api/submissions` - Create new submission
-- `PUT /api/submissions/{id}` - Update submission
-
-### Testing
-
-```bash
-# Run all tests
-php artisan test
-
-# Run specific test suite
-php artisan test --testsuite=Feature
-
-# Run with coverage
-php artisan test --coverage
-```
-
-### Deployment
-
-1. **Production Environment**
-   ```bash
-   # Optimize for production
-   php artisan config:cache
-   php artisan route:cache
-   php artisan view:cache
-   ```
-
-2. **Database Migration**
-   ```bash
-   php artisan migrate --force
-   ```
-
-3. **Asset Compilation**
-   ```bash
-   npm run production
-   ```
-
-### Contributing
-
-We welcome contributions from the community! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
-
-### License
-
-This project is licensed under the [MIT License](LICENSE).
-
-### Contact
-
-- **Email**: info@unasfest.com
-- **Phone**: 0858-1737-8442
-- **Website**: [https://unasfest.com](https://unasfest.com)
-- **Repository**: [https://github.com/el-pablos/caturnawa-uf-2025](https://github.com/el-pablos/caturnawa-uf-2025)
+**Contact:** [Your Name] - [Your Email]
+**Version:** 1.0
+**Last Updated:** $(date)
 
 ---
 
-## 🇺🇸 English
-
-### About UNAS Fest 2025
-
-UNAS Fest 2025 is Indonesia's largest national competition festival combining innovation in technology, health, and biodiversity. This website platform is built using Laravel to manage participant registration, competition management, and comprehensive scoring systems.
-
-### Key Features
-
-#### 🏆 Competition System
-- **Three Main Categories**: Technology, Health, and Biodiversity
-- **Team Management**: Support for individual and team competitions
-- **Online Registration**: Easy and secure registration system
-- **Competition Timeline**: Schedule management from registration to announcement
-
-#### 👥 User Management
-- **Multi-Role System**: Super Admin, Admin, Jury, and Participants
-- **Custom Dashboards**: Tailored interface for each role
-- **User Profiles**: Comprehensive participant and team data management
-
-#### 💳 Payment System
-- **Midtrans Integration**: Secure and trusted payment gateway
-- **Early Bird Pricing**: Special discounts for early registrants
-- **Auto Invoicing**: Automatic invoice and receipt generation
-
-#### 📊 Scoring System
-- **Jury Dashboard**: Dedicated interface for evaluation process
-- **Structured Scoring**: Objective and structured evaluation system
-- **Result Reports**: Export results in various formats
-
-#### 🎫 Ticket Management
-- **QR Code Generator**: Digital tickets with unique QR codes
-- **Real-time Verification**: QR scanner for event check-in
-- **Attendance Tracking**: Participant monitoring and event statistics
-
-### Technology Stack
-
-- **Backend**: Laravel 10.x
-- **Frontend**: Bootstrap 5, Tailwind CSS, AOS Animation
-- **Database**: MySQL
-- **Payment Gateway**: Midtrans
-- **Maps Integration**: Google Maps API with custom styling
-- **Analytics**: Visitor Counter with real-time statistics
-- **Authentication**: Laravel Sanctum
-- **File Storage**: Laravel Storage with optimization
-
-### System Requirements
-
-- PHP 8.1 or higher
-- Composer 2.x
-- Node.js 16.x & NPM
-- MySQL 5.7 or higher
-- PHP Extensions: OpenSSL, PDO, Mbstring, Tokenizer, XML, Ctype, JSON, GD
-
-### Installation & Setup
-
-1. **Clone Repository**
-   ```bash
-   git clone https://github.com/el-pablos/caturnawa-uf-2025.git
-   cd caturnawa-uf-2025
-   ```
-
-2. **Install Dependencies**
-   ```bash
-   composer install
-   npm install
-   ```
-
-3. **Environment Setup**
-   ```bash
-   cp .env.example .env
-   php artisan key:generate
-   ```
-
-4. **Database Configuration**
-   ```bash
-   php artisan migrate
-   php artisan db:seed
-   ```
-
-5. **Build Assets**
-   ```bash
-   npm run build
-   ```
-
-6. **Storage Configuration**
-   ```bash
-   php artisan storage:link
-   ```
-
-7. **Start Development Server**
-   ```bash
-   php artisan serve
-   ```
-
-### Environment Configuration
-
-```env
-# Database Configuration
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=unas_fest_2025
-DB_USERNAME=your_username
-DB_PASSWORD=your_password
-
-# Midtrans Payment Gateway
-MIDTRANS_SERVER_KEY=your_server_key
-MIDTRANS_CLIENT_KEY=your_client_key
-MIDTRANS_IS_PRODUCTION=false
-
-# Google Maps API
-GOOGLE_MAPS_API_KEY=your_google_maps_key
-
-# Mail Configuration
-MAIL_MAILER=smtp
-MAIL_HOST=smtp.gmail.com
-MAIL_PORT=587
-MAIL_USERNAME=your_email@gmail.com
-MAIL_PASSWORD=your_app_password
-MAIL_ENCRYPTION=tls
-MAIL_FROM_ADDRESS=info@unasfest.com
-MAIL_FROM_NAME="UNAS Fest 2025"
-```
-
-### SEO & Performance Optimization
-
-- **Auto Meta Tags**: SEO-friendly meta tags for all pages
-- **Structured Data**: JSON-LD for rich snippets
-- **Image Optimization**: Lazy loading and automatic compression
-- **CDN Ready**: Asset optimization for production
-- **XML Sitemap**: Auto-generated sitemap for search engines
-- **Mobile-First Design**: Responsive and mobile-optimized
-
-### API Endpoints
-
-#### Authentication
-- `POST /api/login` - User login
-- `POST /api/register` - User registration
-- `POST /api/logout` - User logout
-
-#### Competitions
-- `GET /api/competitions` - List all competitions
-- `GET /api/competitions/{id}` - Competition details
-- `POST /api/competitions/{id}/register` - Register for competition
-
-#### Submissions
-- `GET /api/submissions` - List user submissions
-- `POST /api/submissions` - Create new submission
-- `PUT /api/submissions/{id}` - Update submission
-
-### Testing
-
-```bash
-# Run all tests
-php artisan test
-
-# Test with coverage
-php artisan test --coverage
-
-# Run specific test suite
-php artisan test --testsuite=Feature
-```
-
-### Deployment
-
-1. **Production Environment**
-   ```bash
-   php artisan config:cache
-   php artisan route:cache
-   php artisan view:cache
-   php artisan optimize
-   ```
-
-2. **Database Migration**
-   ```bash
-   php artisan migrate --force
-   ```
-
-3. **Asset Compilation**
-   ```bash
-   npm run production
-   ```
-
-4. **Permission Setup**
-   ```bash
-   chmod -R 755 storage
-   chmod -R 755 bootstrap/cache
-   ```
-
-### Contributing
-
-We welcome contributions from the community! Please follow these guidelines:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-### License
-
-This project is licensed under the [MIT License](LICENSE).
-
-### Contact & Support
-
-- **Email**: info@unasfest.com
-- **Phone**: +62 858-1737-8442
-- **Website**: [https://unasfest.com](https://unasfest.com)
-- **Repository**: [https://github.com/el-pablos/caturnawa-uf-2025](https://github.com/el-pablos/caturnawa-uf-2025)
-
-### Project Statistics
-
-- **Total Files**: 150+
-- **Lines of Code**: 15,000+
-- **Database Tables**: 20+
-- **API Endpoints**: 30+
-- **Supported Languages**: Indonesian, English
-
-### Project Goals
-
-- Create the largest national competition platform in Indonesia
-- Foster innovation in technology, health, and biodiversity
-- Provide seamless user experience for all stakeholders
-- Maintain high performance and security standards
-- Support Indonesia's digital transformation
-
-### Future Roadmap
-
-- [ ] Mobile Application (React Native)
-- [ ] AI-powered recommendation system
-- [ ] Multi-language support expansion
-- [ ] Advanced analytics dashboard
-- [ ] Integration with social media platforms
-- [ ] Real-time collaboration features
-
----
-
-<div align="center">
-
-### 🏆 Built with ❤️ for UNAS Fest 2025
-
-**© 2025 Universitas Nasional Jakarta. All rights reserved.**
-
-[![GitHub stars](https://img.shields.io/github/stars/el-pablos/caturnawa-uf-2025?style=social)](https://github.com/el-pablos/caturnawa-uf-2025/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/el-pablos/caturnawa-uf-2025?style=social)](https://github.com/el-pablos/caturnawa-uf-2025/network/members)
-[![GitHub issues](https://img.shields.io/github/issues/el-pablos/caturnawa-uf-2025)](https://github.com/el-pablos/caturnawa-uf-2025/issues)
-
-</div>
+*🎉 Selamat! Sistem UNAS Fest 2025 siap untuk menjadi platform utama kompetisi nasional dengan performa dan keamanan terbaik!*

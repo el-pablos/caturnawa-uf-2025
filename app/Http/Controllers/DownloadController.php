@@ -28,16 +28,28 @@ class DownloadController extends Controller
         $file = collect($files)->firstWhere('filename', $filename);
 
         if (!$file) {
-            abort(404, 'File not found');
+            return back()->with('error', 'File tidak ditemukan dalam submission');
         }
 
         $filePath = $file['path'];
         
         if (!Storage::disk('public')->exists($filePath)) {
-            abort(404, 'File not found on storage');
+            return back()->with('error', 'File tidak ditemukan di storage. Silakan upload ulang file Anda.');
         }
 
-        return Storage::disk('public')->download($filePath, $file['original_name']);
+        try {
+            // Check file size and mime type for security
+            $fileSize = Storage::disk('public')->size($filePath);
+            if ($fileSize > 50 * 1024 * 1024) { // 50MB limit
+                return back()->with('error', 'File terlalu besar untuk didownload');
+            }
+
+            return Storage::disk('public')->download($filePath, $file['original_name']);
+            
+        } catch (\Exception $e) {
+            \Log::error('Download error for submission ' . $submission->id . ': ' . $e->getMessage());
+            return back()->with('error', 'Terjadi kesalahan saat mengunduh file');
+        }
     }
 
     public function invoice(Payment $payment)

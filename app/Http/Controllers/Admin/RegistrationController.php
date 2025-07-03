@@ -84,6 +84,16 @@ class RegistrationController extends Controller
      */
     public function confirm(Registration $registration)
     {
+        // Validasi sequential processing
+        if (!$this->canProcessRegistration($registration, 'confirm')) {
+            return back()->with('error', 'Registrasi harus diproses secara berurutan. Pastikan registrasi sebelumnya sudah diproses terlebih dahulu.');
+        }
+
+        // Pastikan registrasi dalam status yang tepat
+        if ($registration->status !== 'pending') {
+            return back()->with('error', 'Hanya registrasi dengan status pending yang dapat dikonfirmasi.');
+        }
+
         try {
             DB::beginTransaction();
 
@@ -116,6 +126,16 @@ class RegistrationController extends Controller
      */
     public function cancel(Registration $registration)
     {
+        // Validasi sequential processing
+        if (!$this->canProcessRegistration($registration, 'cancel')) {
+            return back()->with('error', 'Registrasi harus diproses secara berurutan. Pastikan registrasi sebelumnya sudah diproses terlebih dahulu.');
+        }
+
+        // Pastikan registrasi dalam status yang tepat
+        if (!in_array($registration->status, ['pending', 'confirmed'])) {
+            return back()->with('error', 'Registrasi dengan status ini tidak dapat dibatalkan.');
+        }
+
         try {
             DB::beginTransaction();
 
@@ -123,6 +143,7 @@ class RegistrationController extends Controller
                 'status' => 'cancelled',
                 'cancelled_at' => now(),
                 'cancelled_by' => auth()->id(),
+                'cancelled_reason' => 'Dibatalkan oleh admin'
             ]);
 
             // Refund payment if exists
@@ -137,6 +158,25 @@ class RegistrationController extends Controller
             DB::rollback();
             return back()->with('error', 'Gagal membatalkan registrasi: ' . $e->getMessage());
         }
+    }
+
+    /**
+     * Validasi apakah registrasi dapat diproses secara sequential
+     * 
+     * @param \App\Models\Registration $registration
+     * @param string $action
+     * @return bool
+     */
+    private function canProcessRegistration(Registration $registration, $action)
+    {
+        // Ambil registrasi yang dibuat sebelum registrasi ini dari kompetisi yang sama
+        $previousRegistrations = Registration::where('competition_id', $registration->competition_id)
+            ->where('created_at', '<', $registration->created_at)
+            ->where('status', 'pending')
+            ->count();
+
+        // Jika masih ada registrasi pending sebelumnya, tidak bisa diproses
+        return $previousRegistrations === 0;
     }
 
     /**
