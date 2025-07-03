@@ -299,7 +299,7 @@ main() {
     
     # Set trap for cleanup
     trap cleanup EXIT
-    
+    #
     # Run checks
     check_permissions
     check_project_directory
