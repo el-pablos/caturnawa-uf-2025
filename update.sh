@@ -189,27 +189,64 @@ run_migrations() {
     log "Database migrations completed"
 }
 
+# Force fix common issues
+force_fix_issues() {
+    log "Force fixing common issues..."
+    cd "$PROJECT_DIR"
+
+    # Ensure critical directories exist with correct permissions
+    mkdir -p storage/framework/{cache,sessions,views}
+    mkdir -p storage/logs
+    mkdir -p bootstrap/cache
+    mkdir -p public/storage
+
+    # Fix ownership and permissions
+    chown -R www-data:www-data storage bootstrap/cache
+    chmod -R 775 storage bootstrap/cache
+
+    # Remove problematic cache files
+    rm -rf storage/framework/cache/*
+    rm -rf storage/framework/sessions/*
+    rm -rf storage/framework/views/*
+    rm -rf bootstrap/cache/*
+
+    # Ensure .env is readable
+    chmod 644 .env
+    chown www-data:www-data .env
+
+    log "Common issues fixed"
+}
+
 # Optimize application
 optimize_application() {
     log "Optimizing application..."
     cd "$PROJECT_DIR"
-    
-    # Clear all caches
+
+    # Force fix issues first
+    force_fix_issues
+
+    # Clear all caches (with better error handling)
+    log "Clearing caches..."
     sudo -u www-data -E php artisan config:clear 2>/dev/null || warning "Config clear failed"
     sudo -u www-data -E php artisan route:clear 2>/dev/null || warning "Route clear failed"
     sudo -u www-data -E php artisan view:clear 2>/dev/null || warning "View clear failed"
     sudo -u www-data -E php artisan cache:clear 2>/dev/null || warning "Cache clear failed"
-    
-    # Optimize for production
-    sudo -u www-data -E php artisan config:cache 2>/dev/null || warning "Config cache failed"
-    sudo -u www-data -E php artisan route:cache 2>/dev/null || warning "Route cache failed"
-    sudo -u www-data -E php artisan view:cache 2>/dev/null || warning "View cache failed"
-    
+
+    # Test if artisan is working before caching
+    if sudo -u www-data -E php artisan --version >/dev/null 2>&1; then
+        log "Caching optimizations..."
+        sudo -u www-data -E php artisan config:cache 2>/dev/null || warning "Config cache failed"
+        sudo -u www-data -E php artisan route:cache 2>/dev/null || warning "Route cache failed"
+        sudo -u www-data -E php artisan view:cache 2>/dev/null || warning "View cache failed"
+    else
+        warning "Artisan not working, skipping cache optimization"
+    fi
+
     # Create storage link if needed
     if [ ! -L "$PROJECT_DIR/public/storage" ]; then
         sudo -u www-data -E php artisan storage:link 2>/dev/null || warning "Storage link failed"
     fi
-    
+
     log "Application optimized"
 }
 
@@ -255,13 +292,90 @@ restart_services() {
     log "Services restarted"
 }
 
+# Debug and fix 500 errors
+debug_and_fix() {
+    log "Debugging and fixing 500 errors..."
+    cd "$PROJECT_DIR"
+
+    # Test Laravel bootstrap
+    log "Testing Laravel bootstrap..."
+    if ! sudo -u www-data -E php artisan --version >/dev/null 2>&1; then
+        error "Laravel bootstrap failed"
+
+        # Try to fix common issues
+        log "Attempting to fix bootstrap issues..."
+
+        # Recreate bootstrap cache directory
+        rm -rf bootstrap/cache/*
+        mkdir -p bootstrap/cache
+        chown -R www-data:www-data bootstrap/cache
+        chmod -R 775 bootstrap/cache
+
+        # Clear and recreate storage directories
+        mkdir -p storage/framework/{cache,sessions,views}
+        mkdir -p storage/logs
+        chown -R www-data:www-data storage
+        chmod -R 775 storage
+
+        # Test again
+        if ! sudo -u www-data -E php artisan --version >/dev/null 2>&1; then
+            error "Laravel still not working, checking detailed error..."
+            sudo -u www-data -E php artisan --version 2>&1 | tail -10
+        else
+            log "✅ Laravel bootstrap fixed"
+        fi
+    else
+        log "✅ Laravel bootstrap working"
+    fi
+
+    # Test database connection
+    log "Testing database connection..."
+    if ! sudo -u www-data -E php artisan tinker --execute="DB::connection()->getPdo(); echo 'DB_OK';" 2>/dev/null | grep -q "DB_OK"; then
+        error "Database connection failed"
+        log "Database debug info:"
+        log "DB_HOST: ${DB_HOST}"
+        log "DB_DATABASE: ${DB_DATABASE}"
+        log "DB_USERNAME: ${DB_USERNAME}"
+        log "DB_PASSWORD: ${DB_PASSWORD:+***set***}"
+
+        # Test MySQL connection directly
+        if mysql -h"${DB_HOST}" -P"${DB_PORT}" -u"${DB_USERNAME}" -p"${DB_PASSWORD}" -e "SELECT 1;" "${DB_DATABASE}" >/dev/null 2>&1; then
+            log "✅ MySQL connection works directly"
+        else
+            error "❌ MySQL connection failed directly"
+        fi
+    else
+        log "✅ Database connection working"
+    fi
+
+    # Check critical files
+    log "Checking critical files..."
+    critical_files=(".env" "composer.json" "artisan" "public/index.php")
+    for file in "${critical_files[@]}"; do
+        if [ -f "$file" ]; then
+            log "✅ $file exists"
+        else
+            error "❌ $file missing"
+        fi
+    done
+
+    # Check web server configuration
+    log "Checking web server..."
+    if nginx -t >/dev/null 2>&1; then
+        log "✅ Nginx configuration valid"
+    else
+        error "❌ Nginx configuration invalid"
+        nginx -t 2>&1 | tail -5
+    fi
+}
+
 # Health check
 health_check() {
     log "Running health check..."
-    
+
     # Wait for services to start
     sleep 10
-    
+
     # Check if application is responding
     if curl -f -s "https://uf25.tams.my.id" > /dev/null 2>&1; then
         log "✅ Application is responding (HTTPS)"
@@ -274,19 +388,34 @@ health_check() {
         return 0
     else
         error "❌ Application is not responding"
-        
+
+        # Run debug and fix
+        debug_and_fix
+
         # Show recent errors for debugging
         log "Recent Laravel errors:"
         if [ -f "$PROJECT_DIR/storage/logs/laravel.log" ]; then
-            tail -5 "$PROJECT_DIR/storage/logs/laravel.log" 2>/dev/null || echo "No Laravel logs"
+            tail -10 "$PROJECT_DIR/storage/logs/laravel.log" 2>/dev/null || echo "No Laravel logs"
         fi
-        
+
         log "Recent Nginx errors:"
         if [ -f "/var/log/nginx/error.log" ]; then
-            tail -5 /var/log/nginx/error.log 2>/dev/null || echo "No Nginx logs"
+            tail -10 /var/log/nginx/error.log 2>/dev/null || echo "No Nginx logs"
         fi
-        
-        return 1
+
+        log "Recent PHP-FPM errors:"
+        if [ -f "/var/log/php8.3-fpm.log" ]; then
+            tail -5 /var/log/php8.3-fpm.log 2>/dev/null || echo "No PHP-FPM logs"
+        fi
+
+        # Try one more time after fixes
+        sleep 5
+        if curl -f -s "http://localhost" > /dev/null 2>&1; then
+            log "✅ Application responding after fixes"
+            return 0
+        else
+            return 1
+        fi
     fi
 }
 
