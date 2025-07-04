@@ -170,6 +170,23 @@ Route::middleware(['auth', 'verified', 'role.redirect'])->group(function () {
             Route::delete('/{submission}', [App\Http\Controllers\Admin\SubmissionController::class, 'destroy'])->name('destroy');
         });
 
+        // User Activation Management
+        Route::prefix('user-activation')->name('user-activation.')->group(function () {
+            Route::get('/', [App\Http\Controllers\Admin\UserActivationController::class, 'index'])->name('index');
+            Route::patch('/{user}/activate', [App\Http\Controllers\Admin\UserActivationController::class, 'activate'])->name('activate');
+            Route::patch('/{user}/deactivate', [App\Http\Controllers\Admin\UserActivationController::class, 'deactivate'])->name('deactivate');
+            Route::post('/bulk-activate', [App\Http\Controllers\Admin\UserActivationController::class, 'bulkActivate'])->name('bulk-activate');
+        });
+
+        // Payment Confirmation Management
+        Route::prefix('payment-confirmation')->name('payment-confirmation.')->group(function () {
+            Route::get('/', [App\Http\Controllers\Admin\PaymentConfirmationController::class, 'index'])->name('index');
+            Route::get('/{payment}', [App\Http\Controllers\Admin\PaymentConfirmationController::class, 'show'])->name('show');
+            Route::patch('/{payment}/confirm', [App\Http\Controllers\Admin\PaymentConfirmationController::class, 'confirm'])->name('confirm');
+            Route::patch('/{payment}/reject', [App\Http\Controllers\Admin\PaymentConfirmationController::class, 'reject'])->name('reject');
+            Route::post('/bulk-confirm', [App\Http\Controllers\Admin\PaymentConfirmationController::class, 'bulkConfirm'])->name('bulk-confirm');
+        });
+
         // Reports
         Route::prefix('reports')->name('reports.')->group(function () {
             Route::get('/', [App\Http\Controllers\Admin\ReportController::class, 'index'])->name('index');

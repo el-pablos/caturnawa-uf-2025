@@ -26,6 +26,47 @@
                     @csrf
                     @method('PUT')
                     
+                    <!-- System Control -->
+                    <div class="mb-4">
+                        <h6 class="text-primary mb-3">
+                            <i class="bi bi-shield-check me-2"></i>Kontrol Sistem
+                        </h6>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" name="maintenance_mode" id="maintenanceMode"
+                                           {{ ($settings['maintenance_mode'] ?? false) ? 'checked' : '' }}>
+                                    <label class="form-check-label fw-semibold" for="maintenanceMode">
+                                        Mode Maintenance
+                                    </label>
+                                    <div class="text-muted small">Aktifkan untuk menutup akses website</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" name="registration_open" id="registrationOpen"
+                                           {{ ($settings['registration_open'] ?? true) ? 'checked' : '' }}>
+                                    <label class="form-check-label fw-semibold" for="registrationOpen">
+                                        Buka Pendaftaran
+                                    </label>
+                                    <div class="text-muted small">Izinkan pendaftaran peserta baru</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="maintenance_message" class="form-label fw-semibold">Pesan Mode Maintenance</label>
+                                <textarea class="form-control" id="maintenance_message" name="maintenance_message" rows="3">{{ old('maintenance_message', $settings['maintenance_message'] ?? 'Maaf yahh website dalam masa pemeliharaan, silahkan coba nanti') }}</textarea>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="registration_closed_message" class="form-label fw-semibold">Pesan Pendaftaran Ditutup</label>
+                                <textarea class="form-control" id="registration_closed_message" name="registration_closed_message" rows="3">{{ old('registration_closed_message', $settings['registration_closed_message'] ?? 'Pendaftaran sedang ditutup, silahkan tungu periode selanjutnya yaaaa....') }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Application Settings -->
                     <div class="mb-4">
                         <h6 class="text-primary mb-3">

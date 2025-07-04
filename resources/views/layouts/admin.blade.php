@@ -320,6 +320,14 @@
                         <i class="bi bi-file-earmark-text me-2"></i>Karya Peserta
                     </a>
 
+                    <a class="nav-link {{ request()->routeIs('admin.user-activation.*') ? 'active' : '' }}" href="{{ route('admin.user-activation.index') }}">
+                        <i class="bi bi-person-check me-2"></i>Aktivasi Akun
+                    </a>
+
+                    <a class="nav-link {{ request()->routeIs('admin.payment-confirmation.*') ? 'active' : '' }}" href="{{ route('admin.payment-confirmation.index') }}">
+                        <i class="bi bi-credit-card-2-front me-2"></i>Konfirmasi Pembayaran
+                    </a>
+
                     <a class="nav-link {{ request()->routeIs('admin.payments.*') ? 'active' : '' }}" href="{{ route('admin.payments.index') }}">
                         <i class="bi bi-credit-card me-2"></i>Pembayaran
                     </a>

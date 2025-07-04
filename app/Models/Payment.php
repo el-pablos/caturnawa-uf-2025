@@ -42,6 +42,10 @@ class Payment extends Model
         'paid_at',
         'expired_at',
         'midtrans_response',
+        'is_confirmed',
+        'confirmed_at',
+        'confirmed_by',
+        'confirmation_notes',
     ];
 
     /**
@@ -55,6 +59,8 @@ class Payment extends Model
         'midtrans_response' => 'array',
         'gross_amount' => 'decimal:2',
         'amount' => 'decimal:2',
+        'is_confirmed' => 'boolean',
+        'confirmed_at' => 'datetime',
     ];
 
     /**
