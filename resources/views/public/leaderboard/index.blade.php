@@ -1,38 +1,62 @@
-@extends('layouts.caturnawa-2025')
+@extends('layouts.simple')
 
 @section('title', 'Leaderboard - UNAS Fest 2025')
 
 @section('content')
-<div class="hero-section">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-8 mx-auto text-center">
-                <h1 class="hero-title text-white mb-3">
-                    <i class="bi bi-trophy-fill me-3"></i>Leaderboard
-                </h1>
-                <p class="hero-subtitle text-white-50 mb-4">
-                    Lihat peringkat terbaru peserta kompetisi UNAS Fest 2025
-                </p>
+<div class="container my-5">
+    <!-- Hero Section -->
+    <div class="row">
+        <div class="col-12">
+            <div class="jumbotron bg-primary text-white p-5 rounded mb-5">
+                <div class="text-center">
+                    <h1 class="display-4 fw-bold mb-3">
+                        <i class="bi bi-trophy me-3"></i>Leaderboard UNAS Fest 2025
+                    </h1>
+                    <p class="lead mb-4">
+                        Lihat peringkat terbaru peserta kompetisi UNAS Fest 2025.
+                        Pantau posisi Anda dan kompetitor lainnya dalam real-time.
+                    </p>
+                    <div class="row justify-content-center">
+                        <div class="col-md-3 mb-3">
+                            <a href="{{ route('public.competitions') }}" class="btn btn-warning btn-lg w-100">
+                                <i class="bi bi-trophy me-2"></i>Lihat Kompetisi
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="{{ route('public.faq') }}" class="btn btn-light btn-lg w-100">
+                                <i class="bi bi-question-circle me-2"></i>FAQ
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-<div class="container py-5">
     @if($competitions->count() > 0)
-        <!-- Competition Filter -->
-        <div class="row mb-4">
-            <div class="col-lg-8 mx-auto">
-                <div class="card shadow-sm">
+        <!-- Competition Filter Section -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <h2 class="text-center mb-4">
+                    <i class="bi bi-funnel text-info"></i>
+                    Filter Kompetisi
+                </h2>
+            </div>
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-header bg-info text-white text-center">
+                        <h5 class="mb-0">
+                            <i class="bi bi-trophy me-2"></i>Pilih Kompetisi untuk Melihat Leaderboard
+                        </h5>
+                    </div>
                     <div class="card-body">
                         <div class="row align-items-center">
                             <div class="col-md-3">
                                 <label class="form-label fw-semibold">Pilih Kompetisi:</label>
                             </div>
                             <div class="col-md-9">
-                                <select id="competitionSelect" class="form-select">
+                                <select id="competitionSelect" class="form-select form-select-lg">
                                     @foreach($competitions as $competition)
-                                        <option value="{{ $competition->id }}" 
+                                        <option value="{{ $competition->id }}"
                                                 {{ $selectedCompetition && $selectedCompetition->id === $competition->id ? 'selected' : '' }}>
                                             {{ $competition->name }} ({{ $competition->category }})
                                         </option>
@@ -46,43 +70,79 @@
         </div>
 
         @if($selectedCompetition && $leaderboard->count() > 0)
-            <!-- Competition Info -->
-            <div class="row mb-4">
-                <div class="col-lg-8 mx-auto">
-                    <div class="card border-0 shadow-sm">
+            <!-- Competition Info Section -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <h2 class="text-center mb-4">
+                        <i class="bi bi-award text-success"></i>
+                        {{ $selectedCompetition->name }}
+                    </h2>
+                </div>
+                <div class="col-12">
+                    <div class="card shadow">
+                        <div class="card-header bg-success text-white text-center">
+                            <h5 class="mb-0">
+                                <i class="bi bi-info-circle me-2"></i>Informasi Kompetisi
+                            </h5>
+                        </div>
                         <div class="card-body text-center">
-                            <h4 class="text-primary mb-2">{{ $selectedCompetition->name }}</h4>
-                            <p class="text-muted mb-0">
-                                <span class="badge bg-primary me-2">{{ $selectedCompetition->category }}</span>
-                                <span class="text-muted">{{ $leaderboard->count() }} Peserta</span>
-                            </p>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="stat-item">
+                                        <h3 class="text-primary">{{ $selectedCompetition->category }}</h3>
+                                        <p class="text-muted">Kategori</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="stat-item">
+                                        <h3 class="text-success">{{ $leaderboard->count() }}</h3>
+                                        <p class="text-muted">Total Peserta</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="stat-item">
+                                        <h3 class="text-warning">{{ number_format($selectedCompetition->price ?? 0) }}</h3>
+                                        <p class="text-muted">Hadiah (IDR)</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Top 3 Podium -->
+            <!-- Top 3 Podium Section -->
             @if($leaderboard->count() >= 3)
                 <div class="row mb-5">
-                    <div class="col-lg-10 mx-auto">
-                        <div class="podium-container">
-                            <div class="row text-center">
+                    <div class="col-12">
+                        <h2 class="text-center mb-4">
+                            <i class="bi bi-trophy-fill text-warning"></i>
+                            Top 3 Pemenang
+                        </h2>
+                    </div>
+                    <div class="col-12">
+                        <div class="card shadow">
+                            <div class="card-header bg-warning text-dark text-center">
+                                <h5 class="mb-0">
+                                    <i class="bi bi-star me-2"></i>Podium Juara
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row text-center">
                                 <!-- 2nd Place -->
                                 <div class="col-md-4 order-md-1 mb-4">
-                                    <div class="podium-card podium-second">
-                                        <div class="podium-rank">
-                                            <i class="bi bi-award-fill text-secondary"></i>
-                                            <span class="rank-number">2</span>
+                                    <div class="card border-secondary">
+                                        <div class="card-header bg-secondary text-white text-center">
+                                            <h4><i class="bi bi-award-fill me-2"></i>Juara 2</h4>
                                         </div>
-                                        <div class="podium-content">
-                                            <h5 class="participant-name">{{ $leaderboard[1]['participant_name'] }}</h5>
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title text-primary">{{ $leaderboard[1]['participant_name'] }}</h5>
                                             @if($leaderboard[1]['team_name'])
-                                                <p class="team-name text-muted">{{ $leaderboard[1]['team_name'] }}</p>
+                                                <p class="text-muted">Tim: {{ $leaderboard[1]['team_name'] }}</p>
                                             @endif
-                                            <p class="submission-title">{{ $leaderboard[1]['submission_title'] }}</p>
-                                            <div class="score-display">
-                                                <span class="score-number">{{ $leaderboard[1]['average_score'] }}</span>
-                                                <small class="text-muted">/100</small>
+                                            <p class="card-text"><strong>{{ $leaderboard[1]['submission_title'] }}</strong></p>
+                                            <div class="score-badge">
+                                                <span class="badge bg-secondary fs-5">{{ $leaderboard[1]['average_score'] }}/100</span>
                                             </div>
                                         </div>
                                     </div>
@@ -90,20 +150,18 @@
 
                                 <!-- 1st Place -->
                                 <div class="col-md-4 order-md-2 mb-4">
-                                    <div class="podium-card podium-first">
-                                        <div class="podium-rank">
-                                            <i class="bi bi-trophy-fill text-warning"></i>
-                                            <span class="rank-number">1</span>
+                                    <div class="card border-warning shadow-lg">
+                                        <div class="card-header bg-warning text-dark text-center">
+                                            <h4><i class="bi bi-trophy-fill me-2"></i>Juara 1</h4>
                                         </div>
-                                        <div class="podium-content">
-                                            <h5 class="participant-name">{{ $leaderboard[0]['participant_name'] }}</h5>
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title text-primary">{{ $leaderboard[0]['participant_name'] }}</h5>
                                             @if($leaderboard[0]['team_name'])
-                                                <p class="team-name text-muted">{{ $leaderboard[0]['team_name'] }}</p>
+                                                <p class="text-muted">Tim: {{ $leaderboard[0]['team_name'] }}</p>
                                             @endif
-                                            <p class="submission-title">{{ $leaderboard[0]['submission_title'] }}</p>
-                                            <div class="score-display">
-                                                <span class="score-number">{{ $leaderboard[0]['average_score'] }}</span>
-                                                <small class="text-muted">/100</small>
+                                            <p class="card-text"><strong>{{ $leaderboard[0]['submission_title'] }}</strong></p>
+                                            <div class="score-badge">
+                                                <span class="badge bg-warning text-dark fs-4">{{ $leaderboard[0]['average_score'] }}/100</span>
                                             </div>
                                         </div>
                                     </div>
@@ -111,20 +169,18 @@
 
                                 <!-- 3rd Place -->
                                 <div class="col-md-4 order-md-3 mb-4">
-                                    <div class="podium-card podium-third">
-                                        <div class="podium-rank">
-                                            <i class="bi bi-award-fill text-warning"></i>
-                                            <span class="rank-number">3</span>
+                                    <div class="card border-danger">
+                                        <div class="card-header bg-danger text-white text-center">
+                                            <h4><i class="bi bi-award-fill me-2"></i>Juara 3</h4>
                                         </div>
-                                        <div class="podium-content">
-                                            <h5 class="participant-name">{{ $leaderboard[2]['participant_name'] }}</h5>
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title text-primary">{{ $leaderboard[2]['participant_name'] }}</h5>
                                             @if($leaderboard[2]['team_name'])
-                                                <p class="team-name text-muted">{{ $leaderboard[2]['team_name'] }}</p>
+                                                <p class="text-muted">Tim: {{ $leaderboard[2]['team_name'] }}</p>
                                             @endif
-                                            <p class="submission-title">{{ $leaderboard[2]['submission_title'] }}</p>
-                                            <div class="score-display">
-                                                <span class="score-number">{{ $leaderboard[2]['average_score'] }}</span>
-                                                <small class="text-muted">/100</small>
+                                            <p class="card-text"><strong>{{ $leaderboard[2]['submission_title'] }}</strong></p>
+                                            <div class="score-badge">
+                                                <span class="badge bg-danger fs-5">{{ $leaderboard[2]['average_score'] }}/100</span>
                                             </div>
                                         </div>
                                     </div>
@@ -135,13 +191,19 @@
                 </div>
             @endif
 
-            <!-- Full Leaderboard Table -->
-            <div class="row">
-                <div class="col-lg-10 mx-auto">
-                    <div class="card border-0 shadow-sm">
-                        <div class="card-header bg-white border-bottom">
+            <!-- Full Leaderboard Table Section -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <h2 class="text-center mb-4">
+                        <i class="bi bi-list-ol text-primary"></i>
+                        Peringkat Lengkap
+                    </h2>
+                </div>
+                <div class="col-12">
+                    <div class="card shadow">
+                        <div class="card-header bg-primary text-white text-center">
                             <h5 class="mb-0">
-                                <i class="bi bi-list-ol me-2"></i>Peringkat Lengkap
+                                <i class="bi bi-table me-2"></i>Tabel Peringkat Semua Peserta
                             </h5>
                         </div>
                         <div class="card-body p-0">
@@ -206,28 +268,56 @@
                 </div>
             </div>
         @elseif($selectedCompetition)
-            <!-- No Data -->
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <div class="card border-0 shadow-sm">
+            <!-- No Data Section -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <h2 class="text-center mb-4">
+                        <i class="bi bi-exclamation-triangle text-warning"></i>
+                        Belum Ada Data
+                    </h2>
+                </div>
+                <div class="col-12">
+                    <div class="card shadow">
+                        <div class="card-header bg-warning text-dark text-center">
+                            <h5 class="mb-0">
+                                <i class="bi bi-info-circle me-2"></i>Informasi
+                            </h5>
+                        </div>
                         <div class="card-body text-center py-5">
                             <i class="bi bi-trophy fs-1 text-muted mb-3"></i>
                             <h5 class="text-muted">Belum Ada Penilaian</h5>
                             <p class="text-muted">Leaderboard untuk kompetisi {{ $selectedCompetition->name }} belum tersedia.</p>
+                            <a href="{{ route('public.competitions') }}" class="btn btn-primary">
+                                <i class="bi bi-arrow-left me-2"></i>Kembali ke Kompetisi
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         @endif
     @else
-        <!-- No Competitions -->
-        <div class="row">
-            <div class="col-lg-8 mx-auto">
-                <div class="card border-0 shadow-sm">
+        <!-- No Competitions Section -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <h2 class="text-center mb-4">
+                    <i class="bi bi-exclamation-circle text-danger"></i>
+                    Belum Ada Kompetisi
+                </h2>
+            </div>
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-header bg-danger text-white text-center">
+                        <h5 class="mb-0">
+                            <i class="bi bi-info-circle me-2"></i>Informasi
+                        </h5>
+                    </div>
                     <div class="card-body text-center py-5">
                         <i class="bi bi-trophy fs-1 text-muted mb-3"></i>
                         <h5 class="text-muted">Belum Ada Kompetisi</h5>
                         <p class="text-muted">Leaderboard akan tersedia setelah ada kompetisi yang aktif.</p>
+                        <a href="{{ route('public.competitions') }}" class="btn btn-primary">
+                            <i class="bi bi-plus-circle me-2"></i>Lihat Kompetisi
+                        </a>
                     </div>
                 </div>
             </div>
@@ -238,129 +328,53 @@
 
 @push('styles')
 <style>
-/* Hero Section */
-.hero-section {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 100px 0 60px;
-    margin-top: -80px;
-    position: relative;
-}
-
-.hero-title {
-    font-size: 3rem;
-    font-weight: 700;
+/* Consistent with home page styling */
+.stat-item {
+    padding: 1rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
     margin-bottom: 1rem;
 }
 
-.hero-subtitle {
-    font-size: 1.2rem;
-    opacity: 0.9;
-}
-
-/* Podium Styles */
-.podium-container {
-    margin: 2rem 0;
-}
-
-.podium-card {
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    padding: 2rem 1rem;
-    position: relative;
-    transition: all 0.3s ease;
-    border: 3px solid transparent;
-}
-
-.podium-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-}
-
-.podium-first {
-    transform: scale(1.05);
-    border-color: #ffd700;
-    background: linear-gradient(145deg, #fff9e6, #ffffff);
-}
-
-.podium-second {
-    border-color: #c0c0c0;
-    background: linear-gradient(145deg, #f8f9fa, #ffffff);
-}
-
-.podium-third {
-    border-color: #cd7f32;
-    background: linear-gradient(145deg, #fff5e6, #ffffff);
-}
-
-.podium-rank {
-    margin-bottom: 1rem;
-    position: relative;
-}
-
-.podium-rank i {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.rank-number {
-    position: absolute;
-    top: -10px;
-    right: 1rem;
-    background: rgba(0,0,0,0.1);
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 1.2rem;
-    color: #333;
-}
-
-.participant-name {
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #2c3e50;
-    font-size: 1.1rem;
-}
-
-.team-name {
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
-    color: #6c757d;
-}
-
-.submission-title {
-    font-weight: 500;
-    color: #495057;
-    margin-bottom: 1rem;
-    font-size: 0.95rem;
-    line-height: 1.4;
-}
-
-.score-display {
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid #e9ecef;
-}
-
-.score-number {
+.stat-item h3 {
     font-size: 2rem;
     font-weight: bold;
-    color: #667eea;
+    margin-bottom: 0.5rem;
 }
 
-/* Table Styles */
-.table-hover tbody tr:hover {
-    background-color: rgba(102, 126, 234, 0.05);
+.stat-item p {
+    margin-bottom: 0;
+    font-size: 0.9rem;
+}
+
+/* Card enhancements */
+.card {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    font-weight: 600;
+    border-bottom: none;
+}
+
+/* Table styling consistent with other pages */
+.table {
+    margin-bottom: 0;
 }
 
 .table th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
     font-weight: 600;
     color: #495057;
-    border-bottom: 2px solid #dee2e6;
 }
 
 .table td {
@@ -368,93 +382,84 @@
     padding: 1rem 0.75rem;
 }
 
-/* Card Styles */
-.card {
-    border: none;
-    border-radius: 12px;
-    overflow: hidden;
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.05);
 }
 
-.card-header {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border-bottom: 1px solid #dee2e6;
-    padding: 1rem 1.5rem;
-}
-
-/* Badge Styles */
+/* Badge styling */
 .badge {
     font-size: 0.85rem;
     padding: 0.5rem 0.75rem;
+    border-radius: 6px;
 }
 
-/* Responsive Design */
+/* Score badge special styling */
+.score-badge {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e9ecef;
+}
+
+/* Jumbotron consistent styling */
+.jumbotron {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 123, 255, 0.3);
+}
+
+/* Button styling */
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive design */
 @media (max-width: 768px) {
-    .hero-title {
+    .display-4 {
         font-size: 2rem;
     }
 
-    .hero-subtitle {
+    .lead {
         font-size: 1rem;
     }
 
-    .podium-first {
-        transform: none;
-        order: 1 !important;
-    }
-
-    .podium-card {
-        padding: 1.5rem 1rem;
-        margin-bottom: 1rem;
-    }
-
-    .score-number {
+    .stat-item h3 {
         font-size: 1.5rem;
-    }
-
-    .rank-number {
-        width: 35px;
-        height: 35px;
-        font-size: 1rem;
     }
 
     .table-responsive {
         font-size: 0.9rem;
     }
+
+    .card-body {
+        padding: 1rem;
+    }
 }
 
 @media (max-width: 576px) {
-    .hero-section {
-        padding: 80px 0 40px;
+    .jumbotron {
+        padding: 3rem 1.5rem !important;
     }
 
-    .podium-rank i {
-        font-size: 2rem;
-    }
-
-    .participant-name {
+    .btn-lg {
         font-size: 1rem;
+        padding: 0.75rem 1rem;
     }
 
-    .submission-title {
-        font-size: 0.9rem;
+    .stat-item {
+        padding: 0.75rem;
     }
 }
 
-/* Animation */
-.podium-card {
+/* Animation for cards */
+.card {
     animation: fadeInUp 0.6s ease-out;
-}
-
-.podium-first {
-    animation-delay: 0.2s;
-}
-
-.podium-second {
-    animation-delay: 0.1s;
-}
-
-.podium-third {
-    animation-delay: 0.3s;
 }
 
 @keyframes fadeInUp {
@@ -468,10 +473,11 @@
     }
 }
 
-/* Loading State */
+/* Loading state */
 .loading {
     opacity: 0.6;
     pointer-events: none;
+    position: relative;
 }
 
 .loading::after {
@@ -482,7 +488,7 @@
     width: 20px;
     height: 20px;
     margin: -10px 0 0 -10px;
-    border: 2px solid #667eea;
+    border: 2px solid #007bff;
     border-radius: 50%;
     border-top-color: transparent;
     animation: spin 1s linear infinite;
