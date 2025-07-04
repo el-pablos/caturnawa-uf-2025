@@ -353,10 +353,29 @@ do_update() {
 
     # Run specific seeders for production
     log "Running production seeders..."
-    sudo -u www-data -E php artisan db:seed --class=RoleSeeder --force
-    sudo -u www-data -E php artisan db:seed --class=UserSeeder --force
-    sudo -u www-data -E php artisan db:seed --class=SettingsSeeder --force
-    sudo -u www-data -E php artisan db:seed --class=FixJuryAssignmentSeeder --force
+    if sudo -u www-data -E php artisan db:seed --class=RolePermissionSeeder --force; then
+        log "RolePermissionSeeder completed successfully"
+    else
+        warn "RolePermissionSeeder failed, continuing..."
+    fi
+
+    if sudo -u www-data -E php artisan db:seed --class=UserOnlySeeder --force; then
+        log "UserOnlySeeder completed successfully"
+    else
+        warn "UserOnlySeeder failed, continuing..."
+    fi
+
+    if sudo -u www-data -E php artisan db:seed --class=SettingsSeeder --force; then
+        log "SettingsSeeder completed successfully"
+    else
+        warn "SettingsSeeder failed, continuing..."
+    fi
+
+    if sudo -u www-data -E php artisan db:seed --class=FixJuryAssignmentSeeder --force; then
+        log "FixJuryAssignmentSeeder completed successfully"
+    else
+        warn "FixJuryAssignmentSeeder failed, continuing..."
+    fi
     
     # Restart services
     restart_services
@@ -393,10 +412,29 @@ do_reset() {
     
     # Run specific seeders for production
     log "Running production seeders..."
-    sudo -u www-data -E php artisan db:seed --class=RoleSeeder --force
-    sudo -u www-data -E php artisan db:seed --class=UserSeeder --force
-    sudo -u www-data -E php artisan db:seed --class=SettingsSeeder --force
-    sudo -u www-data -E php artisan db:seed --class=FixJuryAssignmentSeeder --force
+    if sudo -u www-data -E php artisan db:seed --class=RolePermissionSeeder --force; then
+        log "RolePermissionSeeder completed successfully"
+    else
+        warn "RolePermissionSeeder failed, continuing..."
+    fi
+
+    if sudo -u www-data -E php artisan db:seed --class=UserOnlySeeder --force; then
+        log "UserOnlySeeder completed successfully"
+    else
+        warn "UserOnlySeeder failed, continuing..."
+    fi
+
+    if sudo -u www-data -E php artisan db:seed --class=SettingsSeeder --force; then
+        log "SettingsSeeder completed successfully"
+    else
+        warn "SettingsSeeder failed, continuing..."
+    fi
+
+    if sudo -u www-data -E php artisan db:seed --class=FixJuryAssignmentSeeder --force; then
+        log "FixJuryAssignmentSeeder completed successfully"
+    else
+        warn "FixJuryAssignmentSeeder failed, continuing..."
+    fi
     
     # Fix permissions and cache
     fix_permissions
@@ -425,10 +463,29 @@ do_seed() {
     
     # Run specific seeders for production
     log "Running production seeders..."
-    sudo -u www-data -E php artisan db:seed --class=RoleSeeder --force
-    sudo -u www-data -E php artisan db:seed --class=UserSeeder --force
-    sudo -u www-data -E php artisan db:seed --class=SettingsSeeder --force
-    sudo -u www-data -E php artisan db:seed --class=FixJuryAssignmentSeeder --force
+    if sudo -u www-data -E php artisan db:seed --class=RolePermissionSeeder --force; then
+        log "RolePermissionSeeder completed successfully"
+    else
+        warn "RolePermissionSeeder failed, continuing..."
+    fi
+
+    if sudo -u www-data -E php artisan db:seed --class=UserOnlySeeder --force; then
+        log "UserOnlySeeder completed successfully"
+    else
+        warn "UserOnlySeeder failed, continuing..."
+    fi
+
+    if sudo -u www-data -E php artisan db:seed --class=SettingsSeeder --force; then
+        log "SettingsSeeder completed successfully"
+    else
+        warn "SettingsSeeder failed, continuing..."
+    fi
+
+    if sudo -u www-data -E php artisan db:seed --class=FixJuryAssignmentSeeder --force; then
+        log "FixJuryAssignmentSeeder completed successfully"
+    else
+        warn "FixJuryAssignmentSeeder failed, continuing..."
+    fi
     
     # Fix permissions and cache
     fix_permissions
