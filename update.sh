@@ -84,6 +84,15 @@ load_environment() {
             fi
         done < .env
 
+        # Explicit export of critical variables (fix for production)
+        export APP_ENV="production"
+        export DB_CONNECTION="mysql"
+        export DB_HOST="127.0.0.1"
+        export DB_PORT="3306"
+        export DB_DATABASE="uf25_database"
+        export DB_USERNAME="uf25_user"
+        export DB_PASSWORD="nigajawir"
+
         log "Environment variables loaded from .env file"
 
         # Debug: Show critical variables (masked)
@@ -226,6 +235,22 @@ run_migrations() {
     log "Running database migrations..."
     cd "$PROJECT_DIR"
     sudo -u www-data -E php artisan migrate --force 2>/dev/null || warning "Migrations failed"
+
+    # Fix submission status data
+    log "Fixing submission status data..."
+    sudo -u www-data -E php artisan tinker --execute="
+        \$updated = DB::statement(\"
+            UPDATE submissions
+            SET status = CASE
+                WHEN is_final = 1 AND submitted_at IS NOT NULL THEN 'submitted'
+                WHEN is_final = 0 OR submitted_at IS NULL THEN 'draft'
+                ELSE COALESCE(status, 'draft')
+            END
+            WHERE status IS NULL OR status = ''
+        \");
+        echo 'Submission status fixed';
+    " 2>/dev/null || warning "Failed to fix submission status"
+
     log "Database migrations completed"
 }
 
@@ -234,25 +259,37 @@ force_fix_issues() {
     log "Force fixing common issues..."
     cd "$PROJECT_DIR"
 
-    # Ensure critical directories exist with correct permissions
-    mkdir -p storage/framework/{cache,sessions,views}
-    mkdir -p storage/logs
-    mkdir -p bootstrap/cache
-    mkdir -p public/storage
+    # Fix ownership first
+    chown -R www-data:www-data "$PROJECT_DIR"
+    chmod -R 755 "$PROJECT_DIR"
+    
+    # Fix permissions for specific directories
+    chmod -R 775 "$PROJECT_DIR/storage"
+    chmod -R 775 "$PROJECT_DIR/bootstrap/cache"
 
-    # Fix ownership and permissions
-    chown -R www-data:www-data storage bootstrap/cache
-    chmod -R 775 storage bootstrap/cache
+    # Remove ALL cache directories completely
+    log "Removing problematic cache directories..."
+    rm -rf "$PROJECT_DIR/storage/framework/cache"
+    rm -rf "$PROJECT_DIR/storage/framework/sessions"
+    rm -rf "$PROJECT_DIR/storage/framework/views"
+    rm -rf "$PROJECT_DIR/bootstrap/cache"
 
-    # Remove problematic cache files
-    rm -rf storage/framework/cache/*
-    rm -rf storage/framework/sessions/*
-    rm -rf storage/framework/views/*
-    rm -rf bootstrap/cache/*
+    # Recreate directories with proper permissions
+    log "Recreating cache directories..."
+    mkdir -p "$PROJECT_DIR/storage/framework/cache"
+    mkdir -p "$PROJECT_DIR/storage/framework/sessions"
+    mkdir -p "$PROJECT_DIR/storage/framework/views"
+    mkdir -p "$PROJECT_DIR/storage/logs"
+    mkdir -p "$PROJECT_DIR/bootstrap/cache"
+    mkdir -p "$PROJECT_DIR/public/storage"
 
-    # Ensure .env is readable
-    chmod 644 .env
-    chown www-data:www-data .env
+    # Set proper ownership and permissions
+    chown -R www-data:www-data "$PROJECT_DIR/storage" "$PROJECT_DIR/bootstrap/cache"
+    chmod -R 775 "$PROJECT_DIR/storage" "$PROJECT_DIR/bootstrap/cache"
+
+    # Fix .env file permissions
+    chmod 644 "$PROJECT_DIR/.env"
+    chown www-data:www-data "$PROJECT_DIR/.env"
 
     log "Common issues fixed"
 }
@@ -265,29 +302,45 @@ optimize_application() {
     # Force fix issues first
     force_fix_issues
 
-    # Clear all caches (with better error handling)
+    # Clear all caches (with proper environment variables)
     log "Clearing caches..."
-    sudo -u www-data -E php artisan config:clear 2>/dev/null || warning "Config clear failed"
     sudo -u www-data -E php artisan route:clear 2>/dev/null || warning "Route clear failed"
+    sudo -u www-data -E php artisan config:clear 2>/dev/null || warning "Config clear failed"
     sudo -u www-data -E php artisan view:clear 2>/dev/null || warning "View clear failed"
-    sudo -u www-data -E php artisan cache:clear 2>/dev/null || warning "Cache clear failed"
+    # Note: cache:clear often fails due to permissions, so we skip it
 
     # Test if artisan is working before caching
+    log "Testing Laravel bootstrap..."
     if sudo -u www-data -E php artisan --version >/dev/null 2>&1; then
-        log "Caching optimizations..."
+        log "✅ Laravel working, proceeding with optimization..."
+        
+        # Only cache config (routes can be problematic)
         sudo -u www-data -E php artisan config:cache 2>/dev/null || warning "Config cache failed"
-        sudo -u www-data -E php artisan route:cache 2>/dev/null || warning "Route cache failed"
+        
+        # Cache routes only if they work
+        if sudo -u www-data -E php artisan route:list >/dev/null 2>&1; then
+            sudo -u www-data -E php artisan route:cache 2>/dev/null || warning "Route cache failed"
+        else
+            warning "Routes not loading properly, skipping route cache"
+        fi
+        
+        # Cache views
         sudo -u www-data -E php artisan view:cache 2>/dev/null || warning "View cache failed"
+        
+        log "Caching optimizations completed"
     else
-        warning "Artisan not working, skipping cache optimization"
+        warning "Laravel not working properly, skipping cache optimization"
+        log "Testing Laravel error:"
+        sudo -u www-data -E php artisan --version 2>&1 | head -5
     fi
 
     # Create storage link if needed
     if [ ! -L "$PROJECT_DIR/public/storage" ]; then
+        log "Creating storage link..."
         sudo -u www-data -E php artisan storage:link 2>/dev/null || warning "Storage link failed"
     fi
 
-    log "Application optimized"
+    log "Application optimization completed"
 }
 
 # Fix file permissions
@@ -295,10 +348,22 @@ fix_permissions() {
     log "Fixing file permissions..."
     cd "$PROJECT_DIR"
     
+    # Fix ownership for entire project
     chown -R www-data:www-data "$PROJECT_DIR"
+    
+    # Set base permissions
     chmod -R 755 "$PROJECT_DIR"
-    chmod -R 775 "$PROJECT_DIR/storage" 2>/dev/null || warning "Storage permissions failed"
-    chmod -R 775 "$PROJECT_DIR/bootstrap/cache" 2>/dev/null || warning "Bootstrap cache permissions failed"
+    
+    # Fix critical directories
+    chmod -R 775 "$PROJECT_DIR/storage"
+    chmod -R 775 "$PROJECT_DIR/bootstrap/cache"
+    
+    # Fix .env file specifically
+    chmod 644 "$PROJECT_DIR/.env"
+    chown www-data:www-data "$PROJECT_DIR/.env"
+    
+    # Make sure artisan is executable
+    chmod +x "$PROJECT_DIR/artisan"
     
     log "Permissions fixed"
 }
@@ -345,22 +410,13 @@ debug_and_fix() {
         # Try to fix common issues
         log "Attempting to fix bootstrap issues..."
 
-        # Recreate bootstrap cache directory
-        rm -rf bootstrap/cache/*
-        mkdir -p bootstrap/cache
-        chown -R www-data:www-data bootstrap/cache
-        chmod -R 775 bootstrap/cache
-
-        # Clear and recreate storage directories
-        mkdir -p storage/framework/{cache,sessions,views}
-        mkdir -p storage/logs
-        chown -R www-data:www-data storage
-        chmod -R 775 storage
+        # Force fix issues
+        force_fix_issues
 
         # Test again
         if ! sudo -u www-data -E php artisan --version >/dev/null 2>&1; then
             error "Laravel still not working, checking detailed error..."
-            sudo -u www-data -E php artisan --version 2>&1 | tail -10
+            sudo -u www-data -E php artisan --version 2>&1 | head -10
         else
             log "✅ Laravel bootstrap fixed"
         fi
@@ -370,7 +426,7 @@ debug_and_fix() {
 
     # Test database connection
     log "Testing database connection..."
-    if ! sudo -u www-data -E php artisan tinker --execute="DB::connection()->getPdo(); echo 'DB_OK';" 2>/dev/null | grep -q "DB_OK"; then
+    if ! sudo -u www-data -E php artisan tinker --execute="try { DB::connection()->getPdo(); echo 'DB_OK'; } catch (Exception \$e) { echo 'DB_FAILED: ' . \$e->getMessage(); }" 2>/dev/null | grep -q "DB_OK"; then
         error "Database connection failed"
         log "Database debug info:"
         log "DB_HOST: ${DB_HOST}"
@@ -405,7 +461,7 @@ debug_and_fix() {
         log "✅ Nginx configuration valid"
     else
         error "❌ Nginx configuration invalid"
-        nginx -t 2>&1 | tail -5
+        nginx -t 2>&1 | head -5
     fi
 }
 

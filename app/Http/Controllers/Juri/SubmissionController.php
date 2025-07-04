@@ -26,12 +26,19 @@ class SubmissionController extends Controller
     public function index(Request $request)
     {
         $jury = Auth::user();
-        
+
         $query = Submission::with(['registration.user', 'registration.competition'])
             ->whereHas('registration.competition.juries', function ($q) use ($jury) {
                 $q->where('user_id', $jury->id);
             })
-            ->where('status', 'submitted')
+            ->where(function($q) {
+                $q->where('status', 'submitted')
+                  ->orWhere(function($subQ) {
+                      $subQ->where('is_final', true)
+                           ->whereNull('status');
+                  });
+            })
+            ->whereNotNull('submitted_at')
             ->orderBy('submitted_at', 'desc');
 
         // Filter berdasarkan kompetisi

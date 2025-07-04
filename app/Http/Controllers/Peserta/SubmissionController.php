@@ -195,6 +195,7 @@ class SubmissionController extends Controller
         
         try {
             $submission->update([
+                'is_final' => true,
                 'status' => 'submitted',
                 'submitted_at' => now(),
             ]);
@@ -203,13 +204,14 @@ class SubmissionController extends Controller
             \Log::info('Submission submitted successfully', [
                 'submission_id' => $submission->id,
                 'user_id' => Auth::id(),
-                'submitted_at' => now()
+                'submitted_at' => now(),
+                'is_final' => true
             ]);
 
             DB::commit();
 
             return redirect()->route('peserta.submissions.show', $submission)
-                ->with('success', 'Karya berhasil di-submit! Status telah berubah menjadi "Submitted"');
+                ->with('success', 'Karya berhasil di-submit! Status telah berubah menjadi "Submitted" dan dapat dilihat oleh juri.');
 
         } catch (\Exception $e) {
             DB::rollBack();

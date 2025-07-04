@@ -44,7 +44,7 @@
     @if($competitions && $competitions->count() > 0)
     <div class="row mt-5">
         <div class="col-12">
-            <h2 class="text-center mb-4">Kompetisi Unggulan</h2>
+            <h2 class="text-center mb-4">Kompetisi UnasFest</h2>
         </div>
         @foreach($competitions as $competition)
         <div class="col-md-4 mb-4">

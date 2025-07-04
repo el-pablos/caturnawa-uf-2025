@@ -31,8 +31,8 @@
         <div class="unas-stats-card">
             <div class="text-center">
                 <i class="bi bi-clock fs-1 mb-2 text-warning"></i>
-                <div class="unas-stats-number text-warning">{{ number_format($stats['pending']) }}</div>
-                <div class="unas-stats-label">Menunggu Review</div>
+                <div class="unas-stats-number text-warning">{{ number_format($stats['submitted']) }}</div>
+                <div class="unas-stats-label">Terkirim</div>
             </div>
         </div>
     </div>
@@ -80,7 +80,9 @@
                 <label class="form-label fw-semibold">Status</label>
                 <select name="status" class="form-control">
                     <option value="">Semua Status</option>
-                    <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Menunggu Review</option>
+                    <option value="draft" {{ request('status') === 'draft' ? 'selected' : '' }}>Draft</option>
+                    <option value="submitted" {{ request('status') === 'submitted' ? 'selected' : '' }}>Terkirim</option>
+                    <option value="reviewed" {{ request('status') === 'reviewed' ? 'selected' : '' }}>Sudah Direview</option>
                     <option value="approved" {{ request('status') === 'approved' ? 'selected' : '' }}>Disetujui</option>
                     <option value="rejected" {{ request('status') === 'rejected' ? 'selected' : '' }}>Ditolak</option>
                 </select>

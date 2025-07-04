@@ -44,7 +44,9 @@ class SubmissionController extends Controller
         // Statistics
         $stats = [
             'total' => Submission::count(),
-            'pending' => Submission::where('status', 'pending')->count(),
+            'draft' => Submission::where('status', 'draft')->count(),
+            'submitted' => Submission::where('status', 'submitted')->count(),
+            'reviewed' => Submission::where('status', 'reviewed')->count(),
             'approved' => Submission::where('status', 'approved')->count(),
             'rejected' => Submission::where('status', 'rejected')->count(),
         ];

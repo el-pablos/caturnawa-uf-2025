@@ -104,18 +104,25 @@ class Submission extends Model
             }
         });
 
-        // Set submitted_at ketika is_final berubah menjadi true
+        // Set submitted_at dan status ketika is_final berubah menjadi true
         static::saving(function ($submission) {
             if ($submission->is_final && !$submission->getOriginal('is_final')) {
                 $submission->submitted_at = now();
                 $submission->status = 'submitted';
+            } elseif (!$submission->is_final && $submission->getOriginal('is_final')) {
+                // Jika dikembalikan ke draft
+                $submission->submitted_at = null;
+                $submission->status = 'draft';
+            } elseif (!$submission->is_final && !$submission->status) {
+                // Set default status untuk submission baru
+                $submission->status = 'draft';
             }
         });
     }
 
     /**
      * Relasi dengan model Registration
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function registration()
@@ -125,20 +132,15 @@ class Submission extends Model
 
     /**
      * Relasi dengan model Competition melalui Registration
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasOneThrough
      */
     public function competition()
     {
-        return $this->hasOneThrough(
-            Competition::class,
-            Registration::class,
-            'id',
-            'id',
-            'registration_id',
-            'competition_id'
-        );
+        return $this->hasOneThrough(Competition::class, Registration::class, 'id', 'id', 'registration_id', 'competition_id');
     }
+
+
 
     /**
      * Relasi dengan model User (peserta) melalui Registration
@@ -451,23 +453,29 @@ class Submission extends Model
 
     /**
      * Mendapatkan status submission
-     * 
+     *
      * @return string
      */
     public function getStatus()
     {
+        // Prioritaskan status dari database jika ada
+        if ($this->status) {
+            return $this->status;
+        }
+
+        // Fallback ke logic lama
         if (!$this->is_final) {
             return 'draft';
         }
-        
+
         if ($this->isOverdue()) {
             return 'overdue';
         }
-        
+
         if ($this->isFullyScored()) {
             return 'scored';
         }
-        
+
         return 'submitted';
     }
 
