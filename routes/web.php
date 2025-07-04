@@ -41,6 +41,7 @@ Route::name('public.')->middleware('maintenance')->group(function () {
     Route::get('/blog/{slug}', [App\Http\Controllers\Public\PublicController::class, 'blogDetail'])->name('blog.detail');
 
     // Additional public pages
+    Route::get('/timeline', [App\Http\Controllers\Public\PublicController::class, 'timeline'])->name('timeline');
     Route::get('/faq', [App\Http\Controllers\Public\PublicController::class, 'faq'])->name('faq');
     Route::get('/privacy', [App\Http\Controllers\Public\PublicController::class, 'privacy'])->name('privacy');
     Route::get('/terms', [App\Http\Controllers\Public\PublicController::class, 'terms'])->name('terms');
@@ -348,6 +349,9 @@ Route::prefix('public')->group(function () {
     });
     Route::get('/blog', function () {
         return redirect()->route('public.blog');
+    });
+    Route::get('/timeline', function () {
+        return redirect()->route('public.timeline');
     });
 });
 

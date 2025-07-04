@@ -484,4 +484,56 @@ class PublicController extends Controller
 
         return view('public.terms');
     }
+
+    /**
+     * Display timeline page
+     */
+    public function timeline()
+    {
+        $this->seoService->setCustomData([
+            'title' => 'Timeline | UNAS Fest 2025',
+            'description' => 'Timeline lengkap kegiatan UNAS Fest 2025 dari pendaftaran hingga pengumuman pemenang.',
+        ]);
+
+        // Timeline data
+        $timeline = [
+            [
+                'date' => '1 Januari - 28 Februari 2025',
+                'title' => 'Pendaftaran Dibuka',
+                'description' => 'Periode pendaftaran untuk semua kategori kompetisi UNAS Fest 2025.',
+                'status' => 'active',
+                'icon' => 'bi-calendar-plus'
+            ],
+            [
+                'date' => '1 - 15 Maret 2025',
+                'title' => 'Pengumpulan Karya',
+                'description' => 'Peserta mengumpulkan karya sesuai dengan ketentuan masing-masing kompetisi.',
+                'status' => 'upcoming',
+                'icon' => 'bi-upload'
+            ],
+            [
+                'date' => '16 - 31 Maret 2025',
+                'title' => 'Penilaian Juri',
+                'description' => 'Tim juri melakukan penilaian terhadap semua karya yang masuk.',
+                'status' => 'upcoming',
+                'icon' => 'bi-star'
+            ],
+            [
+                'date' => '5 April 2025',
+                'title' => 'Pengumuman Finalis',
+                'description' => 'Pengumuman finalis untuk setiap kategori kompetisi.',
+                'status' => 'upcoming',
+                'icon' => 'bi-megaphone'
+            ],
+            [
+                'date' => '12 April 2025',
+                'title' => 'Final & Awarding',
+                'description' => 'Acara final dan pengumuman pemenang UNAS Fest 2025.',
+                'status' => 'upcoming',
+                'icon' => 'bi-trophy'
+            ]
+        ];
+
+        return view('public.timeline', compact('timeline'));
+    }
 }
