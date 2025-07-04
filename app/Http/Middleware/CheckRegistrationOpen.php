@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\SystemSetting;
+use App\Models\Setting;
 
 class CheckRegistrationOpen
 {
@@ -39,10 +39,8 @@ class CheckRegistrationOpen
 
         // Cek apakah registrasi terbuka untuk route registration
         if ($request->routeIs('register*') || $request->routeIs('competition.register*')) {
-            if (!SystemSetting::isRegistrationOpen()) {
-                return response()->view('errors.registration-closed', [
-                    'message' => SystemSetting::getRegistrationClosedMessage()
-                ], 403);
+            if (!Setting::isRegistrationOpen()) {
+                return redirect()->route('public.home')->with('error', Setting::getRegistrationClosedMessage());
             }
         }
 

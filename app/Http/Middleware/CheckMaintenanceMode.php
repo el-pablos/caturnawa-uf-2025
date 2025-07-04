@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\SystemSetting;
+use App\Models\Setting;
 
 class CheckMaintenanceMode
 {
@@ -36,9 +36,9 @@ class CheckMaintenanceMode
         }
 
         // Cek apakah maintenance mode aktif
-        if (SystemSetting::isMaintenanceMode()) {
-            return response()->view('errors.maintenance', [
-                'message' => SystemSetting::getMaintenanceMessage()
+        if (Setting::isMaintenanceMode()) {
+            return response()->view('maintenance', [
+                'message' => Setting::getMaintenanceMessage()
             ], 503);
         }
 
