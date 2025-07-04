@@ -120,14 +120,21 @@ clear_laravel_cache() {
         warn "Failed to clear config cache"
     fi
 
-    # Clear view cache (with error handling)
+    # Clear view cache (with better error handling)
+    # First ensure views directory exists with proper permissions
+    sudo -u www-data mkdir -p "$PROJECT_DIR/storage/framework/views"
+    sudo -u www-data chmod 775 "$PROJECT_DIR/storage/framework/views"
+
+    # Try to clear view cache
     if sudo -u www-data -E php artisan view:clear 2>/dev/null; then
         log "View cache cleared successfully"
     else
-        warn "View cache clear failed (this is usually safe to ignore)"
-        # Try to recreate view cache directory
+        warn "View cache clear failed, manually clearing views directory..."
+        # Manually clear the views directory
+        sudo -u www-data rm -rf "$PROJECT_DIR/storage/framework/views/*" 2>/dev/null || true
         sudo -u www-data mkdir -p "$PROJECT_DIR/storage/framework/views"
         sudo -u www-data chmod 775 "$PROJECT_DIR/storage/framework/views"
+        log "Views directory manually cleared"
     fi
 
     # Clear application cache
@@ -209,17 +216,67 @@ restore_users() {
 install_dependencies() {
     log "Installing dependencies..."
     cd "$PROJECT_DIR"
-    
-    # Composer
-    sudo -u www-data -E composer install --no-dev --optimize-autoloader --no-interaction
-    
-    # NPM
-    npm install --production
-    
-    # Build assets
-    npx vite build
-    
-    log "Dependencies installed and assets built"
+
+    # Composer install
+    if sudo -u www-data -E composer install --no-dev --optimize-autoloader --no-interaction; then
+        log "Composer dependencies installed successfully"
+    else
+        error "Failed to install composer dependencies"
+        return 1
+    fi
+
+    # NPM install with error handling
+    if npm install --omit=dev --no-audit --no-fund; then
+        log "NPM dependencies installed successfully"
+    else
+        warn "NPM install failed, trying to fix..."
+        # Clean npm cache and try again
+        npm cache clean --force
+        rm -rf node_modules package-lock.json
+        if npm install --omit=dev --no-audit --no-fund; then
+            log "NPM dependencies installed after cleanup"
+        else
+            warn "NPM install failed, skipping asset build"
+            return 0
+        fi
+    fi
+
+    # Build assets with error handling
+    if [ -f "vite.config.js" ]; then
+        # Check if vite is available
+        if npm list vite >/dev/null 2>&1; then
+            if npx vite build; then
+                log "Assets built successfully with Vite"
+            else
+                warn "Vite build failed, trying alternative..."
+                # Try installing vite locally first
+                if npm install vite --save-dev --no-audit --no-fund; then
+                    if npx vite build; then
+                        log "Assets built successfully after installing Vite"
+                    else
+                        warn "Vite build still failed, skipping asset build"
+                    fi
+                else
+                    warn "Could not install Vite, skipping asset build"
+                fi
+            fi
+        else
+            warn "Vite not found, installing..."
+            if npm install vite --save-dev --no-audit --no-fund; then
+                if npx vite build; then
+                    log "Assets built successfully after installing Vite"
+                else
+                    warn "Vite build failed even after installation"
+                fi
+            else
+                warn "Could not install Vite, skipping asset build"
+            fi
+        fi
+    else
+        warn "vite.config.js not found, skipping asset build"
+    fi
+
+    log "Dependencies installation completed"
 }
 
 # Restart services
