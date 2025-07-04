@@ -52,7 +52,9 @@ setup_environment() {
 
     # Load environment from .env file
     if [ -f .env ]; then
-        export $(grep -v '^#' .env | xargs)
+        set -a  # automatically export all variables
+        source .env
+        set +a  # stop automatically exporting
         log "Environment variables loaded from .env"
     else
         error ".env file not found!"

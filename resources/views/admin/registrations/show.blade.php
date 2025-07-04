@@ -47,7 +47,7 @@
                             </tr>
                             <tr>
                                 <td class="fw-semibold">Tanggal Daftar:</td>
-                                <td>{{ $registration->registered_at->format('d M Y H:i:s') }}</td>
+                                <td>{{ $registration->registered_at ? $registration->registered_at->format('d M Y H:i:s') : $registration->created_at->format('d M Y H:i:s') }}</td>
                             </tr>
                             @if($registration->confirmed_at)
                             <tr>

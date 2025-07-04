@@ -399,6 +399,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('leaderboard.*') ? 'active' : '' }}" href="{{ route('leaderboard.index') }}">
+                            <i class="bi bi-list-ol me-1"></i>Leaderboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('public.about') ? 'active' : '' }}" href="{{ route('public.about') }}">
                             <i class="bi bi-info-circle me-1"></i>Tentang
                         </a>
@@ -460,6 +465,7 @@
                                 <li><a href="{{ route('public.competitions') }}#health"><i class="bi bi-heart-pulse"></i>Kesehatan</a></li>
                                 <li><a href="{{ route('public.competitions') }}#biodiversity"><i class="bi bi-tree"></i>Biodiversitas</a></li>
                                 <li><a href="{{ route('public.competitions') }}"><i class="bi bi-list"></i>Semua Kompetisi</a></li>
+                                <li><a href="{{ route('leaderboard.index') }}"><i class="bi bi-list-ol"></i>Leaderboard</a></li>
                             </ul>
                         </div>
                     </div>

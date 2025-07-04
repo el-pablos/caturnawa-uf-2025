@@ -352,12 +352,6 @@
     border: none;
     border-radius: 12px;
     overflow: hidden;
-    transition: all 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
 .card-header {
@@ -411,12 +405,6 @@
 .btn {
     border-radius: 8px;
     font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* Responsive design */
@@ -457,19 +445,13 @@
     }
 }
 
-/* Animation for cards */
-.card {
-    animation: fadeInUp 0.6s ease-out;
-}
-
+/* Simple animation for cards */
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(30px);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
     }
 }
 
