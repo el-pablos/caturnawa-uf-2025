@@ -234,8 +234,30 @@
         </div>
     @endif
 </div>
+@endsection
 
+@push('styles')
 <style>
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 100px 0 60px;
+    margin-top: -80px;
+    position: relative;
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+/* Podium Styles */
 .podium-container {
     margin: 2rem 0;
 }
@@ -246,37 +268,44 @@
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     padding: 2rem 1rem;
     position: relative;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
+    border: 3px solid transparent;
 }
 
 .podium-card:hover {
     transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
 }
 
 .podium-first {
-    transform: scale(1.1);
-    border: 3px solid #ffd700;
+    transform: scale(1.05);
+    border-color: #ffd700;
+    background: linear-gradient(145deg, #fff9e6, #ffffff);
 }
 
 .podium-second {
-    border: 3px solid #c0c0c0;
+    border-color: #c0c0c0;
+    background: linear-gradient(145deg, #f8f9fa, #ffffff);
 }
 
 .podium-third {
-    border: 3px solid #cd7f32;
+    border-color: #cd7f32;
+    background: linear-gradient(145deg, #fff5e6, #ffffff);
 }
 
 .podium-rank {
     margin-bottom: 1rem;
+    position: relative;
 }
 
 .podium-rank i {
     font-size: 2.5rem;
+    margin-bottom: 0.5rem;
 }
 
 .rank-number {
     position: absolute;
-    top: 1rem;
+    top: -10px;
     right: 1rem;
     background: rgba(0,0,0,0.1);
     border-radius: 50%;
@@ -287,26 +316,34 @@
     justify-content: center;
     font-weight: bold;
     font-size: 1.2rem;
+    color: #333;
 }
 
 .participant-name {
     font-weight: 600;
     margin-bottom: 0.5rem;
+    color: #2c3e50;
+    font-size: 1.1rem;
 }
 
 .team-name {
     font-size: 0.9rem;
     margin-bottom: 0.5rem;
+    color: #6c757d;
 }
 
 .submission-title {
     font-weight: 500;
-    color: #666;
+    color: #495057;
     margin-bottom: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.4;
 }
 
 .score-display {
     margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e9ecef;
 }
 
 .score-number {
@@ -315,28 +352,194 @@
     color: #667eea;
 }
 
+/* Table Styles */
+.table-hover tbody tr:hover {
+    background-color: rgba(102, 126, 234, 0.05);
+}
+
+.table th {
+    font-weight: 600;
+    color: #495057;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table td {
+    vertical-align: middle;
+    padding: 1rem 0.75rem;
+}
+
+/* Card Styles */
+.card {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.card-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-bottom: 1px solid #dee2e6;
+    padding: 1rem 1.5rem;
+}
+
+/* Badge Styles */
+.badge {
+    font-size: 0.85rem;
+    padding: 0.5rem 0.75rem;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
     .podium-first {
         transform: none;
         order: 1 !important;
     }
-    
+
     .podium-card {
         padding: 1.5rem 1rem;
+        margin-bottom: 1rem;
     }
-    
+
     .score-number {
         font-size: 1.5rem;
     }
+
+    .rank-number {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+
+    .table-responsive {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-section {
+        padding: 80px 0 40px;
+    }
+
+    .podium-rank i {
+        font-size: 2rem;
+    }
+
+    .participant-name {
+        font-size: 1rem;
+    }
+
+    .submission-title {
+        font-size: 0.9rem;
+    }
+}
+
+/* Animation */
+.podium-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.podium-first {
+    animation-delay: 0.2s;
+}
+
+.podium-second {
+    animation-delay: 0.1s;
+}
+
+.podium-third {
+    animation-delay: 0.3s;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Loading State */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #667eea;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
 }
 </style>
+@endpush
 
+@push('scripts')
 <script>
-document.getElementById('competitionSelect').addEventListener('change', function() {
-    const competitionId = this.value;
-    if (competitionId) {
-        window.location.href = `{{ route('leaderboard.index') }}?competition=${competitionId}`;
+document.addEventListener('DOMContentLoaded', function() {
+    const competitionSelect = document.getElementById('competitionSelect');
+
+    if (competitionSelect) {
+        competitionSelect.addEventListener('change', function() {
+            const competitionId = this.value;
+            if (competitionId) {
+                // Add loading state
+                document.body.classList.add('loading');
+
+                // Redirect to new competition
+                window.location.href = `{{ route('leaderboard.index') }}?competition=${competitionId}`;
+            }
+        });
     }
+
+    // Add smooth scroll for better UX
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Add hover effects for table rows
+    const tableRows = document.querySelectorAll('.table tbody tr');
+    tableRows.forEach(row => {
+        row.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.01)';
+            this.style.transition = 'transform 0.2s ease';
+        });
+
+        row.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
 });
 </script>
-@endsection
+@endpush
