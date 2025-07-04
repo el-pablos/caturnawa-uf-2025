@@ -44,6 +44,10 @@ Route::name('public.')->group(function () {
     Route::get('/faq', [App\Http\Controllers\Public\PublicController::class, 'faq'])->name('faq');
     Route::get('/privacy', [App\Http\Controllers\Public\PublicController::class, 'privacy'])->name('privacy');
     Route::get('/terms', [App\Http\Controllers\Public\PublicController::class, 'terms'])->name('terms');
+
+    // Leaderboard
+    Route::get('/leaderboard', [App\Http\Controllers\Public\LeaderboardController::class, 'index'])->name('leaderboard.index');
+    Route::get('/leaderboard/data/{competition}', [App\Http\Controllers\Public\LeaderboardController::class, 'getLeaderboardData'])->name('leaderboard.data');
 });
 
 // Route alias for backward compatibility
@@ -187,6 +191,22 @@ Route::middleware(['auth', 'verified', 'role.redirect'])->group(function () {
             Route::post('/bulk-confirm', [App\Http\Controllers\Admin\PaymentConfirmationController::class, 'bulkConfirm'])->name('bulk-confirm');
         });
 
+        // Settings Management
+        Route::prefix('settings')->name('settings.')->group(function () {
+            Route::get('/', [App\Http\Controllers\Admin\SettingsController::class, 'index'])->name('index');
+            Route::put('/update', [App\Http\Controllers\Admin\SettingsController::class, 'update'])->name('update');
+            Route::post('/toggle-maintenance', [App\Http\Controllers\Admin\SettingsController::class, 'toggleMaintenance'])->name('toggle-maintenance');
+            Route::post('/toggle-registration', [App\Http\Controllers\Admin\SettingsController::class, 'toggleRegistration'])->name('toggle-registration');
+        });
+
+        // Participants Management
+        Route::prefix('participants')->name('participants.')->group(function () {
+            Route::get('/', [App\Http\Controllers\Admin\ParticipantController::class, 'index'])->name('index');
+            Route::get('/{participant}', [App\Http\Controllers\Admin\ParticipantController::class, 'show'])->name('show');
+            Route::get('/export/csv', [App\Http\Controllers\Admin\ParticipantController::class, 'export'])->name('export');
+            Route::get('/statistics/data', [App\Http\Controllers\Admin\ParticipantController::class, 'getStatistics'])->name('statistics');
+        });
+
         // Reports
         Route::prefix('reports')->name('reports.')->group(function () {
             Route::get('/', [App\Http\Controllers\Admin\ReportController::class, 'index'])->name('index');
@@ -205,13 +225,7 @@ Route::middleware(['auth', 'verified', 'role.redirect'])->group(function () {
             Route::put('/', [App\Http\Controllers\Admin\SettingController::class, 'update'])->name('update');
         });
 
-        // QR Scanner
-        Route::prefix('qr-scanner')->name('qr-scanner.')->group(function () {
-            Route::get('/', [App\Http\Controllers\Admin\QRScannerController::class, 'index'])->name('index');
-            Route::post('/scan', [App\Http\Controllers\Admin\QRScannerController::class, 'scan'])->name('scan');
-            Route::post('/checkin', [App\Http\Controllers\Admin\QRScannerController::class, 'checkin'])->name('checkin');
-            Route::get('/history', [App\Http\Controllers\Admin\QRScannerController::class, 'history'])->name('history');
-        });
+
     });
 
     // Juri Routes
@@ -385,7 +399,7 @@ if (app()->environment(['local', 'development'])) {
     Route::prefix('dev')->name('dev.')->group(function () {
         Route::get('/', [App\Http\Controllers\DevController::class, 'index'])->name('index');
         Route::post('/reset-payments', [App\Http\Controllers\DevController::class, 'resetPayments'])->name('reset-payments');
-        Route::post('/regenerate-qr', [App\Http\Controllers\DevController::class, 'regenerateQR'])->name('regenerate-qr');
+
         Route::post('/test-payment', [App\Http\Controllers\DevController::class, 'testPayment'])->name('test-payment');
     });
 }

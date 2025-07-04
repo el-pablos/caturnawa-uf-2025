@@ -81,6 +81,7 @@
                 <ul class="navbar-nav d-none d-lg-flex">
                     <li><a href="{{ route('public.home') }}" class="nav-link @if(request()->routeIs('public.home')) active @endif">Beranda</a></li>
                     <li><a href="{{ route('public.competitions') }}" class="nav-link @if(request()->routeIs('public.competitions')) active @endif">Kompetisi</a></li>
+                    <li><a href="{{ route('leaderboard.index') }}" class="nav-link @if(request()->routeIs('leaderboard.*')) active @endif">Leaderboard</a></li>
                     <li><a href="{{ route('public.timeline') }}" class="nav-link @if(request()->routeIs('public.timeline')) active @endif">Timeline</a></li>
                     <li><a href="{{ route('public.faq') }}" class="nav-link @if(request()->routeIs('public.faq')) active @endif">FAQ</a></li>
                     <li><a href="{{ route('public.contact') }}" class="nav-link @if(request()->routeIs('public.contact')) active @endif">Kontak</a></li>
@@ -125,6 +126,7 @@
                 <ul class="mobile-nav-list">
                     <li><a href="{{ route('public.home') }}" class="mobile-nav-link @if(request()->routeIs('public.home')) active @endif">Beranda</a></li>
                     <li><a href="{{ route('public.competitions') }}" class="mobile-nav-link @if(request()->routeIs('public.competitions')) active @endif">Kompetisi</a></li>
+                    <li><a href="{{ route('leaderboard.index') }}" class="mobile-nav-link @if(request()->routeIs('leaderboard.*')) active @endif">Leaderboard</a></li>
                     <li><a href="{{ route('public.timeline') }}" class="mobile-nav-link @if(request()->routeIs('public.timeline')) active @endif">Timeline</a></li>
                     <li><a href="{{ route('public.faq') }}" class="mobile-nav-link @if(request()->routeIs('public.faq')) active @endif">FAQ</a></li>
                     <li><a href="{{ route('public.contact') }}" class="mobile-nav-link @if(request()->routeIs('public.contact')) active @endif">Kontak</a></li>

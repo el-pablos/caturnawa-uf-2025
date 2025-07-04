@@ -58,6 +58,7 @@ class Competition extends Model
         'certificate_template',
         'is_featured',
         'view_count',
+        'show_leaderboard',
         'registration_count',
     ];
 
@@ -81,6 +82,7 @@ class Competition extends Model
         'is_team_competition' => 'boolean',
         'allow_individual' => 'boolean',
         'price' => 'decimal:2',
+        'show_leaderboard' => 'boolean',
         'early_bird_price' => 'decimal:2',
         'prize_amount' => 'decimal:2',
         'judging_criteria' => 'array',
