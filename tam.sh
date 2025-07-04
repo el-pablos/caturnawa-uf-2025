@@ -29,6 +29,10 @@ error() {
     echo -e "${RED}[$(date '+%Y-%m-%d %H:%M:%S')] ERROR: $1${NC}"
 }
 
+warn() {
+    echo -e "${YELLOW}[$(date '+%Y-%m-%d %H:%M:%S')] WARNING: $1${NC}"
+}
+
 warning() {
     echo -e "${YELLOW}[$(date '+%Y-%m-%d %H:%M:%S')] WARNING: $1${NC}"
 }
@@ -101,11 +105,38 @@ clear_cache_dirs() {
 clear_laravel_cache() {
     log "Clearing Laravel caches..."
     cd "$PROJECT_DIR"
-    
-    sudo -u www-data -E php artisan route:clear
-    sudo -u www-data -E php artisan config:clear
-    sudo -u www-data -E php artisan view:clear
-    
+
+    # Clear route cache
+    if sudo -u www-data -E php artisan route:clear; then
+        log "Route cache cleared successfully"
+    else
+        warn "Failed to clear route cache"
+    fi
+
+    # Clear config cache
+    if sudo -u www-data -E php artisan config:clear; then
+        log "Config cache cleared successfully"
+    else
+        warn "Failed to clear config cache"
+    fi
+
+    # Clear view cache (with error handling)
+    if sudo -u www-data -E php artisan view:clear 2>/dev/null; then
+        log "View cache cleared successfully"
+    else
+        warn "View cache clear failed (this is usually safe to ignore)"
+        # Try to recreate view cache directory
+        sudo -u www-data mkdir -p "$PROJECT_DIR/storage/framework/views"
+        sudo -u www-data chmod 775 "$PROJECT_DIR/storage/framework/views"
+    fi
+
+    # Clear application cache
+    if sudo -u www-data -E php artisan cache:clear 2>/dev/null; then
+        log "Application cache cleared successfully"
+    else
+        warn "Application cache clear failed (this is usually safe to ignore)"
+    fi
+
     log "Laravel caches cleared"
 }
 
