@@ -50,16 +50,14 @@ setup_environment() {
     log "Setting up environment..."
     cd "$PROJECT_DIR"
 
-    # Set environment variables
-    export APP_ENV=production
-    export DB_CONNECTION=mysql
-    export DB_HOST=127.0.0.1
-    export DB_PORT=3306
-    export DB_DATABASE=uf25_database
-    export DB_USERNAME=uf25_user
-    export DB_PASSWORD=nigajawir
-
-    log "Environment variables set"
+    # Load environment from .env file
+    if [ -f .env ]; then
+        export $(grep -v '^#' .env | xargs)
+        log "Environment variables loaded from .env"
+    else
+        error ".env file not found!"
+        exit 1
+    fi
 }
 
 # Fix permissions
@@ -133,15 +131,17 @@ run_seeders() {
 backup_users() {
     log "Backing up critical users..."
     cd "$PROJECT_DIR"
-    
-    # Create backup SQL for critical users
-    mysql -h"$DB_HOST" -P"$DB_PORT" -u"$DB_USERNAME" -p"$DB_PASSWORD" "$DB_DATABASE" -e "
-    CREATE TABLE IF NOT EXISTS users_backup AS 
-    SELECT * FROM users 
-    WHERE email IN ('superadmin@unasfest.ac.id', 'admin@unasfest.ac.id') 
-    OR role IN ('superadmin', 'admin', 'peserta', 'juri');
+
+    # Create backup SQL for critical users using Laravel artisan
+    sudo -u www-data -E php artisan tinker --execute="
+    \$users = \App\Models\User::whereHas('roles', function(\$q) {
+        \$q->whereIn('name', ['Super Admin', 'Admin', 'Juri']);
+    })->get();
+    \$backup = \$users->toArray();
+    file_put_contents(storage_path('app/users_backup.json'), json_encode(\$backup));
+    echo 'Users backed up to storage/app/users_backup.json';
     " 2>/dev/null || warning "User backup failed"
-    
+
     log "Critical users backed up"
 }
 
@@ -149,18 +149,27 @@ backup_users() {
 restore_users() {
     log "Restoring critical users..."
     cd "$PROJECT_DIR"
-    
-    # Restore users from backup
-    mysql -h"$DB_HOST" -P"$DB_PORT" -u"$DB_USERNAME" -p"$DB_PASSWORD" "$DB_DATABASE" -e "
-    INSERT IGNORE INTO users 
-    SELECT * FROM users_backup 
-    WHERE email IN ('superadmin@unasfest.ac.id', 'admin@unasfest.ac.id') 
-    OR role IN ('superadmin', 'admin', 'peserta', 'juri');
-    
-    DROP TABLE IF EXISTS users_backup;
-    " 2>/dev/null || warning "User restore failed"
-    
-    log "Critical users restored"
+
+    # Check if backup exists
+    if [ -f "storage/app/users_backup.json" ]; then
+        # Restore users from backup using Laravel artisan
+        sudo -u www-data -E php artisan tinker --execute="
+        \$backup = json_decode(file_get_contents(storage_path('app/users_backup.json')), true);
+        foreach (\$backup as \$userData) {
+            \$user = \App\Models\User::updateOrCreate(
+                ['email' => \$userData['email']],
+                \$userData
+            );
+            echo 'Restored user: ' . \$user->email . PHP_EOL;
+        }
+        unlink(storage_path('app/users_backup.json'));
+        echo 'Users restored and backup file removed';
+        " 2>/dev/null || warning "User restore failed"
+    else
+        warning "No user backup found, skipping restore"
+    fi
+
+    log "Critical users restore completed"
 }
 
 # Install dependencies
@@ -251,7 +260,13 @@ do_update() {
     
     # Run migrations and seeders
     run_migrations
-    run_seeders
+
+    # Run specific seeders for production
+    log "Running production seeders..."
+    sudo -u www-data -E php artisan db:seed --class=RoleSeeder --force
+    sudo -u www-data -E php artisan db:seed --class=UserSeeder --force
+    sudo -u www-data -E php artisan db:seed --class=SettingsSeeder --force
+    sudo -u www-data -E php artisan db:seed --class=FixJuryAssignmentSeeder --force
     
     # Restart services
     restart_services
@@ -286,8 +301,12 @@ do_reset() {
     # Restore critical users
     restore_users
     
-    # Run seeders
-    run_seeders
+    # Run specific seeders for production
+    log "Running production seeders..."
+    sudo -u www-data -E php artisan db:seed --class=RoleSeeder --force
+    sudo -u www-data -E php artisan db:seed --class=UserSeeder --force
+    sudo -u www-data -E php artisan db:seed --class=SettingsSeeder --force
+    sudo -u www-data -E php artisan db:seed --class=FixJuryAssignmentSeeder --force
     
     # Fix permissions and cache
     fix_permissions
@@ -314,8 +333,12 @@ do_seed() {
     check_root
     setup_environment
     
-    # Run seeders
-    run_seeders
+    # Run specific seeders for production
+    log "Running production seeders..."
+    sudo -u www-data -E php artisan db:seed --class=RoleSeeder --force
+    sudo -u www-data -E php artisan db:seed --class=UserSeeder --force
+    sudo -u www-data -E php artisan db:seed --class=SettingsSeeder --force
+    sudo -u www-data -E php artisan db:seed --class=FixJuryAssignmentSeeder --force
     
     # Fix permissions and cache
     fix_permissions

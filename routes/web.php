@@ -45,7 +45,10 @@ Route::name('public.')->middleware('maintenance')->group(function () {
     Route::get('/privacy', [App\Http\Controllers\Public\PublicController::class, 'privacy'])->name('privacy');
     Route::get('/terms', [App\Http\Controllers\Public\PublicController::class, 'terms'])->name('terms');
 
-    // Leaderboard
+});
+
+// Leaderboard (outside public group to avoid public. prefix)
+Route::middleware('maintenance')->group(function () {
     Route::get('/leaderboard', [App\Http\Controllers\Public\LeaderboardController::class, 'index'])->name('leaderboard.index');
     Route::get('/leaderboard/data/{competition}', [App\Http\Controllers\Public\LeaderboardController::class, 'getLeaderboardData'])->name('leaderboard.data');
 });
