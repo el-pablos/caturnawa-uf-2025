@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Public Pages Routes (Main Website)
-Route::name('public.')->group(function () {
+Route::name('public.')->middleware('maintenance')->group(function () {
     // Home page - accessible via root and /home
     Route::get('/', [App\Http\Controllers\Public\PublicController::class, 'home'])->name('home');
     Route::get('/home', [App\Http\Controllers\Public\PublicController::class, 'home'])->name('home.alt');
@@ -57,8 +57,8 @@ Route::get('/home-alias', [App\Http\Controllers\Public\PublicController::class, 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [App\Http\Controllers\Auth\AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [App\Http\Controllers\Auth\AuthController::class, 'login']);
-    Route::get('/register', [App\Http\Controllers\Auth\AuthController::class, 'showRegister'])->name('register');
-    Route::post('/register', [App\Http\Controllers\Auth\AuthController::class, 'register']);
+    Route::get('/register', [App\Http\Controllers\Auth\AuthController::class, 'showRegister'])->name('register')->middleware('registration.open');
+    Route::post('/register', [App\Http\Controllers\Auth\AuthController::class, 'register'])->middleware('registration.open');
     Route::get('/forgot-password', [App\Http\Controllers\Auth\AuthController::class, 'showForgotPassword'])->name('password.request');
     Route::post('/forgot-password', [App\Http\Controllers\Auth\AuthController::class, 'sendResetLink'])->name('password.email');
     Route::get('/reset-password/{token}', [App\Http\Controllers\Auth\AuthController::class, 'showResetPassword'])->name('password.reset');
@@ -66,7 +66,7 @@ Route::middleware('guest')->group(function () {
 });
 
 // Authenticated Routes
-Route::middleware(['auth', 'verified', 'role.redirect'])->group(function () {
+Route::middleware(['auth', 'verified', 'role.redirect', 'maintenance'])->group(function () {
     
     // Logout
     Route::post('/logout', [App\Http\Controllers\Auth\AuthController::class, 'logout'])->name('logout');

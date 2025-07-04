@@ -70,5 +70,7 @@ class Kernel extends HttpKernel
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
         'check.role' => \App\Http\Middleware\CheckRole::class,
         'role.redirect' => \App\Http\Middleware\RoleBasedRedirect::class,
+        'maintenance' => \App\Http\Middleware\CheckMaintenanceMode::class,
+        'registration.open' => \App\Http\Middleware\CheckRegistrationOpen::class,
     ];
 }
