@@ -45,6 +45,8 @@ class User extends Authenticatable
         'emergency_contact_name',
         'emergency_contact_phone',
         'emergency_contact_relation',
+        'activated_at',
+        'activated_by',
     ];
 
     /**
@@ -67,6 +69,7 @@ class User extends Authenticatable
         'last_login_at' => 'datetime',
         'is_active' => 'boolean',
         'birth_date' => 'date',
+        'activated_at' => 'datetime',
     ];
 
     /**

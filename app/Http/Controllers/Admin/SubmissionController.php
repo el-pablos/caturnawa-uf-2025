@@ -132,21 +132,21 @@ class SubmissionController extends Controller
     }
 
     /**
-     * Remove the specified submission
+     * Delete submission
      */
     public function destroy(Submission $submission)
     {
         try {
-            // Delete associated files if any
-            if ($submission->files) {
+            // Delete associated files
+            if ($submission->files && is_array($submission->files)) {
                 foreach ($submission->files as $file) {
-                    $filePath = storage_path('app/public/submissions/' . $file);
-                    if (file_exists($filePath)) {
-                        unlink($filePath);
+                    if (isset($file['path']) && Storage::exists($file['path'])) {
+                        Storage::delete($file['path']);
                     }
                 }
             }
 
+            // Delete submission
             $submission->delete();
 
             if (request()->expectsJson()) {
@@ -156,8 +156,55 @@ class SubmissionController extends Controller
                 ]);
             }
 
-            return back()->with('success', 'Submission berhasil dihapus.');
+            return redirect()->route('admin.submissions.index')
+                ->with('success', 'Submission berhasil dihapus.');
         } catch (\Exception $e) {
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal menghapus submission: ' . $e->getMessage()
+                ]);
+            }
+            return back()->with('error', 'Gagal menghapus submission: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Remove the specified submission
+     */
+    public function destroy(Submission $submission)
+    {
+        try {
+            // Delete associated files if any
+            if ($submission->files && is_array($submission->files)) {
+                foreach ($submission->files as $file) {
+                    $filename = $file['filename'] ?? $file['name'] ?? '';
+                    if ($filename) {
+                        $filePath = storage_path('app/public/submissions/' . $submission->id . '/' . $filename);
+                        if (file_exists($filePath)) {
+                            unlink($filePath);
+                        }
+                    }
+                }
+            }
+
+            // Delete related scores
+            $submission->scores()->delete();
+
+            // Delete the submission
+            $submission->delete();
+
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Submission berhasil dihapus.'
+                ]);
+            }
+
+            return redirect()->route('admin.submissions.index')->with('success', 'Submission berhasil dihapus.');
+        } catch (\Exception $e) {
+            \Log::error('Error deleting submission: ' . $e->getMessage());
+            
             if (request()->expectsJson()) {
                 return response()->json([
                     'success' => false,
