@@ -74,13 +74,18 @@ class User extends Authenticatable
 
     /**
      * Mutator untuk enkripsi password
-     * 
+     *
      * @param string $value
      * @return void
      */
     public function setPasswordAttribute($value)
     {
-        $this->attributes['password'] = bcrypt($value);
+        // Only hash if not already hashed
+        if (!str_starts_with($value, '$2y$')) {
+            $this->attributes['password'] = bcrypt($value);
+        } else {
+            $this->attributes['password'] = $value;
+        }
     }
 
     /**
