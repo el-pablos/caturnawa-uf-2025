@@ -31,9 +31,9 @@ class RoleBasedRedirect
         
         // Definisi route patterns untuk setiap role
         $roleRoutes = [
-            'admin' => ['admin.', 'Super Admin', 'Admin'],
-            'juri' => ['juri.', 'Juri'],
-            'peserta' => ['peserta.', 'Peserta']
+            'admin' => ['admin.', 'superadmin', 'admin'],
+            'juri' => ['juri.', 'juri'],
+            'peserta' => ['peserta.', 'peserta']
         ];
 
         // Cek apakah user mengakses route yang tidak sesuai dengan rolenya

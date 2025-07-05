@@ -214,37 +214,37 @@ class User extends Authenticatable
      */
     public function isSuperAdmin()
     {
-        return $this->hasRole('Super Admin');
+        return $this->hasRole('superadmin');
     }
 
     /**
      * Cek apakah user adalah Admin
-     * 
+     *
      * @return bool
      */
     public function isAdmin()
     {
-        return $this->hasRole('Admin');
+        return $this->hasRole('admin');
     }
 
     /**
      * Cek apakah user adalah Juri
-     * 
+     *
      * @return bool
      */
     public function isJuri()
     {
-        return $this->hasRole('Juri');
+        return $this->hasRole('juri');
     }
 
     /**
      * Cek apakah user adalah Peserta
-     * 
+     *
      * @return bool
      */
     public function isPeserta()
     {
-        return $this->hasRole('Peserta');
+        return $this->hasRole('peserta');
     }
 
     /**

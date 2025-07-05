@@ -70,13 +70,17 @@ Route::middleware('guest')->group(function () {
 });
 
 // Authenticated Routes
-Route::middleware(['auth', 'verified', 'role.redirect', 'maintenance'])->group(function () {
+Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
     
     // Logout
     Route::post('/logout', [App\Http\Controllers\Auth\AuthController::class, 'logout'])->name('logout');
     
     // Dashboard - Redirect based on role
     Route::get('/dashboard', function () {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+
         $user = auth()->user();
 
         if ($user->hasRole('superadmin') || $user->hasRole('admin')) {
