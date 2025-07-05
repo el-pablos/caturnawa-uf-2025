@@ -68,7 +68,7 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar" id="navbar">
+    <nav class="navbar" id="navbar" data-aos="fade-up" data-aos-duration="800">
         <div class="container">
             <div class="d-flex align-items-center justify-content-between w-100">
                 <!-- Brand -->
@@ -78,7 +78,7 @@
                 </a>
                 
                 <!-- Desktop Navigation -->
-                <ul class="navbar-nav d-none d-lg-flex">
+                <ul class="navbar-nav d-none d-lg-flex" data-aos="fade-up" data-aos-duration="800">
                     <li><a href="{{ route('public.home') }}" class="nav-link @if(request()->routeIs('public.home')) active @endif">Beranda</a></li>
                     <li><a href="{{ route('public.competitions') }}" class="nav-link @if(request()->routeIs('public.competitions')) active @endif">Kompetisi</a></li>
                     <li><a href="{{ route('leaderboard.index') }}" class="nav-link @if(request()->routeIs('leaderboard.*')) active @endif">Leaderboard</a></li>
@@ -88,7 +88,7 @@
                 </ul>
                 
                 <!-- CTA Buttons -->
-                <div class="d-none d-lg-flex align-items-center" style="gap: 1rem;">
+                <div class="d-none d-lg-flex align-items-center gap-2" style="gap: 1rem;">
                     @guest
                         <a href="{{ route('login') }}" class="btn btn-ghost btn-sm">Masuk</a>
                         <a href="{{ route('register') }}" class="btn btn-primary btn-sm">Daftar</a>
@@ -121,7 +121,7 @@
         </div>
         
         <!-- Mobile Navigation -->
-        <div class="mobile-nav d-lg-none" id="mobileNav">
+        <div class="mobile-nav d-lg-none" id="mobileNav" data-aos="fade-down" data-aos-duration="800">
             <div class="container">
                 <ul class="mobile-nav-list">
                     <li><a href="{{ route('public.home') }}" class="mobile-nav-link @if(request()->routeIs('public.home')) active @endif">Beranda</a></li>
@@ -155,7 +155,7 @@
     </main>
     
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer" data-aos="fade-up" data-aos-duration="800">
         <div class="container">
             <div class="row">
                 <!-- About Section -->
@@ -261,6 +261,8 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
     
     <!-- Custom Scripts -->
     <script src="{{ asset('assets/js/caturnawa-2025.js') }}"></script>
@@ -276,6 +278,11 @@
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'GA_MEASUREMENT_ID');
+
+        AOS.init({
+        duration: 800,
+        once: true
+    });
     </script>
     @endif
 </body>

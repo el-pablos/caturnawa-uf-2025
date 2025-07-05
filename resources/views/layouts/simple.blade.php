@@ -22,6 +22,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- ...existing code... -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
     
     <style>
         :root {
@@ -80,12 +83,13 @@
             width: 0;
             height: 2px;
             background: var(--primary-color);
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(.4,0,.2,1);
             transform: translateX(-50%);
+            border-radius: 2px;
         }
 
         .nav-link:hover::after {
-            width: 100%;
+            width: 50%;
         }
 
         .nav-link.active {
@@ -94,7 +98,7 @@
         }
 
         .nav-link.active::after {
-            width: 100%;
+            width: 60%;
         }
 
         /* Footer Styles */
@@ -376,7 +380,7 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" data-aos="fade-down" data-aos-duration="800">
         <div class="container">
             <a class="navbar-brand" href="{{ route('public.home') }}">
                 <strong>UNAS Fest 2025</strong>
@@ -429,7 +433,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="main-footer">
+    <footer class="main-footer"  data-aos="fade-up" data-aos-duration="800">
         <div class="footer-content">
             <div class="container">
                 <div class="row">
@@ -552,6 +556,8 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
     
     <script>
         // Counter Animation
@@ -631,8 +637,13 @@
                 }, 300);
             });
         });
-    </script>
-    
-    @stack('scripts')
+
+            AOS.init({
+                duration: 800,
+                once: true
+            });
+            </script>
+            
+            @stack('scripts')
 </body>
 </html>

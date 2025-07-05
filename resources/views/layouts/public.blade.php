@@ -322,7 +322,7 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg fixed-top">
+    <nav class="navbar navbar-expand-lg fixed-top" data-aos="fade-up" data-aos-duration="800">
         <div class="container">
             <a class="navbar-brand font-poppins" href="{{ route('public.home') }}">
                 <img src="{{ asset('assets/images/logo/unas-fest-logo.png') }}" alt="UNAS Fest 2025" height="40" class="me-2"
@@ -371,7 +371,7 @@
                             <i class="bi bi-envelope me-1"></i>Kontak
                         </a>
                     </li>
-                    <li class="nav-item ms-2">
+                    <li class="nav-item ms-2 pt-1">
                         <a class="btn btn-primary" href="{{ route('login') }}">
                             <i class="bi bi-box-arrow-in-right me-1"></i>Masuk
                         </a>
@@ -389,7 +389,7 @@
 
     <!-- Footer -->
     <footer class="bg-dark text-white py-5">
-        <div class="container">
+        <div class="container" data-aos="fade-up" data-aos-duration="800">
             <div class="row g-4">
                 <div class="col-lg-3">
                     <div class="d-flex align-items-center mb-3">
