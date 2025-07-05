@@ -78,6 +78,8 @@ class SubmissionController extends Controller
                 'registration_id' => $registration->id,
                 'title' => $request->title,
                 'description' => $request->description,
+                'video_demo_link' => $request->video_demo_link,
+                'social_media_link' => $request->social_media_link,
                 'status' => 'draft',
                 'submitted_at' => null,
             ]);
@@ -150,6 +152,8 @@ class SubmissionController extends Controller
             $submission->update([
                 'title' => $request->title,
                 'description' => $request->description,
+                'video_demo_link' => $request->video_demo_link,
+                'social_media_link' => $request->social_media_link,
                 'updated_at' => now(),
             ]);
 

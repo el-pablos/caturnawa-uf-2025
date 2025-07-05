@@ -27,6 +27,8 @@ class Submission extends Model
         'registration_id',
         'title',
         'description',
+        'video_demo_link',
+        'social_media_link',
         'files',
         'file_size',
         'submission_notes',

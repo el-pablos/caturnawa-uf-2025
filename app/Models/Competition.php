@@ -130,6 +130,16 @@ class Competition extends Model
     }
 
     /**
+     * Relasi dengan model SubmissionGuideline
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function submissionGuidelines()
+    {
+        return $this->hasMany(SubmissionGuideline::class);
+    }
+
+    /**
      * Relasi dengan model Score (penilaian)
      * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

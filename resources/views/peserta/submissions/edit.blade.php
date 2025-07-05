@@ -61,23 +61,34 @@
                         </div>
                         
                         <div class="mb-3">
-                            <label for="video_url" class="form-label">Link Video Demo</label>
-                            <input type="url" class="form-control @error('video_url') is-invalid @enderror" 
-                                   id="video_url" name="video_url" value="{{ old('video_url', $submission->video_url) }}" 
+                            <label for="video_demo_link" class="form-label">Link Video Demo</label>
+                            <input type="url" class="form-control @error('video_demo_link') is-invalid @enderror"
+                                   id="video_demo_link" name="video_demo_link" value="{{ old('video_demo_link', $submission->video_demo_link) }}"
                                    placeholder="https://youtube.com/watch?v=...">
                             <div class="form-text">Link video demo karya (YouTube, Vimeo, dll)</div>
-                            @error('video_url')
+                            @error('video_demo_link')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        
+
                         <div class="mb-3">
-                            <label for="repository_url" class="form-label">Link Repository</label>
-                            <input type="url" class="form-control @error('repository_url') is-invalid @enderror" 
-                                   id="repository_url" name="repository_url" value="{{ old('repository_url', $submission->repository_url) }}" 
+                            <label for="social_media_link" class="form-label">Link Media Sosial</label>
+                            <input type="url" class="form-control @error('social_media_link') is-invalid @enderror"
+                                   id="social_media_link" name="social_media_link" value="{{ old('social_media_link', $submission->social_media_link) }}"
+                                   placeholder="https://instagram.com/username atau https://tiktok.com/@username">
+                            <div class="form-text">Link Instagram, TikTok, Twitter, atau media sosial lainnya terkait karya</div>
+                            @error('social_media_link')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="github_url" class="form-label">Link Repository</label>
+                            <input type="url" class="form-control @error('github_url') is-invalid @enderror"
+                                   id="github_url" name="github_url" value="{{ old('github_url', $submission->github_url) }}"
                                    placeholder="https://github.com/username/repo">
                             <div class="form-text">Link repository code (GitHub, GitLab, dll)</div>
-                            @error('repository_url')
+                            @error('github_url')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
