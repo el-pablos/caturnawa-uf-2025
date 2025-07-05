@@ -296,11 +296,11 @@
                         <i class="bi bi-speedometer2 me-2"></i>Dashboard
                     </a>
 
-                    @can('users.view')
+                    @role('superadmin')
                     <a class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}" href="{{ route('admin.users.index') }}">
                         <i class="bi bi-people me-2"></i>Kelola Pengguna
                     </a>
-                    @endcan
+                    @endrole
 
                     @can('roles.view')
                     <a class="nav-link {{ request()->routeIs('admin.roles.*') ? 'active' : '' }}" href="{{ route('admin.roles.index') }}">

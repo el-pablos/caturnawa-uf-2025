@@ -2,15 +2,11 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
-/**
- * Seeder untuk roles dan permissions
- * 
- * Membuat role dan permission yang diperlukan sistem
- */
 class RolePermissionSeeder extends Seeder
 {
     /**
@@ -21,98 +17,101 @@ class RolePermissionSeeder extends Seeder
         // Reset cached roles and permissions
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // Buat permissions
+        // Create permissions
         $permissions = [
-            // User Management
-            'users.view',
-            'users.create',
-            'users.edit',
-            'users.delete',
-            
-            // Competition Management
-            'competitions.view',
-            'competitions.create',
-            'competitions.edit',
-            'competitions.delete',
-            'competitions.toggle-status',
-            
-            // Registration Management
-            'registrations.view',
-            'registrations.edit',
-            'registrations.delete',
-            'registrations.export',
-            
-            // Payment Management
-            'payments.view',
-            'payments.refund',
-            
-            // Submission Management
-            'submissions.view',
-            'submissions.edit',
-            'submissions.delete',
-            
-            // Score Management
-            'scores.view',
-            'scores.create',
-            'scores.edit',
-            'scores.delete',
-            
-            // Report Management
-            'reports.view',
-            'reports.export',
-            
-            // System Settings
-            'settings.view',
-            'settings.edit',
-            
-            // Dashboard Access
-            'dashboard.admin',
-            'dashboard.jury',
-            'dashboard.participant',
+            // User management
+            'view users',
+            'create users',
+            'edit users',
+            'delete users',
+
+            // Competition management
+            'view competitions',
+            'create competitions',
+            'edit competitions',
+            'delete competitions',
+
+            // Registration management
+            'view registrations',
+            'create registrations',
+            'edit registrations',
+            'delete registrations',
+            'confirm registrations',
+
+            // Payment management
+            'view payments',
+            'process payments',
+            'refund payments',
+
+            // Submission management
+            'view submissions',
+            'create submissions',
+            'edit submissions',
+            'delete submissions',
+            'judge submissions',
+
+            // Scoring and judging
+            'view scores',
+            'create scores',
+            'edit scores',
+            'finalize scores',
+
+            // Settings management
+            'view settings',
+            'edit settings',
+
+            // Reports and analytics
+            'view reports',
+            'export data',
+
+            // Finance management
+            'view invoices',
+            'manage finance',
         ];
 
         foreach ($permissions as $permission) {
-            Permission::firstOrCreate(['name' => $permission]);
+            Permission::create(['name' => $permission]);
         }
 
-        // Buat roles dan assign permissions
+        // Create roles and assign permissions
 
-        // Super Admin - Full Access
-        $superAdmin = Role::firstOrCreate(['name' => 'Super Admin']);
-        $superAdmin->syncPermissions(Permission::all());
+        // Super Admin - has all permissions
+        $superAdmin = Role::create(['name' => 'superadmin']);
+        $superAdmin->givePermissionTo(Permission::all());
 
-        // Admin - Limited Admin Access
-        $admin = Role::firstOrCreate(['name' => 'Admin']);
-        $admin->syncPermissions([
-            'users.view',
-            'competitions.view',
-            'competitions.toggle-status',
-            'registrations.view',
-            'registrations.export',
-            'payments.view',
-            'submissions.view',
-            'scores.view',
-            'reports.view',
-            'reports.export',
-            'dashboard.admin',
-        ]);
+        // Admin - has most permissions except user management
+        $admin = Role::create(['name' => 'admin']);
+        $adminPermissions = [
+            'view competitions', 'create competitions', 'edit competitions', 'delete competitions',
+            'view registrations', 'create registrations', 'edit registrations', 'delete registrations', 'confirm registrations',
+            'view payments', 'process payments',
+            'view submissions', 'edit submissions', 'delete submissions',
+            'view scores', 'create scores', 'edit scores', 'finalize scores',
+            'view settings', 'edit settings',
+            'view reports', 'export data',
+            'view invoices', 'manage finance',
+        ];
+        $admin->givePermissionTo($adminPermissions);
 
-        // Juri - Scoring Access
-        $jury = Role::firstOrCreate(['name' => 'Juri']);
-        $jury->syncPermissions([
-            'competitions.view',
-            'submissions.view',
-            'scores.view',
-            'scores.create',
-            'scores.edit',
-            'dashboard.jury',
-        ]);
+        // Juri - can only judge and score submissions
+        $juri = Role::create(['name' => 'juri']);
+        $juriPermissions = [
+            'view competitions',
+            'view registrations',
+            'view submissions', 'judge submissions',
+            'view scores', 'create scores', 'edit scores',
+        ];
+        $juri->givePermissionTo($juriPermissions);
 
-        // Peserta - Participant Access
-        $participant = Role::firstOrCreate(['name' => 'Peserta']);
-        $participant->syncPermissions([
-            'competitions.view',
-            'dashboard.participant',
-        ]);
+        // Peserta - can only manage their own submissions and registrations
+        $peserta = Role::create(['name' => 'peserta']);
+        $pesertaPermissions = [
+            'view competitions',
+            'create registrations', 'view registrations',
+            'create submissions', 'view submissions', 'edit submissions',
+        ];
+        $peserta->givePermissionTo($pesertaPermissions);
+
+        $this->command->info('Roles and permissions created successfully!');
     }
 }
