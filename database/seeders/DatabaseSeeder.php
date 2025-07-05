@@ -22,59 +22,80 @@ class DatabaseSeeder extends Seeder
         // Jalankan role permission seeder terlebih dahulu
         $this->call(RolePermissionSeeder::class);
 
-        // Buat Super Admin
-        $superAdmin = User::create([
-            'name' => 'Super Administrator',
-            'email' => 'superadmin@unasfest.ac.id',
-            'password' => 'superadmin123',
-            'phone' => '08123456789',
-            'is_active' => true,
-            'email_verified_at' => now(),
-        ]);
-        $superAdmin->assignRole('Super Admin');
+        // Buat Super Admin jika belum ada
+        $superAdmin = User::firstOrCreate(
+            ['email' => 'superadmin@unasfest.ac.id'],
+            [
+                'name' => 'Super Administrator',
+                'password' => 'superadmin123',
+                'phone' => '08123456789',
+                'is_active' => true,
+                'email_verified_at' => now(),
+            ]
+        );
+        if (!$superAdmin->hasRole('Super Admin')) {
+            $superAdmin->assignRole('Super Admin');
+        }
 
-        // Buat Admin
-        $admin = User::create([
-            'name' => 'Administrator',
-            'email' => 'admin@unasfest.ac.id',
-            'password' => 'admin123',
-            'phone' => '08123456788',
-            'is_active' => true,
-            'email_verified_at' => now(),
-        ]);
-        $admin->assignRole('Admin');
+        // Buat Admin jika belum ada
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@unasfest.ac.id'],
+            [
+                'name' => 'Administrator',
+                'password' => 'admin123',
+                'phone' => '08123456788',
+                'is_active' => true,
+                'email_verified_at' => now(),
+            ]
+        );
+        if (!$admin->hasRole('Admin')) {
+            $admin->assignRole('Admin');
+        }
 
-        // Buat Juri
-        $jury1 = User::create([
-            'name' => 'Dr. Ahmad Juri',
-            'email' => 'juri1@unasfest.ac.id',
-            'password' => 'juri123',
-            'phone' => '08123456787',
-            'is_active' => true,
-            'email_verified_at' => now(),
-        ]);
-        $jury1->assignRole('Juri');
+        // Buat Juri 1 jika belum ada
+        $jury1 = User::firstOrCreate(
+            ['email' => 'juri1@unasfest.ac.id'],
+            [
+                'name' => 'Dr. Ahmad Juri',
+                'password' => 'juri123',
+                'phone' => '08123456787',
+                'is_active' => true,
+                'email_verified_at' => now(),
+            ]
+        );
+        if (!$jury1->hasRole('Juri')) {
+            $jury1->assignRole('Juri');
+        }
 
-        $jury2 = User::create([
-            'name' => 'Prof. Siti Juri',
-            'email' => 'juri2@unasfest.ac.id',
-            'password' => 'juri123',
-            'phone' => '08123456786',
-            'is_active' => true,
-            'email_verified_at' => now(),
-        ]);
-        $jury2->assignRole('Juri');
+        // Buat Juri 2 jika belum ada
+        $jury2 = User::firstOrCreate(
+            ['email' => 'juri2@unasfest.ac.id'],
+            [
+                'name' => 'Prof. Siti Juri',
+                'password' => 'juri123',
+                'phone' => '08123456786',
+                'is_active' => true,
+                'email_verified_at' => now(),
+            ]
+        );
+        if (!$jury2->hasRole('Juri')) {
+            $jury2->assignRole('Juri');
+        }
 
-        // Buat contoh peserta
-        $participant = User::create([
-            'name' => 'Peserta Demo',
-            'email' => 'peserta@unasfest.ac.id',
-            'password' => 'peserta123',
-            'phone' => '08123456785',
-            'is_active' => true,
-            'email_verified_at' => now(),
-        ]);
-        $participant->assignRole('Peserta');
+        // Buat contoh peserta jika belum ada
+        $participant = User::firstOrCreate(
+            ['email' => 'peserta@unasfest.ac.id'],
+            [
+                'name' => 'Peserta Demo',
+                'password' => 'peserta123',
+                'phone' => '08123456785',
+                'is_active' => true,
+                'email_verified_at' => now(),
+            ]
+        );
+        if (!$participant->hasRole('Peserta')) {
+            $participant->assignRole('Peserta');
+        }
 
         // Buat contoh kompetisi
         $competitions = [
