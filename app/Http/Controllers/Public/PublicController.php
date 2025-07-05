@@ -43,46 +43,68 @@ class PublicController extends Controller
     }
 
     /**
-     * Get leaderboard data for home page
+     * Get leaderboard data for home page (by competition)
      */
     private function getHomeLeaderboard()
     {
-        // Get submissions with final scores from all competitions
-        $submissions = \App\Models\Submission::with(['registration.user', 'registration.competition', 'scores'])
-            ->whereHas('registration', function ($q) {
-                $q->where('status', 'confirmed');
-            })
-            ->where('status', 'submitted')
-            ->get();
+        $competitions = Competition::active()->get();
+        $leaderboardByCompetition = [];
 
-        $leaderboard = $submissions->map(function ($submission) {
-            // Calculate average score from final scores only
-            $finalScores = $submission->scores->where('is_final', true);
+        foreach ($competitions as $competition) {
+            // Get submissions with final scores for this competition
+            $submissions = \App\Models\Submission::with(['registration.user', 'scores'])
+                ->whereHas('registration', function ($q) use ($competition) {
+                    $q->where('status', 'confirmed')
+                      ->where('competition_id', $competition->id);
+                })
+                ->where('status', 'submitted')
+                ->get();
 
-            if ($finalScores->count() === 0) {
-                return null; // Skip submissions without final scores
+            $competitionLeaderboard = $submissions->map(function ($submission) use ($competition) {
+                // Calculate average score from final scores only
+                $finalScores = $submission->scores->where('is_final', true);
+
+                if ($finalScores->count() === 0) {
+                    return null; // Skip submissions without final scores
+                }
+
+                $averageScore = $finalScores->avg('total_score');
+                $victoryPoints = round($averageScore * 10); // Convert to victory points
+
+                return [
+                    'team_name' => $submission->registration->team_name ?: $submission->registration->user->name,
+                    'participant_name' => $submission->registration->user->name,
+                    'competition' => $competition->name,
+                    'institution' => $submission->registration->user->institution,
+                    'score' => round($averageScore, 2),
+                    'victory_points' => $victoryPoints,
+                ];
+            })->filter()->sortByDesc('victory_points')->values();
+
+            // Only take top 4 positions: rank 1, 2, 3, and jury mention
+            $topEntries = $competitionLeaderboard->take(4);
+
+            // Add ranking with special handling for 4th position
+            $rankedEntries = $topEntries->map(function ($item, $index) {
+                if ($index < 3) {
+                    $item['rank'] = $index + 1;
+                    $item['rank_type'] = 'position';
+                } else {
+                    $item['rank'] = 'Jury Mention';
+                    $item['rank_type'] = 'mention';
+                }
+                return $item;
+            });
+
+            if ($rankedEntries->count() > 0) {
+                $leaderboardByCompetition[] = [
+                    'competition' => $competition,
+                    'leaderboard' => $rankedEntries
+                ];
             }
+        }
 
-            $averageScore = $finalScores->avg('total_score');
-            $victoryPoints = round($averageScore * 10); // Convert to victory points
-
-            return [
-                'team_name' => $submission->registration->team_name ?: $submission->registration->user->name,
-                'participant_name' => $submission->registration->user->name,
-                'competition' => $submission->registration->competition->name,
-                'institution' => $submission->registration->user->institution,
-                'score' => round($averageScore, 2),
-                'victory_points' => $victoryPoints,
-            ];
-        })->filter()->sortByDesc('victory_points')->take(10)->values();
-
-        // Add ranking
-        $leaderboard = $leaderboard->map(function ($item, $index) {
-            $item['rank'] = $index + 1;
-            return $item;
-        });
-
-        return $leaderboard;
+        return $leaderboardByCompetition;
     }
 
     /**
