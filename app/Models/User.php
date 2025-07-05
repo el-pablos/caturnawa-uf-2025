@@ -114,6 +114,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Relasi dengan model Judging (penilaian juri baru)
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function judgings()
+    {
+        return $this->hasMany(Judging::class, 'jury_id');
+    }
+
+    /**
      * Relasi many-to-many dengan Competition (sebagai juri)
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

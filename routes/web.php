@@ -269,6 +269,11 @@ Route::middleware(['auth', 'verified', 'role.redirect', 'maintenance'])->group(f
             Route::post('/{submission}/comment', [App\Http\Controllers\Juri\SubmissionController::class, 'addComment'])->name('comment');
         });
 
+        // Judging Form with Tabulator
+        Route::get('/judging/form', function() {
+            return view('juri.judging.form');
+        })->name('judging.form');
+
         // Export & Reports
         Route::prefix('export')->name('export.')->group(function () {
             Route::get('/scores', [App\Http\Controllers\Juri\ExportController::class, 'exportScores'])->name('scores');

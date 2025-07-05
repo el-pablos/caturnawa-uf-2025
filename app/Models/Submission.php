@@ -133,6 +133,16 @@ class Submission extends Model
     }
 
     /**
+     * Relasi dengan model Judging
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function judgings()
+    {
+        return $this->hasMany(Judging::class);
+    }
+
+    /**
      * Relasi dengan model Competition melalui Registration
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOneThrough

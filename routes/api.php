@@ -26,6 +26,12 @@ Route::get('/competitions/{competition}', [App\Http\Controllers\Api\CompetitionC
 Route::get('/competitions/{competition}/description/{section?}', [App\Http\Controllers\Api\CompetitionController::class, 'getDescription']);
 Route::get('/submissions/{submission}', [App\Http\Controllers\Api\SubmissionController::class, 'show']);
 
+// Judging API (requires authentication)
+Route::middleware(['web', 'auth'])->group(function () {
+    Route::get('/judging/form', [App\Http\Controllers\Api\JudgingController::class, 'getForm']);
+    Route::post('/judging/score', [App\Http\Controllers\Api\JudgingController::class, 'saveScore']);
+});
+
 // User Session and Authenticated Routes (using web middleware for session-based auth)
 Route::middleware(['web', 'auth'])->group(function () {
     // User session with deadline reminders
