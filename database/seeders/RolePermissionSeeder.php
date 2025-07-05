@@ -72,18 +72,18 @@ class RolePermissionSeeder extends Seeder
         ];
 
         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
+            Permission::firstOrCreate(['name' => $permission]);
         }
 
         // Buat roles dan assign permissions
-        
+
         // Super Admin - Full Access
-        $superAdmin = Role::create(['name' => 'Super Admin']);
-        $superAdmin->givePermissionTo(Permission::all());
+        $superAdmin = Role::firstOrCreate(['name' => 'Super Admin']);
+        $superAdmin->syncPermissions(Permission::all());
 
         // Admin - Limited Admin Access
-        $admin = Role::create(['name' => 'Admin']);
-        $admin->givePermissionTo([
+        $admin = Role::firstOrCreate(['name' => 'Admin']);
+        $admin->syncPermissions([
             'users.view',
             'competitions.view',
             'competitions.toggle-status',
@@ -98,8 +98,8 @@ class RolePermissionSeeder extends Seeder
         ]);
 
         // Juri - Scoring Access
-        $jury = Role::create(['name' => 'Juri']);
-        $jury->givePermissionTo([
+        $jury = Role::firstOrCreate(['name' => 'Juri']);
+        $jury->syncPermissions([
             'competitions.view',
             'submissions.view',
             'scores.view',
@@ -109,8 +109,8 @@ class RolePermissionSeeder extends Seeder
         ]);
 
         // Peserta - Participant Access
-        $participant = Role::create(['name' => 'Peserta']);
-        $participant->givePermissionTo([
+        $participant = Role::firstOrCreate(['name' => 'Peserta']);
+        $participant->syncPermissions([
             'competitions.view',
             'dashboard.participant',
         ]);
