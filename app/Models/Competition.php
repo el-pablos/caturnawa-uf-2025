@@ -110,12 +110,22 @@ class Competition extends Model
 
     /**
      * Relasi dengan model Registration (pendaftaran)
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function registrations()
     {
         return $this->hasMany(Registration::class);
+    }
+
+    /**
+     * Relasi dengan model CompetitionDescription
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function descriptions()
+    {
+        return $this->hasMany(CompetitionDescription::class);
     }
 
     /**

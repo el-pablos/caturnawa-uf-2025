@@ -23,6 +23,7 @@ Route::get('/achievements', [App\Http\Controllers\Api\AchievementController::cla
 Route::get('/leaderboard', [App\Http\Controllers\Api\LeaderboardController::class, 'index']);
 Route::get('/competitions', [App\Http\Controllers\Api\CompetitionController::class, 'index']);
 Route::get('/competitions/{competition}', [App\Http\Controllers\Api\CompetitionController::class, 'show']);
+Route::get('/competitions/{competition}/description/{section?}', [App\Http\Controllers\Api\CompetitionController::class, 'getDescription']);
 
 // Protected API routes
 Route::middleware('auth:sanctum')->group(function () {

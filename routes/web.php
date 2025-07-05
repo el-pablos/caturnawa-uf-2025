@@ -123,6 +123,16 @@ Route::middleware(['auth', 'verified', 'role.redirect', 'maintenance'])->group(f
             Route::patch('/{competition}/toggle-status', [App\Http\Controllers\Admin\CompetitionController::class, 'toggleStatus'])->name('toggle-status');
             Route::get('/{competition}/registrations', [App\Http\Controllers\Admin\CompetitionController::class, 'registrations'])->name('registrations');
             Route::get('/{competition}/export', [App\Http\Controllers\Admin\CompetitionController::class, 'export'])->name('export');
+
+            // Competition Descriptions
+            Route::prefix('{competition}/descriptions')->name('descriptions.')->group(function () {
+                Route::get('/', [App\Http\Controllers\Admin\CompetitionDescriptionController::class, 'index'])->name('index');
+                Route::get('/create', [App\Http\Controllers\Admin\CompetitionDescriptionController::class, 'create'])->name('create');
+                Route::post('/', [App\Http\Controllers\Admin\CompetitionDescriptionController::class, 'store'])->name('store');
+                Route::get('/{description}/edit', [App\Http\Controllers\Admin\CompetitionDescriptionController::class, 'edit'])->name('edit');
+                Route::put('/{description}', [App\Http\Controllers\Admin\CompetitionDescriptionController::class, 'update'])->name('update');
+                Route::delete('/{description}', [App\Http\Controllers\Admin\CompetitionDescriptionController::class, 'destroy'])->name('destroy');
+            });
         });
         
         // Registration Management

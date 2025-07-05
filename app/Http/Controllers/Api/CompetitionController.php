@@ -94,4 +94,49 @@ class CompetitionController extends Controller
             'data' => $data
         ]);
     }
+
+    /**
+     * Get competition description by section
+     *
+     * @param Competition $competition
+     * @param string $section
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getDescription(Competition $competition, $section = 'main')
+    {
+        $descriptions = \App\Models\CompetitionDescription::getByCompetitionAndSection(
+            $competition->id,
+            $section
+        );
+
+        $formattedDescriptions = $descriptions->map(function ($description) {
+            return [
+                'id' => $description->id,
+                'title' => $description->title,
+                'content' => $description->content,
+                'order' => $description->order,
+                'created_at' => $description->created_at->toISOString(),
+                'updated_at' => $description->updated_at->toISOString(),
+                'created_by' => $description->creator ? [
+                    'id' => $description->creator->id,
+                    'name' => $description->creator->name,
+                ] : null,
+                'updated_by' => $description->updater ? [
+                    'id' => $description->updater->id,
+                    'name' => $description->updater->name,
+                ] : null,
+            ];
+        });
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'competition_id' => $competition->id,
+                'competition_name' => $competition->name,
+                'section' => $section,
+                'descriptions' => $formattedDescriptions,
+                'available_sections' => \App\Models\CompetitionDescription::getSectionsByCompetition($competition->id),
+            ]
+        ]);
+    }
 }

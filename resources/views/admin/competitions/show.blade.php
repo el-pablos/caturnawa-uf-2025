@@ -187,12 +187,16 @@
                     <a href="{{ route('admin.competitions.edit', $competition) }}" class="btn btn-warning">
                         <i class="bi bi-pencil me-2"></i>Edit Kompetisi
                     </a>
-                    
+
+                    <a href="{{ route('admin.competitions.descriptions.index', $competition) }}" class="btn btn-primary">
+                        <i class="bi bi-file-text me-2"></i>Kelola Deskripsi
+                    </a>
+
                     @if($competition->registrations_count > 0)
                         <a href="{{ route('admin.competitions.registrations', $competition) }}" class="btn btn-info">
                             <i class="bi bi-people me-2"></i>Lihat Peserta
                         </a>
-                        
+
                         <a href="{{ route('admin.competitions.export', $competition) }}" class="btn btn-success">
                             <i class="bi bi-download me-2"></i>Export Data
                         </a>
