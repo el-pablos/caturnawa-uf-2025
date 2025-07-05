@@ -11,32 +11,21 @@ use Illuminate\Http\Request;
 class ParticipantController extends Controller
 {
     /**
-     * Display participants list
+     * Display participants list with comprehensive data
      */
     public function index(Request $request)
     {
-        $query = User::whereHas('roles', function($q) {
-            $q->where('name', 'Peserta');
-        })->with(['registrations.competition']);
+        // Get registrations with all related data for comprehensive view
+        $query = Registration::with([
+            'user',
+            'competition',
+            'payment',
+            'teamMembers'
+        ])->where('status', 'confirmed');
 
         // Filter by competition
         if ($request->filled('competition_id')) {
-            $query->whereHas('registrations', function($q) use ($request) {
-                $q->where('competition_id', $request->competition_id);
-            });
-        }
-
-        // Filter by status
-        if ($request->filled('status')) {
-            if ($request->status === 'active') {
-                $query->where('is_active', true);
-            } elseif ($request->status === 'inactive') {
-                $query->where('is_active', false);
-            } elseif ($request->status === 'verified') {
-                $query->whereNotNull('email_verified_at');
-            } elseif ($request->status === 'unverified') {
-                $query->whereNull('email_verified_at');
-            }
+            $query->where('competition_id', $request->competition_id);
         }
 
         // Filter by institution
@@ -44,39 +33,61 @@ class ParticipantController extends Controller
             $query->where('institution', 'like', '%' . $request->institution . '%');
         }
 
+        // Filter by payment status
+        if ($request->filled('payment_status')) {
+            if ($request->payment_status === 'paid') {
+                $query->whereHas('payment', function($q) {
+                    $q->where('transaction_status', 'settlement');
+                });
+            } elseif ($request->payment_status === 'pending') {
+                $query->whereDoesntHave('payment')
+                      ->orWhereHas('payment', function($q) {
+                          $q->where('transaction_status', '!=', 'settlement');
+                      });
+            }
+        }
+
         // Search
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%")
+                $q->where('team_name', 'like', "%{$search}%")
+                  ->orWhere('registration_number', 'like', "%{$search}%")
                   ->orWhere('institution', 'like', "%{$search}%")
-                  ->orWhere('student_id', 'like', "%{$search}%");
+                  ->orWhereHas('user', function($subQ) use ($search) {
+                      $subQ->where('name', 'like', "%{$search}%")
+                           ->orWhere('email', 'like', "%{$search}%");
+                  });
             });
         }
 
-        $participants = $query->orderBy('created_at', 'desc')->paginate(20);
+        $registrations = $query->orderBy('created_at', 'desc')->paginate(20);
 
         // Get competitions for filter
         $competitions = Competition::where('is_active', true)->get();
 
         // Get institutions for filter
-        $institutions = User::whereHas('roles', function($q) {
-            $q->where('name', 'Peserta');
-        })->whereNotNull('institution')
+        $institutions = Registration::whereNotNull('institution')
           ->distinct()
           ->pluck('institution')
           ->sort();
 
         // Statistics
         $stats = [
-            'total' => User::whereHas('roles', function($q) { $q->where('name', 'Peserta'); })->count(),
-            'active' => User::whereHas('roles', function($q) { $q->where('name', 'Peserta'); })->where('is_active', true)->count(),
-            'verified' => User::whereHas('roles', function($q) { $q->where('name', 'Peserta'); })->whereNotNull('email_verified_at')->count(),
-            'registered' => Registration::where('status', 'confirmed')->distinct('user_id')->count(),
+            'total' => Registration::where('status', 'confirmed')->count(),
+            'paid' => Registration::where('status', 'confirmed')
+                        ->whereHas('payment', function($q) {
+                            $q->where('transaction_status', 'settlement');
+                        })->count(),
+            'pending' => Registration::where('status', 'confirmed')
+                           ->whereDoesntHave('payment')
+                           ->orWhereHas('payment', function($q) {
+                               $q->where('transaction_status', '!=', 'settlement');
+                           })->count(),
+            'institutions' => Registration::whereNotNull('institution')->distinct('institution')->count(),
         ];
 
-        return view('admin.participants.index', compact('participants', 'competitions', 'institutions', 'stats'));
+        return view('admin.participants.index', compact('registrations', 'competitions', 'institutions', 'stats'));
     }
 
     /**

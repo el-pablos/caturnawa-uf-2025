@@ -86,53 +86,54 @@
         </div>
     </div>
 
-    <!-- Statistics Section -->
+    <!-- University Partners Section -->
     <div class="row mb-5">
         <div class="col-12">
             <h2 class="text-center mb-4">
-                <i class="bi bi-graph-up text-info"></i> 
-                UNAS Fest dalam Angka
+                <i class="bi bi-building text-info"></i>
+                Universitas Partner
             </h2>
         </div>
         <div class="col-12">
             <div class="card shadow">
                 <div class="card-header bg-info text-white text-center">
-                    <h3 class="card-title mb-0">Pencapaian Kami</h3>
-                    <p class="mb-0">Dampak yang telah kami ciptakan bersama komunitas mahasiswa Indonesia</p>
+                    <h3 class="card-title mb-0">Institusi Peserta</h3>
+                    <p class="mb-0">Universitas dan institusi yang berpartisipasi dalam UNAS Fest 2025</p>
                 </div>
                 <div class="card-body">
                     <div class="row g-4 text-center">
-                        <div class="col-lg-3 col-md-6">
-                            <div class="p-3">
-                                <i class="bi bi-people text-primary" style="font-size: 3rem;"></i>
-                                <h3 class="fw-bold text-primary mt-2">10,000+</h3>
-                                <p class="text-muted mb-0">Peserta Terdaftar</p>
-                            </div>
-                        </div>
+                        @php
+                            // Get unique institutions from registrations
+                            $institutions = \App\Models\Registration::whereNotNull('institution')
+                                ->where('status', 'confirmed')
+                                ->distinct('institution')
+                                ->pluck('institution')
+                                ->take(12); // Limit to 12 for display
+                        @endphp
 
-                        <div class="col-lg-3 col-md-6">
-                            <div class="p-3">
-                                <i class="bi bi-trophy text-success" style="font-size: 3rem;"></i>
-                                <h3 class="fw-bold text-success mt-2">15</h3>
-                                <p class="text-muted mb-0">Kategori Kompetisi</p>
+                        @if($institutions->count() > 0)
+                            @foreach($institutions as $institution)
+                                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                                    <div class="p-3 border rounded h-100 d-flex flex-column align-items-center justify-content-center">
+                                        <img src="https://via.placeholder.com/80x80/007bff/ffffff?text={{ substr($institution, 0, 2) }}"
+                                             alt="{{ $institution }}"
+                                             class="mb-3 rounded-circle"
+                                             style="width: 60px; height: 60px; object-fit: cover;">
+                                        <h6 class="text-center mb-0 small">{{ $institution }}</h6>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="col-12">
+                                <p class="text-muted text-center">Belum ada institusi yang terdaftar</p>
                             </div>
-                        </div>
+                        @endif
 
-                        <div class="col-lg-3 col-md-6">
-                            <div class="p-3">
-                                <i class="bi bi-gift text-warning" style="font-size: 3rem;"></i>
-                                <h3 class="fw-bold text-warning mt-2">500 Juta</h3>
-                                <p class="text-muted mb-0">Total Hadiah</p>
+                        @if($institutions->count() > 12)
+                            <div class="col-12 text-center mt-3">
+                                <p class="text-muted">Dan {{ $institutions->count() - 12 }} institusi lainnya...</p>
                             </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-6">
-                            <div class="p-3">
-                                <i class="bi bi-building text-info" style="font-size: 3rem;"></i>
-                                <h3 class="fw-bold text-info mt-2">100+</h3>
-                                <p class="text-muted mb-0">Universitas Partner</p>
-                            </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>

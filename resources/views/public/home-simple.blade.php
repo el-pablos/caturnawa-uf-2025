@@ -18,27 +18,100 @@
         </div>
     </div>
 
-    <!-- Statistics -->
+    <!-- Leaderboard Section -->
+    @if($leaderboard && $leaderboard->count() > 0)
     <div class="row mt-5">
-        <div class="col-md-6 mb-4">
-            <div class="card text-center">
-                <div class="card-body">
-                    <i class="bi bi-people-fill text-primary" style="font-size: 2rem;"></i>
-                    <h3 class="mt-2">{{ $stats['participants'] ?? 0 }}</h3>
-                    <p class="text-muted">Peserta</p>
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3 class="card-title mb-0">
+                        <i class="bi bi-trophy me-2"></i>Leaderboard UNAS Fest 2025
+                    </h3>
+                    <p class="mb-0">Peringkat Tim Terbaik Berdasarkan Victory Points</p>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-6 mb-4">
-            <div class="card text-center">
-                <div class="card-body">
-                    <i class="bi bi-trophy-fill text-warning" style="font-size: 2rem;"></i>
-                    <h3 class="mt-2">{{ $stats['competitions'] ?? 0 }}</h3>
-                    <p class="text-muted">Kompetisi</p>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="text-center" width="80">Rank</th>
+                                    <th>Tim</th>
+                                    <th>Kompetisi</th>
+                                    <th>Institusi</th>
+                                    <th class="text-center" width="120">Skor</th>
+                                    <th class="text-center" width="150">Victory Points</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($leaderboard as $item)
+                                    <tr class="{{ $item['rank'] <= 3 ? 'table-warning' : '' }}">
+                                        <td class="text-center">
+                                            @if($item['rank'] == 1)
+                                                <span class="badge bg-warning text-dark fs-6">
+                                                    <i class="bi bi-trophy-fill"></i> {{ $item['rank'] }}
+                                                </span>
+                                            @elseif($item['rank'] == 2)
+                                                <span class="badge bg-secondary fs-6">
+                                                    <i class="bi bi-award-fill"></i> {{ $item['rank'] }}
+                                                </span>
+                                            @elseif($item['rank'] == 3)
+                                                <span class="badge bg-warning text-dark fs-6">
+                                                    <i class="bi bi-award"></i> {{ $item['rank'] }}
+                                                </span>
+                                            @else
+                                                <span class="badge bg-light text-dark">{{ $item['rank'] }}</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <strong>{{ $item['team_name'] }}</strong>
+                                                @if($item['team_name'] !== $item['participant_name'])
+                                                    <br><small class="text-muted">{{ $item['participant_name'] }}</small>
+                                                @endif
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-primary">{{ $item['competition'] }}</span>
+                                        </td>
+                                        <td>{{ $item['institution'] ?? 'Tidak ada' }}</td>
+                                        <td class="text-center">
+                                            <span class="badge bg-success">{{ $item['score'] }}/100</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge bg-warning text-dark fs-6">
+                                                <i class="bi bi-star-fill"></i> {{ $item['victory_points'] }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{{ route('leaderboard.index') }}" class="btn btn-primary">
+                        <i class="bi bi-trophy me-2"></i>Lihat Leaderboard Lengkap
+                    </a>
                 </div>
             </div>
         </div>
     </div>
+    @else
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-body text-center py-5">
+                    <i class="bi bi-trophy text-muted" style="font-size: 4rem;"></i>
+                    <h4 class="mt-3 text-muted">Leaderboard Belum Tersedia</h4>
+                    <p class="text-muted">Leaderboard akan ditampilkan setelah ada submission yang dinilai.</p>
+                    <a href="{{ route('public.competitions') }}" class="btn btn-primary">
+                        <i class="bi bi-trophy me-2"></i>Lihat Kompetisi
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
 
     <!-- Featured Competitions -->
     @if($competitions && $competitions->count() > 0)

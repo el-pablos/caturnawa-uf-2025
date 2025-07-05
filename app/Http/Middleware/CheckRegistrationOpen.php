@@ -38,9 +38,11 @@ class CheckRegistrationOpen
         }
 
         // Cek apakah registrasi terbuka untuk route registration
-        if ($request->routeIs('register*') || $request->routeIs('competition.register*')) {
+        if ($request->routeIs('register*') || $request->routeIs('competition.register*') || $request->routeIs('peserta.competitions.register*')) {
             if (!Setting::isRegistrationOpen()) {
-                return redirect()->route('public.home')->with('error', Setting::getRegistrationClosedMessage());
+                return response()->view('errors.registration-closed', [
+                    'message' => Setting::getRegistrationClosedMessage()
+                ], 403);
             }
         }
 

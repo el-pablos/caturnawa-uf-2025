@@ -13,7 +13,13 @@ class SettingsController extends Controller
      */
     public function index()
     {
-        $settings = Setting::all()->keyBy('key');
+        $settings = [];
+        $allSettings = Setting::all();
+
+        foreach ($allSettings as $setting) {
+            $settings[$setting->key] = Setting::get($setting->key);
+        }
+
         return view('admin.settings.index', compact('settings'));
     }
 

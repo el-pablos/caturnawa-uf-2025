@@ -149,38 +149,7 @@
                         </div>
                     </div>
                     
-                    <!-- System Settings -->
-                    <div class="mb-4">
-                        <h6 class="text-primary mb-3">
-                            <i class="bi bi-toggles me-2"></i>Pengaturan Sistem
-                        </h6>
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="registration_enabled"
-                                           name="registration_enabled" value="1"
-                                           {{ ($settings['registration_enabled'] ?? true) ? 'checked' : '' }}>
-                                    <label class="form-check-label fw-semibold" for="registration_enabled">
-                                        Buka Pendaftaran
-                                    </label>
-                                    <div class="form-text">Mengizinkan peserta untuk mendaftar kompetisi</div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6 mb-3">
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="maintenance_mode"
-                                           name="maintenance_mode" value="1"
-                                           {{ ($settings['maintenance_mode'] ?? false) ? 'checked' : '' }}>
-                                    <label class="form-check-label fw-semibold" for="maintenance_mode">
-                                        Mode Maintenance
-                                    </label>
-                                    <div class="form-text">Menonaktifkan akses untuk peserta</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                     
                     <div class="d-flex justify-content-end gap-2">
                         <button type="button" class="btn btn-secondary" onclick="window.location.reload()">

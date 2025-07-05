@@ -119,7 +119,7 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h6 class="mb-0">
-            <i class="bi bi-people me-2"></i>Daftar Peserta
+            <i class="bi bi-people me-2"></i>Data Peserta
         </h6>
         <div class="d-flex gap-2">
             <a href="{{ route('admin.participants.export', request()->query()) }}" class="btn btn-success btn-sm">
@@ -128,66 +128,120 @@
         </div>
     </div>
     <div class="card-body">
-        @if($participants->count() > 0)
+        @if($registrations->count() > 0)
             <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
+                <table class="table table-hover table-sm">
+                    <thead class="table-light">
                         <tr>
-                            <th>Peserta</th>
-                            <th>Institusi</th>
-                            <th>Kompetisi</th>
-                            <th>Status</th>
-                            <th>Tanggal Daftar</th>
-                            <th>Aksi</th>
+                            <th>No</th>
+                            <th>Asal Instansi</th>
+                            <th>Nama Team</th>
+                            <th>Peserta 1</th>
+                            <th>Peserta 2</th>
+                            <th>Peserta 3</th>
+                            <th>Peserta 4</th>
+                            <th>Peserta 5</th>
+                            <th>Email 1</th>
+                            <th>Email 2</th>
+                            <th>Email 3</th>
+                            <th>Email 4</th>
+                            <th>Email 5</th>
+                            <th>No HP 1</th>
+                            <th>No HP 2</th>
+                            <th>No HP 3</th>
+                            <th>No HP 4</th>
+                            <th>No HP 5</th>
+                            <th>Foto 1</th>
+                            <th>Foto 2</th>
+                            <th>Foto 3</th>
+                            <th>Foto 4</th>
+                            <th>Foto 5</th>
+                            <th>Logo Instansi</th>
+                            <th>Status Pembayaran</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($participants as $participant)
+                        @foreach($registrations as $index => $registration)
+                            @php
+                                $teamMembers = $registration->teamMembers->take(5);
+                                $leader = $registration->user;
+                            @endphp
                             <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $registration->institution ?? 'Tidak ada' }}</td>
+                                <td>{{ $registration->team_name ?? 'Individual' }}</td>
+
+                                <!-- Peserta 1 (Leader) -->
+                                <td>{{ $leader->name }}</td>
+
+                                <!-- Peserta 2-5 (Team Members) -->
+                                @for($i = 0; $i < 4; $i++)
+                                    <td>{{ $teamMembers->get($i)->name ?? '-' }}</td>
+                                @endfor
+
+                                <!-- Email 1 (Leader) -->
+                                <td>{{ $leader->email }}</td>
+
+                                <!-- Email 2-5 (Team Members) -->
+                                @for($i = 0; $i < 4; $i++)
+                                    <td>{{ $teamMembers->get($i)->email ?? '-' }}</td>
+                                @endfor
+
+                                <!-- No HP 1 (Leader) -->
+                                <td>{{ $leader->phone ?? $registration->phone ?? '-' }}</td>
+
+                                <!-- No HP 2-5 (Team Members) -->
+                                @for($i = 0; $i < 4; $i++)
+                                    <td>{{ $teamMembers->get($i)->phone ?? '-' }}</td>
+                                @endfor
+
+                                <!-- Foto 1 (Leader) -->
                                 <td>
-                                    <div class="d-flex align-items-center">
-                                        <img src="{{ $participant->avatar_url }}" class="rounded-circle me-3" width="40" height="40" alt="Avatar">
-                                        <div>
-                                            <strong>{{ $participant->name }}</strong>
-                                            <br>
-                                            <small class="text-muted">{{ $participant->email }}</small>
-                                            @if($participant->student_id)
-                                                <br><small class="text-muted">NIM: {{ $participant->student_id }}</small>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>{{ $participant->institution ?? 'Tidak ada' }}</td>
-                                <td>
-                                    @if($participant->registrations->count() > 0)
-                                        @foreach($participant->registrations as $registration)
-                                            <span class="badge bg-primary me-1 mb-1">{{ $registration->competition->name }}</span>
-                                        @endforeach
+                                    @if($leader->avatar)
+                                        <a href="{{ asset('storage/' . $leader->avatar) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-image"></i>
+                                        </a>
                                     @else
-                                        <span class="text-muted">Belum mendaftar</span>
+                                        <span class="text-muted">-</span>
                                     @endif
                                 </td>
+
+                                <!-- Foto 2-5 (Team Members) - Placeholder for now -->
+                                @for($i = 0; $i < 4; $i++)
+                                    <td>
+                                        <span class="text-muted">-</span>
+                                    </td>
+                                @endfor
+
+                                <!-- Logo Instansi -->
                                 <td>
-                                    <div>
-                                        @if($participant->is_active)
-                                            <span class="badge bg-success">Aktif</span>
-                                        @else
-                                            <span class="badge bg-danger">Tidak Aktif</span>
-                                        @endif
-                                        
-                                        @if($participant->email_verified_at)
-                                            <span class="badge bg-info">Verified</span>
-                                        @else
-                                            <span class="badge bg-warning">Unverified</span>
-                                        @endif
-                                    </div>
+                                    <img src="https://via.placeholder.com/40x40/007bff/ffffff?text={{ substr($registration->institution ?? 'N', 0, 2) }}"
+                                         alt="{{ $registration->institution }}"
+                                         class="rounded"
+                                         style="width: 30px; height: 30px;">
                                 </td>
-                                <td>{{ $participant->created_at->format('d/m/Y H:i') }}</td>
+
+                                <!-- Status Pembayaran -->
+                                <td>
+                                    @if($registration->payment && $registration->payment->transaction_status === 'settlement')
+                                        <span class="badge bg-success">Lunas</span>
+                                    @elseif($registration->payment && $registration->payment->transaction_status === 'pending')
+                                        <span class="badge bg-warning">Pending</span>
+                                    @else
+                                        <span class="badge bg-danger">Belum Bayar</span>
+                                    @endif
+                                </td>
+
+                                <!-- Actions -->
                                 <td>
                                     <div class="btn-group btn-group-sm">
-                                        <a href="{{ route('admin.participants.show', $participant) }}" class="btn btn-outline-primary">
-                                            <i class="bi bi-eye"></i> Detail
+                                        <a href="{{ route('admin.registrations.show', $registration) }}" class="btn btn-outline-primary btn-sm">
+                                            <i class="bi bi-pencil"></i> Edit
                                         </a>
+                                        <button class="btn btn-outline-danger btn-sm" onclick="confirmDelete({{ $registration->id }})">
+                                            <i class="bi bi-trash"></i> Hapus
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -199,17 +253,27 @@
             <!-- Pagination -->
             <div class="d-flex justify-content-between align-items-center mt-3">
                 <div class="text-muted">
-                    Menampilkan {{ $participants->firstItem() }} - {{ $participants->lastItem() }} dari {{ $participants->total() }} peserta
+                    Menampilkan {{ $registrations->firstItem() }} - {{ $registrations->lastItem() }} dari {{ $registrations->total() }} pendaftaran
                 </div>
-                {{ $participants->links() }}
+                {{ $registrations->links() }}
             </div>
         @else
             <div class="text-center py-5">
                 <i class="bi bi-people fs-1 text-muted"></i>
-                <h5 class="mt-3 text-muted">Tidak ada peserta ditemukan</h5>
-                <p class="text-muted">Belum ada peserta yang sesuai dengan filter yang dipilih.</p>
+                <h5 class="mt-3 text-muted">Tidak ada data peserta ditemukan</h5>
+                <p class="text-muted">Belum ada data peserta yang sesuai dengan filter yang dipilih.</p>
             </div>
         @endif
     </div>
 </div>
+
+<script>
+function confirmDelete(registrationId) {
+    if (confirm('Apakah Anda yakin ingin menghapus data peserta ini?')) {
+        // Add delete functionality here
+        console.log('Delete registration:', registrationId);
+        // You can implement the actual delete functionality here
+    }
+}
+</script>
 @endsection

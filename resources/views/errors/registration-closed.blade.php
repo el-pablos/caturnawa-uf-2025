@@ -15,7 +15,7 @@
                     <h1 class="display-4 mb-4">Pendaftaran Ditutup</h1>
                     
                     <div class="mb-4">
-                        <p class="lead">{{ $message ?? 'Pendaftaran sedang ditutup. Silakan tunggu periode selanjutnya.' }}</p>
+                        <p class="lead">{{ $message ?? 'Pendaftaran sedang ditutup, silahkan tungu periode selanjutnya yaaaa....' }}</p>
                     </div>
                     
                     <div class="row">

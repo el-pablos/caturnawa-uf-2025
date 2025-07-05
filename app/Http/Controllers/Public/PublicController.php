@@ -25,7 +25,7 @@ class PublicController extends Controller
     }
 
     /**
-     * Display the home page
+     * Display the home page with leaderboard
      */
     public function home()
     {
@@ -36,15 +36,53 @@ class PublicController extends Controller
             ->take(3)
             ->get();
 
-        // Get statistics
-        $stats = [
-            'participants' => Registration::where('status', 'confirmed')->count(),
-            'competitions' => Competition::active()->count(),
-            'universities' => Registration::distinct('institution')->count(),
-            'total_prize' => 500000000, // 500 million
-        ];
+        // Get leaderboard data for home page (top 10)
+        $leaderboard = $this->getHomeLeaderboard();
 
-        return view('public.home-simple', compact('competitions', 'stats'));
+        return view('public.home-simple', compact('competitions', 'leaderboard'));
+    }
+
+    /**
+     * Get leaderboard data for home page
+     */
+    private function getHomeLeaderboard()
+    {
+        // Get submissions with final scores from all competitions
+        $submissions = \App\Models\Submission::with(['registration.user', 'registration.competition', 'scores'])
+            ->whereHas('registration', function ($q) {
+                $q->where('status', 'confirmed');
+            })
+            ->where('status', 'submitted')
+            ->get();
+
+        $leaderboard = $submissions->map(function ($submission) {
+            // Calculate average score from final scores only
+            $finalScores = $submission->scores->where('is_final', true);
+
+            if ($finalScores->count() === 0) {
+                return null; // Skip submissions without final scores
+            }
+
+            $averageScore = $finalScores->avg('total_score');
+            $victoryPoints = round($averageScore * 10); // Convert to victory points
+
+            return [
+                'team_name' => $submission->registration->team_name ?: $submission->registration->user->name,
+                'participant_name' => $submission->registration->user->name,
+                'competition' => $submission->registration->competition->name,
+                'institution' => $submission->registration->user->institution,
+                'score' => round($averageScore, 2),
+                'victory_points' => $victoryPoints,
+            ];
+        })->filter()->sortByDesc('victory_points')->take(10)->values();
+
+        // Add ranking
+        $leaderboard = $leaderboard->map(function ($item, $index) {
+            $item['rank'] = $index + 1;
+            return $item;
+        });
+
+        return $leaderboard;
     }
 
     /**

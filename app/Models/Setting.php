@@ -99,6 +99,6 @@ class Setting extends Model
      */
     public static function getRegistrationClosedMessage()
     {
-        return static::get('registration_closed_message', 'Pendaftaran sedang ditutup. Silahkan tunggu periode selanjutnya.');
+        return static::get('registration_closed_message', 'Pendaftaran sedang ditutup, silahkan tungu periode selanjutnya yaaaa....');
     }
 }
