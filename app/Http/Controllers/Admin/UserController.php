@@ -121,11 +121,12 @@ class UserController extends Controller
 
     /**
      * Tampilkan detail pengguna
-     * 
+     *
      * @param \App\Models\User $user
-     * @return \Illuminate\View\View
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\View\View|\Illuminate\Http\JsonResponse
      */
-    public function show(User $user)
+    public function show(User $user, Request $request)
     {
         $user->load([
             'roles',
@@ -134,6 +135,32 @@ class UserController extends Controller
             'submissions.competition',
             'payments'
         ]);
+
+        // Return JSON for AJAX requests
+        if ($request->expectsJson() || $request->header('Accept') === 'application/json') {
+            return response()->json([
+                'success' => true,
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'phone' => $user->phone,
+                    'is_active' => $user->is_active,
+                    'avatar_url' => $user->avatar_url,
+                    'created_at' => $user->created_at->toISOString(),
+                    'updated_at' => $user->updated_at->toISOString(),
+                    'roles' => $user->roles->map(function($role) {
+                        return [
+                            'id' => $role->id,
+                            'name' => $role->name,
+                        ];
+                    }),
+                    'registrations_count' => $user->registrations->count(),
+                    'submissions_count' => $user->submissions->count(),
+                    'payments_count' => $user->payments->count(),
+                ]
+            ]);
+        }
 
         return view('admin.users.show', compact('user'));
     }

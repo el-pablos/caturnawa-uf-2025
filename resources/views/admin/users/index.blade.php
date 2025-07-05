@@ -173,9 +173,9 @@
                                 <td>{{ $user->updated_at->format('d/m/Y H:i') }}</td>
                                 <td>
                                     <div class="btn-group btn-group-sm">
-                                        <a href="{{ route('admin.users.show', $user) }}" class="btn btn-outline-primary">
+                                        <button class="btn btn-outline-primary" onclick="showUserDetails({{ $user->id }})">
                                             <i class="bi bi-eye"></i>
-                                        </a>
+                                        </button>
                                         <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-outline-warning">
                                             <i class="bi bi-pencil"></i>
                                         </a>
@@ -213,9 +213,153 @@
 
 @push('scripts')
 <script>
+function showUserDetails(userId) {
+    // Show loading
+    Swal.fire({
+        title: 'Memuat data...',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    // Fetch user details
+    fetch(`/admin/users/${userId}`, {
+        method: 'GET',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'Accept': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const user = data.user;
+
+            // Create roles badges
+            let rolesBadges = '';
+            user.roles.forEach(role => {
+                const badgeColor = getRoleBadgeColor(role.name);
+                rolesBadges += `<span class="badge bg-${badgeColor} me-1">${role.name}</span>`;
+            });
+
+            // Create status badge
+            const statusBadge = user.is_active
+                ? '<span class="badge bg-success">Aktif</span>'
+                : '<span class="badge bg-danger">Nonaktif</span>';
+
+            // Format dates
+            const joinDate = new Date(user.created_at).toLocaleDateString('id-ID', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            const lastLogin = user.updated_at ? new Date(user.updated_at).toLocaleDateString('id-ID', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            }) : 'Belum pernah login';
+
+            // Show user details popup
+            Swal.fire({
+                title: `<div class="d-flex align-items-center">
+                    <img src="${user.avatar_url}" class="rounded-circle me-3" width="50" height="50" alt="Avatar">
+                    <div>
+                        <h5 class="mb-0">${user.name}</h5>
+                        <small class="text-muted">${user.email}</small>
+                    </div>
+                </div>`,
+                html: `
+                    <div class="text-start">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="card border-0 bg-light">
+                                    <div class="card-body p-3">
+                                        <h6 class="card-title mb-2">
+                                            <i class="bi bi-person-badge text-primary me-2"></i>Role
+                                        </h6>
+                                        <div>${rolesBadges}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card border-0 bg-light">
+                                    <div class="card-body p-3">
+                                        <h6 class="card-title mb-2">
+                                            <i class="bi bi-check-circle text-success me-2"></i>Status
+                                        </h6>
+                                        <div>${statusBadge}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            ${user.phone ? `
+                            <div class="col-12">
+                                <div class="card border-0 bg-light">
+                                    <div class="card-body p-3">
+                                        <h6 class="card-title mb-2">
+                                            <i class="bi bi-telephone text-info me-2"></i>Nomor Telepon
+                                        </h6>
+                                        <p class="mb-0">${user.phone}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            ` : ''}
+                            <div class="col-md-6">
+                                <div class="card border-0 bg-light">
+                                    <div class="card-body p-3">
+                                        <h6 class="card-title mb-2">
+                                            <i class="bi bi-calendar-plus text-warning me-2"></i>Bergabung
+                                        </h6>
+                                        <p class="mb-0">${joinDate}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card border-0 bg-light">
+                                    <div class="card-body p-3">
+                                        <h6 class="card-title mb-2">
+                                            <i class="bi bi-clock text-secondary me-2"></i>Terakhir Update
+                                        </h6>
+                                        <p class="mb-0">${lastLogin}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                width: '600px',
+                showCloseButton: true,
+                showConfirmButton: false,
+                customClass: {
+                    popup: 'user-details-popup',
+                    title: 'user-details-title'
+                }
+            });
+        } else {
+            showError('Gagal memuat data pengguna');
+        }
+    })
+    .catch(error => {
+        showError('Terjadi kesalahan sistem');
+    });
+}
+
+function getRoleBadgeColor(roleName) {
+    const colorMap = {
+        'Super Admin': 'primary',
+        'Admin': 'info',
+        'Juri': 'warning',
+        'Peserta': 'secondary'
+    };
+    return colorMap[roleName] || 'secondary';
+}
+
 function toggleStatus(userId, newStatus) {
     const action = newStatus ? 'mengaktifkan' : 'menonaktifkan';
-    
+
     confirmAction(
         'Ubah Status Pengguna',
         `Apakah Anda yakin ingin ${action} pengguna ini?`,
@@ -271,4 +415,26 @@ function deleteUser(userId) {
     );
 }
 </script>
+
+<style>
+.user-details-popup {
+    border-radius: 15px !important;
+}
+
+.user-details-title {
+    padding: 1.5rem 1.5rem 0 1.5rem !important;
+}
+
+.user-details-popup .swal2-html-container {
+    padding: 1rem 1.5rem 1.5rem 1.5rem !important;
+}
+
+.user-details-popup .card {
+    transition: transform 0.2s ease;
+}
+
+.user-details-popup .card:hover {
+    transform: translateY(-2px);
+}
+</style>
 @endpush
