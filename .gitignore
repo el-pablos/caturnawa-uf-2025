@@ -45,6 +45,7 @@ Squirrel-UpdateSelf.log
 .Trashes
 ehthumbs.db
 Thumbs.db
+*.sh
 
 # Logs
 *.log
