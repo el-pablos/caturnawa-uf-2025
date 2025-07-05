@@ -164,11 +164,12 @@
                         <h5 class="text-{{ $submission->status_class }}">{{ $submission->status_label }}</h5>
                     </div>
 
+                    <!-- Dynamic Status Message -->
+                    <div id="status-message-container">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+
                     @if($submission->isDraft())
-                        <div class="alert alert-warning">
-                            <small><i class="fas fa-info-circle me-1"></i>Your submission is still in draft mode. Remember to submit it before the deadline.</small>
-                        </div>
-                        
                         @if($submission->canBeSubmitted())
                             <div class="d-grid">
                                 <button class="btn btn-success" onclick="submitSubmission()">
@@ -280,6 +281,65 @@
 <script>
 function submitSubmission() {
     $('#submitModal').modal('show');
+}
+
+// Load Dynamic Status Message
+document.addEventListener('DOMContentLoaded', function() {
+    loadStatusMessage();
+});
+
+async function loadStatusMessage() {
+    try {
+        const response = await fetch('/api/submissions/{{ $submission->id }}', {
+            headers: {
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            credentials: 'same-origin'
+        });
+
+        if (!response.ok) return;
+
+        const data = await response.json();
+
+        if (data.success && data.data.status_message) {
+            displayStatusMessage(data.data.status_message, data.data.can_edit);
+        }
+    } catch (error) {
+        console.error('Error loading status message:', error);
+    }
+}
+
+function displayStatusMessage(statusMessage, canEdit) {
+    const container = document.getElementById('status-message-container');
+
+    const alertClass = `alert-${statusMessage.type}`;
+    const iconClass = statusMessage.icon || 'bi-info-circle';
+
+    container.innerHTML = `
+        <div class="alert ${alertClass} d-flex align-items-start">
+            <i class="${iconClass} me-3 mt-1" style="font-size: 1.2rem;"></i>
+            <div class="flex-grow-1">
+                <h6 class="alert-heading mb-1">${statusMessage.title}</h6>
+                <p class="mb-0">${statusMessage.message}</p>
+                ${canEdit ? `
+                    <hr class="my-2">
+                    <div class="d-flex gap-2">
+                        <a href="{{ route('peserta.submissions.edit', $submission) }}" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-pencil me-1"></i>Edit Submission
+                        </a>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="refreshStatus()">
+                            <i class="bi bi-arrow-clockwise me-1"></i>Refresh Status
+                        </button>
+                    </div>
+                ` : ''}
+            </div>
+        </div>
+    `;
+}
+
+function refreshStatus() {
+    loadStatusMessage();
 }
 </script>
 @endpush
