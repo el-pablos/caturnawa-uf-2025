@@ -18,6 +18,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// Public API routes
+Route::get('/achievements', [App\Http\Controllers\Api\AchievementController::class, 'index']);
+Route::get('/leaderboard', [App\Http\Controllers\Api\LeaderboardController::class, 'index']);
+Route::get('/competitions', [App\Http\Controllers\Api\CompetitionController::class, 'index']);
+Route::get('/competitions/{competition}', [App\Http\Controllers\Api\CompetitionController::class, 'show']);
+
+// Protected API routes
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/leaderboard/update', [App\Http\Controllers\Api\LeaderboardController::class, 'update']);
+});
+
 // API Routes untuk AJAX calls
 Route::middleware(['auth'])->group(function () {
     

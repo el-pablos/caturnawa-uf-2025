@@ -2956,7 +2956,7 @@ Terima kasih kepada semua pihak yang telah berkontribusi dalam pengembangan Catu
 ## 📞 Kontak & Support
 
 ### Official Channels
-- **Website**: [https://caturnawa2025.unasfest.com](https://caturnawa2025.unasfest.com)
+- **Website**: [https://uf25.tams.my.id](https://uf25.tams.my.id)
 - **Email**: info@caturnawa2025.com
 - **Phone**: 0858-1737-8442
 

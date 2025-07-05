@@ -203,13 +203,7 @@ Route::middleware(['auth', 'verified', 'role.redirect', 'maintenance'])->group(f
             Route::post('/toggle-registration', [App\Http\Controllers\Admin\SettingsController::class, 'toggleRegistration'])->name('toggle-registration');
         });
 
-        // Participants Management
-        Route::prefix('participants')->name('participants.')->group(function () {
-            Route::get('/', [App\Http\Controllers\Admin\ParticipantController::class, 'index'])->name('index');
-            Route::get('/{participant}', [App\Http\Controllers\Admin\ParticipantController::class, 'show'])->name('show');
-            Route::get('/export/csv', [App\Http\Controllers\Admin\ParticipantController::class, 'export'])->name('export');
-            Route::get('/statistics/data', [App\Http\Controllers\Admin\ParticipantController::class, 'getStatistics'])->name('statistics');
-        });
+
 
         // Reports
         Route::prefix('reports')->name('reports.')->group(function () {

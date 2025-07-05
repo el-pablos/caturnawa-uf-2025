@@ -136,6 +136,8 @@ class CompetitionController extends Controller
             $request->merge([
                 'phone' => $request->phone ?: $user->phone,
                 'institution' => $request->institution ?: $user->institution,
+                'gender' => $request->gender ?: null,
+                'education_level' => $request->education_level ?: null,
                 'emergency_contact' => $request->emergency_contact ?: $user->emergency_contact_name,
                 'emergency_phone' => $request->emergency_phone ?: $user->emergency_contact_phone,
                 'special_needs' => $request->special_needs ?: null,
@@ -146,6 +148,8 @@ class CompetitionController extends Controller
         $rules = [
             'phone' => 'nullable|string|max:20',
             'institution' => 'nullable|string|max:255',
+            'gender' => 'required|in:male,female',
+            'education_level' => 'required|string|max:50',
             'emergency_contact' => 'nullable|string|max:255',
             'emergency_phone' => 'nullable|string|max:20',
             'special_needs' => 'nullable|string|max:500',
@@ -171,12 +175,22 @@ class CompetitionController extends Controller
         $validator = Validator::make($request->all(), $rules, [
             'phone.required' => 'Nomor telepon harus diisi',
             'institution.required' => 'Institusi harus diisi',
+            'gender.required' => 'Jenis kelamin harus dipilih',
+            'gender.in' => 'Jenis kelamin tidak valid',
+            'education_level.required' => 'Tingkat pendidikan harus dipilih',
             'team_name.required' => 'Nama tim harus diisi',
             'team_members.required' => 'Anggota tim harus diisi',
             'team_members.min' => 'Minimal ' . ($competition->min_team_members ?? 1) . ' anggota tim',
             'team_members.max' => 'Maksimal ' . ($competition->max_team_members ?? 10) . ' anggota tim',
             'team_members.*.name.required' => 'Nama anggota tim harus diisi',
         ]);
+
+        // Validasi khusus untuk SMA/SMK - harus menyertakan institusi
+        $validator->after(function ($validator) use ($request) {
+            if (in_array($request->education_level, ['SMA', 'SMK']) && empty($request->institution)) {
+                $validator->errors()->add('institution', 'Institusi wajib diisi untuk peserta SMA/SMK');
+            }
+        });
 
         if ($validator->fails()) {
             if ($request->expectsJson()) {
@@ -197,6 +211,8 @@ class CompetitionController extends Controller
                 'competition_id' => $competition->id,
                 'phone' => $request->phone ?: $user->phone,
                 'institution' => $request->institution ?: $user->institution,
+                'gender' => $request->gender,
+                'education_level' => $request->education_level,
                 'emergency_contact' => $request->emergency_contact,
                 'emergency_phone' => $request->emergency_phone,
                 'special_needs' => $request->special_needs,

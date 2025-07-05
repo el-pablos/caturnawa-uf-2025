@@ -44,8 +44,8 @@ Allow: /fonts/
 Crawl-delay: 1
 
 # Sitemap location
-Sitemap: https://caturnawa2025.unasfest.com/sitemap.xml
-Sitemap: https://caturnawa2025.unasfest.com/sitemap-news.xml
+Sitemap: https://uf25.tams.my.id/sitemap.xml
+Sitemap: https://uf25.tams.my.id/sitemap-news.xml
 
 # Block specific bots if needed (uncomment if necessary)
 # User-agent: SemrushBot

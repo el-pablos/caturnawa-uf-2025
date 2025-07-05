@@ -54,7 +54,11 @@
                                 @foreach($competitionData['leaderboard'] as $item)
                                     <tr class="{{ $item['rank_type'] == 'position' && $item['rank'] <= 3 ? 'table-warning' : '' }}">
                                         <td class="text-center">
-                                            @if($item['rank'] == 1)
+                                            @if($item['rank_type'] == 'mention')
+                                                <span class="badge bg-info text-white fs-6">
+                                                    <i class="bi bi-star"></i> Jury Mention
+                                                </span>
+                                            @elseif($item['rank'] == 1)
                                                 <span class="badge bg-warning text-dark fs-6">
                                                     <i class="bi bi-trophy-fill"></i> 1st
                                                 </span>
@@ -67,9 +71,7 @@
                                                     <i class="bi bi-award"></i> 3rd
                                                 </span>
                                             @else
-                                                <span class="badge bg-info text-white fs-6">
-                                                    <i class="bi bi-star"></i> Jury Mention
-                                                </span>
+                                                <span class="badge bg-light text-dark">{{ $item['rank'] }}</span>
                                             @endif
                                         </td>
                                         <td>

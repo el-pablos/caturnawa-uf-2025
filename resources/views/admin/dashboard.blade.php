@@ -15,32 +15,7 @@
 @section('content')
 <!-- Statistics Cards - Modern White Design -->
 <div class="row mb-4">
-    <div class="col-lg-6 col-md-6 mb-3">
-        <div class="card h-100 shadow-sm border-0">
-            <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <div class="flex-shrink-0">
-                        <div class="rounded-circle d-flex align-items-center justify-content-center"
-                             style="width: 60px; height: 60px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                            <i class="bi bi-people-fill text-white fs-4"></i>
-                        </div>
-                    </div>
-                    <div class="flex-grow-1 ms-3">
-                        <div class="text-muted small">Peserta</div>
-                        <div class="fs-2 fw-bold text-dark">{{ number_format($stats['total_users']) }}</div>
-                        <div class="text-success small">
-                            <i class="bi bi-arrow-up"></i> +12% dari bulan lalu
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer bg-transparent border-0">
-                <a href="{{ route('admin.users.index') }}" class="btn btn-outline-primary btn-sm w-100">
-                    <i class="bi bi-eye me-1"></i>Lihat Detail
-                </a>
-            </div>
-        </div>
-    </div>
+
 
     <div class="col-lg-6 col-md-6 mb-3">
         <div class="card h-100 shadow-sm border-0">
@@ -114,31 +89,10 @@
 
 <!-- Data Tables Section -->
 <div class="row">
-    <!-- Recent Users -->
-    <div class="col-lg-4 mb-3">
-        <div class="card h-100 shadow-sm border-0">
-            <div class="card-header bg-white border-bottom">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h6 class="mb-0 text-dark fw-semibold">
-                        <i class="bi bi-person-fill-add me-2 text-info"></i>Pengguna Terbaru
-                    </h6>
-                    <a href="{{ route('admin.users.index') }}" class="btn btn-outline-info btn-sm">
-                        Lihat Semua
-                    </a>
-                </div>
-            </div>
-            <div class="card-body p-0" id="recent-users-container">
-                <div class="d-flex justify-content-center align-items-center py-4">
-                    <div class="spinner-border spinner-border-sm text-info" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <!-- Active Competitions -->
-    <div class="col-lg-4 mb-3">
+    <div class="col-lg-6 mb-3">
         <div class="card h-100 shadow-sm border-0">
             <div class="card-header bg-white border-bottom">
                 <div class="d-flex justify-content-between align-items-center">
@@ -161,7 +115,7 @@
     </div>
 
     <!-- Recent Payments -->
-    <div class="col-lg-4 mb-3">
+    <div class="col-lg-6 mb-3">
         <div class="card h-100 shadow-sm border-0">
             <div class="card-header bg-white border-bottom">
                 <div class="d-flex justify-content-between align-items-center">
@@ -505,7 +459,6 @@ function loadRecentData() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                loadRecentUsers(data.data.recent_users);
                 loadRecentCompetitions(data.data.recent_competitions);
                 loadRecentPayments(data.data.recent_payments);
             }
@@ -516,37 +469,7 @@ function loadRecentData() {
         });
 }
 
-function loadRecentUsers(users) {
-    const container = document.getElementById('recent-users-container');
-    if (users.length === 0) {
-        container.innerHTML = `
-            <div class="list-group-item text-center text-muted py-4">
-                <i class="bi bi-inbox fs-1 d-block mb-2 opacity-50"></i>
-                Belum ada pengguna baru
-            </div>
-        `;
-        return;
-    }
 
-    let html = '<div class="list-group list-group-flush">';
-    users.forEach(user => {
-        html += `
-            <div class="list-group-item">
-                <div class="d-flex align-items-center">
-                    <img src="/storage/avatars/default.png" width="40" height="40"
-                         class="rounded-circle me-3" alt="Avatar">
-                    <div class="flex-grow-1">
-                        <div class="fw-semibold">${user.name}</div>
-                        <small class="text-muted">${user.roles[0]?.name || 'No Role'}</small>
-                    </div>
-                    <small class="text-muted">${formatDate(user.created_at)}</small>
-                </div>
-            </div>
-        `;
-    });
-    html += '</div>';
-    container.innerHTML = html;
-}
 
 function loadRecentCompetitions(competitions) {
     const container = document.getElementById('recent-competitions-container');

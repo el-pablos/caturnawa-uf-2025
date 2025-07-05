@@ -101,6 +101,24 @@
 
     <!-- Competition Stats & Registration -->
     <div class="col-lg-4">
+        <!-- Countdown Timer -->
+        @if($competition->registration_deadline && $competition->days_left > 0)
+        <div class="peserta-card mb-4">
+            <div class="card-body text-center">
+                <h6 class="text-warning mb-3">
+                    <i class="bi bi-clock me-2"></i>Batas Waktu Pendaftaran
+                </h6>
+                <div class="countdown-timer mb-3">
+                    <div class="display-4 fw-bold text-primary">{{ $competition->days_left }}</div>
+                    <div class="text-muted">Hari Tersisa</div>
+                </div>
+                <small class="text-muted">
+                    Deadline: {{ $competition->registration_deadline->format('d M Y, H:i') }}
+                </small>
+            </div>
+        </div>
+        @endif
+
         <!-- Registration Status -->
         <div class="peserta-card mb-4">
             <div class="card-body text-center">
@@ -182,36 +200,38 @@
                 </h6>
             </div>
             <div class="card-body">
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-marker bg-primary"></div>
-                        <div class="timeline-content">
-                            <h6 class="mb-1">Pendaftaran Dibuka</h6>
-                            <small class="text-muted">{{ $competition->registration_start->format('d M Y') }}</small>
-                        </div>
+                @if($competition->timeline && count($competition->timeline) > 0)
+                    <div class="timeline">
+                        @foreach($competition->timeline as $item)
+                            <div class="timeline-item">
+                                <div class="timeline-marker bg-{{ $item['color'] }} {{ $item['status'] === 'completed' ? '' : 'opacity-50' }}">
+                                    <i class="bi {{ $item['icon'] }} text-white"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <h6 class="mb-1 {{ $item['status'] === 'completed' ? 'text-success' : '' }}">
+                                                {{ $item['title'] }}
+                                                @if($item['status'] === 'completed')
+                                                    <i class="bi bi-check-circle-fill text-success ms-1"></i>
+                                                @endif
+                                            </h6>
+                                            <small class="text-muted">{{ $item['date']->format('d M Y, H:i') }}</small>
+                                        </div>
+                                        <span class="badge bg-{{ $item['color'] }} {{ $item['status'] === 'completed' ? '' : 'opacity-75' }}">
+                                            {{ $item['status'] === 'completed' ? 'Selesai' : 'Akan Datang' }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
-                    <div class="timeline-item">
-                        <div class="timeline-marker bg-warning"></div>
-                        <div class="timeline-content">
-                            <h6 class="mb-1">Pendaftaran Ditutup</h6>
-                            <small class="text-muted">{{ $competition->registration_end->format('d M Y') }}</small>
-                        </div>
+                @else
+                    <div class="text-center text-muted py-3">
+                        <i class="bi bi-calendar-x" style="font-size: 2rem;"></i>
+                        <p class="mt-2 mb-0">Timeline belum tersedia</p>
                     </div>
-                    <div class="timeline-item">
-                        <div class="timeline-marker bg-info"></div>
-                        <div class="timeline-content">
-                            <h6 class="mb-1">Kompetisi Dimulai</h6>
-                            <small class="text-muted">{{ $competition->competition_start ? $competition->competition_start->format('d M Y') : 'TBA' }}</small>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-marker bg-success"></div>
-                        <div class="timeline-content">
-                            <h6 class="mb-1">Kompetisi Berakhir</h6>
-                            <small class="text-muted">{{ $competition->competition_end ? $competition->competition_end->format('d M Y') : 'TBA' }}</small>
-                        </div>
-                    </div>
-                </div>
+                @endif
             </div>
         </div>
     </div>
@@ -234,16 +254,39 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="phone" class="form-label">Nomor Telepon <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="phone" name="phone" 
+                            <input type="text" class="form-control" id="phone" name="phone"
                                    value="{{ old('phone', auth()->user()->phone) }}" required>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="institution" class="form-label">Institusi <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="institution" name="institution" 
+                            <input type="text" class="form-control" id="institution" name="institution"
                                    value="{{ old('institution') }}" required>
                         </div>
                     </div>
-                    
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="gender" class="form-label">Jenis Kelamin <span class="text-danger">*</span></label>
+                            <select class="form-select" id="gender" name="gender" required>
+                                <option value="">Pilih Jenis Kelamin</option>
+                                <option value="male" {{ old('gender') === 'male' ? 'selected' : '' }}>Laki-laki</option>
+                                <option value="female" {{ old('gender') === 'female' ? 'selected' : '' }}>Perempuan</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="education_level" class="form-label">Tingkat Pendidikan <span class="text-danger">*</span></label>
+                            <select class="form-select" id="education_level" name="education_level" required>
+                                <option value="">Pilih Tingkat Pendidikan</option>
+                                <option value="SMA" {{ old('education_level') === 'SMA' ? 'selected' : '' }}>SMA</option>
+                                <option value="SMK" {{ old('education_level') === 'SMK' ? 'selected' : '' }}>SMK</option>
+                                <option value="D3" {{ old('education_level') === 'D3' ? 'selected' : '' }}>Diploma 3 (D3)</option>
+                                <option value="S1" {{ old('education_level') === 'S1' ? 'selected' : '' }}>Sarjana (S1)</option>
+                                <option value="S2" {{ old('education_level') === 'S2' ? 'selected' : '' }}>Magister (S2)</option>
+                                <option value="S3" {{ old('education_level') === 'S3' ? 'selected' : '' }}>Doktor (S3)</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="emergency_contact" class="form-label">Kontak Darurat</label>

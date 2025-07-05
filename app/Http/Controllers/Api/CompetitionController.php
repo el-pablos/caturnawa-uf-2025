@@ -68,6 +68,10 @@ class CompetitionController extends Controller
             'max_participants' => $competition->max_participants,
             'registration_start' => $competition->registration_start?->toISOString(),
             'registration_end' => $competition->registration_end?->toISOString(),
+            'registration_deadline' => $competition->registration_deadline?->toISOString(),
+            'round1_date' => $competition->round1_date?->toISOString(),
+            'semifinal_date' => $competition->semifinal_date?->toISOString(),
+            'final_date' => $competition->final_date?->toISOString(),
             'competition_start' => $competition->competition_start?->toISOString(),
             'competition_end' => $competition->competition_end?->toISOString(),
             'price' => $competition->price,
@@ -81,6 +85,8 @@ class CompetitionController extends Controller
             'updated_at' => $competition->updated_at->toISOString(),
             'registrations_count' => $competition->registrations()->count(),
             'confirmed_registrations_count' => $competition->registrations()->where('status', 'confirmed')->count(),
+            'days_left' => $competition->days_left,
+            'timeline' => $competition->timeline,
         ];
 
         return response()->json([

@@ -28,6 +28,8 @@ class Registration extends Model
         'team_members',
         'institution',
         'phone',
+        'gender',
+        'education_level',
         'emergency_contact',
         'emergency_phone',
         'special_needs',

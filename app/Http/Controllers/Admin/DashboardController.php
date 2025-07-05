@@ -123,7 +123,6 @@ class DashboardController extends Controller
         $submissionCount = DB::table('submissions')->count();
 
         return [
-            'total_users' => $userStats->total_users ?? 0,
             'total_competitions' => $competitionStats->total_competitions ?? 0,
             'active_competitions' => $competitionStats->active_competitions ?? 0,
             'total_registrations' => $registrationStats->total_registrations ?? 0,
@@ -198,11 +197,6 @@ class DashboardController extends Controller
     protected function getRecentData()
     {
         return [
-            'recent_users' => User::select('id', 'name', 'email', 'created_at')
-                ->with(['roles:id,name'])
-                ->latest()
-                ->limit(5)
-                ->get(),
 
             'recent_competitions' => Competition::select('id', 'name', 'category', 'created_at', 'is_active')
                 ->latest()

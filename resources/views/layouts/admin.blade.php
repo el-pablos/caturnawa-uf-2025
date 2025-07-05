@@ -316,9 +316,7 @@
                         <i class="bi bi-person-check me-2"></i>Registrasi
                     </a>
 
-                    <a class="nav-link {{ request()->routeIs('admin.participants.*') ? 'active' : '' }}" href="{{ route('admin.participants.index') }}">
-                        <i class="bi bi-people me-2"></i>Data Peserta
-                    </a>
+
 
                     <a class="nav-link {{ request()->routeIs('admin.submissions.*') ? 'active' : '' }}" href="{{ route('admin.submissions.index') }}">
                         <i class="bi bi-file-earmark-text me-2"></i>Karya Peserta

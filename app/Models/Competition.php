@@ -32,6 +32,10 @@ class Competition extends Model
         'early_bird_deadline',
         'registration_start',
         'registration_end',
+        'registration_deadline',
+        'round1_date',
+        'semifinal_date',
+        'final_date',
         'competition_start',
         'competition_end',
         'max_participants',
@@ -71,6 +75,10 @@ class Competition extends Model
         'early_bird_deadline' => 'datetime',
         'registration_start' => 'datetime',
         'registration_end' => 'datetime',
+        'registration_deadline' => 'datetime',
+        'round1_date' => 'datetime',
+        'semifinal_date' => 'datetime',
+        'final_date' => 'datetime',
         'competition_start' => 'datetime',
         'competition_end' => 'datetime',
         'submission_deadline' => 'datetime',
@@ -281,7 +289,7 @@ class Competition extends Model
 
     /**
      * Mendapatkan total pendapatan dari kompetisi
-     * 
+     *
      * @return float
      */
     public function getTotalRevenue()
@@ -291,5 +299,103 @@ class Competition extends Model
                 $query->where('status', 'success');
             })
             ->sum('amount');
+    }
+
+    /**
+     * Get days left until registration deadline
+     *
+     * @return int|null
+     */
+    public function getDaysLeftAttribute()
+    {
+        if (!$this->registration_deadline) {
+            return null;
+        }
+
+        $now = now();
+        $deadline = $this->registration_deadline;
+
+        if ($deadline <= $now) {
+            return 0;
+        }
+
+        return $now->diffInDays($deadline);
+    }
+
+    /**
+     * Get competition timeline
+     *
+     * @return array
+     */
+    public function getTimelineAttribute()
+    {
+        $timeline = [];
+
+        if ($this->registration_start) {
+            $timeline[] = [
+                'title' => 'Pendaftaran Dibuka',
+                'date' => $this->registration_start,
+                'status' => $this->registration_start <= now() ? 'completed' : 'upcoming',
+                'icon' => 'bi-calendar-plus',
+                'color' => 'success'
+            ];
+        }
+
+        if ($this->registration_deadline) {
+            $timeline[] = [
+                'title' => 'Batas Akhir Pendaftaran',
+                'date' => $this->registration_deadline,
+                'status' => $this->registration_deadline <= now() ? 'completed' : 'upcoming',
+                'icon' => 'bi-calendar-x',
+                'color' => 'warning'
+            ];
+        }
+
+        if ($this->round1_date) {
+            $timeline[] = [
+                'title' => 'Babak Penyisihan',
+                'date' => $this->round1_date,
+                'status' => $this->round1_date <= now() ? 'completed' : 'upcoming',
+                'icon' => 'bi-trophy',
+                'color' => 'primary'
+            ];
+        }
+
+        if ($this->semifinal_date) {
+            $timeline[] = [
+                'title' => 'Semifinal',
+                'date' => $this->semifinal_date,
+                'status' => $this->semifinal_date <= now() ? 'completed' : 'upcoming',
+                'icon' => 'bi-award',
+                'color' => 'info'
+            ];
+        }
+
+        if ($this->final_date) {
+            $timeline[] = [
+                'title' => 'Final',
+                'date' => $this->final_date,
+                'status' => $this->final_date <= now() ? 'completed' : 'upcoming',
+                'icon' => 'bi-trophy-fill',
+                'color' => 'danger'
+            ];
+        }
+
+        if ($this->result_announcement) {
+            $timeline[] = [
+                'title' => 'Pengumuman Hasil',
+                'date' => $this->result_announcement,
+                'status' => $this->result_announcement <= now() ? 'completed' : 'upcoming',
+                'icon' => 'bi-megaphone',
+                'color' => 'success'
+            ];
+        }
+
+        // Sort by date
+        usort($timeline, function ($a, $b) {
+            return $a['date']->timestamp <=> $b['date']->timestamp;
+        });
+
+        return $timeline;
     }
 }
