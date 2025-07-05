@@ -156,8 +156,20 @@
                     </div>
                     
                     <div class="mb-3">
+                        <label for="whatsapp_group_link" class="form-label">Link Grup WhatsApp</label>
+                        <input type="url" class="form-control @error('whatsapp_group_link') is-invalid @enderror"
+                               id="whatsapp_group_link" name="whatsapp_group_link"
+                               value="{{ old('whatsapp_group_link') }}"
+                               placeholder="https://chat.whatsapp.com/...">
+                        <div class="form-text">Link grup WhatsApp yang akan ditampilkan setelah pembayaran berhasil</div>
+                        @error('whatsapp_group_link')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
                         <label for="image" class="form-label">Gambar Kompetisi</label>
-                        <input type="file" class="form-control @error('image') is-invalid @enderror" 
+                        <input type="file" class="form-control @error('image') is-invalid @enderror"
                                id="image" name="image" accept="image/*">
                         <div class="form-text">Format: JPG, PNG, GIF. Maksimal 2MB</div>
                         @error('image')

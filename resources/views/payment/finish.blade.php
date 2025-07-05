@@ -47,6 +47,61 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- WhatsApp Group Link -->
+                    @if(session('whatsapp_group_link') && session('payment_id') == $payment->id)
+                        <div class="row mt-4">
+                            <div class="col-md-8 mx-auto">
+                                <div class="card border-success">
+                                    <div class="card-header bg-success text-white text-center">
+                                        <h6 class="mb-0">
+                                            <i class="bi bi-whatsapp me-2"></i>Bergabung dengan Grup WhatsApp
+                                        </h6>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <p class="mb-3">Bergabunglah dengan grup WhatsApp resmi kompetisi untuk mendapatkan informasi terbaru dan berkomunikasi dengan peserta lain.</p>
+                                        <a href="{{ session('whatsapp_group_link') }}"
+                                           target="_blank"
+                                           class="btn btn-success btn-lg">
+                                            <i class="bi bi-whatsapp me-2"></i>Join WhatsApp Group
+                                        </a>
+                                        <p class="text-muted mt-3 mb-0">
+                                            <small>
+                                                <i class="bi bi-info-circle me-1"></i>
+                                                Link ini hanya tersedia setelah pembayaran berhasil
+                                            </small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @elseif($registration->competition->whatsapp_group_link && $payment->isSuccess())
+                        <div class="row mt-4">
+                            <div class="col-md-8 mx-auto">
+                                <div class="card border-success">
+                                    <div class="card-header bg-success text-white text-center">
+                                        <h6 class="mb-0">
+                                            <i class="bi bi-whatsapp me-2"></i>Bergabung dengan Grup WhatsApp
+                                        </h6>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <p class="mb-3">Bergabunglah dengan grup WhatsApp resmi kompetisi untuk mendapatkan informasi terbaru dan berkomunikasi dengan peserta lain.</p>
+                                        <a href="{{ $registration->competition->whatsapp_group_link }}"
+                                           target="_blank"
+                                           class="btn btn-success btn-lg">
+                                            <i class="bi bi-whatsapp me-2"></i>Join WhatsApp Group
+                                        </a>
+                                        <p class="text-muted mt-3 mb-0">
+                                            <small>
+                                                <i class="bi bi-info-circle me-1"></i>
+                                                Link ini hanya tersedia setelah pembayaran berhasil
+                                            </small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
 

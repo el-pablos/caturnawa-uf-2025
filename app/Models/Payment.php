@@ -186,6 +186,9 @@ class Payment extends Model
 
             // Konfirmasi pendaftaran
             $this->registration->confirm();
+
+            // Store WhatsApp group link in session for display
+            $this->storeWhatsAppGroupLink();
         }
     }
 
@@ -211,12 +214,31 @@ class Payment extends Model
 
     /**
      * Cek apakah pembayaran gagal
-     * 
+     *
      * @return bool
      */
     public function isFailed()
     {
         return in_array($this->transaction_status, ['deny', 'cancel', 'expire', 'failure']);
+    }
+
+    /**
+     * Store WhatsApp group link in session for display after payment
+     *
+     * @return void
+     */
+    protected function storeWhatsAppGroupLink()
+    {
+        $competition = $this->registration->competition;
+
+        if ($competition && $competition->whatsapp_group_link) {
+            // Store in session for display on success page
+            session([
+                'whatsapp_group_link' => $competition->whatsapp_group_link,
+                'competition_name' => $competition->name,
+                'payment_id' => $this->id
+            ]);
+        }
     }
 
     /**

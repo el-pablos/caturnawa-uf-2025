@@ -57,6 +57,7 @@ class Competition extends Model
         'contact_person',
         'contact_email',
         'contact_phone',
+        'whatsapp_group_link',
         'terms_conditions',
         'judging_criteria',
         'certificate_template',

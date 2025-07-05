@@ -156,6 +156,13 @@
                             <a href="{{ route('peserta.registrations.documents', $registration) }}" class="btn btn-outline-primary">
                                 <i class="fas fa-file-alt"></i> Manage Documents
                             </a>
+                            @if($registration->competition->whatsapp_group_link)
+                                <a href="{{ $registration->competition->whatsapp_group_link }}"
+                                   target="_blank"
+                                   class="btn btn-success">
+                                    <i class="fab fa-whatsapp"></i> Join WhatsApp Group
+                                </a>
+                            @endif
                             @if($registration->competition->status === 'active')
                                 <a href="{{ route('peserta.submissions.create', $registration) }}" class="btn btn-primary">
                                     <i class="fas fa-upload"></i> Submit Work
