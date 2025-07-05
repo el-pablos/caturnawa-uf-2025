@@ -14,6 +14,7 @@ Homestead.yaml
 auth.json
 npm-debug.log
 yarn-error.log
+*.sql
 
 # Claude Desktop App Files
 claude.exe
