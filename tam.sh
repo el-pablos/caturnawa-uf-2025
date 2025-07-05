@@ -54,16 +54,29 @@ setup_environment() {
     log "Setting up environment..."
     cd "$PROJECT_DIR"
 
-    # Load environment from .env file
+    # Set critical production environment variables
+    export APP_ENV=production
+    export DB_CONNECTION=mysql
+    export DB_HOST=127.0.0.1
+    export DB_PORT=3306
+    export DB_DATABASE=uf25_database
+    export DB_USERNAME=uf25_user
+    export DB_PASSWORD=nigajawir
+    log "Production environment variables set"
+
+    # Load additional environment from .env file
     if [ -f .env ]; then
         set -a  # automatically export all variables
         source .env
         set +a  # stop automatically exporting
-        log "Environment variables loaded from .env"
+        log "Additional environment variables loaded from .env"
     else
-        error ".env file not found!"
-        exit 1
+        warn ".env file not found, using production defaults only"
     fi
+
+    # Ensure critical variables are set
+    log "Environment: $APP_ENV"
+    log "Database: $DB_DATABASE@$DB_HOST:$DB_PORT"
 }
 
 # Fix permissions
