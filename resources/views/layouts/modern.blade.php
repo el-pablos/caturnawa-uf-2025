@@ -50,6 +50,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- AOS (Animate On Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <!-- Title -->
     <title>@hasSection('title')@yield('title')@else UNAS Fest 2025 - Festival Kompetisi Nasional @endif</title>
@@ -65,7 +67,7 @@
     <a href="#main-content" class="visually-hidden-focusable">Skip to main content</a>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg fixed-top" id="mainNavbar">
+    <nav class="navbar navbar-expand-lg fixed-top" id="mainNavbar" data-aos="fade-down" data-aos-duration="800">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="{{ route('public.home') }}" aria-label="UNAS Fest 2025 Home">
                 <img src="{{ asset('assets/images/logo/unas-fest-logo.webp') }}" 
@@ -145,7 +147,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer-modern">
+    <footer class="footer-modern" data-aos="fade-up" data-aos-duration="800">
         <div class="container">
             <!-- Main Footer Content -->
             <div class="row g-4 py-5">
@@ -242,7 +244,7 @@
             </div>
 
             <!-- Footer Bottom -->
-            <div class="footer-bottom">
+            <div class="footer-bottom" data-aos="fade-up" data-aos-duration="800">
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <p class="mb-0 text-light">
@@ -279,6 +281,7 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
     <!-- Core JavaScript -->
     <script>
@@ -433,6 +436,11 @@
                 navigator.serviceWorker.register('/sw.js')
                     .then(registration => console.log('SW registered'))
                     .catch(error => console.log('SW registration failed'));
+            });
+        
+            AOS.init({
+                duration: 800,
+                once: true,
             });
         }
     </script>

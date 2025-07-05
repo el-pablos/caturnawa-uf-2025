@@ -3,15 +3,15 @@
 @section('title', 'UNAS Fest 2025 - Festival Kompetisi Nasional')
 
 @section('content')
-<div class="container my-5">
+<div class="container my-5" data-aos="fade-up" data-aos-duration="800">
     <div class="row">
         <div class="col-12">
-            <div class="jumbotron bg-primary text-white p-5 rounded">
+            <div class="jumbotron bg-primary text-white p-5">
                 <h1 class="display-4">UNAS Fest 2025</h1>
                 <p class="lead">Festival Kompetisi Nasional Terbesar Indonesia</p>
                 <hr class="my-4">
                 <p>Bergabunglah dengan kompetisi Teknologi, Kesehatan, dan Biodiversitas menanti!</p>
-                <a class="btn btn-light btn-lg" href="{{ route('public.competitions') }}" role="button">
+                <a class="btn btn-warning btn-lg text-light" href="{{ route('public.competitions') }}" role="button">
                     <i class="bi bi-trophy"></i> Lihat Kompetisi
                 </a>
             </div>
@@ -19,7 +19,7 @@
     </div>
 
     <!-- Statistics -->
-    <div class="row mt-5">
+    <div class="row mt-5" data-aos="fade-up" data-aos-duration="800">
         <div class="col-md-6 mb-4">
             <div class="card text-center">
                 <div class="card-body">
@@ -42,7 +42,7 @@
 
     <!-- Featured Competitions -->
     @if($competitions && $competitions->count() > 0)
-    <div class="row mt-5">
+    <div class="row mt-5" data-aos="fade-up" data-aos-duration="800">
         <div class="col-12">
             <h2 class="text-center mb-4">Kompetisi Unggulan</h2>
         </div>
