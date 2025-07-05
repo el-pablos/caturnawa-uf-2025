@@ -233,6 +233,13 @@ Route::middleware(['auth', 'verified', 'role.redirect', 'maintenance'])->group(f
             Route::put('/', [App\Http\Controllers\Admin\SettingController::class, 'update'])->name('update');
         });
 
+        // Finance Management
+        Route::prefix('finance')->name('finance.')->group(function () {
+            Route::get('/invoices', function() {
+                return view('admin.finance.invoices');
+            })->name('invoices');
+        });
+
 
     });
 

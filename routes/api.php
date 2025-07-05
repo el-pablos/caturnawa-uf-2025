@@ -32,6 +32,12 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::post('/judging/score', [App\Http\Controllers\Api\JudgingController::class, 'saveScore']);
 });
 
+// Invoice API for Finance Department (requires admin or finance role)
+Route::middleware(['web', 'auth'])->group(function () {
+    Route::get('/invoices', [App\Http\Controllers\Api\InvoiceController::class, 'index']);
+    Route::get('/invoices/{payment_id}', [App\Http\Controllers\Api\InvoiceController::class, 'show']);
+});
+
 // User Session and Authenticated Routes (using web middleware for session-based auth)
 Route::middleware(['web', 'auth'])->group(function () {
     // User session with deadline reminders
