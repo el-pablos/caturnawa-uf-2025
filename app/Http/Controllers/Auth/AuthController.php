@@ -144,7 +144,7 @@ class AuthController extends Controller
         ]);
 
         // Assign role Peserta
-        $user->assignRole('Peserta');
+        $user->assignRole('peserta');
 
         // Login otomatis setelah register
         Auth::login($user);

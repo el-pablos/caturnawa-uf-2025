@@ -23,7 +23,7 @@ class CheckRole
     {
         // Pastikan user sudah login
         if (!auth()->check()) {
-            return redirect()->route('auth.login')
+            return redirect()->route('login')
                 ->with('error', 'Anda harus login terlebih dahulu.');
         }
 
@@ -44,7 +44,7 @@ class CheckRole
             }
 
             // Fallback jika role tidak dikenali
-            return redirect()->route('auth.login')
+            return redirect()->route('login')
                 ->with('error', 'Akses ditolak. Silakan hubungi administrator.');
         }
 

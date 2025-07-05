@@ -78,15 +78,15 @@ Route::middleware(['auth', 'verified', 'role.redirect', 'maintenance'])->group(f
     // Dashboard - Redirect based on role
     Route::get('/dashboard', function () {
         $user = auth()->user();
-        
-        if ($user->hasRole('Super Admin') || $user->hasRole('Admin')) {
+
+        if ($user->hasRole('superadmin') || $user->hasRole('admin')) {
             return redirect()->route('admin.dashboard');
-        } elseif ($user->hasRole('Juri')) {
+        } elseif ($user->hasRole('juri')) {
             return redirect()->route('juri.dashboard');
-        } elseif ($user->hasRole('Peserta')) {
+        } elseif ($user->hasRole('peserta')) {
             return redirect()->route('peserta.dashboard');
         }
-        
+
         return redirect()->route('login');
     })->name('dashboard');
     
@@ -98,10 +98,10 @@ Route::middleware(['auth', 'verified', 'role.redirect', 'maintenance'])->group(f
     });
 
     // Super Admin & Admin Routes
-    Route::middleware(['role:Super Admin|Admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::middleware(['role:superadmin|admin'])->prefix('admin')->name('admin.')->group(function () {
 
         // Competition Categories (Super Admin only)
-        Route::middleware(['role:Super Admin'])->group(function () {
+        Route::middleware(['role:superadmin'])->group(function () {
             Route::resource('competition-categories', App\Http\Controllers\Admin\CompetitionCategoryController::class);
         });
 
@@ -157,7 +157,7 @@ Route::middleware(['auth', 'verified', 'role.redirect', 'maintenance'])->group(f
         });
         
         // User Management (Super Admin only)
-        Route::middleware(['role:Super Admin'])->prefix('users')->name('users.')->group(function () {
+        Route::middleware(['role:superadmin'])->prefix('users')->name('users.')->group(function () {
             Route::get('/', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('index');
             Route::get('/create', [App\Http\Controllers\Admin\UserController::class, 'create'])->name('create');
             Route::post('/', [App\Http\Controllers\Admin\UserController::class, 'store'])->name('store');
@@ -169,7 +169,7 @@ Route::middleware(['auth', 'verified', 'role.redirect', 'maintenance'])->group(f
         });
 
         // Role Management (Super Admin only)
-        Route::middleware(['role:Super Admin'])->prefix('roles')->name('roles.')->group(function () {
+        Route::middleware(['role:superadmin'])->prefix('roles')->name('roles.')->group(function () {
             Route::get('/', [App\Http\Controllers\Admin\RoleController::class, 'index'])->name('index');
             Route::get('/create', [App\Http\Controllers\Admin\RoleController::class, 'create'])->name('create');
             Route::post('/', [App\Http\Controllers\Admin\RoleController::class, 'store'])->name('store');
@@ -244,7 +244,7 @@ Route::middleware(['auth', 'verified', 'role.redirect', 'maintenance'])->group(f
     });
 
     // Juri Routes
-    Route::middleware(['role:Juri'])->prefix('juri')->name('juri.')->group(function () {
+    Route::middleware(['role:juri'])->prefix('juri')->name('juri.')->group(function () {
         
         // Dashboard
         Route::get('/dashboard', [App\Http\Controllers\Juri\JuriDashboardController::class, 'index'])->name('dashboard');
@@ -291,7 +291,7 @@ Route::middleware(['auth', 'verified', 'role.redirect', 'maintenance'])->group(f
     });
 
     // Peserta Routes
-    Route::middleware(['role:Peserta'])->prefix('peserta')->name('peserta.')->group(function () {
+    Route::middleware(['role:peserta'])->prefix('peserta')->name('peserta.')->group(function () {
         
         // Dashboard
         Route::get('/dashboard', [App\Http\Controllers\Peserta\PesertaDashboardController::class, 'index'])->name('dashboard');
@@ -388,7 +388,7 @@ Route::prefix('api')->name('api.')->middleware(['auth'])->group(function () {
     Route::get('/payments/datatable', [App\Http\Controllers\Api\PaymentController::class, 'datatable']);
     
     // User API (Admin only)
-    Route::middleware(['role:Super Admin|Admin'])->group(function () {
+    Route::middleware(['role:superadmin|admin'])->group(function () {
         Route::get('/users', [App\Http\Controllers\Api\UserController::class, 'index']);
         Route::get('/users/datatable', [App\Http\Controllers\Api\UserController::class, 'datatable']);
     });

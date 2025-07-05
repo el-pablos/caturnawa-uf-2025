@@ -23,7 +23,7 @@ class CheckAccountActivation
         $user = auth()->user();
 
         // Skip untuk admin dan superadmin
-        if ($user->hasRole('Admin') || $user->hasRole('Super Admin')) {
+        if ($user->hasRole('admin') || $user->hasRole('superadmin')) {
             return $next($request);
         }
 

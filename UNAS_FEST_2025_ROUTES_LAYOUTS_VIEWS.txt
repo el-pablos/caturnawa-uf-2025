@@ -1,0 +1,498 @@
+===============================================================================
+                    UNAS FEST 2025 - ROUTES, LAYOUTS & VIEWS MAPPING
+===============================================================================
+
+📋 OVERVIEW:
+- Total Layouts: 8 layouts
+- Total Routes: 100+ routes
+- Role-based Access: superadmin, admin, juri, peserta
+- Authentication: Laravel Sanctum + Spatie Permissions
+
+===============================================================================
+🎨 LAYOUTS STRUCTURE
+===============================================================================
+
+1. layouts/public.blade.php
+   - Used for: Public website pages
+   - Features: Bootstrap 5, AOS animations, responsive design
+   - Target: General visitors
+
+2. layouts/admin.blade.php  
+   - Used for: Admin panel (superadmin & admin roles)
+   - Features: Sidebar navigation, DataTables, Charts
+   - Target: Administrators
+
+3. layouts/juri.blade.php
+   - Used for: Jury dashboard and scoring
+   - Features: Submission review, scoring forms
+   - Target: Competition judges
+
+4. layouts/peserta.blade.php
+   - Used for: Participant dashboard
+   - Features: Registration, submission forms
+   - Target: Competition participants
+
+5. layouts/app.blade.php
+   - Used for: General authenticated pages
+   - Features: Basic auth layout
+   - Target: All authenticated users
+
+6. layouts/caturnawa-2025.blade.php
+   - Used for: Special themed pages
+   - Features: UNAS Fest 2025 branding
+   - Target: Event-specific pages
+
+7. layouts/modern.blade.php
+   - Used for: Modern design pages
+   - Features: Contemporary UI elements
+   - Target: Enhanced user experience
+
+8. layouts/simple.blade.php
+   - Used for: Minimal pages (auth, errors)
+   - Features: Clean, minimal design
+   - Target: Authentication flows
+
+===============================================================================
+🌐 PUBLIC ROUTES (No Authentication Required)
+===============================================================================
+
+Route: /
+Layout: layouts/public.blade.php
+View: public/home.blade.php
+Controller: Public\PublicController@home
+Description: Homepage with competitions overview
+
+Route: /competitions
+Layout: layouts/public.blade.php
+View: public/competitions.blade.php
+Controller: Public\PublicController@competitions
+Description: List all available competitions
+
+Route: /competition/{slug}
+Layout: layouts/public.blade.php
+View: public/competition.blade.php
+Controller: Public\PublicController@competitionDetail
+Description: Individual competition details
+
+Route: /about
+Layout: layouts/public.blade.php
+View: public/about.blade.php
+Controller: Public\PublicController@about
+Description: About UNAS Fest 2025
+
+Route: /contact
+Layout: layouts/public.blade.php
+View: public/contact.blade.php
+Controller: Public\PublicController@contact
+Description: Contact information and form
+
+Route: /testimonials
+Layout: layouts/public.blade.php
+View: public/testimonials.blade.php
+Controller: Public\PublicController@testimonials
+Description: Participant testimonials
+
+Route: /leaderboard
+Layout: layouts/public.blade.php
+View: public/leaderboard/index.blade.php
+Controller: Public\PublicController@leaderboard
+Description: Competition leaderboard
+
+Route: /blog
+Layout: layouts/public.blade.php
+View: public/blog.blade.php
+Controller: Public\PublicController@blog
+Description: Blog articles list
+
+Route: /blog/{slug}
+Layout: layouts/public.blade.php
+View: public/blog-detail.blade.php
+Controller: Public\PublicController@blogDetail
+Description: Individual blog article
+
+Route: /timeline
+Layout: layouts/public.blade.php
+View: public/timeline.blade.php
+Controller: Public\PublicController@timeline
+Description: Event timeline
+
+Route: /faq
+Layout: layouts/public.blade.php
+View: public/faq.blade.php
+Controller: Public\PublicController@faq
+Description: Frequently asked questions
+
+Route: /privacy
+Layout: layouts/public.blade.php
+View: public/privacy.blade.php
+Controller: Public\PublicController@privacy
+Description: Privacy policy
+
+Route: /terms
+Layout: layouts/public.blade.php
+View: public/terms.blade.php
+Controller: Public\PublicController@terms
+Description: Terms and conditions
+
+===============================================================================
+🔐 AUTHENTICATION ROUTES
+===============================================================================
+
+Route: /login
+Layout: layouts/simple.blade.php
+View: auth/login.blade.php
+Controller: Auth\AuthController@showLogin
+Description: User login form
+
+Route: /register
+Layout: layouts/simple.blade.php
+View: auth/register.blade.php
+Controller: Auth\AuthController@showRegister
+Description: User registration form
+
+Route: /forgot-password
+Layout: layouts/simple.blade.php
+View: auth/forgot-password.blade.php
+Controller: Auth\AuthController@showForgotPassword
+Description: Password reset request
+
+Route: /profile
+Layout: layouts/app.blade.php
+View: auth/profile.blade.php
+Controller: Auth\AuthController@profile
+Description: User profile management
+
+===============================================================================
+👑 ADMIN ROUTES (superadmin & admin roles)
+===============================================================================
+
+Route: /admin/dashboard
+Layout: layouts/admin.blade.php
+View: admin/dashboard.blade.php
+Controller: Admin\AdminDashboardController@index
+Description: Admin dashboard with statistics
+
+Route: /admin/users
+Layout: layouts/admin.blade.php
+View: admin/users/index.blade.php
+Controller: Admin\UserController@index
+Description: User management (superadmin only)
+
+Route: /admin/users/create
+Layout: layouts/admin.blade.php
+View: admin/users/create.blade.php
+Controller: Admin\UserController@create
+Description: Create new user
+
+Route: /admin/users/{user}/edit
+Layout: layouts/admin.blade.php
+View: admin/users/edit.blade.php
+Controller: Admin\UserController@edit
+Description: Edit user details
+
+Route: /admin/competitions
+Layout: layouts/admin.blade.php
+View: admin/competitions/index.blade.php
+Controller: Admin\CompetitionController@index
+Description: Competition management
+
+Route: /admin/competitions/create
+Layout: layouts/admin.blade.php
+View: admin/competitions/create.blade.php
+Controller: Admin\CompetitionController@create
+Description: Create new competition
+
+Route: /admin/competitions/{competition}/edit
+Layout: layouts/admin.blade.php
+View: admin/competitions/edit.blade.php
+Controller: Admin\CompetitionController@edit
+Description: Edit competition
+
+Route: /admin/registrations
+Layout: layouts/admin.blade.php
+View: admin/registrations/index.blade.php
+Controller: Admin\RegistrationController@index
+Description: Registration management
+
+Route: /admin/registrations/{registration}
+Layout: layouts/admin.blade.php
+View: admin/registrations/show.blade.php
+Controller: Admin\RegistrationController@show
+Description: Registration details
+
+Route: /admin/payments
+Layout: layouts/admin.blade.php
+View: admin/payments/index.blade.php
+Controller: Admin\PaymentController@index
+Description: Payment management
+
+Route: /admin/submissions
+Layout: layouts/admin.blade.php
+View: admin/submissions/index.blade.php
+Controller: Admin\SubmissionController@index
+Description: Submission management
+
+Route: /admin/submissions/{submission}
+Layout: layouts/admin.blade.php
+View: admin/submissions/show.blade.php
+Controller: Admin\SubmissionController@show
+Description: Submission details
+
+Route: /admin/reports
+Layout: layouts/admin.blade.php
+View: admin/reports/index.blade.php
+Controller: Admin\ReportController@index
+Description: Reports and analytics
+
+Route: /admin/settings
+Layout: layouts/admin.blade.php
+View: admin/settings/index.blade.php
+Controller: Admin\SettingController@index
+Description: System settings
+
+Route: /admin/finance/invoices
+Layout: layouts/admin.blade.php
+View: admin/finance/invoices.blade.php
+Controller: Closure (returns view)
+Description: Invoice management for finance
+
+===============================================================================
+⚖️ JURI ROUTES (juri role)
+===============================================================================
+
+Route: /juri/dashboard
+Layout: layouts/juri.blade.php
+View: juri/dashboard.blade.php
+Controller: Juri\JuriDashboardController@index
+Description: Jury dashboard
+
+Route: /juri/competitions
+Layout: layouts/juri.blade.php
+View: juri/competitions/index.blade.php
+Controller: Juri\CompetitionController@index
+Description: Assigned competitions
+
+Route: /juri/competitions/{competition}
+Layout: layouts/juri.blade.php
+View: juri/competitions/show.blade.php
+Controller: Juri\CompetitionController@show
+Description: Competition details for jury
+
+Route: /juri/submissions
+Layout: layouts/juri.blade.php
+View: juri/submissions/index.blade.php
+Controller: Juri\SubmissionController@index
+Description: Submissions to review
+
+Route: /juri/submissions/{submission}
+Layout: layouts/juri.blade.php
+View: juri/submissions/show.blade.php
+Controller: Juri\SubmissionController@show
+Description: Submission review and scoring
+
+Route: /juri/judging/form
+Layout: layouts/juri.blade.php
+View: juri/judging/form.blade.php
+Controller: Closure (returns view)
+Description: Tabulator-based judging form
+
+===============================================================================
+🎓 PESERTA ROUTES (peserta role)
+===============================================================================
+
+Route: /peserta/dashboard
+Layout: layouts/peserta.blade.php
+View: peserta/dashboard.blade.php
+Controller: Peserta\PesertaDashboardController@index
+Description: Participant dashboard
+
+Route: /peserta/competitions
+Layout: layouts/peserta.blade.php
+View: peserta/competitions/index.blade.php
+Controller: Peserta\CompetitionController@index
+Description: Available competitions
+
+Route: /peserta/competitions/{competition}
+Layout: layouts/peserta.blade.php
+View: peserta/competitions/show.blade.php
+Controller: Peserta\CompetitionController@show
+Description: Competition details and registration
+
+Route: /peserta/registrations
+Layout: layouts/peserta.blade.php
+View: peserta/registrations/index.blade.php
+Controller: Peserta\RegistrationController@index
+Description: My registrations
+
+Route: /peserta/registrations/{registration}
+Layout: layouts/peserta.blade.php
+View: peserta/registrations/show.blade.php
+Controller: Peserta\RegistrationController@show
+Description: Registration details
+
+Route: /peserta/submissions
+Layout: layouts/peserta.blade.php
+View: peserta/submissions/index.blade.php
+Controller: Peserta\SubmissionController@index
+Description: My submissions
+
+Route: /peserta/submissions/create
+Layout: layouts/peserta.blade.php
+View: peserta/submissions/create.blade.php
+Controller: Peserta\SubmissionController@create
+Description: Create new submission
+
+Route: /peserta/submissions/{submission}
+Layout: layouts/peserta.blade.php
+View: peserta/submissions/show.blade.php
+Controller: Peserta\SubmissionController@show
+Description: Submission details
+
+Route: /peserta/submissions/{submission}/edit
+Layout: layouts/peserta.blade.php
+View: peserta/submissions/edit.blade.php
+Controller: Peserta\SubmissionController@edit
+Description: Edit submission
+
+===============================================================================
+💳 PAYMENT ROUTES
+===============================================================================
+
+Route: /payment/checkout/{registration}
+Layout: layouts/simple.blade.php
+View: payment/checkout.blade.php
+Controller: PaymentController@checkout
+Description: Payment checkout page
+
+Route: /payment/finish
+Layout: layouts/simple.blade.php
+View: payment/finish.blade.php
+Controller: PaymentController@finish
+Description: Payment success page
+
+Route: /payment/unfinish
+Layout: layouts/simple.blade.php
+View: payment/unfinish.blade.php
+Controller: PaymentController@unfinish
+Description: Payment cancelled page
+
+Route: /payment/error
+Layout: layouts/simple.blade.php
+View: payment/error.blade.php
+Controller: PaymentController@error
+Description: Payment error page
+
+===============================================================================
+🚨 ERROR ROUTES
+===============================================================================
+
+Route: /403
+Layout: layouts/simple.blade.php
+View: errors/403.blade.php
+Description: Forbidden access error
+
+Route: /404
+Layout: layouts/simple.blade.php
+View: errors/404.blade.php
+Description: Page not found error
+
+Route: /500
+Layout: layouts/simple.blade.php
+View: errors/500.blade.php
+Description: Internal server error
+
+Route: /maintenance
+Layout: layouts/simple.blade.php
+View: maintenance.blade.php
+Description: Maintenance mode page
+
+===============================================================================
+🔧 API ROUTES (AJAX/JSON responses)
+===============================================================================
+
+All API routes return JSON responses (no views/layouts):
+
+/api/achievements - Achievement data
+/api/leaderboard - Leaderboard data
+/api/competitions/{competition}/description - Competition descriptions
+/api/submissions/{submission} - Submission details
+/api/user/session - User session with deadline reminders
+/api/user/dismiss-reminder - Dismiss deadline reminders
+/api/judging/form - Judging form configuration
+/api/judging/score - Save judging scores
+/api/invoices - Invoice list for finance
+/api/invoices/{payment_id} - Invoice details
+
+===============================================================================
+📱 SPECIAL FEATURES
+===============================================================================
+
+1. Deadline Reminder System:
+   - JavaScript: public/js/deadline-reminder.js
+   - Layout: layouts/peserta.blade.php
+   - Auto-popup for submission deadlines
+
+2. Tabulator Judging Form:
+   - JavaScript: Tabulator.js integration
+   - Layout: layouts/juri.blade.php
+   - View: juri/judging/form.blade.php
+
+3. Finance Invoice Management:
+   - Layout: layouts/admin.blade.php
+   - View: admin/finance/invoices.blade.php
+   - API: /api/invoices endpoints
+
+4. Document Upload System:
+   - Drag-and-drop interface
+   - Multiple file types support
+   - Admin verification workflow
+
+5. WhatsApp Group Integration:
+   - Auto-display after payment
+   - Competition-specific groups
+   - Session-based showing
+
+===============================================================================
+🎯 USER ACCOUNTS FOR TESTING
+===============================================================================
+
+Super Admin: superadmin@unasfest.com / password123
+Admin 1-5:   admin1-5@unasfest.com / password123
+Juri 1-5:    juri1-5@unasfest.com / password123
+Peserta 1-5: peserta1-5@unasfest.com / password123
+
+===============================================================================
+📊 STATISTICS
+===============================================================================
+
+- Total Routes: ~120 routes
+- Public Routes: 15 routes
+- Admin Routes: 40+ routes
+- Juri Routes: 15 routes
+- Peserta Routes: 20 routes
+- API Routes: 15+ routes
+- Payment Routes: 5 routes
+- Error Routes: 5 routes
+
+- Total Views: 80+ blade templates
+- Total Layouts: 8 layouts
+- Total Controllers: 25+ controllers
+- JavaScript Files: 10+ custom JS files
+- CSS Files: Custom Bootstrap 5 styling
+
+===============================================================================
+🔗 IMPORTANT NOTES
+===============================================================================
+
+1. All routes use middleware for authentication and role-based access
+2. Public routes have maintenance mode middleware
+3. Admin routes restricted to superadmin/admin roles only
+4. Juri routes restricted to juri role only
+5. Peserta routes restricted to peserta role only
+6. API routes return JSON for AJAX calls
+7. Payment routes integrate with Midtrans
+8. Error pages have custom designs
+9. All layouts are responsive and mobile-friendly
+10. System uses Laravel 10 with modern PHP 8+ features
+
+===============================================================================

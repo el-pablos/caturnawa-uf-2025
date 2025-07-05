@@ -23,7 +23,7 @@ class RoleBasedRedirect
     {
         // Pastikan user sudah login
         if (!auth()->check()) {
-            return redirect()->route('auth.login');
+            return redirect()->route('login');
         }
 
         $user = auth()->user();
@@ -81,7 +81,7 @@ class RoleBasedRedirect
         }
 
         // Fallback jika role tidak dikenali
-        return redirect()->route('auth.login')
+        return redirect()->route('login')
             ->with('error', 'Role tidak dikenali. Silakan hubungi administrator.');
     }
 }
