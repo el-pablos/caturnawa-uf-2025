@@ -25,7 +25,14 @@ Route::get('/competitions', [App\Http\Controllers\Api\CompetitionController::cla
 Route::get('/competitions/{competition}', [App\Http\Controllers\Api\CompetitionController::class, 'show']);
 Route::get('/competitions/{competition}/description/{section?}', [App\Http\Controllers\Api\CompetitionController::class, 'getDescription']);
 
-// Registration Documents (requires authentication)
+// User Session and Authenticated Routes (using web middleware for session-based auth)
+Route::middleware(['web', 'auth'])->group(function () {
+    // User session with deadline reminders
+    Route::get('/user/session', [App\Http\Controllers\Api\UserSessionController::class, 'getSession']);
+    Route::post('/user/dismiss-reminder', [App\Http\Controllers\Api\UserSessionController::class, 'dismissReminder']);
+});
+
+// Registration Documents (requires sanctum auth)
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/registrations/{registration}/documents', [App\Http\Controllers\Api\RegistrationDocumentController::class, 'index']);
     Route::post('/registrations/{registration}/documents', [App\Http\Controllers\Api\RegistrationDocumentController::class, 'store']);
