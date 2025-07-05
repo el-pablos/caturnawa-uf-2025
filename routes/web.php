@@ -295,6 +295,7 @@ Route::middleware(['auth', 'verified', 'role.redirect', 'maintenance'])->group(f
         Route::prefix('registrations')->name('registrations.')->group(function () {
             Route::get('/', [App\Http\Controllers\Peserta\RegistrationController::class, 'index'])->name('index');
             Route::get('/{registration}', [App\Http\Controllers\Peserta\RegistrationController::class, 'show'])->name('show');
+            Route::get('/{registration}/documents', [App\Http\Controllers\Peserta\RegistrationController::class, 'documents'])->name('documents');
             Route::put('/{registration}', [App\Http\Controllers\Peserta\RegistrationController::class, 'update'])->name('update');
             Route::delete('/{registration}', [App\Http\Controllers\Peserta\RegistrationController::class, 'cancel'])->name('cancel');
             Route::get('/{registration}/ticket', [App\Http\Controllers\Peserta\RegistrationController::class, 'ticket'])->name('ticket');

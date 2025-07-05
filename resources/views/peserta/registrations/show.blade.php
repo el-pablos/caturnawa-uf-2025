@@ -141,6 +141,9 @@
                             <a href="{{ route('payment.checkout', $registration) }}" class="btn btn-success">
                                 <i class="fas fa-credit-card"></i> Pay Now
                             </a>
+                            <a href="{{ route('peserta.registrations.documents', $registration) }}" class="btn btn-primary">
+                                <i class="fas fa-upload"></i> Upload Documents
+                            </a>
                             <button class="btn btn-danger" onclick="cancelRegistration()">
                                 <i class="fas fa-times"></i> Cancel Registration
                             </button>
@@ -149,6 +152,9 @@
                         <div class="d-grid gap-2">
                             <a href="{{ route('peserta.registrations.ticket', $registration) }}" class="btn btn-info">
                                 <i class="fas fa-ticket-alt"></i> Download Ticket
+                            </a>
+                            <a href="{{ route('peserta.registrations.documents', $registration) }}" class="btn btn-outline-primary">
+                                <i class="fas fa-file-alt"></i> Manage Documents
                             </a>
                             @if($registration->competition->status === 'active')
                                 <a href="{{ route('peserta.submissions.create', $registration) }}" class="btn btn-primary">

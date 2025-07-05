@@ -25,6 +25,13 @@ Route::get('/competitions', [App\Http\Controllers\Api\CompetitionController::cla
 Route::get('/competitions/{competition}', [App\Http\Controllers\Api\CompetitionController::class, 'show']);
 Route::get('/competitions/{competition}/description/{section?}', [App\Http\Controllers\Api\CompetitionController::class, 'getDescription']);
 
+// Registration Documents (requires authentication)
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/registrations/{registration}/documents', [App\Http\Controllers\Api\RegistrationDocumentController::class, 'index']);
+    Route::post('/registrations/{registration}/documents', [App\Http\Controllers\Api\RegistrationDocumentController::class, 'store']);
+    Route::delete('/registrations/{registration}/documents/{document}', [App\Http\Controllers\Api\RegistrationDocumentController::class, 'destroy']);
+});
+
 // Protected API routes
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/leaderboard/update', [App\Http\Controllers\Api\LeaderboardController::class, 'update']);

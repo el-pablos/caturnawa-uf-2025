@@ -88,12 +88,22 @@ class Registration extends Model
 
     /**
      * Relasi dengan model User (peserta)
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Relasi dengan model RegistrationDocument
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function documents()
+    {
+        return $this->hasMany(RegistrationDocument::class);
     }
 
     /**

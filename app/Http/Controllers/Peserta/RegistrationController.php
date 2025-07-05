@@ -36,6 +36,19 @@ class RegistrationController extends Controller
         return view('peserta.registrations.show', compact('registration'));
     }
 
+    /**
+     * Show documents upload page
+     */
+    public function documents(Registration $registration)
+    {
+        // Check ownership
+        if ($registration->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized access to registration');
+        }
+
+        return view('peserta.registrations.documents', compact('registration'));
+    }
+
     public function update(Request $request, Registration $registration)
     {
         // Check ownership
