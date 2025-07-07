@@ -64,9 +64,18 @@
                                 <td class="fw-bold text-success">Rp {{ number_format($registration->amount, 0, ',', '.') }}</td>
                             </tr>
                             <tr>
-                                <td class="fw-semibold">Institusi:</td>
+                                <td class="fw-semibold">Asal Instansi:</td>
                                 <td>{{ $registration->institution ?: '-' }}</td>
                             </tr>
+                            @if($registration->logo_instansi)
+                            <tr>
+                                <td class="fw-semibold">Logo Instansi:</td>
+                                <td>
+                                    <img src="{{ asset('storage/' . $registration->logo_instansi) }}"
+                                         class="img-thumbnail" alt="Logo Instansi" style="max-width: 100px;">
+                                </td>
+                            </tr>
+                            @endif
                             <tr>
                                 <td class="fw-semibold">Telepon:</td>
                                 <td>{{ $registration->phone ?: $registration->user->phone }}</td>
@@ -190,19 +199,38 @@
                     <div class="col-md-6 mb-3">
                         <div class="card bg-light">
                             <div class="card-body">
-                                <h6 class="card-title">Anggota {{ $index + 1 }}</h6>
-                                <p class="card-text">
-                                    <strong>Nama:</strong> {{ $member['name'] }}<br>
-                                    @if(isset($member['email']))
-                                    <strong>Email:</strong> {{ $member['email'] }}<br>
-                                    @endif
-                                    @if(isset($member['student_id']))
-                                    <strong>NIM/ID:</strong> {{ $member['student_id'] }}<br>
-                                    @endif
-                                    @if(isset($member['role']))
-                                    <strong>Peran:</strong> {{ $member['role'] }}
-                                    @endif
-                                </p>
+                                <div class="d-flex align-items-start">
+                                    <div class="me-3">
+                                        @if(isset($member['foto']) && $member['foto'])
+                                            <img src="{{ asset('storage/' . $member['foto']) }}"
+                                                 class="rounded-circle" alt="Foto {{ $member['name'] }}"
+                                                 style="width: 60px; height: 60px; object-fit: cover;">
+                                        @else
+                                            <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center"
+                                                 style="width: 60px; height: 60px;">
+                                                <i class="bi bi-person-fill text-white"></i>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="card-title mb-2">Peserta {{ $index + 1 }}</h6>
+                                        <p class="card-text mb-0">
+                                            <strong>Nama:</strong> {{ $member['name'] }}<br>
+                                            @if(isset($member['email']))
+                                            <strong>Email:</strong> {{ $member['email'] }}<br>
+                                            @endif
+                                            @if(isset($member['phone']))
+                                            <strong>No HP:</strong> {{ $member['phone'] }}<br>
+                                            @endif
+                                            @if(isset($member['student_id']))
+                                            <strong>NIM/ID:</strong> {{ $member['student_id'] }}<br>
+                                            @endif
+                                            @if(isset($member['role']))
+                                            <strong>Peran:</strong> {{ $member['role'] }}
+                                            @endif
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

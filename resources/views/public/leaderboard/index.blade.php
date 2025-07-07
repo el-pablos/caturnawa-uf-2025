@@ -58,7 +58,7 @@
                                     @foreach($competitions as $competition)
                                         <option value="{{ $competition->id }}"
                                                 {{ $selectedCompetition && $selectedCompetition->id === $competition->id ? 'selected' : '' }}>
-                                            {{ $competition->name }} ({{ $competition->category }})
+                                            {{ $competition->name }} ({{ \App\Models\Competition::CATEGORIES[$competition->category] ?? $competition->category }})
                                         </option>
                                     @endforeach
                                 </select>

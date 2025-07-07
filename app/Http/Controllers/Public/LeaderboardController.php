@@ -6,10 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Models\Competition;
 use App\Models\Submission;
 use App\Models\Score;
+use App\Services\LeaderboardService;
 use Illuminate\Http\Request;
 
 class LeaderboardController extends Controller
 {
+    protected $leaderboardService;
+
+    public function __construct(LeaderboardService $leaderboardService)
+    {
+        $this->leaderboardService = $leaderboardService;
+    }
+
     /**
      * Display leaderboard page
      */
@@ -32,7 +40,7 @@ class LeaderboardController extends Controller
         }
 
         if ($selectedCompetition) {
-            $leaderboard = $this->getLeaderboard($selectedCompetition);
+            $leaderboard = $this->leaderboardService->calculateOverallLeaderboard($selectedCompetition);
         }
 
         return view('public.leaderboard.index', compact('competitions', 'selectedCompetition', 'leaderboard'));

@@ -73,7 +73,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/payments/datatable', [App\Http\Controllers\Api\PaymentController::class, 'datatable']);
     
     // User API (Admin only)
-    Route::middleware(['role:Super Admin|Admin'])->group(function () {
+    Route::middleware(['role:superadmin|admin'])->group(function () {
         Route::get('/users', [App\Http\Controllers\Api\UserController::class, 'index']);
         Route::get('/users/datatable', [App\Http\Controllers\Api\UserController::class, 'datatable']);
     });

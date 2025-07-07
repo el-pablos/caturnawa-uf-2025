@@ -155,20 +155,25 @@ class CompetitionController extends Controller
             'special_needs' => 'nullable|string|max:500',
         ];
         
+        // Validasi logo instansi
+        $rules['logo_instansi'] = 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048';
+
         // Validasi untuk kompetisi tim
         if ($competition->is_team_competition) {
             $rules['team_name'] = 'required|string|max:255';
-            $rules['team_members'] = 'required|array';
+            $rules['team_members'] = 'required|array|min:1|max:5';
             $rules['team_members.*.name'] = 'required|string|max:255';
-            $rules['team_members.*.student_id'] = 'nullable|string|max:50';
-            $rules['team_members.*.role'] = 'nullable|string|max:100';
-            
+            $rules['team_members.*.email'] = 'required|email|max:255';
+            $rules['team_members.*.phone'] = 'required|string|max:20';
+            $rules['team_members.*.foto'] = 'required|image|mimes:jpeg,png,jpg|max:2048';
+
             // Validasi jumlah anggota tim
             if ($competition->min_team_members) {
-                $rules['team_members'] = 'required|array|min:' . $competition->min_team_members;
+                $rules['team_members'] = 'required|array|min:' . $competition->min_team_members . '|max:5';
             }
             if ($competition->max_team_members) {
-                $rules['team_members'] = 'required|array|max:' . $competition->max_team_members;
+                $maxMembers = min($competition->max_team_members, 5);
+                $rules['team_members'] = 'required|array|min:1|max:' . $maxMembers;
             }
         }
         
@@ -205,12 +210,19 @@ class CompetitionController extends Controller
         }
 
         try {
+            // Handle logo instansi upload
+            $logoPath = null;
+            if ($request->hasFile('logo_instansi')) {
+                $logoPath = $request->file('logo_instansi')->store('logos', 'public');
+            }
+
             // Buat registrasi baru
             $registrationData = [
                 'user_id' => $user->id,
                 'competition_id' => $competition->id,
                 'phone' => $request->phone ?: $user->phone,
                 'institution' => $request->institution ?: $user->institution,
+                'logo_instansi' => $logoPath,
                 'gender' => $request->gender,
                 'education_level' => $request->education_level,
                 'emergency_contact' => $request->emergency_contact,
@@ -223,7 +235,24 @@ class CompetitionController extends Controller
 
             if ($competition->is_team_competition) {
                 $registrationData['team_name'] = $request->team_name;
-                $registrationData['team_members'] = $request->team_members;
+
+                // Process team members with file uploads
+                $teamMembers = [];
+                foreach ($request->team_members as $index => $member) {
+                    $fotoPath = null;
+                    if (isset($member['foto']) && $member['foto'] instanceof \Illuminate\Http\UploadedFile) {
+                        $fotoPath = $member['foto']->store('team_photos', 'public');
+                    }
+
+                    $teamMembers[] = [
+                        'name' => $member['name'],
+                        'email' => $member['email'],
+                        'phone' => $member['phone'],
+                        'foto' => $fotoPath,
+                    ];
+                }
+
+                $registrationData['team_members'] = $teamMembers;
             }
 
             $registration = Registration::create($registrationData);

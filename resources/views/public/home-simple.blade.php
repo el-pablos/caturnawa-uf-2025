@@ -19,7 +19,7 @@
     </div>
 
     <!-- Leaderboard Section by Competition -->
-    @if($leaderboard && count($leaderboard) > 0)
+    @if(isset($competitionLeaderboards) && count($competitionLeaderboards) > 0)
     <div class="row mt-5">
         <div class="col-12 mb-4">
             <div class="text-center">
@@ -30,64 +30,65 @@
             </div>
         </div>
 
-        @foreach($leaderboard as $competitionData)
-        <div class="col-lg-6 col-md-12 mb-4">
-            <div class="card shadow h-100">
-                <div class="card-header bg-primary text-white text-center">
-                    <h5 class="card-title mb-0">
-                        <i class="bi bi-trophy me-2"></i>{{ $competitionData['competition']->name }}
-                    </h5>
-                    <small>Top 4 Peringkat</small>
-                </div>
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table class="table table-hover mb-0">
-                            <thead class="table-light">
-                                <tr>
-                                    <th class="text-center" width="100">Rank</th>
-                                    <th>Tim</th>
-                                    <th>Institusi</th>
-                                    <th class="text-center" width="100">Victory Points</th>
+        @foreach($competitions as $competition)
+            @if(isset($competitionLeaderboards[$competition->id]) && count($competitionLeaderboards[$competition->id]) > 0)
+            <div class="col-lg-6 col-md-12 mb-4">
+                <div class="card shadow h-100">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h5 class="card-title mb-0">
+                            <i class="bi bi-trophy me-2"></i>{{ $competition->name }}
+                        </h5>
+                        <small>Top 4 Peringkat</small>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="text-center" width="100">Rank</th>
+                                        <th>Tim</th>
+                                        <th>Institusi</th>
+                                        <th class="text-center" width="100">Victory Points</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($competitionData['leaderboard'] as $item)
-                                    <tr class="{{ $item['rank_type'] == 'position' && $item['rank'] <= 3 ? 'table-warning' : '' }}">
+                                @foreach($competitionLeaderboards[$competition->id] as $index => $team)
+                                    <tr class="{{ $index < 3 ? 'table-warning' : '' }}">
                                         <td class="text-center">
-                                            @if($item['rank_type'] == 'mention')
-                                                <span class="badge bg-info text-white fs-6">
-                                                    <i class="bi bi-star"></i> Jury Mention
-                                                </span>
-                                            @elseif($item['rank'] == 1)
+                                            @if($index == 0)
                                                 <span class="badge bg-warning text-dark fs-6">
                                                     <i class="bi bi-trophy-fill"></i> 1st
                                                 </span>
-                                            @elseif($item['rank'] == 2)
+                                            @elseif($index == 1)
                                                 <span class="badge bg-secondary fs-6">
                                                     <i class="bi bi-award-fill"></i> 2nd
                                                 </span>
-                                            @elseif($item['rank'] == 3)
+                                            @elseif($index == 2)
                                                 <span class="badge bg-warning text-dark fs-6">
                                                     <i class="bi bi-award"></i> 3rd
                                                 </span>
+                                            @elseif($index == 3)
+                                                <span class="badge bg-info text-white fs-6">
+                                                    <i class="bi bi-star"></i> Jury Mention
+                                                </span>
                                             @else
-                                                <span class="badge bg-light text-dark">{{ $item['rank'] }}</span>
+                                                <span class="badge bg-light text-dark">{{ $index + 1 }}</span>
                                             @endif
                                         </td>
                                         <td>
                                             <div>
-                                                <strong>{{ $item['team_name'] }}</strong>
-                                                @if($item['team_name'] !== $item['participant_name'])
-                                                    <br><small class="text-muted">{{ $item['participant_name'] }}</small>
+                                                <strong>{{ $team['team_name'] }}</strong>
+                                                @if($team['participants'] && count($team['participants']) > 0)
+                                                    <br><small class="text-muted">{{ $team['participants'][0]['name'] ?? '' }}</small>
                                                 @endif
                                             </div>
                                         </td>
                                         <td>
-                                            <small>{{ $item['institution'] ?? 'Tidak ada' }}</small>
+                                            <small>{{ $team['institution'] ?? 'Tidak ada' }}</small>
                                         </td>
                                         <td class="text-center">
                                             <span class="badge bg-success">
-                                                <i class="bi bi-star-fill"></i> {{ $item['victory_points'] }}
+                                                <i class="bi bi-star-fill"></i> {{ $team['total_victory_points'] }}
                                             </span>
                                         </td>
                                     </tr>
@@ -97,12 +98,16 @@
                     </div>
                 </div>
                 <div class="card-footer text-center">
-                    <a href="{{ route('leaderboard.index', ['competition' => $competitionData['competition']->id]) }}" class="btn btn-outline-primary btn-sm">
+                    <a href="{{ route('leaderboard.index', ['competition' => $competition->id]) }}" class="btn btn-outline-primary btn-sm">
                         <i class="bi bi-eye me-1"></i>Lihat Detail
+                    </a>
+                    <a href="{{ route('matalomba.show', $competition->slug) }}" class="btn btn-outline-success btn-sm ms-2">
+                        <i class="bi bi-trophy me-1"></i>Lihat Babak
                     </a>
                 </div>
             </div>
         </div>
+        @endif
         @endforeach
 
         <div class="col-12 text-center mt-3">

@@ -248,7 +248,7 @@
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form action="{{ route('peserta.competitions.register', $competition) }}" method="POST">
+            <form action="{{ route('peserta.competitions.register', $competition) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <div class="row">
@@ -258,9 +258,18 @@
                                    value="{{ old('phone', auth()->user()->phone) }}" required>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="institution" class="form-label">Institusi <span class="text-danger">*</span></label>
+                            <label for="institution" class="form-label">Asal Instansi <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="institution" name="institution"
                                    value="{{ old('institution') }}" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label for="logo_instansi" class="form-label">Logo Instansi</label>
+                            <input type="file" class="form-control" id="logo_instansi" name="logo_instansi"
+                                   accept="image/*">
+                            <small class="text-muted">Format: JPG, PNG, GIF. Maksimal 2MB.</small>
                         </div>
                     </div>
 
@@ -317,26 +326,34 @@
                         
                         <div id="team-members">
                             <label class="form-label">Anggota Tim <span class="text-danger">*</span></label>
-                            <div class="team-member mb-3">
+                            <div class="team-member mb-4 border rounded p-3">
+                                <h6 class="text-primary mb-3">Peserta 1</h6>
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control" name="team_members[0][name]" 
+                                    <div class="col-md-6 mb-2">
+                                        <input type="text" class="form-control" name="team_members[0][name]"
                                                placeholder="Nama Lengkap" required>
                                     </div>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control" name="team_members[0][student_id]" 
-                                               placeholder="NIM/ID (Opsional)">
+                                    <div class="col-md-6 mb-2">
+                                        <input type="email" class="form-control" name="team_members[0][email]"
+                                               placeholder="Email" required>
                                     </div>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control" name="team_members[0][role]" 
-                                               placeholder="Peran (Opsional)">
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-2">
+                                        <input type="text" class="form-control" name="team_members[0][phone]"
+                                               placeholder="No Handphone" required>
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <input type="file" class="form-control" name="team_members[0][foto]"
+                                               accept="image/*" required>
+                                        <small class="text-muted">Foto Peserta (JPG, PNG. Max 2MB)</small>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         
                         <button type="button" class="btn btn-outline-primary btn-sm" onclick="addTeamMember()">
-                            <i class="bi bi-plus me-2"></i>Tambah Anggota
+                            <i class="bi bi-plus me-2"></i>Tambah Anggota (1/5)
                         </button>
                     @endif
                     
@@ -576,35 +593,97 @@ let teamMemberIndex = 1;
 
 function addTeamMember() {
     const container = document.getElementById('team-members');
+    const currentMembers = container.querySelectorAll('.team-member').length;
+
+    // Batasi maksimal 5 anggota
+    if (currentMembers >= 5) {
+        alert('Maksimal 5 anggota tim');
+        return;
+    }
+
     const memberHtml = `
-        <div class="team-member mb-3">
+        <div class="team-member mb-4 border rounded p-3">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="text-primary mb-0">Peserta ${teamMemberIndex + 1}</h6>
+                <button type="button" class="btn btn-outline-danger btn-sm" onclick="removeTeamMember(this)">
+                    <i class="bi bi-trash"></i> Hapus
+                </button>
+            </div>
             <div class="row">
-                <div class="col-md-4">
-                    <input type="text" class="form-control" name="team_members[${teamMemberIndex}][name]" 
+                <div class="col-md-6 mb-2">
+                    <input type="text" class="form-control" name="team_members[${teamMemberIndex}][name]"
                            placeholder="Nama Lengkap" required>
                 </div>
-                <div class="col-md-4">
-                    <input type="text" class="form-control" name="team_members[${teamMemberIndex}][student_id]" 
-                           placeholder="NIM/ID (Opsional)">
+                <div class="col-md-6 mb-2">
+                    <input type="email" class="form-control" name="team_members[${teamMemberIndex}][email]"
+                           placeholder="Email" required>
                 </div>
-                <div class="col-md-3">
-                    <input type="text" class="form-control" name="team_members[${teamMemberIndex}][role]" 
-                           placeholder="Peran (Opsional)">
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-2">
+                    <input type="text" class="form-control" name="team_members[${teamMemberIndex}][phone]"
+                           placeholder="No Handphone" required>
                 </div>
-                <div class="col-md-1">
-                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="removeTeamMember(this)">
-                        <i class="bi bi-trash"></i>
-                    </button>
+                <div class="col-md-6 mb-2">
+                    <input type="file" class="form-control" name="team_members[${teamMemberIndex}][foto]"
+                           accept="image/*" required>
+                    <small class="text-muted">Foto Peserta (JPG, PNG. Max 2MB)</small>
                 </div>
             </div>
         </div>
     `;
     container.insertAdjacentHTML('beforeend', memberHtml);
     teamMemberIndex++;
+
+    // Update button text
+    updateAddButtonText();
 }
 
 function removeTeamMember(button) {
+    const container = document.getElementById('team-members');
+    const currentMembers = container.querySelectorAll('.team-member').length;
+
+    // Minimal 1 anggota
+    if (currentMembers <= 1) {
+        alert('Minimal harus ada 1 anggota tim');
+        return;
+    }
+
     button.closest('.team-member').remove();
+
+    // Update nomor peserta
+    updateMemberNumbers();
+    updateAddButtonText();
 }
+
+function updateMemberNumbers() {
+    const members = document.querySelectorAll('.team-member');
+    members.forEach((member, index) => {
+        const title = member.querySelector('h6');
+        if (title) {
+            title.textContent = `Peserta ${index + 1}`;
+        }
+    });
+}
+
+function updateAddButtonText() {
+    const container = document.getElementById('team-members');
+    const currentMembers = container.querySelectorAll('.team-member').length;
+    const addButton = document.querySelector('button[onclick="addTeamMember()"]');
+
+    if (addButton) {
+        if (currentMembers >= 5) {
+            addButton.style.display = 'none';
+        } else {
+            addButton.style.display = 'inline-block';
+            addButton.innerHTML = `<i class="bi bi-plus me-2"></i>Tambah Anggota (${currentMembers}/5)`;
+        }
+    }
+}
+
+// Initialize button text on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updateAddButtonText();
+});
 </script>
 @endpush

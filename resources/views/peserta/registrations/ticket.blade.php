@@ -89,14 +89,26 @@
                     <div class="row">
                         @foreach($registration->team_members as $index => $member)
                         <div class="col-md-6 mb-2">
-                            <div class="team-member-card p-3 bg-light rounded">
-                                <strong>{{ $member['name'] }}</strong>
-                                @if(isset($member['email']))
-                                <br><small class="text-muted">{{ $member['email'] }}</small>
+                            <div class="team-member-card p-3 bg-light rounded d-flex align-items-center">
+                                @if(isset($member['foto']) && $member['foto'])
+                                    <img src="{{ asset('storage/' . $member['foto']) }}"
+                                         class="rounded-circle me-3" alt="Foto {{ $member['name'] }}"
+                                         style="width: 40px; height: 40px; object-fit: cover;">
+                                @else
+                                    <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center me-3"
+                                         style="width: 40px; height: 40px;">
+                                        <i class="bi bi-person-fill text-white"></i>
+                                    </div>
                                 @endif
-                                @if(isset($member['role']))
-                                <br><small class="text-primary">{{ $member['role'] }}</small>
-                                @endif
+                                <div>
+                                    <strong>{{ $member['name'] }}</strong>
+                                    @if(isset($member['email']))
+                                    <br><small class="text-muted">{{ $member['email'] }}</small>
+                                    @endif
+                                    @if(isset($member['phone']))
+                                    <br><small class="text-muted">{{ $member['phone'] }}</small>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                         @endforeach

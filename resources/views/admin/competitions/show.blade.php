@@ -37,7 +37,7 @@
                 <div class="row mb-4">
                     <div class="col-md-6">
                         <h6><i class="bi bi-tag me-2"></i>Kategori</h6>
-                        <p class="text-muted">{{ ucfirst($competition->category) }}</p>
+                        <p class="text-muted">{{ \App\Models\Competition::CATEGORIES[$competition->category] ?? $competition->category }}</p>
                     </div>
                     <div class="col-md-6">
                         <h6><i class="bi bi-flag me-2"></i>Status</h6>

@@ -6,10 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Models\Competition;
 use App\Models\Registration;
 use App\Models\User;
+use App\Services\LeaderboardService;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+    protected $leaderboardService;
+
+    public function __construct(LeaderboardService $leaderboardService)
+    {
+        $this->leaderboardService = $leaderboardService;
+    }
+
     /**
      * Display the home page with all sections
      */
@@ -17,9 +25,16 @@ class HomeController extends Controller
     {
         // Get featured competitions (limit to 6 for homepage)
         $competitions = Competition::where('is_active', true)
+            ->where('show_leaderboard', true)
             ->orderBy('created_at', 'desc')
             ->limit(6)
             ->get();
+
+        // Get leaderboard data for each competition
+        $competitionLeaderboards = [];
+        foreach ($competitions as $competition) {
+            $competitionLeaderboards[$competition->id] = $this->leaderboardService->getTopTeams($competition, 4);
+        }
 
         // Get statistics
         $stats = [
@@ -31,7 +46,7 @@ class HomeController extends Controller
             'total_prizes' => Competition::where('is_active', true)->sum('price'),
         ];
 
-        return view('public.home', compact('competitions', 'stats'));
+        return view('public.home', compact('competitions', 'stats', 'competitionLeaderboards'));
     }
 
     /**

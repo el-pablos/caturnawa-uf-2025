@@ -44,8 +44,8 @@
         <div class="row mb-5">
             <div class="col-12">
                 <h2 class="mb-4">
-                    <i class="bi bi-trophy text-warning"></i> 
-                    Kategori {{ ucfirst($category) }}
+                    <i class="bi bi-trophy text-warning"></i>
+                    {{ \App\Models\Competition::CATEGORIES[$category] ?? ucfirst($category) }}
                 </h2>
             </div>
             @foreach($categoryCompetitions as $competition)

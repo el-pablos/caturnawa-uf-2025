@@ -27,10 +27,9 @@
                 <label class="form-label">Kategori</label>
                 <select name="category" class="form-select">
                     <option value="">Semua Kategori</option>
-                    <option value="technology" {{ request('category') === 'technology' ? 'selected' : '' }}>Technology</option>
-                    <option value="business" {{ request('category') === 'business' ? 'selected' : '' }}>Business</option>
-                    <option value="creative" {{ request('category') === 'creative' ? 'selected' : '' }}>Creative</option>
-                    <option value="academic" {{ request('category') === 'academic' ? 'selected' : '' }}>Academic</option>
+                    <option value="event_dcc" {{ request('category') === 'event_dcc' ? 'selected' : '' }}>Event DCC</option>
+                    <option value="event_debate" {{ request('category') === 'event_debate' ? 'selected' : '' }}>Event Debate</option>
+                    <option value="event_scientific_paper" {{ request('category') === 'event_scientific_paper' ? 'selected' : '' }}>Event Scientific Paper</option>
                 </select>
             </div>
             <div class="col-md-4">

@@ -54,6 +54,13 @@ Route::middleware('maintenance')->group(function () {
     Route::get('/leaderboard/data/{competition}', [App\Http\Controllers\Public\LeaderboardController::class, 'getLeaderboardData'])->name('leaderboard.data');
 });
 
+// Competition Rounds (matalomba) - following the structure from predecessor website
+Route::middleware('maintenance')->prefix('matalomba')->name('matalomba.')->group(function () {
+    Route::get('/{competition:slug}', [App\Http\Controllers\Public\CompetitionRoundController::class, 'show'])->name('show');
+    Route::get('/{competition:slug}/{roundType}', [App\Http\Controllers\Public\CompetitionRoundController::class, 'showRound'])->name('round');
+    Route::get('/{competition:slug}/{roundType}/{matchName}', [App\Http\Controllers\Public\CompetitionRoundController::class, 'showMatch'])->name('match');
+});
+
 // Route alias for backward compatibility
 Route::get('/home-alias', [App\Http\Controllers\Public\PublicController::class, 'home'])->name('home');
 
@@ -231,11 +238,7 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             Route::get('/revenue-trend', [App\Http\Controllers\Admin\ReportController::class, 'getRevenueTrend'])->name('revenue-trend');
         });
 
-        // Settings
-        Route::prefix('settings')->name('settings.')->group(function () {
-            Route::get('/', [App\Http\Controllers\Admin\SettingController::class, 'index'])->name('index');
-            Route::put('/', [App\Http\Controllers\Admin\SettingController::class, 'update'])->name('update');
-        });
+
 
         // Finance Management
         Route::prefix('finance')->name('finance.')->group(function () {
@@ -271,6 +274,11 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             Route::put('/score/{score}', [App\Http\Controllers\Juri\ScoringController::class, 'update'])->name('update');
             Route::post('/score/{score}/submit', [App\Http\Controllers\Juri\ScoringController::class, 'submit'])->name('submit');
             Route::post('/finalize/{competition}', [App\Http\Controllers\Juri\ScoringController::class, 'finalize'])->name('finalize');
+
+            // Round-based scoring
+            Route::get('/rounds', [App\Http\Controllers\Juri\ScoringController::class, 'rounds'])->name('rounds');
+            Route::get('/match/{match}', [App\Http\Controllers\Juri\ScoringController::class, 'scoreMatch'])->name('match');
+            Route::post('/match/{match}', [App\Http\Controllers\Juri\ScoringController::class, 'storeMatchScore'])->name('match.store');
         });
         
         // Submissions Review

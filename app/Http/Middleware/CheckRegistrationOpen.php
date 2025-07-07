@@ -17,7 +17,7 @@ class CheckRegistrationOpen
     public function handle(Request $request, Closure $next): Response
     {
         // Skip untuk admin dan superadmin
-        if (auth()->check() && (auth()->user()->hasRole('Admin') || auth()->user()->hasRole('Super Admin'))) {
+        if (auth()->check() && (auth()->user()->hasRole('admin') || auth()->user()->hasRole('superadmin'))) {
             return $next($request);
         }
 

@@ -209,7 +209,7 @@
             </div>
         </div>
         
-        @if(!in_array($role->name, ['Super Admin', 'Admin', 'Juri', 'Peserta']))
+        @if(!in_array($role->name, ['superadmin', 'admin', 'juri', 'peserta']))
         <div class="card mt-3">
             <div class="card-header bg-danger text-white">
                 <h6 class="mb-0">

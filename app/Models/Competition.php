@@ -101,12 +101,12 @@ class Competition extends Model
     ];
 
     /**
-     * Konstanta untuk kategori kompetisi
+     * Konstanta untuk kategori kompetisi (sektor event)
      */
     const CATEGORIES = [
-        'biodiversity' => 'Bio-diversity',
-        'health' => 'Health',
-        'technology' => 'Technology',
+        'event_dcc' => 'Event DCC',
+        'event_debate' => 'Event Debate',
+        'event_scientific_paper' => 'Event Scientific Paper',
     ];
 
     /**
@@ -127,6 +127,26 @@ class Competition extends Model
     public function descriptions()
     {
         return $this->hasMany(CompetitionDescription::class);
+    }
+
+    /**
+     * Relasi dengan model CompetitionRound
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function rounds()
+    {
+        return $this->hasMany(CompetitionRound::class);
+    }
+
+    /**
+     * Relasi dengan model CompetitionScoringCriteria
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function scoringCriteria()
+    {
+        return $this->hasMany(CompetitionScoringCriteria::class);
     }
 
     /**

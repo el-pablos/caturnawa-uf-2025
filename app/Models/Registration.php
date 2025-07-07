@@ -27,6 +27,7 @@ class Registration extends Model
         'team_name',
         'team_members',
         'institution',
+        'logo_instansi',
         'phone',
         'gender',
         'education_level',
@@ -144,6 +145,16 @@ class Registration extends Model
     public function submissions()
     {
         return $this->hasMany(Submission::class);
+    }
+
+    /**
+     * Relasi dengan model TeamMatchup (penjadwalan tim dalam pertandingan)
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function teamMatchups()
+    {
+        return $this->hasMany(TeamMatchup::class);
     }
 
     /**

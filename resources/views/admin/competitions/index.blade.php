@@ -74,7 +74,7 @@
                                 </td>
                                 <td>
                                     <span class="unas-badge-primary">
-                                        {{ ucfirst($competition->category) }}
+                                        {{ \App\Models\Competition::CATEGORIES[$competition->category] ?? $competition->category }}
                                     </span>
                                 </td>
                                 <td>

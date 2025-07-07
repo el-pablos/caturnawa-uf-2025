@@ -31,10 +31,10 @@
                     
                     <div class="mb-3">
                         <label for="name" class="form-label">Nama Role <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" 
-                               id="name" name="name" value="{{ old('name', $role->name) }}" 
-                               {{ in_array($role->name, ['Super Admin', 'Admin', 'Juri', 'Peserta']) ? 'readonly' : 'required' }}>
-                        @if(in_array($role->name, ['Super Admin', 'Admin', 'Juri', 'Peserta']))
+                        <input type="text" class="form-control @error('name') is-invalid @enderror"
+                               id="name" name="name" value="{{ old('name', $role->name) }}"
+                               {{ in_array($role->name, ['superadmin', 'admin', 'juri', 'peserta']) ? 'readonly' : 'required' }}>
+                        @if(in_array($role->name, ['superadmin', 'admin', 'juri', 'peserta']))
                             <div class="form-text text-warning">
                                 <i class="bi bi-lock me-1"></i>Nama role sistem tidak dapat diubah
                             </div>
@@ -143,7 +143,7 @@
             </div>
         </div>
         
-        @if(in_array($role->name, ['Super Admin', 'Admin', 'Juri', 'Peserta']))
+        @if(in_array($role->name, ['superadmin', 'admin', 'juri', 'peserta']))
         <div class="card mt-3">
             <div class="card-header bg-warning text-dark">
                 <h6 class="mb-0">

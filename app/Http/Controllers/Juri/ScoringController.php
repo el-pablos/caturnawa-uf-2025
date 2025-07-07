@@ -7,6 +7,9 @@ use App\Models\Competition;
 use App\Models\Registration;
 use App\Models\Score;
 use App\Models\Submission;
+use App\Models\CompetitionRound;
+use App\Models\RoundMatch;
+use App\Models\TeamMatchup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -288,5 +291,136 @@ class ScoringController extends Controller
 
         return redirect()->route('juri.scoring.competition', $score->competition)
             ->with('success', 'Penilaian berhasil disubmit sebagai final.');
+    }
+
+    /**
+     * Tampilkan daftar babak kompetisi untuk penilaian
+     */
+    public function rounds()
+    {
+        $jury = Auth::user();
+
+        // Get competitions with rounds where this jury is assigned
+        $competitions = Competition::active()
+            ->whereHas('rounds.matches.teamMatchups', function($query) use ($jury) {
+                $query->where('jury_id', $jury->id);
+            })
+            ->with(['rounds' => function($query) use ($jury) {
+                $query->whereHas('matches.teamMatchups', function($subQuery) use ($jury) {
+                    $subQuery->where('jury_id', $jury->id);
+                });
+            }])
+            ->get();
+
+        return view('juri.scoring.rounds', compact('competitions'));
+    }
+
+    /**
+     * Tampilkan form penilaian untuk pertandingan tertentu
+     */
+    public function scoreMatch(RoundMatch $match)
+    {
+        $jury = Auth::user();
+
+        // Check if jury is assigned to this match
+        $assignedMatchups = $match->teamMatchups()->where('jury_id', $jury->id)->get();
+        if ($assignedMatchups->isEmpty()) {
+            abort(403, 'Anda tidak memiliki akses untuk menilai pertandingan ini.');
+        }
+
+        $competition = $match->competitionRound->competition;
+        $scoringCriteria = $competition->scoringCriteria()->active()->ordered()->get();
+
+        return view('juri.scoring.match', compact('match', 'assignedMatchups', 'scoringCriteria', 'competition'));
+    }
+
+    /**
+     * Simpan penilaian untuk pertandingan
+     */
+    public function storeMatchScore(Request $request, RoundMatch $match)
+    {
+        $jury = Auth::user();
+
+        // Validate that jury is assigned to this match
+        $assignedMatchups = $match->teamMatchups()->where('jury_id', $jury->id)->pluck('id')->toArray();
+        if (empty($assignedMatchups)) {
+            abort(403, 'Anda tidak memiliki akses untuk menilai pertandingan ini.');
+        }
+
+        $competition = $match->competitionRound->competition;
+        $scoringCriteria = $competition->scoringCriteria()->active()->get();
+
+        // Validate scores for each team matchup
+        $rules = [];
+        foreach ($assignedMatchups as $matchupId) {
+            foreach ($scoringCriteria as $criteria) {
+                $rules["scores.{$matchupId}.{$criteria->id}"] = "required|numeric|min:0|max:{$criteria->max_score}";
+            }
+        }
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        // Save scores for each team matchup
+        foreach ($request->scores as $matchupId => $scores) {
+            if (!in_array($matchupId, $assignedMatchups)) {
+                continue;
+            }
+
+            $matchup = TeamMatchup::find($matchupId);
+            if (!$matchup) {
+                continue;
+            }
+
+            // Calculate individual scores and team score
+            $individualScores = [];
+            $totalScore = 0;
+            $totalWeight = 0;
+
+            foreach ($scores as $criteriaId => $score) {
+                $criteria = $scoringCriteria->find($criteriaId);
+                if ($criteria) {
+                    $individualScores[$criteria->criteria_name] = $score;
+                    $totalScore += $score * $criteria->weight;
+                    $totalWeight += $criteria->weight;
+                }
+            }
+
+            $teamScore = $totalWeight > 0 ? $totalScore / $totalWeight : 0;
+
+            // Update team matchup with scores
+            $matchup->update([
+                'individual_scores' => $individualScores,
+                'team_score' => round($teamScore, 2),
+            ]);
+        }
+
+        // Calculate victory points and rankings for this match
+        $this->calculateVictoryPoints($match);
+
+        return redirect()->route('juri.scoring.rounds')
+            ->with('success', 'Penilaian berhasil disimpan.');
+    }
+
+    /**
+     * Calculate victory points and rankings for a match
+     */
+    private function calculateVictoryPoints(RoundMatch $match)
+    {
+        $matchups = $match->teamMatchups()
+            ->whereNotNull('team_score')
+            ->orderBy('team_score', 'desc')
+            ->get();
+
+        $victoryPointsMap = [3, 2, 1, 0]; // For 4 teams
+
+        foreach ($matchups as $index => $matchup) {
+            $matchup->update([
+                'ranking' => $index + 1,
+                'victory_points' => $victoryPointsMap[$index] ?? 0,
+            ]);
+        }
     }
 }

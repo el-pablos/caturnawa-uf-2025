@@ -189,11 +189,13 @@
                         <div class="mt-4">
                             <div class="card border-0 bg-light">
                                 <div class="card-body p-3">
-                                    <h6 class="card-title mb-2"><i class="fas fa-info-circle me-2 text-info"></i>Demo Accounts</h6>
+                                    <h6 class="card-title mb-2"><i class="fas fa-info-circle me-2 text-info"></i>Akun Demo</h6>
                                     <small class="text-muted">
-                                        <strong>Admin:</strong> admin@unasfest.ac.id / admin123<br>
-                                        <strong>Juri:</strong> juri1@unasfest.ac.id / juri123<br>
-                                        <strong>Peserta:</strong> peserta@unasfest.ac.id / peserta123
+                                        <strong>Super Admin:</strong> superadmin@unasfest.com / password123<br>
+                                        <strong>Admin 1-5:</strong> admin1-5@unasfest.com / password123<br>
+                                        <strong>Juri 1-5:</strong> juri1-5@unasfest.com / password123<br>
+                                        <strong>Peserta 1-5:</strong> peserta1-5@unasfest.com / password123<br>
+                                        <em>Contoh: admin1@unasfest.com, juri2@unasfest.com, peserta3@unasfest.com</em>
                                     </small>
                                 </div>
                             </div>

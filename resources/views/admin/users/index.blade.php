@@ -183,7 +183,7 @@
                                             <button class="btn btn-outline-info" onclick="toggleStatus({{ $user->id }}, {{ $user->is_active ? 'false' : 'true' }})">
                                                 <i class="bi bi-{{ $user->is_active ? 'pause' : 'play' }}"></i>
                                             </button>
-                                            @if(!$user->hasRole('Super Admin') || \App\Models\User::role('Super Admin')->count() > 1)
+                                            @if(!$user->hasRole('superadmin') || \App\Models\User::role('superadmin')->count() > 1)
                                                 <button class="btn btn-outline-danger" onclick="deleteUser({{ $user->id }})">
                                                     <i class="bi bi-trash"></i>
                                                 </button>

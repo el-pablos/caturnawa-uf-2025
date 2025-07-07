@@ -55,10 +55,10 @@ class UserController extends Controller
             'total' => User::count(),
             'active' => User::where('is_active', true)->count(),
             'inactive' => User::where('is_active', false)->count(),
-            'super_admin' => User::role('Super Admin')->count(),
-            'admin' => User::role('Admin')->count(),
-            'juri' => User::role('Juri')->count(),
-            'peserta' => User::role('Peserta')->count(),
+            'super_admin' => User::role('superadmin')->count(),
+            'admin' => User::role('admin')->count(),
+            'juri' => User::role('juri')->count(),
+            'peserta' => User::role('peserta')->count(),
         ];
 
         return view('admin.users.index', compact('users', 'roles', 'stats'));
@@ -245,7 +245,7 @@ class UserController extends Controller
         }
 
         // Prevent deleting super admin if only one exists
-        if ($user->hasRole('Super Admin') && User::role('Super Admin')->count() <= 1) {
+        if ($user->hasRole('superadmin') && User::role('superadmin')->count() <= 1) {
             if (request()->expectsJson()) {
                 return response()->json([
                     'success' => false,

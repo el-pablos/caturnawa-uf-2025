@@ -95,32 +95,57 @@
                                     <td>{{ $registration->team_name }}</td>
                                 </tr>
                                 @endif
+                                @if($registration->logo_instansi)
+                                <tr>
+                                    <td><strong>Logo Instansi:</strong></td>
+                                    <td>
+                                        <img src="{{ asset('storage/' . $registration->logo_instansi) }}"
+                                             class="img-thumbnail" alt="Logo Instansi" style="max-width: 80px;">
+                                    </td>
+                                </tr>
+                                @endif
                             </table>
                         </div>
                     </div>
 
-                    @if($registration->teamMembers->count() > 0)
+                    @if($registration->team_members && count($registration->team_members) > 0)
                         <hr>
-                        <h6 class="text-muted">Team Members</h6>
-                        <div class="table-responsive">
-                            <table class="table table-sm">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($registration->teamMembers as $member)
-                                        <tr>
-                                            <td>{{ $member->name }}</td>
-                                            <td>{{ $member->email }}</td>
-                                            <td>{{ $member->phone }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                        <h6 class="text-muted">Anggota Tim</h6>
+                        <div class="row">
+                            @foreach($registration->team_members as $index => $member)
+                            <div class="col-md-6 mb-3">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-start">
+                                            <div class="me-3">
+                                                @if(isset($member['foto']) && $member['foto'])
+                                                    <img src="{{ asset('storage/' . $member['foto']) }}"
+                                                         class="rounded-circle" alt="Foto {{ $member['name'] }}"
+                                                         style="width: 50px; height: 50px; object-fit: cover;">
+                                                @else
+                                                    <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center"
+                                                         style="width: 50px; height: 50px;">
+                                                        <i class="fas fa-user text-white"></i>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <h6 class="mb-1">Peserta {{ $index + 1 }}</h6>
+                                                <p class="mb-0 small">
+                                                    <strong>{{ $member['name'] }}</strong><br>
+                                                    @if(isset($member['email']))
+                                                    <span class="text-muted">{{ $member['email'] }}</span><br>
+                                                    @endif
+                                                    @if(isset($member['phone']))
+                                                    <span class="text-muted">{{ $member['phone'] }}</span>
+                                                    @endif
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
                         </div>
                     @endif
                 </div>
