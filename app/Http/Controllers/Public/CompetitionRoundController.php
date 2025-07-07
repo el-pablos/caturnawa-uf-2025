@@ -17,6 +17,22 @@ use Illuminate\Http\Request;
 class CompetitionRoundController extends Controller
 {
     /**
+     * Tampilkan daftar semua kompetisi dengan babak
+     * Route: /matalomba
+     */
+    public function index()
+    {
+        $competitions = Competition::active()
+            ->with(['rounds' => function($query) {
+                $query->orderBy('round_type');
+            }])
+            ->orderBy('name')
+            ->get();
+
+        return view('public.competition-rounds.index', compact('competitions'));
+    }
+
+    /**
      * Tampilkan halaman utama kompetisi dengan daftar babak
      * Route: /matalomba/{competition}
      */

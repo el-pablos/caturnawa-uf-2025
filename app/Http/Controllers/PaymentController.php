@@ -20,9 +20,15 @@ class PaymentController extends Controller
 {
     protected $midtransService;
 
-    public function __construct(MidtransService $midtransService)
+    public function __construct()
     {
-        $this->midtransService = $midtransService;
+        // Only initialize MidtransService if configured
+        if (env('MIDTRANS_SERVER_KEY') && env('MIDTRANS_CLIENT_KEY')) {
+            $this->midtransService = app(MidtransService::class);
+        } else {
+            $this->midtransService = null;
+            Log::warning('PaymentController initialized without Midtrans configuration');
+        }
     }
 
     /**
@@ -58,6 +64,14 @@ class PaymentController extends Controller
      */
     public function process(Request $request, Registration $registration)
     {
+        // Check if Midtrans is configured
+        if (!$this->midtransService) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Payment gateway tidak dikonfigurasi. Silakan hubungi administrator.'
+            ], 503);
+        }
+
         // Pastikan registration milik user yang sedang login
         if ($registration->user_id !== Auth::id()) {
             return response()->json([
@@ -131,18 +145,20 @@ class PaymentController extends Controller
         $registration = $payment->registration;
 
         // Force check status dari Midtrans untuk memastikan status terbaru
-        try {
-            $result = $this->midtransService->checkTransactionStatus($payment->order_id);
-            if ($result['success']) {
-                // Convert object to array if needed
-                $data = $result['data'];
-                if (is_object($data)) {
-                    $data = json_decode(json_encode($data), true);
+        if ($this->midtransService) {
+            try {
+                $result = $this->midtransService->checkTransactionStatus($payment->order_id);
+                if ($result['success']) {
+                    // Convert object to array if needed
+                    $data = $result['data'];
+                    if (is_object($data)) {
+                        $data = json_decode(json_encode($data), true);
+                    }
+                    $payment->updateFromMidtrans($data);
                 }
-                $payment->updateFromMidtrans($data);
+            } catch (\Exception $e) {
+                Log::error('Error checking payment status on finish: ' . $e->getMessage());
             }
-        } catch (\Exception $e) {
-            Log::error('Error checking payment status on finish: ' . $e->getMessage());
         }
 
         return view('payment.finish', compact('payment', 'registration'));
@@ -182,13 +198,19 @@ class PaymentController extends Controller
      */
     public function notification(Request $request)
     {
+        // Check if Midtrans is configured
+        if (!$this->midtransService) {
+            Log::warning('Midtrans notification received but service not configured');
+            return response()->json(['status' => 'error', 'message' => 'Service not configured'], 503);
+        }
+
         try {
             $notification = $request->all();
-            
+
             Log::info('Midtrans notification received', $notification);
-            
+
             $result = $this->midtransService->handleNotification($notification);
-            
+
             if ($result['success']) {
                 return response()->json(['status' => 'ok']);
             } else {
@@ -209,8 +231,16 @@ class PaymentController extends Controller
      */
     public function checkStatus(Request $request)
     {
+        // Check if Midtrans is configured
+        if (!$this->midtransService) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Payment gateway tidak dikonfigurasi.'
+            ], 503);
+        }
+
         $orderId = $request->input('order_id');
-        
+
         if (!$orderId) {
             return response()->json([
                 'success' => false,

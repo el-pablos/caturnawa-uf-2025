@@ -27,6 +27,17 @@ class MidtransService
     }
 
     /**
+     * Check if Midtrans is properly configured
+     */
+    public function isConfigured(): bool
+    {
+        $serverKey = env('MIDTRANS_SERVER_KEY', '');
+        $clientKey = env('MIDTRANS_CLIENT_KEY', '');
+
+        return !empty($serverKey) && !empty($clientKey);
+    }
+
+    /**
      * Buat transaksi pembayaran baru
      *
      * @param \App\Models\Registration $registration
@@ -35,6 +46,15 @@ class MidtransService
      */
     public function createTransaction(Registration $registration, $paymentMethod = null)
     {
+        // Check if Midtrans is properly configured
+        if (!$this->isConfigured()) {
+            Log::error('Midtrans not configured - cannot create transaction');
+            return [
+                'success' => false,
+                'message' => 'Payment gateway tidak dikonfigurasi. Silakan hubungi administrator.',
+            ];
+        }
+
         // Buat atau update payment record
         $payment = Payment::firstOrCreate(
             ['registration_id' => $registration->id],
@@ -51,7 +71,7 @@ class MidtransService
         try {
             // Dapatkan Snap Token dari Midtrans
             $snapToken = Snap::getSnapToken($params);
-            
+
             // Update payment record dengan snap token
             $payment->update(['snap_token' => $snapToken]);
 
@@ -63,7 +83,7 @@ class MidtransService
             ];
         } catch (\Exception $e) {
             \Log::error('Midtrans Transaction Error: ' . $e->getMessage());
-            
+
             return [
                 'success' => false,
                 'message' => 'Gagal membuat transaksi pembayaran: ' . $e->getMessage(),

@@ -1,39 +1,65 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>403 - Forbidden - {{ config('app.name') }}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <link href="{{ asset('css/unas-theme.css') }}" rel="stylesheet">
-</head>
-<body>
-<div class="container-fluid vh-100 d-flex align-items-center justify-content-center" style="background: #f8fafc;">
-    <div class="row justify-content-center">
-        <div class="col-lg-6">
-            <div class="card shadow-lg border-0">
-                <div class="card-body text-center p-5">
-                    <div class="error-icon mb-4">
-                        <i class="bi bi-shield-exclamation text-danger" style="font-size: 5rem;"></i>
-                    </div>
-                    <h1 class="display-4 fw-bold text-danger mb-3">403</h1>
-                    <h3 class="mb-3">Access Forbidden</h3>
-                    <p class="text-muted mb-4">You don't have permission to access this resource</p>
-                    <div class="d-flex gap-3 justify-content-center">
-                        <a href="{{ route('dashboard') }}" class="btn btn-primary">
-                            <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
-                        </a>
-                        <a href="{{ route('public.home') }}" class="btn btn-outline-secondary">
-                            <i class="bi bi-house me-2"></i>Go Home
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+@extends('layouts.error')
+
+@section('title', '403 - Akses Ditolak')
+
+@section('content')
+<div class="error-header">
+    <div class="error-icon">
+        <i class="bi bi-shield-exclamation"></i>
+    </div>
+    <h1 class="error-code">403</h1>
+    <h2 class="error-title">Akses Ditolak</h2>
+</div>
+
+<div class="error-body">
+    <p class="error-description">
+        Maaf, Anda tidak memiliki izin untuk mengakses halaman ini. Silakan hubungi administrator jika Anda yakin ini adalah kesalahan.
+    </p>
+
+    <div class="error-actions">
+        @auth
+            @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('superadmin'))
+                <a href="{{ route('admin.dashboard') }}" class="btn-error-primary">
+                    <i class="bi bi-speedometer2 me-2"></i>Dashboard Admin
+                </a>
+            @elseif(auth()->user()->hasRole('juri'))
+                <a href="{{ route('juri.dashboard') }}" class="btn-error-primary">
+                    <i class="bi bi-clipboard-check me-2"></i>Dashboard Juri
+                </a>
+            @elseif(auth()->user()->hasRole('peserta'))
+                <a href="{{ route('peserta.dashboard') }}" class="btn-error-primary">
+                    <i class="bi bi-person-circle me-2"></i>Dashboard Peserta
+                </a>
+            @else
+                <a href="{{ route('public.home') }}" class="btn-error-primary">
+                    <i class="bi bi-house me-2"></i>Beranda
+                </a>
+            @endif
+
+            <a href="{{ route('logout') }}" class="btn-error-secondary"
+               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <i class="bi bi-box-arrow-right me-2"></i>Logout
+            </a>
+
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
+        @else
+            <a href="{{ route('login') }}" class="btn-error-primary">
+                <i class="bi bi-box-arrow-in-right me-2"></i>Login
+            </a>
+
+            <a href="{{ route('public.home') }}" class="btn-error-secondary">
+                <i class="bi bi-house me-2"></i>Beranda
+            </a>
+        @endauth
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+<div class="error-footer">
+    <small>
+        <i class="bi bi-info-circle me-1"></i>
+        Jika Anda merasa ini adalah kesalahan, silakan hubungi administrator sistem.
+    </small>
+</div>
+@endsection

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Peserta;
 use App\Http\Controllers\Controller;
 use App\Models\Competition;
 use App\Models\Registration;
+use App\Services\RegistrationValidationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -16,9 +17,16 @@ use Illuminate\Support\Facades\Validator;
  */
 class CompetitionController extends Controller
 {
+    protected $registrationValidationService;
+
+    public function __construct(RegistrationValidationService $registrationValidationService)
+    {
+        $this->registrationValidationService = $registrationValidationService;
+    }
+
     /**
      * Tampilkan daftar kompetisi yang tersedia
-     * 
+     *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\View\View
      */
@@ -78,18 +86,22 @@ class CompetitionController extends Controller
         $existingRegistration = $competition->registrations()
             ->where('user_id', $user->id)
             ->first();
-        
+
+        // Cek apakah user sudah terdaftar di kompetisi lain (auto lock)
+        $userRegistrations = $this->registrationValidationService->getUserRegistrations($user);
+        $canRegister = $this->registrationValidationService->canUserRegisterForAnyCompetition($user);
+
         // Statistik kompetisi
         $stats = [
             'participants_count' => $competition->getRegisteredParticipantsCount(),
-            'slots_remaining' => $competition->max_participants 
+            'slots_remaining' => $competition->max_participants
                 ? $competition->max_participants - $competition->getRegisteredParticipantsCount()
                 : null,
             'days_left' => now()->diffInDays($competition->registration_end, false),
             'is_early_bird' => $competition->isEarlyBird(),
         ];
-        
-        return view('peserta.competitions.show', compact('competition', 'existingRegistration', 'stats'));
+
+        return view('peserta.competitions.show', compact('competition', 'existingRegistration', 'stats', 'userRegistrations', 'canRegister'));
     }
 
     /**
@@ -142,6 +154,20 @@ class CompetitionController extends Controller
                 'emergency_phone' => $request->emergency_phone ?: $user->emergency_contact_phone,
                 'special_needs' => $request->special_needs ?: null,
             ]);
+        }
+
+        // Check for registration conflicts (auto lock)
+        $teamMembers = $competition->is_team_competition ? ($request->team_members ?? []) : [];
+        $conflicts = $this->registrationValidationService->checkRegistrationConflicts($user, $competition, $teamMembers);
+
+        if (!empty($conflicts)) {
+            $conflictMessages = $this->registrationValidationService->getConflictMessages($conflicts);
+
+            if (!empty($conflictMessages['errors'])) {
+                return back()->withErrors([
+                    'registration_conflict' => $conflictMessages['errors']
+                ])->withInput();
+            }
         }
 
         // Validasi form

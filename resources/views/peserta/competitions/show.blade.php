@@ -10,14 +10,77 @@
             <i class="bi bi-arrow-left me-2"></i>Kembali
         </a>
         @if(!$existingRegistration && $competition->isRegistrationOpen())
-            <button type="button" class="btn btn-peserta-primary" data-bs-toggle="modal" data-bs-target="#registerModal">
-                <i class="bi bi-plus-circle me-2"></i>Daftar Sekarang
-            </button>
+            @if($canRegister)
+                <button type="button" class="btn btn-peserta-primary" data-bs-toggle="modal" data-bs-target="#registerModal">
+                    <i class="bi bi-plus-circle me-2"></i>Daftar Sekarang
+                </button>
+            @else
+                <button type="button" class="btn btn-secondary" disabled title="Anda sudah terdaftar di kompetisi lain">
+                    <i class="bi bi-lock-fill me-2"></i>Tidak Dapat Mendaftar
+                </button>
+            @endif
         @endif
     </div>
 @endsection
 
 @section('content')
+<!-- Alert Messages -->
+@if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+@endif
+
+@if(session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle me-2"></i>{{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+@endif
+
+@if($errors->has('registration_conflict'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-lock-fill me-2"></i><strong>Registrasi Ditolak - Auto Lock Aktif</strong>
+        <hr>
+        @foreach($errors->get('registration_conflict') as $conflictErrors)
+            @if(is_array($conflictErrors))
+                @foreach($conflictErrors as $error)
+                    <div class="mb-1">• {{ $error }}</div>
+                @endforeach
+            @else
+                <div class="mb-1">• {{ $conflictErrors }}</div>
+            @endif
+        @endforeach
+        <hr>
+        <small class="text-muted">
+            <i class="bi bi-info-circle me-1"></i>
+            Sistem auto lock mencegah peserta mendaftar di multiple kompetisi untuk menjaga fairness.
+        </small>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+@endif
+
+<!-- Auto Lock Warning -->
+@if(!$canRegister && !$existingRegistration)
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i><strong>Tidak Dapat Mendaftar</strong>
+        <hr>
+        <p class="mb-2">Anda sudah terdaftar di kompetisi lain. Sistem auto lock mencegah pendaftaran multiple kompetisi.</p>
+        <strong>Kompetisi yang sudah diikuti:</strong>
+        <ul class="mb-2">
+            @foreach($userRegistrations as $registration)
+                <li>{{ $registration->competition->name }} (Status: {{ ucfirst($registration->status) }})</li>
+            @endforeach
+        </ul>
+        <small class="text-muted">
+            <i class="bi bi-info-circle me-1"></i>
+            Untuk menjaga fairness, setiap peserta hanya boleh mengikuti satu kompetisi.
+        </small>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+@endif
+
 <div class="row">
     <!-- Competition Details -->
     <div class="col-lg-8">

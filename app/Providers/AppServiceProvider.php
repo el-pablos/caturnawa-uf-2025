@@ -30,8 +30,9 @@ class AppServiceProvider extends ServiceProvider
             $this->validateProductionEnvironment();
         }
 
-        // Share visitor statistics with all views
+        // Share visitor statistics and global config with all views
         view()->composer('*', function ($view) {
+            // Visitor statistics
             if (class_exists(\App\Models\VisitorStatistic::class)) {
                 try {
                     $visitorStats = \App\Models\VisitorStatistic::getFooterStats();
@@ -45,6 +46,13 @@ class AppServiceProvider extends ServiceProvider
                     ]);
                 }
             }
+
+            // Global configuration
+            $view->with('globalConfig', [
+                'midtrans_configured' => \App\Helpers\MidtransHelper::isConfigured(),
+                'midtrans_client_key' => \App\Helpers\MidtransHelper::getClientKey(),
+                'midtrans_production' => \App\Helpers\MidtransHelper::isProduction(),
+            ]);
         });
     }
 
@@ -58,22 +66,32 @@ class AppServiceProvider extends ServiceProvider
             throw new \Exception('Debug mode must be disabled in production!');
         }
 
-        // Check required environment variables
-        $requiredEnvVars = [
+        // Check critical environment variables
+        $criticalEnvVars = [
             'DB_PASSWORD',
+        ];
+
+        foreach ($criticalEnvVars as $envVar) {
+            if (empty(env($envVar))) {
+                throw new \Exception("Critical environment variable {$envVar} is not set!");
+            }
+        }
+
+        // Check optional but important environment variables
+        $optionalEnvVars = [
             'MIDTRANS_SERVER_KEY',
             'MIDTRANS_CLIENT_KEY',
         ];
 
-        foreach ($requiredEnvVars as $envVar) {
+        foreach ($optionalEnvVars as $envVar) {
             if (empty(env($envVar))) {
-                throw new \Exception("Required environment variable {$envVar} is not set!");
+                \Log::warning("Optional environment variable {$envVar} is not set. Some features may not work properly.");
             }
         }
 
         // Check Midtrans production mode
-        if (!env('MIDTRANS_IS_PRODUCTION', false)) {
-            \Log::warning('Midtrans is not in production mode!');
+        if (env('MIDTRANS_SERVER_KEY') && !env('MIDTRANS_IS_PRODUCTION', false)) {
+            \Log::warning('Midtrans is configured but not in production mode!');
         }
     }
 }

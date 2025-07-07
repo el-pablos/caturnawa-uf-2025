@@ -56,6 +56,7 @@ Route::middleware('maintenance')->group(function () {
 
 // Competition Rounds (matalomba) - following the structure from predecessor website
 Route::middleware('maintenance')->prefix('matalomba')->name('matalomba.')->group(function () {
+    Route::get('/', [App\Http\Controllers\Public\CompetitionRoundController::class, 'index'])->name('index');
     Route::get('/{competition:slug}', [App\Http\Controllers\Public\CompetitionRoundController::class, 'show'])->name('show');
     Route::get('/{competition:slug}/{roundType}', [App\Http\Controllers\Public\CompetitionRoundController::class, 'showRound'])->name('round');
     Route::get('/{competition:slug}/{roundType}/{matchName}', [App\Http\Controllers\Public\CompetitionRoundController::class, 'showMatch'])->name('match');

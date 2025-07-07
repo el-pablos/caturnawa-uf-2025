@@ -1,22 +1,47 @@
-@extends('layouts.app')
+@extends('layouts.error')
 
 @section('title', 'Website Sedang Maintenance')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-lg">
-                <div class="card-body text-center p-5">
-                    <div class="mb-4">
-                        <i class="fas fa-tools text-warning" style="font-size: 4rem;"></i>
-                    </div>
-                    
-                    <h1 class="display-4 mb-4">Website Sedang Maintenance</h1>
-                    
-                    <div class="mb-4">
-                        <p class="lead">{{ $message ?? 'Maaf, website sedang dalam masa pemeliharaan. Silakan coba lagi nanti.' }}</p>
-                    </div>
+<div class="error-header">
+    <div class="error-icon">
+        <i class="bi bi-tools"></i>
+    </div>
+    <h1 class="error-code">503</h1>
+    <h2 class="error-title">Sedang Maintenance</h2>
+</div>
+
+<div class="error-body">
+    <p class="error-description">
+        {{ $message ?? 'Maaf, website sedang dalam masa pemeliharaan untuk meningkatkan kualitas layanan. Silakan coba lagi nanti.' }}
+    </p>
+
+    <div class="error-actions">
+        <a href="javascript:window.location.reload()" class="btn-error-primary">
+            <i class="bi bi-arrow-clockwise me-2"></i>Coba Lagi
+        </a>
+
+        <a href="mailto:admin@unasfest.com" class="btn-error-secondary">
+            <i class="bi bi-envelope me-2"></i>Hubungi Admin
+        </a>
+    </div>
+</div>
+
+<div class="error-footer">
+    <small>
+        <i class="bi bi-info-circle me-1"></i>
+        Estimasi selesai: {{ $retryAfter ?? 'Segera' }}. Terima kasih atas kesabaran Anda.
+    </small>
+</div>
+@endsection
+
+@section('scripts')
+<script>
+    // Auto refresh every 5 minutes
+    setTimeout(function() {
+        window.location.reload();
+    }, 300000);
+</script>
                     
                     <div class="row">
                         <div class="col-md-4">

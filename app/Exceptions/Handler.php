@@ -27,6 +27,18 @@ class Handler extends ExceptionHandler
             if (app()->bound('sentry')) {
                 app('sentry')->captureException($e);
             }
+
+            // Log additional context for debugging
+            \Log::error('Exception occurred', [
+                'exception' => get_class($e),
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'url' => request()->fullUrl(),
+                'user_id' => auth()->id(),
+                'ip' => request()->ip(),
+                'user_agent' => request()->userAgent(),
+            ]);
         });
     }
 
@@ -40,13 +52,53 @@ class Handler extends ExceptionHandler
             return $this->handleApiException($request, $exception);
         }
 
-        // Handle specific exceptions
+        // Handle specific exceptions with custom error pages
         if ($exception instanceof \Illuminate\Auth\Access\AuthorizationException) {
-            return response()->view('errors.403', [], 403);
+            return response()->view('errors.403', [
+                'exception' => $exception,
+                'request' => $request
+            ], 403);
         }
 
         if ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
-            return response()->view('errors.404', [], 404);
+            return response()->view('errors.404', [
+                'exception' => $exception,
+                'request' => $request
+            ], 404);
+        }
+
+        if ($exception instanceof \Illuminate\Session\TokenMismatchException) {
+            return response()->view('errors.419', [
+                'exception' => $exception,
+                'request' => $request
+            ], 419);
+        }
+
+        if ($exception instanceof \Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException) {
+            return response()->view('errors.429', [
+                'exception' => $exception,
+                'request' => $request
+            ], 429);
+        }
+
+        if ($exception instanceof \Symfony\Component\HttpKernel\Exception\HttpException) {
+            $statusCode = $exception->getStatusCode();
+
+            // Check if we have a custom error page for this status code
+            if (view()->exists("errors.{$statusCode}")) {
+                return response()->view("errors.{$statusCode}", [
+                    'exception' => $exception,
+                    'request' => $request
+                ], $statusCode);
+            }
+        }
+
+        // Handle 500 errors
+        if (app()->environment('production')) {
+            return response()->view('errors.500', [
+                'exception' => $exception,
+                'request' => $request
+            ], 500);
         }
 
         return parent::render($request, $exception);
