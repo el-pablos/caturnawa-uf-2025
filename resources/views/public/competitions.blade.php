@@ -51,16 +51,7 @@
                     <h3 class="card-title mb-0">Statistik Kompetisi</h3>
                 </div>
                 <div class="card-body">
-                    <div class="row text-center">
-                        <div class="col-md-6 mb-3">
-                            <div class="card border-primary">
-                                <div class="card-body">
-                                    <i class="bi bi-people-fill text-primary mb-2" style="font-size: 2rem;"></i>
-                                    <h3 class="text-primary">{{ $stats['total_participants'] ?? '0' }}</h3>
-                                    <p class="text-muted mb-0">Peserta Terdaftar</p>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="row text-center justify-content-center">
                         <div class="col-md-6 mb-3">
                             <div class="card border-success">
                                 <div class="card-body">
@@ -70,7 +61,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
