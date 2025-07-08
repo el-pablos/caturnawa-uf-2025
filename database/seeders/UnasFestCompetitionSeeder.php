@@ -168,7 +168,7 @@ class UnasFestCompetitionSeeder extends Seeder
                 'is_team_competition' => $isPhotography ? true : true,
                 'allow_individual' => $isPhotography ? true : false,
                 'prize_amount' => $isPhotography ? 17500000 : 22500000,
-                'type' => $isPhotography ? 'individual_or_team' : 'team',
+                'type' => $isPhotography ? 'individual' : 'team',
                 'short_description' => $isPhotography
                     ? 'Kompetisi fotografi tingkat nasional untuk menangkap momen dan menciptakan cerita melalui lensa'
                     : 'Kompetisi ' . $competitionData['name'] . ' tingkat nasional',
