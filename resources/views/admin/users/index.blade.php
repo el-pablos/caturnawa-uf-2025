@@ -364,24 +364,59 @@ function toggleStatus(userId, newStatus) {
         'Ubah Status Pengguna',
         `Apakah Anda yakin ingin ${action} pengguna ini?`,
         function() {
+            // Show loading state
+            Swal.fire({
+                title: 'Memproses...',
+                text: 'Sedang mengubah status pengguna',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Get CSRF token with fallback
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content ||
+                             document.querySelector('input[name="_token"]')?.value ||
+                             '';
+
+            if (!csrfToken) {
+                showError('CSRF token tidak ditemukan. Silakan refresh halaman.');
+                return;
+            }
+
             fetch(`/admin/users/${userId}/toggle-status`, {
                 method: 'PATCH',
                 headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'X-CSRF-TOKEN': csrfToken,
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                 },
             })
-            .then(response => response.json())
+            .then(response => {
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                return response.json();
+            })
             .then(data => {
+                console.log('Response data:', data);
+
                 if (data.success) {
                     showSuccess(`Pengguna berhasil ${action === 'mengaktifkan' ? 'diaktifkan' : 'dinonaktifkan'}`);
-                    location.reload();
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1500);
                 } else {
-                    showError(data.message || 'Terjadi kesalahan');
+                    showError(data.message || 'Terjadi kesalahan dalam mengubah status pengguna');
                 }
             })
             .catch(error => {
-                showError('Terjadi kesalahan sistem');
+                console.error('Toggle status error:', error);
+                showError(`Terjadi kesalahan sistem: ${error.message}`);
             });
         }
     );

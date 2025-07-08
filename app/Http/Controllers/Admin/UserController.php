@@ -285,37 +285,73 @@ class UserController extends Controller
      */
     public function toggleStatus(User $user)
     {
+        // Log the request for debugging
+        \Log::info('User toggle status request', [
+            'user_id' => $user->id,
+            'current_status' => $user->is_active,
+            'auth_user' => auth()->id(),
+            'expects_json' => request()->expectsJson(),
+            'request_headers' => request()->headers->all()
+        ]);
+
         // Prevent deactivating current user
         if ($user->id === auth()->id()) {
+            \Log::warning('Attempt to deactivate own account', ['user_id' => $user->id]);
+
             if (request()->expectsJson()) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Tidak dapat menonaktifkan akun sendiri.'
-                ]);
+                ], 400);
             }
             return back()->with('error', 'Tidak dapat menonaktifkan akun sendiri.');
         }
 
         try {
+            $originalStatus = $user->is_active;
             $user->update(['is_active' => !$user->is_active]);
+            $newStatus = $user->fresh()->is_active;
 
-            $status = $user->is_active ? 'diaktifkan' : 'dinonaktifkan';
+            $status = $newStatus ? 'diaktifkan' : 'dinonaktifkan';
+
+            \Log::info('User status toggled successfully', [
+                'user_id' => $user->id,
+                'original_status' => $originalStatus,
+                'new_status' => $newStatus,
+                'message' => "Pengguna berhasil {$status}"
+            ]);
 
             if (request()->expectsJson()) {
                 return response()->json([
                     'success' => true,
                     'message' => "Pengguna berhasil {$status}.",
-                    'user' => $user->fresh()
+                    'user' => $user->fresh(),
+                    'debug' => [
+                        'original_status' => $originalStatus,
+                        'new_status' => $newStatus,
+                        'timestamp' => now()->toISOString()
+                    ]
                 ]);
             }
 
             return back()->with('success', "Pengguna berhasil {$status}.");
         } catch (\Exception $e) {
+            \Log::error('Failed to toggle user status', [
+                'user_id' => $user->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
             if (request()->expectsJson()) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Gagal mengubah status pengguna: ' . $e->getMessage()
-                ]);
+                    'message' => 'Gagal mengubah status pengguna: ' . $e->getMessage(),
+                    'debug' => [
+                        'error_type' => get_class($e),
+                        'error_file' => $e->getFile(),
+                        'error_line' => $e->getLine()
+                    ]
+                ], 500);
             }
             return back()->with('error', 'Gagal mengubah status pengguna: ' . $e->getMessage());
         }
