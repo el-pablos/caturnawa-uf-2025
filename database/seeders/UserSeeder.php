@@ -15,29 +15,37 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         // Create 1 Super Admin
-        $superAdmin = User::create([
-            'name' => 'Super Administrator',
-            'email' => 'superadmin@unasfest.com',
-            'password' => Hash::make('password123'),
-            'phone' => '081234567890',
-            'institution' => 'UNAS Fest 2025',
-            'is_active' => true,
-            'email_verified_at' => now(),
-        ]);
-        $superAdmin->assignRole('superadmin');
-
-        // Create 5 Admin users
-        for ($i = 1; $i <= 5; $i++) {
-            $admin = User::create([
-                'name' => "Admin User {$i}",
-                'email' => "admin{$i}@unasfest.com",
+        $superAdmin = User::firstOrCreate(
+            ['email' => 'superadmin@unasfest.com'],
+            [
+                'name' => 'Super Administrator',
                 'password' => Hash::make('password123'),
-                'phone' => '0812345678' . sprintf('%02d', $i),
+                'phone' => '081234567890',
                 'institution' => 'UNAS Fest 2025',
                 'is_active' => true,
                 'email_verified_at' => now(),
-            ]);
-            $admin->assignRole('admin');
+            ]
+        );
+        if (!$superAdmin->hasRole('superadmin')) {
+            $superAdmin->assignRole('superadmin');
+        }
+
+        // Create 5 Admin users
+        for ($i = 1; $i <= 5; $i++) {
+            $admin = User::firstOrCreate(
+                ['email' => "admin{$i}@unasfest.com"],
+                [
+                    'name' => "Admin User {$i}",
+                    'password' => Hash::make('password123'),
+                    'phone' => '0812345678' . sprintf('%02d', $i),
+                    'institution' => 'UNAS Fest 2025',
+                    'is_active' => true,
+                    'email_verified_at' => now(),
+                ]
+            );
+            if (!$admin->hasRole('admin')) {
+                $admin->assignRole('admin');
+            }
         }
 
         // Create 5 Juri users
@@ -58,16 +66,20 @@ class UserSeeder extends Seeder
         ];
 
         for ($i = 1; $i <= 5; $i++) {
-            $juri = User::create([
-                'name' => $juriNames[$i-1],
-                'email' => "juri{$i}@unasfest.com",
-                'password' => Hash::make('password123'),
-                'phone' => '0813456789' . sprintf('%02d', $i),
-                'institution' => $juriInstitutions[$i-1],
-                'is_active' => true,
-                'email_verified_at' => now(),
-            ]);
-            $juri->assignRole('juri');
+            $juri = User::firstOrCreate(
+                ['email' => "juri{$i}@unasfest.com"],
+                [
+                    'name' => $juriNames[$i-1],
+                    'password' => Hash::make('password123'),
+                    'phone' => '0813456789' . sprintf('%02d', $i),
+                    'institution' => $juriInstitutions[$i-1],
+                    'is_active' => true,
+                    'email_verified_at' => now(),
+                ]
+            );
+            if (!$juri->hasRole('juri')) {
+                $juri->assignRole('juri');
+            }
         }
 
         // Create 5 Peserta users
@@ -91,26 +103,30 @@ class UserSeeder extends Seeder
         $genders = ['male', 'female', 'male', 'female', 'male'];
 
         for ($i = 1; $i <= 5; $i++) {
-            $peserta = User::create([
-                'name' => $pesertaNames[$i-1],
-                'email' => "peserta{$i}@unasfest.com",
-                'password' => Hash::make('password123'),
-                'phone' => '0814567890' . sprintf('%02d', $i),
-                'institution' => $pesertaInstitutions[$i-1],
-                'gender' => $genders[$i-1],
-                'student_id' => '2024' . sprintf('%04d', $i),
-                'birth_date' => now()->subYears(17)->subDays(rand(1, 365)),
-                'address' => "Jalan Contoh No. {$i}, Jakarta",
-                'city' => 'Jakarta',
-                'province' => 'DKI Jakarta',
-                'postal_code' => '1234' . $i,
-                'emergency_contact_name' => "Orang Tua {$i}",
-                'emergency_contact_phone' => '0815678901' . sprintf('%02d', $i),
-                'emergency_contact_relation' => 'Orang Tua',
-                'is_active' => true,
-                'email_verified_at' => now(),
-            ]);
-            $peserta->assignRole('peserta');
+            $peserta = User::firstOrCreate(
+                ['email' => "peserta{$i}@unasfest.com"],
+                [
+                    'name' => $pesertaNames[$i-1],
+                    'password' => Hash::make('password123'),
+                    'phone' => '0814567890' . sprintf('%02d', $i),
+                    'institution' => $pesertaInstitutions[$i-1],
+                    'gender' => $genders[$i-1],
+                    'student_id' => '2024' . sprintf('%04d', $i),
+                    'birth_date' => now()->subYears(17)->subDays(rand(1, 365)),
+                    'address' => "Jalan Contoh No. {$i}, Jakarta",
+                    'city' => 'Jakarta',
+                    'province' => 'DKI Jakarta',
+                    'postal_code' => '1234' . $i,
+                    'emergency_contact_name' => "Orang Tua {$i}",
+                    'emergency_contact_phone' => '0815678901' . sprintf('%02d', $i),
+                    'emergency_contact_relation' => 'Orang Tua',
+                    'is_active' => true,
+                    'email_verified_at' => now(),
+                ]
+            );
+            if (!$peserta->hasRole('peserta')) {
+                $peserta->assignRole('peserta');
+            }
         }
 
         $this->command->info('Users created successfully!');

@@ -70,17 +70,17 @@ class RolePermissionSeeder extends Seeder
         ];
 
         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
+            Permission::firstOrCreate(['name' => $permission]);
         }
 
         // Create roles and assign permissions
 
         // Super Admin - has all permissions
-        $superAdmin = Role::create(['name' => 'superadmin']);
+        $superAdmin = Role::firstOrCreate(['name' => 'superadmin']);
         $superAdmin->givePermissionTo(Permission::all());
 
         // Admin - has most permissions except user management
-        $admin = Role::create(['name' => 'admin']);
+        $admin = Role::firstOrCreate(['name' => 'admin']);
         $adminPermissions = [
             'view competitions', 'create competitions', 'edit competitions', 'delete competitions',
             'view registrations', 'create registrations', 'edit registrations', 'delete registrations', 'confirm registrations',
@@ -91,26 +91,26 @@ class RolePermissionSeeder extends Seeder
             'view reports', 'export data',
             'view invoices', 'manage finance',
         ];
-        $admin->givePermissionTo($adminPermissions);
+        $admin->syncPermissions($adminPermissions);
 
         // Juri - can only judge and score submissions
-        $juri = Role::create(['name' => 'juri']);
+        $juri = Role::firstOrCreate(['name' => 'juri']);
         $juriPermissions = [
             'view competitions',
             'view registrations',
             'view submissions', 'judge submissions',
             'view scores', 'create scores', 'edit scores',
         ];
-        $juri->givePermissionTo($juriPermissions);
+        $juri->syncPermissions($juriPermissions);
 
         // Peserta - can only manage their own submissions and registrations
-        $peserta = Role::create(['name' => 'peserta']);
+        $peserta = Role::firstOrCreate(['name' => 'peserta']);
         $pesertaPermissions = [
             'view competitions',
             'create registrations', 'view registrations',
             'create submissions', 'view submissions', 'edit submissions',
         ];
-        $peserta->givePermissionTo($pesertaPermissions);
+        $peserta->syncPermissions($pesertaPermissions);
 
         $this->command->info('Roles and permissions created successfully!');
     }

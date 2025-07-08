@@ -31,7 +31,7 @@ class UnasFestCompetitionSeeder extends Seeder
                 ]
             ],
             [
-                'name' => 'SPC (Scientific Paper Competition)',
+                'name' => 'Scientific Paper Competition',
                 'slug' => 'spc',
                 'category' => 'event_scientific_paper',
                 'rounds' => ['penyisihan', 'semifinal', 'final'], // 3 rounds
@@ -78,18 +78,42 @@ class UnasFestCompetitionSeeder extends Seeder
                     ['name' => 'Overall Impact', 'max_score' => 20, 'weight' => 1.0],
                 ]
             ],
+            [
+                'name' => 'Photography Competition',
+                'slug' => 'photography',
+                'category' => 'event_dcc',
+                'rounds' => ['penyisihan', 'semifinal', 'final'], // 3 rounds
+                'scoring_criteria' => [
+                    ['name' => 'Composition & Technique', 'max_score' => 30, 'weight' => 1.0],
+                    ['name' => 'Creativity & Originality', 'max_score' => 25, 'weight' => 1.0],
+                    ['name' => 'Visual Impact', 'max_score' => 25, 'weight' => 1.0],
+                    ['name' => 'Theme Interpretation', 'max_score' => 20, 'weight' => 1.0],
+                ]
+            ],
         ];
 
+        // Clear all existing competitions first
+        \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        Competition::query()->delete();
+        \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
         foreach ($competitions as $competitionData) {
-            // Create or update competition
-            $competition = Competition::updateOrCreate(
-                ['slug' => $competitionData['slug']],
-                [
+            // Set specific settings for photography competition
+            $isPhotography = $competitionData['slug'] === 'photography';
+
+            echo "Creating competition: " . $competitionData['name'] . " (" . $competitionData['slug'] . ")\n";
+
+            // Create new competition
+            $competition = Competition::create([
                 'name' => $competitionData['name'],
                 'slug' => $competitionData['slug'],
-                'description' => 'Kompetisi ' . $competitionData['name'] . ' dalam rangka UNAS Fest 2025',
+                'description' => $isPhotography
+                    ? 'Kompetisi fotografi yang menantang kreativitas dan teknik fotografi peserta dalam menginterpretasikan tema yang diberikan. Peserta dapat berpartisipasi secara individu atau tim untuk menciptakan karya fotografi yang memukau dan bermakna.'
+                    : 'Kompetisi ' . $competitionData['name'] . ' dalam rangka UNAS Fest 2025',
                 'category' => $competitionData['category'],
-                'theme' => 'Innovation and Technology for Sustainable Future',
+                'theme' => $isPhotography
+                    ? 'Capturing Moments, Creating Stories'
+                    : 'Innovation and Technology for Sustainable Future',
                 'price' => 150000,
                 'early_bird_price' => 100000,
                 'early_bird_deadline' => now()->addDays(14),
@@ -103,31 +127,51 @@ class UnasFestCompetitionSeeder extends Seeder
                 'competition_end' => now()->addDays(45),
                 'submission_deadline' => now()->addDays(32),
                 'result_announcement' => now()->addDays(50),
-                'max_participants' => 100,
-                'min_team_members' => 2,
-                'max_team_members' => 5,
-                'requirements' => [
+                'max_participants' => $isPhotography ? 150 : 100,
+                'min_team_members' => $isPhotography ? 1 : 2,
+                'max_team_members' => $isPhotography ? 3 : 5,
+                'requirements' => $isPhotography ? [
+                    'Peserta adalah siswa SMA/SMK atau mahasiswa aktif',
+                    'Dapat berpartisipasi secara individu atau tim (maksimal 3 orang)',
+                    'Foto harus karya asli peserta',
+                    'Tidak diperbolehkan menggunakan foto yang pernah dipublikasikan',
+                    'Format file: JPEG/JPG dengan resolusi minimal 300 DPI'
+                ] : [
                     'Peserta adalah mahasiswa aktif',
                     'Setiap tim terdiri dari 2-5 orang',
                     'Satu institusi boleh mengirim lebih dari satu tim'
                 ],
-                'prizes' => [
+                'prizes' => $isPhotography ? [
+                    'Juara 1: Rp 7.500.000 + Kamera DSLR',
+                    'Juara 2: Rp 5.000.000 + Lensa Kamera',
+                    'Juara 3: Rp 3.000.000 + Tripod Professional',
+                    'Best Composition: Rp 1.000.000',
+                    'People\'s Choice: Rp 1.000.000'
+                ] : [
                     'Juara 1: Rp 10.000.000',
                     'Juara 2: Rp 7.500.000',
                     'Juara 3: Rp 5.000.000'
                 ],
-                'rules' => [
+                'rules' => $isPhotography ? [
+                    'Peserta wajib mengikuti seluruh rangkaian kompetisi',
+                    'Foto yang disubmit harus sesuai dengan tema yang diberikan',
+                    'Dilarang melakukan manipulasi digital yang berlebihan',
+                    'Peserta boleh menggunakan filter dan editing dasar',
+                    'Keputusan juri tidak dapat diganggu gugat'
+                ] : [
                     'Peserta wajib mengikuti seluruh rangkaian kompetisi',
                     'Tidak diperbolehkan mengganti anggota tim setelah registrasi',
                     'Keputusan juri tidak dapat diganggu gugat'
                 ],
                 'is_active' => true,
                 'status' => 'active',
-                'is_team_competition' => true,
-                'allow_individual' => false,
-                'prize_amount' => 22500000,
-                'type' => 'team',
-                'short_description' => 'Kompetisi ' . $competitionData['name'] . ' tingkat nasional',
+                'is_team_competition' => $isPhotography ? true : true,
+                'allow_individual' => $isPhotography ? true : false,
+                'prize_amount' => $isPhotography ? 17500000 : 22500000,
+                'type' => $isPhotography ? 'individual_or_team' : 'team',
+                'short_description' => $isPhotography
+                    ? 'Kompetisi fotografi tingkat nasional untuk menangkap momen dan menciptakan cerita melalui lensa'
+                    : 'Kompetisi ' . $competitionData['name'] . ' tingkat nasional',
                 'contact_person' => 'Panitia UNAS Fest 2025',
                 'contact_email' => 'info@unasfest.com',
                 'contact_phone' => '081234567890',
@@ -136,8 +180,7 @@ class UnasFestCompetitionSeeder extends Seeder
                 'judging_criteria' => $competitionData['scoring_criteria'],
                 'is_featured' => true,
                 'show_leaderboard' => true,
-                ]
-            );
+            ]);
 
             // Delete existing rounds and criteria
             $competition->rounds()->delete();

@@ -19,11 +19,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->command->info('🌱 Starting fresh database seeding...');
+
         $this->call([
             RolePermissionSeeder::class,
             UserSeeder::class,
-            CompetitionSeeder::class,
+            UnasFestCompetitionSeeder::class,  // Main UNAS Fest competitions
+            CompetitionSeeder::class,          // Additional test competitions
             PricingPhaseSeeder::class,
         ]);
+
+        $this->command->info('✅ Database seeding completed successfully!');
+        $this->command->info('🎯 All seeders have been executed in the correct order.');
     }
 }
