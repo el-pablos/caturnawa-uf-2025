@@ -67,15 +67,15 @@ class UnasFestCompetitionSeeder extends Seeder
                 ]
             ],
             [
-                'name' => 'Business Plan Competition',
-                'slug' => 'business-plan',
+                'name' => 'Short Movie Competition',
+                'slug' => 'short-movie',
                 'category' => 'event_dcc',
                 'rounds' => ['penyisihan', 'semifinal', 'final'], // 3 rounds
                 'scoring_criteria' => [
-                    ['name' => 'Business Model', 'max_score' => 30, 'weight' => 1.0],
-                    ['name' => 'Market Analysis', 'max_score' => 25, 'weight' => 1.0],
-                    ['name' => 'Financial Projection', 'max_score' => 25, 'weight' => 1.0],
-                    ['name' => 'Presentation', 'max_score' => 20, 'weight' => 1.0],
+                    ['name' => 'Story & Script', 'max_score' => 30, 'weight' => 1.0],
+                    ['name' => 'Cinematography', 'max_score' => 25, 'weight' => 1.0],
+                    ['name' => 'Editing & Post-Production', 'max_score' => 25, 'weight' => 1.0],
+                    ['name' => 'Overall Impact', 'max_score' => 20, 'weight' => 1.0],
                 ]
             ],
         ];
