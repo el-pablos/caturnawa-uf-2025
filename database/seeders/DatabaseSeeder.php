@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             RolePermissionSeeder::class,
             UserSeeder::class,
             CompetitionSeeder::class,
+            PricingPhaseSeeder::class,
         ]);
     }
 }

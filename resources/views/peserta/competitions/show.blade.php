@@ -361,6 +361,34 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
+                            <label for="participant_category" class="form-label">Kategori Peserta <span class="text-danger">*</span></label>
+                            <select class="form-select" id="participant_category" name="participant_category" required>
+                                <option value="">Pilih Kategori Peserta</option>
+                                @if(isset($participantCategories))
+                                    @foreach($participantCategories as $key => $name)
+                                        <option value="{{ $key }}" {{ old('participant_category') === $key ? 'selected' : '' }}>{{ $name }}</option>
+                                    @endforeach
+                                @else
+                                    <option value="unas_student" {{ old('participant_category') === 'unas_student' ? 'selected' : '' }}>Mahasiswa UNAS</option>
+                                    <option value="external_student" {{ old('participant_category') === 'external_student' ? 'selected' : '' }}>Mahasiswa Eksternal</option>
+                                    <option value="high_school_student" {{ old('participant_category') === 'high_school_student' ? 'selected' : '' }}>Siswa SMA/SMK</option>
+                                @endif
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Harga Pendaftaran</label>
+                            <div class="card border-info">
+                                <div class="card-body p-2">
+                                    <div id="pricing-info">
+                                        <div class="text-muted small">Pilih kategori peserta untuk melihat harga</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
                             <label for="emergency_contact" class="form-label">Kontak Darurat</label>
                             <input type="text" class="form-control" id="emergency_contact" name="emergency_contact" 
                                    value="{{ old('emergency_contact') }}">
@@ -747,6 +775,59 @@ function updateAddButtonText() {
 // Initialize button text on page load
 document.addEventListener('DOMContentLoaded', function() {
     updateAddButtonText();
+
+    // Handle participant category change for dynamic pricing
+    const participantCategorySelect = document.getElementById('participant_category');
+    const pricingInfo = document.getElementById('pricing-info');
+
+    if (participantCategorySelect && pricingInfo) {
+        // Pricing data from server
+        const pricingSummary = @json($pricingSummary ?? []);
+
+        participantCategorySelect.addEventListener('change', function() {
+            const selectedCategory = this.value;
+
+            if (selectedCategory && pricingSummary[selectedCategory]) {
+                const priceData = pricingSummary[selectedCategory];
+                const currentPrice = priceData.current_price;
+                const savings = priceData.savings;
+
+                let html = `
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fw-bold text-primary">Rp ${new Intl.NumberFormat('id-ID').format(currentPrice.amount)}</span>
+                        <small class="text-muted">${currentPrice.phase_name}</small>
+                    </div>
+                `;
+
+                if (savings && savings.savings > 0) {
+                    html += `
+                        <div class="mt-1">
+                            <small class="text-success">
+                                <i class="bi bi-arrow-down"></i>
+                                Hemat Rp ${new Intl.NumberFormat('id-ID').format(savings.savings)}
+                                (${savings.savings_percentage}%)
+                            </small>
+                        </div>
+                    `;
+
+                    if (savings.days_left > 0) {
+                        html += `
+                            <div class="mt-1">
+                                <small class="text-warning">
+                                    <i class="bi bi-clock"></i>
+                                    ${savings.days_left} hari lagi harga naik
+                                </small>
+                            </div>
+                        `;
+                    }
+                }
+
+                pricingInfo.innerHTML = html;
+            } else {
+                pricingInfo.innerHTML = '<div class="text-muted small">Pilih kategori peserta untuk melihat harga</div>';
+            }
+        });
+    }
 });
 </script>
 @endpush
