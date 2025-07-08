@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Competition;
 use App\Models\Registration;
 use App\Services\RegistrationValidationService;
+use App\Services\PricingService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -18,10 +19,12 @@ use Illuminate\Support\Facades\Validator;
 class CompetitionController extends Controller
 {
     protected $registrationValidationService;
+    protected $pricingService;
 
-    public function __construct(RegistrationValidationService $registrationValidationService)
+    public function __construct(RegistrationValidationService $registrationValidationService, PricingService $pricingService)
     {
         $this->registrationValidationService = $registrationValidationService;
+        $this->pricingService = $pricingService;
     }
 
     /**
@@ -91,6 +94,10 @@ class CompetitionController extends Controller
         $userRegistrations = $this->registrationValidationService->getUserRegistrations($user);
         $canRegister = $this->registrationValidationService->canUserRegisterForAnyCompetition($user);
 
+        // Get pricing information
+        $pricingSummary = $this->pricingService->getPricingSummary();
+        $participantCategories = $this->pricingService->getParticipantCategories();
+
         // Statistik kompetisi
         $stats = [
             'participants_count' => $competition->getRegisteredParticipantsCount(),
@@ -98,10 +105,10 @@ class CompetitionController extends Controller
                 ? $competition->max_participants - $competition->getRegisteredParticipantsCount()
                 : null,
             'days_left' => now()->diffInDays($competition->registration_end, false),
-            'is_early_bird' => $competition->isEarlyBird(),
+            'is_early_bird' => $this->pricingService->isEarlyBirdPeriod(),
         ];
 
-        return view('peserta.competitions.show', compact('competition', 'existingRegistration', 'stats', 'userRegistrations', 'canRegister'));
+        return view('peserta.competitions.show', compact('competition', 'existingRegistration', 'stats', 'userRegistrations', 'canRegister', 'pricingSummary', 'participantCategories'));
     }
 
     /**
@@ -176,6 +183,7 @@ class CompetitionController extends Controller
             'institution' => 'nullable|string|max:255',
             'gender' => 'required|in:male,female',
             'education_level' => 'required|string|max:50',
+            'participant_category' => 'required|in:unas_student,external_student,high_school_student',
             'emergency_contact' => 'nullable|string|max:255',
             'emergency_phone' => 'nullable|string|max:20',
             'special_needs' => 'nullable|string|max:500',
@@ -242,6 +250,10 @@ class CompetitionController extends Controller
                 $logoPath = $request->file('logo_instansi')->store('logos', 'public');
             }
 
+            // Calculate price based on participant category
+            $participantCategory = $request->participant_category;
+            $priceData = $this->pricingService->getPriceForCategory($participantCategory);
+
             // Buat registrasi baru
             $registrationData = [
                 'user_id' => $user->id,
@@ -251,10 +263,13 @@ class CompetitionController extends Controller
                 'logo_instansi' => $logoPath,
                 'gender' => $request->gender,
                 'education_level' => $request->education_level,
+                'participant_category' => $participantCategory,
+                'pricing_phase' => $priceData['phase'],
                 'emergency_contact' => $request->emergency_contact,
                 'emergency_phone' => $request->emergency_phone,
                 'special_needs' => $request->special_needs,
-                'amount' => $competition->getCurrentPriceAttribute(),
+                'amount' => $priceData['amount'],
+                'original_price' => $priceData['amount'],
                 'status' => 'pending',
                 'registered_at' => now(),
             ];
