@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\PricingPhase;
 
 /**
  * Model Registration untuk mengelola data pendaftaran kompetisi
@@ -31,10 +32,13 @@ class Registration extends Model
         'phone',
         'gender',
         'education_level',
+        'participant_category',
+        'pricing_phase',
         'emergency_contact',
         'emergency_phone',
         'special_needs',
         'amount',
+        'original_price',
         'status',
         'registered_at',
         'confirmed_at',
@@ -58,6 +62,7 @@ class Registration extends Model
         'cancelled_at' => 'datetime',
         'reopened_at' => 'datetime',
         'amount' => 'decimal:2',
+        'original_price' => 'decimal:2',
     ];
 
     /**
@@ -412,5 +417,117 @@ class Registration extends Model
         // Jika ada registrasi yang dibatalkan, tidak bisa daftar lagi
         // kecuali admin sudah reopen
         return false;
+    }
+
+    /**
+     * Konstanta untuk kategori peserta
+     */
+    const PARTICIPANT_CATEGORIES = [
+        'unas_student' => 'Mahasiswa UNAS',
+        'external_student' => 'Mahasiswa Eksternal',
+        'high_school_student' => 'Siswa SMA/SMK',
+    ];
+
+    /**
+     * Hitung harga berdasarkan kategori peserta dan fase pricing saat ini
+     *
+     * @param string $participantCategory
+     * @return array
+     */
+    public static function calculatePrice($participantCategory)
+    {
+        $currentPhase = PricingPhase::getCurrentPhaseForCategory($participantCategory);
+
+        if (!$currentPhase) {
+            // Fallback ke harga default jika tidak ada fase yang aktif
+            $defaultPrices = [
+                'unas_student' => 150000,
+                'external_student' => 200000,
+                'high_school_student' => 100000,
+            ];
+
+            return [
+                'amount' => $defaultPrices[$participantCategory] ?? 200000,
+                'phase' => 'default',
+                'phase_name' => 'Harga Default',
+                'original_price' => $defaultPrices[$participantCategory] ?? 200000,
+            ];
+        }
+
+        return [
+            'amount' => $currentPhase->amount,
+            'phase' => $currentPhase->phase_name,
+            'phase_name' => $currentPhase->phase_display_name,
+            'original_price' => $currentPhase->amount,
+        ];
+    }
+
+    /**
+     * Set harga berdasarkan kategori peserta
+     *
+     * @param string $participantCategory
+     * @return void
+     */
+    public function setPriceByCategory($participantCategory)
+    {
+        $priceData = self::calculatePrice($participantCategory);
+
+        $this->participant_category = $participantCategory;
+        $this->amount = $priceData['amount'];
+        $this->pricing_phase = $priceData['phase'];
+        $this->original_price = $priceData['original_price'];
+    }
+
+    /**
+     * Accessor untuk nama kategori peserta yang mudah dibaca
+     *
+     * @return string
+     */
+    public function getParticipantCategoryNameAttribute()
+    {
+        return self::PARTICIPANT_CATEGORIES[$this->participant_category] ?? $this->participant_category;
+    }
+
+    /**
+     * Accessor untuk nama fase pricing yang mudah dibaca
+     *
+     * @return string
+     */
+    public function getPricingPhaseNameAttribute()
+    {
+        $phaseNames = [
+            'early_bird' => 'Early Bird',
+            'phase_1' => 'Phase 1',
+            'phase_2' => 'Phase 2',
+            'phase_3' => 'Phase 3',
+            'default' => 'Harga Default',
+        ];
+
+        return $phaseNames[$this->pricing_phase] ?? $this->pricing_phase;
+    }
+
+    /**
+     * Cek apakah mendapat harga early bird atau diskon
+     *
+     * @return bool
+     */
+    public function hasDiscount()
+    {
+        return $this->pricing_phase === 'early_bird' ||
+               ($this->original_price && $this->amount < $this->original_price);
+    }
+
+    /**
+     * Hitung persentase diskon jika ada
+     *
+     * @return float|null
+     */
+    public function getDiscountPercentage()
+    {
+        if (!$this->hasDiscount() || !$this->original_price) {
+            return null;
+        }
+
+        return round((($this->original_price - $this->amount) / $this->original_price) * 100, 1);
     }
 }
