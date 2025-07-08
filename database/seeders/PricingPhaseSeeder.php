@@ -18,6 +18,7 @@ class PricingPhaseSeeder extends Seeder
         PricingPhase::truncate();
 
         // Define pricing structure for 4 phases with 3 participant categories
+        // All prices are in IDR with thousands format (e.g., 100 = Rp 100.000)
         $pricingData = [
             // Early Bird Phase
             [
@@ -25,9 +26,9 @@ class PricingPhaseSeeder extends Seeder
                 'start_date' => now()->subDays(30),
                 'end_date' => now()->addDays(7),
                 'prices' => [
-                    'unas_student' => 100000,
-                    'external_student' => 200000,
-                    'high_school_student' => 50000,
+                    'unas_student' => 100000,      // Rp 100.000
+                    'external_student' => 200000,  // Rp 200.000
+                    'high_school_student' => 50000, // Rp 50.000
                 ]
             ],
             // Phase 1
@@ -36,9 +37,9 @@ class PricingPhaseSeeder extends Seeder
                 'start_date' => now()->addDays(8),
                 'end_date' => now()->addDays(21),
                 'prices' => [
-                    'unas_student' => 250000,
-                    'external_student' => 300000,
-                    'high_school_student' => 100000,
+                    'unas_student' => 250000,      // Rp 250.000
+                    'external_student' => 300000,  // Rp 300.000
+                    'high_school_student' => 100000, // Rp 100.000
                 ]
             ],
             // Phase 2
@@ -47,9 +48,9 @@ class PricingPhaseSeeder extends Seeder
                 'start_date' => now()->addDays(22),
                 'end_date' => now()->addDays(35),
                 'prices' => [
-                    'unas_student' => 300000,
-                    'external_student' => 350000,
-                    'high_school_student' => 125000,
+                    'unas_student' => 300000,      // Rp 300.000
+                    'external_student' => 350000,  // Rp 350.000
+                    'high_school_student' => 125000, // Rp 125.000
                 ]
             ],
             // Phase 3
@@ -58,9 +59,9 @@ class PricingPhaseSeeder extends Seeder
                 'start_date' => now()->addDays(36),
                 'end_date' => now()->addDays(49),
                 'prices' => [
-                    'unas_student' => 250000,
-                    'external_student' => 300000,
-                    'high_school_student' => 100000,
+                    'unas_student' => 250000,      // Rp 250.000
+                    'external_student' => 300000,  // Rp 300.000
+                    'high_school_student' => 100000, // Rp 100.000
                 ]
             ],
         ];

@@ -182,7 +182,6 @@ class CompetitionController extends Controller
             'phone' => 'nullable|string|max:20',
             'institution' => 'nullable|string|max:255',
             'gender' => 'required|in:male,female',
-            'education_level' => 'required|string|max:50',
             'participant_category' => 'required|in:unas_student,external_student,high_school_student',
             'emergency_contact' => 'nullable|string|max:255',
             'emergency_phone' => 'nullable|string|max:20',
@@ -216,7 +215,8 @@ class CompetitionController extends Controller
             'institution.required' => 'Institusi harus diisi',
             'gender.required' => 'Jenis kelamin harus dipilih',
             'gender.in' => 'Jenis kelamin tidak valid',
-            'education_level.required' => 'Tingkat pendidikan harus dipilih',
+            'participant_category.required' => 'Kategori peserta harus dipilih',
+            'participant_category.in' => 'Kategori peserta tidak valid',
             'team_name.required' => 'Nama tim harus diisi',
             'team_members.required' => 'Anggota tim harus diisi',
             'team_members.min' => 'Minimal ' . ($competition->min_team_members ?? 1) . ' anggota tim',
@@ -224,10 +224,10 @@ class CompetitionController extends Controller
             'team_members.*.name.required' => 'Nama anggota tim harus diisi',
         ]);
 
-        // Validasi khusus untuk SMA/SMK - harus menyertakan institusi
+        // Validasi khusus untuk siswa SMA/SMK - harus menyertakan institusi
         $validator->after(function ($validator) use ($request) {
-            if (in_array($request->education_level, ['SMA', 'SMK']) && empty($request->institution)) {
-                $validator->errors()->add('institution', 'Institusi wajib diisi untuk peserta SMA/SMK');
+            if ($request->participant_category === 'high_school_student' && empty($request->institution)) {
+                $validator->errors()->add('institution', 'Institusi wajib diisi untuk siswa SMA/SMK');
             }
         });
 
@@ -262,7 +262,6 @@ class CompetitionController extends Controller
                 'institution' => $request->institution ?: $user->institution,
                 'logo_instansi' => $logoPath,
                 'gender' => $request->gender,
-                'education_level' => $request->education_level,
                 'participant_category' => $participantCategory,
                 'pricing_phase' => $priceData['phase'],
                 'emergency_contact' => $request->emergency_contact,

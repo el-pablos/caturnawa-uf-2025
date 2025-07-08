@@ -439,18 +439,18 @@ class Registration extends Model
         $currentPhase = PricingPhase::getCurrentPhaseForCategory($participantCategory);
 
         if (!$currentPhase) {
-            // Fallback ke harga default jika tidak ada fase yang aktif
-            $defaultPrices = [
-                'unas_student' => 150000,
-                'external_student' => 200000,
-                'high_school_student' => 100000,
+            // Fallback ke harga regular jika tidak ada fase yang aktif
+            $regularPrices = [
+                'unas_student' => 200000,      // Rp 200.000
+                'external_student' => 300000,  // Rp 300.000
+                'high_school_student' => 75000, // Rp 75.000
             ];
 
             return [
-                'amount' => $defaultPrices[$participantCategory] ?? 200000,
-                'phase' => 'default',
-                'phase_name' => 'Harga Default',
-                'original_price' => $defaultPrices[$participantCategory] ?? 200000,
+                'amount' => $regularPrices[$participantCategory] ?? 300000,
+                'phase' => 'regular',
+                'phase_name' => 'Harga Regular',
+                'original_price' => $regularPrices[$participantCategory] ?? 300000,
             ];
         }
 

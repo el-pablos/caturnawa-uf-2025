@@ -52,7 +52,7 @@ class MidtransHelper
     }
 
     /**
-     * Get Midtrans client key for frontend
+     * Get client key for frontend
      *
      * @return string
      */
@@ -62,12 +62,67 @@ class MidtransHelper
     }
 
     /**
-     * Check if Midtrans is in production mode
+     * Get server key for backend
+     *
+     * @return string
+     */
+    public static function getServerKey(): string
+    {
+        return env('MIDTRANS_SERVER_KEY', '');
+    }
+
+    /**
+     * Check if running in production mode
      *
      * @return bool
      */
     public static function isProduction(): bool
     {
         return env('MIDTRANS_IS_PRODUCTION', false);
+    }
+
+    /**
+     * Get appropriate Snap JS URL based on environment
+     *
+     * @return string
+     */
+    public static function getSnapJsUrl(): string
+    {
+        if (self::isProduction()) {
+            return 'https://app.midtrans.com/snap/snap.js';
+        } else {
+            return 'https://app.sandbox.midtrans.com/snap/snap.js';
+        }
+    }
+
+    /**
+     * Get appropriate API base URL based on environment
+     *
+     * @return string
+     */
+    public static function getApiBaseUrl(): string
+    {
+        if (self::isProduction()) {
+            return 'https://api.midtrans.com/v2';
+        } else {
+            return 'https://api.sandbox.midtrans.com/v2';
+        }
+    }
+
+    /**
+     * Get environment-specific configuration array
+     *
+     * @return array
+     */
+    public static function getEnvironmentConfig(): array
+    {
+        return [
+            'is_production' => self::isProduction(),
+            'server_key' => self::getServerKey(),
+            'client_key' => self::getClientKey(),
+            'snap_js_url' => self::getSnapJsUrl(),
+            'api_base_url' => self::getApiBaseUrl(),
+            'environment' => self::isProduction() ? 'production' : 'sandbox',
+        ];
     }
 }

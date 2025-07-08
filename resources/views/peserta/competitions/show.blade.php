@@ -346,21 +346,6 @@
                             </select>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="education_level" class="form-label">Tingkat Pendidikan <span class="text-danger">*</span></label>
-                            <select class="form-select" id="education_level" name="education_level" required>
-                                <option value="">Pilih Tingkat Pendidikan</option>
-                                <option value="SMA" {{ old('education_level') === 'SMA' ? 'selected' : '' }}>SMA</option>
-                                <option value="SMK" {{ old('education_level') === 'SMK' ? 'selected' : '' }}>SMK</option>
-                                <option value="D3" {{ old('education_level') === 'D3' ? 'selected' : '' }}>Diploma 3 (D3)</option>
-                                <option value="S1" {{ old('education_level') === 'S1' ? 'selected' : '' }}>Sarjana (S1)</option>
-                                <option value="S2" {{ old('education_level') === 'S2' ? 'selected' : '' }}>Magister (S2)</option>
-                                <option value="S3" {{ old('education_level') === 'S3' ? 'selected' : '' }}>Doktor (S3)</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
                             <label for="participant_category" class="form-label">Kategori Peserta <span class="text-danger">*</span></label>
                             <select class="form-select" id="participant_category" name="participant_category" required>
                                 <option value="">Pilih Kategori Peserta</option>
@@ -375,6 +360,26 @@
                                 @endif
                             </select>
                         </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label">Informasi Harga Pendaftaran</label>
+                            <div class="card border-info">
+                                <div class="card-body p-3">
+                                    <div id="pricing-info">
+                                        <div class="text-muted text-center">
+                                            <i class="bi bi-info-circle me-2"></i>
+                                            Pilih kategori peserta untuk melihat harga dan informasi fase
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Harga Pendaftaran</label>
                             <div class="card border-info">
@@ -793,33 +798,53 @@ document.addEventListener('DOMContentLoaded', function() {
                 const savings = priceData.savings;
 
                 let html = `
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="fw-bold text-primary">Rp ${new Intl.NumberFormat('id-ID').format(currentPrice.amount)}</span>
-                        <small class="text-muted">${currentPrice.phase_name}</small>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="d-flex align-items-center">
+                                <h5 class="mb-0 text-primary fw-bold">Rp ${new Intl.NumberFormat('id-ID').format(currentPrice.amount)}</h5>
+                                <span class="badge bg-info ms-2">${currentPrice.phase_name}</span>
+                            </div>
+                            <small class="text-muted">Kategori: ${priceData.current_price.category_name}</small>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            ${currentPrice.is_early_bird ? '<span class="badge bg-success"><i class="bi bi-star"></i> Early Bird</span>' : ''}
+                        </div>
                     </div>
                 `;
 
                 if (savings && savings.savings > 0) {
                     html += `
-                        <div class="mt-1">
-                            <small class="text-success">
-                                <i class="bi bi-arrow-down"></i>
-                                Hemat Rp ${new Intl.NumberFormat('id-ID').format(savings.savings)}
-                                (${savings.savings_percentage}%)
-                            </small>
-                        </div>
+                        <div class="mt-2 p-2 bg-light rounded">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-success fw-semibold">
+                                    <i class="bi bi-piggy-bank"></i>
+                                    Hemat Rp ${new Intl.NumberFormat('id-ID').format(savings.savings)}
+                                </small>
+                                <small class="text-success">${savings.savings_percentage}% lebih murah</small>
+                            </div>
                     `;
 
                     if (savings.days_left > 0) {
                         html += `
                             <div class="mt-1">
                                 <small class="text-warning">
-                                    <i class="bi bi-clock"></i>
-                                    ${savings.days_left} hari lagi harga naik
+                                    <i class="bi bi-clock-fill"></i>
+                                    Tersisa ${savings.days_left} hari sebelum harga naik ke Rp ${new Intl.NumberFormat('id-ID').format(savings.next_price)}
                                 </small>
                             </div>
                         `;
                     }
+
+                    html += `</div>`;
+                } else {
+                    html += `
+                        <div class="mt-2">
+                            <small class="text-info">
+                                <i class="bi bi-info-circle"></i>
+                                Harga saat ini untuk ${priceData.current_price.category_name}
+                            </small>
+                        </div>
+                    `;
                 }
 
                 pricingInfo.innerHTML = html;
