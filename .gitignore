@@ -16,6 +16,7 @@ npm-debug.log
 yarn-error.log
 *.sql
 tabulator/
+*.sh
 
 # Claude Desktop App Files
 claude.exe
