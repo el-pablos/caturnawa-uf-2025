@@ -25,9 +25,14 @@ class PaymentController extends Controller
         // Only initialize MidtransService if configured
         if (env('MIDTRANS_SERVER_KEY') && env('MIDTRANS_CLIENT_KEY')) {
             $this->midtransService = app(MidtransService::class);
+            Log::info('PaymentController initialized with Midtrans configuration');
         } else {
             $this->midtransService = null;
-            Log::warning('PaymentController initialized without Midtrans configuration');
+            Log::warning('PaymentController initialized without Midtrans configuration', [
+                'server_key_exists' => !empty(env('MIDTRANS_SERVER_KEY')),
+                'client_key_exists' => !empty(env('MIDTRANS_CLIENT_KEY')),
+                'environment' => env('APP_ENV', 'unknown')
+            ]);
         }
     }
 
@@ -50,8 +55,19 @@ class PaymentController extends Controller
                 ->with('error', 'Pendaftaran ini sudah diproses.');
         }
 
+        // Check if Midtrans is configured before showing checkout
+        if (!$this->midtransService) {
+            Log::warning('Checkout accessed without Midtrans configuration', [
+                'registration_id' => $registration->id,
+                'user_id' => Auth::id(),
+            ]);
+
+            return redirect()->route('peserta.registrations.show', $registration)
+                ->with('error', 'Payment gateway sedang dalam perbaikan. Silakan coba lagi nanti atau hubungi administrator.');
+        }
+
         $payment = Payment::where('registration_id', $registration->id)->first();
-        
+
         return view('payment.checkout', compact('registration', 'payment'));
     }
 
@@ -233,9 +249,17 @@ class PaymentController extends Controller
 
         // Check if Midtrans is configured
         if (!$this->midtransService) {
+            Log::error('Payment method update failed - Midtrans not configured', [
+                'registration_id' => $registration->id,
+                'user_id' => Auth::id(),
+                'server_key_exists' => !empty(env('MIDTRANS_SERVER_KEY')),
+                'client_key_exists' => !empty(env('MIDTRANS_CLIENT_KEY')),
+            ]);
+
             return response()->json([
                 'success' => false,
-                'message' => 'Payment gateway tidak dikonfigurasi. Silakan hubungi administrator.'
+                'message' => 'Payment gateway tidak dikonfigurasi. Silakan hubungi administrator.',
+                'error_code' => 'MIDTRANS_NOT_CONFIGURED'
             ], 503);
         }
 

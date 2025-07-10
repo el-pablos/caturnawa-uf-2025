@@ -1,0 +1,28 @@
+# MIDTRANS PRODUCTION ENVIRONMENT VARIABLES
+# =========================================
+# Add these variables to your .env file on the production server
+
+# Midtrans Configuration
+MIDTRANS_SERVER_KEY=your_production_server_key_here
+MIDTRANS_CLIENT_KEY=your_production_client_key_here
+MIDTRANS_IS_PRODUCTION=true
+MIDTRANS_IS_SANITIZED=true
+MIDTRANS_IS_3DS=true
+
+# Example for Sandbox (Development/Testing):
+# MIDTRANS_SERVER_KEY=SB-Mid-server-xxxxxxxxxxxxxxxxx
+# MIDTRANS_CLIENT_KEY=SB-Mid-client-xxxxxxxxxxxxxxxxx
+# MIDTRANS_IS_PRODUCTION=false
+
+# Example for Production:
+# MIDTRANS_SERVER_KEY=Mid-server-xxxxxxxxxxxxxxxxx
+# MIDTRANS_CLIENT_KEY=Mid-client-xxxxxxxxxxxxxxxxx
+# MIDTRANS_IS_PRODUCTION=true
+
+# Instructions:
+# 1. Get your Midtrans keys from: https://dashboard.midtrans.com/settings/config_info
+# 2. For production, use keys from the "Production" environment
+# 3. For testing, use keys from the "Sandbox" environment
+# 4. Replace the placeholder values above with your actual keys
+# 5. Set MIDTRANS_IS_PRODUCTION=true for production environment
+# 6. After updating .env, run: php artisan config:clear
