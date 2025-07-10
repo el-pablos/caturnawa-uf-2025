@@ -98,12 +98,8 @@ class CompetitionController extends Controller
         $pricingSummary = $this->pricingService->getPricingSummary();
         $participantCategories = $this->pricingService->getParticipantCategories();
 
-        // Statistik kompetisi
+        // Statistik kompetisi (removed participant counts)
         $stats = [
-            'participants_count' => $competition->getRegisteredParticipantsCount(),
-            'slots_remaining' => $competition->max_participants
-                ? $competition->max_participants - $competition->getRegisteredParticipantsCount()
-                : null,
             'days_left' => now()->diffInDays($competition->registration_end, false),
             'is_early_bird' => $this->pricingService->isEarlyBirdPeriod(),
         ];
@@ -182,7 +178,6 @@ class CompetitionController extends Controller
             'phone' => 'nullable|string|max:20',
             'institution' => 'nullable|string|max:255',
             'gender' => 'required|in:male,female',
-            'participant_category' => 'required|in:unas_student,external_student,high_school_student',
             'emergency_contact' => 'nullable|string|max:255',
             'emergency_phone' => 'nullable|string|max:20',
             'special_needs' => 'nullable|string|max:500',
@@ -250,8 +245,8 @@ class CompetitionController extends Controller
                 $logoPath = $request->file('logo_instansi')->store('logos', 'public');
             }
 
-            // Calculate price based on participant category
-            $participantCategory = $request->participant_category;
+            // Calculate price based on user's participant status
+            $participantCategory = $this->mapParticipantStatus($user->participant_status);
             $priceData = $this->pricingService->getPriceForCategory($participantCategory);
 
             // Buat registrasi baru
@@ -321,5 +316,19 @@ class CompetitionController extends Controller
         // Redirect ke halaman pembayaran
         return redirect()->route('payment.checkout', $registration)
             ->with('success', 'Pendaftaran berhasil! Silakan lakukan pembayaran untuk mengkonfirmasi pendaftaran Anda.');
+    }
+
+    /**
+     * Map participant status from user account to pricing category
+     */
+    private function mapParticipantStatus($participantStatus)
+    {
+        $mapping = [
+            'Mahasiswa Unas' => 'unas_student',
+            'Mahasiswa Eksternal' => 'external_student',
+            'Siswa SMA/SMK' => 'high_school_student',
+        ];
+
+        return $mapping[$participantStatus] ?? 'external_student';
     }
 }

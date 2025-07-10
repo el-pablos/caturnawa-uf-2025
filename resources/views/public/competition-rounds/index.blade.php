@@ -37,16 +37,10 @@
                     
                     <!-- Competition Stats -->
                     <div class="row mb-3">
-                        <div class="col-6">
-                            <div class="text-center">
-                                <div class="h5 text-primary mb-0">{{ $competition->registrations()->where('status', 'confirmed')->count() }}</div>
-                                <small class="text-muted">Peserta</small>
-                            </div>
-                        </div>
-                        <div class="col-6">
+                        <div class="col-12">
                             <div class="text-center">
                                 <div class="h5 text-success mb-0">{{ $competition->rounds->count() }}</div>
-                                <small class="text-muted">Babak</small>
+                                <small class="text-muted">Babak Kompetisi</small>
                             </div>
                         </div>
                     </div>

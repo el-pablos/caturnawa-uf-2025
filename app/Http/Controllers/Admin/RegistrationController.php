@@ -86,11 +86,23 @@ class RegistrationController extends Controller
     {
         // Validasi sequential processing
         if (!$this->canProcessRegistration($registration, 'confirm')) {
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Registrasi harus diproses secara berurutan. Pastikan registrasi sebelumnya sudah diproses terlebih dahulu.'
+                ]);
+            }
             return back()->with('error', 'Registrasi harus diproses secara berurutan. Pastikan registrasi sebelumnya sudah diproses terlebih dahulu.');
         }
 
         // Pastikan registrasi dalam status yang tepat
         if ($registration->status !== 'pending') {
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Hanya registrasi dengan status pending yang dapat dikonfirmasi.'
+                ]);
+            }
             return back()->with('error', 'Hanya registrasi dengan status pending yang dapat dikonfirmasi.');
         }
 
@@ -111,9 +123,24 @@ class RegistrationController extends Controller
 
             DB::commit();
 
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Registrasi berhasil dikonfirmasi.'
+                ]);
+            }
+
             return back()->with('success', 'Registrasi berhasil dikonfirmasi.');
         } catch (\Exception $e) {
             DB::rollback();
+
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal mengkonfirmasi registrasi: ' . $e->getMessage()
+                ]);
+            }
+
             return back()->with('error', 'Gagal mengkonfirmasi registrasi: ' . $e->getMessage());
         }
     }

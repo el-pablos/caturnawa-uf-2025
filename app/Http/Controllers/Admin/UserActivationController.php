@@ -57,7 +57,8 @@ class UserActivationController extends Controller
         try {
             $user->update([
                 'is_active' => true,
-                'activated_at' => now(),
+                'is_account_active' => true,
+                'account_activated_at' => now(),
                 'activated_by' => Auth::id(),
             ]);
 
@@ -88,7 +89,8 @@ class UserActivationController extends Controller
         try {
             $user->update([
                 'is_active' => false,
-                'activated_at' => null,
+                'is_account_active' => false,
+                'account_activated_at' => null,
                 'activated_by' => null,
             ]);
 

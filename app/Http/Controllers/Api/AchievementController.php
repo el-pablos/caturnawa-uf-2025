@@ -54,13 +54,7 @@ class AchievementController extends Controller
             $achievements['participants_per_competition'] = $this->computeParticipantsPerCompetition();
         }
 
-        // Universities List
-        $universitiesList = Achievement::getByKey('universities_list');
-        if ($universitiesList) {
-            $achievements['universities_list'] = $universitiesList->data;
-        } else {
-            $achievements['universities_list'] = $this->computeUniversitiesList();
-        }
+        // Universities List - removed to eliminate participant count displays
 
         return $achievements;
     }
@@ -119,33 +113,5 @@ class AchievementController extends Controller
         return $data;
     }
 
-    /**
-     * Compute universities list
-     */
-    private function computeUniversitiesList()
-    {
-        $universities = Registration::where('status', 'confirmed')
-            ->whereNotNull('institution')
-            ->select('institution')
-            ->selectRaw('COUNT(*) as participants_count')
-            ->groupBy('institution')
-            ->orderBy('participants_count', 'desc')
-            ->get();
 
-        $data = $universities->map(function ($university) {
-            return [
-                'name' => $university->institution,
-                'participants_count' => $university->participants_count,
-            ];
-        })->toArray();
-
-        Achievement::updateData(
-            'universities_list',
-            'Daftar Universitas',
-            $data,
-            'Daftar universitas yang berpartisipasi beserta jumlah peserta'
-        );
-
-        return $data;
-    }
 }

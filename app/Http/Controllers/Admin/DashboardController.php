@@ -125,8 +125,6 @@ class DashboardController extends Controller
         return [
             'total_competitions' => $competitionStats->total_competitions ?? 0,
             'active_competitions' => $competitionStats->active_competitions ?? 0,
-            'total_registrations' => $registrationStats->total_registrations ?? 0,
-            'confirmed_registrations' => $registrationStats->confirmed_registrations ?? 0,
             'total_revenue' => $paymentStats->total_revenue ?? 0,
             'pending_payments' => $paymentStats->pending_payments ?? 0,
             'total_submissions' => $submissionCount ?? 0,
@@ -288,7 +286,6 @@ class DashboardController extends Controller
             return [
                 'name' => $competition->name,
                 'category' => $competition->category,
-                'participants' => $competition->registrations_count,
                 'submissions' => $competition->submissions_count,
                 'revenue' => $competition->registrations->sum('total_revenue') ?? 0,
                 'status' => $competition->is_active ? 'Aktif' : 'Tidak Aktif',
@@ -359,8 +356,8 @@ class DashboardController extends Controller
                     'confirmed_registrations' => $competition->confirmed_count,
                     'conversion_rate' => round($conversionRate, 2),
                     'total_revenue' => $competition->registrations_sum_amount ?? 0,
-                    'avg_revenue_per_participant' => $competition->confirmed_count > 0 
-                        ? ($competition->registrations_sum_amount / $competition->confirmed_count) 
+                    'avg_revenue_per_registration' => $competition->confirmed_count > 0
+                        ? ($competition->registrations_sum_amount / $competition->confirmed_count)
                         : 0,
                 ];
             });

@@ -46,7 +46,6 @@ class CompetitionController extends Controller
                     'price' => $competition->price,
                     'early_bird_price' => $competition->early_bird_price,
                     'early_bird_end' => $competition->early_bird_end?->toISOString(),
-                    'registrations_count' => $competition->registrations()->count(),
                 ];
             });
 

@@ -124,17 +124,17 @@
                     <!-- Quick Info -->
                     <div class="hero-info" data-aos="fade-up" data-aos-delay="1000">
                         <div class="info-item">
-                            <i class="bi bi-people"></i>
+                            <i class="bi bi-trophy"></i>
                             <div>
-                                <span class="info-label">Peserta</span>
-                                <span class="info-value">10,000+ Terdaftar</span>
+                                <span class="info-label">Hadiah</span>
+                                <span class="info-value">menanti</span>
                             </div>
                         </div>
                         <div class="info-item">
-                            <i class="bi bi-trophy"></i>
+                            <i class="bi bi-calendar-event"></i>
                             <div>
-                                <span class="info-label">Kompetisi</span>
-                                <span class="info-value">15 Kategori</span>
+                                <span class="info-label">Periode</span>
+                                <span class="info-value">Januari - Maret 2025</span>
                             </div>
                         </div>
                     </div>
@@ -157,21 +157,21 @@
                     <div class="floating-stats">
                         <div class="stat-card stat-1" data-aos="zoom-in" data-aos-delay="1200">
                             <div class="stat-icon">
-                                <i class="bi bi-people"></i>
-                            </div>
-                            <div class="stat-content">
-                                <span class="stat-number">10K+</span>
-                                <span class="stat-label">Peserta</span>
-                            </div>
-                        </div>
-                        
-                        <div class="stat-card stat-2" data-aos="zoom-in" data-aos-delay="1400">
-                            <div class="stat-icon">
                                 <i class="bi bi-trophy"></i>
                             </div>
                             <div class="stat-content">
-                                <span class="stat-number">15</span>
-                                <span class="stat-label">Kategori</span>
+                                <span class="stat-number">5</span>
+                                <span class="stat-label">Kompetisi</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card stat-2" data-aos="zoom-in" data-aos-delay="1400">
+                            <div class="stat-icon">
+                                <i class="bi bi-calendar-event"></i>
+                            </div>
+                            <div class="stat-content">
+                                <span class="stat-number">2025</span>
+                                <span class="stat-label">Festival</span>
                             </div>
                         </div>
                     </div>
@@ -203,31 +203,31 @@
             <div class="col-lg-6 col-md-6" data-aos="fade-up" data-aos-delay="100">
                 <div class="stats-card">
                     <div class="stats-icon bg-primary">
-                        <i class="bi bi-people-fill"></i>
-                    </div>
-                    <div class="stats-content">
-                        <h3 class="stats-number counter" data-target="10000">0</h3>
-                        <p class="stats-label">Peserta Terdaftar</p>
-                        <div class="stats-bar">
-                            <div class="progress-fill" data-progress="85"></div>
-                        </div>
-                        <small class="stats-note">85% dari target</small>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-6 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                <div class="stats-card">
-                    <div class="stats-icon bg-success">
                         <i class="bi bi-trophy-fill"></i>
                     </div>
                     <div class="stats-content">
-                        <h3 class="stats-number counter" data-target="15">0</h3>
-                        <p class="stats-label">Kategori Kompetisi</p>
+                        <h3 class="stats-number counter" data-target="5">0</h3>
+                        <p class="stats-label">Kompetisi Tersedia</p>
                         <div class="stats-bar">
                             <div class="progress-fill" data-progress="100"></div>
                         </div>
-                        <small class="stats-note">Lengkap tersedia</small>
+                        <small class="stats-note">Siap untuk diikuti</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="stats-card">
+                    <div class="stats-icon bg-success">
+                        <i class="bi bi-calendar-event"></i>
+                    </div>
+                    <div class="stats-content">
+                        <h3 class="stats-number counter" data-target="2025">0</h3>
+                        <p class="stats-label">Festival Tahunan</p>
+                        <div class="stats-bar">
+                            <div class="progress-fill" data-progress="100"></div>
+                        </div>
+                        <small class="stats-note">Dies Natalis ke-76</small>
                     </div>
                 </div>
             </div>
@@ -307,8 +307,8 @@
                             </div>
                             <div class="stat-divider"></div>
                             <div class="stat-item">
-                                <span class="stat-value">3000+</span>
-                                <span class="stat-label">Peserta</span>
+                                <span class="stat-value">Tim</span>
+                                <span class="stat-label">Kompetisi</span>
                             </div>
                         </div>
                         
@@ -377,8 +377,8 @@
                             </div>
                             <div class="stat-divider"></div>
                             <div class="stat-item">
-                                <span class="stat-value">2500+</span>
-                                <span class="stat-label">Peserta</span>
+                                <span class="stat-value">Tim</span>
+                                <span class="stat-label">Kompetisi</span>
                             </div>
                         </div>
                         
@@ -447,8 +447,8 @@
                             </div>
                             <div class="stat-divider"></div>
                             <div class="stat-item">
-                                <span class="stat-value">2000+</span>
-                                <span class="stat-label">Peserta</span>
+                                <span class="stat-value">Tim</span>
+                                <span class="stat-label">Kompetisi</span>
                             </div>
                         </div>
                         
@@ -1588,21 +1588,21 @@ ed",
                     <div class="floating-stats">
                         <div class="stat-card stat-1" data-aos="zoom-in" data-aos-delay="1200">
                             <div class="stat-icon">
-                                <i class="bi bi-people"></i>
-                            </div>
-                            <div class="stat-content">
-                                <span class="stat-number">5K+</span>
-                                <span class="stat-label">Peserta</span>
-                            </div>
-                        </div>
-                        
-                        <div class="stat-card stat-2" data-aos="zoom-in" data-aos-delay="1400">
-                            <div class="stat-icon">
                                 <i class="bi bi-trophy"></i>
                             </div>
                             <div class="stat-content">
-                                <span class="stat-number">4</span>
-                                <span class="stat-label">Kategori</span>
+                                <span class="stat-number">5</span>
+                                <span class="stat-label">Kompetisi</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card stat-2" data-aos="zoom-in" data-aos-delay="1400">
+                            <div class="stat-icon">
+                                <i class="bi bi-calendar-event"></i>
+                            </div>
+                            <div class="stat-content">
+                                <span class="stat-number">2025</span>
+                                <span class="stat-label">Festival</span>
                             </div>
                         </div>
                     </div>
@@ -1634,31 +1634,31 @@ ed",
             <div class="col-lg-6 col-md-6 mb-6" data-aos="fade-up" data-aos-delay="100">
                 <div class="stats-card">
                     <div class="stats-icon bg-primary">
-                        <i class="bi bi-people-fill"></i>
-                    </div>
-                    <div class="stats-content">
-                        <h3 class="stats-number counter" data-target="5000">0</h3>
-                        <p class="stats-label">Peserta Terdaftar</p>
-                        <div class="stats-bar">
-                            <div class="progress-fill" data-progress="80"></div>
-                        </div>
-                        <small class="stats-note">80% dari target</small>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-6 col-md-6 mb-6" data-aos="fade-up" data-aos-delay="200">
-                <div class="stats-card">
-                    <div class="stats-icon bg-success">
                         <i class="bi bi-trophy-fill"></i>
                     </div>
                     <div class="stats-content">
-                        <h3 class="stats-number counter" data-target="4">0</h3>
-                        <p class="stats-label">Kategori Kompetisi</p>
+                        <h3 class="stats-number counter" data-target="5">0</h3>
+                        <p class="stats-label">Kompetisi Tersedia</p>
                         <div class="stats-bar">
                             <div class="progress-fill" data-progress="100"></div>
                         </div>
-                        <small class="stats-note">Lengkap tersedia</small>
+                        <small class="stats-note">Siap untuk diikuti</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 mb-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="stats-card">
+                    <div class="stats-icon bg-success">
+                        <i class="bi bi-calendar-event"></i>
+                    </div>
+                    <div class="stats-content">
+                        <h3 class="stats-number counter" data-target="2025">0</h3>
+                        <p class="stats-label">Festival Tahunan</p>
+                        <div class="stats-bar">
+                            <div class="progress-fill" data-progress="100"></div>
+                        </div>
+                        <small class="stats-note">Dies Natalis ke-76</small>
                     </div>
                 </div>
             </div>

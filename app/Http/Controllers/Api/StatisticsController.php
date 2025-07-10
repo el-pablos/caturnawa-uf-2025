@@ -217,17 +217,7 @@ class StatisticsController extends Controller
 
     private function getCompetitionRegistrations()
     {
-        return Competition::withCount(['registrations' => function($q) {
-            $q->where('status', 'confirmed');
-        }])
-        ->orderBy('registrations_count', 'desc')
-        ->limit(10)
-        ->get()
-        ->map(function($comp) {
-            return [
-                'name' => $comp->name,
-                'registrations' => $comp->registrations_count,
-            ];
-        });
+        // Removed registration count statistics to eliminate participant displays
+        return collect();
     }
 }

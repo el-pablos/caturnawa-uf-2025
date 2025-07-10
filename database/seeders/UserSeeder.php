@@ -21,7 +21,9 @@ class UserSeeder extends Seeder
                 'name' => 'Super Administrator',
                 'password' => Hash::make('password123'),
                 'phone' => '081234567890',
+                'participant_status' => 'Mahasiswa Unas',
                 'institution' => 'UNAS Fest 2025',
+                'student_id' => 'SUPERADMIN001',
                 'is_active' => true,
                 'email_verified_at' => now(),
             ]
@@ -30,7 +32,7 @@ class UserSeeder extends Seeder
             $superAdmin->assignRole('superadmin');
         }
 
-        // Create 5 Admin users
+        // Create 5 Admin users (admin1@unasfest.com, admin2@unasfest.com, etc.)
         for ($i = 1; $i <= 5; $i++) {
             $admin = User::firstOrCreate(
                 ['email' => "admin{$i}@unasfest.com"],
@@ -38,7 +40,9 @@ class UserSeeder extends Seeder
                     'name' => "Admin User {$i}",
                     'password' => Hash::make('password123'),
                     'phone' => '0812345678' . sprintf('%02d', $i),
+                    'participant_status' => 'Mahasiswa Unas',
                     'institution' => 'UNAS Fest 2025',
+                    'student_id' => 'ADMIN' . sprintf('%03d', $i),
                     'is_active' => true,
                     'email_verified_at' => now(),
                 ]
@@ -65,6 +69,7 @@ class UserSeeder extends Seeder
             'Universitas Brawijaya'
         ];
 
+        // Create 5 Juri users (juri1@unasfest.com, juri2@unasfest.com, etc.)
         for ($i = 1; $i <= 5; $i++) {
             $juri = User::firstOrCreate(
                 ['email' => "juri{$i}@unasfest.com"],
@@ -72,7 +77,9 @@ class UserSeeder extends Seeder
                     'name' => $juriNames[$i-1],
                     'password' => Hash::make('password123'),
                     'phone' => '0813456789' . sprintf('%02d', $i),
+                    'participant_status' => 'Mahasiswa Eksternal',
                     'institution' => $juriInstitutions[$i-1],
+                    'student_id' => 'JURI' . sprintf('%03d', $i),
                     'is_active' => true,
                     'email_verified_at' => now(),
                 ]
@@ -102,6 +109,9 @@ class UserSeeder extends Seeder
         $educationLevels = ['SMA', 'SMK', 'SMA', 'SMK', 'SMA'];
         $genders = ['male', 'female', 'male', 'female', 'male'];
 
+        $participantStatuses = ['Siswa SMA/SMK', 'Mahasiswa Eksternal', 'Mahasiswa Unas', 'Siswa SMA/SMK', 'Mahasiswa Eksternal'];
+
+        // Create 5 Peserta users (peserta1@unasfest.com, peserta2@unasfest.com, etc.)
         for ($i = 1; $i <= 5; $i++) {
             $peserta = User::firstOrCreate(
                 ['email' => "peserta{$i}@unasfest.com"],
@@ -109,9 +119,10 @@ class UserSeeder extends Seeder
                     'name' => $pesertaNames[$i-1],
                     'password' => Hash::make('password123'),
                     'phone' => '0814567890' . sprintf('%02d', $i),
+                    'participant_status' => $participantStatuses[$i-1],
                     'institution' => $pesertaInstitutions[$i-1],
                     'gender' => $genders[$i-1],
-                    'student_id' => '2024' . sprintf('%04d', $i),
+                    'student_id' => 'PESERTA' . sprintf('%03d', $i),
                     'birth_date' => now()->subYears(17)->subDays(rand(1, 365)),
                     'address' => "Jalan Contoh No. {$i}, Jakarta",
                     'city' => 'Jakarta',

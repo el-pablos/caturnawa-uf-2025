@@ -156,17 +156,18 @@
                                 </div>
 
                                 <div class="col-md-6 mb-3">
-                                    <label for="institution" class="form-label fw-semibold">Institution/University</label>
+                                    <label for="institution" class="form-label fw-semibold">Asal Instansi <span class="text-danger">*</span></label>
                                     <div class="input-group">
                                         <span class="input-group-text">
                                             <i class="fas fa-university text-muted"></i>
                                         </span>
-                                        <input type="text" 
-                                               class="form-control with-icon @error('institution') is-invalid @enderror" 
-                                               id="institution" 
-                                               name="institution" 
-                                               value="{{ old('institution') }}" 
-                                               placeholder="Enter your institution">
+                                        <input type="text"
+                                               class="form-control with-icon @error('institution') is-invalid @enderror"
+                                               id="institution"
+                                               name="institution"
+                                               value="{{ old('institution') }}"
+                                               placeholder="Nama universitas/sekolah"
+                                               required>
                                     </div>
                                     @error('institution')
                                         <div class="text-danger mt-1 small">{{ $message }}</div>
@@ -174,22 +175,46 @@
                                 </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="student_id" class="form-label fw-semibold">Student ID</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="fas fa-id-card text-muted"></i>
-                                    </span>
-                                    <input type="text" 
-                                           class="form-control with-icon @error('student_id') is-invalid @enderror" 
-                                           id="student_id" 
-                                           name="student_id" 
-                                           value="{{ old('student_id') }}" 
-                                           placeholder="Enter your student ID">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="participant_status" class="form-label fw-semibold">Status Peserta <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-graduation-cap text-muted"></i>
+                                        </span>
+                                        <select class="form-select @error('participant_status') is-invalid @enderror"
+                                                id="participant_status"
+                                                name="participant_status"
+                                                required>
+                                            <option value="">Pilih Status Peserta</option>
+                                            <option value="Mahasiswa Unas" {{ old('participant_status') === 'Mahasiswa Unas' ? 'selected' : '' }}>Mahasiswa UNAS</option>
+                                            <option value="Mahasiswa Eksternal" {{ old('participant_status') === 'Mahasiswa Eksternal' ? 'selected' : '' }}>Mahasiswa Eksternal</option>
+                                            <option value="Siswa SMA/SMK" {{ old('participant_status') === 'Siswa SMA/SMK' ? 'selected' : '' }}>Siswa SMA/SMK</option>
+                                        </select>
+                                    </div>
+                                    @error('participant_status')
+                                        <div class="text-danger mt-1 small">{{ $message }}</div>
+                                    @enderror
                                 </div>
-                                @error('student_id')
-                                    <div class="text-danger mt-1 small">{{ $message }}</div>
-                                @enderror
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="student_id" class="form-label fw-semibold">Student ID/NIM <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-id-card text-muted"></i>
+                                        </span>
+                                        <input type="text"
+                                               class="form-control with-icon @error('student_id') is-invalid @enderror"
+                                               id="student_id"
+                                               name="student_id"
+                                               value="{{ old('student_id') }}"
+                                               placeholder="Enter your student ID/NIM"
+                                               required>
+                                    </div>
+                                    @error('student_id')
+                                        <div class="text-danger mt-1 small">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
 
                             <div class="row">

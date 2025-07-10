@@ -18,13 +18,9 @@ class PublicController extends Controller
             ->orderBy('registration_start', 'asc')
             ->paginate(12);
 
-        // Get statistics for homepage display
+        // Get statistics for homepage display (removed participant counts)
         $stats = [
-            'total_participants' => User::whereHas('roles', function($q) {
-                $q->where('name', 'Peserta');
-            })->count(),
             'active_competitions' => Competition::where('is_active', true)->count(),
-            'total_universities' => User::whereNotNull('institution')->distinct('institution')->count(),
             'total_prizes' => Competition::where('is_active', true)->sum('prize_amount')
         ];
 

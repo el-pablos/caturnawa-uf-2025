@@ -338,12 +338,6 @@
                         <i class="bi bi-graph-up me-2"></i>Laporan
                     </a>
 
-                    <a class="nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}" href="{{ route('admin.settings.index') }}">
-                        <i class="bi bi-gear me-2"></i>Pengaturan
-                    </a>
-
-
-
                     <div class="nav-divider mt-4 mb-3" style="height: 1px; background: #e5e7eb; margin: 0 16px;"></div>
                     <div class="nav-section-title" style="padding: 8px 16px 4px;">
                         <small style="color: #9ca3af;">PENGATURAN</small>

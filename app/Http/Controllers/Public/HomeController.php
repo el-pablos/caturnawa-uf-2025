@@ -36,13 +36,9 @@ class HomeController extends Controller
             $competitionLeaderboards[$competition->id] = $this->leaderboardService->getTopTeams($competition, 4);
         }
 
-        // Get statistics
+        // Get statistics (removed participant counts)
         $stats = [
             'total_competitions' => Competition::where('is_active', true)->count(),
-            'total_participants' => Registration::where('status', 'confirmed')->count(),
-            'total_universities' => User::whereNotNull('institution')
-                ->distinct('institution')
-                ->count('institution'),
             'total_prizes' => Competition::where('is_active', true)->sum('price'),
         ];
 

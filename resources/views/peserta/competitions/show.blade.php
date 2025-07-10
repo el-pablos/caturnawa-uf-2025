@@ -224,23 +224,6 @@
                 <div class="row g-3">
                     <div class="col-6">
                         <div class="text-center">
-                            <div class="h4 text-primary mb-1">{{ $stats['participants_count'] }}</div>
-                            <small class="text-muted">Peserta</small>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="text-center">
-                            @if($stats['slots_remaining'] !== null)
-                                <div class="h4 text-warning mb-1">{{ $stats['slots_remaining'] }}</div>
-                                <small class="text-muted">Slot Tersisa</small>
-                            @else
-                                <div class="h4 text-success mb-1">∞</div>
-                                <small class="text-muted">Unlimited</small>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="text-center">
                             <div class="h4 text-info mb-1">{{ $stats['days_left'] }}</div>
                             <small class="text-muted">Hari Tersisa</small>
                         </div>
@@ -321,9 +304,12 @@
                                    value="{{ old('phone', auth()->user()->phone) }}" required>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="institution" class="form-label">Asal Instansi <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="institution" name="institution"
-                                   value="{{ old('institution') }}" required>
+                            <label class="form-label">Asal Instansi</label>
+                            <div class="form-control-plaintext">
+                                <strong>{{ Auth::user()->institution ?? 'Belum diatur' }}</strong>
+                                <small class="text-muted d-block">Dari profil akun Anda</small>
+                            </div>
+                            <input type="hidden" name="institution" value="{{ Auth::user()->institution }}">
                         </div>
                     </div>
 
@@ -346,19 +332,11 @@
                             </select>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="participant_category" class="form-label">Kategori Peserta <span class="text-danger">*</span></label>
-                            <select class="form-select" id="participant_category" name="participant_category" required>
-                                <option value="">Pilih Kategori Peserta</option>
-                                @if(isset($participantCategories))
-                                    @foreach($participantCategories as $key => $name)
-                                        <option value="{{ $key }}" {{ old('participant_category') === $key ? 'selected' : '' }}>{{ $name }}</option>
-                                    @endforeach
-                                @else
-                                    <option value="unas_student" {{ old('participant_category') === 'unas_student' ? 'selected' : '' }}>Mahasiswa UNAS</option>
-                                    <option value="external_student" {{ old('participant_category') === 'external_student' ? 'selected' : '' }}>Mahasiswa Eksternal</option>
-                                    <option value="high_school_student" {{ old('participant_category') === 'high_school_student' ? 'selected' : '' }}>Siswa SMA/SMK</option>
-                                @endif
-                            </select>
+                            <label class="form-label">Status Peserta</label>
+                            <div class="form-control-plaintext">
+                                <strong>{{ Auth::user()->participant_status ?? 'Belum diatur' }}</strong>
+                                <small class="text-muted d-block">Status dari profil akun Anda</small>
+                            </div>
                         </div>
                     </div>
 
@@ -368,9 +346,10 @@
                             <div class="card border-info">
                                 <div class="card-body p-3">
                                     <div id="pricing-info">
-                                        <div class="text-muted text-center">
+                                        <div class="text-center">
                                             <i class="bi bi-info-circle me-2"></i>
-                                            Pilih kategori peserta untuk melihat harga dan informasi fase
+                                            <strong>Harga: Rp {{ number_format($competition->getCurrentPriceAttribute()) }}</strong>
+                                            <small class="text-muted d-block">Berdasarkan status peserta Anda</small>
                                         </div>
                                     </div>
                                 </div>
@@ -378,19 +357,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Harga Pendaftaran</label>
-                            <div class="card border-info">
-                                <div class="card-body p-2">
-                                    <div id="pricing-info">
-                                        <div class="text-muted small">Pilih kategori peserta untuk melihat harga</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
@@ -781,78 +748,7 @@ function updateAddButtonText() {
 document.addEventListener('DOMContentLoaded', function() {
     updateAddButtonText();
 
-    // Handle participant category change for dynamic pricing
-    const participantCategorySelect = document.getElementById('participant_category');
-    const pricingInfo = document.getElementById('pricing-info');
-
-    if (participantCategorySelect && pricingInfo) {
-        // Pricing data from server
-        const pricingSummary = @json($pricingSummary ?? []);
-
-        participantCategorySelect.addEventListener('change', function() {
-            const selectedCategory = this.value;
-
-            if (selectedCategory && pricingSummary[selectedCategory]) {
-                const priceData = pricingSummary[selectedCategory];
-                const currentPrice = priceData.current_price;
-                const savings = priceData.savings;
-
-                let html = `
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="d-flex align-items-center">
-                                <h5 class="mb-0 text-primary fw-bold">Rp ${new Intl.NumberFormat('id-ID').format(currentPrice.amount)}</h5>
-                                <span class="badge bg-info ms-2">${currentPrice.phase_name}</span>
-                            </div>
-                            <small class="text-muted">Kategori: ${priceData.current_price.category_name}</small>
-                        </div>
-                        <div class="col-md-4 text-end">
-                            ${currentPrice.is_early_bird ? '<span class="badge bg-success"><i class="bi bi-star"></i> Early Bird</span>' : ''}
-                        </div>
-                    </div>
-                `;
-
-                if (savings && savings.savings > 0) {
-                    html += `
-                        <div class="mt-2 p-2 bg-light rounded">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <small class="text-success fw-semibold">
-                                    <i class="bi bi-piggy-bank"></i>
-                                    Hemat Rp ${new Intl.NumberFormat('id-ID').format(savings.savings)}
-                                </small>
-                                <small class="text-success">${savings.savings_percentage}% lebih murah</small>
-                            </div>
-                    `;
-
-                    if (savings.days_left > 0) {
-                        html += `
-                            <div class="mt-1">
-                                <small class="text-warning">
-                                    <i class="bi bi-clock-fill"></i>
-                                    Tersisa ${savings.days_left} hari sebelum harga naik ke Rp ${new Intl.NumberFormat('id-ID').format(savings.next_price)}
-                                </small>
-                            </div>
-                        `;
-                    }
-
-                    html += `</div>`;
-                } else {
-                    html += `
-                        <div class="mt-2">
-                            <small class="text-info">
-                                <i class="bi bi-info-circle"></i>
-                                Harga saat ini untuk ${priceData.current_price.category_name}
-                            </small>
-                        </div>
-                    `;
-                }
-
-                pricingInfo.innerHTML = html;
-            } else {
-                pricingInfo.innerHTML = '<div class="text-muted small">Pilih kategori peserta untuk melihat harga</div>';
-            }
-        });
-    }
+    // Removed participant category selection - now uses user's account status
 });
 </script>
 @endpush

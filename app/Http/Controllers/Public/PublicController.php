@@ -94,11 +94,9 @@ class PublicController extends Controller
             ->orderBy('registration_start', 'asc')
             ->paginate(12);
 
-        // Get statistics
+        // Get statistics (removed participant counts)
         $stats = [
-            'total_participants' => Registration::where('status', 'confirmed')->count(),
             'active_competitions' => Competition::active()->count(),
-            'total_universities' => Registration::distinct('institution')->count(),
             'total_prizes' => Competition::active()->sum('prize_amount') ?: 500000000,
         ];
 

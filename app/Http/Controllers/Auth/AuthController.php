@@ -116,6 +116,9 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'phone' => 'required|string|max:20',
+            'participant_status' => 'required|in:Mahasiswa Unas,Mahasiswa Eksternal,Siswa SMA/SMK',
+            'institution' => 'required|string|max:255',
+            'student_id' => 'required|string|max:50',
         ], [
             'name.required' => 'Nama lengkap harus diisi',
             'email.required' => 'Email harus diisi',
@@ -125,6 +128,10 @@ class AuthController extends Controller
             'password.min' => 'Password minimal 8 karakter',
             'password.confirmed' => 'Konfirmasi password tidak cocok',
             'phone.required' => 'Nomor telepon harus diisi',
+            'participant_status.required' => 'Status peserta harus dipilih',
+            'participant_status.in' => 'Status peserta tidak valid',
+            'institution.required' => 'Asal instansi harus diisi',
+            'student_id.required' => 'Student ID/NIM harus diisi',
         ]);
 
         if ($validator->fails()) {
@@ -139,6 +146,9 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => $request->password,
             'phone' => $request->phone,
+            'participant_status' => $request->participant_status,
+            'institution' => $request->institution,
+            'student_id' => $request->student_id,
             'is_active' => true,
             'email_verified_at' => now(),
         ]);
