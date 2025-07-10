@@ -120,7 +120,12 @@ class PaymentController extends Controller
         $paymentMethod = $request->input('payment_method');
 
         try {
-            $result = $this->midtransService->createTransaction($registration, $paymentMethod);
+            // Use specific QRIS method for QRIS payments
+            if (strtolower($paymentMethod) === 'qris') {
+                $result = $this->midtransService->createQrisTransaction($registration);
+            } else {
+                $result = $this->midtransService->createTransaction($registration, $paymentMethod);
+            }
 
             if ($result['success']) {
                 $response = [
@@ -128,6 +133,12 @@ class PaymentController extends Controller
                     'snap_token' => $result['snap_token'],
                     'redirect_url' => $result['redirect_url']
                 ];
+
+                // Add order_id for QRIS debugging
+                if (isset($result['order_id'])) {
+                    $response['order_id'] = $result['order_id'];
+                }
+
                 Log::info('Payment process success', $response);
                 return response()->json($response);
             } else {

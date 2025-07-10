@@ -441,11 +441,6 @@ if (app()->environment(['local', 'development'])) {
     });
 }
 
-// Auth debug route (temporary)
-Route::get('/auth-debug', function () {
-    return view('auth-debug');
-})->name('auth-debug');
-
 // Fallback route for 404
 Route::fallback(function () {
     return view('errors.404');

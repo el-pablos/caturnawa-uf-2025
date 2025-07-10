@@ -138,8 +138,10 @@ class MidtransService
             'item_details' => $item_details,
         ];
 
-        // Keep it simple - don't add enabled_payments unless specifically needed
-        // This allows all payment methods to be available by default
+        // Configure payment methods based on selected method
+        if ($paymentMethod) {
+            $transaction = $this->configurePaymentMethod($transaction, $paymentMethod);
+        }
 
         // Optional: Add custom expiry
         $transaction['custom_expiry'] = [
@@ -152,8 +154,136 @@ class MidtransService
     }
 
     /**
+     * Configure payment method specific parameters
+     *
+     * @param array $transaction
+     * @param string $paymentMethod
+     * @return array
+     */
+    protected function configurePaymentMethod($transaction, $paymentMethod)
+    {
+        switch (strtolower($paymentMethod)) {
+            case 'qris':
+                // QRIS specific configuration
+                $transaction['enabled_payments'] = ['qris'];
+                $transaction['qris'] = [
+                    'acquirer' => 'gopay' // Use GoPay as QRIS acquirer for better compatibility
+                ];
+                break;
+
+            case 'gopay':
+                $transaction['enabled_payments'] = ['gopay'];
+                $transaction['gopay'] = [
+                    'enable_callback' => true,
+                    'callback_url' => route('payment.notification')
+                ];
+                break;
+
+            case 'shopeepay':
+                $transaction['enabled_payments'] = ['shopeepay'];
+                $transaction['shopeepay'] = [
+                    'callback_url' => route('payment.notification')
+                ];
+                break;
+
+            case 'bank_transfer':
+                $transaction['enabled_payments'] = ['bank_transfer'];
+                $transaction['bank_transfer'] = [
+                    'bank' => 'permata'
+                ];
+                break;
+
+            case 'credit_card':
+                $transaction['enabled_payments'] = ['credit_card'];
+                $transaction['credit_card'] = [
+                    'secure' => true,
+                    'channel' => 'migs',
+                    'bank' => 'bca'
+                ];
+                break;
+
+            default:
+                // Keep all payment methods enabled if no specific method selected
+                break;
+        }
+
+        return $transaction;
+    }
+
+    /**
+     * Create QRIS specific transaction
+     *
+     * @param \App\Models\Registration $registration
+     * @return array
+     */
+    public function createQrisTransaction(Registration $registration)
+    {
+        // Check if Midtrans is properly configured
+        if (!$this->isConfigured()) {
+            Log::error('Midtrans not configured - cannot create QRIS transaction');
+            return [
+                'success' => false,
+                'message' => 'Payment gateway tidak dikonfigurasi. Silakan hubungi administrator.',
+            ];
+        }
+
+        // Delete existing payment to avoid order_id conflict
+        Payment::where('registration_id', $registration->id)->delete();
+
+        // Create new payment record
+        $payment = Payment::create([
+            'registration_id' => $registration->id,
+            'gross_amount' => $registration->amount,
+            'transaction_status' => 'pending',
+            'expired_at' => now()->addHours(24),
+        ]);
+
+        // Build QRIS specific parameters
+        $params = $this->buildTransactionParams($registration, $payment, 'qris');
+
+        // Add additional QRIS configuration
+        $params['qris'] = [
+            'acquirer' => 'gopay'
+        ];
+        $params['enabled_payments'] = ['qris'];
+
+        try {
+            // Get Snap Token from Midtrans
+            $snapToken = Snap::getSnapToken($params);
+
+            // Update payment record with snap token
+            $payment->update(['snap_token' => $snapToken]);
+
+            Log::info('QRIS transaction created successfully', [
+                'order_id' => $payment->order_id,
+                'registration_id' => $registration->id,
+                'amount' => $registration->amount
+            ]);
+
+            return [
+                'success' => true,
+                'snap_token' => $snapToken,
+                'payment_id' => $payment->id,
+                'order_id' => $payment->order_id,
+                'redirect_url' => $this->getRedirectUrl($payment),
+            ];
+        } catch (\Exception $e) {
+            Log::error('QRIS Transaction Error: ' . $e->getMessage(), [
+                'order_id' => $payment->order_id,
+                'registration_id' => $registration->id,
+                'params' => $params
+            ]);
+
+            return [
+                'success' => false,
+                'message' => 'Gagal membuat transaksi QRIS: ' . $e->getMessage(),
+            ];
+        }
+    }
+
+    /**
      * Handle notifikasi dari Midtrans
-     * 
+     *
      * @param array $notification
      * @return array
      */
