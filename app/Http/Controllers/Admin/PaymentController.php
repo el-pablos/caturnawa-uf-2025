@@ -217,6 +217,9 @@ class PaymentController extends Controller
                 'transaction_status' => 'settlement',
                 'status_code' => '200',
                 'settlement_time' => now(),
+                'is_confirmed' => true,
+                'confirmed_at' => now(),
+                'confirmed_by' => auth()->id(),
                 'updated_at' => now()
             ]);
 

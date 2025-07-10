@@ -39,6 +39,35 @@
             color: #1e293b;
         }
 
+        /* Ensure all cards have white background */
+        .card {
+            background: #ffffff !important;
+            border: 1px solid #e5e7eb !important;
+            border-radius: 0.75rem !important;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1) !important;
+        }
+
+        /* Status Badge Colors */
+        .badge.bg-warning {
+            background-color: #fbbf24 !important;
+            color: #1f2937 !important;
+        }
+
+        .badge.bg-success {
+            background-color: #10b981 !important;
+            color: white !important;
+        }
+
+        .badge.bg-danger {
+            background-color: #ef4444 !important;
+            color: white !important;
+        }
+
+        .badge.bg-secondary {
+            background-color: #6b7280 !important;
+            color: white !important;
+        }
+
         .juri-sidebar {
             position: fixed;
             top: 0;

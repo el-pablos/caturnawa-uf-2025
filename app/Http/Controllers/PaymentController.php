@@ -310,7 +310,23 @@ class PaymentController extends Controller
             }
         }
 
-        return view('payment.finish', compact('payment', 'registration'));
+        // If payment is successful but not confirmed by admin, show invoice page
+        if ($payment->isSuccess() && !$payment->is_confirmed) {
+            return view('payment.invoice', compact('payment', 'registration'));
+        }
+
+        // If payment is successful and confirmed, show success page
+        if ($payment->isSuccess() && $payment->is_confirmed) {
+            return view('payment.finish', compact('payment', 'registration'));
+        }
+
+        // For other statuses, redirect to appropriate page
+        if ($payment->isPending()) {
+            return redirect()->route('payment.status', $payment);
+        }
+
+        // For failed payments, redirect to error page
+        return redirect()->route('payment.error', $payment);
     }
 
     /**

@@ -219,9 +219,11 @@
                             <tr>
                                 <td><strong>Status:</strong></td>
                                 <td>
-                                    @if($registration->payment->status === 'paid')
-                                        <span class="badge bg-success">Paid</span>
-                                    @elseif($registration->payment->status === 'pending')
+                                    @if($registration->payment->is_confirmed)
+                                        <span class="badge bg-success">Dikonfirmasi</span>
+                                    @elseif($registration->payment->isSuccess())
+                                        <span class="badge bg-warning">Menunggu Konfirmasi</span>
+                                    @elseif($registration->payment->isPending())
                                         <span class="badge bg-warning">Pending</span>
                                     @else
                                         <span class="badge bg-danger">{{ ucfirst($registration->payment->status) }}</span>

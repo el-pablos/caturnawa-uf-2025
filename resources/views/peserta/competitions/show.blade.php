@@ -307,7 +307,6 @@
                             <label class="form-label">Asal Instansi</label>
                             <div class="form-control-plaintext">
                                 <strong>{{ Auth::user()->institution ?? 'Belum diatur' }}</strong>
-                                <small class="text-muted d-block">Dari profil akun Anda</small>
                             </div>
                             <input type="hidden" name="institution" value="{{ Auth::user()->institution }}">
                         </div>
@@ -335,7 +334,6 @@
                             <label class="form-label">Status Peserta</label>
                             <div class="form-control-plaintext">
                                 <strong>{{ Auth::user()->participant_status ?? 'Belum diatur' }}</strong>
-                                <small class="text-muted d-block">Status dari profil akun Anda</small>
                             </div>
                         </div>
                     </div>

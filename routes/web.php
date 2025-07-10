@@ -208,14 +208,7 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             Route::post('/bulk-activate', [App\Http\Controllers\Admin\UserActivationController::class, 'bulkActivate'])->name('bulk-activate');
         });
 
-        // Payment Confirmation Management
-        Route::prefix('payment-confirmation')->name('payment-confirmation.')->group(function () {
-            Route::get('/', [App\Http\Controllers\Admin\PaymentConfirmationController::class, 'index'])->name('index');
-            Route::get('/{payment}', [App\Http\Controllers\Admin\PaymentConfirmationController::class, 'show'])->name('show');
-            Route::patch('/{payment}/confirm', [App\Http\Controllers\Admin\PaymentConfirmationController::class, 'confirm'])->name('confirm');
-            Route::patch('/{payment}/reject', [App\Http\Controllers\Admin\PaymentConfirmationController::class, 'reject'])->name('reject');
-            Route::post('/bulk-confirm', [App\Http\Controllers\Admin\PaymentConfirmationController::class, 'bulkConfirm'])->name('bulk-confirm');
-        });
+
 
         // Settings Management
         Route::prefix('settings')->name('settings.')->group(function () {
