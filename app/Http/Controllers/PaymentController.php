@@ -64,8 +64,20 @@ class PaymentController extends Controller
      */
     public function process(Request $request, Registration $registration)
     {
+        // Log request details for debugging
+        Log::info('Payment process started', [
+            'registration_id' => $registration->id,
+            'user_id' => Auth::id(),
+            'request_method' => $request->method(),
+            'request_headers' => $request->headers->all(),
+            'request_data' => $request->all(),
+            'expects_json' => $request->expectsJson(),
+            'is_ajax' => $request->ajax(),
+        ]);
+
         // Check if Midtrans is configured
         if (!$this->midtransService) {
+            Log::error('Midtrans service not configured');
             return response()->json([
                 'success' => false,
                 'message' => 'Payment gateway tidak dikonfigurasi. Silakan hubungi administrator.'
@@ -111,16 +123,20 @@ class PaymentController extends Controller
             $result = $this->midtransService->createTransaction($registration, $paymentMethod);
 
             if ($result['success']) {
-                return response()->json([
+                $response = [
                     'success' => true,
                     'snap_token' => $result['snap_token'],
                     'redirect_url' => $result['redirect_url']
-                ]);
+                ];
+                Log::info('Payment process success', $response);
+                return response()->json($response);
             } else {
-                return response()->json([
+                $response = [
                     'success' => false,
                     'message' => $result['message']
-                ]);
+                ];
+                Log::error('Payment process failed', $response);
+                return response()->json($response);
             }
         } catch (\Exception $e) {
             Log::error('Payment process error: ' . $e->getMessage(), [
