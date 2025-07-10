@@ -210,9 +210,24 @@
 <script src="{{ \App\Helpers\MidtransHelper::getSnapJsUrl() }}" data-client-key="{{ \App\Helpers\MidtransHelper::getClientKey() }}"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Debug: Check if all required elements and scripts are loaded
+    console.log('Payment checkout page loaded');
+    console.log('Midtrans Snap available:', typeof snap !== 'undefined');
+    console.log('CSRF token:', document.querySelector('meta[name="csrf-token"]')?.content?.substring(0, 10) + '...');
+
     const agreeTerms = document.getElementById('agreeTerms');
     const payButton = document.getElementById('payButton');
     let selectedPaymentMethod = null;
+
+    // Check if required elements exist
+    if (!agreeTerms) {
+        console.error('agreeTerms element not found');
+        return;
+    }
+    if (!payButton) {
+        console.error('payButton element not found');
+        return;
+    }
 
     // Enable/disable pay button based on terms agreement and payment method
     function updatePayButton() {
@@ -259,6 +274,12 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        // Check if Midtrans Snap is loaded
+        if (typeof snap === 'undefined') {
+            alert('Sistem pembayaran belum siap. Silakan refresh halaman dan coba lagi.');
+            return;
+        }
+
         this.disabled = true;
         this.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Memproses...';
 
@@ -274,29 +295,42 @@ document.addEventListener('DOMContentLoaded', function() {
             body: formData
         })
         .then(response => {
+            console.log('Payment response status:', response.status);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             return response.json();
         })
         .then(data => {
+            console.log('Payment response data:', data);
+
             if (data.success && data.snap_token) {
+                console.log('Opening Midtrans Snap with token:', data.snap_token.substring(0, 20) + '...');
+
+                // Check if snap is available
+                if (typeof snap === 'undefined') {
+                    throw new Error('Midtrans Snap tidak tersedia. Silakan refresh halaman.');
+                }
+
                 // Open Midtrans Snap
                 snap.pay(data.snap_token, {
                     onSuccess: function(result) {
                         console.log('Payment success:', result);
+                        alert('Pembayaran berhasil! Anda akan diarahkan ke halaman konfirmasi.');
                         window.location.href = `{{ route('payment.finish', $registration) }}`;
                     },
                     onPending: function(result) {
                         console.log('Payment pending:', result);
+                        alert('Pembayaran sedang diproses. Anda akan diarahkan ke halaman status.');
                         window.location.href = `{{ route('payment.status', $registration) }}`;
                     },
                     onError: function(result) {
                         console.log('Payment error:', result);
+                        alert('Terjadi kesalahan dalam pembayaran: ' + (result.status_message || 'Unknown error'));
                         window.location.href = `{{ route('payment.error', $registration) }}`;
                     },
                     onClose: function() {
-                        console.log('Payment popup closed');
+                        console.log('Payment popup closed by user');
                         payButton.disabled = false;
                         payButton.innerHTML = '<i class="bi bi-credit-card me-1"></i>Bayar Sekarang';
                     }
@@ -307,7 +341,18 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => {
             console.error('Payment error:', error);
-            alert('Terjadi kesalahan sistem');
+
+            // Show detailed error message
+            let errorMessage = 'Terjadi kesalahan sistem: ' + error.message;
+            if (error.message.includes('403')) {
+                errorMessage = 'Akses ditolak. Silakan login ulang.';
+            } else if (error.message.includes('404')) {
+                errorMessage = 'Halaman tidak ditemukan. Silakan refresh halaman.';
+            } else if (error.message.includes('500')) {
+                errorMessage = 'Terjadi kesalahan server. Silakan coba lagi nanti.';
+            }
+
+            alert(errorMessage);
             payButton.disabled = false;
             payButton.innerHTML = '<i class="bi bi-credit-card me-1"></i>Bayar Sekarang';
         });

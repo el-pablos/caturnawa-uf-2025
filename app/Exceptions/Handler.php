@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -29,16 +30,21 @@ class Handler extends ExceptionHandler
             }
 
             // Log additional context for debugging
-            \Log::error('Exception occurred', [
-                'exception' => get_class($e),
-                'message' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-                'url' => request()->fullUrl(),
-                'user_id' => auth()->id(),
-                'ip' => request()->ip(),
-                'user_agent' => request()->userAgent(),
-            ]);
+            try {
+                Log::error('Exception occurred', [
+                    'exception' => get_class($e),
+                    'message' => $e->getMessage(),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                    'url' => app()->bound('request') ? request()->fullUrl() : 'N/A',
+                    'user_id' => app()->bound('auth') ? auth()->id() : null,
+                    'ip' => app()->bound('request') ? request()->ip() : 'N/A',
+                    'user_agent' => app()->bound('request') ? request()->userAgent() : 'N/A',
+                ]);
+            } catch (\Exception $logException) {
+                // Fallback logging if services are not available
+                error_log('Exception occurred: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
+            }
         });
     }
 

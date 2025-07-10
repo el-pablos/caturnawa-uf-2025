@@ -85,7 +85,23 @@ class PaymentController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Pendaftaran ini sudah diproses.'
-            ]);
+            ], 400);
+        }
+
+        // Validasi amount
+        if ($registration->amount <= 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Jumlah pembayaran tidak valid.'
+            ], 400);
+        }
+
+        // Validasi competition masih aktif
+        if (!$registration->competition->is_active) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Kompetisi ini sudah tidak aktif.'
+            ], 400);
         }
 
         // Get selected payment method
@@ -107,12 +123,17 @@ class PaymentController extends Controller
                 ]);
             }
         } catch (\Exception $e) {
-            Log::error('Payment process error: ' . $e->getMessage());
+            Log::error('Payment process error: ' . $e->getMessage(), [
+                'registration_id' => $registration->id,
+                'user_id' => Auth::id(),
+                'payment_method' => $paymentMethod,
+                'trace' => $e->getTraceAsString()
+            ]);
 
             return response()->json([
                 'success' => false,
-                'message' => 'Terjadi kesalahan saat memproses pembayaran.'
-            ]);
+                'message' => 'Terjadi kesalahan saat memproses pembayaran: ' . $e->getMessage()
+            ], 500);
         }
     }
 

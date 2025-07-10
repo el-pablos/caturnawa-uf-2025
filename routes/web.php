@@ -441,6 +441,11 @@ if (app()->environment(['local', 'development'])) {
     });
 }
 
+// Test payment debug route
+Route::get('/debug-payment', function () {
+    return view('test-payment');
+})->name('debug-payment');
+
 // Fallback route for 404
 Route::fallback(function () {
     return view('errors.404');
