@@ -185,6 +185,26 @@
 .payment-method-card.selected {
     border-color: #0d6efd !important;
     background-color: #e7f1ff;
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+    transform: translateY(-2px);
+    position: relative;
+}
+
+.payment-method-card.selected::after {
+    content: '✓';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #0d6efd;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
 }
 
 .card {
@@ -250,17 +270,131 @@ document.addEventListener('DOMContentLoaded', function() {
             this.classList.add('selected');
 
             // Get method info
-            selectedPaymentMethod = this.getAttribute('data-method');
+            const newPaymentMethod = this.getAttribute('data-method');
             const methodName = this.querySelector('.fw-semibold').textContent;
 
-            // Show selected method info
-            selectedMethodName.textContent = methodName;
-            selectedMethodInfo.style.display = 'block';
-
-            // Update pay button
-            updatePayButton();
+            // Check if method changed
+            if (selectedPaymentMethod && selectedPaymentMethod !== newPaymentMethod) {
+                // Method changed, update via AJAX
+                updatePaymentMethod(newPaymentMethod, methodName);
+            } else {
+                // First selection or same method
+                selectedPaymentMethod = newPaymentMethod;
+                selectedMethodName.textContent = methodName;
+                selectedMethodInfo.style.display = 'block';
+                updatePayButton();
+            }
         });
     });
+
+    // Function to update payment method via AJAX
+    function updatePaymentMethod(newMethod, methodName) {
+        // Show loading state
+        const loadingHtml = `
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <span class="spinner-border spinner-border-sm me-2"></span>
+                    <strong>Memperbarui metode pembayaran...</strong>
+                </div>
+            </div>
+        `;
+        selectedMethodInfo.innerHTML = loadingHtml;
+        selectedMethodInfo.style.display = 'block';
+
+        // Disable pay button during update
+        payButton.disabled = true;
+
+        const formData = new FormData();
+        formData.append('payment_method', newMethod);
+
+        fetch(`{{ route('payment.update-method', $registration) }}`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            credentials: 'same-origin',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                // Update successful
+                selectedPaymentMethod = newMethod;
+                selectedMethodName.textContent = methodName;
+
+                // Show success message briefly
+                const successHtml = `
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="bi bi-check-circle text-success me-2"></i>
+                            <strong>Metode Terpilih:</strong> <span>${methodName}</span>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="clearPaymentMethod()">
+                            <i class="bi bi-arrow-left me-1"></i>Ganti Metode
+                        </button>
+                    </div>
+                `;
+                selectedMethodInfo.innerHTML = successHtml;
+
+                // Update pay button
+                updatePayButton();
+
+                // Show success notification
+                showNotification('Metode pembayaran berhasil diperbarui!', 'success');
+            } else {
+                throw new Error(data.message || 'Gagal memperbarui metode pembayaran');
+            }
+        })
+        .catch(error => {
+            console.error('Payment method update error:', error);
+
+            // Reset selection
+            paymentMethods.forEach(m => m.classList.remove('selected'));
+            selectedPaymentMethod = null;
+            selectedMethodInfo.style.display = 'none';
+
+            // Show error
+            showNotification('Gagal memperbarui metode pembayaran: ' + error.message, 'error');
+            updatePayButton();
+        });
+    }
+
+    // Function to show notifications
+    function showNotification(message, type = 'info') {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show position-fixed`;
+        notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+        notification.innerHTML = `
+            <i class="bi bi-${type === 'success' ? 'check-circle' : 'exclamation-triangle'} me-2"></i>
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+
+        document.body.appendChild(notification);
+
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.remove();
+            }
+        }, 5000);
+    }
+
+    // Function to clear payment method selection
+    window.clearPaymentMethod = function() {
+        paymentMethods.forEach(m => m.classList.remove('selected'));
+        selectedPaymentMethod = null;
+        selectedMethodInfo.style.display = 'none';
+        updatePayButton();
+    };
 
     // Handle payment
     payButton.addEventListener('click', function() {

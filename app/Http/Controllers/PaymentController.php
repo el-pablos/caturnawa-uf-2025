@@ -166,20 +166,121 @@ class PaymentController extends Controller
 
     /**
      * Tampilkan status pembayaran
-     * 
-     * @param \App\Models\Payment $payment
+     *
+     * @param int $paymentId
      * @return \Illuminate\View\View
      */
-    public function status(Payment $payment)
+    public function status($paymentId)
     {
+        // Find payment with proper error handling
+        $payment = Payment::find($paymentId);
+
+        if (!$payment) {
+            return view('payment.not-found', [
+                'message' => 'Data pembayaran tidak ditemukan.',
+                'payment_id' => $paymentId
+            ]);
+        }
+
         $registration = $payment->registration;
-        
+
         // Pastikan payment milik user yang sedang login
         if ($registration->user_id !== Auth::id()) {
             abort(403, 'Akses ditolak.');
         }
 
         return view('payment.status', compact('payment', 'registration'));
+    }
+
+    /**
+     * Update payment method for existing registration
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Registration $registration
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updatePaymentMethod(Request $request, Registration $registration)
+    {
+        // Log request details for debugging
+        Log::info('Payment method update started', [
+            'registration_id' => $registration->id,
+            'user_id' => Auth::id(),
+            'new_payment_method' => $request->input('payment_method'),
+        ]);
+
+        // Validate request
+        $request->validate([
+            'payment_method' => 'required|string|in:credit_card,bank_transfer,gopay,shopeepay,qris,ewallet'
+        ]);
+
+        // Check if user owns this registration
+        if ($registration->user_id !== Auth::id()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Akses ditolak.'
+            ], 403);
+        }
+
+        // Check if registration is still pending
+        if ($registration->status !== 'pending') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Pendaftaran ini sudah diproses.'
+            ], 400);
+        }
+
+        $paymentMethod = $request->input('payment_method');
+
+        // Check if Midtrans is configured
+        if (!$this->midtransService) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Payment gateway tidak dikonfigurasi. Silakan hubungi administrator.'
+            ], 503);
+        }
+
+        try {
+            // Delete existing payment to create new one with updated method
+            Payment::where('registration_id', $registration->id)->delete();
+
+            // Create new transaction with selected payment method
+            if (strtolower($paymentMethod) === 'qris') {
+                $result = $this->midtransService->createQrisTransaction($registration);
+            } else {
+                $result = $this->midtransService->createTransaction($registration, $paymentMethod);
+            }
+
+            if ($result['success']) {
+                $response = [
+                    'success' => true,
+                    'snap_token' => $result['snap_token'],
+                    'payment_method' => $paymentMethod,
+                    'message' => 'Metode pembayaran berhasil diperbarui.'
+                ];
+
+                Log::info('Payment method update success', $response);
+                return response()->json($response);
+            } else {
+                $response = [
+                    'success' => false,
+                    'message' => $result['message']
+                ];
+                Log::error('Payment method update failed', $response);
+                return response()->json($response);
+            }
+        } catch (\Exception $e) {
+            Log::error('Payment method update error: ' . $e->getMessage(), [
+                'registration_id' => $registration->id,
+                'user_id' => Auth::id(),
+                'payment_method' => $paymentMethod,
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat memperbarui metode pembayaran: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     /**

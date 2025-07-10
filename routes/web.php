@@ -348,7 +348,8 @@ Route::prefix('payment')->name('payment.')->group(function () {
     Route::middleware(['auth'])->group(function () {
         Route::get('/checkout/{registration}', [PaymentController::class, 'checkout'])->name('checkout');
         Route::post('/process/{registration}', [PaymentController::class, 'process'])->name('process');
-        Route::get('/status/{payment}', [PaymentController::class, 'status'])->name('status');
+        Route::post('/update-method/{registration}', [PaymentController::class, 'updatePaymentMethod'])->name('update-method');
+        Route::get('/status/{paymentId}', [PaymentController::class, 'status'])->name('status');
         Route::get('/finish/{payment}', [PaymentController::class, 'finish'])->name('finish');
         Route::get('/unfinish/{payment}', [PaymentController::class, 'unfinish'])->name('unfinish');
         Route::get('/error/{payment}', [PaymentController::class, 'error'])->name('error');
