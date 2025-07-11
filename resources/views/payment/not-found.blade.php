@@ -65,11 +65,11 @@
                     </div>
                     
                     <div class="mt-4">
-                        <a href="{{ route('peserta.registrations') }}" class="btn btn-primary me-2">
+                        <a href="{{ route('peserta.registrations.index') }}" class="btn btn-primary me-2">
                             <i class="bi bi-list-ul me-1"></i>
                             Lihat Pendaftaran Saya
                         </a>
-                        <a href="{{ route('competitions.index') }}" class="btn btn-outline-secondary me-2">
+                        <a href="{{ route('public.competitions') }}" class="btn btn-outline-secondary me-2">
                             <i class="bi bi-trophy me-1"></i>
                             Daftar Kompetisi
                         </a>

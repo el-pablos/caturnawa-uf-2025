@@ -130,7 +130,7 @@
                             <h5 class="mb-0">📱 Regenerate QR Codes</h5>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('dev.regenerate-qr') }}" method="POST">
+                            <form action="#" method="POST" onsubmit="alert('QR regeneration feature not implemented yet'); return false;">
                                 @csrf
                                 <div class="mb-3">
                                     <label class="form-label">User ID (optional):</label>

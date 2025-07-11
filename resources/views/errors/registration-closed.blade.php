@@ -52,8 +52,8 @@
                         <a href="{{ route('home') }}" class="btn btn-primary me-2">
                             <i class="fas fa-home"></i> Kembali ke Beranda
                         </a>
-                        <a href="{{ route('about') }}" class="btn btn-outline-primary">
-                            <i class="fas fa-info"></i> Tentang Kami
+                        <a href="{{ route('public.competitions') }}" class="btn btn-outline-primary">
+                            <i class="fas fa-trophy"></i> Lihat Kompetisi
                         </a>
                     </div>
                 </div>

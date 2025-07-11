@@ -144,13 +144,13 @@
                                                 <i class="bi bi-eye"></i>
                                             </a>
                                             @if($submission->is_scored)
-                                                <a href="{{ route('juri.scoring.edit', $submission) }}" 
+                                                <a href="{{ route('juri.scoring.submission', $submission) }}"
                                                    class="btn btn-sm btn-outline-warning"
                                                    title="Edit Penilaian">
                                                     <i class="bi bi-pencil"></i>
                                                 </a>
                                             @else
-                                                <a href="{{ route('juri.scoring.create', $submission) }}" 
+                                                <a href="{{ route('juri.scoring.submission', $submission) }}"
                                                    class="btn btn-sm btn-success"
                                                    title="Beri Nilai">
                                                     <i class="bi bi-plus-circle"></i>
@@ -191,7 +191,7 @@
                         $nextUnscored = $submissions->where('is_scored', false)->first();
                     @endphp
                     @if($nextUnscored)
-                        <a href="{{ route('juri.scoring.create', $nextUnscored) }}" class="btn btn-success">
+                        <a href="{{ route('juri.scoring.submission', $nextUnscored) }}" class="btn btn-success">
                             <i class="bi bi-play-circle me-2"></i>Mulai Penilaian Berikutnya
                         </a>
                     @endif
@@ -200,7 +200,7 @@
                         <i class="bi bi-list-check me-2"></i>Aksi Massal
                     </button>
                     
-                    <a href="{{ route('juri.scoring.export', $competition) }}" class="btn btn-outline-success">
+                    <a href="{{ route('juri.export.scores') }}" class="btn btn-outline-success">
                         <i class="bi bi-download me-2"></i>Export Nilai
                     </a>
                 </div>
