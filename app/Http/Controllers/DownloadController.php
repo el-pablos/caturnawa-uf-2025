@@ -8,6 +8,9 @@ use App\Models\Registration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Symfony\Component\HttpFoundation\Response;
 
 class DownloadController extends Controller
@@ -56,9 +59,9 @@ class DownloadController extends Controller
     {
         // Check permission
         $user = Auth::user();
-        
-        if ($payment->registration->user_id !== $user->id && 
-            !$user->hasRole(['Super Admin', 'Admin'])) {
+
+        if ($payment->registration->user_id !== $user->id &&
+            !$user->hasRole(['superadmin', 'admin'])) {
             abort(403, 'Unauthorized access to invoice');
         }
 
@@ -67,24 +70,63 @@ class DownloadController extends Controller
             return redirect()->back()->with('error', 'Invoice only available for paid payments');
         }
 
-        // Generate invoice PDF (placeholder implementation)
-        // In a real implementation, you would generate a proper PDF invoice
-        $data = [
-            'payment' => $payment->load(['registration.competition', 'registration.user']),
-            'generated_at' => now(),
-        ];
+        try {
+            // Load related data
+            $payment->load(['registration.competition', 'registration.user', 'registration.teamMembers']);
 
-        // For now, return a view that can be printed/saved as PDF
-        return view('downloads.invoice', $data);
+            $data = [
+                'payment' => $payment,
+                'registration' => $payment->registration,
+                'generated_at' => now(),
+            ];
+
+            // Generate PDF using DomPDF directly
+            $options = new Options();
+            $options->set('isHtml5ParserEnabled', true);
+            $options->set('isPhpEnabled', true);
+            $options->set('defaultFont', 'DejaVu Sans');
+            $options->set('dpi', 150);
+            $options->set('chroot', public_path());
+
+            $dompdf = new Dompdf($options);
+
+            // Render the view to HTML
+            $html = view('downloads.invoice', $data)->render();
+
+            // Load HTML into DomPDF
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('A4', 'portrait');
+            $dompdf->render();
+
+            $filename = 'invoice-' . $payment->order_id . '.pdf';
+
+            // Return PDF download response
+            return response($dompdf->output(), 200)
+                ->header('Content-Type', 'application/pdf')
+                ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
+
+        } catch (\Exception $e) {
+            Log::error('Error generating PDF invoice: ' . $e->getMessage());
+            Log::error('PDF Invoice Error Stack Trace: ' . $e->getTraceAsString());
+
+            // Fallback to HTML view if PDF generation fails
+            $data = [
+                'payment' => $payment->load(['registration.competition', 'registration.user', 'registration.teamMembers']),
+                'registration' => $payment->registration,
+                'generated_at' => now(),
+            ];
+
+            return view('downloads.invoice', $data)->with('error', 'PDF generation failed, showing HTML version. Error: ' . $e->getMessage());
+        }
     }
 
     public function ticket(Registration $registration)
     {
         // Check permission
         $user = Auth::user();
-        
-        if ($registration->user_id !== $user->id && 
-            !$user->hasRole(['Super Admin', 'Admin'])) {
+
+        if ($registration->user_id !== $user->id &&
+            !$user->hasRole(['superadmin', 'admin'])) {
             abort(403, 'Unauthorized access to ticket');
         }
 
@@ -93,9 +135,46 @@ class DownloadController extends Controller
             return redirect()->back()->with('error', 'Ticket only available for confirmed registrations');
         }
 
-        // Generate ticket with QR code
-        $registration->load(['competition', 'user']);
-        
-        return view('downloads.ticket', compact('registration'));
+        try {
+            // Generate ticket with QR code
+            $registration->load(['competition', 'user', 'teamMembers']);
+
+            $data = [
+                'registration' => $registration,
+                'generated_at' => now(),
+            ];
+
+            // Generate PDF using DomPDF directly
+            $options = new Options();
+            $options->set('isHtml5ParserEnabled', true);
+            $options->set('isPhpEnabled', true);
+            $options->set('defaultFont', 'DejaVu Sans');
+            $options->set('dpi', 150);
+            $options->set('chroot', public_path());
+
+            $dompdf = new Dompdf($options);
+
+            // Render the view to HTML
+            $html = view('downloads.ticket', $data)->render();
+
+            // Load HTML into DomPDF
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('A4', 'portrait');
+            $dompdf->render();
+
+            $filename = 'ticket-' . $registration->id . '.pdf';
+
+            // Return PDF download response
+            return response($dompdf->output(), 200)
+                ->header('Content-Type', 'application/pdf')
+                ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
+
+        } catch (\Exception $e) {
+            Log::error('Error generating PDF ticket: ' . $e->getMessage());
+            Log::error('PDF Ticket Error Stack Trace: ' . $e->getTraceAsString());
+
+            // Fallback to HTML view if PDF generation fails
+            return view('downloads.ticket', compact('registration'))->with('error', 'PDF generation failed, showing HTML version. Error: ' . $e->getMessage());
+        }
     }
 }
