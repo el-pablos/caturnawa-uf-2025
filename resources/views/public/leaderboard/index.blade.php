@@ -136,13 +136,13 @@
                                             <h4><i class="bi bi-award-fill me-2"></i>Juara 2</h4>
                                         </div>
                                         <div class="card-body text-center">
-                                            <h5 class="card-title text-primary">{{ $leaderboard[1]['participant_name'] }}</h5>
-                                            @if($leaderboard[1]['team_name'])
+                                            <h5 class="card-title text-primary">{{ $leaderboard[1]['participant_name'] ?? 'Unknown Participant' }}</h5>
+                                            @if(isset($leaderboard[1]['team_name']) && $leaderboard[1]['team_name'])
                                                 <p class="text-muted">Tim: {{ $leaderboard[1]['team_name'] }}</p>
                                             @endif
-                                            <p class="card-text"><strong>{{ $leaderboard[1]['submission_title'] }}</strong></p>
+                                            <p class="card-text"><strong>{{ $leaderboard[1]['submission_title'] ?? $leaderboard[1]['team_name'] ?? 'No Title' }}</strong></p>
                                             <div class="score-badge">
-                                                <span class="badge bg-secondary fs-5">{{ $leaderboard[1]['average_score'] }}/100</span>
+                                                <span class="badge bg-secondary fs-5">{{ $leaderboard[1]['average_score'] ?? 0 }}/100</span>
                                             </div>
                                         </div>
                                     </div>
@@ -155,13 +155,13 @@
                                             <h4><i class="bi bi-trophy-fill me-2"></i>Juara 1</h4>
                                         </div>
                                         <div class="card-body text-center">
-                                            <h5 class="card-title text-primary">{{ $leaderboard[0]['participant_name'] }}</h5>
-                                            @if($leaderboard[0]['team_name'])
+                                            <h5 class="card-title text-primary">{{ $leaderboard[0]['participant_name'] ?? 'Unknown Participant' }}</h5>
+                                            @if(isset($leaderboard[0]['team_name']) && $leaderboard[0]['team_name'])
                                                 <p class="text-muted">Tim: {{ $leaderboard[0]['team_name'] }}</p>
                                             @endif
-                                            <p class="card-text"><strong>{{ $leaderboard[0]['submission_title'] }}</strong></p>
+                                            <p class="card-text"><strong>{{ $leaderboard[0]['submission_title'] ?? $leaderboard[0]['team_name'] ?? 'No Title' }}</strong></p>
                                             <div class="score-badge">
-                                                <span class="badge bg-warning text-dark fs-4">{{ $leaderboard[0]['average_score'] }}/100</span>
+                                                <span class="badge bg-warning text-dark fs-4">{{ $leaderboard[0]['average_score'] ?? 0 }}/100</span>
                                             </div>
                                         </div>
                                     </div>
@@ -174,13 +174,13 @@
                                             <h4><i class="bi bi-award-fill me-2"></i>Juara 3</h4>
                                         </div>
                                         <div class="card-body text-center">
-                                            <h5 class="card-title text-primary">{{ $leaderboard[2]['participant_name'] }}</h5>
-                                            @if($leaderboard[2]['team_name'])
+                                            <h5 class="card-title text-primary">{{ $leaderboard[2]['participant_name'] ?? 'Unknown Participant' }}</h5>
+                                            @if(isset($leaderboard[2]['team_name']) && $leaderboard[2]['team_name'])
                                                 <p class="text-muted">Tim: {{ $leaderboard[2]['team_name'] }}</p>
                                             @endif
-                                            <p class="card-text"><strong>{{ $leaderboard[2]['submission_title'] }}</strong></p>
+                                            <p class="card-text"><strong>{{ $leaderboard[2]['submission_title'] ?? $leaderboard[2]['team_name'] ?? 'No Title' }}</strong></p>
                                             <div class="score-badge">
-                                                <span class="badge bg-danger fs-5">{{ $leaderboard[2]['average_score'] }}/100</span>
+                                                <span class="badge bg-danger fs-5">{{ $leaderboard[2]['average_score'] ?? 0 }}/100</span>
                                             </div>
                                         </div>
                                     </div>
@@ -240,23 +240,23 @@
                                                 </td>
                                                 <td>
                                                     <div>
-                                                        <strong>{{ $item['participant_name'] }}</strong>
-                                                        @if($item['team_name'])
+                                                        <strong>{{ $item['participant_name'] ?? 'Unknown Participant' }}</strong>
+                                                        @if(isset($item['team_name']) && $item['team_name'])
                                                             <br><small class="text-muted">Tim: {{ $item['team_name'] }}</small>
                                                         @endif
-                                                        @if($item['institution'])
+                                                        @if(isset($item['institution']) && $item['institution'])
                                                             <br><small class="text-muted">{{ $item['institution'] }}</small>
                                                         @endif
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <strong>{{ $item['submission_title'] }}</strong>
+                                                    <strong>{{ $item['submission_title'] ?? $item['team_name'] ?? 'No Title' }}</strong>
                                                 </td>
                                                 <td class="text-center">
-                                                    <span class="badge bg-primary fs-6">{{ $item['average_score'] }}/100</span>
+                                                    <span class="badge bg-primary fs-6">{{ $item['average_score'] ?? 0 }}/100</span>
                                                 </td>
                                                 <td class="text-center">
-                                                    <span class="text-muted">{{ $item['total_juries'] }} juri</span>
+                                                    <span class="text-muted">{{ $item['total_juries'] ?? 0 }} juri</span>
                                                 </td>
                                             </tr>
                                         @endforeach

@@ -160,6 +160,16 @@ class Competition extends Model
     }
 
     /**
+     * Relasi ke leaderboard entries
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function leaderboardEntries()
+    {
+        return $this->hasMany(LeaderboardEntry::class);
+    }
+
+    /**
      * Relasi dengan model Score (penilaian)
      * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

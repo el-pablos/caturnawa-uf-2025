@@ -40,16 +40,47 @@ class LeaderboardController extends Controller
         }
 
         if ($selectedCompetition) {
-            $leaderboard = $this->leaderboardService->calculateOverallLeaderboard($selectedCompetition);
+            $leaderboard = $this->getLeaderboardData($selectedCompetition);
         }
 
         return view('public.leaderboard.index', compact('competitions', 'selectedCompetition', 'leaderboard'));
     }
 
     /**
-     * Get leaderboard data for a competition
+     * Get leaderboard data for a competition (prioritizes LeaderboardEntry over calculated data)
      */
-    private function getLeaderboard(Competition $competition)
+    private function getLeaderboardData(Competition $competition)
+    {
+        // First, try to get data from LeaderboardEntry (seeded data for display)
+        $leaderboardEntries = \App\Models\LeaderboardEntry::where('competition_id', $competition->id)
+            ->where('is_active', true)
+            ->orderBy('rank')
+            ->get();
+
+        if ($leaderboardEntries->count() > 0) {
+            // Convert LeaderboardEntry data to the format expected by the view
+            return $leaderboardEntries->map(function ($entry, $index) {
+                return [
+                    'rank' => $entry->rank,
+                    'participant_name' => $entry->participant_name,
+                    'team_name' => $entry->team_name,
+                    'institution' => $entry->institution,
+                    'submission_title' => $entry->team_name, // Use team name as submission title for display
+                    'average_score' => $entry->score,
+                    'total_juries' => 3, // Default value for display
+                    'scores_detail' => [], // Empty for seeded data
+                ];
+            });
+        }
+
+        // Fallback to calculated leaderboard from submissions
+        return $this->getCalculatedLeaderboard($competition);
+    }
+
+    /**
+     * Get calculated leaderboard data from submissions (original method)
+     */
+    private function getCalculatedLeaderboard(Competition $competition)
     {
         // Get submissions with final scores
         $submissions = Submission::with(['registration.user', 'scores.jury'])
@@ -101,9 +132,9 @@ class LeaderboardController extends Controller
     /**
      * Get leaderboard data as JSON (for AJAX)
      */
-    public function getLeaderboardData(Competition $competition)
+    public function getLeaderboardDataJson(Competition $competition)
     {
-        $leaderboard = $this->getLeaderboard($competition);
+        $leaderboard = $this->getLeaderboardData($competition);
         
         return response()->json([
             'success' => true,

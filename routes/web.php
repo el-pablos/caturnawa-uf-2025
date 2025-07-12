@@ -51,7 +51,7 @@ Route::name('public.')->middleware('maintenance')->group(function () {
 // Leaderboard (outside public group to avoid public. prefix)
 Route::middleware('maintenance')->group(function () {
     Route::get('/leaderboard', [App\Http\Controllers\Public\LeaderboardController::class, 'index'])->name('leaderboard.index');
-    Route::get('/leaderboard/data/{competition}', [App\Http\Controllers\Public\LeaderboardController::class, 'getLeaderboardData'])->name('leaderboard.data');
+    Route::get('/leaderboard/data/{competition}', [App\Http\Controllers\Public\LeaderboardController::class, 'getLeaderboardDataJson'])->name('leaderboard.data');
 });
 
 // Competition Rounds (matalomba) - following the structure from predecessor website
