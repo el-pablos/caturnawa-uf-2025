@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
             UnasFestCompetitionSeeder::class,  // Main UNAS Fest competitions
             CompetitionSeeder::class,          // Additional test competitions
             PricingPhaseSeeder::class,
-            LeaderboardSeeder::class,          // Dummy leaderboard data
+            // LeaderboardSeeder::class,       // Excluded: Creates dummy users and registrations (transactional data)
         ]);
 
         $this->command->info('✅ Database seeding completed successfully!');

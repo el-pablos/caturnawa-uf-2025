@@ -116,7 +116,7 @@ class LeaderboardSeeder extends Seeder
                         'phone' => '08' . rand(1000000000, 9999999999),
                         'email_verified_at' => now(),
                         'password' => bcrypt('password'),
-                        'participant_status' => 'verified',
+                        'participant_status' => 'Mahasiswa Eksternal',
                     ]
                 );
 
