@@ -29,7 +29,7 @@ class LeaderboardSeeder extends Seeder
             return;
         }
 
-        // Dummy teams data for each competition
+        // Dummy teams data for each competition (Top 5 teams per competition)
         $competitionTeams = [
             'dcc' => [
                 ['team_name' => 'Data Scientists United', 'participant_name' => 'Ahmad Rifki', 'institution' => 'Universitas Indonesia', 'score' => 94.8, 'status' => 'Final'],
@@ -37,9 +37,6 @@ class LeaderboardSeeder extends Seeder
                 ['team_name' => 'Big Data Heroes', 'participant_name' => 'Budi Santoso', 'institution' => 'Universitas Gadjah Mada', 'score' => 89.2, 'status' => 'Final'],
                 ['team_name' => 'Data Mining Squad', 'participant_name' => 'Rina Pratiwi', 'institution' => 'Universitas Brawijaya', 'score' => 87.1, 'status' => 'Penyisihan'],
                 ['team_name' => 'Machine Learning Team', 'participant_name' => 'Joko Widodo', 'institution' => 'Institut Teknologi Sepuluh Nopember', 'score' => 85.9, 'status' => 'Penyisihan'],
-                ['team_name' => 'AI Specialists', 'participant_name' => 'Maya Sari', 'institution' => 'Universitas Diponegoro', 'score' => 84.7, 'status' => 'Penyisihan'],
-                ['team_name' => 'Neural Network Pro', 'participant_name' => 'Andi Setiawan', 'institution' => 'Universitas Padjadjaran', 'score' => 83.3, 'status' => 'Penyisihan'],
-                ['team_name' => 'Deep Learning Squad', 'participant_name' => 'Lisa Handayani', 'institution' => 'Universitas Sebelas Maret', 'score' => 82.1, 'status' => 'Penyisihan'],
             ],
             'spc' => [
                 ['team_name' => 'Research Innovators', 'participant_name' => 'Dr. Indra Mahasiswa', 'institution' => 'Universitas Airlangga', 'score' => 92.3, 'status' => 'Final'],
@@ -47,9 +44,6 @@ class LeaderboardSeeder extends Seeder
                 ['team_name' => 'Scientific Writers', 'participant_name' => 'Dr. Bambang Susilo', 'institution' => 'Universitas Diponegoro', 'score' => 88.7, 'status' => 'Final'],
                 ['team_name' => 'Knowledge Seekers', 'participant_name' => 'Mega Fitriani', 'institution' => 'Universitas Hasanuddin', 'score' => 86.4, 'status' => 'Semifinal'],
                 ['team_name' => 'Research Masters', 'participant_name' => 'Hadi Santoso', 'institution' => 'Universitas Sebelas Maret', 'score' => 84.2, 'status' => 'Semifinal'],
-                ['team_name' => 'Academic Scholars', 'participant_name' => 'Fitri Rahayu', 'institution' => 'Universitas Lampung', 'score' => 83.8, 'status' => 'Semifinal'],
-                ['team_name' => 'Paper Champions', 'participant_name' => 'Rio Pramono', 'institution' => 'Universitas Jember', 'score' => 82.5, 'status' => 'Semifinal'],
-                ['team_name' => 'Science Explorer', 'participant_name' => 'Nina Kartika', 'institution' => 'Universitas Riau', 'score' => 81.3, 'status' => 'Semifinal'],
             ],
             'english-debate' => [
                 ['team_name' => 'Oxford Speakers', 'participant_name' => 'William Anderson', 'institution' => 'Institut Pertanian Bogor', 'score' => 93.6, 'status' => 'Final'],
@@ -57,9 +51,6 @@ class LeaderboardSeeder extends Seeder
                 ['team_name' => 'Eloquent Voices', 'participant_name' => 'Michael Johnson', 'institution' => 'Universitas Indonesia', 'score' => 89.4, 'status' => 'Final'],
                 ['team_name' => 'Parliamentary Pros', 'participant_name' => 'Emma Thompson', 'institution' => 'Universitas Brawijaya', 'score' => 87.7, 'status' => 'Semifinal'],
                 ['team_name' => 'Rhetoric Masters', 'participant_name' => 'David Wilson', 'institution' => 'Universitas Andalas', 'score' => 85.3, 'status' => 'Semifinal'],
-                ['team_name' => 'Speaking Stars', 'participant_name' => 'Jessica Brown', 'institution' => 'Institut Teknologi Sepuluh Nopember', 'score' => 84.9, 'status' => 'Semifinal'],
-                ['team_name' => 'Debate Warriors', 'participant_name' => 'James Davis', 'institution' => 'Universitas Riau', 'score' => 83.2, 'status' => 'Semifinal'],
-                ['team_name' => 'Eloquent Squad', 'participant_name' => 'Sophie Taylor', 'institution' => 'Universitas Sriwijaya', 'score' => 82.6, 'status' => 'Semifinal'],
             ],
             'kdbi' => [
                 ['team_name' => 'Penceramah Ulung', 'participant_name' => 'Achmad Prasetyo', 'institution' => 'Universitas Indonesia', 'score' => 94.2, 'status' => 'Final'],
@@ -67,9 +58,6 @@ class LeaderboardSeeder extends Seeder
                 ['team_name' => 'Orator Muda', 'participant_name' => 'Bambang Hermanto', 'institution' => 'Universitas Gadjah Mada', 'score' => 89.8, 'status' => 'Final'],
                 ['team_name' => 'Pembicara Handal', 'participant_name' => 'Dewi Lestari', 'institution' => 'Universitas Airlangga', 'score' => 87.5, 'status' => 'Semifinal'],
                 ['team_name' => 'Retorika Indonesia', 'participant_name' => 'Agus Susanto', 'institution' => 'Universitas Padjadjaran', 'score' => 85.7, 'status' => 'Semifinal'],
-                ['team_name' => 'Pidato Cemerlang', 'participant_name' => 'Rika Safitri', 'institution' => 'Universitas Diponegoro', 'score' => 84.3, 'status' => 'Semifinal'],
-                ['team_name' => 'Bahasa Kita', 'participant_name' => 'Firman Hidayat', 'institution' => 'Universitas Sebelas Maret', 'score' => 83.1, 'status' => 'Semifinal'],
-                ['team_name' => 'Kata Bijak', 'participant_name' => 'Indah Permata', 'institution' => 'Universitas Brawijaya', 'score' => 81.9, 'status' => 'Semifinal'],
             ],
             'short-movie' => [
                 ['team_name' => 'Cinematic Vision', 'participant_name' => 'Ario Bayu', 'institution' => 'Institut Seni Budaya Indonesia', 'score' => 95.1, 'status' => 'Final'],
@@ -77,9 +65,6 @@ class LeaderboardSeeder extends Seeder
                 ['team_name' => 'Film Creators', 'participant_name' => 'Reza Rahadian', 'institution' => 'Institut Teknologi Bandung', 'score' => 90.3, 'status' => 'Final'],
                 ['team_name' => 'Story Tellers', 'participant_name' => 'Dian Sastro', 'institution' => 'Universitas Indonesia', 'score' => 88.9, 'status' => 'Semifinal'],
                 ['team_name' => 'Visual Artists', 'participant_name' => 'Nicholas Saputra', 'institution' => 'Universitas Gadjah Mada', 'score' => 86.4, 'status' => 'Semifinal'],
-                ['team_name' => 'Creative Cinema', 'participant_name' => 'Raisa Andriana', 'institution' => 'Institut Seni Budaya Indonesia', 'score' => 85.2, 'status' => 'Semifinal'],
-                ['team_name' => 'Film Academy', 'participant_name' => 'Chicco Jerikho', 'institution' => 'Universitas Trisakti', 'score' => 83.7, 'status' => 'Semifinal'],
-                ['team_name' => 'Motion Picture', 'participant_name' => 'Prisia Nasution', 'institution' => 'Universitas Pelita Harapan', 'score' => 82.4, 'status' => 'Semifinal'],
             ],
             'photography' => [
                 ['team_name' => 'Lens Masters', 'participant_name' => 'Rio Motret', 'institution' => 'Institut Seni Budaya Indonesia', 'score' => 96.3, 'status' => 'Final'],
@@ -87,9 +72,6 @@ class LeaderboardSeeder extends Seeder
                 ['team_name' => 'Visual Storytellers', 'participant_name' => 'Andi Shutter', 'institution' => 'Universitas Pelita Harapan', 'score' => 91.2, 'status' => 'Final'],
                 ['team_name' => 'Shutter Speed', 'participant_name' => 'Maya Camera', 'institution' => 'Universitas Bina Nusantara', 'score' => 89.5, 'status' => 'Semifinal'],
                 ['team_name' => 'Creative Shots', 'participant_name' => 'Budi Foto', 'institution' => 'Universitas Indonesia', 'score' => 87.1, 'status' => 'Semifinal'],
-                ['team_name' => 'Picture Perfect', 'participant_name' => 'Lisa Focus', 'institution' => 'Institut Teknologi Bandung', 'score' => 85.8, 'status' => 'Semifinal'],
-                ['team_name' => 'Frame Artists', 'participant_name' => 'Joko Exposure', 'institution' => 'Universitas Gadjah Mada', 'score' => 84.6, 'status' => 'Semifinal'],
-                ['team_name' => 'Light Catchers', 'participant_name' => 'Nina Aperture', 'institution' => 'Universitas Diponegoro', 'score' => 83.3, 'status' => 'Semifinal'],
             ],
         ];
 
@@ -129,10 +111,12 @@ class LeaderboardSeeder extends Seeder
                     [
                         'team_name' => $teamData['team_name'],
                         'institution' => $teamData['institution'],
-                        'status' => 'approved',
-                        'payment_status' => 'paid',
-                        'is_paid' => true,
-                        'registration_number' => 'REG' . $competition->id . str_pad($index + 1, 3, '0', STR_PAD_LEFT),
+                        'phone' => '08' . rand(1000000000, 9999999999),
+                        'amount' => 50000, // Default competition fee
+                        'status' => 'confirmed',
+                        'registration_number' => 'UF2025-' . str_pad($competition->id, 2, '0', STR_PAD_LEFT) . '-' . str_pad($index + 1, 4, '0', STR_PAD_LEFT),
+                        'registered_at' => now()->subDays(rand(1, 30)),
+                        'confirmed_at' => now()->subDays(rand(1, 5)),
                         'created_at' => now()->subDays(rand(1, 30)),
                         'updated_at' => now()->subDays(rand(1, 5)),
                     ]
