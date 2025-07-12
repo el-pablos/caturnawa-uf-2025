@@ -343,9 +343,9 @@ Route::prefix('payment')->name('payment.')->group(function () {
         Route::post('/process/{registration}', [PaymentController::class, 'process'])->name('process');
         Route::post('/update-method/{registration}', [PaymentController::class, 'updatePaymentMethod'])->name('update-method');
         Route::get('/status/{paymentId}', [PaymentController::class, 'status'])->name('status');
-        Route::get('/finish/{payment}', [PaymentController::class, 'finish'])->name('finish');
-        Route::get('/unfinish/{payment}', [PaymentController::class, 'unfinish'])->name('unfinish');
-        Route::get('/error/{payment}', [PaymentController::class, 'error'])->name('error');
+        Route::get('/finish/{payment}', [PaymentController::class, 'finish'])->name('finish')->where('payment', '[0-9]+');
+        Route::get('/unfinish/{payment}', [PaymentController::class, 'unfinish'])->name('unfinish')->where('payment', '[0-9]+');
+        Route::get('/error/{payment}', [PaymentController::class, 'error'])->name('error')->where('payment', '[0-9]+');
         Route::post('/check-status', [PaymentController::class, 'checkStatus'])->name('check-status');
         Route::get('/receipt/{payment}', [PaymentController::class, 'downloadReceipt'])->name('receipt');
     });

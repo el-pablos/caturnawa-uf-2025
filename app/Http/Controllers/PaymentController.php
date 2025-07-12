@@ -310,11 +310,48 @@ class PaymentController extends Controller
     /**
      * Halaman sukses pembayaran
      *
-     * @param \App\Models\Payment $payment
-     * @return \Illuminate\View\View
+     * @param int|Payment $payment
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function finish(Payment $payment)
+    public function finish($payment)
     {
+        // Handle both Payment model and payment ID
+        if (!$payment instanceof Payment) {
+            $paymentId = $payment;
+            $payment = Payment::find($paymentId);
+
+            if (!$payment) {
+                Log::warning('Payment finish accessed with non-existent payment ID', [
+                    'payment_id' => $paymentId,
+                    'user_id' => Auth::id(),
+                    'ip' => request()->ip(),
+                    'user_agent' => request()->userAgent()
+                ]);
+
+                return view('payment.not-found', [
+                    'payment_id' => $paymentId,
+                    'message' => 'Payment not found. The payment ID you are looking for does not exist.',
+                    'available_payments' => Auth::check() ?
+                        Payment::whereHas('registration', function($q) {
+                            $q->where('user_id', Auth::id());
+                        })->get(['id', 'order_id', 'status']) :
+                        collect()
+                ]);
+            }
+        }
+
+        // Check if user has permission to view this payment
+        if (Auth::check() && $payment->registration->user_id !== Auth::id() && !Auth::user()->hasRole(['superadmin', 'admin'])) {
+            Log::warning('Unauthorized payment finish access attempt', [
+                'payment_id' => $payment->id,
+                'payment_user_id' => $payment->registration->user_id,
+                'accessing_user_id' => Auth::id(),
+                'ip' => request()->ip()
+            ]);
+
+            abort(403, 'Unauthorized access to payment information');
+        }
+
         $registration = $payment->registration;
 
         // Force check status dari Midtrans untuk memastikan status terbaru
@@ -355,27 +392,85 @@ class PaymentController extends Controller
 
     /**
      * Halaman pembayaran tidak selesai
-     * 
-     * @param \App\Models\Payment $payment
-     * @return \Illuminate\View\View
+     *
+     * @param int|Payment $payment
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function unfinish(Payment $payment)
+    public function unfinish($payment)
     {
+        // Handle both Payment model and payment ID
+        if (!$payment instanceof Payment) {
+            $paymentId = $payment;
+            $payment = Payment::find($paymentId);
+
+            if (!$payment) {
+                Log::warning('Payment unfinish accessed with non-existent payment ID', [
+                    'payment_id' => $paymentId,
+                    'user_id' => Auth::id(),
+                    'ip' => request()->ip()
+                ]);
+
+                return view('payment.not-found', [
+                    'payment_id' => $paymentId,
+                    'message' => 'Payment not found. The payment ID you are looking for does not exist.',
+                    'available_payments' => Auth::check() ?
+                        Payment::whereHas('registration', function($q) {
+                            $q->where('user_id', Auth::id());
+                        })->get(['id', 'order_id', 'status']) :
+                        collect()
+                ]);
+            }
+        }
+
+        // Check permission
+        if (Auth::check() && $payment->registration->user_id !== Auth::id() && !Auth::user()->hasRole(['superadmin', 'admin'])) {
+            abort(403, 'Unauthorized access to payment information');
+        }
+
         $registration = $payment->registration;
-        
+
         return view('payment.unfinish', compact('payment', 'registration'));
     }
 
     /**
      * Halaman error pembayaran
-     * 
-     * @param \App\Models\Payment $payment
-     * @return \Illuminate\View\View
+     *
+     * @param int|Payment $payment
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function error(Payment $payment)
+    public function error($payment)
     {
+        // Handle both Payment model and payment ID
+        if (!$payment instanceof Payment) {
+            $paymentId = $payment;
+            $payment = Payment::find($paymentId);
+
+            if (!$payment) {
+                Log::warning('Payment error accessed with non-existent payment ID', [
+                    'payment_id' => $paymentId,
+                    'user_id' => Auth::id(),
+                    'ip' => request()->ip()
+                ]);
+
+                return view('payment.not-found', [
+                    'payment_id' => $paymentId,
+                    'message' => 'Payment not found. The payment ID you are looking for does not exist.',
+                    'available_payments' => Auth::check() ?
+                        Payment::whereHas('registration', function($q) {
+                            $q->where('user_id', Auth::id());
+                        })->get(['id', 'order_id', 'status']) :
+                        collect()
+                ]);
+            }
+        }
+
+        // Check permission
+        if (Auth::check() && $payment->registration->user_id !== Auth::id() && !Auth::user()->hasRole(['superadmin', 'admin'])) {
+            abort(403, 'Unauthorized access to payment information');
+        }
+
         $registration = $payment->registration;
-        
+
         return view('payment.error', compact('payment', 'registration'));
     }
 

@@ -64,6 +64,39 @@
                         </div>
                     </div>
                     
+                    @if(isset($available_payments) && $available_payments->count() > 0)
+                    <div class="mt-4">
+                        <h6 class="text-primary mb-3">
+                            <i class="bi bi-credit-card me-2"></i>
+                            Pembayaran Anda yang Tersedia
+                        </h6>
+                        <div class="row">
+                            @foreach($available_payments as $availablePayment)
+                            <div class="col-md-6 mb-2">
+                                <div class="card border-primary">
+                                    <div class="card-body py-2">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <small class="text-muted">Order ID:</small><br>
+                                                <strong>{{ $availablePayment->order_id }}</strong>
+                                            </div>
+                                            <div class="text-end">
+                                                <span class="badge bg-{{ $availablePayment->status === 'paid' ? 'success' : ($availablePayment->status === 'pending' ? 'warning' : 'danger') }}">
+                                                    {{ ucfirst($availablePayment->status) }}
+                                                </span><br>
+                                                <a href="{{ route('payment.finish', $availablePayment->id) }}" class="btn btn-sm btn-primary mt-1">
+                                                    <i class="bi bi-eye me-1"></i>Lihat
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
+
                     <div class="mt-4">
                         <a href="{{ route('peserta.registrations.index') }}" class="btn btn-primary me-2">
                             <i class="bi bi-list-ul me-1"></i>
