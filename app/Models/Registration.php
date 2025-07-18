@@ -279,16 +279,6 @@ class Registration extends Model
     }
 
     /**
-     * Cek apakah pendaftaran sudah dikonfirmasi
-     * 
-     * @return bool
-     */
-    public function isConfirmed()
-    {
-        return $this->status === self::STATUS_CONFIRMED;
-    }
-
-    /**
      * Cek apakah pendaftaran masih pending
      * 
      * @return bool
