@@ -22,6 +22,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- AOS Animation -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
     
     <style>
         :root {
@@ -85,7 +88,7 @@
         }
 
         .nav-link:hover::after {
-            width: 100%;
+            width: 60%;
         }
 
         .nav-link.active {
@@ -94,9 +97,135 @@
         }
 
         .nav-link.active::after {
-            width: 100%;
+            width: 60%;
         }
 
+        .navbar-nav {
+            display: flex;
+            justify-content: center;
+            flex-grow: 1;
+        }
+
+        /* Login Button Container */
+        .login-button-container {
+            position: absolute;
+            right: 15px;
+            transform: translateY(-50%);
+            z-index: 1000;
+        }
+
+        .login-button-container .btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            padding: 0.5rem 1.5rem;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .login-button-container .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+        }
+
+        /* Hamburger Menu Improvements */
+        .navbar-toggler {
+            border: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.25);
+        }
+
+        .navbar-toggler:hover {
+            background: rgba(37, 99, 235, 0.15);
+            transform: scale(1.05);
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2837, 99, 235, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='m4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            transition: all 0.3s ease;
+        }
+
+        .navbar-collapse {
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            margin-top: 0.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Smooth collapse animation */
+        .navbar-collapse.collapsing {
+            transition: height 0.35s ease;
+        }
+
+        .navbar-collapse.show {
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile landscape scrollable navbar */
+        @media (max-height: 500px) and (max-width: 767px) {
+            .navbar-collapse {
+                max-height: calc(100vh - 120px);
+                overflow-y: auto;
+                overflow-x: hidden;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: thin;
+                scrollbar-color: rgba(37, 99, 235, 0.3) transparent;
+            }
+
+            .navbar-collapse::-webkit-scrollbar {
+                width: 4px;
+            }
+
+            .navbar-collapse::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            .navbar-collapse::-webkit-scrollbar-thumb {
+                background: rgba(37, 99, 235, 0.3);
+                border-radius: 2px;
+            }
+
+            .navbar-collapse::-webkit-scrollbar-thumb:hover {
+                background: rgba(37, 99, 235, 0.5);
+            }
+
+            .navbar-nav {
+                padding-bottom: 1rem;
+            }
+
+            .login-button-container.d-lg-none {
+                position: sticky;
+                bottom: 0;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(10px);
+                margin-top: 0.5rem;
+                padding-top: 1rem;
+                border-top: 1px solid rgba(0, 0, 0, 0.1);
+                border-radius: 0 0 15px 15px;
+            }
+        }
         /* Footer Styles */
         .main-footer {
             background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
@@ -337,7 +466,154 @@
             text-decoration: underline;
         }
 
+
         /* Responsive Design */
+        
+        /* Large Desktop (1200px and up) - Default styles apply */
+        
+        /* Desktop and Large Tablet (992px to 1199px) */
+        @media (max-width: 1199px) {
+            .navbar-nav {
+                gap: 0.25rem;
+            }
+            
+            .nav-link {
+                font-size: 0.9rem;
+                padding: 0.5rem 0.75rem !important;
+            }
+        }
+        
+        /* Tablet Landscape (768px to 991px) */
+        @media (max-width: 991px) {
+            .navbar-nav {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.5rem;
+                margin: 0;
+            }
+            
+            .navbar-nav .nav-item {
+                flex: 1 1 auto;
+                text-align: center;
+                min-width: 120px;
+            }
+            
+            .nav-link {
+                font-size: 0.85rem;
+                padding: 0.5rem 0.5rem !important;
+                white-space: nowrap;
+            }
+            
+            .nav-link i {
+                display: none; /* Hide icons on tablet to save space */
+            }
+            
+            .login-button-container.d-none.d-lg-block {
+                display: none !important;
+            }
+            
+            .login-button-container.d-lg-none {
+                display: block !important;
+                position: static;
+                transform: none;
+                margin-top: 1rem;
+                padding-top: 1rem;
+                border-top: 1px solid rgba(0, 0, 0, 0.1);
+                text-align: center;
+            }
+        }
+        
+        /* Mobile Portrait and Small Tablet (576px to 767px) */
+        @media (max-width: 767px) {
+            .navbar-brand {
+                font-size: 1.25rem;
+            }
+            
+            .navbar-toggler {
+                border: none;
+                padding: 0.25rem 0.5rem;
+            }
+            
+            .navbar-collapse {
+                margin-top: 1rem;
+            }
+            
+            .navbar-nav {
+                flex-direction: column;
+                gap: 0;
+                text-align: center;
+            }
+            
+            .navbar-nav .nav-item {
+                flex: none;
+                width: 100%;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            }
+            
+            .navbar-nav .nav-item:last-child {
+                border-bottom: none;
+            }
+            
+            .nav-link {
+                padding: 1rem !important;
+                font-size: 1rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+            }
+            
+            .nav-link i {
+                display: inline-block; /* Show icons on mobile */
+                font-size: 1.1rem;
+            }
+            
+            .nav-link:hover {
+                background-color: rgba(37, 99, 235, 0.05);
+                transform: none;
+            }
+            
+            .nav-link::after {
+                display: none; /* Remove underline effect on mobile */
+            }
+            
+            .nav-link.active {
+                background-color: rgba(37, 99, 235, 0.1);
+                transform: none;
+            }
+            
+            .login-button-container.d-lg-none {
+                margin-top: 1rem;
+                padding-top: 1rem;
+                border-top: 1px solid rgba(0, 0, 0, 0.1);
+            }
+            
+            .login-button-container .btn {
+                width: 100%;
+                padding: 0.75rem 1.5rem;
+                font-size: 1rem;
+            }
+        }
+        
+        /* Small Mobile (up to 575px) */
+        @media (max-width: 575px) {
+            .navbar-brand {
+                font-size: 1.1rem;
+            }
+            
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            .nav-link {
+                padding: 0.875rem !important;
+                font-size: 0.95rem;
+            }
+        }
+        
+        /* Footer Responsive Styles */
         @media (max-width: 768px) {
             .footer-content {
                 padding: 2rem 0 1rem;
@@ -370,6 +646,9 @@
                 justify-content: center;
             }
         }
+
+
+
     </style>
     
     @stack('styles')
@@ -377,7 +656,7 @@
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
-        <div class="container">
+        <div class="container" data-aos="fade-down" data-aos-duration="1000">
             <a class="navbar-brand" href="{{ route('public.home') }}">
                 <strong>UNAS Fest 2025</strong>
             </a>
@@ -387,38 +666,47 @@
             </button>
             
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item" data-aos="fade-down" data-aos-duration="900">
                         <a class="nav-link {{ request()->routeIs('public.home') ? 'active' : '' }}" href="{{ route('public.home') }}">
                             <i class="bi bi-house me-1"></i>Beranda
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item"  data-aos="fade-down" data-aos-duration="900">
                         <a class="nav-link {{ request()->routeIs('public.competitions*') ? 'active' : '' }}" href="{{ route('public.competitions') }}">
                             <i class="bi bi-trophy me-1"></i>Kompetisi
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item"  data-aos="fade-down" data-aos-duration="900">
                         <a class="nav-link {{ request()->routeIs('leaderboard.*') ? 'active' : '' }}" href="{{ route('leaderboard.index') }}">
                             <i class="bi bi-list-ol me-1"></i>Leaderboard
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item"  data-aos="fade-down" data-aos-duration="900">
                         <a class="nav-link {{ request()->routeIs('public.about') ? 'active' : '' }}" href="{{ route('public.about') }}">
                             <i class="bi bi-info-circle me-1"></i>Tentang
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item"  data-aos="fade-down" data-aos-duration="900">
                         <a class="nav-link {{ request()->routeIs('public.contact') ? 'active' : '' }}" href="{{ route('public.contact') }}">
                             <i class="bi bi-envelope me-1"></i>Kontak
                         </a>
                     </li>
-                    <li class="nav-item ms-2">
-                        <a class="btn btn-primary btn-sm px-3" href="{{ route('login') }}">
-                            <i class="bi bi-box-arrow-in-right me-1"></i>Masuk
-                        </a>
-                    </li>
                 </ul>
+                
+                <!-- Mobile Login Button -->
+                <div class="login-button-container d-lg-none" data-aos="fade-down" data-aos-duration="900">
+                    <a class="btn btn-primary btn-sm px-3" href="{{ route('login') }}">
+                        <i class="bi bi-box-arrow-in-right me-1"></i>Masuk
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Separate Login Button -->
+            <div class="login-button-container d-none d-lg-block mx-auto" data-aos="fade-down" data-aos-duration="900">
+                <a class="btn btn-primary btn-sm px-3" href="{{ route('login') }}">
+                    <i class="bi bi-box-arrow-in-right me-1"></i>Masuk
+                </a>
             </div>
         </div>
     </nav>
@@ -429,7 +717,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="main-footer">
+    <footer class="main-footer" data-aos="fade-up" data-aos-anchor-placement="center-bootom">
         <div class="footer-content">
             <div class="container">
                 <div class="row">
@@ -554,8 +842,17 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     
     <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true,
+            easing: 'ease-in-out',
+            offset: 100
+        });
         // Counter Animation
         function animateCounters() {
             const counters = document.querySelectorAll('.counter-number');
