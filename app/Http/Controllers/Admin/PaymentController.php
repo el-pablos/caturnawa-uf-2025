@@ -88,6 +88,39 @@ class PaymentController extends Controller
         try {
             DB::beginTransaction();
 
+            // Check if payment is already confirmed to prevent race conditions
+            $payment = Payment::where('id', $payment->id)
+                             ->where('is_confirmed', false)
+                             ->lockForUpdate()
+                             ->first();
+
+            if (!$payment) {
+                DB::rollback();
+                
+                if (request()->wantsJson()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Pembayaran sudah dikonfirmasi oleh admin lain atau tidak ditemukan.'
+                    ]);
+                }
+
+                return back()->with('error', 'Pembayaran sudah dikonfirmasi oleh admin lain atau tidak ditemukan.');
+            }
+
+            // Verify payment is in valid state for confirmation
+            if (!$payment->isAwaitingConfirmation()) {
+                DB::rollback();
+                
+                if (request()->wantsJson()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Pembayaran tidak dalam status yang dapat dikonfirmasi.'
+                    ]);
+                }
+
+                return back()->with('error', 'Pembayaran tidak dalam status yang dapat dikonfirmasi.');
+            }
+
             // Update payment confirmation
             $payment->update([
                 'is_confirmed' => true,

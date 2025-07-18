@@ -281,17 +281,45 @@ class SubmissionController extends Controller
             abort(403, 'Unauthorized access to submission');
         }
 
+        // Validate filename format (UUID + extension)
+        if (!preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.[a-zA-Z]{2,5}$/', $filename)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid filename format'
+            ], 400);
+        }
+
         try {
             $files = $submission->files ?? [];
             $updatedFiles = [];
+            $fileFound = false;
 
             foreach ($files as $file) {
                 if ($file['filename'] !== $filename) {
                     $updatedFiles[] = $file;
                 } else {
+                    $fileFound = true;
+                    // Validate file path before deletion
+                    $filePath = $file['path'];
+                    
+                    // Ensure the file path is within the expected submissions directory
+                    if (!str_starts_with($filePath, 'submissions/')) {
+                        return response()->json([
+                            'success' => false,
+                            'message' => 'Invalid file path'
+                        ], 400);
+                    }
+
                     // Delete file from storage
-                    Storage::disk('public')->delete($file['path']);
+                    Storage::disk('public')->delete($filePath);
                 }
+            }
+
+            if (!$fileFound) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'File not found in submission'
+                ], 404);
             }
 
             $submission->update(['files' => $updatedFiles]);
@@ -304,7 +332,7 @@ class SubmissionController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Failed to delete file: ' . $e->getMessage()
+                'message' => 'Failed to delete file'
             ], 500);
         }
     }
@@ -312,21 +340,76 @@ class SubmissionController extends Controller
     private function handleFileUploads($files, Submission $submission)
     {
         $uploadedFiles = $submission->files ?? [];
+        $maxFileSize = 64 * 1024 * 1024; // 64MB in bytes
+        $allowedMimeTypes = [
+            'application/pdf',
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/vnd.ms-powerpoint',
+            'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+            'application/zip',
+            'application/x-zip-compressed',
+            'image/jpeg',
+            'image/png',
+            'image/gif',
+            'video/mp4',
+            'video/avi',
+            'video/quicktime',
+            'video/x-msvideo'
+        ];
+        
+        $allowedExtensions = [
+            'pdf', 'doc', 'docx', 'ppt', 'pptx', 'zip', 'rar', 
+            'jpg', 'jpeg', 'png', 'gif', 'mp4', 'avi', 'mov'
+        ];
 
         foreach ($files as $file) {
-            $filename = time() . '_' . rand(1000, 9999) . '_' . $file->getClientOriginalName();
-            $path = $file->storeAs('submissions/' . $submission->id, $filename, 'public');
+            // Validate file size
+            if ($file->getSize() > $maxFileSize) {
+                throw new \Exception("File {$file->getClientOriginalName()} exceeds maximum size of 64MB");
+            }
+
+            // Validate file type
+            $mimeType = $file->getMimeType();
+            if (!in_array($mimeType, $allowedMimeTypes)) {
+                throw new \Exception("File type {$mimeType} is not allowed for file {$file->getClientOriginalName()}");
+            }
+
+            // Validate file extension
+            $extension = strtolower($file->getClientOriginalExtension());
+            if (!in_array($extension, $allowedExtensions)) {
+                throw new \Exception("File extension {$extension} is not allowed for file {$file->getClientOriginalName()}");
+            }
+
+            // Generate secure filename
+            $secureFilename = $this->generateSecureFilename($file->getClientOriginalExtension());
+            
+            // Store file with secure name
+            $path = $file->storeAs('submissions/' . $submission->id, $secureFilename, 'public');
 
             $uploadedFiles[] = [
-                'filename' => $filename,
-                'original_name' => $file->getClientOriginalName(),
+                'filename' => $secureFilename,
+                'original_name' => $this->sanitizeFilename($file->getClientOriginalName()),
                 'path' => $path,
                 'size' => $file->getSize(),
-                'mime_type' => $file->getMimeType(),
+                'mime_type' => $mimeType,
                 'uploaded_at' => now()->toISOString(),
             ];
         }
 
         $submission->update(['files' => $uploadedFiles]);
+    }
+
+    private function generateSecureFilename($extension)
+    {
+        return \Str::uuid() . '.' . $extension;
+    }
+
+    private function sanitizeFilename($filename)
+    {
+        // Remove potentially dangerous characters
+        $filename = preg_replace('/[^a-zA-Z0-9._-]/', '', $filename);
+        // Limit filename length
+        return substr($filename, 0, 100);
     }
 }

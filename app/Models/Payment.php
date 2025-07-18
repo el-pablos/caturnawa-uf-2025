@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Model Payment untuk mengelola data pembayaran
@@ -103,10 +104,16 @@ class Payment extends Model
      */
     protected function generateOrderId()
     {
-        $timestamp = now()->format('YmdHis');
-        $random = str_pad(mt_rand(1, 999), 3, '0', STR_PAD_LEFT);
+        do {
+            $timestamp = now()->format('YmdHis');
+            $random = str_pad(mt_rand(1000, 9999), 4, '0', STR_PAD_LEFT);
+            $orderId = "UF2025-{$timestamp}-{$random}";
+            
+            // Check for collision in database
+            $exists = Payment::where('order_id', $orderId)->exists();
+        } while ($exists);
         
-        return "UF2025-{$timestamp}-{$random}";
+        return $orderId;
     }
 
     /**
@@ -156,43 +163,65 @@ class Payment extends Model
             $notification = json_decode(json_encode($notification), true);
         }
 
-        // Determine status based on transaction_status
-        $status = 'pending';
-        if (in_array($notification['transaction_status'], ['settlement', 'capture'])) {
-            $status = 'paid';
-        } elseif (in_array($notification['transaction_status'], ['deny', 'cancel', 'expire', 'failure'])) {
-            $status = 'failed';
-        }
-
-        $this->update([
-            'transaction_status' => $notification['transaction_status'],
-            'status' => $status,
-            'payment_type' => $notification['payment_type'] ?? null,
-            'payment_method' => $notification['payment_type'] ?? null,
-            'bank' => $notification['bank'] ?? null,
-            'va_number' => $notification['va_number'] ?? null,
-            'fraud_status' => $notification['fraud_status'] ?? null,
-            'status_code' => $notification['status_code'] ?? null,
-            'status_message' => $notification['status_message'] ?? null,
-            'transaction_id' => $notification['transaction_id'] ?? null,
-            'payment_code' => $notification['payment_code'] ?? null,
-            'pdf_url' => $notification['pdf_url'] ?? null,
-            'midtrans_response' => $notification,
-        ]);
-
-        // Update waktu pembayaran jika settlement
-        if ($this->isSuccess()) {
-            $this->update(['paid_at' => now()]);
-
-            // Set registration status to 'paid' (waiting for admin confirmation)
-            // Do NOT auto-confirm registration - admin must confirm manually
-            if ($this->registration->status === 'pending') {
-                $this->registration->update(['status' => 'paid']);
+        // Use database locking to prevent race conditions
+        return DB::transaction(function() use ($notification) {
+            // Lock the payment record for update
+            $payment = Payment::where('id', $this->id)->lockForUpdate()->first();
+            
+            if (!$payment) {
+                return;
             }
 
-            // Store WhatsApp group link in session for display
-            $this->storeWhatsAppGroupLink();
-        }
+            // Check if this notification has already been processed (idempotent)
+            $currentTransactionStatus = $payment->transaction_status;
+            $newTransactionStatus = $notification['transaction_status'];
+            
+            // If status hasn't changed, skip processing
+            if ($currentTransactionStatus === $newTransactionStatus && 
+                $payment->midtrans_response && 
+                isset($payment->midtrans_response['transaction_id']) && 
+                $payment->midtrans_response['transaction_id'] === ($notification['transaction_id'] ?? null)) {
+                return;
+            }
+
+            // Determine status based on transaction_status
+            $status = 'pending';
+            if (in_array($newTransactionStatus, ['settlement', 'capture'])) {
+                $status = 'paid';
+            } elseif (in_array($newTransactionStatus, ['deny', 'cancel', 'expire', 'failure'])) {
+                $status = 'failed';
+            }
+
+            $payment->update([
+                'transaction_status' => $newTransactionStatus,
+                'status' => $status,
+                'payment_type' => $notification['payment_type'] ?? null,
+                'payment_method' => $notification['payment_type'] ?? null,
+                'bank' => $notification['bank'] ?? null,
+                'va_number' => $notification['va_number'] ?? null,
+                'fraud_status' => $notification['fraud_status'] ?? null,
+                'status_code' => $notification['status_code'] ?? null,
+                'status_message' => $notification['status_message'] ?? null,
+                'transaction_id' => $notification['transaction_id'] ?? null,
+                'payment_code' => $notification['payment_code'] ?? null,
+                'pdf_url' => $notification['pdf_url'] ?? null,
+                'midtrans_response' => $notification,
+            ]);
+
+            // Update waktu pembayaran jika settlement
+            if ($payment->isSuccess()) {
+                $payment->update(['paid_at' => now()]);
+
+                // Set registration status to 'paid' (waiting for admin confirmation)
+                // Do NOT auto-confirm registration - admin must confirm manually
+                if ($payment->registration->status === 'pending') {
+                    $payment->registration->update(['status' => 'paid']);
+                }
+
+                // Store WhatsApp group link in session for display
+                $payment->storeWhatsAppGroupLink();
+            }
+        });
     }
 
     /**

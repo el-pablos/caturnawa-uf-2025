@@ -114,7 +114,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'required|string|min:8|confirmed|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/',
             'phone' => 'required|string|max:20',
             'participant_status' => 'required|in:Mahasiswa Unas,Mahasiswa Eksternal,Siswa SMA/SMK',
             'institution' => 'required|string|max:255',
@@ -127,6 +127,7 @@ class AuthController extends Controller
             'password.required' => 'Password harus diisi',
             'password.min' => 'Password minimal 8 karakter',
             'password.confirmed' => 'Konfirmasi password tidak cocok',
+            'password.regex' => 'Password harus mengandung huruf besar, huruf kecil, angka, dan karakter khusus (@$!%*?&)',
             'phone.required' => 'Nomor telepon harus diisi',
             'participant_status.required' => 'Status peserta harus dipilih',
             'participant_status.in' => 'Status peserta tidak valid',
@@ -312,12 +313,13 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'current_password' => 'required',
-            'new_password' => 'required|string|min:8|confirmed',
+            'new_password' => 'required|string|min:8|confirmed|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/',
         ], [
             'current_password.required' => 'Password saat ini harus diisi',
             'new_password.required' => 'Password baru harus diisi',
             'new_password.min' => 'Password baru minimal 8 karakter',
             'new_password.confirmed' => 'Konfirmasi password baru tidak cocok',
+            'new_password.regex' => 'Password baru harus mengandung huruf besar, huruf kecil, angka, dan karakter khusus (@$!%*?&)',
         ]);
 
         if ($validator->fails()) {

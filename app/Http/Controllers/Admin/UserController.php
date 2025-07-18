@@ -307,6 +307,19 @@ class UserController extends Controller
             return back()->with('error', 'Tidak dapat menonaktifkan akun sendiri.');
         }
 
+        // Prevent deactivating super admin if only one exists and they're active
+        if ($user->hasRole('superadmin') && $user->is_active && User::role('superadmin')->where('is_active', true)->count() <= 1) {
+            \Log::warning('Attempt to deactivate last active super admin', ['user_id' => $user->id]);
+
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Tidak dapat menonaktifkan Super Admin terakhir yang aktif.'
+                ], 400);
+            }
+            return back()->with('error', 'Tidak dapat menonaktifkan Super Admin terakhir yang aktif.');
+        }
+
         try {
             $originalStatus = $user->is_active;
             $user->update(['is_active' => !$user->is_active]);

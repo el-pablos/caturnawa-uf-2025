@@ -43,9 +43,9 @@
                             <label for="category" class="form-label">Kategori <span class="text-danger">*</span></label>
                             <select class="form-select @error('category') is-invalid @enderror" id="category" name="category" required>
                                 <option value="">Pilih Kategori</option>
-                                <option value="biodiversity" {{ old('category', $competition->category) == 'biodiversity' ? 'selected' : '' }}>Bio-diversity</option>
-                                <option value="health" {{ old('category', $competition->category) == 'health' ? 'selected' : '' }}>Health</option>
-                                <option value="technology" {{ old('category', $competition->category) == 'technology' ? 'selected' : '' }}>Technology</option>
+                                <option value="event_dcc" {{ old('category', $competition->category) == 'event_dcc' ? 'selected' : '' }}>Event DCC (Data Challenge Competition)</option>
+                                <option value="event_debate" {{ old('category', $competition->category) == 'event_debate' ? 'selected' : '' }}>Event Debate</option>
+                                <option value="event_scientific_paper" {{ old('category', $competition->category) == 'event_scientific_paper' ? 'selected' : '' }}>Event Scientific Paper</option>
                             </select>
                             @error('category')
                                 <div class="invalid-feedback">{{ $message }}</div>
