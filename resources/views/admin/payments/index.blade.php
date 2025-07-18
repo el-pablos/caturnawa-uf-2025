@@ -190,17 +190,9 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if($payment->status === 'pending')
-                                        <span class="badge bg-warning">Menunggu</span>
-                                    @elseif($payment->status === 'paid')
-                                        <span class="badge bg-success">Berhasil</span>
-                                    @elseif($payment->status === 'failed')
-                                        <span class="badge bg-danger">Gagal</span>
-                                    @elseif($payment->status === 'cancelled')
-                                        <span class="badge bg-secondary">Dibatalkan</span>
-                                    @elseif($payment->status === 'refunded')
-                                        <span class="badge bg-info">Refund</span>
-                                    @endif
+                                    <span class="badge bg-{{ $payment->status_class }}">
+                                        {{ $payment->status_label }}
+                                    </span>
                                 </td>
                                 <td>{{ $payment->created_at->format('d/m/Y H:i') }}</td>
                                 <td>
@@ -208,14 +200,14 @@
                                         <a href="{{ route('admin.payments.show', $payment) }}" class="btn btn-outline-primary">
                                             <i class="bi bi-eye"></i>
                                         </a>
-                                        @if($payment->transaction_status === 'pending')
+                                        @if($payment->isAwaitingConfirmation())
                                             <button class="btn btn-outline-success btn-sm" onclick="confirmPayment({{ $payment->id }})" title="Konfirmasi Pembayaran">
                                                 <i class="bi bi-check-circle"></i>
                                             </button>
                                             <button class="btn btn-outline-danger btn-sm" onclick="rejectPayment({{ $payment->id }})" title="Tolak Pembayaran">
                                                 <i class="bi bi-x-circle"></i>
                                             </button>
-                                        @elseif(in_array($payment->transaction_status, ['settlement', 'capture']))
+                                        @elseif($payment->isConfirmed())
                                             <span class="badge bg-success">Terkonfirmasi</span>
                                         @endif
                                     </div>

@@ -81,7 +81,7 @@ class PaymentController extends Controller
      * Konfirmasi pembayaran dan registrasi
      * 
      * @param \App\Models\Payment $payment
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
     public function confirmPayment(Payment $payment)
     {
@@ -110,9 +110,24 @@ class PaymentController extends Controller
 
             DB::commit();
 
+            if (request()->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Pembayaran berhasil dikonfirmasi dan registrasi disetujui.'
+                ]);
+            }
+
             return back()->with('success', 'Pembayaran berhasil dikonfirmasi dan registrasi disetujui.');
         } catch (\Exception $e) {
             DB::rollback();
+            
+            if (request()->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal mengkonfirmasi pembayaran: ' . $e->getMessage()
+                ]);
+            }
+
             return back()->with('error', 'Gagal mengkonfirmasi pembayaran: ' . $e->getMessage());
         }
     }
@@ -163,7 +178,7 @@ class PaymentController extends Controller
      * 
      * @param \App\Models\Payment $payment
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
     public function reject(Payment $payment, Request $request)
     {
@@ -192,9 +207,24 @@ class PaymentController extends Controller
 
             DB::commit();
 
+            if (request()->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Pembayaran berhasil ditolak.'
+                ]);
+            }
+
             return back()->with('success', 'Pembayaran berhasil ditolak.');
         } catch (\Exception $e) {
             DB::rollback();
+            
+            if (request()->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal menolak pembayaran: ' . $e->getMessage()
+                ]);
+            }
+
             return back()->with('error', 'Gagal menolak pembayaran: ' . $e->getMessage());
         }
     }
