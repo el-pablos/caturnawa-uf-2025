@@ -232,3 +232,11 @@ _ide_helper_models.php
 # Profiling
 *.prof
 *.trace
+
+# Claude AI related files
+CLAUDE.md
+.claude/
+claude-*
+*claude*
+*.claude
+.claude_*
