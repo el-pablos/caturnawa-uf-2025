@@ -31,8 +31,8 @@ class MidtransService
      */
     public function isConfigured(): bool
     {
-        $serverKey = env('MIDTRANS_SERVER_KEY', '');
-        $clientKey = env('MIDTRANS_CLIENT_KEY', '');
+        $serverKey = config('midtrans.server_key', '');
+        $clientKey = config('midtrans.client_key', '');
 
         return !empty($serverKey) && !empty($clientKey);
     }

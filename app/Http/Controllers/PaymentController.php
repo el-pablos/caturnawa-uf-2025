@@ -23,15 +23,15 @@ class PaymentController extends Controller
     public function __construct()
     {
         // Only initialize MidtransService if configured
-        if (env('MIDTRANS_SERVER_KEY') && env('MIDTRANS_CLIENT_KEY')) {
+        if (config('midtrans.server_key') && config('midtrans.client_key')) {
             $this->midtransService = app(MidtransService::class);
             Log::info('PaymentController initialized with Midtrans configuration');
         } else {
             $this->midtransService = null;
             Log::warning('PaymentController initialized without Midtrans configuration', [
-                'server_key_exists' => !empty(env('MIDTRANS_SERVER_KEY')),
-                'client_key_exists' => !empty(env('MIDTRANS_CLIENT_KEY')),
-                'environment' => env('APP_ENV', 'unknown')
+                'server_key_exists' => !empty(config('midtrans.server_key')),
+                'client_key_exists' => !empty(config('midtrans.client_key')),
+                'environment' => config('app.env', 'unknown')
             ]);
         }
     }

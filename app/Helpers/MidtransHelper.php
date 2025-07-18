@@ -8,12 +8,12 @@ class MidtransHelper
 {
     public static function initMidtransConfig()
     {
-        // Get config values directly from environment with fallbacks
-        $serverKey = env('MIDTRANS_SERVER_KEY', '');
-        $clientKey = env('MIDTRANS_CLIENT_KEY', '');
-        $isProduction = env('MIDTRANS_IS_PRODUCTION', false);
-        $isSanitized = env('MIDTRANS_IS_SANITIZED', true);
-        $is3ds = env('MIDTRANS_IS_3DS', true);
+        // Get config values from Laravel configuration
+        $serverKey = config('midtrans.server_key', '');
+        $clientKey = config('midtrans.client_key', '');
+        $isProduction = config('midtrans.is_production', false);
+        $isSanitized = config('midtrans.is_sanitized', true);
+        $is3ds = config('midtrans.is_3ds', true);
 
         // Log configuration for debugging
         Log::info('Midtrans Configuration', [
@@ -45,8 +45,8 @@ class MidtransHelper
      */
     public static function isConfigured(): bool
     {
-        $serverKey = env('MIDTRANS_SERVER_KEY', '');
-        $clientKey = env('MIDTRANS_CLIENT_KEY', '');
+        $serverKey = config('midtrans.server_key', '');
+        $clientKey = config('midtrans.client_key', '');
 
         return !empty($serverKey) && !empty($clientKey);
     }
@@ -58,7 +58,7 @@ class MidtransHelper
      */
     public static function getClientKey(): string
     {
-        return env('MIDTRANS_CLIENT_KEY', '');
+        return config('midtrans.client_key', '');
     }
 
     /**
@@ -68,7 +68,7 @@ class MidtransHelper
      */
     public static function getServerKey(): string
     {
-        return env('MIDTRANS_SERVER_KEY', '');
+        return config('midtrans.server_key', '');
     }
 
     /**
@@ -78,7 +78,7 @@ class MidtransHelper
      */
     public static function isProduction(): bool
     {
-        return env('MIDTRANS_IS_PRODUCTION', false);
+        return config('midtrans.is_production', false);
     }
 
     /**
