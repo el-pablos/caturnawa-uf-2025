@@ -184,8 +184,11 @@ class Payment extends Model
         if ($this->isSuccess()) {
             $this->update(['paid_at' => now()]);
 
-            // Konfirmasi pendaftaran
-            $this->registration->confirm();
+            // Set registration status to 'paid' (waiting for admin confirmation)
+            // Do NOT auto-confirm registration - admin must confirm manually
+            if ($this->registration->status === 'pending') {
+                $this->registration->update(['status' => 'paid']);
+            }
 
             // Store WhatsApp group link in session for display
             $this->storeWhatsAppGroupLink();
@@ -262,7 +265,11 @@ class Payment extends Model
         switch ($this->transaction_status) {
             case 'settlement':
             case 'capture':
-                return 'Berhasil';
+                if ($this->is_confirmed) {
+                    return 'Terkonfirmasi';
+                } else {
+                    return 'Menunggu Konfirmasi Admin';
+                }
             case 'pending':
                 return 'Menunggu Pembayaran';
             case 'deny':
@@ -288,7 +295,11 @@ class Payment extends Model
         switch ($this->transaction_status) {
             case 'settlement':
             case 'capture':
-                return 'success';
+                if ($this->is_confirmed) {
+                    return 'success';
+                } else {
+                    return 'info';
+                }
             case 'pending':
                 return 'warning';
             case 'deny':
@@ -359,5 +370,25 @@ class Payment extends Model
         }
         
         return "Selesaikan pembayaran sesuai metode yang dipilih";
+    }
+
+    /**
+     * Check if payment is successful but awaiting admin confirmation
+     * 
+     * @return bool
+     */
+    public function isAwaitingConfirmation()
+    {
+        return $this->isSuccess() && !$this->is_confirmed;
+    }
+
+    /**
+     * Check if payment is confirmed by admin
+     * 
+     * @return bool
+     */
+    public function isConfirmed()
+    {
+        return $this->is_confirmed;
     }
 }

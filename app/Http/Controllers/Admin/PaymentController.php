@@ -78,6 +78,46 @@ class PaymentController extends Controller
     }
 
     /**
+     * Konfirmasi pembayaran dan registrasi
+     * 
+     * @param \App\Models\Payment $payment
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function confirmPayment(Payment $payment)
+    {
+        try {
+            DB::beginTransaction();
+
+            // Update payment confirmation
+            $payment->update([
+                'is_confirmed' => true,
+                'confirmed_at' => now(),
+                'confirmed_by' => auth()->id(),
+            ]);
+
+            // Update registration status to confirmed
+            $payment->registration->update([
+                'status' => 'confirmed',
+                'confirmed_at' => now(),
+                'confirmed_by' => auth()->id(),
+            ]);
+
+            // Generate QR Code untuk tiket
+            $payment->registration->generateQRCode();
+
+            // Send confirmation email
+            // TODO: Implement email notification
+
+            DB::commit();
+
+            return back()->with('success', 'Pembayaran berhasil dikonfirmasi dan registrasi disetujui.');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return back()->with('error', 'Gagal mengkonfirmasi pembayaran: ' . $e->getMessage());
+        }
+    }
+
+    /**
      * Verifikasi pembayaran manual
      * 
      * @param \App\Models\Payment $payment

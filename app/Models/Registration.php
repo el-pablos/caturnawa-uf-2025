@@ -195,6 +195,17 @@ class Registration extends Model
     }
 
     /**
+     * Scope untuk pendaftaran yang sudah dibayar tapi belum dikonfirmasi
+     * 
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePaid($query)
+    {
+        return $query->where('status', self::STATUS_PAID);
+    }
+
+    /**
      * Generate nomor pendaftaran unik
      * 
      * @return string
@@ -245,6 +256,26 @@ class Registration extends Model
             'status' => self::STATUS_CONFIRMED,
             'confirmed_at' => now(),
         ]);
+    }
+
+    /**
+     * Check if registration is paid but not confirmed
+     * 
+     * @return bool
+     */
+    public function isPaidButNotConfirmed()
+    {
+        return $this->status === self::STATUS_PAID;
+    }
+
+    /**
+     * Check if registration is confirmed
+     * 
+     * @return bool
+     */
+    public function isConfirmed()
+    {
+        return $this->status === self::STATUS_CONFIRMED;
     }
 
     /**
