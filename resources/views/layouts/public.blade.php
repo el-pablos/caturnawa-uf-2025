@@ -326,7 +326,7 @@
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container">
+        <div class="container" data-aos="fade-down" data-aos-duration="100">
             <a class="navbar-brand font-poppins" href="{{ route('public.home') }}">
                 <img src="{{ asset('assets/images/logo/unas-fest-logo.png') }}" alt="UNAS Fest 2025" height="40" class="me-2"
                      onerror="this.style.display='none'">
@@ -339,42 +339,42 @@
             
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
+                    <li class="nav-item" data-aos="fade-down" data-aos-duration="900">
                         <a class="nav-link {{ request()->routeIs('public.home') ? 'active' : '' }}" href="{{ route('public.home') }}">
                             <i class="bi bi-house me-1"></i>Beranda
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" data-aos="fade-down" data-aos-duration="900">
                         <a class="nav-link {{ request()->routeIs('public.competitions') ? 'active' : '' }}" href="{{ route('public.competitions') }}">
                             <i class="bi bi-trophy me-1"></i>Kompetisi
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" data-aos="fade-down" data-aos-duration="900">
                         <a class="nav-link {{ request()->routeIs('public.about') ? 'active' : '' }}" href="{{ route('public.about') }}">
                             <i class="bi bi-people me-1"></i>Tentang Kami
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" data-aos="fade-down" data-aos-duration="900">
                         <a class="nav-link {{ request()->routeIs('public.testimonials') ? 'active' : '' }}" href="{{ route('public.testimonials') }}">
                             <i class="bi bi-chat-quote me-1"></i>Testimoni
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" data-aos="fade-down" data-aos-duration="900">
                         <a class="nav-link {{ request()->routeIs('public.faq') ? 'active' : '' }}" href="{{ route('public.faq') }}">
                             <i class="bi bi-question-circle me-1"></i>FAQ
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" data-aos="fade-down" data-aos-duration="900">
                         <a class="nav-link {{ request()->routeIs('public.blog') ? 'active' : '' }}" href="{{ route('public.blog') }}">
                             <i class="bi bi-journal-text me-1"></i>Blog
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" data-aos="fade-down" data-aos-duration="900">
                         <a class="nav-link {{ request()->routeIs('public.contact') ? 'active' : '' }}" href="{{ route('public.contact') }}">
                             <i class="bi bi-envelope me-1"></i>Kontak
                         </a>
                     </li>
-                    <li class="nav-item ms-2">
+                    <li class="nav-item ms-2" data-aos="fade-down" data-aos-duration="900">
                         <a class="btn btn-primary" href="{{ route('login') }}">
                             <i class="bi bi-box-arrow-in-right me-1"></i>Masuk
                         </a>
@@ -392,7 +392,7 @@
 
     <!-- Footer -->
     <footer class="bg-dark text-white py-5">
-        <div class="container">
+        <div class="container" data-aos="fade-up" data-aos-anchor-placement="center-bootom">
             <div class="row g-4">
                 <div class="col-lg-3">
                     <div class="d-flex align-items-center mb-3">
