@@ -946,7 +946,119 @@ erDiagram
     SUBMISSIONS ||--o{ EVALUATIONS : receives
 ```
 
+<<<<<<< HEAD
 ### 👥 **User Role & Permission Flow**
+=======
+---
+
+## 🔧 API Documentation
+
+### 📡 API Endpoints
+
+```mermaid
+graph LR
+    subgraph "Authentication API"
+        A1["POST /api/login"]
+        A2["POST /api/register"]
+        A3["POST /api/logout"]
+        A4["GET /api/me"]
+    end
+
+    subgraph "Competition API"
+        B1["GET /api/competitions"]
+        B2["GET /api/competitions/id"]
+        B3["POST /api/competitions/id/register"]
+    end
+
+    subgraph "Registration API"
+        C1["GET /api/registrations"]
+        C2["GET /api/registrations/id"]
+        C3["PUT /api/registrations/id"]
+    end
+
+    subgraph "Payment API"
+        D1["POST /api/payments"]
+        D2["GET /api/payments/id"]
+        D3["POST /api/payments/webhook"]
+    end
+
+    subgraph "Submission API"
+        E1["GET /api/submissions"]
+        E2["POST /api/submissions"]
+        E3["PUT /api/submissions/id"]
+        E4["DELETE /api/submissions/id"]
+    end
+```
+
+### 🔑 Authentication
+
+```bash
+# Login
+curl -X POST https://api.unasfest.com/api/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "password": "password"
+  }'
+
+# Response
+{
+  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+  "user": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "user@example.com",
+    "role": "peserta"
+  }
+}
+```
+
+### 🏆 Competition Endpoints
+
+```bash
+# Get all competitions
+GET /api/competitions
+
+# Get competition details
+GET /api/competitions/{id}
+
+# Register for competition
+POST /api/competitions/{id}/register
+{
+  "team_name": "Team Alpha",
+  "members": [
+    {"name": "John Doe", "email": "john@example.com"},
+    {"name": "Jane Smith", "email": "jane@example.com"}
+  ]
+}
+```
+
+### 💳 Payment Endpoints
+
+```bash
+# Create payment
+POST /api/payments
+{
+  "registration_id": 1,
+  "payment_method": "credit_card",
+  "amount": 100000
+}
+
+# Payment webhook (Midtrans)
+POST /api/payments/webhook
+{
+  "order_id": "REG-123",
+  "transaction_status": "settlement",
+  "gross_amount": "100000.00"
+}
+```
+
+---
+
+## 🚀 Deployment
+
+### 🔄 Zero-Downtime Deployment Flow
+>>>>>>> 9bf2ced (fix: resolve mermaid diagram syntax error and remove community text from readme)
 
 ```mermaid
 graph TD
