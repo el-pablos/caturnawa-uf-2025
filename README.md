@@ -571,35 +571,35 @@ server {
 ```mermaid
 graph LR
     subgraph "Authentication API"
-        A1[POST /api/login]
-        A2[POST /api/register]
-        A3[POST /api/logout]
-        A4[GET /api/me]
+        A1["POST /api/login"]
+        A2["POST /api/register"]
+        A3["POST /api/logout"]
+        A4["GET /api/me"]
     end
-    
+
     subgraph "Competition API"
-        B1[GET /api/competitions]
-        B2[GET /api/competitions/{id}]
-        B3[POST /api/competitions/{id}/register]
+        B1["GET /api/competitions"]
+        B2["GET /api/competitions/id"]
+        B3["POST /api/competitions/id/register"]
     end
-    
+
     subgraph "Registration API"
-        C1[GET /api/registrations]
-        C2[GET /api/registrations/{id}]
-        C3[PUT /api/registrations/{id}]
+        C1["GET /api/registrations"]
+        C2["GET /api/registrations/id"]
+        C3["PUT /api/registrations/id"]
     end
-    
+
     subgraph "Payment API"
-        D1[POST /api/payments]
-        D2[GET /api/payments/{id}]
-        D3[POST /api/payments/webhook]
+        D1["POST /api/payments"]
+        D2["GET /api/payments/id"]
+        D3["POST /api/payments/webhook"]
     end
-    
+
     subgraph "Submission API"
-        E1[GET /api/submissions]
-        E2[POST /api/submissions]
-        E3[PUT /api/submissions/{id}]
-        E4[DELETE /api/submissions/{id}]
+        E1["GET /api/submissions"]
+        E2["POST /api/submissions"]
+        E3["PUT /api/submissions/id"]
+        E4["DELETE /api/submissions/id"]
     end
 ```
 
@@ -1146,7 +1146,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 **🎉 Ready for Production • Secure • Scalable • Modern**
 
-*Built with ❤️ for the Indonesian Academic Community*
+
 
 **Version 1.0** • **Last Updated: July 2025**
 
