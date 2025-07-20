@@ -91,8 +91,8 @@
     <div class="card-body">
         <form method="GET" class="row g-3">
             <div class="col-md-3">
-                <label class="form-label">Status</label>
-                <select name="status" class="form-select">
+                <label for="filter-status" class="form-label">Status</label>
+                <select name="status" id="filter-status" class="form-select">
                     <option value="">Semua Status</option>
                     <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Menunggu</option>
                     <option value="paid" {{ request('status') === 'paid' ? 'selected' : '' }}>Berhasil</option>
@@ -101,8 +101,8 @@
                 </select>
             </div>
             <div class="col-md-3">
-                <label class="form-label">Metode Pembayaran</label>
-                <select name="payment_method" class="form-select">
+                <label for="filter-payment-method" class="form-label">Metode Pembayaran</label>
+                <select name="payment_method" id="filter-payment-method" class="form-select">
                     <option value="">Semua Metode</option>
                     <option value="bank_transfer" {{ request('payment_method') === 'bank_transfer' ? 'selected' : '' }}>Transfer Bank</option>
                     <option value="credit_card" {{ request('payment_method') === 'credit_card' ? 'selected' : '' }}>Kartu Kredit</option>
@@ -110,11 +110,11 @@
                 </select>
             </div>
             <div class="col-md-4">
-                <label class="form-label">Cari</label>
-                <input type="text" name="search" class="form-control" placeholder="Order ID, Transaction ID, atau nama..." value="{{ request('search') }}">
+                <label for="filter-search" class="form-label">Cari</label>
+                <input type="text" name="search" id="filter-search" class="form-control" placeholder="Order ID, Transaction ID, atau nama..." value="{{ request('search') }}">
             </div>
             <div class="col-md-2">
-                <label class="form-label">&nbsp;</label>
+                <label for="filter-submit" class="form-label">&nbsp;</label>
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-primary">
                         <i class="bi bi-search"></i>
@@ -151,7 +151,8 @@
                     <thead>
                         <tr>
                             <th>
-                                <input type="checkbox" id="selectAll" class="form-check-input">
+                                <label for="selectAll" class="visually-hidden">Pilih Semua</label>
+                                <input type="checkbox" id="selectAll" class="form-check-input" aria-label="Pilih semua pembayaran">
                             </th>
                             <th>Order ID</th>
                             <th>Peserta</th>
@@ -167,7 +168,8 @@
                         @foreach($payments as $payment)
                             <tr>
                                 <td>
-                                    <input type="checkbox" class="form-check-input payment-checkbox" value="{{ $payment->id }}">
+                                    <label for="payment-checkbox-{{ $payment->id }}" class="visually-hidden">Pilih pembayaran {{ $payment->order_id }}</label>
+                                    <input type="checkbox" id="payment-checkbox-{{ $payment->id }}" class="form-check-input payment-checkbox" value="{{ $payment->id }}" aria-label="Pilih pembayaran {{ $payment->order_id }}">
                                 </td>
                                 <td>
                                     <div>
@@ -278,19 +280,19 @@
 
                 <form id="rejectForm">
                     <div class="mb-3">
-                        <label class="form-label">
+                        <label for="rejection-reason" class="form-label">
                             <strong>Alasan Penolakan <span class="text-danger">*</span></strong>
                         </label>
-                        <textarea name="rejection_reason" class="form-control" rows="4" required
+                        <textarea name="rejection_reason" id="rejection-reason" class="form-control" rows="4" required
                                   placeholder="Jelaskan alasan penolakan pembayaran..."></textarea>
                         <div class="form-text">Berikan alasan yang jelas dan spesifik untuk penolakan ini.</div>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">
+                        <label for="rejection-action" class="form-label">
                             <strong>Tindakan Selanjutnya</strong>
                         </label>
-                        <select class="form-select" name="action">
+                        <select class="form-select" id="rejection-action" name="action">
                             <option value="notify_only">Hanya kirim notifikasi</option>
                             <option value="allow_retry">Izinkan pembayaran ulang</option>
                             <option value="cancel_registration">Batalkan registrasi</option>
@@ -321,12 +323,12 @@
             <div class="modal-body">
                 <form id="refundForm">
                     <div class="mb-3">
-                        <label class="form-label">Jumlah Refund <span class="text-danger">*</span></label>
-                        <input type="number" name="refund_amount" class="form-control" required min="0">
+                        <label for="refund-amount" class="form-label">Jumlah Refund <span class="text-danger">*</span></label>
+                        <input type="number" name="refund_amount" id="refund-amount" class="form-control" required min="0">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Alasan Refund <span class="text-danger">*</span></label>
-                        <textarea name="refund_reason" class="form-control" rows="3" required 
+                        <label for="refund-reason" class="form-label">Alasan Refund <span class="text-danger">*</span></label>
+                        <textarea name="refund_reason" id="refund-reason" class="form-control" rows="3" required
                                   placeholder="Masukkan alasan refund..."></textarea>
                     </div>
                 </form>
