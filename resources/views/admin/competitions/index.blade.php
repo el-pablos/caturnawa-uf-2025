@@ -102,9 +102,9 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <div>Rp {{ number_format($competition->registration_fee ?? 0, 0, ',', '.') }}</div>
-                                    @if($competition->early_bird_fee)
-                                        <small class="text-muted">Early: Rp {{ number_format($competition->early_bird_fee, 0, ',', '.') }}</small>
+                                    <div>Rp {{ number_format($competition->price ?? 0, 0, ',', '.') }}</div>
+                                    @if($competition->early_bird_price)
+                                        <small class="text-muted">Early: Rp {{ number_format($competition->early_bird_price, 0, ',', '.') }}</small>
                                     @endif
                                 </td>
                                 <td>
