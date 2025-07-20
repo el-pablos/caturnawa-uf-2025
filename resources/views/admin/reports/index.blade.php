@@ -261,9 +261,21 @@ document.addEventListener('DOMContentLoaded', function() {
             { orderable: false, targets: [] }
         ],
         language: {
-            url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/id.json',
             emptyTable: "Tidak ada data laporan tersedia",
-            zeroRecords: "Tidak ada data yang cocok dengan pencarian"
+            zeroRecords: "Tidak ada data yang cocok dengan pencarian",
+            info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+            infoEmpty: "Menampilkan 0 sampai 0 dari 0 entri",
+            infoFiltered: "(disaring dari _MAX_ total entri)",
+            lengthMenu: "Tampilkan _MENU_ entri",
+            loadingRecords: "Memuat...",
+            processing: "Memproses...",
+            search: "Cari:",
+            paginate: {
+                first: "Pertama",
+                last: "Terakhir",
+                next: "Selanjutnya",
+                previous: "Sebelumnya"
+            }
         }
     });
     
@@ -296,7 +308,12 @@ function loadCompetitionDistribution() {
 
 // Create competition distribution chart
 function createCompetitionChart(data) {
-    const ctx = document.getElementById('competitionChart').getContext('2d');
+    const chartElement = document.getElementById('competitionChart');
+    if (!chartElement) {
+        console.warn('Competition chart element not found');
+        return;
+    }
+    const ctx = chartElement.getContext('2d');
 
     const labels = data.map(item => item.category);
     const values = data.map(item => item.count);
@@ -350,20 +367,31 @@ function loadRegistrationChart() {
             if (data.success) {
                 createRegistrationChart(data.data);
             } else {
-                document.getElementById('registrationChart').parentElement.innerHTML =
-                    '<div class="alert alert-info text-center">Belum ada data registrasi</div>';
+                const chartElement = document.getElementById('registrationChart');
+                if (chartElement && chartElement.parentElement) {
+                    chartElement.parentElement.innerHTML =
+                        '<div class="alert alert-info text-center">Belum ada data registrasi</div>';
+                }
             }
         })
         .catch(error => {
             console.error('Error loading registration trend:', error);
-            document.getElementById('registrationChart').parentElement.innerHTML =
-                '<div class="alert alert-danger text-center">Gagal memuat data registrasi</div>';
+            const chartElement = document.getElementById('registrationChart');
+            if (chartElement && chartElement.parentElement) {
+                chartElement.parentElement.innerHTML =
+                    '<div class="alert alert-danger text-center">Gagal memuat data registrasi</div>';
+            }
         });
 }
 
 // Create registration chart
 function createRegistrationChart(data) {
-    const ctx = document.getElementById('registrationChart').getContext('2d');
+    const chartElement = document.getElementById('registrationChart');
+    if (!chartElement) {
+        console.warn('Registration chart element not found');
+        return;
+    }
+    const ctx = chartElement.getContext('2d');
 
     new Chart(ctx, {
         type: 'line',
@@ -416,7 +444,12 @@ function loadRevenueChart() {
 
 // Create revenue chart
 function createRevenueChart(data) {
-    const ctx = document.getElementById('revenueChart').getContext('2d');
+    const chartElement = document.getElementById('revenueChart');
+    if (!chartElement) {
+        console.warn('Revenue chart element not found');
+        return;
+    }
+    const ctx = chartElement.getContext('2d');
 
     new Chart(ctx, {
         type: 'line',

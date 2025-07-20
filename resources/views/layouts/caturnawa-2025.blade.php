@@ -99,7 +99,7 @@
                                 {{ Auth::user()->name }}
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('peserta.dashboard') }}">Dashboard</a></li>
+                                <li><a class="dropdown-item" href="{{ route('peserta.peserta.dashboard') }}">Dashboard</a></li>
                                 <li><a class="dropdown-item" href="{{ route('profile.index') }}">Profil</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
@@ -135,7 +135,7 @@
                         <li><a href="{{ route('login') }}" class="mobile-nav-link">Masuk</a></li>
                         <li><a href="{{ route('register') }}" class="mobile-nav-link">Daftar</a></li>
                     @else
-                        <li><a href="{{ route('peserta.dashboard') }}" class="mobile-nav-link">Dashboard</a></li>
+                        <li><a href="{{ route('peserta.peserta.dashboard') }}" class="mobile-nav-link">Dashboard</a></li>
                         <li><a href="{{ route('profile.index') }}" class="mobile-nav-link">Profil</a></li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">

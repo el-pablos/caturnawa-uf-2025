@@ -321,7 +321,7 @@
         <!-- Navigation Menu -->
         <div class="nav-menu-container">
             <div class="nav nav-pills flex-column p-3">
-                    <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
+                    <a class="nav-link {{ request()->routeIs('admin.admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.admin.dashboard') }}">
                         <i class="bi bi-speedometer2 me-2"></i>Dashboard
                     </a>
 

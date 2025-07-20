@@ -26,78 +26,69 @@
                     @csrf
                     @method('PUT')
                     
-                    <!-- System Control -->
+                    <!-- Essential System Settings -->
                     <div class="mb-4">
                         <h6 class="text-primary mb-3">
-                            <i class="bi bi-shield-check me-2"></i>Kontrol Sistem
+                            <i class="bi bi-gear me-2"></i>Pengaturan Sistem
                         </h6>
 
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" name="maintenance_mode" id="maintenanceMode"
-                                           {{ ($settings['maintenance_mode'] ?? false) ? 'checked' : '' }}>
-                                    <label class="form-check-label fw-semibold" for="maintenanceMode">
-                                        Mode Maintenance
-                                    </label>
-                                    <div class="text-muted small">Aktifkan untuk menutup akses website</div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" name="registration_open" id="registrationOpen"
-                                           {{ ($settings['registration_open'] ?? true) ? 'checked' : '' }}>
-                                    <label class="form-check-label fw-semibold" for="registrationOpen">
-                                        Buka Pendaftaran
-                                    </label>
-                                    <div class="text-muted small">Izinkan pendaftaran peserta baru</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="maintenance_message" class="form-label fw-semibold">Pesan Mode Maintenance</label>
-                                <textarea class="form-control" id="maintenance_message" name="maintenance_message" rows="3">{{ old('maintenance_message', $settings['maintenance_message'] ?? 'Maaf yahh website dalam masa pemeliharaan, silahkan coba nanti') }}</textarea>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="registration_closed_message" class="form-label fw-semibold">Pesan Pendaftaran Ditutup</label>
-                                <textarea class="form-control" id="registration_closed_message" name="registration_closed_message" rows="3">{{ old('registration_closed_message', $settings['registration_closed_message'] ?? 'Pendaftaran sedang ditutup, silahkan tungu periode selanjutnya yaaaa....') }}</textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Application Settings -->
-                    <div class="mb-4">
-                        <h6 class="text-primary mb-3">
-                            <i class="bi bi-app me-2"></i>Informasi Aplikasi
-                        </h6>
-                        
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="app_name" class="form-label fw-semibold">Nama Aplikasi</label>
                                 <input type="text" class="form-control @error('app_name') is-invalid @enderror"
-                                       id="app_name" name="app_name" value="{{ old('app_name', $settings['app_name'] ?? 'UNAS Fest 2025') }}" required>
+                                       id="app_name" name="app_name" value="{{ old('app_name', config('app.name')) }}" required>
                                 @error('app_name')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label for="contact_email" class="form-label fw-semibold">Email Kontak</label>
-                                <input type="email" class="form-control @error('contact_email') is-invalid @enderror"
-                                       id="contact_email" name="contact_email" value="{{ old('contact_email', $settings['contact_email'] ?? 'info@unasfest.com') }}" required>
-                                @error('contact_email')
+                                <label for="app_url" class="form-label fw-semibold">URL Aplikasi</label>
+                                <input type="url" class="form-control @error('app_url') is-invalid @enderror"
+                                       id="app_url" name="app_url" value="{{ old('app_url', config('app.url')) }}" required>
+                                @error('app_url')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="contact_phone" class="form-label fw-semibold">Nomor Telepon</label>
-                                <input type="text" class="form-control @error('contact_phone') is-invalid @enderror"
-                                       id="contact_phone" name="contact_phone" value="{{ old('contact_phone', $settings['contact_phone'] ?? '+62 21 1234 5678') }}" required>
+                                <label for="timezone" class="form-label fw-semibold">Timezone</label>
+                                <select class="form-select @error('timezone') is-invalid @enderror" id="timezone" name="timezone" required>
+                                    <option value="Asia/Jakarta" {{ old('timezone', config('app.timezone')) == 'Asia/Jakarta' ? 'selected' : '' }}>Asia/Jakarta (WIB)</option>
+                                    <option value="Asia/Makassar" {{ old('timezone', config('app.timezone')) == 'Asia/Makassar' ? 'selected' : '' }}>Asia/Makassar (WITA)</option>
+                                    <option value="Asia/Jayapura" {{ old('timezone', config('app.timezone')) == 'Asia/Jayapura' ? 'selected' : '' }}>Asia/Jayapura (WIT)</option>
+                                </select>
+                                @error('timezone')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="locale" class="form-label fw-semibold">Bahasa</label>
+                                <select class="form-select @error('locale') is-invalid @enderror" id="locale" name="locale" required>
+                                    <option value="id" {{ old('locale', config('app.locale')) == 'id' ? 'selected' : '' }}>Bahasa Indonesia</option>
+                                    <option value="en" {{ old('locale', config('app.locale')) == 'en' ? 'selected' : '' }}>English</option>
+                                </select>
+                                @error('locale')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Competition Settings -->
+                    <div class="mb-4">
+                        <h6 class="text-primary mb-3">
+                            <i class="bi bi-trophy me-2"></i>Pengaturan Kompetisi
+                        </h6>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="max_team_members" class="form-label fw-semibold">Maksimal Anggota Tim</label>
+                                <input type="number" class="form-control @error('max_team_members') is-invalid @enderror"
+                                       id="max_team_members" name="max_team_members" value="{{ old('max_team_members', 5) }}" min="1" max="10" required>
                                 @error('contact_phone')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -123,13 +114,14 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="max_file_size" class="form-label fw-semibold">Maksimal Ukuran File</label>
-                                <select class="form-control @error('max_file_size') is-invalid @enderror"
-                                        id="max_file_size" name="max_file_size" required>
-                                    <option value="5" {{ ($settings['max_file_size'] ?? 10) == 5 ? 'selected' : '' }}>5 MB</option>
-                                    <option value="10" {{ ($settings['max_file_size'] ?? 10) == 10 ? 'selected' : '' }}>10 MB</option>
-                                    <option value="20" {{ ($settings['max_file_size'] ?? 10) == 20 ? 'selected' : '' }}>20 MB</option>
-                                    <option value="50" {{ ($settings['max_file_size'] ?? 10) == 50 ? 'selected' : '' }}>50 MB</option>
+                                <select class="form-select @error('max_file_size') is-invalid @enderror" id="max_file_size" name="max_file_size" required>
+                                    <option value="2048" {{ old('max_file_size', 10240) == 2048 ? 'selected' : '' }}>2 MB</option>
+                                    <option value="5120" {{ old('max_file_size', 10240) == 5120 ? 'selected' : '' }}>5 MB</option>
+                                    <option value="10240" {{ old('max_file_size', 10240) == 10240 ? 'selected' : '' }}>10 MB</option>
+                                    <option value="20480" {{ old('max_file_size', 10240) == 20480 ? 'selected' : '' }}>20 MB</option>
+                                    <option value="51200" {{ old('max_file_size', 10240) == 51200 ? 'selected' : '' }}>50 MB</option>
                                 </select>
+                                <div class="form-text">Ukuran maksimal file yang dapat diupload (dalam KB)</div>
                                 @error('max_file_size')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -139,12 +131,36 @@
                                 <label for="allowed_file_types" class="form-label fw-semibold">Tipe File yang Diizinkan</label>
                                 <input type="text" class="form-control @error('allowed_file_types') is-invalid @enderror"
                                        id="allowed_file_types" name="allowed_file_types"
-                                       value="{{ old('allowed_file_types', $settings['allowed_file_types'] ?? 'pdf,doc,docx,jpg,png,zip') }}"
+                                       value="{{ old('allowed_file_types', 'pdf,doc,docx,jpg,jpeg,png,zip,rar') }}"
                                        placeholder="pdf,doc,docx,jpg,png,zip" required>
-                                <div class="form-text">Pisahkan dengan koma (,)</div>
+                                <div class="form-text">Pisahkan dengan koma (,). Contoh: pdf,doc,docx,jpg,png</div>
                                 @error('allowed_file_types')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="storage_path" class="form-label fw-semibold">Path Penyimpanan</label>
+                                <input type="text" class="form-control @error('storage_path') is-invalid @enderror"
+                                       id="storage_path" name="storage_path"
+                                       value="{{ old('storage_path', 'uploads') }}" required>
+                                <div class="form-text">Folder penyimpanan file (relatif dari storage/app/public)</div>
+                                @error('storage_path')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="form-check form-switch mt-4">
+                                    <input class="form-check-input" type="checkbox" name="auto_optimize_images" id="autoOptimizeImages"
+                                           {{ old('auto_optimize_images', true) ? 'checked' : '' }}>
+                                    <label class="form-check-label fw-semibold" for="autoOptimizeImages">
+                                        Optimasi Gambar Otomatis
+                                    </label>
+                                    <div class="text-muted small">Kompres gambar secara otomatis saat upload</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -223,27 +239,57 @@
             </div>
             <div class="card-body">
                 <div class="d-grid gap-2">
-                    <button type="button" class="btn btn-outline-primary" onclick="clearCache()">
-                        <i class="bi bi-arrow-clockwise me-2"></i>Clear Cache
+                    <button type="button" class="btn btn-outline-primary" onclick="clearCache()" id="clearCacheBtn">
+                        <i class="bi bi-arrow-clockwise me-2"></i>Clear All Cache
                     </button>
-                    
-                    <button type="button" class="btn btn-outline-success" onclick="optimizeApp()">
-                        <i class="bi bi-speedometer2 me-2"></i>Optimize App
+
+                    <button type="button" class="btn btn-outline-success" onclick="optimizeApp()" id="optimizeBtn">
+                        <i class="bi bi-speedometer2 me-2"></i>Optimize Application
                     </button>
-                    
-                    <button type="button" class="btn btn-outline-info" onclick="viewLogs()">
-                        <i class="bi bi-file-text me-2"></i>View Logs
+
+                    <button type="button" class="btn btn-outline-info" onclick="clearLogs()" id="clearLogsBtn">
+                        <i class="bi bi-trash me-2"></i>Clear Old Logs
                     </button>
-                    
-                    <button type="button" class="btn btn-outline-warning" onclick="backupDatabase()">
-                        <i class="bi bi-download me-2"></i>Backup Database
+
+                    <button type="button" class="btn btn-outline-warning" onclick="runMaintenance()" id="maintenanceBtn">
+                        <i class="bi bi-tools me-2"></i>Run Maintenance
                     </button>
+
+                    <hr>
+
+                    <button type="button" class="btn btn-outline-secondary" onclick="checkSystemHealth()" id="healthCheckBtn">
+                        <i class="bi bi-heart-pulse me-2"></i>System Health Check
+                    </button>
+                </div>
+
+                <div id="maintenanceResult" class="mt-3" style="display: none;">
+                    <div class="alert alert-info">
+                        <div class="d-flex align-items-center">
+                            <div class="spinner-border spinner-border-sm me-2" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <span id="maintenanceStatus">Processing...</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 @endsection
+
+@push('styles')
+<style>
+.spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+</style>
+@endpush
 
 @push('scripts')
 <script>
@@ -268,19 +314,192 @@ function resetSettings() {
 }
 
 function clearCache() {
-    showInfo('Fitur ini akan segera tersedia');
+    const btn = document.getElementById('clearCacheBtn');
+    const originalText = btn.innerHTML;
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="bi bi-arrow-clockwise me-2 spin"></i>Clearing...';
+
+    fetch('/admin/maintenance/clear-cache', {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showSuccess('Cache berhasil dibersihkan');
+        } else {
+            showError('Gagal membersihkan cache: ' + (data.message || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        showError('Error: ' + error.message);
+    })
+    .finally(() => {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+    });
 }
 
 function optimizeApp() {
-    showInfo('Fitur ini akan segera tersedia');
+    const btn = document.getElementById('optimizeBtn');
+    const originalText = btn.innerHTML;
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="bi bi-speedometer2 me-2 spin"></i>Optimizing...';
+
+    fetch('/admin/maintenance/optimize', {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showSuccess('Aplikasi berhasil dioptimasi');
+        } else {
+            showError('Gagal mengoptimasi aplikasi: ' + (data.message || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        showError('Error: ' + error.message);
+    })
+    .finally(() => {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+    });
 }
 
-function viewLogs() {
-    showInfo('Fitur ini akan segera tersedia');
+function clearLogs() {
+    confirmAction(
+        'Clear Old Logs',
+        'Apakah Anda yakin ingin menghapus log lama (lebih dari 30 hari)?',
+        function() {
+            const btn = document.getElementById('clearLogsBtn');
+            const originalText = btn.innerHTML;
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="bi bi-trash me-2 spin"></i>Clearing...';
+
+            fetch('/admin/maintenance/clear-logs', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showSuccess('Log lama berhasil dibersihkan');
+                } else {
+                    showError('Gagal membersihkan log: ' + (data.message || 'Unknown error'));
+                }
+            })
+            .catch(error => {
+                showError('Error: ' + error.message);
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            });
+        }
+    );
 }
 
-function backupDatabase() {
-    showInfo('Fitur ini akan segera tersedia');
+function runMaintenance() {
+    confirmAction(
+        'Run Maintenance',
+        'Apakah Anda yakin ingin menjalankan maintenance lengkap? Ini akan membersihkan cache, optimasi, dan membersihkan file temporary.',
+        function() {
+            const btn = document.getElementById('maintenanceBtn');
+            const originalText = btn.innerHTML;
+            const resultDiv = document.getElementById('maintenanceResult');
+            const statusSpan = document.getElementById('maintenanceStatus');
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="bi bi-tools me-2 spin"></i>Running...';
+            resultDiv.style.display = 'block';
+            statusSpan.textContent = 'Running maintenance tasks...';
+
+            fetch('/admin/maintenance/run-all', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    statusSpan.textContent = 'Maintenance completed successfully!';
+                    setTimeout(() => {
+                        resultDiv.style.display = 'none';
+                        showSuccess('Maintenance berhasil dijalankan');
+                    }, 2000);
+                } else {
+                    statusSpan.textContent = 'Maintenance failed: ' + (data.message || 'Unknown error');
+                    setTimeout(() => {
+                        resultDiv.style.display = 'none';
+                        showError('Gagal menjalankan maintenance');
+                    }, 3000);
+                }
+            })
+            .catch(error => {
+                statusSpan.textContent = 'Error: ' + error.message;
+                setTimeout(() => {
+                    resultDiv.style.display = 'none';
+                    showError('Error: ' + error.message);
+                }, 3000);
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            });
+        }
+    );
+}
+
+function checkSystemHealth() {
+    const btn = document.getElementById('healthCheckBtn');
+    const originalText = btn.innerHTML;
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="bi bi-heart-pulse me-2 spin"></i>Checking...';
+
+    fetch('/admin/maintenance/health-check', {
+        method: 'GET',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            let message = 'System Health Check Results:\n';
+            message += '• Database: ' + (data.data.database ? '✓ OK' : '✗ Error') + '\n';
+            message += '• Redis: ' + (data.data.redis ? '✓ OK' : '✗ Error') + '\n';
+            message += '• Storage: ' + (data.data.storage ? '✓ OK' : '✗ Error') + '\n';
+            message += '• Queue: ' + (data.data.queue ? '✓ OK' : '✗ Error');
+
+            alert(message);
+        } else {
+            showError('Gagal melakukan health check: ' + (data.message || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        showError('Error: ' + error.message);
+    })
+    .finally(() => {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+    });
 }
 </script>
 @endpush

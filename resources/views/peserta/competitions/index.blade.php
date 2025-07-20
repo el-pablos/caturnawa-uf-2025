@@ -4,7 +4,7 @@
 @section('page-title', 'Kompetisi Tersedia')
 
 @section('sidebar-menu')
-    <a class="nav-link" href="{{ route('peserta.dashboard') }}">
+    <a class="nav-link" href="{{ route('peserta.peserta.dashboard') }}">
         <i class="bi bi-speedometer2 me-2"></i>Dashboard
     </a>
     <a class="nav-link active" href="{{ route('peserta.competitions.index') }}">

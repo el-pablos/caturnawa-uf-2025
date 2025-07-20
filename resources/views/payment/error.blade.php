@@ -211,7 +211,7 @@
                         <button class="btn btn-outline-info" onclick="checkPaymentStatus()">
                             <i class="bi bi-search me-1"></i>Cek Status
                         </button>
-                        <a href="{{ route('peserta.dashboard') }}" class="btn btn-outline-secondary">
+                        <a href="{{ route('peserta.peserta.dashboard') }}" class="btn btn-outline-secondary">
                             <i class="bi bi-house me-1"></i>Dashboard
                         </a>
                     </div>

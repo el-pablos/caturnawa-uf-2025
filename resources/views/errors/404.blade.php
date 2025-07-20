@@ -19,15 +19,15 @@
     <div class="error-actions">
         @auth
             @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('superadmin'))
-                <a href="{{ route('admin.dashboard') }}" class="btn-error-primary">
+                <a href="{{ route('admin.admin.dashboard') }}" class="btn-error-primary">
                     <i class="bi bi-speedometer2 me-2"></i>Dashboard Admin
                 </a>
             @elseif(auth()->user()->hasRole('juri'))
-                <a href="{{ route('juri.dashboard') }}" class="btn-error-primary">
+                <a href="{{ route('juri.juri.dashboard') }}" class="btn-error-primary">
                     <i class="bi bi-clipboard-check me-2"></i>Dashboard Juri
                 </a>
             @elseif(auth()->user()->hasRole('peserta'))
-                <a href="{{ route('peserta.dashboard') }}" class="btn-error-primary">
+                <a href="{{ route('peserta.peserta.dashboard') }}" class="btn-error-primary">
                     <i class="bi bi-person-circle me-2"></i>Dashboard Peserta
                 </a>
             @else
@@ -61,11 +61,11 @@
     let redirectTimer = setTimeout(function() {
         @auth
             @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('superadmin'))
-                window.location.href = "{{ route('admin.dashboard') }}";
+                window.location.href = "{{ route('admin.admin.dashboard') }}";
             @elseif(auth()->user()->hasRole('juri'))
-                window.location.href = "{{ route('juri.dashboard') }}";
+                window.location.href = "{{ route('juri.juri.dashboard') }}";
             @elseif(auth()->user()->hasRole('peserta'))
-                window.location.href = "{{ route('peserta.dashboard') }}";
+                window.location.href = "{{ route('peserta.peserta.dashboard') }}";
             @else
                 window.location.href = "{{ route('public.home') }}";
             @endif

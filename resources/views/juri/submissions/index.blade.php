@@ -4,7 +4,7 @@
 @section('page-title', 'Review Submission Peserta')
 
 @section('sidebar-menu')
-    <a class="nav-link" href="{{ route('juri.dashboard') }}">
+    <a class="nav-link" href="{{ route('juri.juri.dashboard') }}">
         <i class="bi bi-speedometer2 me-2"></i>Dashboard
     </a>
     <a class="nav-link" href="{{ route('juri.competitions.index') }}">
