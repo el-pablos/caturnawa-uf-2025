@@ -38,7 +38,51 @@
 
 @section('content')
 
-
+<!-- Filters -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h6 class="mb-0">
+            <i class="bi bi-funnel me-2"></i>Filter Kompetisi
+        </h6>
+    </div>
+    <div class="card-body">
+        <form method="GET" class="row g-3">
+            <div class="col-md-3">
+                <label for="filter-category" class="form-label fw-semibold">Kategori</label>
+                <select name="category" id="filter-category" class="form-control">
+                    <option value="">Semua Kategori</option>
+                    <option value="event_dcc" {{ request('category') === 'event_dcc' ? 'selected' : '' }}>Event DCC</option>
+                    <option value="event_debate" {{ request('category') === 'event_debate' ? 'selected' : '' }}>Event Debate</option>
+                    <option value="event_scientific_paper" {{ request('category') === 'event_scientific_paper' ? 'selected' : '' }}>Event Scientific Paper</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="filter-status" class="form-label fw-semibold">Status</label>
+                <select name="status" id="filter-status" class="form-control">
+                    <option value="">Semua Status</option>
+                    <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Aktif</option>
+                    <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Nonaktif</option>
+                    <option value="draft" {{ request('status') === 'draft' ? 'selected' : '' }}>Draft</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="filter-search" class="form-label fw-semibold">Cari</label>
+                <input type="text" name="search" id="filter-search" class="form-control" placeholder="Nama kompetisi..." value="{{ request('search') }}">
+            </div>
+            <div class="col-md-2">
+                <label for="filter-submit" class="form-label">&nbsp;</label>
+                <div class="d-flex gap-2">
+                    <button type="submit" id="filter-submit" class="btn btn-primary">
+                        <i class="bi bi-search"></i>
+                    </button>
+                    <a href="{{ route('admin.competitions.index') }}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
     <!-- Competitions Table -->
     <div class="card">
@@ -64,7 +108,8 @@
                     <thead>
                         <tr>
                             <th>
-                                <input type="checkbox" id="selectAll" class="form-check-input">
+                                <label for="selectAll" class="visually-hidden">Pilih Semua</label>
+                                <input type="checkbox" id="selectAll" name="selectAll" class="form-check-input" aria-label="Pilih semua kompetisi">
                             </th>
                             <th>Nama Kompetisi</th>
                             <th>Kategori</th>
@@ -79,7 +124,8 @@
                         @forelse($competitions ?? [] as $competition)
                             <tr>
                                 <td>
-                                    <input type="checkbox" class="form-check-input competition-checkbox" value="{{ $competition->id }}">
+                                    <label for="competition-checkbox-{{ $competition->id }}" class="visually-hidden">Pilih {{ $competition->name }}</label>
+                                    <input type="checkbox" id="competition-checkbox-{{ $competition->id }}" name="competition_ids[]" class="form-check-input competition-checkbox" value="{{ $competition->id }}" aria-label="Pilih kompetisi {{ $competition->name }}">
                                 </td>
                                 <td>
                                     <div class="d-flex align-items-center">
