@@ -432,9 +432,15 @@ function deleteUser(userId) {
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                 },
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
                     showSuccess('Pengguna berhasil dihapus');
@@ -444,7 +450,8 @@ function deleteUser(userId) {
                 }
             })
             .catch(error => {
-                showError('Terjadi kesalahan sistem');
+                console.error('Error:', error);
+                showError('Terjadi kesalahan sistem: ' + error.message);
             });
         }
     );
