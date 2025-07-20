@@ -1,331 +1,1451 @@
-# 🎉 UNAS Fest 2025 - Competition Platform
+<div align="center">
+
+# 🏆 UNAS Fest 2025 - Platform Kompetisi Digital
+### *Platform Kompetisi Nasional Terdepan*
 **by Tamas**
 
-![UNAS Fest 2025](https://img.shields.io/badge/UNAS%20Fest-2025-blue)
-![Laravel](https://img.shields.io/badge/Laravel-10.x-red)
-![PHP](https://img.shields.io/badge/PHP-8.3+-purple)
-![Docker](https://img.shields.io/badge/Docker-Ready-blue)
-![Production Ready](https://img.shields.io/badge/Production-Ready-green)
+---
 
-A comprehensive Laravel-based competition platform featuring payment integration, file uploads, user management with role-based access control, and hybrid Docker deployment options.
+[![UNAS Fest 2025](https://img.shields.io/badge/UNAS%20Fest-2025-FF6B35?style=for-the-badge&logo=trophy&logoColor=white)](https://github.com/el-pablos/caturnawa-uf-2025)
+[![Laravel](https://img.shields.io/badge/Laravel-10.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
+[![PHP](https://img.shields.io/badge/PHP-8.3+-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docker.com)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://mysql.com)
+[![Redis](https://img.shields.io/badge/Redis-7.0-DC382D?style=for-the-badge&logo=redis&logoColor=white)](https://redis.io)
 
-## 🎯 **Project Overview**
+[![Production Ready](https://img.shields.io/badge/Status-Production%20Ready-28a745?style=for-the-badge)](https://github.com/el-pablos/caturnawa-uf-2025)
+[![Security](https://img.shields.io/badge/Security-Hardened-success?style=for-the-badge&logo=shield&logoColor=white)](https://github.com/el-pablos/caturnawa-uf-2025)
+[![Performance](https://img.shields.io/badge/Performance-Optimized-orange?style=for-the-badge&logo=speedtest&logoColor=white)](https://github.com/el-pablos/caturnawa-uf-2025)
 
-UNAS Fest 2025 is a comprehensive competition platform built with Laravel 10 and Bootstrap 5. The system supports Midtrans payment integration, role-based access control, analytics dashboard, and offers three flexible deployment modes: Infrastructure Only, Full Docker Development, and Full Docker Production.
+---
 
-## ✨ **Key Features**
+### 🌟 Platform kompetisi Laravel yang komprehensif dengan integrasi pembayaran, manajemen file, sistem pengguna berbasis peran, dan opsi deployment Docker yang fleksibel.
 
-### 🔐 Authentication & Authorization
-- Multi-role user system (Admin, Juri, Peserta, Superadmin)
-- Role-based dashboard redirection (FIXED: authentication redirect bug)
-- Secure authentication with proper role separation
-- Account activation system
+</div>
 
-### 💳 Payment Integration
-- Midtrans payment gateway integration
-- Real-time payment status updates
-- Invoice generation and management
-- Payment notification handling
+## 📋 Daftar Isi
 
-### 📁 File Management
-- Secure file upload system
-- Competition submission handling
-- Document management for participants
-- File validation and sanitization
+<details>
+<summary><strong>🔍 Klik untuk melihat navigasi lengkap</strong></summary>
 
-### 🏆 Competition Management
-- Competition creation and management
-- Participant registration system
-- Submission tracking and evaluation
-- QR Code ticketing system
+- [🎯 Gambaran Proyek](#-gambaran-proyek)
+- [✨ Fitur Utama](#-fitur-utama)
+- [🏗️ Arsitektur Sistem](#️-arsitektur-sistem)
+- [🚀 Panduan Memulai](#-panduan-memulai)
+- [🐳 Mode Deployment Docker](#-mode-deployment-docker)
+- [📋 Persyaratan Sistem](#-persyaratan-sistem)
+- [🔧 Panduan Instalasi](#-panduan-instalasi)
+- [🛠️ Perintah Manajemen](#️-perintah-manajemen)
+- [⚙️ Konfigurasi](#️-konfigurasi)
+- [🔍 Pemecahan Masalah](#-pemecahan-masalah)
+- [🔒 Fitur Keamanan](#-fitur-keamanan)
+- [📊 Optimasi Performa](#-optimasi-performa)
+- [🧪 Pengujian](#-pengujian)
+- [🚀 Deployment Produksi](#-deployment-produksi)
+- [📊 Monitoring & Observabilitas](#-monitoring--observabilitas)
+- [🤝 Kontribusi](#-kontribusi)
+- [📞 Dukungan](#-dukungan)
 
-### 🐳 Hybrid Docker Deployment
-- **Infrastructure Only**: MySQL, Redis, MailHog in Docker + Laravel native
-- **Full Docker Development**: Complete containerized development environment
-- **Full Docker Production**: Optimized production deployment
-- Cross-platform support (Windows, Linux, macOS)
+</details>
 
-## 🚀 **Quick Start**
+---
 
-### Prerequisites
-- Docker and Docker Compose
-- Git
+## 🎯 Gambaran Proyek
 
-### Installation
+<div align="center">
 
-1. **Clone the repository**
+### 🏆 **UNAS Fest 2025** adalah platform kompetisi digital terdepan yang dibangun dengan teknologi modern
+
+</div>
+
+**UNAS Fest 2025** merupakan platform kompetisi komprehensif yang dikembangkan menggunakan **Laravel 10** dan **Bootstrap 5**. Sistem ini mendukung integrasi pembayaran Midtrans, kontrol akses berbasis peran, dashboard analitik, dan menawarkan tiga mode deployment yang fleksibel: Infrastructure Only, Full Docker Development, dan Full Docker Production.
+
+### 🎯 **Visi & Misi**
+
+<table>
+<tr>
+<td width="50%">
+
+**🎯 VISI**
+> Menjadi platform kompetisi digital terdepan yang menghubungkan talenta terbaik Indonesia dalam satu ekosistem yang aman, efisien, dan inovatif.
+
+</td>
+<td width="50%">
+
+**🚀 MISI**
+> Menyediakan infrastruktur teknologi yang robust, scalable, dan user-friendly untuk mendukung penyelenggaraan kompetisi nasional dengan standar internasional.
+
+</td>
+</tr>
+</table>
+
+## ✨ Fitur Utama
+
+<div align="center">
+
+### 🌟 **Fitur-fitur canggih yang mendukung penyelenggaraan kompetisi digital berkelas dunia**
+
+</div>
+
+<table>
+<tr>
+<td width="50%">
+
+### 🔐 **Autentikasi & Otorisasi**
+```
+✅ Sistem multi-role (Admin, Juri, Peserta, Superadmin)
+✅ Redirect dashboard berbasis peran (BUG FIXED)
+✅ Autentikasi aman dengan pemisahan peran
+✅ Sistem aktivasi akun otomatis
+✅ Session management dengan Redis
+```
+
+### 💳 **Integrasi Pembayaran**
+```
+✅ Gateway pembayaran Midtrans
+✅ Update status pembayaran real-time
+✅ Generasi dan manajemen invoice
+✅ Handling notifikasi pembayaran
+✅ Multi-channel payment support
+```
+
+### 📁 **Manajemen File**
+```
+✅ Sistem upload file yang aman
+✅ Handling submission kompetisi
+✅ Manajemen dokumen peserta
+✅ Validasi dan sanitasi file
+✅ Cloud storage integration
+```
+
+</td>
+<td width="50%">
+
+### 🏆 **Manajemen Kompetisi**
+```
+✅ Pembuatan dan manajemen kompetisi
+✅ Sistem registrasi peserta
+✅ Tracking dan evaluasi submission
+✅ Sistem tiket QR Code
+✅ Leaderboard real-time
+```
+
+### 🐳 **Hybrid Docker Deployment**
+```
+✅ Infrastructure Only Mode
+   MySQL, Redis, MailHog + Laravel native
+✅ Full Docker Development Mode
+   Environment development lengkap
+✅ Full Docker Production Mode
+   Deployment produksi teroptimasi
+✅ Cross-platform support
+   Windows, Linux, macOS
+```
+
+### 📊 **Analytics & Reporting**
+```
+✅ Dashboard analytics real-time
+✅ Report kompetisi komprehensif
+✅ Monitoring performa sistem
+✅ Export data dalam berbagai format
+✅ Visualisasi data interaktif
+```
+
+</td>
+</tr>
+</table>
+
+## 🏗️ Arsitektur Sistem
+
+<div align="center">
+
+### 🔧 **Arsitektur Modern dengan Teknologi Terdepan**
+
+</div>
+
+### 📊 **Diagram Alur Aplikasi**
+
+```mermaid
+flowchart TD
+    A[👤 User Access] --> B{🔐 Authentication}
+    B -->|✅ Valid| C[🏠 Dashboard Redirect]
+    B -->|❌ Invalid| D[🚫 Login Page]
+
+    C --> E{👥 Role Check}
+    E -->|Admin| F[👨‍💼 Admin Dashboard]
+    E -->|Juri| G[👨‍⚖️ Juri Dashboard]
+    E -->|Peserta| H[🎓 Peserta Dashboard]
+    E -->|Superadmin| I[🔧 Superadmin Dashboard]
+
+    F --> J[📊 Competition Management]
+    G --> K[📝 Evaluation System]
+    H --> L[📋 Registration & Submission]
+    I --> M[⚙️ System Administration]
+
+    J --> N[💳 Payment Processing]
+    K --> O[📊 Scoring System]
+    L --> P[📁 File Upload]
+    M --> Q[👥 User Management]
+
+    N --> R[🔔 Notification System]
+    O --> S[🏆 Leaderboard]
+    P --> T[☁️ Cloud Storage]
+    Q --> U[📈 Analytics Dashboard]
+```
+
+### 🏛️ **Arsitektur Sistem Keseluruhan**
+
+```mermaid
+graph TB
+    subgraph "🌐 Frontend Layer"
+        A[🖥️ Web Interface]
+        B[📱 Mobile Responsive]
+        C[🎨 Bootstrap 5 UI]
+    end
+
+    subgraph "⚡ Application Layer"
+        D[🚀 Laravel 10 Framework]
+        E[🔐 Authentication System]
+        F[📊 Business Logic]
+        G[🔄 API Controllers]
+    end
+
+    subgraph "💾 Data Layer"
+        H[🗄️ MySQL Database]
+        I[⚡ Redis Cache]
+        J[📁 File Storage]
+    end
+
+    subgraph "🔧 Infrastructure Layer"
+        K[🐳 Docker Containers]
+        L[🌐 Nginx Web Server]
+        M[🐘 PHP-FPM]
+        N[📮 Queue Workers]
+    end
+
+    subgraph "🔌 External Services"
+        O[💳 Midtrans Payment]
+        P[📧 Email Service]
+        Q[☁️ Cloud Storage]
+    end
+
+    A --> D
+    B --> D
+    C --> D
+    D --> E
+    D --> F
+    D --> G
+    E --> H
+    F --> H
+    F --> I
+    G --> J
+    K --> L
+    K --> M
+    K --> N
+    D --> O
+    D --> P
+    J --> Q
+```
+
+## 🚀 Panduan Memulai
+
+<div align="center">
+
+### 🚀 **Mulai dalam 3 langkah sederhana!**
+
+</div>
+
+### 📋 **Prasyarat**
+
+<table>
+<tr>
+<td width="33%">
+
+**🐳 Docker**
 ```bash
+Docker & Docker Compose
+Minimum RAM: 4GB
+Storage: 5GB+
+```
+
+</td>
+<td width="33%">
+
+**🔧 Git**
+```bash
+Git version control
+SSH key configured
+GitHub access
+```
+
+</td>
+<td width="33%">
+
+**💻 OS Support**
+```bash
+✅ Linux (Ubuntu/Debian)
+✅ macOS (Intel/Apple Silicon)
+✅ Windows (WSL2)
+```
+
+</td>
+</tr>
+</table>
+
+---
+
+### 🎯 **Instalasi**
+
+<details>
+<summary><strong>📥 LANGKAH 1: Clone Repository</strong></summary>
+
+```bash
+# Clone repository
 git clone https://github.com/el-pablos/caturnawa-uf-2025.git
 cd caturnawa-uf-2025
+
+# Verifikasi struktur project
+ls -la
 ```
 
-2. **Choose your setup mode**
+</details>
 
-#### 🏗️ Infrastructure Only (Recommended for Development)
-Run supporting services in Docker, Laravel natively:
+<details>
+<summary><strong>⚙️ LANGKAH 2: Pilih Mode Setup</strong></summary>
+
+### 🏗️ **Mode 1: Infrastructure Only** *(Direkomendasikan untuk Development)*
+> Jalankan layanan pendukung di Docker, Laravel secara native
+
 ```bash
 ./setup.sh
-# Select option 1
+# Pilih opsi 1 saat diminta
 ```
 
-#### 🛠️ Full Docker Development
-Complete containerized development environment:
+**✅ Yang Anda dapatkan:**
+- MySQL 8.0, Redis, MailHog dalam container Docker
+- Laravel berjalan via `php artisan serve`
+- Tools development lengkap (phpMyAdmin, Redis Commander)
+- Siklus development cepat dengan debugging native PHP
+
+---
+
+### 🛠️ **Mode 2: Full Docker Development**
+> Environment development containerized lengkap
+
 ```bash
 ./setup.sh
-# Select option 2
+# Pilih opsi 2 saat diminta
 ```
 
-#### 🚀 Full Docker Production
-Production-ready deployment:
+**✅ Yang Anda dapatkan:**
+- Aplikasi Laravel lengkap dalam container Docker
+- Integrasi Xdebug untuk debugging
+- Semua tools development included
+- Environment konsisten di semua mesin
+
+---
+
+### 🚀 **Mode 3: Full Docker Production**
+> Deployment produksi yang teroptimasi
+
 ```bash
 ./setup.sh
-# Select option 3
+# Pilih opsi 3 saat diminta
 ```
 
-3. **Access the application**
-- **Application**: http://localhost:8000
+**✅ Yang Anda dapatkan:**
+- Docker images teroptimasi untuk produksi
+- OPcache enabled, debug disabled
+- Resource limits dan health checks
+- Siap untuk deployment produksi
+
+</details>
+
+<details>
+<summary><strong>🌐 LANGKAH 3: Akses Aplikasi</strong></summary>
+
+### 🎯 **URL Akses**
+
+<table>
+<tr>
+<td width="50%">
+
+**🌐 Aplikasi Utama**
+- **URL**: http://localhost:8000
 - **Health Check**: http://localhost:8000/health
+- **Status**: Production Ready
+
+</td>
+<td width="50%">
+
+**🛠️ Development Tools**
 - **phpMyAdmin**: http://localhost:8080
 - **MailHog**: http://localhost:8025
 - **Redis Commander**: http://localhost:8081
 
-## 🐳 Docker Deployment Modes
+</td>
+</tr>
+</table>
 
-### 🏗️ Infrastructure Only Mode
-Perfect for developers who prefer native Laravel development with containerized services.
+</details>
 
-**What you get:**
-- MySQL 8.0, Redis, MailHog running in Docker containers
-- Laravel runs natively via `php artisan serve`
-- Full development tools (phpMyAdmin, Redis Commander)
-- Fast development cycle with native PHP debugging
+---
 
-**Setup:**
+## 🐳 Mode Deployment Docker
+
+<div align="center">
+
+### 🔧 **Tiga Mode Deployment untuk Setiap Kebutuhan**
+
+</div>
+
+### 📊 **Diagram Interaksi Container Docker**
+
+```mermaid
+graph TB
+    subgraph "🏗️ Infrastructure Only Mode"
+        A1[🖥️ Host Machine]
+        A2[🐳 MySQL Container]
+        A3[🐳 Redis Container]
+        A4[🐳 MailHog Container]
+        A5[⚡ Laravel Native]
+
+        A1 --> A5
+        A5 --> A2
+        A5 --> A3
+        A5 --> A4
+    end
+
+    subgraph "🛠️ Full Docker Development"
+        B1[🐳 Nginx Container]
+        B2[🐳 PHP-FPM Container]
+        B3[🐳 MySQL Container]
+        B4[🐳 Redis Container]
+        B5[🐳 Queue Worker]
+        B6[🔧 Development Tools]
+
+        B1 --> B2
+        B2 --> B3
+        B2 --> B4
+        B2 --> B5
+        B6 --> B1
+    end
+
+    subgraph "🚀 Full Docker Production"
+        C1[🐳 Load Balancer]
+        C2[🐳 App Container 1]
+        C3[🐳 App Container 2]
+        C4[🐳 MySQL Cluster]
+        C5[🐳 Redis Cluster]
+        C6[📊 Monitoring]
+
+        C1 --> C2
+        C1 --> C3
+        C2 --> C4
+        C3 --> C4
+        C2 --> C5
+        C3 --> C5
+        C6 --> C1
+    end
+```
+
+### 🔄 **Perbandingan Mode Deployment**
+
+<table>
+<tr>
+<th width="25%">🏗️ Infrastructure Only</th>
+<th width="25%">🛠️ Full Docker Development</th>
+<th width="25%">🚀 Full Docker Production</th>
+<th width="25%">📊 Performa</th>
+</tr>
+<tr>
+<td>
+
+**✅ Kelebihan:**
+- Setup cepat
+- Debugging native
+- Resource minimal
+- Development familiar
+
+**⚠️ Pertimbangan:**
+- Butuh PHP lokal
+- OS dependency
+- Manual setup
+
+</td>
+<td>
+
+**✅ Kelebihan:**
+- Environment konsisten
+- Xdebug terintegrasi
+- Isolasi lengkap
+- Tools development
+
+**⚠️ Pertimbangan:**
+- Resource lebih besar
+- Setup kompleks
+- Learning curve
+
+</td>
+<td>
+
+**✅ Kelebihan:**
+- Production optimized
+- Scalable
+- Security hardened
+- Monitoring built-in
+
+**⚠️ Pertimbangan:**
+- Resource intensive
+- Complex configuration
+- Ops knowledge needed
+
+</td>
+<td>
+
+**📈 Metrics:**
+- **Startup**: 30s
+- **Memory**: 2GB
+- **CPU**: 2 cores
+- **Storage**: 5GB
+
+**🎯 Use Cases:**
+- Development
+- Testing
+- Production
+- CI/CD
+
+</td>
+</tr>
+</table>
+
+### 🏗️ **Mode 1: Infrastructure Only**
+
+<details>
+<summary><strong>🔧 Detail Konfigurasi Infrastructure Only</strong></summary>
+
+**🎯 Cocok untuk:** Developer yang prefer development Laravel native dengan layanan containerized
+
+**✅ Yang Anda dapatkan:**
+```
+🐳 MySQL 8.0     → Container dengan persistent volume
+🐳 Redis 7.0     → Container untuk caching & session
+🐳 MailHog       → Container untuk email testing
+🐳 phpMyAdmin    → Web interface untuk database
+🐳 Redis Commander → Web interface untuk Redis
+⚡ Laravel       → Berjalan native di host machine
+```
+
+**🚀 Setup & Penggunaan:**
 ```bash
-# Interactive setup
-./setup.sh  # Select option 1
+# Setup interaktif
+./setup.sh  # Pilih opsi 1
 
-# Or direct command
+# Atau perintah langsung
 make infra
 
 # Start Laravel development server
-make serve  # or php artisan serve
+make serve  # atau php artisan serve --host=0.0.0.0 --port=8000
 ```
 
-### 🛠️ Full Docker Development Mode
-Complete containerized development environment with all development tools.
+**📊 Resource Requirements:**
+- **RAM**: 1-2GB
+- **CPU**: 1-2 cores
+- **Storage**: 2GB
+- **Startup Time**: ~30 detik
 
-**What you get:**
-- Complete Laravel application in Docker containers
-- Xdebug integration for debugging
-- All development tools included
-- Consistent environment across all machines
+</details>
 
-**Setup:**
+### 🛠️ **Mode 2: Full Docker Development**
+
+<details>
+<summary><strong>🔧 Detail Konfigurasi Full Docker Development</strong></summary>
+
+**🎯 Cocok untuk:** Tim development yang butuh environment konsisten
+
+**✅ Yang Anda dapatkan:**
+```
+🐳 Nginx         → Web server dengan SSL support
+🐳 PHP-FPM 8.3   → Application server dengan Xdebug
+🐳 MySQL 8.0     → Database dengan development config
+🐳 Redis 7.0     → Cache & session store
+🐳 Queue Worker  → Background job processing
+🐳 Scheduler     → Cron job handling
+🔧 Dev Tools     → phpMyAdmin, MailHog, Redis Commander
+```
+
+**🚀 Setup & Penggunaan:**
 ```bash
-# Interactive setup
-./setup.sh  # Select option 2
+# Setup interaktif
+./setup.sh  # Pilih opsi 2
 
-# Or direct command
+# Atau perintah langsung
 make dev
+
+# Akses aplikasi
+curl http://localhost:8000/health
 ```
 
-**Xdebug Configuration:**
-1. Set `DOCKER_TARGET=development` in `.env`
-2. Configure your IDE:
-   - **Host**: `localhost`
-   - **Port**: `9003`
-   - **Path Mapping**: `/var/www/html` → `./`
-
-### 🚀 Full Docker Production Mode
-Optimized production deployment with performance optimizations.
-
-**What you get:**
-- Production-optimized Docker images
-- OPcache enabled, debug disabled
-- Resource limits and health checks
-- Ready for production deployment
-
-**Setup:**
+**🐛 Konfigurasi Xdebug:**
 ```bash
-# Interactive setup
-./setup.sh  # Select option 3
+# Set di .env
+DOCKER_TARGET=development
+XDEBUG_MODE=debug
 
-# Or direct command
+# Konfigurasi IDE:
+Host: localhost
+Port: 9003
+Path Mapping: /var/www/html → ./
+```
+
+**📊 Resource Requirements:**
+- **RAM**: 4-6GB
+- **CPU**: 2-4 cores
+- **Storage**: 5GB
+- **Startup Time**: ~60 detik
+
+</details>
+
+### 🚀 **Mode 3: Full Docker Production**
+
+<details>
+<summary><strong>🔧 Detail Konfigurasi Full Docker Production</strong></summary>
+
+**🎯 Cocok untuk:** Deployment produksi dengan optimasi performa
+
+**✅ Yang Anda dapatkan:**
+```
+🐳 Load Balancer → Nginx dengan SSL termination
+🐳 App Containers → Multi-instance untuk high availability
+🐳 MySQL Cluster → Master-slave replication
+🐳 Redis Cluster → High availability caching
+📊 Monitoring    → Health checks & metrics
+🔒 Security      → Hardened containers & networks
+```
+
+**🚀 Setup & Penggunaan:**
+```bash
+# Setup interaktif
+./setup.sh  # Pilih opsi 3
+
+# Atau perintah langsung
 make prod
+
+# Verifikasi deployment
+make health
 ```
 
-## 📋 System Requirements
-
-### Minimum Requirements
-- **OS**: Linux, macOS, atau Windows 10/11 dengan WSL2
-- **RAM**: Minimum 4GB, Recommended 8GB+
-- **Storage**: Minimum 5GB free space
-- **Network**: Internet connection untuk download images
-
-### For Infrastructure Mode
-- PHP 8.1+ with extensions (mysql, redis, gd, zip, mbstring, xml, curl)
-- Composer
-- Node.js 16+
-- Docker and Docker Compose
-
-### For Full Docker Modes
-- Docker and Docker Compose only
-- 4GB+ RAM recommended
-- 5GB+ free disk space
-
-## 🔧 Installation Instructions
-
-### Docker Installation
-
-#### Linux (Ubuntu/Debian):
+**⚡ Optimasi Produksi:**
 ```bash
-# Update package index
+# OPcache enabled
+opcache.enable=1
+opcache.memory_consumption=256
+
+# Debug disabled
+APP_DEBUG=false
+APP_ENV=production
+
+# Resource limits
+memory_limit=512M
+max_execution_time=300
+```
+
+**📊 Resource Requirements:**
+- **RAM**: 8-16GB
+- **CPU**: 4-8 cores
+- **Storage**: 20GB+
+- **Startup Time**: ~120 detik
+
+</details>
+
+---
+
+## 📋 Persyaratan Sistem
+
+<div align="center">
+
+### 💻 **Spesifikasi Sistem yang Direkomendasikan**
+
+</div>
+
+### 🖥️ **Persyaratan Hardware**
+
+<table>
+<tr>
+<th width="25%">🏗️ Infrastructure Only</th>
+<th width="25%">🛠️ Full Docker Dev</th>
+<th width="25%">🚀 Full Docker Prod</th>
+<th width="25%">☁️ Cloud Deployment</th>
+</tr>
+<tr>
+<td>
+
+**💾 RAM**
+```
+Minimum: 2GB
+Recommended: 4GB
+Optimal: 8GB
+```
+
+**🖥️ CPU**
+```
+Minimum: 2 cores
+Recommended: 4 cores
+Optimal: 8 cores
+```
+
+**💿 Storage**
+```
+Minimum: 5GB
+Recommended: 10GB
+Optimal: 20GB SSD
+```
+
+</td>
+<td>
+
+**💾 RAM**
+```
+Minimum: 4GB
+Recommended: 8GB
+Optimal: 16GB
+```
+
+**🖥️ CPU**
+```
+Minimum: 4 cores
+Recommended: 6 cores
+Optimal: 8 cores
+```
+
+**💿 Storage**
+```
+Minimum: 10GB
+Recommended: 20GB
+Optimal: 50GB SSD
+```
+
+</td>
+<td>
+
+**💾 RAM**
+```
+Minimum: 8GB
+Recommended: 16GB
+Optimal: 32GB
+```
+
+**🖥️ CPU**
+```
+Minimum: 4 cores
+Recommended: 8 cores
+Optimal: 16 cores
+```
+
+**💿 Storage**
+```
+Minimum: 20GB
+Recommended: 50GB
+Optimal: 100GB SSD
+```
+
+</td>
+<td>
+
+**☁️ AWS/GCP/Azure**
+```
+t3.medium (2vCPU, 4GB)
+t3.large (2vCPU, 8GB)
+t3.xlarge (4vCPU, 16GB)
+```
+
+**🐳 Kubernetes**
+```
+Minimum: 3 nodes
+CPU: 2 cores/node
+RAM: 4GB/node
+```
+
+**📊 Load Balancer**
+```
+Application LB
+SSL termination
+Health checks
+```
+
+</td>
+</tr>
+</table>
+
+### 🌐 **Kompatibilitas Sistem Operasi**
+
+<table>
+<tr>
+<td width="33%">
+
+**🐧 Linux**
+```
+✅ Ubuntu 20.04+ LTS
+✅ Debian 11+
+✅ CentOS 8+
+✅ RHEL 8+
+✅ Arch Linux
+✅ Fedora 35+
+```
+
+</td>
+<td width="33%">
+
+**🍎 macOS**
+```
+✅ macOS 11 Big Sur+
+✅ macOS 12 Monterey
+✅ macOS 13 Ventura
+✅ macOS 14 Sonoma
+✅ Intel & Apple Silicon
+✅ Docker Desktop
+```
+
+</td>
+<td width="33%">
+
+**🪟 Windows**
+```
+✅ Windows 10 Pro/Enterprise
+✅ Windows 11 Pro/Enterprise
+✅ WSL2 enabled
+✅ Docker Desktop
+✅ PowerShell 7+
+✅ Git for Windows
+```
+
+</td>
+</tr>
+</table>
+
+### 🛠️ **Dependensi Software**
+
+<details>
+<summary><strong>🏗️ Untuk Mode Infrastructure Only</strong></summary>
+
+```bash
+# Core Requirements
+✅ PHP 8.3+ dengan ekstensi:
+   - php-mysql, php-redis, php-gd
+   - php-zip, php-mbstring, php-xml
+   - php-curl, php-intl, php-bcmath
+
+✅ Composer 2.x
+✅ Node.js 18+ & NPM
+✅ Docker & Docker Compose
+✅ Git 2.x
+```
+
+</details>
+
+<details>
+<summary><strong>🛠️ Untuk Mode Full Docker</strong></summary>
+
+```bash
+# Minimal Requirements
+✅ Docker 20.10+
+✅ Docker Compose 2.x
+✅ Git 2.x
+✅ Make (optional, untuk management commands)
+
+# Tidak perlu instalasi PHP, MySQL, Redis lokal
+# Semua dependensi dalam container
+```
+
+</details>
+
+### 🗄️ **Database Entity Relationship Diagram**
+
+```mermaid
+erDiagram
+    USERS {
+        bigint id PK
+        string name
+        string email UK
+        timestamp email_verified_at
+        string password
+        string role
+        boolean is_active
+        timestamps created_at
+        timestamps updated_at
+    }
+
+    COMPETITIONS {
+        bigint id PK
+        string title
+        text description
+        decimal registration_fee
+        date start_date
+        date end_date
+        date registration_deadline
+        string status
+        bigint created_by FK
+        timestamps created_at
+        timestamps updated_at
+    }
+
+    REGISTRATIONS {
+        bigint id PK
+        bigint user_id FK
+        bigint competition_id FK
+        string status
+        decimal amount_paid
+        string payment_status
+        string payment_method
+        text submission_data
+        timestamps created_at
+        timestamps updated_at
+    }
+
+    PAYMENTS {
+        bigint id PK
+        bigint registration_id FK
+        string transaction_id UK
+        decimal amount
+        string status
+        string payment_method
+        json midtrans_response
+        timestamps created_at
+        timestamps updated_at
+    }
+
+    SUBMISSIONS {
+        bigint id PK
+        bigint registration_id FK
+        string file_path
+        string file_name
+        string file_type
+        bigint file_size
+        text description
+        timestamps submitted_at
+        timestamps created_at
+        timestamps updated_at
+    }
+
+    EVALUATIONS {
+        bigint id PK
+        bigint submission_id FK
+        bigint evaluator_id FK
+        decimal score
+        text feedback
+        string status
+        timestamps created_at
+        timestamps updated_at
+    }
+
+    USERS ||--o{ COMPETITIONS : creates
+    USERS ||--o{ REGISTRATIONS : registers
+    USERS ||--o{ EVALUATIONS : evaluates
+    COMPETITIONS ||--o{ REGISTRATIONS : has
+    REGISTRATIONS ||--|| PAYMENTS : has
+    REGISTRATIONS ||--o{ SUBMISSIONS : has
+    SUBMISSIONS ||--o{ EVALUATIONS : receives
+```
+
+### 👥 **User Role & Permission Flow**
+
+```mermaid
+graph TD
+    A[🔐 User Login] --> B{👤 Role Check}
+
+    B -->|Superadmin| C[🔧 Superadmin Access]
+    B -->|Admin| D[👨‍💼 Admin Access]
+    B -->|Juri| E[👨‍⚖️ Juri Access]
+    B -->|Peserta| F[🎓 Peserta Access]
+
+    C --> C1[👥 User Management]
+    C --> C2[🏆 Competition Management]
+    C --> C3[⚙️ System Configuration]
+    C --> C4[📊 Full Analytics]
+    C --> C5[💰 Payment Management]
+
+    D --> D1[🏆 Competition Management]
+    D --> D2[📊 Competition Analytics]
+    D --> D3[👥 Participant Management]
+    D --> D4[💰 Payment Monitoring]
+
+    E --> E1[📝 Submission Evaluation]
+    E --> E2[📊 Evaluation Dashboard]
+    E --> E3[🏆 Scoring System]
+
+    F --> F1[📋 Competition Registration]
+    F --> F2[📁 File Submission]
+    F --> F3[💳 Payment Processing]
+    F --> F4[📊 Personal Dashboard]
+```
+
+---
+
+## 🔧 Panduan Instalasi
+
+<div align="center">
+
+### 🛠️ **Instalasi Step-by-Step untuk Semua Platform**
+
+</div>
+
+### 🐳 **Instalasi Docker**
+
+<details>
+<summary><strong>🐧 Linux (Ubuntu/Debian)</strong></summary>
+
+```bash
+# 1. Update package index
+sudo apt update && sudo apt upgrade -y
+
+# 2. Install dependencies
+sudo apt install -y apt-transport-https ca-certificates curl gnupg lsb-release
+
+# 3. Add Docker GPG key
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+# 4. Add Docker repository
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# 5. Install Docker
 sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
-# Install Docker
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-
-# Add user to docker group
+# 6. Add user to docker group
 sudo usermod -aG docker $USER
 
-# Install Docker Compose
+# 7. Start Docker service
+sudo systemctl enable docker
+sudo systemctl start docker
+
+# 8. Install Docker Compose (standalone)
 sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 
-# Logout and login again, then verify
+# 9. Logout and login again, then verify
+newgrp docker
 docker --version
 docker-compose --version
 ```
 
-#### macOS:
+**✅ Verifikasi Instalasi:**
 ```bash
-# Install Docker Desktop from https://www.docker.com/products/docker-desktop
-# Or using Homebrew:
+docker run hello-world
+docker-compose --version
+```
+
+</details>
+
+<details>
+<summary><strong>🍎 macOS (Intel & Apple Silicon)</strong></summary>
+
+**📥 Metode 1: Docker Desktop (Direkomendasikan)**
+```bash
+# 1. Download Docker Desktop
+# Visit: https://www.docker.com/products/docker-desktop
+
+# 2. Install Docker Desktop
+# Drag to Applications folder
+
+# 3. Start Docker Desktop
+# Launch from Applications
+
+# 4. Verify installation
+docker --version
+docker-compose --version
+```
+
+**🍺 Metode 2: Homebrew**
+```bash
+# 1. Install Homebrew (jika belum ada)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# 2. Install Docker Desktop via Homebrew
 brew install --cask docker
 
-# Verify installation
+# 3. Start Docker Desktop
+open /Applications/Docker.app
+
+# 4. Verify installation
 docker --version
 docker-compose --version
 ```
 
-#### Windows:
+**⚙️ Konfigurasi untuk Apple Silicon:**
 ```bash
-# Install Docker Desktop from https://www.docker.com/products/docker-desktop
-# Make sure WSL2 is enabled
-# Verify in PowerShell or WSL:
-docker --version
-docker-compose --version
+# Set platform untuk compatibility
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
+
+# Add to ~/.zshrc or ~/.bash_profile
+echo 'export DOCKER_DEFAULT_PLATFORM=linux/amd64' >> ~/.zshrc
 ```
 
-### Native Dependencies (Infrastructure Mode Only)
+</details>
 
-#### PHP Installation:
-**Linux:**
+<details>
+<summary><strong>🪟 Windows (WSL2)</strong></summary>
+
+**📋 Prerequisites:**
+```powershell
+# 1. Enable WSL2
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+
+# 2. Restart computer
+# 3. Set WSL2 as default
+wsl --set-default-version 2
+
+# 4. Install Ubuntu from Microsoft Store
+# Search "Ubuntu" in Microsoft Store
+```
+
+**🐳 Install Docker Desktop:**
+```powershell
+# 1. Download Docker Desktop for Windows
+# Visit: https://www.docker.com/products/docker-desktop
+
+# 2. Run installer with admin privileges
+# Enable WSL2 integration during installation
+
+# 3. Restart computer
+
+# 4. Configure Docker Desktop
+# Settings → General → Use WSL2 based engine ✅
+# Settings → Resources → WSL Integration → Enable Ubuntu ✅
+```
+
+**✅ Verifikasi di WSL2:**
 ```bash
+# Open Ubuntu terminal
+wsl
+
+# Verify Docker
+docker --version
+docker-compose --version
+
+# Test Docker
+docker run hello-world
+```
+
+</details>
+
+### 🛠️ **Dependensi Native (Khusus Mode Infrastructure Only)**
+
+<details>
+<summary><strong>🐘 Instalasi PHP 8.3+</strong></summary>
+
+**🐧 Linux (Ubuntu/Debian):**
+```bash
+# 1. Add PHP repository
+sudo add-apt-repository ppa:ondrej/php -y
 sudo apt update
-sudo apt install php8.3 php8.3-cli php8.3-fpm php8.3-mysql php8.3-redis php8.3-gd php8.3-zip php8.3-mbstring php8.3-xml php8.3-curl
+
+# 2. Install PHP 8.3 dan ekstensi
+sudo apt install -y php8.3 php8.3-cli php8.3-fpm \
+    php8.3-mysql php8.3-redis php8.3-gd php8.3-zip \
+    php8.3-mbstring php8.3-xml php8.3-curl php8.3-intl \
+    php8.3-bcmath php8.3-soap php8.3-xdebug
+
+# 3. Verify installation
+php -v
+php -m | grep -E "(mysql|redis|gd|zip|mbstring|xml|curl)"
 ```
 
-**macOS:**
+**🍎 macOS:**
 ```bash
+# 1. Install PHP via Homebrew
 brew install php@8.3
+
+# 2. Install Redis extension
 brew install php@8.3-redis
+
+# 3. Link PHP
+brew link php@8.3 --force
+
+# 4. Add to PATH (add to ~/.zshrc or ~/.bash_profile)
+echo 'export PATH="/opt/homebrew/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+
+# 5. Verify installation
+php -v
 ```
 
-**Windows:**
-```bash
-# Download PHP from: https://windows.php.net/download/
-# Or use XAMPP: https://www.apachefriends.org/
+**🪟 Windows:**
+```powershell
+# Option 1: Download PHP manually
+# 1. Download from: https://windows.php.net/download/
+# 2. Extract to C:\php
+# 3. Add C:\php to PATH
+# 4. Copy php.ini-development to php.ini
+# 5. Enable extensions in php.ini
+
+# Option 2: Use XAMPP (Easier)
+# 1. Download XAMPP: https://www.apachefriends.org/
+# 2. Install with PHP 8.3+
+# 3. Add C:\xampp\php to PATH
 ```
 
-#### Composer Installation:
+</details>
+
+<details>
+<summary><strong>🎼 Instalasi Composer</strong></summary>
+
+**🌐 Global Installation:**
 ```bash
+# 1. Download Composer installer
 curl -sS https://getcomposer.org/installer | php
+
+# 2. Move to global location
 sudo mv composer.phar /usr/local/bin/composer
+
+# 3. Make executable
+sudo chmod +x /usr/local/bin/composer
+
+# 4. Verify installation
+composer --version
 ```
 
-#### Node.js Installation:
-**Linux:**
+**🪟 Windows:**
+```powershell
+# 1. Download Composer-Setup.exe
+# Visit: https://getcomposer.org/download/
+
+# 2. Run installer
+# Follow installation wizard
+
+# 3. Verify in Command Prompt
+composer --version
+```
+
+</details>
+
+<details>
+<summary><strong>🟢 Instalasi Node.js & NPM</strong></summary>
+
+**🐧 Linux:**
 ```bash
+# 1. Install Node.js 18 LTS
 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 sudo apt-get install -y nodejs
+
+# 2. Verify installation
+node --version
+npm --version
+
+# 3. Update npm to latest
+sudo npm install -g npm@latest
 ```
 
-**macOS:**
+**🍎 macOS:**
 ```bash
-brew install node
+# 1. Install via Homebrew
+brew install node@18
+
+# 2. Link Node.js
+brew link node@18
+
+# 3. Verify installation
+node --version
+npm --version
 ```
 
-**Windows:**
-```bash
-# Download from: https://nodejs.org/
+**🪟 Windows:**
+```powershell
+# 1. Download Node.js LTS
+# Visit: https://nodejs.org/
+
+# 2. Run installer
+# Follow installation wizard
+
+# 3. Verify in Command Prompt
+node --version
+npm --version
 ```
 
-## 🛠️ Management Commands
+</details>
 
-### Quick Commands
+---
+
+## 🛠️ Perintah Manajemen
+
+<div align="center">
+
+### ⚡ **40+ Perintah untuk Manajemen Efisien**
+
+</div>
+
+### 🚀 **Perintah Cepat**
+
+<table>
+<tr>
+<td width="50%">
+
+**🎯 Setup & Deployment**
 ```bash
-make help           # Show all available commands
-make setup          # Interactive hybrid setup
+make help           # Tampilkan semua perintah
+make setup          # Setup interaktif hybrid
 make infra          # Start infrastructure only
 make dev            # Start development environment
 make prod           # Start production environment
-make serve          # Start Laravel dev server (infrastructure mode)
+make serve          # Start Laravel dev server
 ```
 
-### Docker Operations
+**🐳 Operasi Docker**
 ```bash
 make build          # Build Docker images
-make up             # Start all services
-make down           # Stop all services
-make restart        # Restart all services
-make status         # Show service status
+make up             # Start semua services
+make down           # Stop semua services
+make restart        # Restart semua services
+make status         # Tampilkan status services
 ```
 
-### Laravel Commands
+</td>
+<td width="50%">
+
+**⚡ Laravel Operations**
 ```bash
-make artisan cmd="migrate"     # Run artisan commands
-make migrate                   # Run database migrations
-make migrate-fresh            # Fresh migration with seeding
-make seed                     # Run database seeders
-make cache-clear              # Clear all caches
-make cache-optimize           # Optimize caches for production
+make artisan cmd="migrate"     # Jalankan artisan commands
+make migrate                   # Jalankan database migrations
+make migrate-fresh            # Fresh migration + seeding
+make seed                     # Jalankan database seeders
+make cache-clear              # Bersihkan semua cache
+make cache-optimize           # Optimasi cache produksi
 make composer-install         # Install Composer dependencies
 make composer-update          # Update Composer dependencies
 ```
 
-### Database Operations
+</td>
+</tr>
+</table>
+
+### 🗄️ **Operasi Database**
+
+<details>
+<summary><strong>💾 Database Management Commands</strong></summary>
+
 ```bash
-make db-backup                # Backup database
-make db-restore file="backup.sql"  # Restore database
-make mysql                    # Access MySQL CLI
+# Backup & Restore
+make db-backup                    # Backup database ke file SQL
+make db-restore file="backup.sql" # Restore database dari file
+make db-fresh                     # Reset database + seed data
+
+# Database Access
+make mysql                        # Akses MySQL CLI
+make mysql-root                   # Akses MySQL sebagai root
+make redis                        # Akses Redis CLI
+
+# Database Monitoring
+make db-status                    # Status database connection
+make db-size                      # Ukuran database
+make db-tables                    # List semua tables
 ```
 
-### Testing
+</details>
+
+### 🧪 **Testing & Quality Assurance**
+
+<details>
+<summary><strong>🔬 Testing Commands</strong></summary>
+
 ```bash
-make test              # Run all tests
-make test-feature      # Run feature tests
-make test-unit         # Run unit tests
-make test-coverage     # Run tests with coverage
+# Test Execution
+make test                         # Jalankan semua tests
+make test-feature                 # Jalankan feature tests
+make test-unit                    # Jalankan unit tests
+make test-coverage                # Test dengan coverage report
+make test-parallel                # Jalankan tests secara parallel
+
+# Specific Testing
+make test-filter name="UserTest"  # Test specific class
+make test-group name="auth"       # Test specific group
+make test-watch                   # Watch mode untuk development
+
+# Code Quality
+make phpstan                      # Static analysis
+make php-cs-fixer                 # Code style fixer
+make phpmd                        # Mess detector
 ```
 
-### Container Access
+</details>
+
+### 🔧 **Container Access & Debugging**
+
+<details>
+<summary><strong>🐚 Container Management</strong></summary>
+
 ```bash
-make shell             # Access application container shell
-make logs              # Show all logs
-make logs-app          # Show application logs
-make logs-mysql        # Show MySQL logs
-make health            # Check application health
+# Container Access
+make shell                        # Akses application container
+make shell-mysql                  # Akses MySQL container
+make shell-redis                  # Akses Redis container
+make shell-nginx                  # Akses Nginx container
+
+# Logs & Monitoring
+make logs                         # Tampilkan semua logs
+make logs-app                     # Logs aplikasi Laravel
+make logs-mysql                   # Logs MySQL
+make logs-redis                   # Logs Redis
+make logs-nginx                   # Logs Nginx
+make logs-follow                  # Follow logs real-time
+
+# Health Checks
+make health                       # Check application health
+make health-detailed              # Detailed health check
+make health-services              # Check all services health
 ```
 
-### Maintenance
+</details>
+
+### 🧹 **Maintenance & Cleanup**
+
+<details>
+<summary><strong>🔧 Maintenance Commands</strong></summary>
+
 ```bash
-make clean             # Clean up Docker resources
-make clean-all         # Clean up everything (including images)
-make permissions       # Fix file permissions
+# Cleanup Operations
+make clean                        # Bersihkan Docker resources
+make clean-all                    # Bersihkan semua (termasuk images)
+make clean-volumes                # Bersihkan Docker volumes
+make clean-cache                  # Bersihkan application cache
+
+# File Permissions
+make permissions                  # Fix file permissions
+make permissions-storage          # Fix storage permissions
+make permissions-bootstrap        # Fix bootstrap cache permissions
+
+# System Maintenance
+make optimize                     # Optimasi aplikasi
+make update                       # Update dependencies
+make security-check               # Security vulnerability check
 ```
+
+</details>
+
+### 📊 **Monitoring & Analytics**
+
+<details>
+<summary><strong>📈 Monitoring Commands</strong></summary>
+
+```bash
+# Performance Monitoring
+make stats                        # Container resource usage
+make top                          # Real-time container stats
+make disk-usage                   # Disk usage analysis
+make memory-usage                 # Memory usage analysis
+
+# Application Monitoring
+make queue-status                 # Queue worker status
+make queue-restart                # Restart queue workers
+make schedule-list                # List scheduled tasks
+make schedule-run                 # Run scheduled tasks manually
+
+# Security Monitoring
+make security-scan                # Security vulnerability scan
+make audit-logs                   # Audit application logs
+make check-updates                # Check for security updates
+```
+
+</details>
 
 ## ⚙️ Configuration
 
