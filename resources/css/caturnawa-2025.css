@@ -1107,8 +1107,9 @@ tersectionObserver' in window) {
             'default': [
                 { value: 'kdbi', text: 'Kompetisi Debat Bahasa Indonesia' },
                 { value: 'edc', text: 'English Debate Competition' },
-                { value: 'sm', text: 'Short Movie Competition' },
-                { value: 'spc', text: 'Scientific Paper Competition' }
+                { value: 'short-movie', text: 'Short Movie Competition' },
+                { value: 'fotografi', text: 'Fotografi' },
+                { value: 'karya-ilmiah', text: 'Karya Ilmiah' }
             ]
         };
         
