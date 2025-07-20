@@ -221,9 +221,14 @@ class MaintenanceController extends Controller
                 if (config('database.redis.default.host')) {
                     Redis::ping();
                     $health['redis'] = true;
+                } else {
+                    // Redis not configured, mark as true (not required)
+                    $health['redis'] = true;
                 }
             } catch (\Exception $e) {
                 Log::warning('Redis health check failed: ' . $e->getMessage());
+                // If Redis fails but not required, mark as true
+                $health['redis'] = !config('database.redis.default.host');
             }
             
             // Check storage accessibility
@@ -237,11 +242,18 @@ class MaintenanceController extends Controller
             
             // Check queue system
             try {
-                // Simple check - if we can access the jobs table
-                DB::table('jobs')->count();
-                $health['queue'] = true;
+                // Check if jobs table exists first
+                if (DB::getSchemaBuilder()->hasTable('jobs')) {
+                    DB::table('jobs')->count();
+                    $health['queue'] = true;
+                } else {
+                    // If no jobs table, assume sync queue driver (which is fine)
+                    $health['queue'] = config('queue.default') === 'sync';
+                }
             } catch (\Exception $e) {
                 Log::warning('Queue health check failed: ' . $e->getMessage());
+                // Default to true for sync driver
+                $health['queue'] = config('queue.default') === 'sync';
             }
             
             return response()->json([
