@@ -270,13 +270,20 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize DataTable
-    $('#reportsTable').DataTable({
-        responsive: true,
-        pageLength: 25,
-        order: [[0, 'desc']],
-        columnDefs: [
-            { orderable: false, targets: [] }
-        ],
+    const reportsTable = document.getElementById('reportsTable');
+    if (reportsTable) {
+        @php
+            $isSuperAdmin = auth()->user()->hasRole('Super Admin');
+            $nonOrderableTargets = $isSuperAdmin ? [6] : []; // Actions column if Super Admin
+        @endphp
+
+        $('#reportsTable').DataTable({
+            responsive: true,
+            pageLength: 25,
+            order: [[0, 'asc']], // Order by competition name
+            columnDefs: [
+                { orderable: false, targets: {!! json_encode($nonOrderableTargets) !!} }
+            ],
         language: {
             emptyTable: "Tidak ada data laporan tersedia",
             zeroRecords: "Tidak ada data yang cocok dengan pencarian",
@@ -294,8 +301,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 previous: "Sebelumnya"
             }
         }
-    });
-    
+        });
+    }
+
     // Load Charts with Real Data
     loadRegistrationChart();
     loadRevenueChart();
