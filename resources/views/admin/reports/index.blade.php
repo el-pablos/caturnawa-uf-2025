@@ -65,7 +65,7 @@
             </div>
             
             <div class="d-flex gap-2">
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" id="filter-submit" name="filter_submit" class="btn btn-primary">
                     <i class="bi bi-search me-2"></i>Filter
                 </button>
                 <a href="{{ route('admin.reports.index') }}" class="btn btn-secondary">
