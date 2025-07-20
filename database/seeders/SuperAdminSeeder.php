@@ -4,10 +4,12 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
-class RolePermissionSeeder extends Seeder
+class SuperAdminSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -73,12 +75,31 @@ class RolePermissionSeeder extends Seeder
             Permission::firstOrCreate(['name' => $permission]);
         }
 
-        // Create roles and assign permissions
-
-        // Super Admin - has all permissions (only role to keep)
+        // Create superadmin role
         $superAdmin = Role::firstOrCreate(['name' => 'superadmin']);
         $superAdmin->givePermissionTo(Permission::all());
 
-        $this->command->info('Roles and permissions created successfully!');
+        // Create Super Admin user
+        $superAdminUser = User::firstOrCreate(
+            ['email' => 'superadmin@unasfest.com'],
+            [
+                'name' => 'Super Administrator',
+                'password' => Hash::make('password123'),
+                'phone' => '081234567890',
+                'participant_status' => 'Mahasiswa Unas',
+                'institution' => 'UNAS Fest 2025',
+                'student_id' => 'SUPERADMIN001',
+                'is_active' => true,
+                'email_verified_at' => now(),
+            ]
+        );
+        
+        if (!$superAdminUser->hasRole('superadmin')) {
+            $superAdminUser->assignRole('superadmin');
+        }
+
+        $this->command->info('Super Admin created successfully!');
+        $this->command->info('Email: superadmin@unasfest.com');
+        $this->command->info('Password: password123');
     }
 }
