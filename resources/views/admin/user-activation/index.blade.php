@@ -56,19 +56,19 @@
     <div class="card-body">
         <form method="GET" class="row g-3">
             <div class="col-md-3">
-                <label class="form-label fw-semibold">Status</label>
-                <select name="status" class="form-select">
+                <label for="filter-status" class="form-label fw-semibold">Status</label>
+                <select name="status" id="filter-status" class="form-select">
                     <option value="">Semua Status</option>
                     <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Menunggu Aktivasi</option>
                     <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Sudah Aktif</option>
                 </select>
             </div>
             <div class="col-md-6">
-                <label class="form-label fw-semibold">Cari</label>
-                <input type="text" name="search" class="form-control" placeholder="Nama, email, atau institusi..." value="{{ request('search') }}">
+                <label for="filter-search" class="form-label fw-semibold">Cari</label>
+                <input type="text" name="search" id="filter-search" class="form-control" placeholder="Nama, email, atau institusi..." value="{{ request('search') }}">
             </div>
             <div class="col-md-3">
-                <label class="form-label">&nbsp;</label>
+                <label for="filter-submit" class="form-label">&nbsp;</label>
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-primary">
                         <i class="bi bi-search"></i> Cari
@@ -99,7 +99,8 @@
                     <thead>
                         <tr>
                             <th>
-                                <input type="checkbox" id="selectAll" class="form-check-input">
+                                <label for="selectAll" class="visually-hidden">Pilih Semua</label>
+                                <input type="checkbox" id="selectAll" class="form-check-input" aria-label="Pilih semua pengguna untuk aktivasi">
                             </th>
                             <th>Peserta</th>
                             <th>Institusi</th>
@@ -112,7 +113,8 @@
                         @foreach($users as $user)
                             <tr>
                                 <td>
-                                    <input type="checkbox" class="form-check-input user-checkbox" value="{{ $user->id }}">
+                                    <label for="user-checkbox-{{ $user->id }}" class="visually-hidden">Pilih {{ $user->name }}</label>
+                                    <input type="checkbox" id="user-checkbox-{{ $user->id }}" class="form-check-input user-checkbox" value="{{ $user->id }}" aria-label="Pilih {{ $user->name }} untuk aktivasi">
                                 </td>
                                 <td>
                                     <div class="d-flex align-items-center">
