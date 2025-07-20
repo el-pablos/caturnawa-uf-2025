@@ -55,13 +55,28 @@ class UserController extends Controller
             'total' => User::count(),
             'active' => User::where('is_active', true)->count(),
             'inactive' => User::where('is_active', false)->count(),
-            'super_admin' => User::role('superadmin')->count(),
-            'admin' => User::role('admin')->count(),
-            'juri' => User::role('juri')->count(),
-            'peserta' => User::role('peserta')->count(),
+            'super_admin' => $this->safeRoleCount('superadmin'),
+            'admin' => $this->safeRoleCount('admin'),
+            'juri' => $this->safeRoleCount('juri'),
+            'peserta' => $this->safeRoleCount('peserta'),
         ];
 
         return view('admin.users.index', compact('users', 'roles', 'stats'));
+    }
+
+    /**
+     * Safely count users by role, return 0 if role doesn't exist
+     *
+     * @param string $roleName
+     * @return int
+     */
+    private function safeRoleCount($roleName)
+    {
+        try {
+            return User::role($roleName)->count();
+        } catch (\Exception $e) {
+            return 0;
+        }
     }
 
     /**
