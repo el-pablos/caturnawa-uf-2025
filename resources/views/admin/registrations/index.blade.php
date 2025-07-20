@@ -420,26 +420,34 @@ function deleteRegistration(id) {
 }
 
 // Mass action functionality
-document.getElementById('selectAll').addEventListener('change', function() {
-    const checkboxes = document.querySelectorAll('.registration-checkbox');
-    checkboxes.forEach(checkbox => {
-        checkbox.checked = this.checked;
+const selectAllElement = document.getElementById('selectAll');
+if (selectAllElement) {
+    selectAllElement.addEventListener('change', function() {
+        const checkboxes = document.querySelectorAll('.registration-checkbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+        toggleBulkActions();
     });
-    toggleBulkActions();
-});
+}
 
-document.querySelectorAll('.registration-checkbox').forEach(checkbox => {
-    checkbox.addEventListener('change', toggleBulkActions);
-});
+const registrationCheckboxes = document.querySelectorAll('.registration-checkbox');
+if (registrationCheckboxes.length > 0) {
+    registrationCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', toggleBulkActions);
+    });
+}
 
 function toggleBulkActions() {
     const checkedBoxes = document.querySelectorAll('.registration-checkbox:checked');
     const bulkActions = document.getElementById('bulkActions');
 
-    if (checkedBoxes.length > 0) {
-        bulkActions.style.display = 'block';
-    } else {
-        bulkActions.style.display = 'none';
+    if (bulkActions) {
+        if (checkedBoxes.length > 0) {
+            bulkActions.style.display = 'block';
+        } else {
+            bulkActions.style.display = 'none';
+        }
     }
 }
 
