@@ -1,31 +1,92 @@
-# UNAS Fest 2025 - Complete Production Guide
+# 🎉 UNAS Fest 2025 - Competition Platform
+**by Tamas**
 
 ![UNAS Fest 2025](https://img.shields.io/badge/UNAS%20Fest-2025-blue)
 ![Laravel](https://img.shields.io/badge/Laravel-10.x-red)
-![PHP](https://img.shields.io/badge/PHP-8.1+-purple)
+![PHP](https://img.shields.io/badge/PHP-8.3+-purple)
+![Docker](https://img.shields.io/badge/Docker-Ready-blue)
 ![Production Ready](https://img.shields.io/badge/Production-Ready-green)
+
+A comprehensive Laravel-based competition platform featuring payment integration, file uploads, user management with role-based access control, and hybrid Docker deployment options.
 
 ## 🎯 **Project Overview**
 
-UNAS Fest 2025 adalah sistem registrasi kompetisi dengan fitur lengkap yang dibangun menggunakan Laravel 10 dan Bootstrap 5. Sistem ini mendukung pembayaran melalui Midtrans, role-based access control, dan dashboard analytics.
+UNAS Fest 2025 is a comprehensive competition platform built with Laravel 10 and Bootstrap 5. The system supports Midtrans payment integration, role-based access control, analytics dashboard, and offers three flexible deployment modes: Infrastructure Only, Full Docker Development, and Full Docker Production.
 
 ## ✨ **Key Features**
 
-- 🏆 **Multi-Competition Management** - Kelola berbagai jenis kompetisi
-- 💳 **Payment Gateway Integration** - Terintegrasi dengan Midtrans
-- 👥 **Role-Based Access Control** - Super Admin, Admin, Juri, Peserta
-- 📊 **Analytics Dashboard** - Real-time statistics dan reporting
-- 🎫 **QR Code Ticketing** - Generate QR code untuk tiket peserta
-- 📱 **Responsive Design** - Mobile-friendly interface
-- 🔐 **Security Features** - CSRF protection, input validation, dll
+### 🔐 Authentication & Authorization
+- Multi-role user system (Admin, Juri, Peserta, Superadmin)
+- Role-based dashboard redirection (FIXED: authentication redirect bug)
+- Secure authentication with proper role separation
+- Account activation system
 
-## 🎨 **Design Updates**
+### 💳 Payment Integration
+- Midtrans payment gateway integration
+- Real-time payment status updates
+- Invoice generation and management
+- Payment notification handling
 
-### Font Change to Poppins
-Seluruh font website telah diubah menjadi **Poppins** untuk konsistensi visual yang lebih baik:
-- ✅ Body text: `font-family: 'Poppins', sans-serif`
-- ✅ Headings: `font-family: 'Poppins', sans-serif` dengan `font-weight: 600`
-- ✅ Semua UI components menggunakan Poppins
+### 📁 File Management
+- Secure file upload system
+- Competition submission handling
+- Document management for participants
+- File validation and sanitization
+
+### 🏆 Competition Management
+- Competition creation and management
+- Participant registration system
+- Submission tracking and evaluation
+- QR Code ticketing system
+
+### 🐳 Hybrid Docker Deployment
+- **Infrastructure Only**: MySQL, Redis, MailHog in Docker + Laravel native
+- **Full Docker Development**: Complete containerized development environment
+- **Full Docker Production**: Optimized production deployment
+- Cross-platform support (Windows, Linux, macOS)
+
+## 🚀 **Quick Start**
+
+### Prerequisites
+- Docker and Docker Compose
+- Git
+
+### Installation
+
+1. **Clone the repository**
+```bash
+git clone https://github.com/el-pablos/caturnawa-uf-2025.git
+cd caturnawa-uf-2025
+```
+
+2. **Choose your setup mode**
+
+#### 🏗️ Infrastructure Only (Recommended for Development)
+Run supporting services in Docker, Laravel natively:
+```bash
+./setup.sh
+# Select option 1
+```
+
+#### 🛠️ Full Docker Development
+Complete containerized development environment:
+```bash
+./setup.sh
+# Select option 2
+```
+
+#### 🚀 Full Docker Production
+Production-ready deployment:
+```bash
+./setup.sh
+# Select option 3
+```
+
+3. **Access the application**
+- **Application**: http://localhost:8000
+- **phpMyAdmin**: http://localhost:8080
+- **MailHog**: http://localhost:8025
+- **Redis Commander**: http://localhost:8081
 
 ## 🚀 **Production Deployment Scripts**
 
