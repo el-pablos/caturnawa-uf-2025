@@ -66,8 +66,8 @@
     <div class="card-body">
         <form method="GET" class="row g-3">
             <div class="col-md-3">
-                <label class="form-label fw-semibold">Kompetisi</label>
-                <select name="competition_id" class="form-control">
+                <label for="filter-competition" class="form-label fw-semibold">Kompetisi</label>
+                <select name="competition_id" id="filter-competition" class="form-control">
                     <option value="">Semua Kompetisi</option>
                     @foreach($competitions as $competition)
                         <option value="{{ $competition->id }}" {{ request('competition_id') == $competition->id ? 'selected' : '' }}>
@@ -77,8 +77,8 @@
                 </select>
             </div>
             <div class="col-md-3">
-                <label class="form-label fw-semibold">Status</label>
-                <select name="status" class="form-control">
+                <label for="filter-status" class="form-label fw-semibold">Status</label>
+                <select name="status" id="filter-status" class="form-control">
                     <option value="">Semua Status</option>
                     <option value="draft" {{ request('status') === 'draft' ? 'selected' : '' }}>Draft</option>
                     <option value="submitted" {{ request('status') === 'submitted' ? 'selected' : '' }}>Terkirim</option>
@@ -88,11 +88,11 @@
                 </select>
             </div>
             <div class="col-md-4">
-                <label class="form-label fw-semibold">Cari</label>
-                <input type="text" name="search" class="form-control" placeholder="Nama peserta atau email..." value="{{ request('search') }}">
+                <label for="filter-search" class="form-label fw-semibold">Cari</label>
+                <input type="text" name="search" id="filter-search" class="form-control" placeholder="Nama peserta atau email..." value="{{ request('search') }}">
             </div>
             <div class="col-md-2">
-                <label class="form-label">&nbsp;</label>
+                <label for="filter-submit" class="form-label">&nbsp;</label>
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-primary">
                         <i class="bi bi-search"></i>
@@ -131,7 +131,8 @@
                     <thead>
                         <tr>
                             <th>
-                                <input type="checkbox" id="selectAll" class="form-check-input">
+                                <label for="selectAll" class="visually-hidden">Pilih Semua</label>
+                                <input type="checkbox" id="selectAll" class="form-check-input" aria-label="Pilih semua submissions">
                             </th>
                             <th>Peserta</th>
                             <th>Kompetisi</th>
@@ -145,7 +146,8 @@
                         @foreach($submissions as $submission)
                             <tr>
                                 <td>
-                                    <input type="checkbox" class="form-check-input submission-checkbox" value="{{ $submission->id }}">
+                                    <label for="submission-checkbox-{{ $submission->id }}" class="visually-hidden">Pilih submission {{ $submission->title ?? '#'.$submission->id }}</label>
+                                    <input type="checkbox" id="submission-checkbox-{{ $submission->id }}" class="form-check-input submission-checkbox" value="{{ $submission->id }}" aria-label="Pilih submission {{ $submission->title ?? '#'.$submission->id }}">
                                 </td>
                                 <td>
                                     <div class="d-flex align-items-center">
