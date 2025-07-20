@@ -108,10 +108,21 @@
 
 <!-- Submissions Table -->
 <div class="card">
-    <div class="card-header">
+    <div class="card-header d-flex justify-content-between align-items-center">
         <h6 class="mb-0">
             <i class="bi bi-file-earmark-text me-2"></i>Daftar Karya Peserta
         </h6>
+        <div class="btn-group" id="bulkActions" style="display: none;">
+            <button class="btn btn-success btn-sm" onclick="bulkApprove()">
+                <i class="bi bi-check-circle me-1"></i>Setujui Terpilih
+            </button>
+            <button class="btn btn-warning btn-sm" onclick="bulkReject()">
+                <i class="bi bi-x-circle me-1"></i>Tolak Terpilih
+            </button>
+            <button class="btn btn-danger btn-sm" onclick="bulkDelete()">
+                <i class="bi bi-trash me-1"></i>Hapus Terpilih
+            </button>
+        </div>
     </div>
     <div class="card-body">
         @if($submissions->count() > 0)
@@ -119,6 +130,9 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
+                            <th>
+                                <input type="checkbox" id="selectAll" class="form-check-input">
+                            </th>
                             <th>Peserta</th>
                             <th>Kompetisi</th>
                             <th>Judul Karya</th>
@@ -130,6 +144,9 @@
                     <tbody>
                         @foreach($submissions as $submission)
                             <tr>
+                                <td>
+                                    <input type="checkbox" class="form-check-input submission-checkbox" value="{{ $submission->id }}">
+                                </td>
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <img src="{{ $submission->registration->user->avatar_url }}" class="rounded-circle me-3" width="40" height="40" alt="Avatar">
@@ -297,8 +314,146 @@ function deleteSubmission(submissionId) {
 function exportSubmissions(format) {
     const params = new URLSearchParams(window.location.search);
     params.set('export', format);
-    
+
     window.open(`/admin/submissions/export?${params.toString()}`, '_blank');
+}
+
+// Mass action functionality
+document.getElementById('selectAll').addEventListener('change', function() {
+    const checkboxes = document.querySelectorAll('.submission-checkbox');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = this.checked;
+    });
+    toggleBulkActions();
+});
+
+document.querySelectorAll('.submission-checkbox').forEach(checkbox => {
+    checkbox.addEventListener('change', toggleBulkActions);
+});
+
+function toggleBulkActions() {
+    const checkedBoxes = document.querySelectorAll('.submission-checkbox:checked');
+    const bulkActions = document.getElementById('bulkActions');
+
+    if (checkedBoxes.length > 0) {
+        bulkActions.style.display = 'block';
+    } else {
+        bulkActions.style.display = 'none';
+    }
+}
+
+function getSelectedSubmissionIds() {
+    const checkedBoxes = document.querySelectorAll('.submission-checkbox:checked');
+    return Array.from(checkedBoxes).map(checkbox => checkbox.value);
+}
+
+function bulkApprove() {
+    const submissionIds = getSelectedSubmissionIds();
+    if (submissionIds.length === 0) return;
+
+    confirmAction(
+        'Setujui Karya',
+        `Apakah Anda yakin ingin menyetujui ${submissionIds.length} karya terpilih?`,
+        function() {
+            bulkUpdateStatus(submissionIds, 'approve');
+        }
+    );
+}
+
+function bulkReject() {
+    const submissionIds = getSelectedSubmissionIds();
+    if (submissionIds.length === 0) return;
+
+    confirmAction(
+        'Tolak Karya',
+        `Apakah Anda yakin ingin menolak ${submissionIds.length} karya terpilih?`,
+        function() {
+            bulkUpdateStatus(submissionIds, 'reject');
+        }
+    );
+}
+
+function bulkDelete() {
+    const submissionIds = getSelectedSubmissionIds();
+    if (submissionIds.length === 0) return;
+
+    confirmAction(
+        'Hapus Karya',
+        `Apakah Anda yakin ingin menghapus ${submissionIds.length} karya terpilih? Tindakan ini tidak dapat dibatalkan.`,
+        function() {
+            bulkDeleteSubmissions(submissionIds);
+        }
+    );
+}
+
+function bulkUpdateStatus(submissionIds, action) {
+    const actionText = action === 'approve' ? 'menyetujui' : 'menolak';
+
+    Swal.fire({
+        title: 'Memproses...',
+        text: `Sedang ${actionText} karya`,
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    Promise.all(submissionIds.map(submissionId => {
+        return fetch(`/admin/submissions/${submissionId}/${action}`, {
+            method: 'PATCH',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+    }))
+    .then(responses => {
+        const allSuccessful = responses.every(response => response.ok);
+        if (allSuccessful) {
+            showSuccess(`${submissionIds.length} karya berhasil ${action === 'approve' ? 'disetujui' : 'ditolak'}`);
+            location.reload();
+        } else {
+            showError('Beberapa karya gagal diproses');
+        }
+    })
+    .catch(error => {
+        showError('Terjadi kesalahan sistem');
+    });
+}
+
+function bulkDeleteSubmissions(submissionIds) {
+    Swal.fire({
+        title: 'Memproses...',
+        text: 'Sedang menghapus karya',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    Promise.all(submissionIds.map(submissionId => {
+        return fetch(`/admin/submissions/${submissionId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+    }))
+    .then(responses => {
+        const allSuccessful = responses.every(response => response.ok);
+        if (allSuccessful) {
+            showSuccess(`${submissionIds.length} karya berhasil dihapus`);
+            location.reload();
+        } else {
+            showError('Beberapa karya gagal dihapus');
+        }
+    })
+    .catch(error => {
+        showError('Terjadi kesalahan sistem');
+    });
 }
 </script>
 @endpush
