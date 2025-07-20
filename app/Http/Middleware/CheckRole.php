@@ -32,16 +32,16 @@ class CheckRole
         // Cek apakah user memiliki salah satu role yang diizinkan
         if (!$user->hasAnyRole($roles)) {
             if ($user->isSuperAdmin()) {
-                return redirect()->route('admin.dashboard')
+                return redirect()->route('admin.admin.dashboard')
                     ->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');
             } elseif ($user->isAdmin()) {
-                return redirect()->route('admin.dashboard')
+                return redirect()->route('admin.admin.dashboard')
                     ->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');
             } elseif ($user->isJuri()) {
-                return redirect()->route('juri.dashboard')
+                return redirect()->route('juri.juri.dashboard')
                     ->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');
             } elseif ($user->isPeserta()) {
-                return redirect()->route('peserta.dashboard')
+                return redirect()->route('peserta.peserta.dashboard')
                     ->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');
             }
 

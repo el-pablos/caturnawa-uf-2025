@@ -133,13 +133,13 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
         $user = auth()->user();
 
         if ($user->isSuperAdmin()) {
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('admin.admin.dashboard');
         } elseif ($user->isAdmin()) {
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('admin.admin.dashboard');
         } elseif ($user->isJuri()) {
-            return redirect()->route('juri.dashboard');
+            return redirect()->route('juri.juri.dashboard');
         } elseif ($user->isPeserta()) {
-            return redirect()->route('peserta.dashboard');
+            return redirect()->route('peserta.peserta.dashboard');
         }
 
         return redirect()->route('login')
