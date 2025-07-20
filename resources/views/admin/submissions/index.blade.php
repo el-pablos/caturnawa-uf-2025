@@ -279,8 +279,13 @@ function approveSubmission(submissionId) {
 }
 
 function rejectSubmission(submissionId) {
-    document.getElementById('rejectForm').action = `/admin/submissions/${submissionId}/reject`;
-    new bootstrap.Modal(document.getElementById('rejectModal')).show();
+    const rejectForm = document.getElementById('rejectForm');
+    const rejectModal = document.getElementById('rejectModal');
+
+    if (rejectForm && rejectModal) {
+        rejectForm.action = `/admin/submissions/${submissionId}/reject`;
+        new bootstrap.Modal(rejectModal).show();
+    }
 }
 
 function deleteSubmission(submissionId) {
@@ -319,26 +324,34 @@ function exportSubmissions(format) {
 }
 
 // Mass action functionality
-document.getElementById('selectAll').addEventListener('change', function() {
-    const checkboxes = document.querySelectorAll('.submission-checkbox');
-    checkboxes.forEach(checkbox => {
-        checkbox.checked = this.checked;
+const selectAllElement = document.getElementById('selectAll');
+if (selectAllElement) {
+    selectAllElement.addEventListener('change', function() {
+        const checkboxes = document.querySelectorAll('.submission-checkbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+        toggleBulkActions();
     });
-    toggleBulkActions();
-});
+}
 
-document.querySelectorAll('.submission-checkbox').forEach(checkbox => {
-    checkbox.addEventListener('change', toggleBulkActions);
-});
+const submissionCheckboxes = document.querySelectorAll('.submission-checkbox');
+if (submissionCheckboxes.length > 0) {
+    submissionCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', toggleBulkActions);
+    });
+}
 
 function toggleBulkActions() {
     const checkedBoxes = document.querySelectorAll('.submission-checkbox:checked');
     const bulkActions = document.getElementById('bulkActions');
 
-    if (checkedBoxes.length > 0) {
-        bulkActions.style.display = 'block';
-    } else {
-        bulkActions.style.display = 'none';
+    if (bulkActions) {
+        if (checkedBoxes.length > 0) {
+            bulkActions.style.display = 'block';
+        } else {
+            bulkActions.style.display = 'none';
+        }
     }
 }
 
