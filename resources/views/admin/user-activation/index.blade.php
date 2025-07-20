@@ -176,27 +176,35 @@
 @push('scripts')
 <script>
 // Select all functionality
-document.getElementById('selectAll').addEventListener('change', function() {
-    const checkboxes = document.querySelectorAll('.user-checkbox');
-    checkboxes.forEach(checkbox => {
-        checkbox.checked = this.checked;
+const selectAllElement = document.getElementById('selectAll');
+if (selectAllElement) {
+    selectAllElement.addEventListener('change', function() {
+        const checkboxes = document.querySelectorAll('.user-checkbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+        toggleBulkActivateButton();
     });
-    toggleBulkActivateButton();
-});
+}
 
 // Individual checkbox change
-document.querySelectorAll('.user-checkbox').forEach(checkbox => {
-    checkbox.addEventListener('change', toggleBulkActivateButton);
-});
+const userCheckboxes = document.querySelectorAll('.user-checkbox');
+if (userCheckboxes.length > 0) {
+    userCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', toggleBulkActivateButton);
+    });
+}
 
 function toggleBulkActivateButton() {
     const checkedBoxes = document.querySelectorAll('.user-checkbox:checked');
     const bulkBtn = document.getElementById('bulkActivateBtn');
-    
-    if (checkedBoxes.length > 0) {
-        bulkBtn.style.display = 'block';
-    } else {
-        bulkBtn.style.display = 'none';
+
+    if (bulkBtn) {
+        if (checkedBoxes.length > 0) {
+            bulkBtn.style.display = 'block';
+        } else {
+            bulkBtn.style.display = 'none';
+        }
     }
 }
 
