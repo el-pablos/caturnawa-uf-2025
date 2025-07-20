@@ -30,9 +30,6 @@ class User extends Authenticatable
         'password',
         'phone',
         'avatar',
-        'is_active',
-        'email_verified_at',
-        'last_login_at',
         'participant_status',
         'institution',
         'bio',
@@ -46,6 +43,15 @@ class User extends Authenticatable
         'emergency_contact_name',
         'emergency_contact_phone',
         'emergency_contact_relation',
+    ];
+
+    /**
+     * Fields yang hanya bisa diisi oleh admin/system
+     */
+    protected $adminFillable = [
+        'is_active',
+        'email_verified_at',
+        'last_login_at',
         'is_account_active',
         'account_activated_at',
         'activated_by',
