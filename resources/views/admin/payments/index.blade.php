@@ -130,8 +130,19 @@
 
 <!-- Payments Table -->
 <div class="card">
-    <div class="card-header">
+    <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="card-title mb-0">Daftar Pembayaran</h5>
+        <div class="btn-group" id="bulkActions" style="display: none;">
+            <button class="btn btn-success btn-sm" onclick="bulkVerify()">
+                <i class="bi bi-check-circle me-1"></i>Verifikasi Terpilih
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="bulkConfirm()">
+                <i class="bi bi-check2-circle me-1"></i>Konfirmasi Terpilih
+            </button>
+            <button class="btn btn-danger btn-sm" onclick="bulkReject()">
+                <i class="bi bi-x-circle me-1"></i>Tolak Terpilih
+            </button>
+        </div>
     </div>
     <div class="card-body">
         @if($payments->count() > 0)
@@ -139,6 +150,9 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
+                            <th>
+                                <input type="checkbox" id="selectAll" class="form-check-input">
+                            </th>
                             <th>Order ID</th>
                             <th>Peserta</th>
                             <th>Kompetisi</th>
@@ -152,6 +166,9 @@
                     <tbody>
                         @foreach($payments as $payment)
                             <tr>
+                                <td>
+                                    <input type="checkbox" class="form-check-input payment-checkbox" value="{{ $payment->id }}">
+                                </td>
                                 <td>
                                     <div>
                                         <strong>{{ $payment->order_id }}</strong>
@@ -484,6 +501,149 @@ function submitRefund() {
     
     const modal = bootstrap.Modal.getInstance(document.getElementById('refundModal'));
     modal.hide();
+}
+
+// Mass action functionality
+document.getElementById('selectAll').addEventListener('change', function() {
+    const checkboxes = document.querySelectorAll('.payment-checkbox');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = this.checked;
+    });
+    toggleBulkActions();
+});
+
+document.querySelectorAll('.payment-checkbox').forEach(checkbox => {
+    checkbox.addEventListener('change', toggleBulkActions);
+});
+
+function toggleBulkActions() {
+    const checkedBoxes = document.querySelectorAll('.payment-checkbox:checked');
+    const bulkActions = document.getElementById('bulkActions');
+
+    if (checkedBoxes.length > 0) {
+        bulkActions.style.display = 'block';
+    } else {
+        bulkActions.style.display = 'none';
+    }
+}
+
+function getSelectedPaymentIds() {
+    const checkedBoxes = document.querySelectorAll('.payment-checkbox:checked');
+    return Array.from(checkedBoxes).map(checkbox => checkbox.value);
+}
+
+function bulkVerify() {
+    const paymentIds = getSelectedPaymentIds();
+    if (paymentIds.length === 0) return;
+
+    confirmAction(
+        'Verifikasi Pembayaran',
+        `Apakah Anda yakin ingin memverifikasi ${paymentIds.length} pembayaran terpilih?`,
+        function() {
+            bulkUpdateStatus(paymentIds, 'verify');
+        }
+    );
+}
+
+function bulkConfirm() {
+    const paymentIds = getSelectedPaymentIds();
+    if (paymentIds.length === 0) return;
+
+    confirmAction(
+        'Konfirmasi Pembayaran',
+        `Apakah Anda yakin ingin mengkonfirmasi ${paymentIds.length} pembayaran terpilih?`,
+        function() {
+            bulkUpdateStatus(paymentIds, 'confirm');
+        }
+    );
+}
+
+function bulkReject() {
+    const paymentIds = getSelectedPaymentIds();
+    if (paymentIds.length === 0) return;
+
+    confirmAction(
+        'Tolak Pembayaran',
+        `Apakah Anda yakin ingin menolak ${paymentIds.length} pembayaran terpilih?`,
+        function() {
+            const reason = prompt('Masukkan alasan penolakan:');
+            if (reason) {
+                bulkRejectPayments(paymentIds, reason);
+            }
+        }
+    );
+}
+
+function bulkUpdateStatus(paymentIds, action) {
+    const actionText = action === 'verify' ? 'memverifikasi' : 'mengkonfirmasi';
+
+    Swal.fire({
+        title: 'Memproses...',
+        text: `Sedang ${actionText} pembayaran`,
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    Promise.all(paymentIds.map(paymentId => {
+        return fetch(`/admin/payments/${paymentId}/${action}`, {
+            method: 'PATCH',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+    }))
+    .then(responses => {
+        const allSuccessful = responses.every(response => response.ok);
+        if (allSuccessful) {
+            showSuccess(`${paymentIds.length} pembayaran berhasil ${action === 'verify' ? 'diverifikasi' : 'dikonfirmasi'}`);
+            location.reload();
+        } else {
+            showError('Beberapa pembayaran gagal diproses');
+        }
+    })
+    .catch(error => {
+        showError('Terjadi kesalahan sistem');
+    });
+}
+
+function bulkRejectPayments(paymentIds, reason) {
+    Swal.fire({
+        title: 'Memproses...',
+        text: 'Sedang menolak pembayaran',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    Promise.all(paymentIds.map(paymentId => {
+        const formData = new FormData();
+        formData.append('rejection_reason', reason);
+
+        return fetch(`/admin/payments/${paymentId}/reject`, {
+            method: 'PATCH',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            },
+            body: formData
+        });
+    }))
+    .then(responses => {
+        const allSuccessful = responses.every(response => response.ok);
+        if (allSuccessful) {
+            showSuccess(`${paymentIds.length} pembayaran berhasil ditolak`);
+            location.reload();
+        } else {
+            showError('Beberapa pembayaran gagal ditolak');
+        }
+    })
+    .catch(error => {
+        showError('Terjadi kesalahan sistem');
+    });
 }
 </script>
 @endpush
