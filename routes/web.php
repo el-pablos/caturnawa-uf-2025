@@ -207,6 +207,7 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
         Route::prefix('payments')->name('payments.')->group(function () {
             Route::get('/', [App\Http\Controllers\Admin\PaymentController::class, 'index'])->name('index');
             Route::get('/{payment}', [App\Http\Controllers\Admin\PaymentController::class, 'show'])->name('show');
+            Route::patch('/{payment}', [App\Http\Controllers\Admin\PaymentController::class, 'update'])->name('update');
             Route::patch('/{payment}/verify', [App\Http\Controllers\Admin\PaymentController::class, 'verify'])->name('verify');
             Route::patch('/{payment}/reject', [App\Http\Controllers\Admin\PaymentController::class, 'reject'])->name('reject');
             Route::patch('/{payment}/confirm', [App\Http\Controllers\Admin\PaymentController::class, 'confirmPayment'])->name('confirm');
@@ -260,6 +261,15 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             Route::put('/update', [App\Http\Controllers\Admin\SettingsController::class, 'update'])->name('update');
             Route::post('/toggle-maintenance', [App\Http\Controllers\Admin\SettingsController::class, 'toggleMaintenance'])->name('toggle-maintenance');
             Route::post('/toggle-registration', [App\Http\Controllers\Admin\SettingsController::class, 'toggleRegistration'])->name('toggle-registration');
+        });
+
+        // Maintenance Tools
+        Route::prefix('maintenance')->name('maintenance.')->group(function () {
+            Route::post('/clear-cache', [App\Http\Controllers\Admin\MaintenanceController::class, 'clearCache'])->name('clear-cache');
+            Route::post('/optimize', [App\Http\Controllers\Admin\MaintenanceController::class, 'optimize'])->name('optimize');
+            Route::post('/clear-logs', [App\Http\Controllers\Admin\MaintenanceController::class, 'clearLogs'])->name('clear-logs');
+            Route::post('/run-all', [App\Http\Controllers\Admin\MaintenanceController::class, 'runAll'])->name('run-all');
+            Route::get('/health-check', [App\Http\Controllers\Admin\MaintenanceController::class, 'healthCheck'])->name('health-check');
         });
 
 

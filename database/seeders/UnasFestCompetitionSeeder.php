@@ -16,49 +16,15 @@ class UnasFestCompetitionSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create 5 main UNAS Fest competitions with new event sector categories
+        // Create UNAS Fest 2025 competitions with 3 main events
         $competitions = [
-            [
-                'name' => 'DCC (Data Challenge Competition)',
-                'slug' => 'dcc',
-                'category' => 'event_dcc',
-                'rounds' => ['penyisihan', 'final'], // Only 2 rounds
-                'scoring_criteria' => [
-                    ['name' => 'Data Analysis', 'max_score' => 25, 'weight' => 1.0],
-                    ['name' => 'Methodology', 'max_score' => 25, 'weight' => 1.0],
-                    ['name' => 'Presentation', 'max_score' => 25, 'weight' => 1.0],
-                    ['name' => 'Innovation', 'max_score' => 25, 'weight' => 1.0],
-                ]
-            ],
-            [
-                'name' => 'Scientific Paper Competition',
-                'slug' => 'spc',
-                'category' => 'event_scientific_paper',
-                'rounds' => ['penyisihan', 'semifinal', 'final'], // 3 rounds
-                'scoring_criteria' => [
-                    ['name' => 'Content Quality', 'max_score' => 30, 'weight' => 1.0],
-                    ['name' => 'Methodology', 'max_score' => 25, 'weight' => 1.0],
-                    ['name' => 'Writing Quality', 'max_score' => 20, 'weight' => 1.0],
-                    ['name' => 'Originality', 'max_score' => 25, 'weight' => 1.0],
-                ]
-            ],
-            [
-                'name' => 'English Debate Competition',
-                'slug' => 'english-debate',
-                'category' => 'event_debate',
-                'rounds' => ['penyisihan', 'semifinal', 'final'], // 3 rounds
-                'scoring_criteria' => [
-                    ['name' => 'Content', 'max_score' => 25, 'weight' => 1.0],
-                    ['name' => 'Strategy', 'max_score' => 25, 'weight' => 1.0],
-                    ['name' => 'Style', 'max_score' => 25, 'weight' => 1.0],
-                    ['name' => 'Delivery', 'max_score' => 25, 'weight' => 1.0],
-                ]
-            ],
+            // Event 1: Debate Competition
             [
                 'name' => 'KDBI (Kompetisi Debat Bahasa Indonesia)',
                 'slug' => 'kdbi',
-                'category' => 'event_debate',
-                'rounds' => ['penyisihan', 'semifinal', 'final'], // 3 rounds
+                'category' => 'debate_competition',
+                'event_name' => 'Debate Competition',
+                'rounds' => ['penyisihan', 'semifinal', 'final'],
                 'scoring_criteria' => [
                     ['name' => 'Isi (Content)', 'max_score' => 25, 'weight' => 1.0],
                     ['name' => 'Gaya (Style)', 'max_score' => 25, 'weight' => 1.0],
@@ -67,10 +33,26 @@ class UnasFestCompetitionSeeder extends Seeder
                 ]
             ],
             [
+                'name' => 'EDC (English Debate Competition)',
+                'slug' => 'edc',
+                'category' => 'debate_competition',
+                'event_name' => 'Debate Competition',
+                'rounds' => ['penyisihan', 'semifinal', 'final'],
+                'scoring_criteria' => [
+                    ['name' => 'Content', 'max_score' => 25, 'weight' => 1.0],
+                    ['name' => 'Strategy', 'max_score' => 25, 'weight' => 1.0],
+                    ['name' => 'Style', 'max_score' => 25, 'weight' => 1.0],
+                    ['name' => 'Delivery', 'max_score' => 25, 'weight' => 1.0],
+                ]
+            ],
+
+            // Event 2: DCC (Digital Contest Competition)
+            [
                 'name' => 'Short Movie Competition',
                 'slug' => 'short-movie',
-                'category' => 'event_dcc',
-                'rounds' => ['penyisihan', 'semifinal', 'final'], // 3 rounds
+                'category' => 'dcc',
+                'event_name' => 'DCC (Digital Contest Competition)',
+                'rounds' => ['penyisihan', 'semifinal', 'final'],
                 'scoring_criteria' => [
                     ['name' => 'Story & Script', 'max_score' => 30, 'weight' => 1.0],
                     ['name' => 'Cinematography', 'max_score' => 25, 'weight' => 1.0],
@@ -79,15 +61,31 @@ class UnasFestCompetitionSeeder extends Seeder
                 ]
             ],
             [
-                'name' => 'Photography Competition',
-                'slug' => 'photography',
-                'category' => 'event_dcc',
-                'rounds' => ['penyisihan', 'semifinal', 'final'], // 3 rounds
+                'name' => 'Fotografi',
+                'slug' => 'fotografi',
+                'category' => 'dcc',
+                'event_name' => 'DCC (Digital Contest Competition)',
+                'rounds' => ['penyisihan', 'semifinal', 'final'],
                 'scoring_criteria' => [
-                    ['name' => 'Composition & Technique', 'max_score' => 30, 'weight' => 1.0],
-                    ['name' => 'Creativity & Originality', 'max_score' => 25, 'weight' => 1.0],
-                    ['name' => 'Visual Impact', 'max_score' => 25, 'weight' => 1.0],
-                    ['name' => 'Theme Interpretation', 'max_score' => 20, 'weight' => 1.0],
+                    ['name' => 'Komposisi & Teknik', 'max_score' => 30, 'weight' => 1.0],
+                    ['name' => 'Kreativitas & Originalitas', 'max_score' => 25, 'weight' => 1.0],
+                    ['name' => 'Dampak Visual', 'max_score' => 25, 'weight' => 1.0],
+                    ['name' => 'Interpretasi Tema', 'max_score' => 20, 'weight' => 1.0],
+                ]
+            ],
+
+            // Event 3: SPC (Scientific Paper Competition)
+            [
+                'name' => 'Karya Ilmiah',
+                'slug' => 'karya-ilmiah',
+                'category' => 'spc',
+                'event_name' => 'SPC (Scientific Paper Competition)',
+                'rounds' => ['penyisihan', 'semifinal', 'final'],
+                'scoring_criteria' => [
+                    ['name' => 'Kualitas Konten', 'max_score' => 30, 'weight' => 1.0],
+                    ['name' => 'Metodologi', 'max_score' => 25, 'weight' => 1.0],
+                    ['name' => 'Kualitas Penulisan', 'max_score' => 20, 'weight' => 1.0],
+                    ['name' => 'Originalitas', 'max_score' => 25, 'weight' => 1.0],
                 ]
             ],
         ];
@@ -98,22 +96,20 @@ class UnasFestCompetitionSeeder extends Seeder
         \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         foreach ($competitions as $competitionData) {
-            // Set specific settings for photography competition
-            $isPhotography = $competitionData['slug'] === 'photography';
-
             echo "Creating competition: " . $competitionData['name'] . " (" . $competitionData['slug'] . ")\n";
+
+            // Set specific settings based on competition type
+            $isFotografi = $competitionData['slug'] === 'fotografi';
+            $isDebate = in_array($competitionData['category'], ['debate_competition']);
+            $isSPC = $competitionData['category'] === 'spc';
 
             // Create new competition
             $competition = Competition::create([
                 'name' => $competitionData['name'],
                 'slug' => $competitionData['slug'],
-                'description' => $isPhotography
-                    ? 'Kompetisi fotografi yang menantang kreativitas dan teknik fotografi peserta dalam menginterpretasikan tema yang diberikan. Peserta dapat berpartisipasi secara individu atau tim untuk menciptakan karya fotografi yang memukau dan bermakna.'
-                    : 'Kompetisi ' . $competitionData['name'] . ' dalam rangka UNAS Fest 2025',
+                'description' => $this->getCompetitionDescription($competitionData),
                 'category' => $competitionData['category'],
-                'theme' => $isPhotography
-                    ? 'Capturing Moments, Creating Stories'
-                    : 'Innovation and Technology for Sustainable Future',
+                'theme' => $this->getCompetitionTheme($competitionData),
                 'price' => 150000,
                 'early_bird_price' => 100000,
                 'early_bird_deadline' => now()->addDays(14),
@@ -127,51 +123,19 @@ class UnasFestCompetitionSeeder extends Seeder
                 'competition_end' => now()->addDays(45),
                 'submission_deadline' => now()->addDays(32),
                 'result_announcement' => now()->addDays(50),
-                'max_participants' => $isPhotography ? 150 : 100,
-                'min_team_members' => $isPhotography ? 1 : 2,
-                'max_team_members' => $isPhotography ? 3 : 5,
-                'requirements' => $isPhotography ? [
-                    'Peserta adalah siswa SMA/SMK atau mahasiswa aktif',
-                    'Dapat berpartisipasi secara individu atau tim (maksimal 3 orang)',
-                    'Foto harus karya asli peserta',
-                    'Tidak diperbolehkan menggunakan foto yang pernah dipublikasikan',
-                    'Format file: JPEG/JPG dengan resolusi minimal 300 DPI'
-                ] : [
-                    'Peserta adalah mahasiswa aktif',
-                    'Setiap tim terdiri dari 2-5 orang',
-                    'Satu institusi boleh mengirim lebih dari satu tim'
-                ],
-                'prizes' => $isPhotography ? [
-                    'Juara 1: Rp 7.500.000 + Kamera DSLR',
-                    'Juara 2: Rp 5.000.000 + Lensa Kamera',
-                    'Juara 3: Rp 3.000.000 + Tripod Professional',
-                    'Best Composition: Rp 1.000.000',
-                    'People\'s Choice: Rp 1.000.000'
-                ] : [
-                    'Juara 1: Rp 10.000.000',
-                    'Juara 2: Rp 7.500.000',
-                    'Juara 3: Rp 5.000.000'
-                ],
-                'rules' => $isPhotography ? [
-                    'Peserta wajib mengikuti seluruh rangkaian kompetisi',
-                    'Foto yang disubmit harus sesuai dengan tema yang diberikan',
-                    'Dilarang melakukan manipulasi digital yang berlebihan',
-                    'Peserta boleh menggunakan filter dan editing dasar',
-                    'Keputusan juri tidak dapat diganggu gugat'
-                ] : [
-                    'Peserta wajib mengikuti seluruh rangkaian kompetisi',
-                    'Tidak diperbolehkan mengganti anggota tim setelah registrasi',
-                    'Keputusan juri tidak dapat diganggu gugat'
-                ],
+                'max_participants' => $isFotografi ? 150 : 100,
+                'min_team_members' => $isFotografi ? 1 : ($isDebate ? 3 : 2),
+                'max_team_members' => $isFotografi ? 3 : ($isDebate ? 5 : 5),
+                'requirements' => $this->getCompetitionRequirements($competitionData),
+                'prizes' => $this->getCompetitionPrizes($competitionData),
+                'rules' => $this->getCompetitionRules($competitionData),
                 'is_active' => true,
                 'status' => 'active',
-                'is_team_competition' => $isPhotography ? true : true,
-                'allow_individual' => $isPhotography ? true : false,
-                'prize_amount' => $isPhotography ? 17500000 : 22500000,
-                'type' => $isPhotography ? 'individual' : 'team',
-                'short_description' => $isPhotography
-                    ? 'Kompetisi fotografi tingkat nasional untuk menangkap momen dan menciptakan cerita melalui lensa'
-                    : 'Kompetisi ' . $competitionData['name'] . ' tingkat nasional',
+                'is_team_competition' => true,
+                'allow_individual' => $isFotografi,
+                'prize_amount' => 22500000,
+                'type' => $isFotografi ? 'individual' : 'team',
+                'short_description' => $this->getCompetitionShortDescription($competitionData),
                 'contact_person' => 'Panitia UNAS Fest 2025',
                 'contact_email' => 'info@unasfest.com',
                 'contact_phone' => '081234567890',
@@ -216,6 +180,106 @@ class UnasFestCompetitionSeeder extends Seeder
         }
 
         $this->command->info('UNAS Fest competitions created successfully!');
-        $this->command->info('Created 5 competitions with their rounds and scoring criteria.');
+        $this->command->info('Created 5 competitions across 3 events with their rounds and scoring criteria.');
+    }
+
+    private function getCompetitionDescription($competitionData)
+    {
+        $descriptions = [
+            'kdbi' => 'Kompetisi Debat Bahasa Indonesia (KDBI) adalah ajang bergengsi untuk menguji kemampuan berargumentasi dan berpikir kritis dalam bahasa Indonesia.',
+            'edc' => 'English Debate Competition (EDC) adalah kompetisi debat internasional yang menantang kemampuan berbahasa Inggris dan argumentasi peserta.',
+            'short-movie' => 'Kompetisi film pendek yang menantang kreativitas dalam bercerita melalui medium audiovisual dengan durasi maksimal 10 menit.',
+            'fotografi' => 'Kompetisi fotografi yang menantang kreativitas dan teknik fotografi peserta dalam menginterpretasikan tema yang diberikan.',
+            'karya-ilmiah' => 'Kompetisi karya ilmiah yang mendorong inovasi dan penelitian mahasiswa dalam berbagai bidang keilmuan.'
+        ];
+
+        return $descriptions[$competitionData['slug']] ?? 'Kompetisi ' . $competitionData['name'] . ' dalam rangka UNAS Fest 2025';
+    }
+
+    private function getCompetitionTheme($competitionData)
+    {
+        $themes = [
+            'kdbi' => 'Membangun Bangsa Melalui Dialog Konstruktif',
+            'edc' => 'Global Challenges, Local Solutions',
+            'short-movie' => 'Stories That Matter',
+            'fotografi' => 'Capturing Moments, Creating Stories',
+            'karya-ilmiah' => 'Innovation for Sustainable Future'
+        ];
+
+        return $themes[$competitionData['slug']] ?? 'Innovation and Technology for Sustainable Future';
+    }
+
+    private function getCompetitionRequirements($competitionData)
+    {
+        $requirements = [
+            'kdbi' => [
+                'Peserta adalah mahasiswa aktif',
+                'Setiap tim terdiri dari 3-5 orang',
+                'Menguasai teknik debat bahasa Indonesia',
+                'Memiliki kemampuan analisis dan argumentasi yang baik'
+            ],
+            'edc' => [
+                'Peserta adalah mahasiswa aktif',
+                'Setiap tim terdiri dari 3-5 orang',
+                'Menguasai bahasa Inggris dengan baik',
+                'Memiliki pengalaman debat (diutamakan)'
+            ],
+            'short-movie' => [
+                'Peserta adalah mahasiswa aktif',
+                'Setiap tim terdiri dari 2-5 orang',
+                'Memiliki pengalaman dalam produksi video',
+                'Durasi film maksimal 10 menit'
+            ],
+            'fotografi' => [
+                'Peserta adalah siswa SMA/SMK atau mahasiswa aktif',
+                'Dapat berpartisipasi secara individu atau tim (maksimal 3 orang)',
+                'Foto harus karya asli peserta',
+                'Format file: JPEG/JPG dengan resolusi minimal 300 DPI'
+            ],
+            'karya-ilmiah' => [
+                'Peserta adalah mahasiswa aktif',
+                'Setiap tim terdiri dari 2-5 orang',
+                'Karya ilmiah harus original dan belum dipublikasikan',
+                'Sesuai dengan kaidah penulisan ilmiah'
+            ]
+        ];
+
+        return $requirements[$competitionData['slug']] ?? [
+            'Peserta adalah mahasiswa aktif',
+            'Setiap tim terdiri dari 2-5 orang',
+            'Satu institusi boleh mengirim lebih dari satu tim'
+        ];
+    }
+
+    private function getCompetitionPrizes($competitionData)
+    {
+        return [
+            'Juara 1: Rp 10.000.000',
+            'Juara 2: Rp 7.500.000',
+            'Juara 3: Rp 5.000.000'
+        ];
+    }
+
+    private function getCompetitionRules($competitionData)
+    {
+        return [
+            'Peserta wajib mengikuti seluruh rangkaian kompetisi',
+            'Tidak diperbolehkan mengganti anggota tim setelah registrasi',
+            'Keputusan juri tidak dapat diganggu gugat',
+            'Peserta wajib mematuhi kode etik kompetisi'
+        ];
+    }
+
+    private function getCompetitionShortDescription($competitionData)
+    {
+        $descriptions = [
+            'kdbi' => 'Kompetisi debat bahasa Indonesia tingkat nasional',
+            'edc' => 'Kompetisi debat bahasa Inggris tingkat nasional',
+            'short-movie' => 'Kompetisi film pendek tingkat nasional',
+            'fotografi' => 'Kompetisi fotografi tingkat nasional',
+            'karya-ilmiah' => 'Kompetisi karya ilmiah tingkat nasional'
+        ];
+
+        return $descriptions[$competitionData['slug']] ?? 'Kompetisi ' . $competitionData['name'] . ' tingkat nasional';
     }
 }

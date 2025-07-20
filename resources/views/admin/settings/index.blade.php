@@ -26,52 +26,76 @@
                     @csrf
                     @method('PUT')
                     
-                    <!-- Essential System Settings -->
+                    <!-- Site Information -->
                     <div class="mb-4">
                         <h6 class="text-primary mb-3">
-                            <i class="bi bi-gear me-2"></i>Pengaturan Sistem
+                            <i class="bi bi-globe me-2"></i>Informasi Website
                         </h6>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="app_name" class="form-label fw-semibold">Nama Aplikasi</label>
-                                <input type="text" class="form-control @error('app_name') is-invalid @enderror"
-                                       id="app_name" name="app_name" value="{{ old('app_name', config('app.name')) }}" required>
-                                @error('app_name')
+                                <label for="site_name" class="form-label fw-semibold">Nama Website</label>
+                                <input type="text" class="form-control @error('site_name') is-invalid @enderror"
+                                       id="site_name" name="site_name" value="{{ old('site_name', $settings['site_name'] ?? 'UNAS Fest 2025') }}" required>
+                                @error('site_name')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label for="app_url" class="form-label fw-semibold">URL Aplikasi</label>
-                                <input type="url" class="form-control @error('app_url') is-invalid @enderror"
-                                       id="app_url" name="app_url" value="{{ old('app_url', config('app.url')) }}" required>
-                                @error('app_url')
+                                <label for="site_description" class="form-label fw-semibold">Deskripsi Website</label>
+                                <input type="text" class="form-control @error('site_description') is-invalid @enderror"
+                                       id="site_description" name="site_description" value="{{ old('site_description', $settings['site_description'] ?? 'Festival Kompetisi Universitas Nasional') }}" required>
+                                @error('site_description')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Control -->
+                    <div class="mb-4">
+                        <h6 class="text-primary mb-3">
+                            <i class="bi bi-shield-check me-2"></i>Kontrol Sistem
+                        </h6>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" name="maintenance_mode" id="maintenanceMode"
+                                           {{ old('maintenance_mode', $settings['maintenance_mode'] ?? false) ? 'checked' : '' }}>
+                                    <label class="form-check-label fw-semibold" for="maintenanceMode">
+                                        Mode Maintenance
+                                    </label>
+                                    <div class="text-muted small">Aktifkan untuk menutup akses website</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" name="registration_open" id="registrationOpen"
+                                           {{ old('registration_open', $settings['registration_open'] ?? true) ? 'checked' : '' }}>
+                                    <label class="form-check-label fw-semibold" for="registrationOpen">
+                                        Buka Pendaftaran
+                                    </label>
+                                    <div class="text-muted small">Izinkan pendaftaran peserta baru</div>
+                                </div>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="timezone" class="form-label fw-semibold">Timezone</label>
-                                <select class="form-select @error('timezone') is-invalid @enderror" id="timezone" name="timezone" required>
-                                    <option value="Asia/Jakarta" {{ old('timezone', config('app.timezone')) == 'Asia/Jakarta' ? 'selected' : '' }}>Asia/Jakarta (WIB)</option>
-                                    <option value="Asia/Makassar" {{ old('timezone', config('app.timezone')) == 'Asia/Makassar' ? 'selected' : '' }}>Asia/Makassar (WITA)</option>
-                                    <option value="Asia/Jayapura" {{ old('timezone', config('app.timezone')) == 'Asia/Jayapura' ? 'selected' : '' }}>Asia/Jayapura (WIT)</option>
-                                </select>
-                                @error('timezone')
+                                <label for="maintenance_message" class="form-label fw-semibold">Pesan Mode Maintenance</label>
+                                <textarea class="form-control @error('maintenance_message') is-invalid @enderror"
+                                          id="maintenance_message" name="maintenance_message" rows="3" required>{{ old('maintenance_message', $settings['maintenance_message'] ?? 'Website sedang dalam pemeliharaan. Silakan coba lagi nanti.') }}</textarea>
+                                @error('maintenance_message')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-
                             <div class="col-md-6 mb-3">
-                                <label for="locale" class="form-label fw-semibold">Bahasa</label>
-                                <select class="form-select @error('locale') is-invalid @enderror" id="locale" name="locale" required>
-                                    <option value="id" {{ old('locale', config('app.locale')) == 'id' ? 'selected' : '' }}>Bahasa Indonesia</option>
-                                    <option value="en" {{ old('locale', config('app.locale')) == 'en' ? 'selected' : '' }}>English</option>
-                                </select>
-                                @error('locale')
+                                <label for="registration_closed_message" class="form-label fw-semibold">Pesan Pendaftaran Ditutup</label>
+                                <textarea class="form-control @error('registration_closed_message') is-invalid @enderror"
+                                          id="registration_closed_message" name="registration_closed_message" rows="3" required>{{ old('registration_closed_message', $settings['registration_closed_message'] ?? 'Pendaftaran sedang ditutup. Silakan tunggu periode selanjutnya.') }}</textarea>
+                                @error('registration_closed_message')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>

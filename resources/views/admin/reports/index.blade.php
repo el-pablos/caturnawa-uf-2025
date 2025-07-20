@@ -145,22 +145,39 @@
 
 <!-- Charts Section -->
 <div class="row mb-4">
-    <div class="col-lg-8">
+    <div class="col-lg-6">
         <div class="card">
             <div class="card-header">
                 <h6 class="mb-0">
-                    <i class="bi bi-graph-up me-2"></i>Tren Pendaftaran & Pendapatan
+                    <i class="bi bi-graph-up me-2"></i>Tren Pendaftaran
                 </h6>
             </div>
             <div class="card-body">
-                <div style="height: 400px;">
+                <div style="height: 300px;">
+                    <canvas id="registrationChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0">
+                    <i class="bi bi-currency-dollar me-2"></i>Tren Pendapatan
+                </h6>
+            </div>
+            <div class="card-body">
+                <div style="height: 300px;">
                     <canvas id="revenueChart"></canvas>
                 </div>
             </div>
         </div>
     </div>
-    
-    <div class="col-lg-4">
+</div>
+
+<div class="row mb-4">
+    <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
                 <h6 class="mb-0">
@@ -168,7 +185,7 @@
                 </h6>
             </div>
             <div class="card-body">
-                <div style="height: 300px;">
+                <div style="height: 400px;">
                     <canvas id="competitionChart"></canvas>
                 </div>
             </div>

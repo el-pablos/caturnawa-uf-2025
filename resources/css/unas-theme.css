@@ -302,11 +302,11 @@ body {
 /* Dark Mode Support */
 @media (prefers-color-scheme: dark) {
     :root {
-        --unas-white: #1E1E1E;
-        --unas-light: #2D2D2D;
-        --unas-gray-100: #3D3D3D;
-        --unas-gray-800: #E0E0E0;
-        --unas-gray-900: #F5F5F5;
+        --unas-white: #F8F9FA;
+        --unas-light: #E3F2FD;
+        --unas-gray-100: #ECEFF1;
+        --unas-gray-800: #37474F;
+        --unas-gray-900: #263238;
     }
     
     body {

@@ -22,12 +22,8 @@ class DatabaseSeeder extends Seeder
         $this->command->info('🌱 Starting fresh database seeding...');
 
         $this->call([
-            RolePermissionSeeder::class,
-            UserSeeder::class,
-            UnasFestCompetitionSeeder::class,  // Main UNAS Fest competitions
-            CompetitionSeeder::class,          // Additional test competitions
-            PricingPhaseSeeder::class,
-            LeaderboardSeeder::class,          // Dummy leaderboard data for homepage display
+            RolePermissionSeeder::class,       // Only superadmin role
+            UnasFestCompetitionSeeder::class,  // Updated competition categories
         ]);
 
         $this->command->info('✅ Database seeding completed successfully!');
