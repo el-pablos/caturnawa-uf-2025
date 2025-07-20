@@ -162,7 +162,7 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
         });
 
         // Dashboard
-        Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
         Route::get('/dashboard/chart-data', [App\Http\Controllers\Admin\DashboardController::class, 'getChartDataAjax'])->name('dashboard.chart-data');
         Route::get('/dashboard/user-distribution', [App\Http\Controllers\Admin\DashboardController::class, 'getUserDistributionAjax'])->name('dashboard.user-distribution');
         Route::get('/dashboard/recent-data', [App\Http\Controllers\Admin\DashboardController::class, 'getRecentDataAjax'])->name('dashboard.recent-data');
@@ -292,7 +292,7 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
     Route::middleware(['role:juri'])->prefix('juri')->name('juri.')->group(function () {
         
         // Dashboard
-        Route::get('/dashboard', [App\Http\Controllers\Juri\JuriDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [App\Http\Controllers\Juri\JuriDashboardController::class, 'index'])->name('juri.dashboard');
         
         // Assigned Competitions
         Route::prefix('competitions')->name('competitions.')->group(function () {
@@ -344,7 +344,7 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
     Route::middleware(['role:peserta'])->prefix('peserta')->name('peserta.')->group(function () {
         
         // Dashboard
-        Route::get('/dashboard', [App\Http\Controllers\Peserta\PesertaDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [App\Http\Controllers\Peserta\PesertaDashboardController::class, 'index'])->name('peserta.dashboard');
         
         // Available Competitions
         Route::prefix('competitions')->name('competitions.')->group(function () {
