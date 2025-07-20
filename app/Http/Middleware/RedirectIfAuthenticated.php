@@ -31,7 +31,13 @@ class RedirectIfAuthenticated
                 } elseif ($user->isPeserta()) {
                     return redirect()->route('peserta.peserta.dashboard');
                 } else {
-                    return redirect()->route('login');
+                    // User has no roles - log them out to prevent redirect loop
+                    Auth::logout();
+                    $request->session()->invalidate();
+                    $request->session()->regenerateToken();
+
+                    return redirect()->route('login')
+                        ->with('error', 'Akun Anda belum memiliki role yang valid. Silakan hubungi administrator.');
                 }
             }
         }
