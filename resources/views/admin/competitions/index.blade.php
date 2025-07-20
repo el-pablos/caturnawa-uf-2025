@@ -190,9 +190,9 @@ $(document).ready(function() {
     $('#competitionsTable').DataTable({
         "responsive": true,
         "pageLength": 10,
-        "order": [[ 0, "asc" ]],
+        "order": [[ 1, "asc" ]], // Order by competition name (second column after checkbox)
         "columnDefs": [
-            { "orderable": false, "targets": [6] }
+            { "orderable": false, "targets": [0, 7] } // Disable ordering for checkbox and actions columns
         ]
     });
 });
