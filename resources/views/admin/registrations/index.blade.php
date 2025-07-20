@@ -80,8 +80,8 @@
     <div class="card-body">
         <form method="GET" class="row g-3">
             <div class="col-md-3">
-                <label class="form-label fw-semibold">Status</label>
-                <select name="status" class="form-control">
+                <label for="filter-status" class="form-label fw-semibold">Status</label>
+                <select name="status" id="filter-status" class="form-control">
                     <option value="">Semua Status</option>
                     <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Menunggu</option>
                     <option value="confirmed" {{ request('status') === 'confirmed' ? 'selected' : '' }}>Dikonfirmasi</option>
@@ -89,8 +89,8 @@
                 </select>
             </div>
             <div class="col-md-3">
-                <label class="form-label fw-semibold">Kompetisi</label>
-                <select name="competition_id" class="form-control">
+                <label for="filter-competition" class="form-label fw-semibold">Kompetisi</label>
+                <select name="competition_id" id="filter-competition" class="form-control">
                     <option value="">Semua Kompetisi</option>
                     @foreach($competitions as $competition)
                         <option value="{{ $competition->id }}" {{ request('competition_id') == $competition->id ? 'selected' : '' }}>
@@ -100,11 +100,11 @@
                 </select>
             </div>
             <div class="col-md-4">
-                <label class="form-label fw-semibold">Cari</label>
-                <input type="text" name="search" class="form-control" placeholder="Nama atau email peserta..." value="{{ request('search') }}">
+                <label for="filter-search" class="form-label fw-semibold">Cari</label>
+                <input type="text" name="search" id="filter-search" class="form-control" placeholder="Nama atau email peserta..." value="{{ request('search') }}">
             </div>
             <div class="col-md-2">
-                <label class="form-label">&nbsp;</label>
+                <label for="filter-submit" class="form-label">&nbsp;</label>
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-primary">
                         <i class="bi bi-search"></i>
@@ -143,7 +143,8 @@
                     <thead>
                         <tr>
                             <th>
-                                <input type="checkbox" id="selectAll" class="form-check-input">
+                                <label for="selectAll" class="visually-hidden">Pilih Semua</label>
+                                <input type="checkbox" id="selectAll" class="form-check-input" aria-label="Pilih semua registrasi">
                             </th>
                             <th>ID</th>
                             <th>Peserta</th>
@@ -158,7 +159,8 @@
                         @foreach($registrations as $registration)
                             <tr>
                                 <td>
-                                    <input type="checkbox" class="form-check-input registration-checkbox" value="{{ $registration->id }}">
+                                    <label for="registration-checkbox-{{ $registration->id }}" class="visually-hidden">Pilih registrasi #{{ $registration->id }}</label>
+                                    <input type="checkbox" id="registration-checkbox-{{ $registration->id }}" class="form-check-input registration-checkbox" value="{{ $registration->id }}" aria-label="Pilih registrasi #{{ $registration->id }}">
                                 </td>
                                 <td>
                                     <span class="badge bg-light text-dark">#{{ $registration->id }}</span>
@@ -257,15 +259,15 @@
             <div class="modal-body">
                 <form id="exportForm">
                     <div class="mb-3">
-                        <label class="form-label">Format</label>
-                        <select name="format" class="form-select" required>
+                        <label for="export-format" class="form-label">Format</label>
+                        <select name="format" id="export-format" class="form-select" required>
                             <option value="excel">Excel (.xlsx)</option>
                             <option value="pdf">PDF</option>
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Filter Status</label>
-                        <select name="status" class="form-select">
+                        <label for="export-status" class="form-label">Filter Status</label>
+                        <select name="status" id="export-status" class="form-select">
                             <option value="">Semua Status</option>
                             <option value="pending">Menunggu</option>
                             <option value="confirmed">Dikonfirmasi</option>
@@ -273,8 +275,8 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Filter Kompetisi</label>
-                        <select name="competition_id" class="form-select">
+                        <label for="export-competition" class="form-label">Filter Kompetisi</label>
+                        <select name="competition_id" id="export-competition" class="form-select">
                             <option value="">Semua Kompetisi</option>
                             @foreach($competitions as $competition)
                                 <option value="{{ $competition->id }}">{{ $competition->name }}</option>
