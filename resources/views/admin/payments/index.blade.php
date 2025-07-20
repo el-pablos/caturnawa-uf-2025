@@ -437,12 +437,17 @@ function verifyPayment(paymentId) {
 
 function rejectPayment(paymentId) {
     currentPaymentId = paymentId;
-    const modal = new bootstrap.Modal(document.getElementById('rejectModal'));
-    modal.show();
+    const rejectModal = document.getElementById('rejectModal');
+    if (rejectModal) {
+        const modal = new bootstrap.Modal(rejectModal);
+        modal.show();
+    }
 }
 
 function submitReject() {
     const form = document.getElementById('rejectForm');
+    if (!form) return;
+
     const formData = new FormData(form);
     
     fetch(`/admin/payments/${currentPaymentId}/reject`, {
@@ -465,18 +470,26 @@ function submitReject() {
         showError('Terjadi kesalahan sistem');
     });
     
-    const modal = bootstrap.Modal.getInstance(document.getElementById('rejectModal'));
-    modal.hide();
+    const rejectModal = document.getElementById('rejectModal');
+    if (rejectModal) {
+        const modal = bootstrap.Modal.getInstance(rejectModal);
+        if (modal) modal.hide();
+    }
 }
 
 function refundPayment(paymentId) {
     currentPaymentId = paymentId;
-    const modal = new bootstrap.Modal(document.getElementById('refundModal'));
-    modal.show();
+    const refundModal = document.getElementById('refundModal');
+    if (refundModal) {
+        const modal = new bootstrap.Modal(refundModal);
+        modal.show();
+    }
 }
 
 function submitRefund() {
     const form = document.getElementById('refundForm');
+    if (!form) return;
+
     const formData = new FormData(form);
     
     fetch(`/admin/payments/${currentPaymentId}/refund`, {
@@ -499,31 +512,42 @@ function submitRefund() {
         showError('Terjadi kesalahan sistem');
     });
     
-    const modal = bootstrap.Modal.getInstance(document.getElementById('refundModal'));
-    modal.hide();
+    const refundModal = document.getElementById('refundModal');
+    if (refundModal) {
+        const modal = bootstrap.Modal.getInstance(refundModal);
+        if (modal) modal.hide();
+    }
 }
 
 // Mass action functionality
-document.getElementById('selectAll').addEventListener('change', function() {
-    const checkboxes = document.querySelectorAll('.payment-checkbox');
-    checkboxes.forEach(checkbox => {
-        checkbox.checked = this.checked;
+const selectAllElement = document.getElementById('selectAll');
+if (selectAllElement) {
+    selectAllElement.addEventListener('change', function() {
+        const checkboxes = document.querySelectorAll('.payment-checkbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+        toggleBulkActions();
     });
-    toggleBulkActions();
-});
+}
 
-document.querySelectorAll('.payment-checkbox').forEach(checkbox => {
-    checkbox.addEventListener('change', toggleBulkActions);
-});
+const paymentCheckboxes = document.querySelectorAll('.payment-checkbox');
+if (paymentCheckboxes.length > 0) {
+    paymentCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', toggleBulkActions);
+    });
+}
 
 function toggleBulkActions() {
     const checkedBoxes = document.querySelectorAll('.payment-checkbox:checked');
     const bulkActions = document.getElementById('bulkActions');
 
-    if (checkedBoxes.length > 0) {
-        bulkActions.style.display = 'block';
-    } else {
-        bulkActions.style.display = 'none';
+    if (bulkActions) {
+        if (checkedBoxes.length > 0) {
+            bulkActions.style.display = 'block';
+        } else {
+            bulkActions.style.display = 'none';
+        }
     }
 }
 
