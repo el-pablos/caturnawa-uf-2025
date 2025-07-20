@@ -68,7 +68,8 @@
                                                 <div class="mb-3">
                                                     <label for="name" class="form-label fw-semibold">Nama Lengkap</label>
                                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                                           id="name" name="name" value="{{ old('name', $user->name) }}" required>
+                                                           id="name" name="name" value="{{ old('name', $user->name) }}"
+                                                           autocomplete="name" required>
                                                     @error('name')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
@@ -84,7 +85,8 @@
                                                 <div class="mb-3">
                                                     <label for="phone" class="form-label fw-semibold">Nomor Telepon</label>
                                                     <input type="text" class="form-control @error('phone') is-invalid @enderror"
-                                                           id="phone" name="phone" value="{{ old('phone', $user->phone) }}" required>
+                                                           id="phone" name="phone" value="{{ old('phone', $user->phone) }}"
+                                                           autocomplete="tel" required>
                                                     @error('phone')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
@@ -93,7 +95,8 @@
                                                 <div class="mb-3">
                                                     <label for="institution" class="form-label fw-semibold">Institusi</label>
                                                     <input type="text" class="form-control @error('institution') is-invalid @enderror"
-                                                           id="institution" name="institution" value="{{ old('institution', $user->institution) }}">
+                                                           id="institution" name="institution" value="{{ old('institution', $user->institution) }}"
+                                                           autocomplete="organization">
                                                     @error('institution')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
