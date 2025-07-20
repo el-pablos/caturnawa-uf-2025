@@ -42,10 +42,21 @@
             color: #1e293b;
         }
 
-        /* Ensure all cards have white background */
-        .card {
+        /* Ensure cards have white background, except colored ones */
+        .card:not(.bg-primary):not(.bg-success):not(.bg-warning):not(.bg-danger):not(.bg-info):not(.bg-secondary) {
             background: #ffffff !important;
             border: 1px solid #e5e7eb !important;
+            border-radius: 0.75rem !important;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1) !important;
+        }
+
+        /* Ensure colored cards maintain their styling */
+        .card.bg-primary,
+        .card.bg-success,
+        .card.bg-warning,
+        .card.bg-danger,
+        .card.bg-info,
+        .card.bg-secondary {
             border-radius: 0.75rem !important;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1) !important;
         }
