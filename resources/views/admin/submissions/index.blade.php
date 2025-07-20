@@ -94,7 +94,7 @@
             <div class="col-md-2">
                 <label for="filter-submit" class="form-label">&nbsp;</label>
                 <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" id="filter-submit" class="btn btn-primary">
                         <i class="bi bi-search"></i>
                     </button>
                     <a href="{{ route('admin.submissions.index') }}" class="btn btn-secondary">
