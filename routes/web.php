@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,45 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+// Health Check Route for Docker
+Route::get('/health', function () {
+    $checks = [
+        'status' => 'healthy',
+        'timestamp' => now()->toISOString(),
+        'services' => []
+    ];
+
+    try {
+        // Database check
+        DB::connection()->getPdo();
+        $checks['services']['database'] = 'healthy';
+    } catch (Exception $e) {
+        $checks['services']['database'] = 'unhealthy';
+        $checks['status'] = 'unhealthy';
+    }
+
+    try {
+        // Redis check
+        Cache::store('redis')->put('health_check', 'ok', 10);
+        $checks['services']['redis'] = 'healthy';
+    } catch (Exception $e) {
+        $checks['services']['redis'] = 'unhealthy';
+        $checks['status'] = 'unhealthy';
+    }
+
+    // Storage check
+    if (is_writable(storage_path())) {
+        $checks['services']['storage'] = 'healthy';
+    } else {
+        $checks['services']['storage'] = 'unhealthy';
+        $checks['status'] = 'unhealthy';
+    }
+
+    $statusCode = $checks['status'] === 'healthy' ? 200 : 503;
+
+    return response()->json($checks, $statusCode);
+})->name('health');
 
 // Public Pages Routes (Main Website)
 Route::name('public.')->middleware('maintenance')->group(function () {
