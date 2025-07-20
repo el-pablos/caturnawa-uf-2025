@@ -120,10 +120,21 @@
 
 <!-- Registrations Table -->
 <div class="card">
-    <div class="card-header">
+    <div class="card-header d-flex justify-content-between align-items-center">
         <h6 class="mb-0">
             <i class="bi bi-clipboard-check me-2"></i>Daftar Registrasi
         </h6>
+        <div class="btn-group" id="bulkActions" style="display: none;">
+            <button class="btn btn-success btn-sm" onclick="bulkConfirm()">
+                <i class="bi bi-check-circle me-1"></i>Konfirmasi Terpilih
+            </button>
+            <button class="btn btn-warning btn-sm" onclick="bulkCancel()">
+                <i class="bi bi-x-circle me-1"></i>Batalkan Terpilih
+            </button>
+            <button class="btn btn-danger btn-sm" onclick="bulkDelete()">
+                <i class="bi bi-trash me-1"></i>Hapus Terpilih
+            </button>
+        </div>
     </div>
     <div class="card-body">
         @if($registrations->count() > 0)
@@ -131,6 +142,9 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
+                            <th>
+                                <input type="checkbox" id="selectAll" class="form-check-input">
+                            </th>
                             <th>ID</th>
                             <th>Peserta</th>
                             <th>Kompetisi</th>
@@ -143,6 +157,9 @@
                     <tbody>
                         @foreach($registrations as $registration)
                             <tr>
+                                <td>
+                                    <input type="checkbox" class="form-check-input registration-checkbox" value="{{ $registration->id }}">
+                                </td>
                                 <td>
                                     <span class="badge bg-light text-dark">#{{ $registration->id }}</span>
                                 </td>
@@ -400,6 +417,148 @@ function deleteRegistration(id) {
             });
         }
     );
+}
+
+// Mass action functionality
+document.getElementById('selectAll').addEventListener('change', function() {
+    const checkboxes = document.querySelectorAll('.registration-checkbox');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = this.checked;
+    });
+    toggleBulkActions();
+});
+
+document.querySelectorAll('.registration-checkbox').forEach(checkbox => {
+    checkbox.addEventListener('change', toggleBulkActions);
+});
+
+function toggleBulkActions() {
+    const checkedBoxes = document.querySelectorAll('.registration-checkbox:checked');
+    const bulkActions = document.getElementById('bulkActions');
+
+    if (checkedBoxes.length > 0) {
+        bulkActions.style.display = 'block';
+    } else {
+        bulkActions.style.display = 'none';
+    }
+}
+
+function getSelectedRegistrationIds() {
+    const checkedBoxes = document.querySelectorAll('.registration-checkbox:checked');
+    return Array.from(checkedBoxes).map(checkbox => checkbox.value);
+}
+
+function bulkConfirm() {
+    const registrationIds = getSelectedRegistrationIds();
+    if (registrationIds.length === 0) return;
+
+    confirmAction(
+        'Konfirmasi Registrasi',
+        `Apakah Anda yakin ingin mengkonfirmasi ${registrationIds.length} registrasi terpilih?`,
+        function() {
+            bulkUpdateStatus(registrationIds, 'confirm');
+        }
+    );
+}
+
+function bulkCancel() {
+    const registrationIds = getSelectedRegistrationIds();
+    if (registrationIds.length === 0) return;
+
+    confirmAction(
+        'Batalkan Registrasi',
+        `Apakah Anda yakin ingin membatalkan ${registrationIds.length} registrasi terpilih?`,
+        function() {
+            bulkUpdateStatus(registrationIds, 'cancel');
+        }
+    );
+}
+
+function bulkDelete() {
+    const registrationIds = getSelectedRegistrationIds();
+    if (registrationIds.length === 0) return;
+
+    confirmAction(
+        'Hapus Registrasi',
+        `Apakah Anda yakin ingin menghapus ${registrationIds.length} registrasi terpilih? Tindakan ini tidak dapat dibatalkan.`,
+        function() {
+            bulkDeleteRegistrations(registrationIds);
+        }
+    );
+}
+
+function bulkUpdateStatus(registrationIds, action) {
+    const actionText = action === 'confirm' ? 'mengkonfirmasi' : 'membatalkan';
+
+    Swal.fire({
+        title: 'Memproses...',
+        text: `Sedang ${actionText} registrasi`,
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    Promise.all(registrationIds.map(registrationId => {
+        const url = action === 'confirm'
+            ? `/admin/registrations/${registrationId}/confirm`
+            : `/admin/registrations/${registrationId}/cancel`;
+
+        return fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+    }))
+    .then(responses => {
+        const allSuccessful = responses.every(response => response.ok);
+        if (allSuccessful) {
+            showSuccess(`${registrationIds.length} registrasi berhasil ${action === 'confirm' ? 'dikonfirmasi' : 'dibatalkan'}`);
+            location.reload();
+        } else {
+            showError('Beberapa registrasi gagal diproses');
+        }
+    })
+    .catch(error => {
+        showError('Terjadi kesalahan sistem');
+    });
+}
+
+function bulkDeleteRegistrations(registrationIds) {
+    Swal.fire({
+        title: 'Memproses...',
+        text: 'Sedang menghapus registrasi',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    Promise.all(registrationIds.map(registrationId => {
+        return fetch(`/admin/registrations/${registrationId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+    }))
+    .then(responses => {
+        const allSuccessful = responses.every(response => response.ok);
+        if (allSuccessful) {
+            showSuccess(`${registrationIds.length} registrasi berhasil dihapus`);
+            location.reload();
+        } else {
+            showError('Beberapa registrasi gagal dihapus');
+        }
+    })
+    .catch(error => {
+        showError('Terjadi kesalahan sistem');
+    });
 }
 </script>
 @endpush
