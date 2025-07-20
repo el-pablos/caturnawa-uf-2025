@@ -195,7 +195,7 @@ class AuthController extends Controller
     protected function redirectAfterLogin()
     {
         $user = Auth::user();
-        
+
         if ($user->isSuperAdmin()) {
             return redirect()->route('admin.dashboard');
         } elseif ($user->isAdmin()) {
@@ -205,9 +205,9 @@ class AuthController extends Controller
         } elseif ($user->isPeserta()) {
             return redirect()->route('peserta.dashboard');
         }
-        
-        // Fallback jika tidak ada role yang cocok
-        return redirect()->route('peserta.dashboard');
+
+        return redirect()->route('login')
+            ->with('error', 'Role tidak dikenali. Silakan hubungi administrator.');
     }
 
     /**

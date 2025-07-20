@@ -132,15 +132,18 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
 
         $user = auth()->user();
 
-        if ($user->hasRole('superadmin') || $user->hasRole('admin')) {
+        if ($user->isSuperAdmin()) {
             return redirect()->route('admin.dashboard');
-        } elseif ($user->hasRole('juri')) {
+        } elseif ($user->isAdmin()) {
+            return redirect()->route('admin.dashboard');
+        } elseif ($user->isJuri()) {
             return redirect()->route('juri.dashboard');
-        } elseif ($user->hasRole('peserta')) {
+        } elseif ($user->isPeserta()) {
             return redirect()->route('peserta.dashboard');
         }
 
-        return redirect()->route('login');
+        return redirect()->route('login')
+            ->with('error', 'Role tidak dikenali. Silakan hubungi administrator.');
     })->name('dashboard');
     
     // Profile Management

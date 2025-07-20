@@ -21,14 +21,17 @@ class RedirectIfAuthenticated
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
                 $user = Auth::user();
-                
-                // Redirect based on user role
-                if ($user->isSuperAdmin() || $user->isAdmin()) {
+
+                if ($user->isSuperAdmin()) {
+                    return redirect()->route('admin.dashboard');
+                } elseif ($user->isAdmin()) {
                     return redirect()->route('admin.dashboard');
                 } elseif ($user->isJuri()) {
                     return redirect()->route('juri.dashboard');
-                } else {
+                } elseif ($user->isPeserta()) {
                     return redirect()->route('peserta.dashboard');
+                } else {
+                    return redirect()->route('login');
                 }
             }
         }

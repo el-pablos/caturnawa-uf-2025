@@ -124,9 +124,12 @@ jspm_packages/
 /storage/app/public/tickets/*
 !/storage/app/public/tickets/.gitkeep
 
-# Backup files
+# Backup files and directories
 *.bak
 *.backup
+backup_*/
+*_backup/
+*.backup.*
 
 # Testing
 /coverage

@@ -1,6 +1,7 @@
-# 🐳 UNAS Fest 2025 - Docker Setup Guide
+# 🐳 UNAS Fest 2025 - Hybrid Docker Setup Guide
+**by Tamas**
 
-Panduan lengkap untuk menjalankan aplikasi UNAS Fest 2025 menggunakan Docker. Setup ini mencakup semua layanan yang diperlukan: Laravel 10, PHP 8.3, Nginx, MySQL 8.0, Redis, dan Queue Workers.
+Panduan lengkap untuk menjalankan aplikasi UNAS Fest 2025 dengan tiga mode deployment yang berbeda: Infrastructure Only, Full Docker Development, dan Full Docker Production. Setup ini memberikan fleksibilitas maksimal untuk berbagai kebutuhan development dan deployment.
 
 ## 📋 Prerequisites
 
@@ -75,14 +76,61 @@ git clone https://github.com/el-pablos/caturnawa-uf-2025.git
 cd caturnawa-uf-2025
 ```
 
-### 2. Environment Configuration
-```bash
-# Copy environment template
-cp .env.example.docker .env
+### 2. Choose Your Setup Mode
 
-# Edit configuration (REQUIRED)
-nano .env  # or use your preferred editor
+#### 🏗️ Mode 1: Infrastructure Only (Recommended for Development)
+Perfect for developers who prefer native Laravel development with containerized services.
+
+```bash
+# Automated setup
+./setup.sh
+# Select option 1 when prompted
+
+# Or manual setup
+make setup-infra
 ```
+
+**What you get:**
+- MySQL 8.0, Redis, MailHog running in Docker containers
+- Laravel runs natively via `php artisan serve`
+- Full development tools (phpMyAdmin, Redis Commander)
+- Fast development cycle with native PHP debugging
+
+#### 🛠️ Mode 2: Full Docker Development
+Complete containerized development environment with all development tools.
+
+```bash
+# Automated setup
+./setup.sh
+# Select option 2 when prompted
+
+# Or manual setup
+make setup-dev
+```
+
+**What you get:**
+- Complete Laravel application in Docker containers
+- Xdebug integration for debugging
+- All development tools included
+- Consistent environment across all machines
+
+#### 🚀 Mode 3: Full Docker Production
+Optimized production deployment with performance optimizations.
+
+```bash
+# Automated setup
+./setup.sh
+# Select option 3 when prompted
+
+# Or manual setup
+make setup-prod
+```
+
+**What you get:**
+- Production-optimized Docker images
+- OPcache enabled, debug disabled
+- Resource limits and health checks
+- Ready for production deployment
 
 **Required Environment Variables:**
 ```env

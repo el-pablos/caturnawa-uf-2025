@@ -1,18 +1,31 @@
-# UNAS Fest 2025 - Docker Makefile
-# Simplified commands for Docker operations
+# UNAS Fest 2025 - Hybrid Docker Makefile
+# by Tamas
 
-.PHONY: help build up down restart logs shell mysql redis clean setup dev prod test
+.PHONY: help build up down restart logs shell mysql redis clean setup dev prod test infra
 
 # Default target
 help: ## Show this help message
-	@echo "🐳 UNAS Fest 2025 - Docker Commands"
-	@echo "=================================="
+	@echo "🐳 UNAS Fest 2025 - Hybrid Docker Commands"
+	@echo "by Tamas"
+	@echo "=========================================="
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
 ##@ Setup Commands
-setup: ## Run automated setup script
-	@echo "🚀 Running automated setup..."
-	@./docker-setup.sh
+setup: ## Run hybrid setup script
+	@echo "🚀 Running hybrid setup..."
+	@./setup.sh
+
+setup-infra: ## Setup infrastructure only mode
+	@echo "🏗️  Setting up infrastructure only..."
+	@DOCKER_MODE=infrastructure ./setup.sh
+
+setup-dev: ## Setup full development mode
+	@echo "🛠️  Setting up development mode..."
+	@DOCKER_MODE=development ./setup.sh
+
+setup-prod: ## Setup production mode
+	@echo "🚀 Setting up production mode..."
+	@DOCKER_MODE=production ./setup.sh
 
 env: ## Copy environment template
 	@if [ ! -f .env ]; then \
@@ -45,6 +58,14 @@ status: ## Show service status
 	@docker-compose ps
 
 ##@ Development
+infra: ## Start infrastructure only (MySQL, Redis, MailHog)
+	@echo "🏗️  Starting infrastructure services..."
+	@docker-compose -f docker-compose.infrastructure.yml up -d
+
+infra-down: ## Stop infrastructure services
+	@echo "🛑 Stopping infrastructure services..."
+	@docker-compose -f docker-compose.infrastructure.yml down
+
 dev: ## Start development environment
 	@echo "🛠️  Starting development environment..."
 	@docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
@@ -52,6 +73,10 @@ dev: ## Start development environment
 dev-down: ## Stop development environment
 	@echo "🛑 Stopping development environment..."
 	@docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
+
+serve: ## Start Laravel development server (for infrastructure mode)
+	@echo "🚀 Starting Laravel development server..."
+	@php artisan serve --host=0.0.0.0 --port=8000
 
 ##@ Logs & Monitoring
 logs: ## Show all logs
