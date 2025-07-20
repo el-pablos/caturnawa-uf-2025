@@ -359,11 +359,7 @@
                     </a>
 
                     <a class="nav-link {{ request()->routeIs('admin.payments.*') ? 'active' : '' }}" href="{{ route('admin.payments.index') }}">
-                        <i class="bi bi-credit-card-2-front me-2"></i>Kelola Pembayaran
-                    </a>
-
-                    <a class="nav-link {{ request()->routeIs('admin.payments.*') ? 'active' : '' }}" href="{{ route('admin.payments.index') }}">
-                        <i class="bi bi-credit-card me-2"></i>Pembayaran
+                        <i class="bi bi-credit-card me-2"></i>Kelola Pembayaran
                     </a>
 
                     <a class="nav-link {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}" href="{{ route('admin.reports.index') }}">
