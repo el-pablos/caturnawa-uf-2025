@@ -1,4 +1,3 @@
- }
 .mt-4 { margin-top: var(--space-4); }
 .mt-5 { margin-top: var(--space-5); }
 .mt-6 { margin-top: var(--space-6); }
@@ -163,7 +162,8 @@
     page-break-after: avoid;
   }
 }
-1;
+
+.back-to-top.show {
   visibility: visible;
   transform: translateY(0);
 }
@@ -700,552 +700,241 @@
     font-size: var(--text-sm);
   }
 }
-tersectionObserver' in window) {
-            const imageObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        img.src = img.dataset.src;
-                        img.classList.remove('lazy');
-                        imageObserver.unobserve(img);
-                    }
-                });
-            });
-            
-            images.forEach(img => imageObserver.observe(img));
-        }
-    }
-
-    initPerformanceMonitoring() {
-        // Monitor Core Web Vitals
-        if ('web-vitals' in window) {
-            // This would require the web-vitals library
-            // getCLS(console.log);
-            // getFID(console.log);
-            // getLCP(console.log);
-        }
-        
-        // Basic performance logging
-        if (performance.timing) {
-            const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
-            console.log(`Page load time: ${loadTime}ms`);
-            
-            // Track slow loads
-            if (loadTime > 3000) {
-                this.trackEvent('slow_page_load', { load_time: loadTime });
-            }
-        }
-    }
-
-    // Utility methods
-    trackEvent(eventName, properties = {}) {
-        // Google Analytics 4 event tracking
-        if (typeof gtag !== 'undefined') {
-            gtag('event', eventName, properties);
-        }
-        
-        // Custom analytics tracking can be added here
-        console.log('Event tracked:', eventName, properties);
-    }
-
-    showToast(message, type = 'info', duration = 5000) {
-        const toastContainer = this.getOrCreateToastContainer();
-        
-        const toast = document.createElement('div');
-        toast.className = `toast ${type}`;
-        
-        const iconMap = {
-            success: 'check-circle-fill',
-            error: 'exclamation-triangle-fill',
-            warning: 'exclamation-triangle-fill',
-            info: 'info-circle-fill'
-        };
-        
-        toast.innerHTML = `
-            <div class="toast-icon">
-                <i class="bi bi-${iconMap[type]}"></i>
-            </div>
-            <div class="toast-content">
-                <div class="toast-message">${message}</div>
-            </div>
-            <button class="toast-close" type="button">
-                <i class="bi bi-x"></i>
-            </button>
-        `;
-        
-        const closeBtn = toast.querySelector('.toast-close');
-        closeBtn.addEventListener('click', () => {
-            this.hideToast(toast);
-        });
-        
-        toastContainer.appendChild(toast);
-        
-        // Show toast
-        setTimeout(() => {
-            toast.classList.add('show');
-        }, 100);
-        
-        // Auto hide
-        setTimeout(() => {
-            this.hideToast(toast);
-        }, duration);
-        
-        return toast;
-    }
-
-    hideToast(toast) {
-        toast.classList.remove('show');
-        setTimeout(() => {
-            if (toast.parentNode) {
-                toast.parentNode.removeChild(toast);
-            }
-        }, 300);
-    }
-
-    getOrCreateToastContainer() {
-        let container = document.querySelector('.toast-container');
-        
-        if (!container) {
-            container = document.createElement('div');
-            container.className = 'toast-container';
-            document.body.appendChild(container);
-        }
-        
-        return container;
-    }
-
-    showModal(content, title = '', options = {}) {
-        const modal = document.createElement('div');
-        modal.className = 'modal';
-        
-        modal.innerHTML = `
-            <div class="modal-backdrop"></div>
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    ${title ? `
-                        <div class="modal-header">
-                            <h3 class="modal-title">${title}</h3>
-                            <button class="modal-close" type="button">
-                                <i class="bi bi-x"></i>
-                            </button>
-                        </div>
-                    ` : ''}
-                    <div class="modal-body">
-                        ${content}
-                    </div>
-                    ${options.showFooter ? `
-                        <div class="modal-footer">
-                            <button class="btn btn-ghost" data-modal-action="cancel">Batal</button>
-                            <button class="btn btn-primary" data-modal-action="confirm">OK</button>
-                        </div>
-                    ` : ''}
-                </div>
-            </div>
-        `;
-        
-        document.body.appendChild(modal);
-        
-        // Event listeners
-        const backdrop = modal.querySelector('.modal-backdrop');
-        const closeBtn = modal.querySelector('.modal-close');
-        const cancelBtn = modal.querySelector('[data-modal-action="cancel"]');
-        const confirmBtn = modal.querySelector('[data-modal-action="confirm"]');
-        
-        const closeModal = () => {
-            modal.classList.remove('show');
-            setTimeout(() => {
-                if (modal.parentNode) {
-                    modal.parentNode.removeChild(modal);
-                }
-            }, 300);
-        };
-        
-        if (backdrop) backdrop.addEventListener('click', closeModal);
-        if (closeBtn) closeBtn.addEventListener('click', closeModal);
-        if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
-        
-        if (confirmBtn && options.onConfirm) {
-            confirmBtn.addEventListener('click', () => {
-                options.onConfirm();
-                closeModal();
-            });
-        }
-        
-        // Show modal
-        setTimeout(() => {
-            modal.classList.add('show');
-        }, 100);
-        
-        return modal;
-    }
-
-    // Competition specific methods
-    initCompetitionCards() {
-        const cards = document.querySelectorAll('.competition-card');
-        
-        cards.forEach(card => {
-            // Add hover sound effect (optional)
-            card.addEventListener('mouseenter', () => {
-                // this.playHoverSound();
-            });
-            
-            // Track card interactions
-            card.addEventListener('click', () => {
-                const competitionType = card.dataset.competition || 'unknown';
-                this.trackEvent('competition_card_click', {
-                    competition: competitionType
-                });
-            });
-        });
-    }
-
-    initCountdown() {
-        const countdownElements = document.querySelectorAll('[data-countdown]');
-        
-        countdownElements.forEach(element => {
-            const targetDate = new Date(element.dataset.countdown);
-            this.startCountdown(element, targetDate);
-        });
-    }
-
-    startCountdown(element, targetDate) {
-        const updateCountdown = () => {
-            const now = new Date().getTime();
-            const distance = targetDate.getTime() - now;
-            
-            if (distance < 0) {
-                element.innerHTML = '<span class="countdown-expired">Waktu telah berakhir</span>';
-                return;
-            }
-            
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            
-            element.innerHTML = `
-                <div class="countdown-item">
-                    <span class="countdown-number">${days}</span>
-                    <span class="countdown-label">Hari</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="countdown-number">${hours}</span>
-                    <span class="countdown-label">Jam</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="countdown-number">${minutes}</span>
-                    <span class="countdown-label">Menit</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="countdown-number">${seconds}</span>
-                    <span class="countdown-label">Detik</span>
-                </div>
-            `;
-        };
-        
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
-    }
-
-    // Registration form helpers
-    initRegistrationForm() {
-        const form = document.getElementById('registrationForm');
-        
-        if (form) {
-            // Multi-step form logic
-            this.initMultiStepForm(form);
-            
-            // File upload handling
-            this.initFileUploads(form);
-            
-            // Dynamic field validation
-            this.initDynamicValidation(form);
-        }
-    }
-
-    initMultiStepForm(form) {
-        const steps = form.querySelectorAll('.form-step');
-        const nextBtns = form.querySelectorAll('.btn-next');
-        const prevBtns = form.querySelectorAll('.btn-prev');
-        const progressBar = form.querySelector('.form-progress-bar');
-        
-        let currentStep = 0;
-        
-        const showStep = (stepIndex) => {
-            steps.forEach((step, index) => {
-                step.classList.toggle('active', index === stepIndex);
-            });
-            
-            if (progressBar) {
-                const progress = ((stepIndex + 1) / steps.length) * 100;
-                progressBar.style.width = `${progress}%`;
-            }
-        };
-        
-        nextBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (this.validateCurrentStep(steps[currentStep])) {
-                    currentStep++;
-                    showStep(currentStep);
-                }
-            });
-        });
-        
-        prevBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                currentStep--;
-                showStep(currentStep);
-            });
-        });
-        
-        showStep(0);
-    }
-
-    validateCurrentStep(step) {
-        const inputs = step.querySelectorAll('input[required], textarea[required], select[required]');
-        let isValid = true;
-        
-        inputs.forEach(input => {
-            if (!this.validateField(input)) {
-                isValid = false;
-            }
-        });
-        
-        return isValid;
-    }
-
-    initFileUploads(form) {
-        const fileInputs = form.querySelectorAll('input[type="file"]');
-        
-        fileInputs.forEach(input => {
-            input.addEventListener('change', (e) => {
-                this.handleFileUpload(e.target);
-            });
-        });
-    }
-
-    handleFileUpload(input) {
-        const files = input.files;
-        const maxSize = 5 * 1024 * 1024; // 5MB
-        const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
-        
-        for (let file of files) {
-            if (file.size > maxSize) {
-                this.showToast('File terlalu besar. Maksimal 5MB.', 'error');
-                input.value = '';
-                return;
-            }
-            
-            if (!allowedTypes.includes(file.type)) {
-                this.showToast('Format file tidak didukung.', 'error');
-                input.value = '';
-                return;
-            }
-        }
-        
-        // Show file preview
-        this.showFilePreview(input, files);
-    }
-
-    showFilePreview(input, files) {
-        const previewContainer = input.parentNode.querySelector('.file-preview') || 
-                               this.createFilePreviewContainer(input);
-        
-        previewContainer.innerHTML = '';
-        
-        for (let file of files) {
-            const previewItem = document.createElement('div');
-            previewItem.className = 'file-preview-item';
-            
-            if (file.type.startsWith('image/')) {
-                const img = document.createElement('img');
-                img.src = URL.createObjectURL(file);
-                img.className = 'file-preview-image';
-                previewItem.appendChild(img);
-            }
-            
-            const fileName = document.createElement('span');
-            fileName.className = 'file-name';
-            fileName.textContent = file.name;
-            previewItem.appendChild(fileName);
-            
-            const removeBtn = document.createElement('button');
-            removeBtn.className = 'file-remove-btn';
-            removeBtn.innerHTML = '<i class="bi bi-x"></i>';
-            removeBtn.addEventListener('click', () => {
-                input.value = '';
-                previewContainer.innerHTML = '';
-            });
-            previewItem.appendChild(removeBtn);
-            
-            previewContainer.appendChild(previewItem);
-        }
-    }
-
-    createFilePreviewContainer(input) {
-        const container = document.createElement('div');
-        container.className = 'file-preview';
-        input.parentNode.appendChild(container);
-        return container;
-    }
-
-    initDynamicValidation(form) {
-        // University selection affects available competitions
-        const universitySelect = form.querySelector('select[name="university"]');
-        const competitionSelect = form.querySelector('select[name="competition"]');
-        
-        if (universitySelect && competitionSelect) {
-            universitySelect.addEventListener('change', () => {
-                this.updateCompetitionOptions(universitySelect.value, competitionSelect);
-            });
-        }
-    }
-
-    updateCompetitionOptions(university, competitionSelect) {
-        // This would be populated based on API call or predefined rules
-        const competitionsByUniversity = {
-            'default': [
-                { value: 'kdbi', text: 'Kompetisi Debat Bahasa Indonesia' },
-                { value: 'edc', text: 'English Debate Competition' },
-                { value: 'short-movie', text: 'Short Movie Competition' },
-                { value: 'fotografi', text: 'Fotografi' },
-                { value: 'karya-ilmiah', text: 'Karya Ilmiah' }
-            ]
-        };
-        
-        const options = competitionsByUniversity[university] || competitionsByUniversity['default'];
-        
-        competitionSelect.innerHTML = '<option value="">Pilih Kompetisi</option>';
-        options.forEach(option => {
-            const optionEl = document.createElement('option');
-            optionEl.value = option.value;
-            optionEl.textContent = option.text;
-            competitionSelect.appendChild(optionEl);
-        });
-    }
-
-    // Search functionality
-    initSearch() {
-        const searchInputs = document.querySelectorAll('.search-input');
-        
-        searchInputs.forEach(input => {
-            let searchTimeout;
-            
-            input.addEventListener('input', (e) => {
-                clearTimeout(searchTimeout);
-                searchTimeout = setTimeout(() => {
-                    this.performSearch(e.target.value);
-                }, 300);
-            });
-        });
-    }
-
-    performSearch(query) {
-        if (query.length < 3) return;
-        
-        // Implement search logic here
-        console.log('Searching for:', query);
-        
-        // Track search events
-        this.trackEvent('search', { query: query });
-    }
-
-    // Accessibility helpers
-    initAccessibility() {
-        // Focus management
-        this.initFocusManagement();
-        
-        // Keyboard navigation
-        this.initKeyboardNavigation();
-        
-        // Screen reader announcements
-        this.initScreenReaderSupport();
-    }
-
-    initFocusManagement() {
-        // Skip to main content link
-        const skipLink = document.createElement('a');
-        skipLink.href = '#main-content';
-        skipLink.className = 'skip-link sr-only';
-        skipLink.textContent = 'Skip to main content';
-        document.body.insertBefore(skipLink, document.body.firstChild);
-        
-        skipLink.addEventListener('focus', () => {
-            skipLink.classList.remove('sr-only');
-        });
-        
-        skipLink.addEventListener('blur', () => {
-            skipLink.classList.add('sr-only');
-        });
-    }
-
-    initKeyboardNavigation() {
-        // Escape key to close modals and menus
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                // Close modals
-                const openModal = document.querySelector('.modal.show');
-                if (openModal) {
-                    const closeBtn = openModal.querySelector('.modal-close');
-                    if (closeBtn) closeBtn.click();
-                }
-                
-                // Close mobile menu
-                const mobileNav = document.getElementById('mobileNav');
-                if (mobileNav && mobileNav.classList.contains('active')) {
-                    const menuBtn = document.getElementById('mobileMenuBtn');
-                    if (menuBtn) menuBtn.click();
-                }
-            }
-        });
-    }
-
-    initScreenReaderSupport() {
-        // Add ARIA labels where needed
-        const buttons = document.querySelectorAll('button:not([aria-label])');
-        buttons.forEach(button => {
-            const text = button.textContent.trim();
-            if (!text && !button.getAttribute('aria-label')) {
-                button.setAttribute('aria-label', 'Button');
-            }
-        });
-        
-        // Announce dynamic content changes
-        this.createAriaLiveRegion();
-    }
-
-    createAriaLiveRegion() {
-        const liveRegion = document.createElement('div');
-        liveRegion.setAttribute('aria-live', 'polite');
-        liveRegion.setAttribute('aria-atomic', 'true');
-        liveRegion.className = 'sr-only';
-        liveRegion.id = 'aria-live-region';
-        document.body.appendChild(liveRegion);
-    }
-
-    announceToScreenReader(message) {
-        const liveRegion = document.getElementById('aria-live-region');
-        if (liveRegion) {
-            liveRegion.textContent = message;
-        }
-    }
+/* Alert Styles */
+.alert {
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    border: 1px solid transparent;
+    margin-bottom: var(--space-4);
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
 }
 
-// Initialize the app when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    window.caturnawaApp = new CaturnawaApp();
-});
-
-// Export for module systems
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = CaturnawaApp;
+.alert-success {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.3);
+    color: var(--success);
 }
+
+.alert-warning {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.3);
+    color: var(--accent);
+}
+
+.alert-danger {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: var(--danger);
+}
+
+.alert-info {
     background: rgba(14, 165, 233, 0.1);
+    border-color: rgba(14, 165, 233, 0.3);
     color: var(--info);
 }
 
-/* Alert Styles */
-.alert {
+.alert-icon {
+    font-size: var(--text-lg);
+    margin-top: 2px;
+}
+
+.alert-content {
+    flex: 1;
+}
+
+.alert-title {
+    font-weight: var(--font-semibold);
+    margin-bottom: var(--space-1);
+}
+
+.alert-message {
+    margin: 0;
+    line-height: 1.5;
+}
+
+
+/* Table Styles */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: var(--space-4);
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.table th,
+.table td {
+    padding: var(--space-4);
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+}
+
+.table th {
+    background: var(--light);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--border);
+}
+
+.table tbody tr:hover {
+    background: rgba(30, 64, 175, 0.02);
+}
+
+.table-striped tbody tr:nth-child(odd) {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+/* Image Optimization */
+.lazy-image {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.lazy-image.loaded {
+    opacity: 1;
+}
+
+.image-placeholder {
+    background: var(--light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+}
+
+/* Skeleton Loading */
+.skeleton {
+    background: linear-gradient(90deg, var(--light) 25%, rgba(255, 255, 255, 0.5) 50%, var(--light) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.skeleton-text {
+    height: 1em;
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-2);
+}
+
+.skeleton-title {
+    height: 1.5em;
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-3);
+}
+
+.skeleton-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.skeleton-card {
+    height: 200px;
+    border-radius: var(--radius-lg);
+}
+
+/* Progress Bars */
+.progress {
+    width: 100%;
+    height: 8px;
+    background: var(--light);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-full);
+    transition: width 0.3s ease;
+}
+
+.progress-bar.bg-success {
+    background: var(--gradient-secondary);
+}
+
+.progress-bar.bg-warning {
+    background: var(--gradient-accent);
+}
+
+.progress-bar.bg-danger {
+    background: linear-gradient(135deg, var(--danger) 0%, #F87171 100%);
+}
+
+/* Tabs */
+.nav-tabs {
+    display: flex;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: var(--space-6);
+}
+
+.nav-tab {
+    padding: var(--space-4) var(--space-6);
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-weight: var(--font-medium);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: var(--transition-fast);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.nav-tab:hover {
+    color: var(--primary);
+}
+
+.nav-tab.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Accordion */
+.accordion {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.accordion-item {
+    border-bottom: 1px solid var(--border);
+}
+
+.accordion-item:last-child {
+    border-bottom: none;
+}
+
+.accordion-header {
+    margin: 0;
+}
+
+.accordion-button {
     padding: var(--space-4);
     border-radius: var(--radius-lg);
     border: 1px solid transparent;
