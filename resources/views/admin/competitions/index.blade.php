@@ -91,13 +91,13 @@
                 <i class="bi bi-trophy me-2"></i>Daftar Kompetisi
             </h6>
             <div class="btn-group" id="bulkActions" style="display: none;">
-                <button class="btn btn-success btn-sm" onclick="bulkActivate()">
+                <button type="button" id="bulk-activate-btn" name="bulk_activate" class="btn btn-success btn-sm" onclick="bulkActivate()">
                     <i class="bi bi-check-circle me-1"></i>Aktivasi Terpilih
                 </button>
-                <button class="btn btn-warning btn-sm" onclick="bulkDeactivate()">
+                <button type="button" id="bulk-deactivate-btn" name="bulk_deactivate" class="btn btn-warning btn-sm" onclick="bulkDeactivate()">
                     <i class="bi bi-pause-circle me-1"></i>Nonaktifkan Terpilih
                 </button>
-                <button class="btn btn-danger btn-sm" onclick="bulkDelete()">
+                <button type="button" id="bulk-delete-btn" name="bulk_delete" class="btn btn-danger btn-sm" onclick="bulkDelete()">
                     <i class="bi bi-trash me-1"></i>Hapus Terpilih
                 </button>
             </div>
