@@ -433,20 +433,23 @@ class MidtransService
      */
     protected function processSuccessfulPayment(Payment $payment)
     {
-        // Hanya update status pembayaran, TIDAK otomatis konfirmasi registrasi
-        // Registrasi harus dikonfirmasi manual oleh admin
         $registration = $payment->registration;
 
-        // Update status registrasi menjadi 'paid' (menunggu konfirmasi admin)
-        if ($registration->status === 'pending') {
-            $registration->update(['status' => 'paid']);
+        // Auto-confirm registration after successful payment
+        if (in_array($registration->status, ['pending', 'paid'])) {
+            $registration->update([
+                'status' => 'confirmed',
+                'confirmed_at' => now(),
+            ]);
+
+            // Generate QR Code for confirmed registration
+            $registration->generateQRCode();
         }
 
         // Log event
-        $this->logTransactionEvent($payment, 'Payment successful, waiting for admin confirmation');
+        $this->logTransactionEvent($payment, 'Payment successful, registration auto-confirmed');
 
-        // TODO: Kirim notifikasi ke admin untuk konfirmasi
-        // TODO: Kirim email konfirmasi pembayaran ke peserta
+        // TODO: Kirim email konfirmasi pembayaran dan registrasi ke peserta
         // $this->sendPaymentConfirmationEmail($registration);
     }
 
