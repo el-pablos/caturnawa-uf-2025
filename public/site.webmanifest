@@ -48,13 +48,13 @@
             "purpose": "any maskable"
         },
         {
-            "src": "/images/unas-fest-logo-144.png",
+            "src": "/assets/images/favicon/android-chrome-192x192.png",
             "sizes": "144x144",
             "type": "image/png",
             "purpose": "any"
         },
         {
-            "src": "/images/unas-fest-logo-256.png",
+            "src": "/assets/images/favicon/android-chrome-512x512.png",
             "sizes": "256x256",
             "type": "image/png",
             "purpose": "any"
@@ -68,7 +68,7 @@
             "url": "/public/competitions",
             "icons": [
                 {
-                    "src": "/images/shortcut-competitions.png",
+                    "src": "/assets/images/favicon/android-chrome-192x192.png",
                     "sizes": "96x96",
                     "type": "image/png"
                 }
@@ -81,7 +81,7 @@
             "url": "/login",
             "icons": [
                 {
-                    "src": "/images/shortcut-login.png",
+                    "src": "/assets/images/favicon/android-chrome-192x192.png",
                     "sizes": "96x96",
                     "type": "image/png"
                 }
@@ -94,7 +94,7 @@
             "url": "/register",
             "icons": [
                 {
-                    "src": "/images/shortcut-register.png",
+                    "src": "/assets/images/favicon/android-chrome-192x192.png",
                     "sizes": "96x96",
                     "type": "image/png"
                 }
@@ -107,7 +107,7 @@
             "url": "/public/contact",
             "icons": [
                 {
-                    "src": "/images/shortcut-contact.png",
+                    "src": "/assets/images/favicon/android-chrome-192x192.png",
                     "sizes": "96x96",
                     "type": "image/png"
                 }
