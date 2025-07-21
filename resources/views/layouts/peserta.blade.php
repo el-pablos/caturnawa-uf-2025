@@ -169,18 +169,47 @@
             transform: translateY(-1px);
             color: white;
         }
-        
+
+        /* Stats Card Styling */
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Ensure consistent card styling */
+        .card.bg-primary {
+            background: var(--peserta-primary) !important;
+        }
+
+        .card.bg-success {
+            background: #10b981 !important;
+        }
+
+        .card.bg-warning {
+            background: #f59e0b !important;
+        }
+
+        .card.bg-info {
+            background: #3b82f6 !important;
+        }
+
         @media (max-width: 768px) {
             .peserta-sidebar {
                 transform: translateX(-100%);
             }
-            
+
             .peserta-sidebar.show {
                 transform: translateX(0);
             }
-            
+
             .peserta-main-content {
                 margin-left: 0;
+            }
+
+            .stats-number {
+                font-size: 2rem;
             }
         }
     </style>
