@@ -7,6 +7,8 @@
   --primary-dark: #5b21b6;
   --accent-color: #f59e0b;
 
+  /* Hot reload test - this comment will help verify hot reload is working */
+
   /* Color Palette */
   --navy: #0B1D51;
   --purple: #725CAD;
