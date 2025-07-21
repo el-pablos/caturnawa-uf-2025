@@ -107,7 +107,7 @@
                     <div class="flex-shrink-0">
                         <div class="rounded-circle d-flex align-items-center justify-content-center"
                              style="width: 60px; height: 60px; background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
-                            <i class="bi bi-currency-dollar text-white fs-4"></i>
+                            <i class="bi bi-cash-coin text-white fs-4"></i>
                         </div>
                     </div>
                     <div class="flex-grow-1 ms-3">
