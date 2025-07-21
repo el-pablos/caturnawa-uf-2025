@@ -361,14 +361,17 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- jQuery with fallback -->
+    <!-- jQuery with proper fallback -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"
-            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
             crossorigin="anonymous"></script>
     <script>
-        // Fallback to CDN if jQuery fails to load
+        // Proper fallback without document.write
         if (typeof jQuery === 'undefined') {
-            document.write('<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"><\/script>');
+            var script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js';
+            script.crossOrigin = 'anonymous';
+            document.head.appendChild(script);
         }
     </script>
 
