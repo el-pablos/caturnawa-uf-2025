@@ -196,6 +196,9 @@ class MidtransService
                 $transaction['qris'] = [
                     'acquirer' => 'gopay' // Use GoPay as QRIS acquirer for better compatibility
                 ];
+                // Add additional configuration for QRIS stability
+                $transaction['custom_field1'] = 'qris_payment';
+                $transaction['custom_field2'] = 'unas_fest_2025';
                 break;
 
             case 'gopay':
@@ -268,11 +271,16 @@ class MidtransService
         // Build QRIS specific parameters
         $params = $this->buildTransactionParams($registration, $payment, 'qris');
 
-        // Add additional QRIS configuration
+        // Add additional QRIS configuration for better compatibility
         $params['qris'] = [
             'acquirer' => 'gopay'
         ];
         $params['enabled_payments'] = ['qris'];
+
+        // Add metadata for QRIS tracking
+        $params['custom_field1'] = 'qris_payment';
+        $params['custom_field2'] = $registration->registration_number;
+        $params['custom_field3'] = 'unas_fest_2025';
 
         try {
             // Get Snap Token from Midtrans
