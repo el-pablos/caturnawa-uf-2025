@@ -459,21 +459,25 @@
                                 <h6 class="text-primary mb-3">Peserta 1</h6>
                                 <div class="row">
                                     <div class="col-md-6 mb-2">
-                                        <input type="text" class="form-control" name="team_members[0][name]"
-                                               placeholder="Nama Lengkap" required>
+                                        <label for="team_member_0_name" class="form-label visually-hidden">Nama Lengkap Peserta 1</label>
+                                        <input type="text" class="form-control" id="team_member_0_name" name="team_members[0][name]"
+                                               placeholder="Nama Lengkap" required autocomplete="name">
                                     </div>
                                     <div class="col-md-6 mb-2">
-                                        <input type="email" class="form-control" name="team_members[0][email]"
-                                               placeholder="Email" required>
+                                        <label for="team_member_0_email" class="form-label visually-hidden">Email Peserta 1</label>
+                                        <input type="email" class="form-control" id="team_member_0_email" name="team_members[0][email]"
+                                               placeholder="Email" required autocomplete="email">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-2">
-                                        <input type="text" class="form-control" name="team_members[0][phone]"
-                                               placeholder="No Handphone" required>
+                                        <label for="team_member_0_phone" class="form-label visually-hidden">No Handphone Peserta 1</label>
+                                        <input type="text" class="form-control" id="team_member_0_phone" name="team_members[0][phone]"
+                                               placeholder="No Handphone" required autocomplete="tel">
                                     </div>
                                     <div class="col-md-6 mb-2">
-                                        <input type="file" class="form-control" name="team_members[0][foto]"
+                                        <label for="team_member_0_foto" class="form-label visually-hidden">Foto Peserta 1</label>
+                                        <input type="file" class="form-control" id="team_member_0_foto" name="team_members[0][foto]"
                                                accept="image/*" required>
                                         <small class="text-muted">Foto Peserta (JPG, PNG. Max 2MB)</small>
                                     </div>
