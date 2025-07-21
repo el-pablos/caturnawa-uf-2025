@@ -320,9 +320,15 @@ function deleteSubmission(submissionId) {
 
 function exportSubmissions(format) {
     const params = new URLSearchParams(window.location.search);
-    params.set('export', format);
 
-    window.open(`/admin/submissions/export?${params.toString()}`, '_blank');
+    let exportUrl;
+    if (format === 'pdf') {
+        exportUrl = `{{ route('admin.submissions.export.pdf') }}?${params.toString()}`;
+    } else {
+        exportUrl = `{{ route('admin.submissions.export.excel') }}?${params.toString()}`;
+    }
+
+    window.open(exportUrl, '_blank');
 }
 
 // Mass action functionality
