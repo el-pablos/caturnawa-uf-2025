@@ -237,225 +237,75 @@
         <div class="section-header text-center" data-aos="fade-up">
             <div class="section-badge">
                 <i class="bi bi-trophy"></i>
-                <span>Kategori Kompetisi</span>
+                <span>Kompetisi UnasFest</span>
             </div>
-            <h2 class="section-title font-poppins">Tiga Pilar Kompetisi Utama</h2>
+            <h2 class="section-title font-poppins fw-bold">Kompetisi UNAS Fest 2025</h2>
             <p class="section-subtitle font-poppins">
-                Bergabunglah dengan kompetisi yang menggabungkan inovasi untuk masa depan berkelanjutan
+                The Universitas Nasional Festival 2025 (UNAS FEST 2025) is one of the annual events held to commemorate and celebrate the 76th anniversary of Dies Natalis
             </p>
         </div>
-        
+
         <div class="row g-4">
-            <!-- Technology Competition -->
-            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
-                <article class="competition-card tech-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="bi bi-cpu-fill"></i>
+            @forelse($allCompetitions ?? [] as $index => $competition)
+                <div class="col-lg-{{ $allCompetitions->count() <= 3 ? '4' : '3' }}" data-aos="fade-up" data-aos-delay="{{ ($index + 1) * 100 }}">
+                    <article class="competition-card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="bi bi-trophy-fill"></i>
+                            </div>
+                            <div class="card-badge">{{ $competition->category ?? 'Kompetisi' }}</div>
                         </div>
-                        <div class="card-badge">Teknologi</div>
+
+                        <div class="card-image">
+                            <img src="{{ $competition->image ? asset('storage/' . $competition->image) : asset('assets/images/competitions/default-competition.webp') }}"
+                                 alt="{{ $competition->name }}"
+                                 loading="lazy"
+                                 width="400"
+                                 height="250">
+                            <div class="image-overlay">
+                                <div class="overlay-content">
+                                    <i class="bi bi-calendar-event"></i>
+                                    <span>{{ $competition->registration_start ? $competition->registration_start->format('d M Y') : 'Segera' }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-content">
+                            <h3 class="card-title font-poppins">{{ $competition->name }}</h3>
+                            <p class="card-description">
+                                {{ Str::limit($competition->description ?? 'Bergabunglah dalam kompetisi bergengsi ini dan tunjukkan kemampuan terbaik Anda.', 120) }}
+                            </p>
+
+                            <div class="card-stats">
+                                <div class="stat-item">
+                                    <span class="stat-value">{{ $competition->price ? 'Rp ' . number_format($competition->price, 0, ',', '.') : 'Gratis' }}</span>
+                                    <span class="stat-label">Biaya Pendaftaran</span>
+                                </div>
+                                <div class="stat-divider"></div>
+                                <div class="stat-item">
+                                    <span class="stat-value">{{ $competition->max_participants ?? '∞' }}</span>
+                                    <span class="stat-label">Max Peserta</span>
+                                </div>
+                            </div>
+
+                            <a href="{{ route('public.competition.detail', $competition->slug) }}" class="card-button">
+                                <span>Lihat Detail</span>
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+            @empty
+                <div class="col-12">
+                    <div class="text-center py-5">
+                        <i class="bi bi-trophy fs-1 text-muted mb-3"></i>
+                        <h4 class="text-muted">Belum Ada Kompetisi</h4>
+                        <p class="text-muted">Kompetisi akan segera dibuka. Pantau terus website ini!</p>
                     </div>
-                    
-                    <div class="card-image">
-                        <img src="{{ asset('assets/images/competitions/technology-2025.webp') }}" 
-                             alt="Kompetisi Teknologi UNAS Fest 2025" 
-                             loading="lazy"
-                             width="400"
-                             height="250">
-                        <div class="image-overlay">
-                            <div class="overlay-content">
-                                <i class="bi bi-laptop"></i>
-                                <span>Inovasi Tech</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="card-content">
-                        <h3 class="card-title font-poppins">Kompetisi Teknologi</h3>
-                        <p class="card-description">
-                            Kompetisi pengembangan aplikasi, AI, IoT, dan solusi teknologi inovatif untuk 
-                            menyelesaikan masalah nyata di masyarakat Indonesia.
-                        </p>
-                        
-                        <div class="card-features">
-                            <div class="feature-item">
-                                <i class="bi bi-phone-fill"></i>
-                                <span>Mobile App Development</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="bi bi-globe"></i>
-                                <span>Web Development</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="bi bi-robot"></i>
-                                <span>AI & Machine Learning</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="bi bi-wifi"></i>
-                                <span>IoT Solutions</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card-stats">
-                            <div class="stat-item">
-                                <span class="stat-value">200 Juta</span>
-                                <span class="stat-label">Hadiah Utama</span>
-                            </div>
-                            <div class="stat-divider"></div>
-                            <div class="stat-item">
-                                <span class="stat-value">Tim</span>
-                                <span class="stat-label">Kompetisi</span>
-                            </div>
-                        </div>
-                        
-                        <a href="{{ route('public.competitions') }}#technology" class="card-button">
-                            <span>Lihat Detail</span>
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </article>
-            </div>
-            
-            <!-- Health Competition -->
-            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
-                <article class="competition-card health-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="bi bi-heart-pulse-fill"></i>
-                        </div>
-                        <div class="card-badge">Kesehatan</div>
-                    </div>
-                    
-                    <div class="card-image">
-                        <img src="{{ asset('assets/images/competitions/health-2025.webp') }}" 
-                             alt="Kompetisi Kesehatan UNAS Fest 2025" 
-                             loading="lazy"
-                             width="400"
-                             height="250">
-                        <div class="image-overlay">
-                            <div class="overlay-content">
-                                <i class="bi bi-heart-pulse"></i>
-                                <span>Health Innovation</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="card-content">
-                        <h3 class="card-title font-poppins">Kompetisi Kesehatan</h3>
-                        <p class="card-description">
-                            Inovasi dalam bidang kesehatan masyarakat, teknologi medis, dan solusi kesehatan 
-                            digital untuk meningkatkan kualitas hidup.
-                        </p>
-                        
-                        <div class="card-features">
-                            <div class="feature-item">
-                                <i class="bi bi-heart-fill"></i>
-                                <span>Health Tech Innovation</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="bi bi-bandaid-fill"></i>
-                                <span>Medical Device Design</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="bi bi-people-fill"></i>
-                                <span>Public Health Solutions</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="bi bi-tablet-fill"></i>
-                                <span>Digital Health Platform</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card-stats">
-                            <div class="stat-item">
-                                <span class="stat-value">150 Juta</span>
-                                <span class="stat-label">Hadiah Utama</span>
-                            </div>
-                            <div class="stat-divider"></div>
-                            <div class="stat-item">
-                                <span class="stat-value">Tim</span>
-                                <span class="stat-label">Kompetisi</span>
-                            </div>
-                        </div>
-                        
-                        <a href="{{ route('public.competitions') }}#health" class="card-button">
-                            <span>Lihat Detail</span>
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </article>
-            </div>
-            
-            <!-- Biodiversity Competition -->
-            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
-                <article class="competition-card bio-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="bi bi-tree-fill"></i>
-                        </div>
-                        <div class="card-badge">Biodiversitas</div>
-                    </div>
-                    
-                    <div class="card-image">
-                        <img src="{{ asset('assets/images/competitions/biodiversity-2025.webp') }}" 
-                             alt="Kompetisi Biodiversitas UNAS Fest 2025" 
-                             loading="lazy"
-                             width="400"
-                             height="250">
-                        <div class="image-overlay">
-                            <div class="overlay-content">
-                                <i class="bi bi-globe-americas"></i>
-                                <span>Eco Innovation</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="card-content">
-                        <h3 class="card-title font-poppins">Kompetisi Biodiversitas</h3>
-                        <p class="card-description">
-                            Solusi inovatif untuk konservasi lingkungan, pelestarian biodiversitas, dan 
-                            pembangunan berkelanjutan di Indonesia.
-                        </p>
-                        
-                        <div class="card-features">
-                            <div class="feature-item">
-                                <i class="bi bi-tree-fill"></i>
-                                <span>Environmental Conservation</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="bi bi-recycle"></i>
-                                <span>Sustainable Development</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="bi bi-lightbulb-fill"></i>
-                                <span>Eco-Innovation</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="bi bi-leaf-fill"></i>
-                                <span>Green Technology</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card-stats">
-                            <div class="stat-item">
-                                <span class="stat-value">150 Juta</span>
-                                <span class="stat-label">Hadiah Utama</span>
-                            </div>
-                            <div class="stat-divider"></div>
-                            <div class="stat-item">
-                                <span class="stat-value">Tim</span>
-                                <span class="stat-label">Kompetisi</span>
-                            </div>
-                        </div>
-                        
-                        <a href="{{ route('public.competitions') }}#biodiversity" class="card-button">
-                            <span>Lihat Detail</span>
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </article>
-            </div>
+                </div>
+            @endforelse
         </div>
+
     </div>
 </section>
         color: var(--text-muted);

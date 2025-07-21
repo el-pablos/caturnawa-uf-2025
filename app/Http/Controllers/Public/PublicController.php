@@ -29,17 +29,23 @@ class PublicController extends Controller
      */
     public function home()
     {
-        // Get active competitions
-        $competitions = Competition::active()
+        // Get active competitions for registration
+        $activeCompetitions = Competition::active()
             ->where('registration_start', '<=', now())
             ->where('registration_end', '>=', now())
             ->take(3)
             ->get();
 
+        // Get all competitions for display (including upcoming ones)
+        $allCompetitions = Competition::where('is_active', true)
+            ->orderBy('registration_start', 'asc')
+            ->take(4)
+            ->get();
+
         // Get leaderboard data for home page (top 10)
         $leaderboard = $this->getHomeLeaderboard();
 
-        return view('public.home-simple', compact('competitions', 'leaderboard'));
+        return view('public.home', compact('activeCompetitions', 'allCompetitions', 'leaderboard'));
     }
 
     /**
