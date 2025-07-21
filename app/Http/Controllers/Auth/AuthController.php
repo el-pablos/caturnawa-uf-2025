@@ -125,6 +125,7 @@ class AuthController extends Controller
             'participant_status' => 'required|in:Mahasiswa Unas,Mahasiswa Eksternal,Siswa SMA/SMK',
             'institution' => 'required|string|max:255',
             'student_id' => 'required|string|max:50',
+            'terms' => 'required|accepted',
         ], [
             'name.required' => 'Nama lengkap harus diisi',
             'email.required' => 'Email harus diisi',
@@ -139,6 +140,8 @@ class AuthController extends Controller
             'participant_status.in' => 'Status peserta tidak valid',
             'institution.required' => 'Asal instansi harus diisi',
             'student_id.required' => 'Student ID/NIM harus diisi',
+            'terms.required' => 'Anda harus menyetujui syarat dan ketentuan',
+            'terms.accepted' => 'Anda harus menyetujui syarat dan ketentuan',
         ]);
 
         if ($validator->fails()) {
@@ -147,27 +150,39 @@ class AuthController extends Controller
                 ->withInput($request->except('password', 'password_confirmation'));
         }
 
-        // Buat user baru
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password,
-            'phone' => $request->phone,
-            'participant_status' => $request->participant_status,
-            'institution' => $request->institution,
-            'student_id' => $request->student_id,
-            'is_active' => true,
-            'email_verified_at' => now(),
-        ]);
+        try {
+            // Buat user baru
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => $request->password,
+                'phone' => $request->phone,
+                'participant_status' => $request->participant_status,
+                'institution' => $request->institution,
+                'student_id' => $request->student_id,
+                'is_active' => true,
+                'email_verified_at' => now(),
+            ]);
 
-        // Assign role Peserta
-        $user->assignRole('peserta');
+            // Assign role peserta (ensure role exists)
+            if (!\Spatie\Permission\Models\Role::where('name', 'peserta')->exists()) {
+                \Spatie\Permission\Models\Role::create(['name' => 'peserta']);
+            }
+            $user->assignRole('peserta');
 
-        // Login otomatis setelah register
-        Auth::login($user);
-        
-        return redirect()->route('peserta.dashboard')
-            ->with('success', 'Registrasi berhasil! Selamat datang di UNAS Fest 2025.');
+            // Login otomatis setelah register
+            Auth::login($user);
+
+            return redirect()->route('peserta.peserta.dashboard')
+                ->with('success', 'Registrasi berhasil! Selamat datang di UNAS Fest 2025.');
+
+        } catch (\Exception $e) {
+            \Log::error('Registration error: ' . $e->getMessage());
+
+            return back()
+                ->withErrors(['email' => 'Terjadi kesalahan saat registrasi. Silakan coba lagi.'])
+                ->withInput($request->except('password', 'password_confirmation'));
+        }
     }
 
     /**
