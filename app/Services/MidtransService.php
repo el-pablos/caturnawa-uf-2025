@@ -55,15 +55,30 @@ class MidtransService
             ];
         }
 
-        // Buat atau update payment record
-        $payment = Payment::firstOrCreate(
-            ['registration_id' => $registration->id],
-            [
-                'gross_amount' => $registration->amount,
-                'transaction_status' => 'pending',
-                'expired_at' => now()->addHours(24), // 24 jam untuk pembayaran
-            ]
-        );
+        // Check if there's already a successful payment for this registration
+        $existingPayment = Payment::where('registration_id', $registration->id)
+            ->whereIn('transaction_status', ['settlement', 'capture'])
+            ->first();
+
+        if ($existingPayment) {
+            return [
+                'success' => false,
+                'message' => 'Pembayaran untuk pendaftaran ini sudah berhasil.',
+            ];
+        }
+
+        // Delete any existing pending payments to avoid order_id conflicts
+        Payment::where('registration_id', $registration->id)
+            ->whereNotIn('transaction_status', ['settlement', 'capture'])
+            ->delete();
+
+        // Create new payment record
+        $payment = Payment::create([
+            'registration_id' => $registration->id,
+            'gross_amount' => $registration->amount,
+            'transaction_status' => 'pending',
+            'expired_at' => now()->addHours(24), // 24 jam untuk pembayaran
+        ]);
 
         // Siapkan parameter untuk Midtrans
         $params = $this->buildTransactionParams($registration, $payment, $paymentMethod);
@@ -75,14 +90,26 @@ class MidtransService
             // Update payment record dengan snap token
             $payment->update(['snap_token' => $snapToken]);
 
+            Log::info('Transaction created successfully', [
+                'order_id' => $payment->order_id,
+                'registration_id' => $registration->id,
+                'amount' => $registration->amount,
+                'payment_method' => $paymentMethod
+            ]);
+
             return [
                 'success' => true,
                 'snap_token' => $snapToken,
                 'payment_id' => $payment->id,
+                'order_id' => $payment->order_id,
                 'redirect_url' => $this->getRedirectUrl($payment),
             ];
         } catch (\Exception $e) {
-            \Log::error('Midtrans Transaction Error: ' . $e->getMessage());
+            Log::error('Midtrans Transaction Error: ' . $e->getMessage(), [
+                'order_id' => $payment->order_id,
+                'registration_id' => $registration->id,
+                'payment_method' => $paymentMethod
+            ]);
 
             return [
                 'success' => false,

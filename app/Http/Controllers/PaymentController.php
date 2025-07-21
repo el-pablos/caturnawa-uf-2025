@@ -192,6 +192,12 @@ class PaymentController extends Controller
         $payment = Payment::find($paymentId);
 
         if (!$payment) {
+            Log::warning('Payment status accessed with non-existent payment ID', [
+                'payment_id' => $paymentId,
+                'user_id' => Auth::id(),
+                'ip' => request()->ip()
+            ]);
+
             return view('payment.not-found', [
                 'message' => 'Data pembayaran tidak ditemukan.',
                 'payment_id' => $paymentId
@@ -202,7 +208,31 @@ class PaymentController extends Controller
 
         // Pastikan payment milik user yang sedang login
         if ($registration->user_id !== Auth::id()) {
+            Log::warning('Unauthorized payment status access attempt', [
+                'payment_id' => $paymentId,
+                'payment_user_id' => $registration->user_id,
+                'accessing_user_id' => Auth::id(),
+                'ip' => request()->ip()
+            ]);
+
             abort(403, 'Akses ditolak.');
+        }
+
+        // Check payment status from Midtrans to ensure latest status
+        if ($this->midtransService && $payment->order_id) {
+            try {
+                $result = $this->midtransService->checkTransactionStatus($payment->order_id);
+                if ($result['success']) {
+                    $data = $result['data'];
+                    if (is_object($data)) {
+                        $data = json_decode(json_encode($data), true);
+                    }
+                    $payment->updateFromMidtrans($data);
+                    $payment->refresh(); // Refresh model to get updated data
+                }
+            } catch (\Exception $e) {
+                Log::error('Error checking payment status: ' . $e->getMessage());
+            }
         }
 
         return view('payment.status', compact('payment', 'registration'));
