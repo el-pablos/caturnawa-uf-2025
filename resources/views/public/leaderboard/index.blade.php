@@ -157,6 +157,20 @@
         position: relative;
         z-index: 1;
     }
+
+    @media (max-width: 768px) {
+        .modern-title {
+            font-size: 2.5rem;
+        }
+
+        .modern-subtitle {
+            font-size: 1rem;
+        }
+
+        .floating-trophy {
+            font-size: 3rem;
+        }
+    }
 </style>
 
 <div class="dynamic-bg"></div>
@@ -181,7 +195,7 @@
                         data-aos-delay="500"
                         data-aos-duration="800"
                         data-aos-easing="ease-out-cubic">
-                        Leaderboard<span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"> UNAS Fest 2025</span>
+                        Leaderboard <span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"> UNAS Fest 2025</span>
                     </h1>
                     <p class="modern-subtitle mb-5"
                        data-aos="fade-up"
