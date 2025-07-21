@@ -1,8 +1,28 @@
 // Bootstrap JavaScript
 import 'bootstrap';
 
+// Hot Module Replacement (HMR) for development
+if (import.meta.hot) {
+    import.meta.hot.accept();
+
+    // Log HMR events for debugging
+    import.meta.hot.on('vite:beforeUpdate', () => {
+        console.log('🔄 Hot reload: Updating modules...');
+    });
+
+    import.meta.hot.on('vite:afterUpdate', () => {
+        console.log('✅ Hot reload: Update complete!');
+    });
+}
+
 // Custom JavaScript for UNAS Fest 2025
 document.addEventListener('DOMContentLoaded', function() {
+
+    // Development mode indicator
+    if (import.meta.env.DEV) {
+        console.log('🚀 UNAS Fest 2025 - Development Mode');
+        console.log('📝 Hot reload is active - changes will be reflected automatically');
+    }
     
     // Initialize tooltips
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));

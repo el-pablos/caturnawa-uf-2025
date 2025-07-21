@@ -5,14 +5,21 @@
     "main": "index.js",
     "scripts": {
         "dev": "vite",
+        "dev:host": "vite --host",
         "build": "vite build",
-        "preview": "vite preview"
+        "build:watch": "vite build --watch",
+        "preview": "vite preview",
+        "hot": "vite --host 0.0.0.0 --port 5173",
+        "serve": "php artisan serve --host=0.0.0.0 --port=8000",
+        "dev:full": "concurrently \"npm run serve\" \"npm run hot\"",
+        "watch": "vite build --watch"
     },
     "devDependencies": {
         "@popperjs/core": "^2.11.6",
         "alpinejs": "^3.14.9",
         "axios": "^1.1.2",
         "bootstrap": "^5.3.0",
+        "concurrently": "^8.2.2",
         "laravel-vite-plugin": "^2.0.0",
         "sass": "^1.56.1",
         "vite": "^7.0.4"

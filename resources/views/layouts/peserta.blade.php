@@ -26,6 +26,9 @@
     <!-- UNAS Theme CSS -->
     <link href="{{ asset('css/unas-theme.css') }}" rel="stylesheet">
 
+    <!-- Vite Assets for Hot Reload -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <!-- Peserta Specific CSS -->
     <style>
         :root {
