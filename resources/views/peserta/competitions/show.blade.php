@@ -654,6 +654,13 @@ let teamMemberIndex = 1;
 
 function addTeamMember() {
     const container = document.getElementById('team-members');
+
+    // Check if container exists (only for team competitions)
+    if (!container) {
+        console.error('Team members container not found');
+        return;
+    }
+
     const currentMembers = container.querySelectorAll('.team-member').length;
 
     // Batasi maksimal 5 anggota
@@ -702,6 +709,13 @@ function addTeamMember() {
 
 function removeTeamMember(button) {
     const container = document.getElementById('team-members');
+
+    // Check if container exists (only for team competitions)
+    if (!container) {
+        console.error('Team members container not found');
+        return;
+    }
+
     const currentMembers = container.querySelectorAll('.team-member').length;
 
     // Minimal 1 anggota
@@ -729,6 +743,12 @@ function updateMemberNumbers() {
 
 function updateAddButtonText() {
     const container = document.getElementById('team-members');
+
+    // Check if container exists (only for team competitions)
+    if (!container) {
+        return;
+    }
+
     const currentMembers = container.querySelectorAll('.team-member').length;
     const addButton = document.querySelector('button[onclick="addTeamMember()"]');
 
