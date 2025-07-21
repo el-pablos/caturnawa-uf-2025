@@ -556,11 +556,11 @@
                      data-aos="fade-down"
                      data-aos-delay="500"
                      data-aos-duration="600">
-                    <h3 class="mb-2 fw-bold text-white"
+                    <h3 class="mb-2 fw-bold"
                         data-aos="fade-up"
                         data-aos-delay="700"
-                        data-aos-duration="500">Semua Kompetisi UNAS Fest 2025</h3>
-                    <p class="mb-0 text-white-50"
+                        data-aos-duration="500" style="color: #667eea;">Semua Kompetisi UNAS Fest 2025</h3>
+                    <p class="mb-0 text-gray-50"
                        data-aos="fade-up"
                        data-aos-delay="900"
                        data-aos-duration="500">Pilih kompetisi yang sesuai dengan minat dan keahlianmu</p>
@@ -569,7 +569,7 @@
                     @forelse($competitions as $index => $competition)
                         <div class="row mb-4">
                             <div class="col-12">
-                                <div class="competition-card"
+                                <div class="competition-card p-4"
                                      data-aos="slide-right"
                                      data-aos-duration="800"
                                      data-aos-delay="{{ ($index * 200) + 100 }}"

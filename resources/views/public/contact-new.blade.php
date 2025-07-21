@@ -215,10 +215,14 @@
                  data-aos="zoom-in"
                  data-aos-duration="1000">
                 <div class="hero-content text-center">
-                    <div class="floating-icon mb-4" data-aos="bounce-in" data-aos-delay="200">
+                    <div class="floating-icon mb-4"
+                        data-aos="bounce-in"
+                        data-aos-delay="200">
                         <i class="bi bi-headset"></i>
                     </div>
-                    <h1 class="modern-title mb-4" data-aos="fade-down" data-aos-delay="400">
+                    <h1 class="modern-title mb-4"
+                        data-aos="fade-down"
+                        data-aos-delay="400">
                         Hubungi Kami
                     </h1>
                     <p class="modern-subtitle mb-0" data-aos="fade-up" data-aos-delay="600">
