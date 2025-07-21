@@ -137,7 +137,7 @@
                                                     <label for="current_password" class="form-label fw-semibold">Password Saat Ini</label>
                                                     <div class="input-group">
                                                         <input type="password" class="form-control @error('current_password', 'updatePassword') is-invalid @enderror"
-                                                               id="current_password" name="current_password" required>
+                                                               id="current_password" name="current_password" autocomplete="current-password" required>
                                                         <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('current_password')">
                                                             <i class="bi bi-eye" id="current_password_icon"></i>
                                                         </button>
@@ -151,7 +151,7 @@
                                                     <label for="new_password" class="form-label fw-semibold">Password Baru</label>
                                                     <div class="input-group">
                                                         <input type="password" class="form-control @error('new_password', 'updatePassword') is-invalid @enderror"
-                                                               id="new_password" name="new_password" required>
+                                                               id="new_password" name="new_password" autocomplete="new-password" required>
                                                         <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('new_password')">
                                                             <i class="bi bi-eye" id="new_password_icon"></i>
                                                         </button>
@@ -166,7 +166,7 @@
                                                     <label for="new_password_confirmation" class="form-label fw-semibold">Konfirmasi Password Baru</label>
                                                     <div class="input-group">
                                                         <input type="password" class="form-control"
-                                                               id="new_password_confirmation" name="new_password_confirmation" required>
+                                                               id="new_password_confirmation" name="new_password_confirmation" autocomplete="new-password" required>
                                                         <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('new_password_confirmation')">
                                                             <i class="bi bi-eye" id="new_password_confirmation_icon"></i>
                                                         </button>
