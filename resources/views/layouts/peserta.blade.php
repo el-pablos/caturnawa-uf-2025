@@ -279,9 +279,10 @@
                                 <i class="bi bi-person-circle me-2"></i>Profil</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
-                                <form action="{{ route('logout') }}" method="POST">
+                                <form action="{{ route('logout') }}" method="POST" id="logout-form" style="margin: 0;">
                                     @csrf
-                                    <button type="submit" class="dropdown-item">
+                                    <button type="submit" class="dropdown-item" id="logout-button"
+                                            style="border: none; background: none; width: 100%; text-align: left; cursor: pointer;">
                                         <i class="bi bi-box-arrow-right me-2"></i>Logout
                                     </button>
                                 </form>
@@ -459,6 +460,34 @@
                 }
             });
         }
+
+        // Logout functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const logoutButton = document.getElementById('logout-button');
+            const logoutForm = document.getElementById('logout-form');
+
+            if (logoutButton && logoutForm) {
+                logoutButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    // Show confirmation dialog
+                    Swal.fire({
+                        title: 'Konfirmasi Logout',
+                        text: 'Apakah Anda yakin ingin keluar dari sistem?',
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Ya, Logout',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            logoutForm.submit();
+                        }
+                    });
+                });
+            }
+        });
     </script>
 
     <!-- Deadline Reminder System -->
