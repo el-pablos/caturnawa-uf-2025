@@ -28,6 +28,29 @@ class CompetitionController extends Controller
         if ($request->ajax()) {
             $competitions = Competition::with('registrations')->select('competitions.*');
 
+            // Apply filters for DataTables
+            if ($request->filled('category')) {
+                $competitions->where('category', $request->category);
+            }
+
+            if ($request->filled('status')) {
+                if ($request->status === 'active') {
+                    $competitions->where('is_active', true);
+                } elseif ($request->status === 'inactive') {
+                    $competitions->where('is_active', false);
+                } elseif ($request->status === 'draft') {
+                    $competitions->where('status', 'draft');
+                }
+            }
+
+            if ($request->filled('search')) {
+                $search = $request->search;
+                $competitions->where(function($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                      ->orWhere('description', 'like', "%{$search}%");
+                });
+            }
+
             return DataTables::of($competitions)
                 ->addIndexColumn()
                 ->addColumn('participants_count', function($competition) {
@@ -72,10 +95,33 @@ class CompetitionController extends Controller
                 ->make(true);
         }
 
-        // Get competitions for regular view
-        $competitions = Competition::withCount('registrations')
-            ->orderBy('created_at', 'desc')
-            ->get();
+        // Get competitions for regular view with filters
+        $query = Competition::withCount('registrations');
+
+        // Apply filters
+        if ($request->filled('category')) {
+            $query->where('category', $request->category);
+        }
+
+        if ($request->filled('status')) {
+            if ($request->status === 'active') {
+                $query->where('is_active', true);
+            } elseif ($request->status === 'inactive') {
+                $query->where('is_active', false);
+            } elseif ($request->status === 'draft') {
+                $query->where('status', 'draft');
+            }
+        }
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        $competitions = $query->orderBy('created_at', 'desc')->get();
 
         return view('admin.competitions.index', compact('competitions'));
     }
