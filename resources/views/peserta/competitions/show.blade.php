@@ -131,46 +131,54 @@
                 @if($competition->prizes)
                     <h5 class="mb-3">Hadiah</h5>
                     <div class="mb-4">
-                        @if(is_array($competition->prizes))
+                        @php
+                            // Handle both array and JSON string cases
+                            $prizes = $competition->prizes;
+                            if (is_string($prizes)) {
+                                $prizes = json_decode($prizes, true);
+                            }
+                        @endphp
+
+                        @if(is_array($prizes) && !empty($prizes))
                             <div class="row">
-                                @if(isset($competition->prizes['first']))
+                                @if(isset($prizes['first']))
                                     <div class="col-md-4 mb-3">
                                         <div class="card border-warning">
                                             <div class="card-body text-center">
                                                 <i class="bi bi-trophy-fill text-warning fs-1 mb-2"></i>
                                                 <h6 class="card-title">Juara 1</h6>
-                                                <p class="card-text fw-bold text-warning">{{ $competition->prizes['first'] }}</p>
+                                                <p class="card-text fw-bold text-warning">{{ $prizes['first'] }}</p>
                                             </div>
                                         </div>
                                     </div>
                                 @endif
-                                @if(isset($competition->prizes['second']))
+                                @if(isset($prizes['second']))
                                     <div class="col-md-4 mb-3">
                                         <div class="card border-secondary">
                                             <div class="card-body text-center">
                                                 <i class="bi bi-trophy-fill text-secondary fs-1 mb-2"></i>
                                                 <h6 class="card-title">Juara 2</h6>
-                                                <p class="card-text fw-bold text-secondary">{{ $competition->prizes['second'] }}</p>
+                                                <p class="card-text fw-bold text-secondary">{{ $prizes['second'] }}</p>
                                             </div>
                                         </div>
                                     </div>
                                 @endif
-                                @if(isset($competition->prizes['third']))
+                                @if(isset($prizes['third']))
                                     <div class="col-md-4 mb-3">
                                         <div class="card border-dark">
                                             <div class="card-body text-center">
                                                 <i class="bi bi-trophy-fill text-dark fs-1 mb-2"></i>
                                                 <h6 class="card-title">Juara 3</h6>
-                                                <p class="card-text fw-bold text-dark">{{ $competition->prizes['third'] }}</p>
+                                                <p class="card-text fw-bold text-dark">{{ $prizes['third'] }}</p>
                                             </div>
                                         </div>
                                     </div>
                                 @endif
-                                @if(count($competition->prizes) > 3)
+                                @if(count($prizes) > 3)
                                     <div class="col-12">
                                         <h6>Hadiah Lainnya:</h6>
                                         <ul class="list-unstyled">
-                                            @foreach($competition->prizes as $key => $prize)
+                                            @foreach($prizes as $key => $prize)
                                                 @if(!in_array($key, ['first', 'second', 'third']))
                                                     <li class="mb-2"><i class="bi bi-trophy text-warning me-2"></i>{{ ucfirst($key) }}: {{ $prize }}</li>
                                                 @endif
@@ -180,7 +188,10 @@
                                 @endif
                             </div>
                         @else
-                            {!! nl2br(e($competition->prizes)) !!}
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle me-2"></i>
+                                Informasi hadiah akan diumumkan segera.
+                            </div>
                         @endif
                     </div>
                 @endif
