@@ -357,10 +357,18 @@ function cancelRegistration(id) {
 function exportData() {
     const form = document.getElementById('exportForm');
     const formData = new FormData(form);
+    const format = formData.get('format');
     const params = new URLSearchParams(formData);
-    
-    window.open(`{{ route('admin.registrations.export.excel') }}?${params.toString()}`, '_blank');
-    
+
+    let exportUrl;
+    if (format === 'pdf') {
+        exportUrl = `{{ route('admin.registrations.export.pdf') }}?${params.toString()}`;
+    } else {
+        exportUrl = `{{ route('admin.registrations.export.excel') }}?${params.toString()}`;
+    }
+
+    window.open(exportUrl, '_blank');
+
     const modal = bootstrap.Modal.getInstance(document.getElementById('exportModal'));
     modal.hide();
 }
