@@ -1,17 +1,17 @@
 @extends('layouts.simple')
 
-@section('title', 'UNAS Fest 2025 - Festival Kompetisi Nasional Terbesar Indonesia')
+@section('title', 'UNAS Fest 2025 - The Universitas Nasional Festival 2025')
 
 @push('meta')
-<meta name="description" content="UNAS Fest 2025 - Festival Kompetisi Nasional terbesar di Indonesia. Bergabunglah dengan kompetisi Teknologi, Kesehatan, dan Biodiversitas. Hadiah total 500 juta rupiah.">
+<meta name="description" content="The Universitas Nasional Festival 2025 (UNAS FEST 2025) is one of the annual events held to commemorate and celebrate the 76th anniversary of Dies Natalis. Join the biggest national competition festival in Indonesia.">
 <meta name="keywords" content="UNAS Fest 2025, kompetisi nasional, teknologi, kesehatan, biodiversitas, universitas nasional, festival mahasiswa, lomba, hadiah">
 <meta name="author" content="Universitas Nasional">
 <meta name="robots" content="index, follow">
 <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 
 <!-- Open Graph Meta Tags -->
-<meta property="og:title" content="UNAS Fest 2025 - Festival Kompetisi Nasional">
-<meta property="og:description" content="Festival Kompetisi Nasional terbesar di Indonesia. Bergabunglah dengan kompetisi Teknologi, Kesehatan, dan Biodiversitas. Hadiah total 500 juta rupiah.">
+<meta property="og:title" content="UNAS Fest 2025 - The Universitas Nasional Festival 2025">
+<meta property="og:description" content="The Universitas Nasional Festival 2025 (UNAS FEST 2025) is one of the annual events held to commemorate and celebrate the 76th anniversary of Dies Natalis.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{{ url('/') }}">
 <meta property="og:image" content="{{ asset('assets/images/og/unas-fest-2025-og.jpg') }}">
@@ -22,8 +22,8 @@
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="UNAS Fest 2025 - Festival Kompetisi Nasional">
-<meta name="twitter:description" content="Festival Kompetisi Nasional terbesar di Indonesia. Bergabunglah dengan kompetisi Teknologi, Kesehatan, dan Biodiversitas.">
+<meta name="twitter:title" content="UNAS Fest 2025 - The Universitas Nasional Festival 2025">
+<meta name="twitter:description" content="The Universitas Nasional Festival 2025 (UNAS FEST 2025) is one of the annual events held to commemorate and celebrate the 76th anniversary of Dies Natalis.">
 <meta name="twitter:image" content="{{ asset('assets/images/og/unas-fest-2025-twitter.jpg') }}">
 <meta name="twitter:creator" content="@unasfest">
 
@@ -44,7 +44,7 @@
   "@context": "https://schema.org",
   "@type": "Event",
   "name": "UNAS Fest 2025",
-  "description": "Festival Kompetisi Nasional terbesar di Indonesia yang menggabungkan Teknologi, Kesehatan, dan Biodiversitas",
+  "description": "The Universitas Nasional Festival 2025 (UNAS FEST 2025) is one of the annual events held to commemorate and celebrate the 76th anniversary of Dies Natalis",
   "startDate": "2025-01-01",
   "endDate": "2025-03-30",
   "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
@@ -91,22 +91,18 @@
                     <!-- Badge -->
                     <div class="hero-badge" data-aos="fade-up" data-aos-delay="200">
                         <i class="bi bi-star-fill"></i>
-                        <span>Festival Kompetisi Nasional #1</span>
+                        <span>Dies Natalis 76th Anniversary</span>
                     </div>
                     
                     <!-- Main Title -->
-                    <h1 class="hero-title font-poppins" data-aos="fade-up" data-aos-delay="400">
-                        <span class="title-main">UNAS Fest</span>
-                        <span class="title-year">2025</span>
+                    <h1 class="hero-title font-poppins fw-bold" data-aos="fade-up" data-aos-delay="400">
+                        <span class="title-main fw-bold">UNAS Fest</span>
+                        <span class="title-year fw-bold">2025</span>
                     </h1>
-                    
+
                     <!-- Subtitle -->
                     <p class="hero-subtitle font-poppins" data-aos="fade-up" data-aos-delay="600">
-                        Bergabunglah dengan festival kompetisi nasional terbesar di Indonesia yang menggabungkan
-                        <span class="highlight-tech">Teknologi</span>,
-                        <span class="highlight-health">Kesehatan</span>, dan
-                        <span class="highlight-bio">Biodiversitas</span>
-                        untuk masa depan berkelanjutan.
+                        The Universitas Nasional Festival 2025 (UNAS FEST 2025) is one of the annual events held to commemorate and celebrate the 76th anniversary of Dies Natalis
                     </p>
                     
                     <!-- CTA Buttons -->
@@ -195,8 +191,8 @@
 <section id="stats" class="stats-section">
     <div class="container">
         <div class="section-header text-center" data-aos="fade-up">
-            <h2 class="section-title font-poppins">Mengapa UNAS Fest 2025?</h2>
-            <p class="section-subtitle font-poppins">Data dan fakta yang menunjukkan skala besar festival kompetisi ini</p>
+            <h2 class="section-title font-poppins fw-bold">Mengapa UNAS Fest 2025?</h2>
+            <p class="section-subtitle font-poppins">The Universitas Nasional Festival 2025 (UNAS FEST 2025) is one of the annual events held to commemorate and celebrate the 76th anniversary of Dies Natalis</p>
         </div>
         
         <div class="row g-4">
