@@ -3319,7 +3319,64 @@ Proyek ini dilisensikan di bawah MIT License - lihat file [LICENSE](LICENSE) unt
 
 </details>
 
+=======
+# 🏆 UNAS Fest 2025 - Competition Management System
+
+<div align="center">
+
+![UNAS Fest Logo](https://img.shields.io/badge/🏆%20UNAS%20Fest-2025-ff6b35?style=for-the-badge&logoColor=white)
+![Laravel](https://img.shields.io/badge/Laravel-10.x-ff2d20?style=for-the-badge&logo=laravel&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-8.1+-777bb4?style=for-the-badge&logo=php&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952b3?style=for-the-badge&logo=bootstrap&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-8.0+-4479a1?style=for-the-badge&logo=mysql&logoColor=white)
+
+[![Production Ready](https://img.shields.io/badge/Production-Ready-success?style=flat-square)](https://github.com/el-pablos/unas-fest-2025)
+[![Security Hardened](https://img.shields.io/badge/Security-Hardened-green?style=flat-square)](https://github.com/el-pablos/unas-fest-2025)
+[![Mobile Responsive](https://img.shields.io/badge/Mobile-Responsive-blue?style=flat-square)](https://github.com/el-pablos/unas-fest-2025)
+[![Zero Downtime](https://img.shields.io/badge/Zero-Downtime-orange?style=flat-square)](https://github.com/el-pablos/unas-fest-2025)
+
+**🚀 Modern Competition Registration Platform with Advanced Features**
+
+[📋 Features](#-features) • [🛠️ Installation](#️-installation) • [🏗️ Architecture](#️-system-architecture) • [📊 Database](#-database-schema) • [🔧 API](#-api-documentation) • [🚀 Deployment](#-deployment)
+
+</div>
+
 ---
+
+## 📖 Table of Contents
+
+- [🎯 Project Overview](#-project-overview)
+- [✨ Features](#-features)
+- [🏗️ System Architecture](#️-system-architecture)
+- [📊 Database Schema](#-database-schema)
+- [💻 System Requirements](#-system-requirements)
+- [🛠️ Installation](#️-installation)
+- [⚙️ Configuration](#️-configuration)
+- [🔧 API Documentation](#-api-documentation)
+- [🚀 Deployment](#-deployment)
+- [🧪 Testing](#-testing)
+- [🔐 Security](#-security)
+- [📈 Performance](#-performance)
+- [🐛 Troubleshooting](#-troubleshooting)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
+
+---
+
+## 🎯 Project Overview
+
+**UNAS Fest 2025** adalah platform manajemen kompetisi modern yang dibangun dengan teknologi terdepan untuk mendukung berbagai jenis kompetisi akademik dan non-akademik. Sistem ini dirancang untuk memberikan pengalaman yang seamless bagi peserta, juri, dan administrator.
+
+### 🎨 Design Philosophy
+
+- **User-Centric**: Antarmuka yang intuitif dan responsif
+- **Security-First**: Implementasi keamanan berlapis
+- **Performance-Oriented**: Optimasi untuk kecepatan dan skalabilitas
+- **Maintainable**: Kode yang bersih dan terdokumentasi dengan baik
+
+---
+
+## ✨ Features
 
 <div align="center">
 
