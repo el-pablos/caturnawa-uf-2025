@@ -279,12 +279,11 @@
                                 <i class="bi bi-person-circle me-2"></i>Profil</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
-                                <form action="{{ route('logout') }}" method="POST" id="logout-form" style="margin: 0;">
+                                <a href="#" class="dropdown-item" id="logout-link" onclick="handleLogout(event)">
+                                    <i class="bi bi-box-arrow-right me-2"></i>Logout
+                                </a>
+                                <form action="{{ route('logout') }}" method="POST" id="logout-form" style="display: none;">
                                     @csrf
-                                    <button type="submit" class="dropdown-item" id="logout-button"
-                                            style="border: none; background: none; width: 100%; text-align: left; cursor: pointer;">
-                                        <i class="bi bi-box-arrow-right me-2"></i>Logout
-                                    </button>
                                 </form>
                             </li>
                         </ul>
@@ -461,33 +460,59 @@
             });
         }
 
-        // Logout functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const logoutButton = document.getElementById('logout-button');
+        // Robust logout functionality with fallback
+        function handleLogout(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
             const logoutForm = document.getElementById('logout-form');
 
-            if (logoutButton && logoutForm) {
-                logoutButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-
-                    // Show confirmation dialog
-                    Swal.fire({
-                        title: 'Konfirmasi Logout',
-                        text: 'Apakah Anda yakin ingin keluar dari sistem?',
-                        icon: 'question',
-                        showCancelButton: true,
-                        confirmButtonColor: '#d33',
-                        cancelButtonColor: '#3085d6',
-                        confirmButtonText: 'Ya, Logout',
-                        cancelButtonText: 'Batal'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
+            // Check if SweetAlert is available
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    title: 'Konfirmasi Logout',
+                    text: 'Apakah Anda yakin ingin keluar dari sistem?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, Logout',
+                    cancelButtonText: 'Batal',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        if (logoutForm) {
                             logoutForm.submit();
+                        } else {
+                            // Fallback: direct navigation
+                            window.location.href = '{{ route("logout") }}';
                         }
-                    });
+                    }
                 });
+            } else {
+                // Fallback: native confirm dialog
+                if (confirm('Apakah Anda yakin ingin keluar dari sistem?')) {
+                    if (logoutForm) {
+                        logoutForm.submit();
+                    } else {
+                        // Create and submit form dynamically
+                        const form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = '{{ route("logout") }}';
+
+                        const csrfToken = document.createElement('input');
+                        csrfToken.type = 'hidden';
+                        csrfToken.name = '_token';
+                        csrfToken.value = '{{ csrf_token() }}';
+
+                        form.appendChild(csrfToken);
+                        document.body.appendChild(form);
+                        form.submit();
+                    }
+                }
             }
-        });
+        }
     </script>
 
     <!-- Deadline Reminder System -->
