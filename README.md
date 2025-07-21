@@ -4467,7 +4467,6 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 <div align="center">
 
-<<<<<<< HEAD
 ## 🌟 **UNAS Fest 2025 - Caturnawa**
 
 ### 🏆 *Menghubungkan Talenta Terbaik Indonesia dalam Satu Ekosistem Digital*
@@ -4491,12 +4490,3 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 **🎉 UNAS Fest 2025 - Caturnawa**
 
 *Ready for development and production deployment with maximum flexibility and cross-platform compatibility!* 🚀
-=======
-**🎉 Ready for Production • Secure • Scalable • Modern**
-
-
-
-**Version 1.0** • **Last Updated: July 2025**
-
-</div>
->>>>>>> 17ee29e2785e026932cecce8ba1b982b3072bed2
