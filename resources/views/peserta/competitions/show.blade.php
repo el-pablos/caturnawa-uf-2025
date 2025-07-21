@@ -15,8 +15,10 @@
                     <i class="bi bi-plus-circle me-2"></i>Daftar Sekarang
                 </button>
             @else
-                <button type="button" class="btn btn-secondary" disabled title="Anda sudah terdaftar di kompetisi lain">
-                    <i class="bi bi-lock-fill me-2"></i>Tidak Dapat Mendaftar
+                <button type="button" class="btn btn-secondary" disabled
+                        title="Anda sudah terdaftar di lomba lain. Tidak dapat mendaftar di multiple lomba."
+                        data-bs-toggle="tooltip" data-bs-placement="top">
+                    <i class="bi bi-lock-fill me-2"></i>Terkunci
                 </button>
             @endif
         @endif
@@ -248,14 +250,27 @@
                         <i class="bi bi-eye me-2"></i>Lihat Detail
                     </a>
                 @elseif($competition->isRegistrationOpen())
-                    <div class="mb-3">
-                        <i class="bi bi-calendar-check text-primary" style="font-size: 3rem;"></i>
-                    </div>
-                    <h5 class="text-primary">Pendaftaran Terbuka</h5>
-                    <p class="text-muted">Daftar sekarang untuk mengikuti kompetisi ini</p>
-                    <button type="button" class="btn btn-peserta-primary w-100" data-bs-toggle="modal" data-bs-target="#registerModal">
-                        <i class="bi bi-plus-circle me-2"></i>Daftar Sekarang
-                    </button>
+                    @if($canRegister)
+                        <div class="mb-3">
+                            <i class="bi bi-calendar-check text-primary" style="font-size: 3rem;"></i>
+                        </div>
+                        <h5 class="text-primary">Pendaftaran Terbuka</h5>
+                        <p class="text-muted">Daftar sekarang untuk mengikuti kompetisi ini</p>
+                        <button type="button" class="btn btn-peserta-primary w-100" data-bs-toggle="modal" data-bs-target="#registerModal">
+                            <i class="bi bi-plus-circle me-2"></i>Daftar Sekarang
+                        </button>
+                    @else
+                        <div class="mb-3">
+                            <i class="bi bi-lock-fill text-warning" style="font-size: 3rem;"></i>
+                        </div>
+                        <h5 class="text-warning">Pendaftaran Terkunci</h5>
+                        <p class="text-muted">Anda sudah terdaftar di lomba lain. Tidak dapat mendaftar di multiple lomba.</p>
+                        <button type="button" class="btn btn-secondary w-100" disabled
+                                title="Anda sudah terdaftar di lomba lain. Tidak dapat mendaftar di multiple lomba."
+                                data-bs-toggle="tooltip" data-bs-placement="top">
+                            <i class="bi bi-lock-fill me-2"></i>Terkunci
+                        </button>
+                    @endif
                 @else
                     <div class="mb-3">
                         <i class="bi bi-x-circle-fill text-danger" style="font-size: 3rem;"></i>
