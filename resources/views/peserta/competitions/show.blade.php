@@ -338,14 +338,14 @@
 
 <!-- Registration Modal -->
 @if(!$existingRegistration && $competition->isRegistrationOpen())
-<div class="modal fade" id="registerModal" tabindex="-1">
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">
+                <h5 class="modal-title" id="registerModalLabel">
                     <i class="bi bi-plus-circle me-2"></i>Daftar Kompetisi: {{ $competition->name }}
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
             </div>
             <form action="{{ route('peserta.competitions.register', $competition) }}" method="POST" enctype="multipart/form-data">
                 @csrf
