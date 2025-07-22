@@ -218,21 +218,57 @@ class PaymentController extends Controller
             abort(403, 'Akses ditolak.');
         }
 
-        // Check payment status from Midtrans to ensure latest status
+        // Always check payment status from Midtrans to ensure latest status
         if ($this->midtransService && $payment->order_id) {
             try {
+                Log::info('Checking payment status from Midtrans', [
+                    'payment_id' => $payment->id,
+                    'order_id' => $payment->order_id,
+                    'current_status' => $payment->transaction_status
+                ]);
+
                 $result = $this->midtransService->checkTransactionStatus($payment->order_id);
                 if ($result['success']) {
                     $data = $result['data'];
                     if (is_object($data)) {
                         $data = json_decode(json_encode($data), true);
                     }
+
+                    Log::info('Midtrans status check result', [
+                        'payment_id' => $payment->id,
+                        'midtrans_status' => $data['transaction_status'] ?? 'unknown',
+                        'current_db_status' => $payment->transaction_status
+                    ]);
+
+                    // Update payment from Midtrans response
                     $payment->updateFromMidtrans($data);
                     $payment->refresh(); // Refresh model to get updated data
+
+                    Log::info('Payment status updated', [
+                        'payment_id' => $payment->id,
+                        'new_status' => $payment->transaction_status,
+                        'is_success' => $payment->isSuccess()
+                    ]);
+                } else {
+                    Log::warning('Failed to check payment status from Midtrans', [
+                        'payment_id' => $payment->id,
+                        'order_id' => $payment->order_id,
+                        'error' => $result['message'] ?? 'Unknown error'
+                    ]);
                 }
             } catch (\Exception $e) {
-                Log::error('Error checking payment status: ' . $e->getMessage());
+                Log::error('Error checking payment status from Midtrans', [
+                    'payment_id' => $payment->id,
+                    'order_id' => $payment->order_id,
+                    'error' => $e->getMessage()
+                ]);
             }
+        } else {
+            Log::warning('Cannot check payment status - missing service or order_id', [
+                'payment_id' => $payment->id,
+                'has_midtrans_service' => !is_null($this->midtransService),
+                'has_order_id' => !empty($payment->order_id)
+            ]);
         }
 
         return view('payment.status', compact('payment', 'registration'));
