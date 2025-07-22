@@ -22,9 +22,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- AOS Animation -->
-    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
     
     <style>
         :root {
@@ -106,13 +103,6 @@
             flex-grow: 1;
         }
 
-        /* Login Button Container */
-        .login-button-container {
-            position: absolute;
-            right: 15px;
-            transform: translateY(-50%);
-            z-index: 1000;
-        }
 
         .login-button-container .btn {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
@@ -154,14 +144,6 @@
             transition: all 0.3s ease;
         }
 
-        .navbar-collapse {
-            border-radius: 15px;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(10px);
-            margin-top: 0.5rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
 
         /* Smooth collapse animation */
         .navbar-collapse.collapsing {
@@ -522,6 +504,12 @@
                 border-top: 1px solid rgba(0, 0, 0, 0.1);
                 text-align: center;
             }
+            .mobile-login-button-container {
+                text-align: center;
+                padding: 1rem 0;
+                border-top: 1px solid rgba(0,0,0,0.1);
+                margin-top: 0.5rem;
+            }
         }
         
         /* Mobile Portrait and Small Tablet (576px to 767px) */
@@ -536,13 +524,21 @@
             }
             
             .navbar-collapse {
+                border-radius: 15px;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(10px);
                 margin-top: 1rem;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.2);
             }
             
             .navbar-nav {
                 flex-direction: column;
                 gap: 0;
                 text-align: center;
+                display: flex;
+                justify-content: center;
+                flex-grow: 1;
             }
             
             .navbar-nav .nav-item {
@@ -587,12 +583,14 @@
                 margin-top: 1rem;
                 padding-top: 1rem;
                 border-top: 1px solid rgba(0, 0, 0, 0.1);
+                text-align: center;
             }
             
             .login-button-container .btn {
                 width: 100%;
                 padding: 0.75rem 1.5rem;
                 font-size: 1rem;
+                justify-content: center;
             }
         }
         
@@ -646,17 +644,14 @@
                 justify-content: center;
             }
         }
-
-
-
     </style>
     
     @stack('styles')
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
-        <div class="container" data-aos="fade-down" data-aos-duration="1000">
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
             <a class="navbar-brand" href="{{ route('public.home') }}">
                 <strong>UNAS Fest 2025</strong>
             </a>
@@ -667,27 +662,27 @@
             
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto">
-                    <li class="nav-item" data-aos="fade-down" data-aos-duration="900">
+                    <li class="nav-item" data-aos="fade-down">
                         <a class="nav-link {{ request()->routeIs('public.home') ? 'active' : '' }}" href="{{ route('public.home') }}">
                             <i class="bi bi-house me-1"></i>Beranda
                         </a>
                     </li>
-                    <li class="nav-item"  data-aos="fade-down" data-aos-duration="900">
+                    <li class="nav-item"  data-aos="fade-down">
                         <a class="nav-link {{ request()->routeIs('public.competitions*') ? 'active' : '' }}" href="{{ route('public.competitions') }}">
                             <i class="bi bi-trophy me-1"></i>Kompetisi
                         </a>
                     </li>
-                    <li class="nav-item"  data-aos="fade-down" data-aos-duration="900">
+                    <li class="nav-item"  data-aos="fade-down">
                         <a class="nav-link {{ request()->routeIs('leaderboard.*') ? 'active' : '' }}" href="{{ route('leaderboard.index') }}">
                             <i class="bi bi-list-ol me-1"></i>Leaderboard
                         </a>
                     </li>
-                    <li class="nav-item"  data-aos="fade-down" data-aos-duration="900">
+                    <li class="nav-item"  data-aos="fade-down">
                         <a class="nav-link {{ request()->routeIs('public.about') ? 'active' : '' }}" href="{{ route('public.about') }}">
                             <i class="bi bi-info-circle me-1"></i>Tentang
                         </a>
                     </li>
-                    <li class="nav-item"  data-aos="fade-down" data-aos-duration="900">
+                    <li class="nav-item"  data-aos="fade-down">
                         <a class="nav-link {{ request()->routeIs('public.contact') ? 'active' : '' }}" href="{{ route('public.contact') }}">
                             <i class="bi bi-envelope me-1"></i>Kontak
                         </a>
@@ -695,7 +690,7 @@
                 </ul>
                 
                 <!-- Mobile Login Button -->
-                <div class="login-button-container d-lg-none" data-aos="fade-down" data-aos-duration="900">
+                <div class="d-lg-none mobile-login-button-container">
                     <a class="btn btn-primary btn-sm px-3" href="{{ route('login') }}">
                         <i class="bi bi-box-arrow-in-right me-1"></i>Masuk
                     </a>
@@ -703,7 +698,7 @@
             </div>
             
             <!-- Separate Login Button -->
-            <div class="login-button-container d-none d-lg-block mx-auto" data-aos="fade-down" data-aos-duration="900">
+            <div class="d-none d-lg-block">
                 <a class="btn btn-primary btn-sm px-3" href="{{ route('login') }}">
                     <i class="bi bi-box-arrow-in-right me-1"></i>Masuk
                 </a>
@@ -717,7 +712,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="main-footer" data-aos="fade-up" data-aos-anchor-placement="center-bootom">
+    <footer class="main-footer">
         <div class="footer-content">
             <div class="container">
                 <div class="row">
@@ -754,7 +749,7 @@
                                 <li><a href="{{ route('public.competitions') }}#short-movie"><i class="bi bi-camera-video"></i>Short Movie</a></li>
                                 <li><a href="{{ route('public.competitions') }}#fotografi"><i class="bi bi-camera"></i>Fotografi</a></li>
                                 <li><a href="{{ route('public.competitions') }}#karya-ilmiah"><i class="bi bi-journal-text"></i>Karya Ilmiah</a></li>
-                                <li><a href="{{ route('public.competitions') }}"><i class="bi bi-list"></i>Semua Kompetisi</a></li>
+                                <li><a href="{{ route('public.competitions') }}"><i class="bi bi-tropy"></i>Semua Kompetisi</a></li>
                                 <li><a href="{{ route('leaderboard.index') }}"><i class="bi bi-list-ol"></i>Leaderboard</a></li>
                             </ul>
                         </div>
@@ -842,17 +837,8 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- AOS Animation -->
-    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     
     <script>
-        // Initialize AOS
-        AOS.init({
-            duration: 800,
-            once: true,
-            easing: 'ease-in-out',
-            offset: 100
-        });
         // Counter Animation
         function animateCounters() {
             const counters = document.querySelectorAll('.counter-number');
