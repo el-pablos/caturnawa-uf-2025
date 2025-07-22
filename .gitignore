@@ -18,6 +18,7 @@ yarn-error.log
 tabulator/
 *.sh
 *.txt
+*.txt
 *.lock
 
 # Claude Desktop App Files
