@@ -198,24 +198,7 @@
             background: #3b82f6 !important;
         }
 
-        /* Enforce blue primary buttons throughout peserta interface */
-        .btn-primary,
-        .btn-primary.btn-primary,
-        .peserta-main-content .btn-primary,
-        .peserta-content .btn-primary {
-            background: var(--peserta-primary) !important;
-            border-color: var(--peserta-primary) !important;
-            color: white !important;
-        }
 
-        .btn-primary:hover,
-        .btn-primary.btn-primary:hover,
-        .peserta-main-content .btn-primary:hover,
-        .peserta-content .btn-primary:hover {
-            background: var(--peserta-dark) !important;
-            border-color: var(--peserta-dark) !important;
-            color: white !important;
-        }
 
         @media (max-width: 768px) {
             .peserta-sidebar {
