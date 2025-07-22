@@ -87,6 +87,25 @@ class PaymentController extends Controller
     public function update(Request $request, Payment $payment)
     {
         try {
+            // If no specific data is provided, default to verification
+            if (!$request->has('status') && !$request->has('action')) {
+                return $this->verify($payment);
+            }
+
+            // Handle different actions
+            $action = $request->input('action');
+            if ($action) {
+                switch ($action) {
+                    case 'verify':
+                        return $this->verify($payment);
+                    case 'confirm':
+                        return $this->confirmPayment($payment);
+                    case 'reject':
+                        return $this->reject($request, $payment);
+                }
+            }
+
+            // Handle manual status update
             $request->validate([
                 'status' => 'required|in:pending,verified,confirmed,rejected',
                 'notes' => 'nullable|string|max:500'
@@ -225,6 +244,15 @@ class PaymentController extends Controller
     public function verify(Payment $payment)
     {
         try {
+            // Validate payment can be verified
+            if ($payment->status === 'paid') {
+                return back()->with('error', 'Pembayaran sudah diverifikasi sebelumnya.');
+            }
+
+            if (!$payment->registration) {
+                return back()->with('error', 'Data registrasi tidak ditemukan.');
+            }
+
             DB::beginTransaction();
 
             // Update payment status
@@ -242,17 +270,40 @@ class PaymentController extends Controller
                 'confirmed_by' => auth()->id(),
             ]);
 
-            // Generate QR Code untuk tiket
-            $payment->registration->generateQRCode();
+            // Generate QR Code untuk tiket with better error handling
+            try {
+                $payment->registration->generateQRCode();
+            } catch (\Exception $qrException) {
+                // Log the QR code error but don't fail the entire verification
+                \Log::error('Failed to generate QR Code for registration ' . $payment->registration->id . ': ' . $qrException->getMessage());
+                // Continue with the verification process
+            }
 
             // Send confirmation email
             // TODO: Implement email notification
 
             DB::commit();
 
+            if (request()->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Pembayaran berhasil diverifikasi dan registrasi dikonfirmasi.'
+                ]);
+            }
+
             return back()->with('success', 'Pembayaran berhasil diverifikasi dan registrasi dikonfirmasi.');
         } catch (\Exception $e) {
             DB::rollback();
+
+            \Log::error('Payment verification failed for payment ID ' . $payment->id . ': ' . $e->getMessage());
+
+            if (request()->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal memverifikasi pembayaran: ' . $e->getMessage()
+                ], 500);
+            }
+
             return back()->with('error', 'Gagal memverifikasi pembayaran: ' . $e->getMessage());
         }
     }

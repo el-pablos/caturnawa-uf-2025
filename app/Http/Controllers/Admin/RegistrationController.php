@@ -77,8 +77,33 @@ class RegistrationController extends Controller
     }
 
     /**
+     * Update registrasi (general update method)
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Registration $registration
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, Registration $registration)
+    {
+        // Handle different actions based on request data
+        $action = $request->input('action', 'confirm'); // Default to confirm
+
+        switch ($action) {
+            case 'confirm':
+                return $this->confirm($registration);
+            case 'cancel':
+                return $this->cancel($registration);
+            case 're-enable':
+                return $this->reEnable($registration);
+            default:
+                // Default behavior is to confirm
+                return $this->confirm($registration);
+        }
+    }
+
+    /**
      * Konfirmasi registrasi
-     * 
+     *
      * @param \App\Models\Registration $registration
      * @return \Illuminate\Http\RedirectResponse
      */

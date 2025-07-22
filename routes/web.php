@@ -195,6 +195,7 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
         Route::prefix('registrations')->name('registrations.')->group(function () {
             Route::get('/', [App\Http\Controllers\Admin\RegistrationController::class, 'index'])->name('index');
             Route::get('/{registration}', [App\Http\Controllers\Admin\RegistrationController::class, 'show'])->name('show');
+            Route::patch('/{registration}', [App\Http\Controllers\Admin\RegistrationController::class, 'update'])->name('update');
             Route::patch('/{registration}/confirm', [App\Http\Controllers\Admin\RegistrationController::class, 'confirm'])->name('confirm');
             Route::patch('/{registration}/cancel', [App\Http\Controllers\Admin\RegistrationController::class, 'cancel'])->name('cancel');
             Route::patch('/{registration}/re-enable', [App\Http\Controllers\Admin\RegistrationController::class, 'reEnable'])->name('re-enable');
