@@ -6,7 +6,7 @@
     "scripts": {
         "dev": "vite",
         "dev:host": "vite --host",
-        "build": "vite build",
+        "build": "vite build && cp public/build/.vite/manifest.json public/build/manifest.json",
         "build:watch": "vite build --watch",
         "preview": "vite preview",
         "hot": "vite --host 0.0.0.0 --port 5173",

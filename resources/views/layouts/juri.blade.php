@@ -110,6 +110,12 @@
             font-weight: 600;
         }
 
+        .juri-sidebar .nav-link.text-danger:hover {
+            color: white !important;
+            background-color: #dc3545 !important;
+            border-color: #dc3545 !important;
+        }
+
         .juri-main-content {
             margin-left: var(--sidebar-width);
             min-height: 100vh;
@@ -220,6 +226,11 @@
                     <a class="nav-link {{ request()->routeIs('profile.*') ? 'active' : '' }}" href="{{ route('profile.index') }}">
                         <i class="bi bi-person-circle me-2"></i>Profil
                     </a>
+
+                    <!-- Logout Button -->
+                    <a href="#" class="nav-link text-danger" id="logout-link-sidebar" onclick="handleLogout(event)" style="margin-top: 1rem; border: 1px solid rgba(220, 53, 69, 0.3); background-color: rgba(220, 53, 69, 0.1);">
+                        <i class="bi bi-box-arrow-right me-2"></i>Logout
+                    </a>
                 </div>
             </div>
 
@@ -256,7 +267,12 @@
             </div>
         </div>
     </nav>
-    
+
+    <!-- Hidden Logout Form -->
+    <form action="{{ route('logout') }}" method="POST" id="logout-form" style="display: none;">
+        @csrf
+    </form>
+
     <!-- Main Content -->
     <main class="juri-main-content" id="juri-main-content">
         <!-- Top Header -->
@@ -405,6 +421,71 @@
                     callback();
                 }
             });
+        }
+
+        // Robust logout functionality with fallback
+        function handleLogout(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            const logoutForm = document.getElementById('logout-form');
+
+            // Check if SweetAlert is available
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    title: 'Konfirmasi Logout',
+                    text: 'Apakah Anda yakin ingin keluar dari sistem?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, Logout',
+                    cancelButtonText: 'Batal',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        if (logoutForm) {
+                            logoutForm.submit();
+                        } else {
+                            // Create and submit form dynamically
+                            const form = document.createElement('form');
+                            form.method = 'POST';
+                            form.action = '{{ route("logout") }}';
+
+                            const csrfToken = document.createElement('input');
+                            csrfToken.type = 'hidden';
+                            csrfToken.name = '_token';
+                            csrfToken.value = '{{ csrf_token() }}';
+                            form.appendChild(csrfToken);
+
+                            document.body.appendChild(form);
+                            form.submit();
+                        }
+                    }
+                });
+            } else {
+                // Fallback: native confirm dialog
+                if (confirm('Apakah Anda yakin ingin keluar dari sistem?')) {
+                    if (logoutForm) {
+                        logoutForm.submit();
+                    } else {
+                        // Create and submit form dynamically
+                        const form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = '{{ route("logout") }}';
+
+                        const csrfToken = document.createElement('input');
+                        csrfToken.type = 'hidden';
+                        csrfToken.name = '_token';
+                        csrfToken.value = '{{ csrf_token() }}';
+                        form.appendChild(csrfToken);
+
+                        document.body.appendChild(form);
+                        form.submit();
+                    }
+                }
+            }
         }
     </script>
     

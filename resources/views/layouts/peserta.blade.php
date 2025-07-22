@@ -117,6 +117,12 @@
             font-weight: 600;
         }
 
+        .peserta-sidebar .nav-link.text-danger:hover {
+            color: white !important;
+            background-color: #dc3545 !important;
+            border-color: #dc3545 !important;
+        }
+
         .peserta-main-content {
             margin-left: var(--sidebar-width);
             min-height: 100vh;
@@ -257,6 +263,11 @@
 
                     <a class="nav-link {{ request()->routeIs('profile.*') ? 'active' : '' }}" href="{{ route('profile.index') }}">
                         <i class="bi bi-person-circle me-2"></i>Profil
+                    </a>
+
+                    <!-- Logout Button -->
+                    <a href="#" class="nav-link text-danger" id="logout-link-sidebar" onclick="handleLogout(event)" style="margin-top: 1rem; border: 1px solid rgba(220, 53, 69, 0.3); background-color: rgba(220, 53, 69, 0.1);">
+                        <i class="bi bi-box-arrow-right me-2"></i>Logout
                     </a>
                 </div>
             </div>
