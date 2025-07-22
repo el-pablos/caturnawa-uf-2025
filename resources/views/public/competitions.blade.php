@@ -55,7 +55,7 @@
     }
     
     .modern-title {
-        font-size: 3rem;
+        font-size: 3.5rem;
         font-weight: 800;
         background: linear-gradient(45deg, #fff, #f8f9fa, #fff);
         -webkit-background-clip: text;
@@ -405,29 +405,60 @@
     <!-- Modern Hero Section -->
     <div class="row">
         <div class="col-12">
-            <div class="modern-hero text-white p-5 mb-5">
+            <div class="modern-hero text-white p-5 mb-5"
+                 data-aos="zoom-in"
+                 data-aos-duration="1200"
+                 data-aos-easing="ease-out-back">
                 <div class="hero-content text-center">
-                    <div class="floating-trophy mb-4">
+                    <div class="floating-trophy mb-4"
+                         data-aos="bounce"
+                         data-aos-delay="300"
+                         data-aos-duration="800">
                         <i class="bi bi-trophy"></i>
                     </div>
-                    <h1 class="modern-title mb-4">
+                    <h1 class="modern-title mb-4"
+                        data-aos="fade-down"
+                        data-aos-delay="500"
+                        data-aos-duration="800"
+                        data-aos-easing="ease-out-cubic">
                         Kompetisi<span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"> UNAS Fest 2025</span>
                     </h1>
-                    <p class="modern-subtitle mb-5">
+                    <p class="modern-subtitle mb-5"
+                       data-aos="fade-up"
+                       data-aos-delay="700"
+                       data-aos-duration="800">
                         Bergabunglah dengan kompetisi nasional terbesar di Indonesia.<br>
                         Tunjukkan inovasi terbaikmu dalam berbagai bidang yang akan membentuk masa depan Indonesia.
                     </p>
                     <div class="row justify-content-center">
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-3 mb-3"
+                             data-aos="slide-right"
+                             data-aos-delay="900"
+                             data-aos-duration="600">
                             <a href="{{ route('login') }}"
-                               class="btn modern-btn btn-lg w-100">
-                                <i class="bi bi-person-plus me-2"></i>Daftar Sekarang
+                               class="btn modern-btn btn-lg w-100"
+                               data-aos="pulse"
+                               data-aos-delay="1100"
+                               data-aos-duration="600">
+                                <i class="bi bi-person-plus me-2"
+                                   data-aos="flip-left"
+                                   data-aos-delay="1300"
+                                   data-aos-duration="400"></i>Daftar Sekarang
                             </a>
                         </div>
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-3 mb-3"
+                             data-aos="slide-left"
+                             data-aos-delay="1000"
+                             data-aos-duration="600">
                             <a href="{{ route('public.about') }}"
-                               class="btn modern-btn-outline btn-lg w-100">
-                                <i class="bi bi-info-circle me-2"></i>Tentang Kami
+                               class="btn modern-btn-outline btn-lg w-100"
+                               data-aos="pulse"
+                               data-aos-delay="1200"
+                               data-aos-duration="600">
+                                <i class="bi bi-info-circle me-2"
+                                   data-aos="flip-right"
+                                   data-aos-delay="1400"
+                                   data-aos-duration="400"></i>Tentang Kami
                             </a>
                         </div>
                     </div>
@@ -440,28 +471,56 @@
     <div class="row mb-5">
         <div class="col-12">
             <h2 class="text-center mb-4 fw-bold"
-                style="background: linear-gradient(45deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 2.5rem;">
+                style="background: linear-gradient(45deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 2.5rem;"
+                data-aos="fade-down"
+                data-aos-duration="800"
+                data-aos-easing="ease-out-cubic">
                 <i class="bi bi-graph-up"
-                   style="color: #667eea;"></i>
+                   style="color: #667eea;"
+                   data-aos="bounce"
+                   data-aos-delay="200"
+                   data-aos-duration="600"></i>
                 UNAS Fest dalam Angka
             </h2>
         </div>
         <div class="col-12">
-            <div class="stats-card text-white">
-                <div class="glass-header text-center p-4">
-                    <h3 class="mb-0 fw-bold">Statistik Kompetisi</h3>
+            <div class="stats-card text-white"
+                 data-aos="flip-up"
+                 data-aos-duration="1000"
+                 data-aos-delay="300"
+                 data-aos-easing="ease-out-back">
+                <div class="glass-header text-center p-4"
+                     data-aos="fade-down"
+                     data-aos-delay="500"
+                     data-aos-duration="600">
+                    <h3 class="mb-0 fw-bold"
+                        data-aos="fade-up"
+                        data-aos-delay="700"
+                        data-aos-duration="500">Statistik Kompetisi</h3>
                 </div>
                 <div class="p-4">
                     <div class="row text-center justify-content-center">
                         <div class="col-md-6 mb-3">
-                            <div class="stats-inner-card">
+                            <div class="stats-inner-card"
+                                 data-aos="zoom-in"
+                                 data-aos-delay="900"
+                                 data-aos-duration="800"
+                                 data-aos-easing="ease-out-back">
                                 <div class="p-4">
                                     <i class="bi bi-trophy-fill mb-3"
-                                       style="font-size: 3rem; color: #667eea;"></i>
+                                       style="font-size: 3rem; color: #667eea;"
+                                       data-aos="spin"
+                                       data-aos-delay="1100"
+                                       data-aos-duration="800"></i>
                                     <h3 class="fw-bold mb-2"
-                                        style="color: #667eea; font-size: 2.5rem;">{{ $stats['active_competitions'] ?? '0' }}</h3>
+                                        style="color: #667eea; font-size: 2.5rem;"
+                                        data-aos="fade-up"
+                                        data-aos-delay="1300"
+                                        data-aos-duration="600">{{ $stats['active_competitions'] ?? '0' }}</h3>
                                     <p class="text-muted mb-0 fw-semibold"
-                                       data-aos="fade-up">Kompetisi Aktif</p>
+                                       data-aos="fade-up"
+                                       data-aos-delay="1500"
+                                       data-aos-duration="500">Kompetisi Aktif</p>
                                 </div>
                             </div>
                         </div>
@@ -475,77 +534,152 @@
     <div class="row">
         <div class="col-12">
             <h2 class="text-center mb-4 fw-bold"
-                style="background: linear-gradient(45deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 2.5rem;">
+                style="background: linear-gradient(45deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 2.5rem;"
+                data-aos="fade-down"
+                data-aos-duration="800"
+                data-aos-easing="ease-out-cubic">
                 <i class="bi bi-list-task"
-                   style="color: #667eea;"></i>
+                   style="color: #667eea;"
+                   data-aos="bounce"
+                   data-aos-delay="200"
+                   data-aos-duration="600"></i>
                 Daftar Kompetisi
             </h2>
         </div>
         <div class="col-12">
-            <div class="glass-card">
-                <div class="glass-header text-center p-4">
-                    <h3 class="mb-2 fw-bold" style="color: #667eea;">Semua Kompetisi UNAS Fest 2025</h3>
-                    <p class="mb-0 text-gray-50">Pilih kompetisi yang sesuai dengan minat dan keahlianmu</p>
+            <div class="glass-card"
+                 data-aos="fade-up"
+                 data-aos-duration="1000"
+                 data-aos-delay="300"
+                 data-aos-easing="ease-out-back">
+                <div class="glass-header text-center p-4"
+                     data-aos="fade-down"
+                     data-aos-delay="500"
+                     data-aos-duration="600">
+                    <h3 class="mb-2 fw-bold"
+                        data-aos="fade-up"
+                        data-aos-delay="700"
+                        data-aos-duration="500" style="color: #667eea;">Semua Kompetisi UNAS Fest 2025</h3>
+                    <p class="mb-0 text-gray-50"
+                       data-aos="fade-up"
+                       data-aos-delay="900"
+                       data-aos-duration="500">Pilih kompetisi yang sesuai dengan minat dan keahlianmu</p>
                 </div>
                 <div class="p-4">
                     @forelse($competitions as $index => $competition)
                         <div class="row mb-4">
                             <div class="col-12">
-                                <div class="competition-card p-4">
+                                <div class="competition-card p-4"
+                                     data-aos="slide-right"
+                                     data-aos-duration="800"
+                                     data-aos-delay="{{ ($index * 200) + 100 }}"
+                                     data-aos-easing="ease-out-back">
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-8">
-                                                <h4 class="text-primary mb-2">{{ $competition->name }}</h4>
-                                                <p class="text-muted mb-3">{{ Str::limit($competition->description ?? 'Kompetisi inovatif yang menantang kreativitas dan kemampuan peserta.', 150) }}</p>
+                                                <h4 class="text-primary mb-2"
+                                                    data-aos="fade-right"
+                                                    data-aos-delay="{{ ($index * 200) + 300 }}"
+                                                    data-aos-duration="600">{{ $competition->name }}</h4>
+                                                <p class="text-muted mb-3"
+                                                   data-aos="fade-up"
+                                                   data-aos-delay="{{ ($index * 200) + 500 }}"
+                                                   data-aos-duration="600">{{ Str::limit($competition->description ?? 'Kompetisi inovatif yang menantang kreativitas dan kemampuan peserta.', 150) }}</p>
+                                                
                                                 <div class="row">
-                                                    <div class="col-md-6 mb-2">
+                                                    <div class="col-md-6 mb-2"
+                                                         data-aos="fade-left"
+                                                         data-aos-delay="{{ ($index * 200) + 700 }}"
+                                                         data-aos-duration="500">
                                                         <small class="text-muted">
-                                                            <i class="bi bi-calendar3 me-1"></i>
+                                                            <i class="bi bi-calendar3 me-1"
+                                                               data-aos="bounce"
+                                                               data-aos-delay="{{ ($index * 200) + 800 }}"
+                                                               data-aos-duration="400"></i>
                                                             <strong>Pendaftaran:</strong> {{ $competition->registration_start ? \Carbon\Carbon::parse($competition->registration_start)->format('d M Y') : 'TBA' }} - {{ $competition->registration_end ? \Carbon\Carbon::parse($competition->registration_end)->format('d M Y') : 'TBA' }}
                                                         </small>
                                                     </div>
-                                                    <div class="col-md-6 mb-2">
+                                                    <div class="col-md-6 mb-2"
+                                                         data-aos="fade-left"
+                                                         data-aos-delay="{{ ($index * 200) + 900 }}"
+                                                         data-aos-duration="500">
                                                         <small class="text-muted">
-                                                            <i class="bi bi-people me-1"></i>
+                                                            <i class="bi bi-people me-1"
+                                                               data-aos="bounce"
+                                                               data-aos-delay="{{ ($index * 200) + 1000 }}"
+                                                               data-aos-duration="400"></i>
                                                             <strong>Tim:</strong> {{ $competition->max_team_members ?? 'Maksimal 3' }} orang
                                                         </small>
                                                     </div>
                                                 </div>
                                                 
                                                 <div class="row">
-                                                    <div class="col-md-6 mb-2">
+                                                    <div class="col-md-6 mb-2"
+                                                         data-aos="fade-left"
+                                                         data-aos-delay="{{ ($index * 200) + 1100 }}"
+                                                         data-aos-duration="500">
                                                         <small class="text-success">
-                                                            <i class="bi bi-trophy me-1"></i>
+                                                            <i class="bi bi-trophy me-1"
+                                                               data-aos="bounce"
+                                                               data-aos-delay="{{ ($index * 200) + 1200 }}"
+                                                               data-aos-duration="400"></i>
                                                             <strong>Hadiah:</strong> {{ $competition->prize_amount ? 'Rp ' . number_format($competition->prize_amount, 0, ',', '.') : 'Sertifikat & Hadiah Menarik' }}
                                                         </small>
                                                     </div>
-                                                    <div class="col-md-6 mb-2">
+                                                    <div class="col-md-6 mb-2"
+                                                         data-aos="fade-left"
+                                                         data-aos-delay="{{ ($index * 200) + 1300 }}"
+                                                         data-aos-duration="500">
                                                         <small class="text-info">
-                                                            <i class="bi bi-people-fill me-1"></i>
+                                                            <i class="bi bi-people-fill me-1"
+                                                               data-aos="bounce"
+                                                               data-aos-delay="{{ ($index * 200) + 1400 }}"
+                                                               data-aos-duration="400"></i>
                                                             <strong>Peserta:</strong> {{ $competition->registrations->count() ?? 0 }} terdaftar
                                                         </small>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 text-end">
-                                                <div class="mb-3">
+                                                <div class="mb-3"
+                                                     data-aos="zoom-in"
+                                                     data-aos-delay="{{ ($index * 200) + 1500 }}"
+                                                     data-aos-duration="500">
                                                     @if($competition->registration_start > now())
-                                                        <span class="modern-badge bg-warning">Segera Dibuka</span>
+                                                        <span class="modern-badge bg-warning"
+                                                              data-aos="pulse"
+                                                              data-aos-delay="{{ ($index * 200) + 1600 }}"
+                                                              data-aos-duration="600">Segera Dibuka</span>
                                                     @elseif($competition->registration_end < now())
-                                                        <span class="modern-badge bg-danger">Pendaftaran Ditutup</span>
+                                                        <span class="modern-badge bg-danger"
+                                                              data-aos="pulse"
+                                                              data-aos-delay="{{ ($index * 200) + 1600 }}"
+                                                              data-aos-duration="600">Pendaftaran Ditutup</span>
                                                     @else
-                                                        <span class="modern-badge bg-success">Pendaftaran Dibuka</span>
+                                                        <span class="modern-badge bg-success"
+                                                              data-aos="pulse"
+                                                              data-aos-delay="{{ ($index * 200) + 1600 }}"
+                                                              data-aos-duration="600">Pendaftaran Dibuka</span>
                                                     @endif
                                                 </div>
                                                 
-                                                <div class="d-grid gap-2">
+                                                <div class="d-grid gap-2"
+                                                     data-aos="fade-up"
+                                                     data-aos-delay="{{ ($index * 200) + 1700 }}"
+                                                     data-aos-duration="600">
                                                     <a href="{{ route('public.competition.detail', $competition->slug) }}"
-                                                       class="btn btn-outline-primary">
+                                                       class="btn btn-outline-primary"
+                                                       data-aos="zoom-in"
+                                                       data-aos-delay="{{ ($index * 200) + 1800 }}"
+                                                       data-aos-duration="400">
                                                         <i class="bi bi-eye me-1"></i>Lihat Detail
                                                     </a>
                                                     @if($competition->registration_start <= now() && $competition->registration_end >= now())
                                                         <a href="{{ route('login') }}"
-                                                           class="btn btn-primary">
+                                                           class="btn btn-primary"
+                                                           data-aos="zoom-in"
+                                                           data-aos-delay="{{ ($index * 200) + 1900 }}"
+                                                           data-aos-duration="400">
                                                             <i class="bi bi-person-plus me-1"></i>Daftar Sekarang
                                                         </a>
                                                     @endif
@@ -557,11 +691,23 @@
                             </div>
                         </div>
                     @empty
-                        <div class="text-center py-5">
+                        <div class="text-center py-5"
+                             data-aos="fade-up"
+                             data-aos-duration="1000"
+                             data-aos-easing="ease-out-back">
                             <i class="bi bi-trophy text-muted mb-3"
-                               style="font-size: 4rem;"></i>
-                            <h3 class="text-muted">Belum Ada Kompetisi</h3>
-                            <p class="text-muted">Kompetisi akan segera dibuka. Pantau terus website kami untuk informasi terbaru!</p>
+                               style="font-size: 4rem;"
+                               data-aos="bounce"
+                               data-aos-delay="200"
+                               data-aos-duration="800"></i>
+                            <h3 class="text-muted"
+                                data-aos="fade-up"
+                                data-aos-delay="400"
+                                data-aos-duration="600">Belum Ada Kompetisi</h3>
+                            <p class="text-muted"
+                               data-aos="fade-up"
+                               data-aos-delay="600"
+                               data-aos-duration="600">Kompetisi akan segera dibuka. Pantau terus website kami untuk informasi terbaru!</p>
                         </div>
                     @endforelse
                 </div>
@@ -572,8 +718,14 @@
     <!-- Pagination -->
     @if($competitions->hasPages())
         <div class="row mt-4">
-            <div class="col-12 d-flex justify-content-center">
-                <div>
+            <div class="col-12 d-flex justify-content-center"
+                 data-aos="fade-up"
+                 data-aos-duration="800"
+                 data-aos-delay="200"
+                 data-aos-easing="ease-out-back">
+                <div data-aos="zoom-in"
+                     data-aos-delay="400"
+                     data-aos-duration="600">
                     {{ $competitions->links() }}
                 </div>
             </div>
@@ -584,33 +736,73 @@
     <div class="row mt-5">
         <div class="col-12">
             <h2 class="text-center mb-4 fw-bold"
-                style="background: linear-gradient(45deg, #ffeaa7, #fdcb6e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 2.5rem;">
+                style="background: linear-gradient(45deg, #ffeaa7, #fdcb6e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 2.5rem;"
+                data-aos="fade-down"
+                data-aos-duration="800"
+                data-aos-easing="ease-out-cubic">
                 <i class="bi bi-rocket"
-                   style="color: #fdcb6e;"></i>
+                   style="color: #fdcb6e;"
+                   data-aos="bounce"
+                   data-aos-delay="200"
+                   data-aos-duration="600"></i>
                 Siap Menunjukkan Inovasimu?
             </h2>
         </div>
         <div class="col-12">
-            <div class="cta-card text-white">
-                <div class="glass-header text-center p-4">
-                    <h3 class="mb-2 fw-bold">Bergabunglah dengan UNAS Fest 2025</h3>
-                    <p class="mb-0 opacity-75">Jangan lewatkan kesempatan emas untuk menunjukkan kemampuan terbaikmu</p>
+            <div class="cta-card text-white"
+                 data-aos="fade-up"
+                 data-aos-duration="1000"
+                 data-aos-delay="300"
+                 data-aos-easing="ease-out-back">
+                <div class="glass-header text-center p-4"
+                     data-aos="fade-down"
+                     data-aos-delay="500"
+                     data-aos-duration="600">
+                    <h3 class="mb-2 fw-bold"
+                        data-aos="fade-up"
+                        data-aos-delay="700"
+                        data-aos-duration="500">Bergabunglah dengan UNAS Fest 2025</h3>
+                    <p class="mb-0 opacity-75"
+                       data-aos="fade-up"
+                       data-aos-delay="900"
+                       data-aos-duration="500">Jangan lewatkan kesempatan emas untuk menunjukkan kemampuan terbaikmu</p>
                 </div>
                 <div class="p-5 text-center position-relative" style="z-index: 2;">
-                    <p class="lead mb-4 fw-semibold">
+                    <p class="lead mb-4 fw-semibold"
+                       data-aos="fade-up"
+                       data-aos-delay="1100"
+                       data-aos-duration="600">
                         Bergabunglah dengan ribuan peserta lainnya dan wujudkan ide terbaikmu di UNAS Fest 2025!
                     </p>
                     <div class="row justify-content-center">
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-3 mb-3"
+                             data-aos="slide-right"
+                             data-aos-delay="1300"
+                             data-aos-duration="600">
                             <a href="{{ route('login') }}"
-                               class="btn modern-btn btn-lg w-100">
-                                <i class="bi bi-person-plus me-2"></i>Daftar Sekarang
+                               class="btn modern-btn btn-lg w-100"
+                               data-aos="pulse"
+                               data-aos-delay="1500"
+                               data-aos-duration="600">
+                                <i class="bi bi-person-plus me-2"
+                                   data-aos="flip-left"
+                                   data-aos-delay="1700"
+                                   data-aos-duration="400"></i>Daftar Sekarang
                             </a>
                         </div>
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-3 mb-3"
+                             data-aos="slide-left"
+                             data-aos-delay="1400"
+                             data-aos-duration="600">
                             <a href="{{ route('public.contact') }}"
-                               class="btn modern-btn-outline btn-lg w-100">
-                                <i class="bi bi-envelope me-2"></i>Hubungi Kami
+                               class="btn modern-btn-outline btn-lg w-100"
+                               data-aos="pulse"
+                               data-aos-delay="1600"
+                               data-aos-duration="600">
+                                <i class="bi bi-envelope me-2"
+                                   data-aos="flip-right"
+                                   data-aos-delay="1800"
+                                   data-aos-duration="400"></i>Hubungi Kami
                             </a>
                         </div>
                     </div>

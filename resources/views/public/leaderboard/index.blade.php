@@ -179,15 +179,28 @@
     <!-- Modern Hero Section -->
     <div class="row">
         <div class="col-12">
-            <div class="modern-hero text-white p-5 mb-5">
+            <div class="modern-hero text-white p-5 mb-5"
+                 data-aos="zoom-in"
+                 data-aos-duration="1200"
+                 data-aos-easing="ease-out-back">
                 <div class="hero-content text-center">
-                    <div class="floating-trophy mb-4">
+                    <div class="floating-trophy mb-4"
+                         data-aos="bounce"
+                         data-aos-delay="300"
+                         data-aos-duration="800">
                         <i class="bi bi-trophy"></i>
                     </div>
-                    <h1 class="modern-title mb-4">
+                    <h1 class="modern-title mb-4"
+                        data-aos="fade-down"
+                        data-aos-delay="500"
+                        data-aos-duration="800"
+                        data-aos-easing="ease-out-cubic">
                         Leaderboard <span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"> UNAS Fest 2025</span>
                     </h1>
-                    <p class="modern-subtitle mb-5">
+                    <p class="modern-subtitle mb-5"
+                       data-aos="fade-up"
+                       data-aos-delay="700"
+                       data-aos-duration="800">
                         Lihat peringkat terbaru peserta kompetisi UNAS Fest 2025.
                         Pantau posisi Anda dan kompetitor lainnya dalam real-time.
                     </p>
@@ -704,5 +717,103 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+</script>
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate Hero Section
+        AOS.init({
+            duration: 1200,
+            easing: 'ease-out-back',
+            once: true
+        });
+
+        // Animate content within Hero
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out-cubic',
+            once: true,
+            selector: '.hero-content h1, .hero-content p, .hero-content .btn'
+        });
+
+        // Animate Leaderboard Section if available
+        const leaderboardSection = document.getElementById('leaderboard-content');
+        if (leaderboardSection) {
+            AOS.init({
+                duration: 1000,
+                easing: 'ease-in-out',
+                once: true,
+                offset: 50,
+                selector: '#leaderboard-content .card'
+            });
+        }
+
+        // Add specific animations to table rows
+        const tableRows = document.querySelectorAll('.table tbody tr');
+        tableRows.forEach((row, index) => {
+            row.setAttribute('data-aos', 'fade-up');
+            row.setAttribute('data-aos-delay', `${index * 50}`);
+            row.setAttribute('data-aos-duration', '600');
+            row.setAttribute('data-aos-easing', 'ease-in-out');
+        });
+
+        // Add animations to badges
+        const badges = document.querySelectorAll('.badge');
+        badges.forEach(badge => {
+            badge.setAttribute('data-aos', 'zoom-in');
+            badge.setAttribute('data-aos-duration', '500');
+            badge.setAttribute('data-aos-easing', 'ease-in-out');
+        });
+
+        // Animate buttons in the table
+        const tableButtons = document.querySelectorAll('.table .btn');
+        tableButtons.forEach(button => {
+            button.setAttribute('data-aos', 'fade-left');
+            button.setAttribute('data-aos-duration', '600');
+            button.setAttribute('data-aos-easing', 'ease-in-out');
+        });
+
+        // Animate badges on leaderboard
+        const leaderboardBadges = document.querySelectorAll('#leaderboard-content .badge');
+        leaderboardBadges.forEach(badge => {
+            badge.setAttribute('data-aos', 'zoom-in');
+            badge.setAttribute('data-aos-duration', '600');
+            badge.setAttribute('data-aos-easing', 'ease-in-out');
+        });
+
+        // Animate cards in leaderboard
+        const leaderboardCards = document.querySelectorAll('#leaderboard-content .card');
+        leaderboardCards.forEach((card, index) => {
+            card.setAttribute('data-aos', 'flip-left');
+            card.setAttribute('data-aos-delay', `${index * 200}`);
+            card.setAttribute('data-aos-duration', '800');
+            card.setAttribute('data-aos-easing', 'ease-out-back');
+        });
+
+        // Animate individual elements inside cards
+        const cardElements = document.querySelectorAll('#leaderboard-content .card-header, #leaderboard-content .card-body, #leaderboard-content .card-footer');
+        cardElements.forEach(element => {
+            element.setAttribute('data-aos', 'fade-up');
+            element.setAttribute('data-aos-duration', '600');
+            element.setAttribute('data-aos-easing', 'ease-in-out');
+        });
+
+        // Animate dropdown or select elements
+        const selectElements = document.querySelectorAll('select.form-select');
+        selectElements.forEach(select => {
+            select.setAttribute('data-aos', 'fade-in');
+            select.setAttribute('data-aos-duration', '800');
+            select.setAttribute('data-aos-easing', 'ease-in-out');
+        });
+
+        // Animate table headers
+        const tableHeaders = document.querySelectorAll('.table thead tr th');
+        tableHeaders.forEach((header, index) => {
+            header.setAttribute('data-aos', 'fade-down');
+            header.setAttribute('data-aos-delay', `${index * 100}`);
+            header.setAttribute('data-aos-duration', '600');
+            header.setAttribute('data-aos-easing', 'ease-in-out');
+        });
+    });
 </script>
 @endpush
