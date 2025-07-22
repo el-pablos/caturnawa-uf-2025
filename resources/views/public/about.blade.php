@@ -273,53 +273,28 @@
     <!-- Modern Hero Section -->
     <div class="row">
         <div class="col-12">
-            <div class="modern-hero text-white p-5 mb-5"
-                 data-aos="zoom-in"
-                 data-aos-duration="1200"
-                 data-aos-easing="ease-out-back">
+            <div class="modern-hero text-white p-5 mb-5">
                 <div class="hero-content text-center">
-                    <div class="floating-icon mb-4"
-                         data-aos="bounce"
-                         data-aos-delay="300"
-                         data-aos-duration="800">
+                    <div class="floating-icon mb-4">
                         <i class="bi bi-info-circle"></i>
                     </div>
-                    <h1 class="modern-title mb-4"
-                        data-aos="fade-down"
-                        data-aos-delay="500"
-                        data-aos-duration="800"
-                        data-aos-easing="ease-out-cubic">
+                    <h1 class="modern-title mb-4">
                         Tentang <span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">UNAS Fest 2025</span>
                     </h1>
-                    <p class="modern-subtitle mb-5"
-                       data-aos="fade-up"
-                       data-aos-delay="700"
-                       data-aos-duration="800">
+                    <p class="modern-subtitle mb-5">
                         Festival kompetisi nasional terbesar di Indonesia yang menggabungkan inovasi teknologi,
                         kesehatan, dan biodiversitas untuk menciptakan masa depan yang berkelanjutan.
                     </p>
-                    <div class="row justify-content-center">
-                        <div class="col-md-3 mb-3"
-                             data-aos="slide-right"
-                             data-aos-delay="900"
-                             data-aos-duration="600">
+                        <div class="row justify-content-center">
+                            <div class="col-md-3 mb-3">
                             <a href="{{ route('public.competitions') }}"
-                               class="btn modern-btn btn-lg w-100"
-                               data-aos="pulse"
-                               data-aos-delay="1100"
-                               data-aos-duration="600">
+                               class="btn modern-btn btn-lg w-auto mb-3">
                                 <i class="bi bi-trophy me-2"></i>Lihat Kompetisi
                             </a>
                         </div>
-                        <div class="col-md-3 mb-3"
-                             data-aos="slide-left"
-                             data-aos-delay="1000"
-                             data-aos-duration="600">
+                        <div class="col-md-3 mb-3">
                             <a href="{{ route('public.contact') }}"
-                               class="btn modern-btn-outline btn-lg w-100"
-                               data-aos="pulse"
-                               data-aos-delay="1200"
-                               data-aos-duration="600">
+                               class="btn modern-btn-outline btn-lg w-auto mb-3">
                                 <i class="bi bi-envelope me-2"></i>Hubungi Kami
                             </a>
                         </div>
@@ -331,7 +306,7 @@
 
     <!-- Vision & Mission Section -->
     <div class="row g-4 mb-5">
-        <div class="col-lg-6" data-aos="fade-right" data-aos-duration="1000">
+        <div class="col-lg-6">
             <div class="glass-card h-100">
                 <div class="glass-header p-4 text-center">
                     <h3 class="mb-0 fw-bold" style="color: #764ba2;"><i class="bi bi-eye me-2" style="color: #764ba2;"></i>Visi Kami</h3>
@@ -345,7 +320,7 @@
             </div>
         </div>
 
-        <div class="col-lg-6" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+        <div class="col-lg-6">
             <div class="glass-card h-100">
                 <div class="glass-header p-4 text-center">
                     <h3 class="mb-0 fw-bold" style="color: #764ba2;"><i class="bi bi-bullseye me-2"></i>Misi Kami</h3>
@@ -378,14 +353,12 @@
     <div class="row mb-5">
         <div class="col-12">
             <h2 class="text-center mb-4 fw-bold"
-                style="background: linear-gradient(45deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 2.5rem;"
-                data-aos="fade-down"
-                data-aos-duration="800">
+                style="background: linear-gradient(45deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 2.5rem;">
                 <i class="bi bi-gem" style="color: #764ba2;"></i> Nilai-Nilai Kami
             </h2>
             <p class="text-center text-muted mb-5" data-aos="fade-up" data-aos-delay="200">Prinsip-prinsip yang menjadi fondasi dalam menyelenggarakan UNAS Fest 2025</p>
         </div>
-        <div class="col-lg-3 col-md-6 mb-4" data-aos="zoom-in-up" data-aos-duration="600" data-aos-delay="100">
+        <div class="col-lg-3 col-md-6 mb-4">
             <div class="value-card text-center p-4">
                 <i class="bi bi-lightbulb display-4 mb-3" style="color: #667eea;"></i>
                 <h4 class="fw-bold mb-2">Inovasi</h4>
@@ -394,7 +367,7 @@
                 </p>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 mb-4" data-aos="zoom-in-up" data-aos-duration="600" data-aos-delay="200">
+        <div class="col-lg-3 col-md-6 mb-4">
             <div class="value-card text-center p-4">
                 <i class="bi bi-people display-4 mb-3" style="color: #48bb78;"></i>
                 <h4 class="fw-bold mb-2">Kolaborasi</h4>
@@ -403,7 +376,7 @@
                 </p>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 mb-4" data-aos="zoom-in-up" data-aos-duration="600" data-aos-delay="300">
+        <div class="col-lg-3 col-md-6 mb-4">
             <div class="value-card text-center p-4">
                 <i class="bi bi-award display-4 mb-3" style="color: #feca57;"></i>
                 <h4 class="fw-bold mb-2">Kualitas</h4>
@@ -412,7 +385,7 @@
                 </p>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 mb-4" data-aos="zoom-in-up" data-aos-duration="600" data-aos-delay="400">
+        <div class="col-lg-3 col-md-6 mb-4">
             <div class="value-card text-center p-4">
                 <i class="bi bi-globe display-4 mb-3" style="color: #5a67d8;"></i>
                 <h4 class="fw-bold mb-2">Berkelanjutan</h4>
@@ -426,41 +399,25 @@
     <!-- Call to Action Section -->
     <div class="row mt-5">
         <div class="col-12">
-            <div class="cta-card text-dark"
-                 data-aos="fade-up"
-                 data-aos-duration="1000"
-                 data-aos-delay="300"
-                 data-aos-easing="ease-out-back">
+            <div class="cta-card text-dark">
                 <div class="p-5 text-center position-relative" style="z-index: 2;">
                     <h2 class="fw-bold mb-3" style="color: #d69e2e;">Siap Menjadi Bagian dari Perubahan?</h2>
-                    <p class="lead mb-4 fw-semibold">
+                    <p class="text-gray lead mb-4 fw-semibold">
                         Bergabunglah dengan ribuan inovator muda lainnya dan wujudkan ide terbaikmu di UNAS Fest 2025!
                     </p>
                     <div class="row justify-content-center">
-                        <div class="col-md-3 mb-3"
-                             data-aos="slide-right"
-                             data-aos-delay="500"
-                             data-aos-duration="600">
+                        <div class="col-md-3 mb-3">
                             <a href="{{ route('login') }}"
-                               class="btn modern-btn btn-lg w-100"
-                               data-aos="pulse"
-                               data-aos-delay="700"
-                               data-aos-duration="600">
+                               class="btn modern-btn btn-lg w-100">
                                 <i class="bi bi-person-plus me-2"></i>Daftar Sekarang
                             </a>
                         </div>
-                        <div class="col-md-3 mb-3"
-                             data-aos="slide-left"
-                             data-aos-delay="600"
-                             data-aos-duration="600">
+                        <div class="col-md-3 mb-3">
                             <a href="{{ route('public.competitions') }}"
                                class="btn modern-btn-outline btn-lg w-100"
                                style="color: #d69e2e; border-color: #d69e2e;"
                                onmouseover="this.style.backgroundColor='rgba(214, 158, 46, 0.1)'; this.style.color='#d69e2e';"
-                               onmouseout="this.style.backgroundColor='transparent'; this.style.color='#d69e2e';"
-                               data-aos="pulse"
-                               data-aos-delay="800"
-                               data-aos-duration="600">
+                               onmouseout="this.style.backgroundColor='transparent'; this.style.color='#d69e2e';">
                                 <i class="bi bi-trophy me-2"></i>Lihat Kompetisi
                             </a>
                         </div>

@@ -106,6 +106,8 @@
         letter-spacing: 1px;
         box-shadow: 0 10px 20px rgba(255,107,107,0.3);
         transition: all 0.3s ease;
+        colot: green;
+
     }
 
     .modern-btn:hover {
@@ -173,18 +175,18 @@
     <!-- Modern Hero Section -->
     <div class="row">
         <div class="col-12">
-            <div class="modern-hero p-5 rounded mb-5" data-aos="zoom-in-up">
+            <div class="modern-hero p-5 rounded mb-5">
                 <div class="hero-content text-center">
-                    <h1 class="modern-title mb-3" data-aos="fade-down" data-aos-delay="200">
-                        <i class="bi bi-headset me-3 floating-icon " data-aos="bounce-in" data-aos-delay="400"></i>Hubungi Kami
+                    <h1 class="modern-title mb-3">
+                        <i class="bi bi-headset me-3 floating-icon"></i>Hubungi Kami
                     </h1>
                     <p class="modern-subtitle mb-4">
                         Ada pertanyaan tentang UNAS Fest 2025? Tim kami siap membantu Anda.
                     </p>
                     <div class="row justify-content-center">
                         <div class="col-md-4 col-lg-3 mb-3">
-                            <a href="https://wa.me/6285817378442" class="btn modern-btn btn-lg w-100" target="_blank">
-                                <i class="bi bi-whatsapp me-2"></i>WhatsApp
+                            <a href="https://wa.me/6285817378442" class="btn modern-btn btn-lg w-100 text-success" target="_blank">
+                                <i class="bi bi-whatsapp me-2 text-success"></i>WhatsApp
                             </a>
                         </div>
                         <div class="col-md-4 col-lg-3 mb-3">
@@ -200,13 +202,13 @@
 
     <!-- Alerts -->
     @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert" data-aos="fade-up">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
             <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     @endif
     @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert" data-aos="fade-up">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <i class="bi bi-exclamation-triangle me-2"></i>{{ session('error') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
@@ -314,26 +316,17 @@
 
 @push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        AOS.init({
-            duration: 800,
-            easing: 'ease-out-cubic',
-            once: true,
-            offset: 50,
-        });
-
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
         });
     });
 </script>
