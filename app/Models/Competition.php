@@ -104,9 +104,11 @@ class Competition extends Model
      * Konstanta untuk kategori kompetisi (sektor event)
      */
     const CATEGORIES = [
-        'event_dcc' => 'Event DCC',
-        'event_debate' => 'Event Debate',
-        'event_scientific_paper' => 'Event Scientific Paper',
+        'debate_competition' => 'Debate Competition',
+        'short_movie' => 'Short Movie Competition',
+        'fotografi' => 'Fotografi',
+        'spc' => 'Scientific Paper Competition',
+        'karya_ilmiah' => 'Karya Ilmiah',
     ];
 
     /**

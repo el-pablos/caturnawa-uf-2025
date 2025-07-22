@@ -1,0 +1,128 @@
+# UNAS Fest 2025 - Docker Ignore File
+# Exclude files and directories from Docker build context
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+README.md
+README-DOCKER.md
+*.md
+docs/
+
+# Environment files
+.env
+.env.*
+!.env.example.docker
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Laravel specific
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+.env.backup
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+
+# Laravel storage (will be mounted as volume)
+/storage/app/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/logs/*
+!/storage/app/.gitignore
+!/storage/framework/.gitignore
+!/storage/framework/cache/.gitignore
+!/storage/framework/sessions/.gitignore
+!/storage/framework/views/.gitignore
+!/storage/logs/.gitignore
+
+# Bootstrap cache (will be mounted as volume)
+/bootstrap/cache/*
+!/bootstrap/cache/.gitignore
+
+# Composer
+composer.phar
+composer.lock
+
+# NPM
+package-lock.json
+yarn.lock
+
+# Testing
+/coverage
+.phpunit.cache
+phpunit.xml
+
+# Deployment
+deploy.php
+.deployer/
+
+# Docker files (not needed in container)
+docker-compose*.yml
+Dockerfile*
+.dockerignore
+
+# Backup files
+*.sql
+*.backup
+*.bak
+
+# Temporary files
+*.tmp
+*.temp
+/tmp/
+
+# Log files
+*.log
+
+# Cache files
+*.cache
+
+# Development tools
+.php_cs.cache
+.php-cs-fixer.cache
+
+# Local configuration
+/config/local/
+
+# Uploads (will be handled by volumes)
+/public/uploads/
+
+# Build artifacts
+/dist/
+/build/
+
+# IDE specific
+nbproject/
+.buildpath
+.project
+.settings/
+
+# Vagrant
+.vagrant/
+
+# Docker development files
+docker-setup.sh

@@ -68,7 +68,8 @@
                                                 <div class="mb-3">
                                                     <label for="name" class="form-label fw-semibold">Nama Lengkap</label>
                                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                                           id="name" name="name" value="{{ old('name', $user->name) }}" required>
+                                                           id="name" name="name" value="{{ old('name', $user->name) }}"
+                                                           autocomplete="name" required>
                                                     @error('name')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
@@ -84,7 +85,8 @@
                                                 <div class="mb-3">
                                                     <label for="phone" class="form-label fw-semibold">Nomor Telepon</label>
                                                     <input type="text" class="form-control @error('phone') is-invalid @enderror"
-                                                           id="phone" name="phone" value="{{ old('phone', $user->phone) }}" required>
+                                                           id="phone" name="phone" value="{{ old('phone', $user->phone) }}"
+                                                           autocomplete="tel" required>
                                                     @error('phone')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
@@ -93,7 +95,8 @@
                                                 <div class="mb-3">
                                                     <label for="institution" class="form-label fw-semibold">Institusi</label>
                                                     <input type="text" class="form-control @error('institution') is-invalid @enderror"
-                                                           id="institution" name="institution" value="{{ old('institution', $user->institution) }}">
+                                                           id="institution" name="institution" value="{{ old('institution', $user->institution) }}"
+                                                           autocomplete="organization">
                                                     @error('institution')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
@@ -134,7 +137,7 @@
                                                     <label for="current_password" class="form-label fw-semibold">Password Saat Ini</label>
                                                     <div class="input-group">
                                                         <input type="password" class="form-control @error('current_password', 'updatePassword') is-invalid @enderror"
-                                                               id="current_password" name="current_password" required>
+                                                               id="current_password" name="current_password" autocomplete="current-password" required>
                                                         <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('current_password')">
                                                             <i class="bi bi-eye" id="current_password_icon"></i>
                                                         </button>
@@ -148,7 +151,7 @@
                                                     <label for="new_password" class="form-label fw-semibold">Password Baru</label>
                                                     <div class="input-group">
                                                         <input type="password" class="form-control @error('new_password', 'updatePassword') is-invalid @enderror"
-                                                               id="new_password" name="new_password" required>
+                                                               id="new_password" name="new_password" autocomplete="new-password" required>
                                                         <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('new_password')">
                                                             <i class="bi bi-eye" id="new_password_icon"></i>
                                                         </button>
@@ -163,7 +166,7 @@
                                                     <label for="new_password_confirmation" class="form-label fw-semibold">Konfirmasi Password Baru</label>
                                                     <div class="input-group">
                                                         <input type="password" class="form-control"
-                                                               id="new_password_confirmation" name="new_password_confirmation" required>
+                                                               id="new_password_confirmation" name="new_password_confirmation" autocomplete="new-password" required>
                                                         <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('new_password_confirmation')">
                                                             <i class="bi bi-eye" id="new_password_confirmation_icon"></i>
                                                         </button>

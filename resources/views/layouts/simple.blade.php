@@ -749,9 +749,11 @@
                         <div class="footer-section">
                             <h5>Kompetisi</h5>
                             <ul>
-                                <li><a href="{{ route('public.competitions') }}#technology"><i class="bi bi-laptop"></i>Teknologi</a></li>
-                                <li><a href="{{ route('public.competitions') }}#health"><i class="bi bi-heart-pulse"></i>Kesehatan</a></li>
-                                <li><a href="{{ route('public.competitions') }}#biodiversity"><i class="bi bi-tree"></i>Biodiversitas</a></li>
+                                <li><a href="{{ route('public.competitions') }}#kdbi"><i class="bi bi-chat-square-text"></i>KDBI</a></li>
+                                <li><a href="{{ route('public.competitions') }}#edc"><i class="bi bi-globe"></i>EDC</a></li>
+                                <li><a href="{{ route('public.competitions') }}#short-movie"><i class="bi bi-camera-video"></i>Short Movie</a></li>
+                                <li><a href="{{ route('public.competitions') }}#fotografi"><i class="bi bi-camera"></i>Fotografi</a></li>
+                                <li><a href="{{ route('public.competitions') }}#karya-ilmiah"><i class="bi bi-journal-text"></i>Karya Ilmiah</a></li>
                                 <li><a href="{{ route('public.competitions') }}"><i class="bi bi-list"></i>Semua Kompetisi</a></li>
                                 <li><a href="{{ route('leaderboard.index') }}"><i class="bi bi-list-ol"></i>Leaderboard</a></li>
                             </ul>

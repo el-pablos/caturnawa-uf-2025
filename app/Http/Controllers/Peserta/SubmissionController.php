@@ -96,7 +96,12 @@ class SubmissionController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Failed to create submission: ' . $e->getMessage());
+            \Log::error('Failed to create submission: ' . $e->getMessage(), [
+                'user_id' => Auth::id(),
+                'registration_id' => $registration->id,
+                'trace' => $e->getTraceAsString()
+            ]);
+            return redirect()->back()->with('error', 'Gagal membuat submission. Silakan coba lagi atau hubungi administrator.');
         }
     }
 
@@ -240,14 +245,16 @@ class SubmissionController extends Controller
 
         try {
             $file = $request->file('file');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $path = $file->storeAs('submissions/' . $submission->id, $filename, 'public');
+
+            // Generate secure filename to prevent directory traversal
+            $secureFilename = $this->generateSecureFilename($file->getClientOriginalExtension());
+            $path = $file->storeAs('submissions/' . $submission->id, $secureFilename, 'public');
 
             // Update submission files array
             $files = $submission->files ?? [];
             $files[] = [
-                'filename' => $filename,
-                'original_name' => $file->getClientOriginalName(),
+                'filename' => $secureFilename,
+                'original_name' => $this->sanitizeFilename($file->getClientOriginalName()),
                 'path' => $path,
                 'size' => $file->getSize(),
                 'mime_type' => $file->getMimeType(),
@@ -260,8 +267,8 @@ class SubmissionController extends Controller
                 'success' => true,
                 'message' => 'File uploaded successfully',
                 'file' => [
-                    'filename' => $filename,
-                    'original_name' => $file->getClientOriginalName(),
+                    'filename' => $secureFilename,
+                    'original_name' => $this->sanitizeFilename($file->getClientOriginalName()),
                     'size' => $file->getSize(),
                 ]
             ]);

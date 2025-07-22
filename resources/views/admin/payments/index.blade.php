@@ -4,7 +4,7 @@
 @section('page-title', 'Kelola Pembayaran')
 
 @section('sidebar-menu')
-    <a class="nav-link" href="{{ route('admin.dashboard') }}">
+    <a class="nav-link" href="{{ route('admin.admin.dashboard') }}">
         <i class="bi bi-speedometer2 me-2"></i>Dashboard
     </a>
     <a class="nav-link" href="{{ route('admin.competitions.index') }}">
@@ -91,8 +91,8 @@
     <div class="card-body">
         <form method="GET" class="row g-3">
             <div class="col-md-3">
-                <label class="form-label">Status</label>
-                <select name="status" class="form-select">
+                <label for="filter-status" class="form-label">Status</label>
+                <select name="status" id="filter-status" class="form-select">
                     <option value="">Semua Status</option>
                     <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Menunggu</option>
                     <option value="paid" {{ request('status') === 'paid' ? 'selected' : '' }}>Berhasil</option>
@@ -101,8 +101,8 @@
                 </select>
             </div>
             <div class="col-md-3">
-                <label class="form-label">Metode Pembayaran</label>
-                <select name="payment_method" class="form-select">
+                <label for="filter-payment-method" class="form-label">Metode Pembayaran</label>
+                <select name="payment_method" id="filter-payment-method" class="form-select">
                     <option value="">Semua Metode</option>
                     <option value="bank_transfer" {{ request('payment_method') === 'bank_transfer' ? 'selected' : '' }}>Transfer Bank</option>
                     <option value="credit_card" {{ request('payment_method') === 'credit_card' ? 'selected' : '' }}>Kartu Kredit</option>
@@ -110,13 +110,13 @@
                 </select>
             </div>
             <div class="col-md-4">
-                <label class="form-label">Cari</label>
-                <input type="text" name="search" class="form-control" placeholder="Order ID, Transaction ID, atau nama..." value="{{ request('search') }}">
+                <label for="filter-search" class="form-label">Cari</label>
+                <input type="text" name="search" id="filter-search" class="form-control" placeholder="Order ID, Transaction ID, atau nama..." value="{{ request('search') }}">
             </div>
             <div class="col-md-2">
-                <label class="form-label">&nbsp;</label>
+                <label for="filter-submit" class="form-label">&nbsp;</label>
                 <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" id="filter-submit" class="btn btn-primary">
                         <i class="bi bi-search"></i>
                     </button>
                     <a href="{{ route('admin.payments.index') }}" class="btn btn-outline-secondary">
@@ -130,8 +130,19 @@
 
 <!-- Payments Table -->
 <div class="card">
-    <div class="card-header">
+    <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="card-title mb-0">Daftar Pembayaran</h5>
+        <div class="btn-group" id="bulkActions" style="display: none;">
+            <button class="btn btn-success btn-sm" onclick="bulkVerify()">
+                <i class="bi bi-check-circle me-1"></i>Verifikasi Terpilih
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="bulkConfirm()">
+                <i class="bi bi-check2-circle me-1"></i>Konfirmasi Terpilih
+            </button>
+            <button class="btn btn-danger btn-sm" onclick="bulkReject()">
+                <i class="bi bi-x-circle me-1"></i>Tolak Terpilih
+            </button>
+        </div>
     </div>
     <div class="card-body">
         @if($payments->count() > 0)
@@ -139,6 +150,10 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
+                            <th>
+                                <label for="selectAll" class="visually-hidden">Pilih Semua</label>
+                                <input type="checkbox" id="selectAll" class="form-check-input" aria-label="Pilih semua pembayaran">
+                            </th>
                             <th>Order ID</th>
                             <th>Peserta</th>
                             <th>Kompetisi</th>
@@ -152,6 +167,10 @@
                     <tbody>
                         @foreach($payments as $payment)
                             <tr>
+                                <td>
+                                    <label for="payment-checkbox-{{ $payment->id }}" class="visually-hidden">Pilih pembayaran {{ $payment->order_id }}</label>
+                                    <input type="checkbox" id="payment-checkbox-{{ $payment->id }}" class="form-check-input payment-checkbox" value="{{ $payment->id }}" aria-label="Pilih pembayaran {{ $payment->order_id }}">
+                                </td>
                                 <td>
                                     <div>
                                         <strong>{{ $payment->order_id }}</strong>
@@ -261,19 +280,19 @@
 
                 <form id="rejectForm">
                     <div class="mb-3">
-                        <label class="form-label">
+                        <label for="rejection-reason" class="form-label">
                             <strong>Alasan Penolakan <span class="text-danger">*</span></strong>
                         </label>
-                        <textarea name="rejection_reason" class="form-control" rows="4" required
+                        <textarea name="rejection_reason" id="rejection-reason" class="form-control" rows="4" required
                                   placeholder="Jelaskan alasan penolakan pembayaran..."></textarea>
                         <div class="form-text">Berikan alasan yang jelas dan spesifik untuk penolakan ini.</div>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">
+                        <label for="rejection-action" class="form-label">
                             <strong>Tindakan Selanjutnya</strong>
                         </label>
-                        <select class="form-select" name="action">
+                        <select class="form-select" id="rejection-action" name="action">
                             <option value="notify_only">Hanya kirim notifikasi</option>
                             <option value="allow_retry">Izinkan pembayaran ulang</option>
                             <option value="cancel_registration">Batalkan registrasi</option>
@@ -304,12 +323,12 @@
             <div class="modal-body">
                 <form id="refundForm">
                     <div class="mb-3">
-                        <label class="form-label">Jumlah Refund <span class="text-danger">*</span></label>
-                        <input type="number" name="refund_amount" class="form-control" required min="0">
+                        <label for="refund-amount" class="form-label">Jumlah Refund <span class="text-danger">*</span></label>
+                        <input type="number" name="refund_amount" id="refund-amount" class="form-control" required min="0">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Alasan Refund <span class="text-danger">*</span></label>
-                        <textarea name="refund_reason" class="form-control" rows="3" required 
+                        <label for="refund-reason" class="form-label">Alasan Refund <span class="text-danger">*</span></label>
+                        <textarea name="refund_reason" id="refund-reason" class="form-control" rows="3" required
                                   placeholder="Masukkan alasan refund..."></textarea>
                     </div>
                 </form>
@@ -420,12 +439,17 @@ function verifyPayment(paymentId) {
 
 function rejectPayment(paymentId) {
     currentPaymentId = paymentId;
-    const modal = new bootstrap.Modal(document.getElementById('rejectModal'));
-    modal.show();
+    const rejectModal = document.getElementById('rejectModal');
+    if (rejectModal) {
+        const modal = new bootstrap.Modal(rejectModal);
+        modal.show();
+    }
 }
 
 function submitReject() {
     const form = document.getElementById('rejectForm');
+    if (!form) return;
+
     const formData = new FormData(form);
     
     fetch(`/admin/payments/${currentPaymentId}/reject`, {
@@ -448,18 +472,26 @@ function submitReject() {
         showError('Terjadi kesalahan sistem');
     });
     
-    const modal = bootstrap.Modal.getInstance(document.getElementById('rejectModal'));
-    modal.hide();
+    const rejectModal = document.getElementById('rejectModal');
+    if (rejectModal) {
+        const modal = bootstrap.Modal.getInstance(rejectModal);
+        if (modal) modal.hide();
+    }
 }
 
 function refundPayment(paymentId) {
     currentPaymentId = paymentId;
-    const modal = new bootstrap.Modal(document.getElementById('refundModal'));
-    modal.show();
+    const refundModal = document.getElementById('refundModal');
+    if (refundModal) {
+        const modal = new bootstrap.Modal(refundModal);
+        modal.show();
+    }
 }
 
 function submitRefund() {
     const form = document.getElementById('refundForm');
+    if (!form) return;
+
     const formData = new FormData(form);
     
     fetch(`/admin/payments/${currentPaymentId}/refund`, {
@@ -482,8 +514,162 @@ function submitRefund() {
         showError('Terjadi kesalahan sistem');
     });
     
-    const modal = bootstrap.Modal.getInstance(document.getElementById('refundModal'));
-    modal.hide();
+    const refundModal = document.getElementById('refundModal');
+    if (refundModal) {
+        const modal = bootstrap.Modal.getInstance(refundModal);
+        if (modal) modal.hide();
+    }
+}
+
+// Mass action functionality
+const selectAllElement = document.getElementById('selectAll');
+if (selectAllElement) {
+    selectAllElement.addEventListener('change', function() {
+        const checkboxes = document.querySelectorAll('.payment-checkbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+        toggleBulkActions();
+    });
+}
+
+const paymentCheckboxes = document.querySelectorAll('.payment-checkbox');
+if (paymentCheckboxes.length > 0) {
+    paymentCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', toggleBulkActions);
+    });
+}
+
+function toggleBulkActions() {
+    const checkedBoxes = document.querySelectorAll('.payment-checkbox:checked');
+    const bulkActions = document.getElementById('bulkActions');
+
+    if (bulkActions) {
+        if (checkedBoxes.length > 0) {
+            bulkActions.style.display = 'block';
+        } else {
+            bulkActions.style.display = 'none';
+        }
+    }
+}
+
+function getSelectedPaymentIds() {
+    const checkedBoxes = document.querySelectorAll('.payment-checkbox:checked');
+    return Array.from(checkedBoxes).map(checkbox => checkbox.value);
+}
+
+function bulkVerify() {
+    const paymentIds = getSelectedPaymentIds();
+    if (paymentIds.length === 0) return;
+
+    confirmAction(
+        'Verifikasi Pembayaran',
+        `Apakah Anda yakin ingin memverifikasi ${paymentIds.length} pembayaran terpilih?`,
+        function() {
+            bulkUpdateStatus(paymentIds, 'verify');
+        }
+    );
+}
+
+function bulkConfirm() {
+    const paymentIds = getSelectedPaymentIds();
+    if (paymentIds.length === 0) return;
+
+    confirmAction(
+        'Konfirmasi Pembayaran',
+        `Apakah Anda yakin ingin mengkonfirmasi ${paymentIds.length} pembayaran terpilih?`,
+        function() {
+            bulkUpdateStatus(paymentIds, 'confirm');
+        }
+    );
+}
+
+function bulkReject() {
+    const paymentIds = getSelectedPaymentIds();
+    if (paymentIds.length === 0) return;
+
+    confirmAction(
+        'Tolak Pembayaran',
+        `Apakah Anda yakin ingin menolak ${paymentIds.length} pembayaran terpilih?`,
+        function() {
+            const reason = prompt('Masukkan alasan penolakan:');
+            if (reason) {
+                bulkRejectPayments(paymentIds, reason);
+            }
+        }
+    );
+}
+
+function bulkUpdateStatus(paymentIds, action) {
+    const actionText = action === 'verify' ? 'memverifikasi' : 'mengkonfirmasi';
+
+    Swal.fire({
+        title: 'Memproses...',
+        text: `Sedang ${actionText} pembayaran`,
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    Promise.all(paymentIds.map(paymentId => {
+        return fetch(`/admin/payments/${paymentId}/${action}`, {
+            method: 'PATCH',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+    }))
+    .then(responses => {
+        const allSuccessful = responses.every(response => response.ok);
+        if (allSuccessful) {
+            showSuccess(`${paymentIds.length} pembayaran berhasil ${action === 'verify' ? 'diverifikasi' : 'dikonfirmasi'}`);
+            location.reload();
+        } else {
+            showError('Beberapa pembayaran gagal diproses');
+        }
+    })
+    .catch(error => {
+        showError('Terjadi kesalahan sistem');
+    });
+}
+
+function bulkRejectPayments(paymentIds, reason) {
+    Swal.fire({
+        title: 'Memproses...',
+        text: 'Sedang menolak pembayaran',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    Promise.all(paymentIds.map(paymentId => {
+        const formData = new FormData();
+        formData.append('rejection_reason', reason);
+
+        return fetch(`/admin/payments/${paymentId}/reject`, {
+            method: 'PATCH',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            },
+            body: formData
+        });
+    }))
+    .then(responses => {
+        const allSuccessful = responses.every(response => response.ok);
+        if (allSuccessful) {
+            showSuccess(`${paymentIds.length} pembayaran berhasil ditolak`);
+            location.reload();
+        } else {
+            showError('Beberapa pembayaran gagal ditolak');
+        }
+    })
+    .catch(error => {
+        showError('Terjadi kesalahan sistem');
+    });
 }
 </script>
 @endpush

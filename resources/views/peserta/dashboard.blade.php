@@ -14,14 +14,16 @@
 <!-- Statistics Cards -->
 <div class="row mb-4">
     <div class="col-lg-3 col-md-6 mb-3">
-        <div class="stats-card">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <div class="stats-number">{{ $stats['total_registrations'] }}</div>
-                    <div class="fw-semibold">Total Pendaftaran</div>
-                </div>
-                <div class="fs-1 opacity-50">
-                    <i class="bi bi-card-list"></i>
+        <div class="card border-0 bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="stats-number">{{ $stats['total_registrations'] }}</div>
+                        <div class="fw-semibold">Total Pendaftaran</div>
+                    </div>
+                    <div class="fs-1 opacity-50">
+                        <i class="bi bi-card-list"></i>
+                    </div>
                 </div>
             </div>
         </div>

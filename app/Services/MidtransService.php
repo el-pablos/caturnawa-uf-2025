@@ -55,15 +55,30 @@ class MidtransService
             ];
         }
 
-        // Buat atau update payment record
-        $payment = Payment::firstOrCreate(
-            ['registration_id' => $registration->id],
-            [
-                'gross_amount' => $registration->amount,
-                'transaction_status' => 'pending',
-                'expired_at' => now()->addHours(24), // 24 jam untuk pembayaran
-            ]
-        );
+        // Check if there's already a successful payment for this registration
+        $existingPayment = Payment::where('registration_id', $registration->id)
+            ->whereIn('transaction_status', ['settlement', 'capture'])
+            ->first();
+
+        if ($existingPayment) {
+            return [
+                'success' => false,
+                'message' => 'Pembayaran untuk pendaftaran ini sudah berhasil.',
+            ];
+        }
+
+        // Delete any existing pending payments to avoid order_id conflicts
+        Payment::where('registration_id', $registration->id)
+            ->whereNotIn('transaction_status', ['settlement', 'capture'])
+            ->delete();
+
+        // Create new payment record
+        $payment = Payment::create([
+            'registration_id' => $registration->id,
+            'gross_amount' => $registration->amount,
+            'transaction_status' => 'pending',
+            'expired_at' => now()->addHours(24), // 24 jam untuk pembayaran
+        ]);
 
         // Siapkan parameter untuk Midtrans
         $params = $this->buildTransactionParams($registration, $payment, $paymentMethod);
@@ -75,14 +90,26 @@ class MidtransService
             // Update payment record dengan snap token
             $payment->update(['snap_token' => $snapToken]);
 
+            Log::info('Transaction created successfully', [
+                'order_id' => $payment->order_id,
+                'registration_id' => $registration->id,
+                'amount' => $registration->amount,
+                'payment_method' => $paymentMethod
+            ]);
+
             return [
                 'success' => true,
                 'snap_token' => $snapToken,
                 'payment_id' => $payment->id,
+                'order_id' => $payment->order_id,
                 'redirect_url' => $this->getRedirectUrl($payment),
             ];
         } catch (\Exception $e) {
-            \Log::error('Midtrans Transaction Error: ' . $e->getMessage());
+            Log::error('Midtrans Transaction Error: ' . $e->getMessage(), [
+                'order_id' => $payment->order_id,
+                'registration_id' => $registration->id,
+                'payment_method' => $paymentMethod
+            ]);
 
             return [
                 'success' => false,
@@ -169,6 +196,9 @@ class MidtransService
                 $transaction['qris'] = [
                     'acquirer' => 'gopay' // Use GoPay as QRIS acquirer for better compatibility
                 ];
+                // Add additional configuration for QRIS stability
+                $transaction['custom_field1'] = 'qris_payment';
+                $transaction['custom_field2'] = 'unas_fest_2025';
                 break;
 
             case 'gopay':
@@ -241,11 +271,16 @@ class MidtransService
         // Build QRIS specific parameters
         $params = $this->buildTransactionParams($registration, $payment, 'qris');
 
-        // Add additional QRIS configuration
+        // Add additional QRIS configuration for better compatibility
         $params['qris'] = [
             'acquirer' => 'gopay'
         ];
         $params['enabled_payments'] = ['qris'];
+
+        // Add metadata for QRIS tracking
+        $params['custom_field1'] = 'qris_payment';
+        $params['custom_field2'] = $registration->registration_number;
+        $params['custom_field3'] = 'unas_fest_2025';
 
         try {
             // Get Snap Token from Midtrans
@@ -406,20 +441,23 @@ class MidtransService
      */
     protected function processSuccessfulPayment(Payment $payment)
     {
-        // Hanya update status pembayaran, TIDAK otomatis konfirmasi registrasi
-        // Registrasi harus dikonfirmasi manual oleh admin
         $registration = $payment->registration;
 
-        // Update status registrasi menjadi 'paid' (menunggu konfirmasi admin)
-        if ($registration->status === 'pending') {
-            $registration->update(['status' => 'paid']);
+        // Auto-confirm registration after successful payment
+        if (in_array($registration->status, ['pending', 'paid'])) {
+            $registration->update([
+                'status' => 'confirmed',
+                'confirmed_at' => now(),
+            ]);
+
+            // Generate QR Code for confirmed registration
+            $registration->generateQRCode();
         }
 
         // Log event
-        $this->logTransactionEvent($payment, 'Payment successful, waiting for admin confirmation');
+        $this->logTransactionEvent($payment, 'Payment successful, registration auto-confirmed');
 
-        // TODO: Kirim notifikasi ke admin untuk konfirmasi
-        // TODO: Kirim email konfirmasi pembayaran ke peserta
+        // TODO: Kirim email konfirmasi pembayaran dan registrasi ke peserta
         // $this->sendPaymentConfirmationEmail($registration);
     }
 

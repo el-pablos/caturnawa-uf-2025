@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,45 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+// Health Check Route for Docker
+Route::get('/health', function () {
+    $checks = [
+        'status' => 'healthy',
+        'timestamp' => now()->toISOString(),
+        'services' => []
+    ];
+
+    try {
+        // Database check
+        DB::connection()->getPdo();
+        $checks['services']['database'] = 'healthy';
+    } catch (Exception $e) {
+        $checks['services']['database'] = 'unhealthy';
+        $checks['status'] = 'unhealthy';
+    }
+
+    try {
+        // Redis check
+        Cache::store('redis')->put('health_check', 'ok', 10);
+        $checks['services']['redis'] = 'healthy';
+    } catch (Exception $e) {
+        $checks['services']['redis'] = 'unhealthy';
+        $checks['status'] = 'unhealthy';
+    }
+
+    // Storage check
+    if (is_writable(storage_path())) {
+        $checks['services']['storage'] = 'healthy';
+    } else {
+        $checks['services']['storage'] = 'unhealthy';
+        $checks['status'] = 'unhealthy';
+    }
+
+    $statusCode = $checks['status'] === 'healthy' ? 200 : 503;
+
+    return response()->json($checks, $statusCode);
+})->name('health');
 
 // Public Pages Routes (Main Website)
 Route::name('public.')->middleware('maintenance')->group(function () {
@@ -91,15 +132,18 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
 
         $user = auth()->user();
 
-        if ($user->hasRole('superadmin') || $user->hasRole('admin')) {
-            return redirect()->route('admin.dashboard');
-        } elseif ($user->hasRole('juri')) {
-            return redirect()->route('juri.dashboard');
-        } elseif ($user->hasRole('peserta')) {
-            return redirect()->route('peserta.dashboard');
+        if ($user->isSuperAdmin()) {
+            return redirect()->route('admin.admin.dashboard');
+        } elseif ($user->isAdmin()) {
+            return redirect()->route('admin.admin.dashboard');
+        } elseif ($user->isJuri()) {
+            return redirect()->route('juri.juri.dashboard');
+        } elseif ($user->isPeserta()) {
+            return redirect()->route('peserta.peserta.dashboard');
         }
 
-        return redirect()->route('login');
+        return redirect()->route('login')
+            ->with('error', 'Role tidak dikenali. Silakan hubungi administrator.');
     })->name('dashboard');
     
     // Profile Management
@@ -118,7 +162,7 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
         });
 
         // Dashboard
-        Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
         Route::get('/dashboard/chart-data', [App\Http\Controllers\Admin\DashboardController::class, 'getChartDataAjax'])->name('dashboard.chart-data');
         Route::get('/dashboard/user-distribution', [App\Http\Controllers\Admin\DashboardController::class, 'getUserDistributionAjax'])->name('dashboard.user-distribution');
         Route::get('/dashboard/recent-data', [App\Http\Controllers\Admin\DashboardController::class, 'getRecentDataAjax'])->name('dashboard.recent-data');
@@ -163,6 +207,7 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
         Route::prefix('payments')->name('payments.')->group(function () {
             Route::get('/', [App\Http\Controllers\Admin\PaymentController::class, 'index'])->name('index');
             Route::get('/{payment}', [App\Http\Controllers\Admin\PaymentController::class, 'show'])->name('show');
+            Route::patch('/{payment}', [App\Http\Controllers\Admin\PaymentController::class, 'update'])->name('update');
             Route::patch('/{payment}/verify', [App\Http\Controllers\Admin\PaymentController::class, 'verify'])->name('verify');
             Route::patch('/{payment}/reject', [App\Http\Controllers\Admin\PaymentController::class, 'reject'])->name('reject');
             Route::patch('/{payment}/confirm', [App\Http\Controllers\Admin\PaymentController::class, 'confirmPayment'])->name('confirm');
@@ -194,6 +239,9 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
         // Submission Management
         Route::prefix('submissions')->name('submissions.')->group(function () {
             Route::get('/', [App\Http\Controllers\Admin\SubmissionController::class, 'index'])->name('index');
+            Route::get('/export', [App\Http\Controllers\Admin\SubmissionController::class, 'export'])->name('export');
+            Route::get('/export/excel', [App\Http\Controllers\Admin\SubmissionController::class, 'exportExcel'])->name('export.excel');
+            Route::get('/export/pdf', [App\Http\Controllers\Admin\SubmissionController::class, 'exportPdf'])->name('export.pdf');
             Route::get('/{submission}', [App\Http\Controllers\Admin\SubmissionController::class, 'show'])->name('show');
             Route::patch('/{submission}/approve', [App\Http\Controllers\Admin\SubmissionController::class, 'approve'])->name('approve');
             Route::patch('/{submission}/reject', [App\Http\Controllers\Admin\SubmissionController::class, 'reject'])->name('reject');
@@ -216,6 +264,15 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             Route::put('/update', [App\Http\Controllers\Admin\SettingsController::class, 'update'])->name('update');
             Route::post('/toggle-maintenance', [App\Http\Controllers\Admin\SettingsController::class, 'toggleMaintenance'])->name('toggle-maintenance');
             Route::post('/toggle-registration', [App\Http\Controllers\Admin\SettingsController::class, 'toggleRegistration'])->name('toggle-registration');
+        });
+
+        // Maintenance Tools
+        Route::prefix('maintenance')->name('maintenance.')->group(function () {
+            Route::post('/clear-cache', [App\Http\Controllers\Admin\MaintenanceController::class, 'clearCache'])->name('clear-cache');
+            Route::post('/optimize', [App\Http\Controllers\Admin\MaintenanceController::class, 'optimize'])->name('optimize');
+            Route::post('/clear-logs', [App\Http\Controllers\Admin\MaintenanceController::class, 'clearLogs'])->name('clear-logs');
+            Route::post('/run-all', [App\Http\Controllers\Admin\MaintenanceController::class, 'runAll'])->name('run-all');
+            Route::get('/health-check', [App\Http\Controllers\Admin\MaintenanceController::class, 'healthCheck'])->name('health-check');
         });
 
 
@@ -248,7 +305,7 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
     Route::middleware(['role:juri'])->prefix('juri')->name('juri.')->group(function () {
         
         // Dashboard
-        Route::get('/dashboard', [App\Http\Controllers\Juri\JuriDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [App\Http\Controllers\Juri\JuriDashboardController::class, 'index'])->name('juri.dashboard');
         
         // Assigned Competitions
         Route::prefix('competitions')->name('competitions.')->group(function () {
@@ -300,7 +357,7 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
     Route::middleware(['role:peserta'])->prefix('peserta')->name('peserta.')->group(function () {
         
         // Dashboard
-        Route::get('/dashboard', [App\Http\Controllers\Peserta\PesertaDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [App\Http\Controllers\Peserta\PesertaDashboardController::class, 'index'])->name('peserta.dashboard');
         
         // Available Competitions
         Route::prefix('competitions')->name('competitions.')->group(function () {

@@ -99,20 +99,41 @@ class Payment extends Model
 
     /**
      * Generate Order ID unik untuk Midtrans
-     * 
+     *
      * @return string
      */
     protected function generateOrderId()
     {
+        $maxAttempts = 10;
+        $attempts = 0;
+
         do {
+            $attempts++;
             $timestamp = now()->format('YmdHis');
-            $random = str_pad(mt_rand(1000, 9999), 4, '0', STR_PAD_LEFT);
-            $orderId = "UF2025-{$timestamp}-{$random}";
-            
-            // Check for collision in database
-            $exists = Payment::where('order_id', $orderId)->exists();
-        } while ($exists);
-        
+            $microseconds = substr(microtime(), 2, 6); // Get microseconds for more uniqueness
+            $random = str_pad(mt_rand(100000, 999999), 6, '0', STR_PAD_LEFT);
+            $orderId = "UF2025-{$timestamp}{$microseconds}-{$random}";
+
+            // Check for collision in database with lock to prevent race conditions
+            $exists = DB::table('payments')
+                ->where('order_id', $orderId)
+                ->lockForUpdate()
+                ->exists();
+
+            if (!$exists) {
+                return $orderId;
+            }
+
+            // Add small delay to prevent rapid collision attempts
+            usleep(1000); // 1ms delay
+
+        } while ($exists && $attempts < $maxAttempts);
+
+        // If we still have collision after max attempts, throw exception
+        if ($attempts >= $maxAttempts) {
+            throw new \Exception('Unable to generate unique order ID after ' . $maxAttempts . ' attempts');
+        }
+
         return $orderId;
     }
 

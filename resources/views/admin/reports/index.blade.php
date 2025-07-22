@@ -65,7 +65,7 @@
             </div>
             
             <div class="d-flex gap-2">
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" id="filter-submit" name="filter_submit" class="btn btn-primary">
                     <i class="bi bi-search me-2"></i>Filter
                 </button>
                 <a href="{{ route('admin.reports.index') }}" class="btn btn-secondary">
@@ -145,22 +145,39 @@
 
 <!-- Charts Section -->
 <div class="row mb-4">
-    <div class="col-lg-8">
+    <div class="col-lg-6">
         <div class="card">
             <div class="card-header">
                 <h6 class="mb-0">
-                    <i class="bi bi-graph-up me-2"></i>Tren Pendaftaran & Pendapatan
+                    <i class="bi bi-graph-up me-2"></i>Tren Pendaftaran
                 </h6>
             </div>
             <div class="card-body">
-                <div style="height: 400px;">
+                <div style="height: 300px;">
+                    <canvas id="registrationChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0">
+                    <i class="bi bi-currency-dollar me-2"></i>Tren Pendapatan
+                </h6>
+            </div>
+            <div class="card-body">
+                <div style="height: 300px;">
                     <canvas id="revenueChart"></canvas>
                 </div>
             </div>
         </div>
     </div>
-    
-    <div class="col-lg-4">
+</div>
+
+<div class="row mb-4">
+    <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
                 <h6 class="mb-0">
@@ -168,7 +185,7 @@
                 </h6>
             </div>
             <div class="card-body">
-                <div style="height: 300px;">
+                <div style="height: 400px;">
                     <canvas id="competitionChart"></canvas>
                 </div>
             </div>
@@ -253,20 +270,40 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize DataTable
-    $('#reportsTable').DataTable({
-        responsive: true,
-        pageLength: 25,
-        order: [[0, 'desc']],
-        columnDefs: [
-            { orderable: false, targets: [] }
-        ],
+    const reportsTable = document.getElementById('reportsTable');
+    if (reportsTable) {
+        @php
+            $isSuperAdmin = auth()->user()->hasRole('Super Admin');
+            $nonOrderableTargets = $isSuperAdmin ? [6] : []; // Actions column if Super Admin
+        @endphp
+
+        $('#reportsTable').DataTable({
+            responsive: true,
+            pageLength: 25,
+            order: [[0, 'asc']], // Order by competition name
+            columnDefs: [
+                { orderable: false, targets: {!! json_encode($nonOrderableTargets) !!} }
+            ],
         language: {
-            url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/id.json',
             emptyTable: "Tidak ada data laporan tersedia",
-            zeroRecords: "Tidak ada data yang cocok dengan pencarian"
+            zeroRecords: "Tidak ada data yang cocok dengan pencarian",
+            info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+            infoEmpty: "Menampilkan 0 sampai 0 dari 0 entri",
+            infoFiltered: "(disaring dari _MAX_ total entri)",
+            lengthMenu: "Tampilkan _MENU_ entri",
+            loadingRecords: "Memuat...",
+            processing: "Memproses...",
+            search: "Cari:",
+            paginate: {
+                first: "Pertama",
+                last: "Terakhir",
+                next: "Selanjutnya",
+                previous: "Sebelumnya"
+            }
         }
-    });
-    
+        });
+    }
+
     // Load Charts with Real Data
     loadRegistrationChart();
     loadRevenueChart();
@@ -296,7 +333,12 @@ function loadCompetitionDistribution() {
 
 // Create competition distribution chart
 function createCompetitionChart(data) {
-    const ctx = document.getElementById('competitionChart').getContext('2d');
+    const chartElement = document.getElementById('competitionChart');
+    if (!chartElement) {
+        console.warn('Competition chart element not found');
+        return;
+    }
+    const ctx = chartElement.getContext('2d');
 
     const labels = data.map(item => item.category);
     const values = data.map(item => item.count);
@@ -350,20 +392,31 @@ function loadRegistrationChart() {
             if (data.success) {
                 createRegistrationChart(data.data);
             } else {
-                document.getElementById('registrationChart').parentElement.innerHTML =
-                    '<div class="alert alert-info text-center">Belum ada data registrasi</div>';
+                const chartElement = document.getElementById('registrationChart');
+                if (chartElement && chartElement.parentElement) {
+                    chartElement.parentElement.innerHTML =
+                        '<div class="alert alert-info text-center">Belum ada data registrasi</div>';
+                }
             }
         })
         .catch(error => {
             console.error('Error loading registration trend:', error);
-            document.getElementById('registrationChart').parentElement.innerHTML =
-                '<div class="alert alert-danger text-center">Gagal memuat data registrasi</div>';
+            const chartElement = document.getElementById('registrationChart');
+            if (chartElement && chartElement.parentElement) {
+                chartElement.parentElement.innerHTML =
+                    '<div class="alert alert-danger text-center">Gagal memuat data registrasi</div>';
+            }
         });
 }
 
 // Create registration chart
 function createRegistrationChart(data) {
-    const ctx = document.getElementById('registrationChart').getContext('2d');
+    const chartElement = document.getElementById('registrationChart');
+    if (!chartElement) {
+        console.warn('Registration chart element not found');
+        return;
+    }
+    const ctx = chartElement.getContext('2d');
 
     new Chart(ctx, {
         type: 'line',
@@ -416,7 +469,12 @@ function loadRevenueChart() {
 
 // Create revenue chart
 function createRevenueChart(data) {
-    const ctx = document.getElementById('revenueChart').getContext('2d');
+    const chartElement = document.getElementById('revenueChart');
+    if (!chartElement) {
+        console.warn('Revenue chart element not found');
+        return;
+    }
+    const ctx = chartElement.getContext('2d');
 
     new Chart(ctx, {
         type: 'line',

@@ -82,8 +82,8 @@
     <div class="card-body">
         <form method="GET" class="row g-3">
             <div class="col-md-3">
-                <label class="form-label fw-semibold">Role</label>
-                <select name="role" class="unas-form-control">
+                <label for="filter-role" class="form-label fw-semibold">Role</label>
+                <select name="role" id="filter-role" class="unas-form-control">
                     <option value="">Semua Role</option>
                     @foreach($roles as $role)
                         <option value="{{ $role->name }}" {{ request('role') === $role->name ? 'selected' : '' }}>
@@ -93,21 +93,21 @@
                 </select>
             </div>
             <div class="col-md-3">
-                <label class="form-label fw-semibold">Status</label>
-                <select name="status" class="unas-form-control">
+                <label for="filter-status" class="form-label fw-semibold">Status</label>
+                <select name="status" id="filter-status" class="unas-form-control">
                     <option value="">Semua Status</option>
                     <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Aktif</option>
                     <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Nonaktif</option>
                 </select>
             </div>
             <div class="col-md-4">
-                <label class="form-label fw-semibold">Cari</label>
-                <input type="text" name="search" class="unas-form-control" placeholder="Nama, email, atau telepon..." value="{{ request('search') }}">
+                <label for="filter-search" class="form-label fw-semibold">Cari</label>
+                <input type="text" name="search" id="filter-search" class="unas-form-control" placeholder="Nama, email, atau telepon..." value="{{ request('search') }}">
             </div>
             <div class="col-md-2">
-                <label class="form-label">&nbsp;</label>
+                <label for="filter-submit" class="form-label">&nbsp;</label>
                 <div class="d-flex gap-2">
-                    <button type="submit" class="unas-btn-primary">
+                    <button type="submit" id="filter-submit" class="unas-btn-primary">
                         <i class="bi bi-search"></i>
                     </button>
                     <a href="{{ route('admin.users.index') }}" class="unas-btn-secondary">
@@ -121,10 +121,21 @@
 
 <!-- Users Table -->
 <div class="card">
-    <div class="card-header">
+    <div class="card-header d-flex justify-content-between align-items-center">
         <h6 class="mb-0">
             <i class="bi bi-people me-2"></i>Daftar Pengguna
         </h6>
+        <div class="btn-group" id="bulkActions" style="display: none;">
+            <button class="btn btn-success btn-sm" onclick="bulkActivate()">
+                <i class="bi bi-check-circle me-1"></i>Aktivasi Terpilih
+            </button>
+            <button class="btn btn-warning btn-sm" onclick="bulkDeactivate()">
+                <i class="bi bi-pause-circle me-1"></i>Nonaktifkan Terpilih
+            </button>
+            <button class="btn btn-danger btn-sm" onclick="bulkDelete()">
+                <i class="bi bi-trash me-1"></i>Hapus Terpilih
+            </button>
+        </div>
     </div>
     <div class="card-body">
         @if($users->count() > 0)
@@ -132,6 +143,10 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
+                            <th>
+                                <label for="selectAll" class="visually-hidden">Pilih Semua</label>
+                                <input type="checkbox" id="selectAll" class="form-check-input" aria-label="Pilih semua pengguna">
+                            </th>
                             <th>Pengguna</th>
                             <th>Role</th>
                             <th>Status</th>
@@ -143,6 +158,10 @@
                     <tbody>
                         @foreach($users as $user)
                             <tr>
+                                <td>
+                                    <label for="user-checkbox-{{ $user->id }}" class="visually-hidden">Pilih {{ $user->name }}</label>
+                                    <input type="checkbox" id="user-checkbox-{{ $user->id }}" class="form-check-input user-checkbox" value="{{ $user->id }}" aria-label="Pilih pengguna {{ $user->name }}">
+                                </td>
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <img src="{{ $user->avatar_url }}" class="rounded-circle me-3" width="40" height="40" alt="Avatar">
@@ -432,9 +451,15 @@ function deleteUser(userId) {
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                 },
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
                     showSuccess('Pengguna berhasil dihapus');
@@ -444,10 +469,149 @@ function deleteUser(userId) {
                 }
             })
             .catch(error => {
-                showError('Terjadi kesalahan sistem');
+                console.error('Error:', error);
+                showError('Terjadi kesalahan sistem: ' + error.message);
             });
         }
     );
+}
+
+// Mass action functionality
+document.getElementById('selectAll').addEventListener('change', function() {
+    const checkboxes = document.querySelectorAll('.user-checkbox');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = this.checked;
+    });
+    toggleBulkActions();
+});
+
+document.querySelectorAll('.user-checkbox').forEach(checkbox => {
+    checkbox.addEventListener('change', toggleBulkActions);
+});
+
+function toggleBulkActions() {
+    const checkedBoxes = document.querySelectorAll('.user-checkbox:checked');
+    const bulkActions = document.getElementById('bulkActions');
+
+    if (checkedBoxes.length > 0) {
+        bulkActions.style.display = 'block';
+    } else {
+        bulkActions.style.display = 'none';
+    }
+}
+
+function getSelectedUserIds() {
+    const checkedBoxes = document.querySelectorAll('.user-checkbox:checked');
+    return Array.from(checkedBoxes).map(checkbox => checkbox.value);
+}
+
+function bulkActivate() {
+    const userIds = getSelectedUserIds();
+    if (userIds.length === 0) return;
+
+    confirmAction(
+        'Aktivasi Pengguna',
+        `Apakah Anda yakin ingin mengaktivasi ${userIds.length} pengguna terpilih?`,
+        function() {
+            bulkUpdateStatus(userIds, true);
+        }
+    );
+}
+
+function bulkDeactivate() {
+    const userIds = getSelectedUserIds();
+    if (userIds.length === 0) return;
+
+    confirmAction(
+        'Nonaktifkan Pengguna',
+        `Apakah Anda yakin ingin menonaktifkan ${userIds.length} pengguna terpilih?`,
+        function() {
+            bulkUpdateStatus(userIds, false);
+        }
+    );
+}
+
+function bulkDelete() {
+    const userIds = getSelectedUserIds();
+    if (userIds.length === 0) return;
+
+    confirmAction(
+        'Hapus Pengguna',
+        `Apakah Anda yakin ingin menghapus ${userIds.length} pengguna terpilih? Tindakan ini tidak dapat dibatalkan.`,
+        function() {
+            bulkDeleteUsers(userIds);
+        }
+    );
+}
+
+function bulkUpdateStatus(userIds, isActive) {
+    const action = isActive ? 'mengaktivasi' : 'menonaktifkan';
+
+    Swal.fire({
+        title: 'Memproses...',
+        text: `Sedang ${action} pengguna`,
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    Promise.all(userIds.map(userId => {
+        return fetch(`/admin/users/${userId}/toggle-status`, {
+            method: 'PATCH',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+    }))
+    .then(responses => {
+        const allSuccessful = responses.every(response => response.ok);
+        if (allSuccessful) {
+            showSuccess(`${userIds.length} pengguna berhasil ${isActive ? 'diaktivasi' : 'dinonaktifkan'}`);
+            location.reload();
+        } else {
+            showError('Beberapa pengguna gagal diproses');
+        }
+    })
+    .catch(error => {
+        showError('Terjadi kesalahan sistem');
+    });
+}
+
+function bulkDeleteUsers(userIds) {
+    Swal.fire({
+        title: 'Memproses...',
+        text: 'Sedang menghapus pengguna',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    Promise.all(userIds.map(userId => {
+        return fetch(`/admin/users/${userId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+    }))
+    .then(responses => {
+        const allSuccessful = responses.every(response => response.ok);
+        if (allSuccessful) {
+            showSuccess(`${userIds.length} pengguna berhasil dihapus`);
+            location.reload();
+        } else {
+            showError('Beberapa pengguna gagal dihapus');
+        }
+    })
+    .catch(error => {
+        showError('Terjadi kesalahan sistem');
+    });
 }
 </script>
 

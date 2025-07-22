@@ -78,8 +78,59 @@ class PaymentController extends Controller
     }
 
     /**
+     * Update payment status (general update method)
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Payment $payment
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, Payment $payment)
+    {
+        try {
+            $request->validate([
+                'status' => 'required|in:pending,verified,confirmed,rejected',
+                'notes' => 'nullable|string|max:500'
+            ]);
+
+            DB::beginTransaction();
+
+            $payment->update([
+                'status' => $request->status,
+                'notes' => $request->notes,
+                'verified_at' => $request->status === 'verified' ? now() : null,
+                'verified_by' => $request->status === 'verified' ? auth()->id() : null,
+            ]);
+
+            // If confirming payment, also update registration status
+            if ($request->status === 'confirmed' && $payment->registration) {
+                $payment->registration->update([
+                    'status' => 'confirmed',
+                    'confirmed_at' => now(),
+                    'confirmed_by' => auth()->id(),
+                ]);
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Payment status updated successfully',
+                'data' => $payment->fresh()
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update payment: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
      * Konfirmasi pembayaran dan registrasi
-     * 
+     *
      * @param \App\Models\Payment $payment
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */

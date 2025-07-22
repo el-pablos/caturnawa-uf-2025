@@ -66,8 +66,8 @@
     <div class="card-body">
         <form method="GET" class="row g-3">
             <div class="col-md-3">
-                <label class="form-label fw-semibold">Kompetisi</label>
-                <select name="competition_id" class="form-control">
+                <label for="filter-competition" class="form-label fw-semibold">Kompetisi</label>
+                <select name="competition_id" id="filter-competition" class="form-control">
                     <option value="">Semua Kompetisi</option>
                     @foreach($competitions as $competition)
                         <option value="{{ $competition->id }}" {{ request('competition_id') == $competition->id ? 'selected' : '' }}>
@@ -77,8 +77,8 @@
                 </select>
             </div>
             <div class="col-md-3">
-                <label class="form-label fw-semibold">Status</label>
-                <select name="status" class="form-control">
+                <label for="filter-status" class="form-label fw-semibold">Status</label>
+                <select name="status" id="filter-status" class="form-control">
                     <option value="">Semua Status</option>
                     <option value="draft" {{ request('status') === 'draft' ? 'selected' : '' }}>Draft</option>
                     <option value="submitted" {{ request('status') === 'submitted' ? 'selected' : '' }}>Terkirim</option>
@@ -88,13 +88,13 @@
                 </select>
             </div>
             <div class="col-md-4">
-                <label class="form-label fw-semibold">Cari</label>
-                <input type="text" name="search" class="form-control" placeholder="Nama peserta atau email..." value="{{ request('search') }}">
+                <label for="filter-search" class="form-label fw-semibold">Cari</label>
+                <input type="text" name="search" id="filter-search" class="form-control" placeholder="Nama peserta atau email..." value="{{ request('search') }}">
             </div>
             <div class="col-md-2">
-                <label class="form-label">&nbsp;</label>
+                <label for="filter-submit" class="form-label">&nbsp;</label>
                 <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" id="filter-submit" class="btn btn-primary">
                         <i class="bi bi-search"></i>
                     </button>
                     <a href="{{ route('admin.submissions.index') }}" class="btn btn-secondary">
@@ -108,10 +108,21 @@
 
 <!-- Submissions Table -->
 <div class="card">
-    <div class="card-header">
+    <div class="card-header d-flex justify-content-between align-items-center">
         <h6 class="mb-0">
             <i class="bi bi-file-earmark-text me-2"></i>Daftar Karya Peserta
         </h6>
+        <div class="btn-group" id="bulkActions" style="display: none;">
+            <button class="btn btn-success btn-sm" onclick="bulkApprove()">
+                <i class="bi bi-check-circle me-1"></i>Setujui Terpilih
+            </button>
+            <button class="btn btn-warning btn-sm" onclick="bulkReject()">
+                <i class="bi bi-x-circle me-1"></i>Tolak Terpilih
+            </button>
+            <button class="btn btn-danger btn-sm" onclick="bulkDelete()">
+                <i class="bi bi-trash me-1"></i>Hapus Terpilih
+            </button>
+        </div>
     </div>
     <div class="card-body">
         @if($submissions->count() > 0)
@@ -119,6 +130,10 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
+                            <th>
+                                <label for="selectAll" class="visually-hidden">Pilih Semua</label>
+                                <input type="checkbox" id="selectAll" class="form-check-input" aria-label="Pilih semua submissions">
+                            </th>
                             <th>Peserta</th>
                             <th>Kompetisi</th>
                             <th>Judul Karya</th>
@@ -130,6 +145,10 @@
                     <tbody>
                         @foreach($submissions as $submission)
                             <tr>
+                                <td>
+                                    <label for="submission-checkbox-{{ $submission->id }}" class="visually-hidden">Pilih submission {{ $submission->title ?? '#'.$submission->id }}</label>
+                                    <input type="checkbox" id="submission-checkbox-{{ $submission->id }}" class="form-check-input submission-checkbox" value="{{ $submission->id }}" aria-label="Pilih submission {{ $submission->title ?? '#'.$submission->id }}">
+                                </td>
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <img src="{{ $submission->registration->user->avatar_url }}" class="rounded-circle me-3" width="40" height="40" alt="Avatar">
@@ -262,8 +281,13 @@ function approveSubmission(submissionId) {
 }
 
 function rejectSubmission(submissionId) {
-    document.getElementById('rejectForm').action = `/admin/submissions/${submissionId}/reject`;
-    new bootstrap.Modal(document.getElementById('rejectModal')).show();
+    const rejectForm = document.getElementById('rejectForm');
+    const rejectModal = document.getElementById('rejectModal');
+
+    if (rejectForm && rejectModal) {
+        rejectForm.action = `/admin/submissions/${submissionId}/reject`;
+        new bootstrap.Modal(rejectModal).show();
+    }
 }
 
 function deleteSubmission(submissionId) {
@@ -296,9 +320,161 @@ function deleteSubmission(submissionId) {
 
 function exportSubmissions(format) {
     const params = new URLSearchParams(window.location.search);
-    params.set('export', format);
-    
-    window.open(`/admin/submissions/export?${params.toString()}`, '_blank');
+
+    let exportUrl;
+    if (format === 'pdf') {
+        exportUrl = `{{ route('admin.submissions.export.pdf') }}?${params.toString()}`;
+    } else {
+        exportUrl = `{{ route('admin.submissions.export.excel') }}?${params.toString()}`;
+    }
+
+    window.open(exportUrl, '_blank');
+}
+
+// Mass action functionality
+const selectAllElement = document.getElementById('selectAll');
+if (selectAllElement) {
+    selectAllElement.addEventListener('change', function() {
+        const checkboxes = document.querySelectorAll('.submission-checkbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+        toggleBulkActions();
+    });
+}
+
+const submissionCheckboxes = document.querySelectorAll('.submission-checkbox');
+if (submissionCheckboxes.length > 0) {
+    submissionCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', toggleBulkActions);
+    });
+}
+
+function toggleBulkActions() {
+    const checkedBoxes = document.querySelectorAll('.submission-checkbox:checked');
+    const bulkActions = document.getElementById('bulkActions');
+
+    if (bulkActions) {
+        if (checkedBoxes.length > 0) {
+            bulkActions.style.display = 'block';
+        } else {
+            bulkActions.style.display = 'none';
+        }
+    }
+}
+
+function getSelectedSubmissionIds() {
+    const checkedBoxes = document.querySelectorAll('.submission-checkbox:checked');
+    return Array.from(checkedBoxes).map(checkbox => checkbox.value);
+}
+
+function bulkApprove() {
+    const submissionIds = getSelectedSubmissionIds();
+    if (submissionIds.length === 0) return;
+
+    confirmAction(
+        'Setujui Karya',
+        `Apakah Anda yakin ingin menyetujui ${submissionIds.length} karya terpilih?`,
+        function() {
+            bulkUpdateStatus(submissionIds, 'approve');
+        }
+    );
+}
+
+function bulkReject() {
+    const submissionIds = getSelectedSubmissionIds();
+    if (submissionIds.length === 0) return;
+
+    confirmAction(
+        'Tolak Karya',
+        `Apakah Anda yakin ingin menolak ${submissionIds.length} karya terpilih?`,
+        function() {
+            bulkUpdateStatus(submissionIds, 'reject');
+        }
+    );
+}
+
+function bulkDelete() {
+    const submissionIds = getSelectedSubmissionIds();
+    if (submissionIds.length === 0) return;
+
+    confirmAction(
+        'Hapus Karya',
+        `Apakah Anda yakin ingin menghapus ${submissionIds.length} karya terpilih? Tindakan ini tidak dapat dibatalkan.`,
+        function() {
+            bulkDeleteSubmissions(submissionIds);
+        }
+    );
+}
+
+function bulkUpdateStatus(submissionIds, action) {
+    const actionText = action === 'approve' ? 'menyetujui' : 'menolak';
+
+    Swal.fire({
+        title: 'Memproses...',
+        text: `Sedang ${actionText} karya`,
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    Promise.all(submissionIds.map(submissionId => {
+        return fetch(`/admin/submissions/${submissionId}/${action}`, {
+            method: 'PATCH',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+    }))
+    .then(responses => {
+        const allSuccessful = responses.every(response => response.ok);
+        if (allSuccessful) {
+            showSuccess(`${submissionIds.length} karya berhasil ${action === 'approve' ? 'disetujui' : 'ditolak'}`);
+            location.reload();
+        } else {
+            showError('Beberapa karya gagal diproses');
+        }
+    })
+    .catch(error => {
+        showError('Terjadi kesalahan sistem');
+    });
+}
+
+function bulkDeleteSubmissions(submissionIds) {
+    Swal.fire({
+        title: 'Memproses...',
+        text: 'Sedang menghapus karya',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    Promise.all(submissionIds.map(submissionId => {
+        return fetch(`/admin/submissions/${submissionId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+    }))
+    .then(responses => {
+        const allSuccessful = responses.every(response => response.ok);
+        if (allSuccessful) {
+            showSuccess(`${submissionIds.length} karya berhasil dihapus`);
+            location.reload();
+        } else {
+            showError('Beberapa karya gagal dihapus');
+        }
+    })
+    .catch(error => {
+        showError('Terjadi kesalahan sistem');
+    });
 }
 </script>
 @endpush

@@ -1,6 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.peserta')
 
 @section('title', 'Pembayaran Tidak Ditemukan')
+@section('page-title', 'Pembayaran Tidak Ditemukan')
 
 @section('content')
 <div class="container mt-5">

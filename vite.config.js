@@ -8,7 +8,32 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/js/app.js',
             ],
-            refresh: true,
+            refresh: [
+                // Watch for PHP files
+                'app/**/*.php',
+                'routes/**/*.php',
+                'config/**/*.php',
+
+                // Watch for Blade templates
+                'resources/views/**/*.blade.php',
+
+                // Watch for CSS files
+                'resources/css/**/*.css',
+                'public/css/**/*.css',
+
+                // Watch for JavaScript files
+                'resources/js/**/*.js',
+                'public/js/**/*.js',
+
+                // Watch for other asset files
+                'public/assets/**/*',
+                'resources/sass/**/*.scss',
+
+                // Watch for configuration files
+                '.env',
+                'composer.json',
+                'package.json',
+            ],
         }),
     ],
     server: {
@@ -16,6 +41,11 @@ export default defineConfig({
         port: 5173,
         hmr: {
             host: 'localhost',
+            port: 5173,
+        },
+        watch: {
+            usePolling: true,
+            interval: 100,
         },
     },
     build: {

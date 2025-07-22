@@ -15,8 +15,10 @@
                     <i class="bi bi-plus-circle me-2"></i>Daftar Sekarang
                 </button>
             @else
-                <button type="button" class="btn btn-secondary" disabled title="Anda sudah terdaftar di kompetisi lain">
-                    <i class="bi bi-lock-fill me-2"></i>Tidak Dapat Mendaftar
+                <button type="button" class="btn btn-secondary" disabled
+                        title="Anda sudah terdaftar di lomba lain. Tidak dapat mendaftar di multiple lomba."
+                        data-bs-toggle="tooltip" data-bs-placement="top">
+                    <i class="bi bi-lock-fill me-2"></i>Terkunci
                 </button>
             @endif
         @endif
@@ -131,14 +133,67 @@
                 @if($competition->prizes)
                     <h5 class="mb-3">Hadiah</h5>
                     <div class="mb-4">
-                        @if(is_array($competition->prizes))
-                            <ul class="list-unstyled">
-                                @foreach($competition->prizes as $prize)
-                                    <li class="mb-2"><i class="bi bi-trophy text-warning me-2"></i>{{ $prize }}</li>
-                                @endforeach
-                            </ul>
+                        @php
+                            // Handle both array and JSON string cases
+                            $prizes = $competition->prizes;
+                            if (is_string($prizes)) {
+                                $prizes = json_decode($prizes, true);
+                            }
+                        @endphp
+
+                        @if(is_array($prizes) && !empty($prizes))
+                            <div class="row">
+                                @if(isset($prizes['first']))
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card border-warning">
+                                            <div class="card-body text-center">
+                                                <i class="bi bi-trophy-fill text-warning fs-1 mb-2"></i>
+                                                <h6 class="card-title">Juara 1</h6>
+                                                <p class="card-text fw-bold text-warning">{{ $prizes['first'] }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                                @if(isset($prizes['second']))
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card border-secondary">
+                                            <div class="card-body text-center">
+                                                <i class="bi bi-trophy-fill text-secondary fs-1 mb-2"></i>
+                                                <h6 class="card-title">Juara 2</h6>
+                                                <p class="card-text fw-bold text-secondary">{{ $prizes['second'] }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                                @if(isset($prizes['third']))
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card border-dark">
+                                            <div class="card-body text-center">
+                                                <i class="bi bi-trophy-fill text-dark fs-1 mb-2"></i>
+                                                <h6 class="card-title">Juara 3</h6>
+                                                <p class="card-text fw-bold text-dark">{{ $prizes['third'] }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                                @if(count($prizes) > 3)
+                                    <div class="col-12">
+                                        <h6>Hadiah Lainnya:</h6>
+                                        <ul class="list-unstyled">
+                                            @foreach($prizes as $key => $prize)
+                                                @if(!in_array($key, ['first', 'second', 'third']))
+                                                    <li class="mb-2"><i class="bi bi-trophy text-warning me-2"></i>{{ ucfirst($key) }}: {{ $prize }}</li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+                            </div>
                         @else
-                            {!! nl2br(e($competition->prizes)) !!}
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle me-2"></i>
+                                Informasi hadiah akan diumumkan segera.
+                            </div>
                         @endif
                     </div>
                 @endif
@@ -195,14 +250,27 @@
                         <i class="bi bi-eye me-2"></i>Lihat Detail
                     </a>
                 @elseif($competition->isRegistrationOpen())
-                    <div class="mb-3">
-                        <i class="bi bi-calendar-check text-primary" style="font-size: 3rem;"></i>
-                    </div>
-                    <h5 class="text-primary">Pendaftaran Terbuka</h5>
-                    <p class="text-muted">Daftar sekarang untuk mengikuti kompetisi ini</p>
-                    <button type="button" class="btn btn-peserta-primary w-100" data-bs-toggle="modal" data-bs-target="#registerModal">
-                        <i class="bi bi-plus-circle me-2"></i>Daftar Sekarang
-                    </button>
+                    @if($canRegister)
+                        <div class="mb-3">
+                            <i class="bi bi-calendar-check text-primary" style="font-size: 3rem;"></i>
+                        </div>
+                        <h5 class="text-primary">Pendaftaran Terbuka</h5>
+                        <p class="text-muted">Daftar sekarang untuk mengikuti kompetisi ini</p>
+                        <button type="button" class="btn btn-peserta-primary w-100" data-bs-toggle="modal" data-bs-target="#registerModal">
+                            <i class="bi bi-plus-circle me-2"></i>Daftar Sekarang
+                        </button>
+                    @else
+                        <div class="mb-3">
+                            <i class="bi bi-lock-fill text-warning" style="font-size: 3rem;"></i>
+                        </div>
+                        <h5 class="text-warning">Pendaftaran Terkunci</h5>
+                        <p class="text-muted">Anda sudah terdaftar di lomba lain. Tidak dapat mendaftar di multiple lomba.</p>
+                        <button type="button" class="btn btn-secondary w-100" disabled
+                                title="Anda sudah terdaftar di lomba lain. Tidak dapat mendaftar di multiple lomba."
+                                data-bs-toggle="tooltip" data-bs-placement="top">
+                            <i class="bi bi-lock-fill me-2"></i>Terkunci
+                        </button>
+                    @endif
                 @else
                     <div class="mb-3">
                         <i class="bi bi-x-circle-fill text-danger" style="font-size: 3rem;"></i>
@@ -285,14 +353,14 @@
 
 <!-- Registration Modal -->
 @if(!$existingRegistration && $competition->isRegistrationOpen())
-<div class="modal fade" id="registerModal" tabindex="-1">
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">
+                <h5 class="modal-title" id="registerModalLabel">
                     <i class="bi bi-plus-circle me-2"></i>Daftar Kompetisi: {{ $competition->name }}
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
             </div>
             <form action="{{ route('peserta.competitions.register', $competition) }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -391,21 +459,25 @@
                                 <h6 class="text-primary mb-3">Peserta 1</h6>
                                 <div class="row">
                                     <div class="col-md-6 mb-2">
-                                        <input type="text" class="form-control" name="team_members[0][name]"
-                                               placeholder="Nama Lengkap" required>
+                                        <label for="team_member_0_name" class="form-label visually-hidden">Nama Lengkap Peserta 1</label>
+                                        <input type="text" class="form-control" id="team_member_0_name" name="team_members[0][name]"
+                                               placeholder="Nama Lengkap" required autocomplete="name">
                                     </div>
                                     <div class="col-md-6 mb-2">
-                                        <input type="email" class="form-control" name="team_members[0][email]"
-                                               placeholder="Email" required>
+                                        <label for="team_member_0_email" class="form-label visually-hidden">Email Peserta 1</label>
+                                        <input type="email" class="form-control" id="team_member_0_email" name="team_members[0][email]"
+                                               placeholder="Email" required autocomplete="email">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-2">
-                                        <input type="text" class="form-control" name="team_members[0][phone]"
-                                               placeholder="No Handphone" required>
+                                        <label for="team_member_0_phone" class="form-label visually-hidden">No Handphone Peserta 1</label>
+                                        <input type="text" class="form-control" id="team_member_0_phone" name="team_members[0][phone]"
+                                               placeholder="No Handphone" required autocomplete="tel">
                                     </div>
                                     <div class="col-md-6 mb-2">
-                                        <input type="file" class="form-control" name="team_members[0][foto]"
+                                        <label for="team_member_0_foto" class="form-label visually-hidden">Foto Peserta 1</label>
+                                        <input type="file" class="form-control" id="team_member_0_foto" name="team_members[0][foto]"
                                                accept="image/*" required>
                                         <small class="text-muted">Foto Peserta (JPG, PNG. Max 2MB)</small>
                                     </div>
@@ -654,6 +726,13 @@ let teamMemberIndex = 1;
 
 function addTeamMember() {
     const container = document.getElementById('team-members');
+
+    // Check if container exists (only for team competitions)
+    if (!container) {
+        console.error('Team members container not found');
+        return;
+    }
+
     const currentMembers = container.querySelectorAll('.team-member').length;
 
     // Batasi maksimal 5 anggota
@@ -702,6 +781,13 @@ function addTeamMember() {
 
 function removeTeamMember(button) {
     const container = document.getElementById('team-members');
+
+    // Check if container exists (only for team competitions)
+    if (!container) {
+        console.error('Team members container not found');
+        return;
+    }
+
     const currentMembers = container.querySelectorAll('.team-member').length;
 
     // Minimal 1 anggota
@@ -729,6 +815,12 @@ function updateMemberNumbers() {
 
 function updateAddButtonText() {
     const container = document.getElementById('team-members');
+
+    // Check if container exists (only for team competitions)
+    if (!container) {
+        return;
+    }
+
     const currentMembers = container.querySelectorAll('.team-member').length;
     const addButton = document.querySelector('button[onclick="addTeamMember()"]');
 

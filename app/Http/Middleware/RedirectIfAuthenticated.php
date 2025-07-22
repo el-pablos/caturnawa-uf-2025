@@ -21,14 +21,23 @@ class RedirectIfAuthenticated
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
                 $user = Auth::user();
-                
-                // Redirect based on user role
-                if ($user->isSuperAdmin() || $user->isAdmin()) {
-                    return redirect()->route('admin.dashboard');
+
+                if ($user->isSuperAdmin()) {
+                    return redirect()->route('admin.admin.dashboard');
+                } elseif ($user->isAdmin()) {
+                    return redirect()->route('admin.admin.dashboard');
                 } elseif ($user->isJuri()) {
-                    return redirect()->route('juri.dashboard');
+                    return redirect()->route('juri.juri.dashboard');
+                } elseif ($user->isPeserta()) {
+                    return redirect()->route('peserta.peserta.dashboard');
                 } else {
-                    return redirect()->route('peserta.dashboard');
+                    // User has no roles - log them out to prevent redirect loop
+                    Auth::logout();
+                    $request->session()->invalidate();
+                    $request->session()->regenerateToken();
+
+                    return redirect()->route('login')
+                        ->with('error', 'Akun Anda belum memiliki role yang valid. Silakan hubungi administrator.');
                 }
             }
         }

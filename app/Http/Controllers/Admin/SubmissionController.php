@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Submission;
 use App\Models\Competition;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Exports\SubmissionExport;
 
 class SubmissionController extends Controller
 {
@@ -169,5 +172,66 @@ class SubmissionController extends Controller
         }
     }
 
+    /**
+     * Export submissions to Excel
+     */
+    public function exportExcel(Request $request)
+    {
+        $query = Submission::with(['registration.user', 'registration.competition']);
 
+        // Apply filters
+        if ($request->filled('competition_id')) {
+            $query->whereHas('registration', function ($q) use ($request) {
+                $q->where('competition_id', $request->competition_id);
+            });
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $submissions = $query->get();
+
+        return Excel::download(new SubmissionExport($submissions), 'submissions.xlsx');
+    }
+
+    /**
+     * Export submissions to PDF
+     */
+    public function exportPdf(Request $request)
+    {
+        $query = Submission::with(['registration.user', 'registration.competition']);
+
+        // Apply filters
+        if ($request->filled('competition_id')) {
+            $query->whereHas('registration', function ($q) use ($request) {
+                $q->where('competition_id', $request->competition_id);
+            });
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $submissions = $query->get();
+        $competitions = Competition::all();
+
+        $pdf = Pdf::loadView('admin.reports.exports.submissions-pdf', compact('submissions', 'competitions'));
+
+        return $pdf->download('submissions.pdf');
+    }
+
+    /**
+     * Handle generic export requests
+     */
+    public function export(Request $request)
+    {
+        $type = $request->get('export', 'excel');
+
+        if ($type === 'pdf') {
+            return $this->exportPdf($request);
+        }
+
+        return $this->exportExcel($request);
+    }
 }

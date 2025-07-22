@@ -196,7 +196,7 @@
             <!-- Navigation Menu -->
             <div class="nav-menu-container flex-grow-1 overflow-auto">
                 <div class="nav nav-pills flex-column p-3">
-                    <a class="nav-link {{ request()->routeIs('juri.dashboard') ? 'active' : '' }}" href="{{ route('juri.dashboard') }}">
+                    <a class="nav-link {{ request()->routeIs('juri.juri.dashboard') ? 'active' : '' }}" href="{{ route('juri.juri.dashboard') }}">
                         <i class="bi bi-speedometer2 me-2"></i>Dashboard
                     </a>
 

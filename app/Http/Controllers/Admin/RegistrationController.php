@@ -341,4 +341,21 @@ class RegistrationController extends Controller
             ]);
         }
     }
+
+    /**
+     * Handle generic export requests
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|\Illuminate\Http\Response
+     */
+    public function export(Request $request)
+    {
+        $format = $request->get('format', 'excel');
+
+        if ($format === 'pdf') {
+            return $this->exportPdf($request);
+        }
+
+        return $this->exportExcel($request);
+    }
 }

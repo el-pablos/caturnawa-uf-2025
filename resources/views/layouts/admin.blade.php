@@ -16,6 +16,9 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
@@ -39,10 +42,21 @@
             color: #1e293b;
         }
 
-        /* Ensure all cards have white background */
-        .card {
+        /* Ensure cards have white background, except colored ones */
+        .card:not(.bg-primary):not(.bg-success):not(.bg-warning):not(.bg-danger):not(.bg-info):not(.bg-secondary) {
             background: #ffffff !important;
             border: 1px solid #e5e7eb !important;
+            border-radius: 0.75rem !important;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1) !important;
+        }
+
+        /* Ensure colored cards maintain their styling */
+        .card.bg-primary,
+        .card.bg-success,
+        .card.bg-warning,
+        .card.bg-danger,
+        .card.bg-info,
+        .card.bg-secondary {
             border-radius: 0.75rem !important;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1) !important;
         }
@@ -321,7 +335,7 @@
         <!-- Navigation Menu -->
         <div class="nav-menu-container">
             <div class="nav nav-pills flex-column p-3">
-                    <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
+                    <a class="nav-link {{ request()->routeIs('admin.admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.admin.dashboard') }}">
                         <i class="bi bi-speedometer2 me-2"></i>Dashboard
                     </a>
 
@@ -356,11 +370,7 @@
                     </a>
 
                     <a class="nav-link {{ request()->routeIs('admin.payments.*') ? 'active' : '' }}" href="{{ route('admin.payments.index') }}">
-                        <i class="bi bi-credit-card-2-front me-2"></i>Kelola Pembayaran
-                    </a>
-
-                    <a class="nav-link {{ request()->routeIs('admin.payments.*') ? 'active' : '' }}" href="{{ route('admin.payments.index') }}">
-                        <i class="bi bi-credit-card me-2"></i>Pembayaran
+                        <i class="bi bi-credit-card me-2"></i>Kelola Pembayaran
                     </a>
 
                     <a class="nav-link {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}" href="{{ route('admin.reports.index') }}">
@@ -486,10 +496,14 @@
     
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+
     <!-- Sweet Alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     

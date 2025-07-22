@@ -72,15 +72,16 @@ class RoleBasedRedirect
      */
     private function redirectToUserDashboard($user)
     {
-        if ($user->isSuperAdmin() || $user->isAdmin()) {
-            return redirect()->route('admin.dashboard');
+        if ($user->isSuperAdmin()) {
+            return redirect()->route('admin.admin.dashboard');
+        } elseif ($user->isAdmin()) {
+            return redirect()->route('admin.admin.dashboard');
         } elseif ($user->isJuri()) {
-            return redirect()->route('juri.dashboard');
+            return redirect()->route('juri.juri.dashboard');
         } elseif ($user->isPeserta()) {
-            return redirect()->route('peserta.dashboard');
+            return redirect()->route('peserta.peserta.dashboard');
         }
 
-        // Fallback jika role tidak dikenali
         return redirect()->route('login')
             ->with('error', 'Role tidak dikenali. Silakan hubungi administrator.');
     }

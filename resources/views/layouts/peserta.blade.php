@@ -16,11 +16,18 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
+
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- UNAS Theme CSS -->
     <link href="{{ asset('css/unas-theme.css') }}" rel="stylesheet">
+
+    <!-- Vite Assets for Hot Reload -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- Peserta Specific CSS -->
     <style>
@@ -165,18 +172,49 @@
             transform: translateY(-1px);
             color: white;
         }
-        
+
+        /* Stats Card Styling */
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Ensure consistent card styling */
+        .card.bg-primary {
+            background: var(--peserta-primary) !important;
+        }
+
+        .card.bg-success {
+            background: #10b981 !important;
+        }
+
+        .card.bg-warning {
+            background: #fbbf24 !important;
+        }
+
+        .card.bg-info {
+            background: #3b82f6 !important;
+        }
+
+
+
         @media (max-width: 768px) {
             .peserta-sidebar {
                 transform: translateX(-100%);
             }
-            
+
             .peserta-sidebar.show {
                 transform: translateX(0);
             }
-            
+
             .peserta-main-content {
                 margin-left: 0;
+            }
+
+            .stats-number {
+                font-size: 2rem;
             }
         }
     </style>
@@ -196,7 +234,7 @@
             <!-- Navigation Menu -->
             <div class="nav-menu-container flex-grow-1 overflow-auto">
                 <div class="nav nav-pills flex-column p-3">
-                    <a class="nav-link {{ request()->routeIs('peserta.dashboard') ? 'active' : '' }}" href="{{ route('peserta.dashboard') }}">
+                    <a class="nav-link {{ request()->routeIs('peserta.peserta.dashboard') ? 'active' : '' }}" href="{{ route('peserta.peserta.dashboard') }}">
                         <i class="bi bi-speedometer2 me-2"></i>Dashboard
                     </a>
 
@@ -243,11 +281,11 @@
                                 <i class="bi bi-person-circle me-2"></i>Profil</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
-                                <form action="{{ route('logout') }}" method="POST">
+                                <a href="#" class="dropdown-item" id="logout-link" onclick="handleLogout(event)">
+                                    <i class="bi bi-box-arrow-right me-2"></i>Logout
+                                </a>
+                                <form action="{{ route('logout') }}" method="POST" id="logout-form" style="display: none;">
                                     @csrf
-                                    <button type="submit" class="dropdown-item">
-                                        <i class="bi bi-box-arrow-right me-2"></i>Logout
-                                    </button>
                                 </form>
                             </li>
                         </ul>
@@ -325,12 +363,29 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    
+    <!-- jQuery with proper fallback -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+            integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+            crossorigin="anonymous"></script>
+    <script>
+        // Proper fallback without document.write
+        if (typeof jQuery === 'undefined') {
+            var script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js';
+            script.crossOrigin = 'anonymous';
+            document.head.appendChild(script);
+        }
+    </script>
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+
     <!-- Sweet Alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
@@ -405,6 +460,60 @@
                     callback();
                 }
             });
+        }
+
+        // Robust logout functionality with fallback
+        function handleLogout(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            const logoutForm = document.getElementById('logout-form');
+
+            // Check if SweetAlert is available
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    title: 'Konfirmasi Logout',
+                    text: 'Apakah Anda yakin ingin keluar dari sistem?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, Logout',
+                    cancelButtonText: 'Batal',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        if (logoutForm) {
+                            logoutForm.submit();
+                        } else {
+                            // Fallback: direct navigation
+                            window.location.href = '{{ route("logout") }}';
+                        }
+                    }
+                });
+            } else {
+                // Fallback: native confirm dialog
+                if (confirm('Apakah Anda yakin ingin keluar dari sistem?')) {
+                    if (logoutForm) {
+                        logoutForm.submit();
+                    } else {
+                        // Create and submit form dynamically
+                        const form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = '{{ route("logout") }}';
+
+                        const csrfToken = document.createElement('input');
+                        csrfToken.type = 'hidden';
+                        csrfToken.name = '_token';
+                        csrfToken.value = '{{ csrf_token() }}';
+
+                        form.appendChild(csrfToken);
+                        document.body.appendChild(form);
+                        form.submit();
+                    }
+                }
+            }
         }
     </script>
 

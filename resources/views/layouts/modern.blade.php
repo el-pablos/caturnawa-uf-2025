@@ -213,12 +213,13 @@
                 <div class="col-lg-3 col-md-6">
                     <h6 class="footer-title">Kompetisi</h6>
                     <ul class="footer-links">
-                        <li><a href="{{ route('public.competitions') }}#technology">Teknologi</a></li>
-                        <li><a href="{{ route('public.competitions') }}#health">Kesehatan</a></li>
-                        <li><a href="{{ route('public.competitions') }}#biodiversity">Biodiversitas</a></li>
+                        <li><a href="{{ route('public.competitions') }}#kdbi">KDBI</a></li>
+                        <li><a href="{{ route('public.competitions') }}#edc">EDC</a></li>
+                        <li><a href="{{ route('public.competitions') }}#short-movie">Short Movie</a></li>
+                        <li><a href="{{ route('public.competitions') }}#fotografi">Fotografi</a></li>
+                        <li><a href="{{ route('public.competitions') }}#karya-ilmiah">Karya Ilmiah</a></li>
                         <li><a href="{{ route('public.faq') }}">FAQ</a></li>
                         <li><a href="#timeline">Timeline</a></li>
-                        <li><a href="#benefits">Benefits</a></li>
                     </ul>
                 </div>
 

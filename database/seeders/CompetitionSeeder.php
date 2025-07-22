@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Competition;
-use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class CompetitionSeeder extends Seeder
 {
@@ -14,66 +14,112 @@ class CompetitionSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create team competition for testing
-        Competition::create([
-            'name' => 'Kompetisi Tim Test',
-            'slug' => 'kompetisi-tim-test',
-            'description' => 'Kompetisi tim untuk testing form registrasi dengan anggota tim yang fleksibel.',
-            'category' => 'event_dcc',
-            'theme' => 'Innovation in Technology',
-            'price' => 100000,
-            'early_bird_price' => 75000,
-            'early_bird_deadline' => now()->addDays(7),
-            'registration_start' => now()->subDays(1),
-            'registration_end' => now()->addDays(30),
-            'registration_deadline' => now()->addDays(30),
-            'round1_date' => now()->addDays(35),
-            'semifinal_date' => now()->addDays(40),
-            'final_date' => now()->addDays(45),
-            'competition_start' => now()->addDays(35),
-            'competition_end' => now()->addDays(45),
-            'submission_deadline' => now()->addDays(32),
-            'result_announcement' => now()->addDays(50),
-            'max_participants' => 50,
-            'min_team_members' => 1,
-            'max_team_members' => 5,
-            'requirements' => [
-                'Peserta adalah siswa SMA/SMK atau mahasiswa',
-                'Setiap tim maksimal 5 orang',
-                'Minimal 1 orang per tim'
+        $competitions = [
+            [
+                'name' => 'Kompetisi Debat Bahasa Indonesia (KDBI)',
+                'slug' => 'kdbi-2025',
+                'description' => 'Kompetisi debat bahasa Indonesia tingkat nasional untuk mahasiswa.',
+                'category' => 'event_debate',
+                'price' => 150000,
+                'early_bird_price' => 120000,
+                'max_participants' => 32,
+                'registration_start' => Carbon::now()->subDays(30),
+                'registration_end' => Carbon::now()->addDays(30),
+                'competition_start' => Carbon::now()->addDays(45),
+                'competition_end' => Carbon::now()->addDays(47),
+                'is_active' => true,
+                'rules' => 'Aturan kompetisi debat bahasa Indonesia.',
+                'prizes' => json_encode([
+                    'first' => 'Rp 5.000.000',
+                    'second' => 'Rp 3.000.000',
+                    'third' => 'Rp 2.000.000'
+                ])
             ],
-            'prizes' => [
-                'Juara 1: Rp 5.000.000',
-                'Juara 2: Rp 3.000.000',
-                'Juara 3: Rp 2.000.000'
+            [
+                'name' => 'English Debate Competition (EDC)',
+                'slug' => 'edc-2025',
+                'description' => 'Kompetisi debat bahasa Inggris tingkat nasional.',
+                'category' => 'event_debate',
+                'price' => 175000,
+                'early_bird_price' => 140000,
+                'max_participants' => 24,
+                'registration_start' => Carbon::now()->subDays(25),
+                'registration_end' => Carbon::now()->addDays(35),
+                'competition_start' => Carbon::now()->addDays(50),
+                'competition_end' => Carbon::now()->addDays(52),
+                'is_active' => true,
+                'rules' => 'English debate competition rules.',
+                'prizes' => json_encode([
+                    'first' => 'Rp 6.000.000',
+                    'second' => 'Rp 4.000.000',
+                    'third' => 'Rp 2.500.000'
+                ])
             ],
-            'rules' => [
-                'Peserta wajib mengikuti seluruh rangkaian kompetisi',
-                'Tidak diperbolehkan mengganti anggota tim setelah registrasi',
-                'Keputusan juri tidak dapat diganggu gugat'
+            [
+                'name' => 'Short Movie Competition',
+                'slug' => 'short-movie-2025',
+                'description' => 'Kompetisi film pendek dengan tema kreativitas dan inovasi.',
+                'category' => 'event_dcc',
+                'price' => 100000,
+                'early_bird_price' => 80000,
+                'max_participants' => 50,
+                'registration_start' => Carbon::now()->subDays(20),
+                'registration_end' => Carbon::now()->addDays(40),
+                'competition_start' => Carbon::now()->addDays(55),
+                'competition_end' => Carbon::now()->addDays(57),
+                'is_active' => true,
+                'rules' => 'Aturan kompetisi film pendek.',
+                'prizes' => json_encode([
+                    'first' => 'Rp 4.000.000',
+                    'second' => 'Rp 2.500.000',
+                    'third' => 'Rp 1.500.000'
+                ])
             ],
-            'is_active' => true,
-            'status' => 'active',
-            'is_team_competition' => true,
-            'allow_individual' => true,
-            'prize_amount' => 10000000,
-            'type' => 'team',
-            'short_description' => 'Kompetisi tim untuk testing form registrasi',
-            'contact_person' => 'Admin Test',
-            'contact_email' => 'admin@unasfest.com',
-            'contact_phone' => '081234567890',
-            'whatsapp_group_link' => 'https://chat.whatsapp.com/test',
-            'terms_conditions' => 'Syarat dan ketentuan berlaku',
-            'judging_criteria' => [
-                'Inovasi: 30%',
-                'Implementasi: 30%',
-                'Presentasi: 25%',
-                'Dampak: 15%'
+            [
+                'name' => 'Kompetisi Fotografi',
+                'slug' => 'fotografi-2025',
+                'description' => 'Kompetisi fotografi dengan tema alam dan budaya Indonesia.',
+                'category' => 'event_dcc',
+                'price' => 75000,
+                'early_bird_price' => 60000,
+                'max_participants' => 100,
+                'registration_start' => Carbon::now()->subDays(15),
+                'registration_end' => Carbon::now()->addDays(45),
+                'competition_start' => Carbon::now()->addDays(60),
+                'competition_end' => Carbon::now()->addDays(62),
+                'is_active' => true,
+                'rules' => 'Aturan kompetisi fotografi.',
+                'prizes' => json_encode([
+                    'first' => 'Rp 3.000.000',
+                    'second' => 'Rp 2.000.000',
+                    'third' => 'Rp 1.000.000'
+                ])
             ],
-            'is_featured' => true,
-            'show_leaderboard' => true,
-        ]);
+            [
+                'name' => 'Kompetisi Karya Ilmiah',
+                'slug' => 'karya-ilmiah-2025',
+                'description' => 'Kompetisi penulisan karya ilmiah untuk mahasiswa.',
+                'category' => 'event_scientific_paper',
+                'price' => 125000,
+                'early_bird_price' => 100000,
+                'max_participants' => 40,
+                'registration_start' => Carbon::now()->subDays(10),
+                'registration_end' => Carbon::now()->addDays(50),
+                'competition_start' => Carbon::now()->addDays(65),
+                'competition_end' => Carbon::now()->addDays(67),
+                'is_active' => true,
+                'rules' => 'Aturan kompetisi karya ilmiah.',
+                'prizes' => json_encode([
+                    'first' => 'Rp 5.000.000',
+                    'second' => 'Rp 3.500.000',
+                    'third' => 'Rp 2.000.000'
+                ])
+            ]
+        ];
 
-        $this->command->info('Competition seeder completed successfully!');
+        foreach ($competitions as $competition) {
+            Competition::create($competition);
+            $this->command->info("Competition '{$competition['name']}' created successfully.");
+        }
     }
 }

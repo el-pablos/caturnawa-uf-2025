@@ -4,7 +4,7 @@
 @section('page-title', 'Kompetisi Tersedia')
 
 @section('sidebar-menu')
-    <a class="nav-link" href="{{ route('peserta.dashboard') }}">
+    <a class="nav-link" href="{{ route('peserta.peserta.dashboard') }}">
         <i class="bi bi-speedometer2 me-2"></i>Dashboard
     </a>
     <a class="nav-link active" href="{{ route('peserta.competitions.index') }}">
@@ -24,8 +24,8 @@
     <div class="card-body">
         <form method="GET" class="row g-3">
             <div class="col-md-4">
-                <label class="form-label">Kategori</label>
-                <select name="category" class="form-select">
+                <label for="category" class="form-label">Kategori</label>
+                <select name="category" id="category" class="form-select">
                     <option value="">Semua Kategori</option>
                     <option value="event_dcc" {{ request('category') === 'event_dcc' ? 'selected' : '' }}>Event DCC</option>
                     <option value="event_debate" {{ request('category') === 'event_debate' ? 'selected' : '' }}>Event Debate</option>
@@ -33,17 +33,17 @@
                 </select>
             </div>
             <div class="col-md-4">
-                <label class="form-label">Status Pendaftaran</label>
-                <select name="registration_status" class="form-select">
+                <label for="registration_status" class="form-label">Status Pendaftaran</label>
+                <select name="registration_status" id="registration_status" class="form-select">
                     <option value="">Semua Status</option>
                     <option value="open" {{ request('registration_status') === 'open' ? 'selected' : '' }}>Terbuka</option>
                     <option value="closing_soon" {{ request('registration_status') === 'closing_soon' ? 'selected' : '' }}>Segera Ditutup</option>
                 </select>
             </div>
             <div class="col-md-4">
-                <label class="form-label">Cari</label>
+                <label for="search" class="form-label">Cari</label>
                 <div class="input-group">
-                    <input type="text" name="search" class="form-control" placeholder="Nama kompetisi..." value="{{ request('search') }}">
+                    <input type="text" name="search" id="search" class="form-control" placeholder="Nama kompetisi..." value="{{ request('search') }}">
                     <button type="submit" class="btn btn-primary">
                         <i class="bi bi-search"></i>
                     </button>

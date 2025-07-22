@@ -4,7 +4,7 @@
 @section('page-title', 'Tambah Pengguna Baru')
 
 @section('sidebar-menu')
-    <a class="nav-link" href="{{ route('admin.dashboard') }}">
+    <a class="nav-link" href="{{ route('admin.admin.dashboard') }}">
         <i class="bi bi-speedometer2 me-2"></i>Dashboard
     </a>
     <a class="nav-link" href="{{ route('admin.competitions.index') }}">

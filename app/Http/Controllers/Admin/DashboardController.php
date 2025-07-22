@@ -115,9 +115,9 @@ class DashboardController extends Controller
 
         $paymentStats = DB::table('payments')
             ->selectRaw('
-                SUM(CASE WHEN transaction_status = "settlement" THEN gross_amount ELSE 0 END) as total_revenue,
-                COUNT(CASE WHEN transaction_status = "pending" THEN 1 END) as pending_payments
-            ')
+                SUM(CASE WHEN transaction_status = ? THEN gross_amount ELSE 0 END) as total_revenue,
+                COUNT(CASE WHEN transaction_status = ? THEN 1 END) as pending_payments
+            ', ['settlement', 'pending'])
             ->first();
 
         $submissionCount = DB::table('submissions')->count();
@@ -275,11 +275,11 @@ class DashboardController extends Controller
      */
     public function getCompetitionStats()
     {
-        $competitions = Competition::withCount(['registrations', 'submissions'])
-            ->with(['registrations' => function($query) {
-                $query->select('competition_id', DB::raw('SUM(amount) as total_revenue'))
-                    ->groupBy('competition_id');
-            }])
+        $competitions = Competition::select([
+                'id', 'name', 'category', 'is_active'
+            ])
+            ->withCount(['registrations', 'submissions'])
+            ->withSum('registrations', 'amount')
             ->get();
 
         $stats = $competitions->map(function($competition) {
@@ -287,7 +287,7 @@ class DashboardController extends Controller
                 'name' => $competition->name,
                 'category' => $competition->category,
                 'submissions' => $competition->submissions_count,
-                'revenue' => $competition->registrations->sum('total_revenue') ?? 0,
+                'revenue' => $competition->registrations_sum_amount ?? 0,
                 'status' => $competition->is_active ? 'Aktif' : 'Tidak Aktif',
             ];
         });

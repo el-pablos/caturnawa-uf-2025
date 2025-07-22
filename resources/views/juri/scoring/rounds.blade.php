@@ -6,7 +6,7 @@
 
 @section('header-actions')
     <div class="d-flex gap-2">
-        <a href="{{ route('juri.dashboard') }}" class="btn btn-outline-secondary">
+        <a href="{{ route('juri.juri.dashboard') }}" class="btn btn-outline-secondary">
             <i class="bi bi-arrow-left me-2"></i>Kembali ke Dashboard
         </a>
     </div>
