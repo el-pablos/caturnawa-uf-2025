@@ -11,7 +11,7 @@
     <!-- Hero Section -->
     <div class="row">
         <div class="col-12">
-            <div class="jumbotron bg-primary text-white p-5 rounded mb-5">
+            <div class="jumbotron bg-primary text-white p-5 rounded mb-5" data-aos="fade-down">
                 <div class="text-center">
                     <h1 class="display-4 fw-bold mb-3">
                         Tentang <span class="text-warning">UNAS Fest 2025</span>
@@ -39,7 +39,7 @@
 
     <!-- Vision & Mission Section -->
     <div class="row g-4 mb-5">
-        <div class="col-lg-6">
+        <div class="col-lg-6" data-aos="fade-right">
             <div class="card shadow h-100">
                 <div class="card-header bg-primary text-white text-center">
                     <h3 class="card-title mb-0">
@@ -55,7 +55,7 @@
             </div>
         </div>
 
-        <div class="col-lg-6">
+        <div class="col-lg-6" data-aos="fade-left">
             <div class="card shadow h-100">
                 <div class="card-header bg-success text-white text-center">
                     <h3 class="card-title mb-0">
@@ -90,7 +90,7 @@
 
     <!-- Values Section -->
     <div class="row">
-        <div class="col-12">
+        <div class="col-12" data-aos="zoom-in">
             <div class="card shadow">
                 <div class="card-header bg-info text-white text-center">
                     <h2 class="card-title mb-0">Nilai-Nilai Kami</h2>
@@ -98,7 +98,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row g-4">
-                        <div class="col-lg-3 col-md-6 text-center">
+                        <div class="col-lg-3 col-md-6 text-center" data-aos="fade-up" data-aos-delay="100">
                             <div class="p-3">
                                 <i class="bi bi-lightbulb text-primary" style="font-size: 3rem;"></i>
                                 <h4 class="fw-bold text-primary mt-2">Inovasi</h4>
@@ -108,7 +108,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-3 col-md-6 text-center">
+                        <div class="col-lg-3 col-md-6 text-center" data-aos="fade-up" data-aos-delay="200">
                             <div class="p-3">
                                 <i class="bi bi-people text-success" style="font-size: 3rem;"></i>
                                 <h4 class="fw-bold text-success mt-2">Kolaborasi</h4>
@@ -118,7 +118,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-3 col-md-6 text-center">
+                        <div class="col-lg-3 col-md-6 text-center" data-aos="fade-up" data-aos-delay="300">
                             <div class="p-3">
                                 <i class="bi bi-award text-warning" style="font-size: 3rem;"></i>
                                 <h4 class="fw-bold text-warning mt-2">Kualitas</h4>
@@ -128,7 +128,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-3 col-md-6 text-center">
+                        <div class="col-lg-3 col-md-6 text-center" data-aos="fade-up" data-aos-delay="400">
                             <div class="p-3">
                                 <i class="bi bi-globe text-info" style="font-size: 3rem;"></i>
                                 <h4 class="fw-bold text-info mt-2">Berkelanjutan</h4>
