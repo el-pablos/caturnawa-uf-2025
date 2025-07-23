@@ -192,6 +192,9 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
                 Route::get('/{description}/edit', [App\Http\Controllers\Admin\CompetitionDescriptionController::class, 'edit'])->name('edit');
                 Route::put('/{description}', [App\Http\Controllers\Admin\CompetitionDescriptionController::class, 'update'])->name('update');
                 Route::delete('/{description}', [App\Http\Controllers\Admin\CompetitionDescriptionController::class, 'destroy'])->name('destroy');
+
+                // Special route for Terms & Conditions
+                Route::put('/terms', [App\Http\Controllers\Admin\CompetitionDescriptionController::class, 'updateTerms'])->name('update-terms');
             });
         });
         
@@ -200,7 +203,8 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             Route::get('/', [App\Http\Controllers\Admin\RegistrationController::class, 'index'])->name('index');
             Route::get('/{registration}', [App\Http\Controllers\Admin\RegistrationController::class, 'show'])->name('show');
             Route::patch('/{registration}', [App\Http\Controllers\Admin\RegistrationController::class, 'update'])->name('update');
-            Route::patch('/{registration}/confirm', [App\Http\Controllers\Admin\RegistrationController::class, 'confirm'])->name('confirm');
+            // DISABLED: Manual registration confirmation feature has been disabled
+            // Route::patch('/{registration}/confirm', [App\Http\Controllers\Admin\RegistrationController::class, 'confirm'])->name('confirm');
             Route::patch('/{registration}/cancel', [App\Http\Controllers\Admin\RegistrationController::class, 'cancel'])->name('cancel');
             Route::patch('/{registration}/re-enable', [App\Http\Controllers\Admin\RegistrationController::class, 'reEnable'])->name('re-enable');
             Route::delete('/{registration}', [App\Http\Controllers\Admin\RegistrationController::class, 'destroy'])->name('destroy');
@@ -215,7 +219,8 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             Route::patch('/{payment}', [App\Http\Controllers\Admin\PaymentController::class, 'update'])->name('update');
             Route::patch('/{payment}/verify', [App\Http\Controllers\Admin\PaymentController::class, 'verify'])->name('verify');
             Route::patch('/{payment}/reject', [App\Http\Controllers\Admin\PaymentController::class, 'reject'])->name('reject');
-            Route::patch('/{payment}/confirm', [App\Http\Controllers\Admin\PaymentController::class, 'confirmPayment'])->name('confirm');
+            // DISABLED: Manual payment confirmation feature has been disabled
+            // Route::patch('/{payment}/confirm', [App\Http\Controllers\Admin\PaymentController::class, 'confirmPayment'])->name('confirm');
         });
         
         // User Management (Super Admin only)

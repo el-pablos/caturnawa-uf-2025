@@ -25,7 +25,13 @@ class CompetitionDescriptionController extends Controller
 
         $sections = CompetitionDescription::getSectionsByCompetition($competition->id);
 
-        return view('admin.competitions.descriptions.index', compact('competition', 'descriptions', 'sections'));
+        // Get or create Terms & Conditions
+        $termsAndConditions = $competition->descriptions()
+            ->where('section', 'terms')
+            ->where('title', 'Syarat & Ketentuan')
+            ->first();
+
+        return view('admin.competitions.descriptions.index', compact('competition', 'descriptions', 'sections', 'termsAndConditions'));
     }
 
     /**
@@ -123,6 +129,46 @@ class CompetitionDescriptionController extends Controller
         return redirect()
             ->route('admin.competitions.descriptions.index', $competition)
             ->with('success', 'Deskripsi berhasil diperbarui');
+    }
+
+    /**
+     * Update Terms & Conditions
+     */
+    public function updateTerms(Request $request, Competition $competition)
+    {
+        $validator = Validator::make($request->all(), [
+            'terms_content' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Find or create Terms & Conditions
+        $termsAndConditions = $competition->descriptions()
+            ->where('section', 'terms')
+            ->where('title', 'Syarat & Ketentuan')
+            ->first();
+
+        if (!$termsAndConditions) {
+            $termsAndConditions = new CompetitionDescription();
+            $termsAndConditions->competition_id = $competition->id;
+            $termsAndConditions->section = 'terms';
+            $termsAndConditions->title = 'Syarat & Ketentuan';
+            $termsAndConditions->order = 1;
+            $termsAndConditions->is_active = true;
+            $termsAndConditions->created_by = Auth::id();
+        }
+
+        $termsAndConditions->content = $request->terms_content;
+        $termsAndConditions->updated_by = Auth::id();
+        $termsAndConditions->save();
+
+        return redirect()
+            ->route('admin.competitions.descriptions.index', $competition)
+            ->with('success', 'Syarat & Ketentuan berhasil diperbarui');
     }
 
     /**
