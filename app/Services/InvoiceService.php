@@ -10,12 +10,14 @@ class InvoiceService
 {
     public function generateInvoice(Registration $registration)
     {
-        // Load SVG template
-        $svgTemplate = Storage::get('kebutuhan-it/INVOICE/invoice-template.svg');
-        
-        if (!$svgTemplate) {
-            throw new \Exception('Invoice template not found');
+        // Load SVG template from kebutuhan-it folder
+        $templatePath = base_path('kebutuhan-it/INVOICE/invoice-template.svg');
+
+        if (!file_exists($templatePath)) {
+            throw new \Exception('Invoice template not found: ' . $templatePath);
         }
+
+        $svgTemplate = file_get_contents($templatePath);
         
         // Generate invoice number if not exists
         $invoiceNumber = $this->generateInvoiceNumber($registration);
@@ -48,34 +50,29 @@ class InvoiceService
         $competition = $registration->competition;
         $user = $registration->user;
         
+        $payment = $registration->payment;
+
         return [
             'INVOICE_NUMBER' => $invoiceNumber,
-            'INVOICE_DATE' => now()->format('d F Y'),
-            'DUE_DATE' => now()->addDays(1)->format('d F Y'),
-            
-            // Company Info
-            'COMPANY_NAME' => 'UNAS FEST 2025',
-            'COMPANY_ADDRESS' => 'Universitas Nasional Jakarta',
-            'COMPANY_CITY' => 'Jakarta Selatan 12520',
-            'COMPANY_PHONE' => '+62 21 7806700',
-            'COMPANY_EMAIL' => 'info@unas.ac.id',
-            
+            'INVOICE_DATE' => now()->format('d/m/Y H:i'),
+            'PAYMENT_STATUS' => $this->getPaymentStatusText($payment),
+
             // Participant Info
             'PARTICIPANT_NAME' => $user->name,
             'PARTICIPANT_EMAIL' => $user->email,
-            'PARTICIPANT_PHONE' => $registration->phone ?? $user->phone,
-            'PARTICIPANT_INSTITUTION' => $registration->institution ?? $user->institution,
-            'PARTICIPANT_ADDRESS' => $user->address ?? 'Jakarta, Indonesia',
-            
-            // Registration Info
-            'REGISTRATION_NUMBER' => $registration->registration_number,
+            'PARTICIPANT_PHONE' => $registration->phone ?? 'Tidak disebutkan',
+            'PARTICIPANT_INSTITUTION' => $registration->institution ?? 'Tidak disebutkan',
+
+            // Competition Info
             'COMPETITION_NAME' => $competition->name,
             'COMPETITION_CATEGORY' => ucfirst(str_replace('_', ' ', $competition->category)),
-            'TEAM_NAME' => $registration->team_name ?? '-',
-            'PARTICIPANT_TYPE' => ucfirst(str_replace('_', ' ', $registration->participant_category)),
-            
+
             // Payment Info
             'ORIGINAL_PRICE' => 'Rp ' . number_format($registration->original_price, 0, ',', '.'),
+            'FINAL_AMOUNT' => 'Rp ' . number_format($registration->amount, 0, ',', '.'),
+            'DISCOUNT_AMOUNT' => 'Rp ' . number_format($registration->original_price - $registration->amount, 0, ',', '.'),
+            'PAYMENT_METHOD' => $this->getPaymentMethodText($payment),
+            'CONTACT_WHATSAPP' => $this->getContactWhatsApp($competition),
             'DISCOUNT_AMOUNT' => 'Rp ' . number_format($registration->original_price - $registration->amount, 0, ',', '.'),
             'FINAL_AMOUNT' => 'Rp ' . number_format($registration->amount, 0, ',', '.'),
             'PAYMENT_STATUS' => 'PAID',
@@ -220,5 +217,84 @@ class InvoiceService
         $filename = 'Invoice-' . $invoiceNumber . '.pdf';
         
         return $pdf->stream($filename);
+    }
+
+    /**
+     * Get payment status text in Indonesian
+     */
+    private function getPaymentStatusText($payment): string
+    {
+        if (!$payment) {
+            return 'BELUM DIBAYAR';
+        }
+
+        switch ($payment->transaction_status) {
+            case 'settlement':
+            case 'capture':
+                return 'LUNAS';
+            case 'pending':
+                return 'MENUNGGU PEMBAYARAN';
+            case 'expire':
+                return 'KADALUARSA';
+            case 'cancel':
+                return 'DIBATALKAN';
+            case 'deny':
+                return 'DITOLAK';
+            default:
+                return 'TIDAK DIKETAHUI';
+        }
+    }
+
+    /**
+     * Get payment method text in Indonesian
+     */
+    private function getPaymentMethodText($payment): string
+    {
+        if (!$payment || !$payment->payment_type) {
+            return 'Belum dipilih';
+        }
+
+        $methods = [
+            'bank_transfer' => 'Transfer Bank',
+            'credit_card' => 'Kartu Kredit',
+            'cstore' => 'Convenience Store',
+            'gopay' => 'GoPay',
+            'shopeepay' => 'ShopeePay',
+            'qris' => 'QRIS',
+            'bca_va' => 'BCA Virtual Account',
+            'bni_va' => 'BNI Virtual Account',
+            'bri_va' => 'BRI Virtual Account',
+            'mandiri_va' => 'Mandiri Virtual Account',
+            'permata_va' => 'Permata Virtual Account',
+        ];
+
+        return $methods[$payment->payment_type] ?? ucfirst(str_replace('_', ' ', $payment->payment_type));
+    }
+
+    /**
+     * Get contact WhatsApp for competition
+     */
+    private function getContactWhatsApp($competition): string
+    {
+        // Default contact person WhatsApp
+        $defaultWhatsApp = '+62812-3456-7890';
+
+        // Competition-specific contacts
+        $contacts = [
+            'kdbi' => '+62812-1111-1111',
+            'edc' => '+62812-2222-2222',
+            'short-movie' => '+62812-3333-3333',
+            'fotografi' => '+62812-4444-4444',
+            'lkti' => '+62812-5555-5555',
+        ];
+
+        $slug = \Str::slug($competition->name);
+        foreach ($contacts as $key => $whatsapp) {
+            if (\Str::contains($slug, $key)) {
+                return $whatsapp;
+            }
+        }
+
+        return $defaultWhatsApp;
     }
 }
