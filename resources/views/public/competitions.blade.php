@@ -11,7 +11,7 @@
     <!-- Hero Section -->
     <div class="row">
         <div class="col-12">
-            <div class="jumbotron bg-primary text-white p-5 rounded mb-5">
+            <div class="jumbotron bg-primary text-white p-5 rounded mb-5" data-aos="fade-down">
                 <div class="text-center">
                     <h1 class="display-4 fw-bold mb-3">
                         <i class="bi bi-trophy me-3"></i>Kompetisi UNAS Fest 2025
@@ -40,12 +40,12 @@
     <!-- Statistics Section -->
     <div class="row mb-5">
         <div class="col-12">
-            <h2 class="text-center mb-4">
+            <h2 class="text-center mb-4" data-aos="fade-up">
                 <i class="bi bi-graph-up text-info"></i> 
                 UNAS Fest dalam Angka
             </h2>
         </div>
-        <div class="col-12">
+        <div class="col-12" data-aos="zoom-in">
             <div class="card shadow">
                 <div class="card-header bg-info text-white text-center">
                     <h3 class="card-title mb-0">Statistik Kompetisi</h3>
@@ -70,12 +70,12 @@
     <!-- Competitions List -->
     <div class="row">
         <div class="col-12">
-            <h2 class="text-center mb-4">
+            <h2 class="text-center mb-4" data-aos="fade-up">
                 <i class="bi bi-list-task text-primary"></i> 
                 Daftar Kompetisi
             </h2>
         </div>
-        <div class="col-12">
+        <div class="col-12" data-aos="fade-up" data-aos-delay="200">
             <div class="card shadow">
                 <div class="card-header bg-primary text-white text-center">
                     <h3 class="card-title mb-0">Semua Kompetisi UNAS Fest 2025</h3>
@@ -83,7 +83,7 @@
                 </div>
                 <div class="card-body">
                     @forelse($competitions as $competition)
-                        <div class="row mb-4">
+                        <div class="row mb-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
                             <div class="col-12">
                                 <div class="card border-start border-primary border-4">
                                     <div class="card-body">
