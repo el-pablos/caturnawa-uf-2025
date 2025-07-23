@@ -47,6 +47,8 @@ class Submission extends Model
         'is_scored',
         'scored_at',
         'view_count',
+        'reviewed_at',
+        'reviewed_by',
     ];
 
     /**
@@ -169,6 +171,14 @@ class Submission extends Model
             'registration_id',
             'user_id'
         );
+    }
+    
+    /**
+     * Relasi dengan admin yang me-review submission
+     */
+    public function reviewer()
+    {
+        return $this->belongsTo(User::class, 'reviewed_by');
     }
 
     /**

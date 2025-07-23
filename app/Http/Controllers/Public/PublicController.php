@@ -109,8 +109,15 @@ class PublicController extends Controller
     public function competitionDetail($slug)
     {
         $competition = Competition::where('slug', $slug)->firstOrFail();
+        
+        // Load competition descriptions for display
+        $descriptions = $competition->descriptions()
+            ->where('is_active', true)
+            ->orderBy('order')
+            ->orderBy('created_at')
+            ->get();
 
-        return view('public.competition', compact('competition'));
+        return view('public.competition', compact('competition', 'descriptions'));
     }
 
     /**
