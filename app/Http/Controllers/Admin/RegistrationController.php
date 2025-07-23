@@ -121,14 +121,14 @@ class RegistrationController extends Controller
         }
 
         // Pastikan registrasi dalam status yang tepat
-        if ($registration->status !== 'pending') {
+        if (!in_array($registration->status, ['pending', 'paid'])) {
             if (request()->expectsJson()) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Hanya registrasi dengan status pending yang dapat dikonfirmasi.'
+                    'message' => 'Hanya registrasi dengan status pending atau paid yang dapat dikonfirmasi.'
                 ]);
             }
-            return back()->with('error', 'Hanya registrasi dengan status pending yang dapat dikonfirmasi.');
+            return back()->with('error', 'Hanya registrasi dengan status pending atau paid yang dapat dikonfirmasi.');
         }
 
         try {
@@ -139,6 +139,16 @@ class RegistrationController extends Controller
                 'confirmed_at' => now(),
                 'confirmed_by' => auth()->id(),
             ]);
+
+            // If registration has a payment, mark it as confirmed
+            if ($registration->payment && $registration->payment->isSuccess()) {
+                $registration->payment->update([
+                    'is_confirmed' => true,
+                    'confirmed_at' => now(),
+                    'confirmed_by' => auth()->id(),
+                    'confirmation_notes' => 'Pembayaran dikonfirmasi otomatis saat konfirmasi registrasi'
+                ]);
+            }
 
             // Generate QR Code untuk tiket
             $registration->generateQRCode();
@@ -221,14 +231,21 @@ class RegistrationController extends Controller
      */
     private function canProcessRegistration(Registration $registration, $action)
     {
-        // Ambil registrasi yang dibuat sebelum registrasi ini dari kompetisi yang sama
-        $previousRegistrations = Registration::where('competition_id', $registration->competition_id)
-            ->where('created_at', '<', $registration->created_at)
-            ->where('status', 'pending')
-            ->count();
-
-        // Jika masih ada registrasi pending sebelumnya, tidak bisa diproses
-        return $previousRegistrations === 0;
+        // Allow processing based on individual registration criteria instead of sequential
+        // Check if the registration meets the requirements for the specific action
+        
+        switch ($action) {
+            case 'confirm':
+                // Can confirm if status is pending or paid (paid means payment is successful)
+                return in_array($registration->status, ['pending', 'paid']);
+                
+            case 'cancel':
+                // Can cancel if not already cancelled or expired
+                return !in_array($registration->status, ['cancelled', 'expired']);
+                
+            default:
+                return true;
+        }
     }
 
     /**
