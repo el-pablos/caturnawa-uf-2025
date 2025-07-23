@@ -116,11 +116,11 @@
             <div class="col-md-2">
                 <label for="filter-submit" class="form-label">&nbsp;</label>
                 <div class="d-flex gap-2">
-                    <button type="submit" id="filter-submit" class="btn btn-primary">
-                        <i class="bi bi-search"></i>
+                    <button type="submit" id="filter-submit" class="btn btn-primary" title="Cari">
+                        <i class="bi bi-search"></i> Cari
                     </button>
-                    <a href="{{ route('admin.payments.index') }}" class="btn btn-outline-secondary">
-                        <i class="bi bi-arrow-clockwise"></i>
+                    <a href="{{ route('admin.payments.index') }}" class="btn btn-outline-secondary" title="Reset Filter">
+                        <i class="bi bi-arrow-counterclockwise"></i> Reset
                     </a>
                 </div>
             </div>
@@ -134,13 +134,13 @@
         <h5 class="card-title mb-0">Daftar Pembayaran</h5>
         <div class="btn-group" id="bulkActions" style="display: none;">
             <button class="btn btn-success btn-sm" onclick="bulkVerify()">
-                <i class="bi bi-check-circle me-1"></i>Verifikasi Terpilih
+                <i class="bi bi-shield-check me-1"></i>Verifikasi Terpilih
             </button>
             <button class="btn btn-primary btn-sm" onclick="bulkConfirm()">
-                <i class="bi bi-check2-circle me-1"></i>Konfirmasi Terpilih
+                <i class="bi bi-check-circle-fill me-1"></i>Konfirmasi Terpilih
             </button>
             <button class="btn btn-danger btn-sm" onclick="bulkReject()">
-                <i class="bi bi-x-circle me-1"></i>Tolak Terpilih
+                <i class="bi bi-x-octagon me-1"></i>Tolak Terpilih
             </button>
         </div>
     </div>
@@ -216,18 +216,20 @@
                                 <td>{{ $payment->created_at->format('d/m/Y H:i') }}</td>
                                 <td>
                                     <div class="btn-group btn-group-sm">
-                                        <a href="{{ route('admin.payments.show', $payment) }}" class="btn btn-outline-primary">
-                                            <i class="bi bi-eye"></i>
+                                        <a href="{{ route('admin.payments.show', $payment) }}" class="btn btn-outline-primary" title="Lihat Detail">
+                                            <i class="bi bi-file-text"></i>
                                         </a>
                                         @if($payment->isAwaitingConfirmation())
                                             <button class="btn btn-outline-success btn-sm" onclick="confirmPayment({{ $payment->id }})" title="Konfirmasi Pembayaran">
-                                                <i class="bi bi-check-circle"></i>
+                                                <i class="bi bi-check-circle-fill"></i>
                                             </button>
                                             <button class="btn btn-outline-danger btn-sm" onclick="rejectPayment({{ $payment->id }})" title="Tolak Pembayaran">
-                                                <i class="bi bi-x-circle"></i>
+                                                <i class="bi bi-x-circle-fill"></i>
                                             </button>
                                         @elseif($payment->isConfirmed())
-                                            <span class="badge bg-success">Terkonfirmasi</span>
+                                            <span class="badge bg-success">
+                                                <i class="bi bi-check-circle-fill me-1"></i>Terkonfirmasi
+                                            </span>
                                         @endif
                                     </div>
                                 </td>
