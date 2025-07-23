@@ -21,10 +21,32 @@ if (import.meta.hot) {
 // Custom JavaScript for UNAS Fest 2025
 document.addEventListener('DOMContentLoaded', function() {
 
+    // Setup CSRF token for AJAX requests
+    const csrfToken = document.querySelector('meta[name="csrf-token"]');
+    if (csrfToken) {
+        window.axios = window.axios || {};
+        if (window.axios.defaults) {
+            window.axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken.getAttribute('content');
+        }
+
+        // Setup for fetch API
+        window.csrfToken = csrfToken.getAttribute('content');
+
+        // Setup for jQuery if available
+        if (typeof $ !== 'undefined') {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken.getAttribute('content')
+                }
+            });
+        }
+    }
+
     // Development mode indicator
     if (import.meta.env.DEV) {
         console.log('🚀 UNAS Fest 2025 - Development Mode');
         console.log('📝 Hot reload is active - changes will be reflected automatically');
+        console.log('🔒 CSRF token setup complete');
     }
 
     // Initialize AOS (Animate On Scroll) with optimized settings

@@ -192,11 +192,32 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // Debug CSRF token
+        document.addEventListener('DOMContentLoaded', function() {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]');
+            const csrfInput = document.querySelector('input[name="_token"]');
+
+            console.log('CSRF Meta Token:', csrfToken ? csrfToken.getAttribute('content') : 'Not found');
+            console.log('CSRF Input Token:', csrfInput ? csrfInput.value : 'Not found');
+
+            // Ensure form has CSRF token
+            const form = document.querySelector('form[action*="login"]');
+            if (form && !form.querySelector('input[name="_token"]')) {
+                console.error('Form missing CSRF token input!');
+                const tokenInput = document.createElement('input');
+                tokenInput.type = 'hidden';
+                tokenInput.name = '_token';
+                tokenInput.value = csrfToken ? csrfToken.getAttribute('content') : '';
+                form.appendChild(tokenInput);
+                console.log('CSRF token input added to form');
+            }
+        });
+
         // Toggle password visibility
         document.getElementById('togglePassword').addEventListener('click', function() {
             const password = document.getElementById('password');
             const icon = this.querySelector('i');
-            
+
             if (password.type === 'password') {
                 password.type = 'text';
                 icon.classList.remove('fa-eye');
