@@ -2,27 +2,27 @@
 <div class="row mb-4">
     <div class="col-12">
         <div class="card border-0 bg-gradient" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-            <div class="card-body text-white">
+            <div class="card-body">
                 <div class="row align-items-center">
                     <div class="col-md-8">
-                        <h4 class="mb-3">
+                        <h4 class="mb-3 text-white">
                             <i class="bi bi-star-fill me-2"></i>
                             Panduan Penggunaan Dashboard Caturnawa
                         </h4>
-                        <p class="mb-3 lead">
+                        <p class="mb-3 lead text-white">
                             Panduan lengkap alur website dari registrasi hingga upload karya untuk PIC/Team Leader.
                         </p>
                         <div class="d-flex gap-2">
-                            <span class="badge bg-white bg-opacity-20 p-2">
+                            <span class="badge bg-white bg-opacity-20 p-2 text-dark">
                                 <i class="bi bi-people me-1"></i>{{ App\Models\Registration::where('status', 'paid')->count() }}+ Peserta
                             </span>
-                            <span class="badge bg-white bg-opacity-20 p-2">
+                            <span class="badge bg-white bg-opacity-20 p-2 text-dark">
                                 <i class="bi bi-trophy me-1"></i>{{ App\Models\Competition::where('is_active', true)->count() }} Kompetisi
                             </span>
                         </div>
                     </div>
                     <div class="col-md-4 text-center">
-                        <i class="bi bi-award display-1 opacity-75"></i>
+                        <i class="bi bi-award display-1 opacity-75 text-white"></i>
                     </div>
                 </div>
             </div>
@@ -141,7 +141,7 @@
                                 </div>
                             </div>
                             <div>
-                                <h6 class="fw-bold">Lakukan Pembayaran (Seperti Shopee)</h6>
+                                <h6 class="fw-bold">Lakukan Pembayaran</h6>
                                 <p class="text-muted small mb-2">
                                     Bayar kapan pun selama belum timeout. Bisa ganti metode payment. Sekali bayar, selesai.
                                 </p>
