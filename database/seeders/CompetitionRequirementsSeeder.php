@@ -19,21 +19,35 @@ class CompetitionRequirementsSeeder extends Seeder
     {
         // Get existing competitions
         $kdbiCompetition = Competition::where('slug', 'kdbi-2025')->first();
+        $edcCompetition = Competition::where('slug', 'edc-2025')->first();
         $shortMovieCompetition = Competition::where('slug', 'short-movie-2025')->first();
+        $fotografiCompetition = Competition::where('slug', 'fotografi-2025')->first();
         $lktiCompetition = Competition::where('slug', 'karya-ilmiah-2025')->first();
-        
+
         // KDBI Requirements
         if ($kdbiCompetition) {
             $this->seedKDBIRequirements($kdbiCompetition);
             $this->seedKDBICriteria($kdbiCompetition);
         }
-        
-        // Short Movie Requirements 
+
+        // EDC Requirements
+        if ($edcCompetition) {
+            $this->seedEDCRequirements($edcCompetition);
+            $this->seedEDCCriteria($edcCompetition);
+        }
+
+        // Short Movie Requirements
         if ($shortMovieCompetition) {
             $this->seedDCCRequirements($shortMovieCompetition);
             $this->seedDCCCriteria($shortMovieCompetition);
         }
-        
+
+        // Fotografi Requirements
+        if ($fotografiCompetition) {
+            $this->seedFotografiRequirements($fotografiCompetition);
+            $this->seedFotografiCriteria($fotografiCompetition);
+        }
+
         // LKTI Requirements
         if ($lktiCompetition) {
             $this->seedLKTIRequirements($lktiCompetition);
@@ -164,7 +178,120 @@ class CompetitionRequirementsSeeder extends Seeder
             CompetitionRequirement::create($requirement);
         }
     }
-    
+
+    private function seedEDCRequirements($competition)
+    {
+        $requirements = [
+            [
+                'field_name' => 'english_proficiency',
+                'field_type' => 'select',
+                'field_label' => 'English Proficiency Level',
+                'help_text' => 'Select your English proficiency level',
+                'is_required' => true,
+                'field_options' => json_encode([
+                    'intermediate' => 'Intermediate',
+                    'upper_intermediate' => 'Upper Intermediate',
+                    'advanced' => 'Advanced',
+                    'proficient' => 'Proficient'
+                ]),
+                'field_group' => 'basic',
+                'order_index' => 1
+            ],
+            [
+                'field_name' => 'debate_experience',
+                'field_type' => 'textarea',
+                'field_label' => 'Debate Experience',
+                'help_text' => 'Describe your previous debate experience (competitions, training, etc.)',
+                'is_required' => true,
+                'validation_rules' => json_encode([
+                    'max_length' => 1000
+                ]),
+                'field_group' => 'experience',
+                'order_index' => 2
+            ],
+            [
+                'field_name' => 'preferred_position',
+                'field_type' => 'radio',
+                'field_label' => 'Preferred Debate Position',
+                'help_text' => 'Select your preferred position in debate',
+                'is_required' => true,
+                'field_options' => json_encode([
+                    'first_speaker' => 'First Speaker',
+                    'second_speaker' => 'Second Speaker',
+                    'third_speaker' => 'Third Speaker',
+                    'flexible' => 'Flexible'
+                ]),
+                'field_group' => 'basic',
+                'order_index' => 3
+            ]
+        ];
+
+        foreach ($requirements as $requirement) {
+            $requirement['competition_id'] = $competition->id;
+            CompetitionRequirement::create($requirement);
+        }
+    }
+
+    private function seedFotografiRequirements($competition)
+    {
+        $requirements = [
+            [
+                'field_name' => 'photography_category',
+                'field_type' => 'select',
+                'field_label' => 'Kategori Fotografi',
+                'help_text' => 'Pilih kategori fotografi yang akan diikuti',
+                'is_required' => true,
+                'field_options' => json_encode([
+                    'nature' => 'Alam dan Landscape',
+                    'portrait' => 'Portrait dan Human Interest',
+                    'street' => 'Street Photography',
+                    'culture' => 'Budaya dan Tradisi',
+                    'architecture' => 'Arsitektur dan Urban'
+                ]),
+                'field_group' => 'basic',
+                'order_index' => 1
+            ],
+            [
+                'field_name' => 'camera_equipment',
+                'field_type' => 'text',
+                'field_label' => 'Peralatan Kamera',
+                'help_text' => 'Sebutkan kamera dan lensa yang akan digunakan',
+                'is_required' => true,
+                'validation_rules' => json_encode([
+                    'max_length' => 200
+                ]),
+                'field_group' => 'technical',
+                'order_index' => 2
+            ],
+            [
+                'field_name' => 'photography_experience',
+                'field_type' => 'textarea',
+                'field_label' => 'Pengalaman Fotografi',
+                'help_text' => 'Ceritakan pengalaman fotografi Anda (kompetisi, pameran, dll)',
+                'is_required' => true,
+                'validation_rules' => json_encode([
+                    'max_length' => 1000
+                ]),
+                'field_group' => 'experience',
+                'order_index' => 3
+            ],
+            [
+                'field_name' => 'portfolio_link',
+                'field_type' => 'url',
+                'field_label' => 'Link Portofolio',
+                'help_text' => 'Link ke portofolio fotografi Anda (Instagram, website, dll)',
+                'is_required' => false,
+                'field_group' => 'portfolio',
+                'order_index' => 4
+            ]
+        ];
+
+        foreach ($requirements as $requirement) {
+            $requirement['competition_id'] = $competition->id;
+            CompetitionRequirement::create($requirement);
+        }
+    }
+
     private function seedDCCRequirements($competition)
     {
         $requirements = [
@@ -315,7 +442,113 @@ class CompetitionRequirementsSeeder extends Seeder
             CompetitionCriteria::create($criterion);
         }
     }
-    
+
+    private function seedEDCCriteria($competition)
+    {
+        $criteria = [
+            [
+                'criteria_name' => 'Content (Konten)',
+                'description' => 'Kualitas argumen dan substansi materi',
+                'weight_percentage' => 40,
+                'sub_criteria' => json_encode([
+                    'argument_quality' => 'Kualitas Argumen',
+                    'evidence_support' => 'Dukungan Bukti',
+                    'logical_reasoning' => 'Penalaran Logis'
+                ]),
+                'max_score' => 100,
+                'order_index' => 1
+            ],
+            [
+                'criteria_name' => 'Manner (Cara Penyampaian)',
+                'description' => 'Gaya dan teknik penyampaian dalam bahasa Inggris',
+                'weight_percentage' => 30,
+                'sub_criteria' => json_encode([
+                    'english_fluency' => 'Kelancaran Bahasa Inggris',
+                    'pronunciation' => 'Pelafalan',
+                    'confidence' => 'Kepercayaan Diri'
+                ]),
+                'max_score' => 100,
+                'order_index' => 2
+            ],
+            [
+                'criteria_name' => 'Method (Metode)',
+                'description' => 'Struktur dan strategi debat yang digunakan',
+                'weight_percentage' => 30,
+                'sub_criteria' => json_encode([
+                    'structure' => 'Struktur Argumen',
+                    'time_management' => 'Manajemen Waktu',
+                    'rebuttal_strategy' => 'Strategi Bantahan'
+                ]),
+                'max_score' => 100,
+                'order_index' => 3
+            ]
+        ];
+
+        foreach ($criteria as $criterion) {
+            $criterion['competition_id'] = $competition->id;
+            CompetitionCriteria::create($criterion);
+        }
+    }
+
+    private function seedFotografiCriteria($competition)
+    {
+        $criteria = [
+            [
+                'criteria_name' => 'Komposisi dan Teknik',
+                'description' => 'Kualitas komposisi dan teknik fotografi',
+                'weight_percentage' => 35,
+                'sub_criteria' => json_encode([
+                    'composition' => 'Komposisi',
+                    'lighting' => 'Pencahayaan',
+                    'focus_sharpness' => 'Ketajaman Fokus'
+                ]),
+                'max_score' => 100,
+                'order_index' => 1
+            ],
+            [
+                'criteria_name' => 'Kreativitas dan Originalitas',
+                'description' => 'Tingkat kreativitas dan keunikan karya',
+                'weight_percentage' => 30,
+                'sub_criteria' => json_encode([
+                    'creativity' => 'Kreativitas',
+                    'originality' => 'Originalitas',
+                    'artistic_vision' => 'Visi Artistik'
+                ]),
+                'max_score' => 100,
+                'order_index' => 2
+            ],
+            [
+                'criteria_name' => 'Kesesuaian Tema',
+                'description' => 'Kesesuaian dengan tema kompetisi',
+                'weight_percentage' => 25,
+                'sub_criteria' => json_encode([
+                    'theme_relevance' => 'Relevansi Tema',
+                    'message_delivery' => 'Penyampaian Pesan',
+                    'cultural_value' => 'Nilai Budaya'
+                ]),
+                'max_score' => 100,
+                'order_index' => 3
+            ],
+            [
+                'criteria_name' => 'Impact dan Emosi',
+                'description' => 'Dampak visual dan emosional foto',
+                'weight_percentage' => 10,
+                'sub_criteria' => json_encode([
+                    'visual_impact' => 'Dampak Visual',
+                    'emotional_connection' => 'Koneksi Emosional',
+                    'storytelling' => 'Bercerita'
+                ]),
+                'max_score' => 100,
+                'order_index' => 4
+            ]
+        ];
+
+        foreach ($criteria as $criterion) {
+            $criterion['competition_id'] = $competition->id;
+            CompetitionCriteria::create($criterion);
+        }
+    }
+
     private function seedDCCCriteria($competition)
     {
         $criteria = [
