@@ -362,8 +362,13 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
     Route::middleware(['role:peserta'])->prefix('peserta')->name('peserta.')->group(function () {
         
         // Dashboard
-        Route::get('/dashboard', [App\Http\Controllers\Peserta\PesertaDashboardController::class, 'index'])->name('peserta.dashboard');
-        
+        Route::get('/dashboard', [App\Http\Controllers\Peserta\PesertaDashboardController::class, 'index'])->name('dashboard');
+
+        // Profile
+        Route::get('/profile', [App\Http\Controllers\Auth\AuthController::class, 'profile'])->name('profile.edit');
+        Route::put('/profile', [App\Http\Controllers\Auth\AuthController::class, 'updateProfile'])->name('profile.update');
+        Route::put('/profile/password', [App\Http\Controllers\Auth\AuthController::class, 'updatePassword'])->name('profile.password');
+
         // Available Competitions
         Route::prefix('competitions')->name('competitions.')->group(function () {
             Route::get('/', [App\Http\Controllers\Peserta\CompetitionController::class, 'index'])->name('index');
