@@ -142,6 +142,12 @@
         @foreach($competitions as $competition)
         <div class="col-md-4 mb-4">
             <div class="card h-100">
+                @if($competition->image)
+                <img src="{{ asset('storage/competitions/' . $competition->image) }}" 
+                     class="card-img-top" 
+                     alt="{{ $competition->name }}" 
+                     style="height: 200px; object-fit: cover;">
+                @endif
                 <div class="card-body">
                     <h5 class="card-title">{{ $competition->name }}</h5>
                     <p class="card-text">{{ Str::limit($competition->description, 100) }}</p>

@@ -133,6 +133,14 @@
                     @forelse($registrations->take(5) as $registration)
                     <div class="list-group-item">
                         <div class="d-flex justify-content-between align-items-start">
+                            @if($registration->competition->image)
+                            <div class="flex-shrink-0 me-3">
+                                <img src="{{ asset('storage/competitions/' . $registration->competition->image) }}" 
+                                     alt="{{ $registration->competition->name }}" 
+                                     class="rounded" 
+                                     style="width: 60px; height: 60px; object-fit: cover;">
+                            </div>
+                            @endif
                             <div class="flex-grow-1">
                                 <div class="fw-semibold">{{ $registration->competition->name }}</div>
                                 <small class="text-muted">
@@ -193,6 +201,14 @@
                     @forelse($availableCompetitions as $competition)
                     <div class="list-group-item">
                         <div class="d-flex justify-content-between align-items-start">
+                            @if($competition->image)
+                            <div class="flex-shrink-0 me-3">
+                                <img src="{{ asset('storage/competitions/' . $competition->image) }}" 
+                                     alt="{{ $competition->name }}" 
+                                     class="rounded" 
+                                     style="width: 60px; height: 60px; object-fit: cover;">
+                            </div>
+                            @endif
                             <div class="flex-grow-1">
                                 <div class="fw-semibold">{{ $competition->name }}</div>
                                 <small class="text-muted">{{ ucfirst($competition->category) }}</small>
