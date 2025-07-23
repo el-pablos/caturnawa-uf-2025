@@ -58,20 +58,33 @@ class PesertaDashboardController extends Controller
      */
     protected function getParticipantStatistics($user)
     {
-        $registrations = Registration::where('user_id', $user->id)->get();
-        
-        return [
-            'total_registrations' => $registrations->count(),
-            'confirmed_registrations' => $registrations->where('status', 'confirmed')->count(),
-            'pending_registrations' => $registrations->where('status', 'pending')->count(),
-            'total_paid' => $registrations->where('status', 'confirmed')->sum('amount'),
-            'total_submissions' => Submission::whereHas('registration', function($query) use ($user) {
-                $query->where('user_id', $user->id);
-            })->count(),
-            'final_submissions' => Submission::whereHas('registration', function($query) use ($user) {
-                $query->where('user_id', $user->id);
-            })->where('is_final', true)->count(),
-        ];
+        try {
+            $registrations = Registration::where('user_id', $user->id)->get();
+            
+            return [
+                'total_registrations' => $registrations->count(),
+                'confirmed_registrations' => $registrations->where('status', 'confirmed')->count(),
+                'pending_registrations' => $registrations->where('status', 'pending')->count(),
+                'total_paid' => $registrations->where('status', 'confirmed')->sum('amount'),
+                'total_submissions' => Submission::whereHas('registration', function($query) use ($user) {
+                    $query->where('user_id', $user->id);
+                })->count(),
+                'final_submissions' => Submission::whereHas('registration', function($query) use ($user) {
+                    $query->where('user_id', $user->id);
+                })->where('status', 'submitted')->count(),
+            ];
+        } catch (\Exception $e) {
+            \Log::error('Error getting participant statistics: ' . $e->getMessage());
+            
+            return [
+                'total_registrations' => 0,
+                'confirmed_registrations' => 0,
+                'pending_registrations' => 0,
+                'total_paid' => 0,
+                'total_submissions' => 0,
+                'final_submissions' => 0,
+            ];
+        }
     }
 
     /**

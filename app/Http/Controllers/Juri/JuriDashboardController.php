@@ -59,14 +59,31 @@ class JuriDashboardController extends Controller
      */
     protected function getJuryStatistics($jury)
     {
-        return [
-            'total_competitions' => Competition::active()->count(),
-            'assigned_competitions' => Competition::active()->count(), // TODO: Filter by assigned competitions
-            'total_scores' => Score::where('jury_id', $jury->id)->count(),
-            'completed_scores' => Score::where('jury_id', $jury->id)->where('is_final', true)->count(),
-            'pending_scores' => Score::where('jury_id', $jury->id)->where('is_final', false)->count(),
-            'average_score' => Score::where('jury_id', $jury->id)->where('is_final', true)->avg('total_score') ?? 0,
-        ];
+        try {
+            // Get competitions assigned to this jury
+            $assignedCompetitions = $jury->juryCompetitions()->where('is_active', true)->count();
+            
+            return [
+                'total_competitions' => Competition::active()->count(),
+                'assigned_competitions' => $assignedCompetitions,
+                'total_scores' => Score::where('jury_id', $jury->id)->count(),
+                'completed_scores' => Score::where('jury_id', $jury->id)->where('is_final', true)->count(),
+                'pending_scores' => Score::where('jury_id', $jury->id)->where('is_final', false)->count(),
+                'average_score' => round(Score::where('jury_id', $jury->id)->where('is_final', true)->avg('total_score') ?? 0, 2),
+            ];
+        } catch (\Exception $e) {
+            // Log error and return safe defaults
+            \Log::error('Error getting jury statistics: ' . $e->getMessage());
+            
+            return [
+                'total_competitions' => 0,
+                'assigned_competitions' => 0,
+                'total_scores' => 0,
+                'completed_scores' => 0,
+                'pending_scores' => 0,
+                'average_score' => 0,
+            ];
+        }
     }
 
     /**
@@ -76,13 +93,18 @@ class JuriDashboardController extends Controller
      */
     protected function getActiveCompetitions()
     {
-        return Competition::active()
-            ->where('competition_start', '<=', now())
-            ->where('competition_end', '>=', now())
-            ->withCount(['registrations' => function($query) {
-                $query->where('status', 'confirmed');
-            }])
-            ->get();
+        try {
+            return Competition::active()
+                ->where('competition_start', '<=', now())
+                ->where('competition_end', '>=', now())
+                ->withCount(['registrations' => function($query) {
+                    $query->where('status', 'confirmed');
+                }])
+                ->get();
+        } catch (\Exception $e) {
+            \Log::error('Error getting active competitions: ' . $e->getMessage());
+            return collect();
+        }
     }
 
     /**
@@ -93,30 +115,37 @@ class JuriDashboardController extends Controller
      */
     protected function getScoringProgress($jury)
     {
-        $competitions = Competition::active()->get();
-        $progress = [];
+        try {
+            // Get only competitions assigned to this jury
+            $competitions = $jury->juryCompetitions()->where('is_active', true)->get();
+            $progress = [];
 
-        foreach ($competitions as $competition) {
-            $totalSubmissions = Submission::whereHas('registration', function($query) use ($competition) {
-                $query->where('competition_id', $competition->id);
-            })
-                ->where('is_final', true)
-                ->count();
+            foreach ($competitions as $competition) {
+                $totalSubmissions = Submission::whereHas('registration', function($query) use ($competition) {
+                    $query->where('competition_id', $competition->id)
+                          ->where('status', 'confirmed');
+                })
+                    ->where('status', 'submitted')
+                    ->count();
 
-            $scoredSubmissions = Score::where('competition_id', $competition->id)
-                ->where('jury_id', $jury->id)
-                ->where('is_final', true)
-                ->count();
+                $scoredSubmissions = Score::where('competition_id', $competition->id)
+                    ->where('jury_id', $jury->id)
+                    ->where('is_final', true)
+                    ->count();
 
-            $progress[] = [
-                'competition' => $competition,
-                'total' => $totalSubmissions,
-                'scored' => $scoredSubmissions,
-                'percentage' => $totalSubmissions > 0 ? ($scoredSubmissions / $totalSubmissions) * 100 : 0,
-            ];
+                $progress[] = [
+                    'competition' => $competition,
+                    'total' => $totalSubmissions,
+                    'scored' => $scoredSubmissions,
+                    'percentage' => $totalSubmissions > 0 ? round(($scoredSubmissions / $totalSubmissions) * 100, 1) : 0,
+                ];
+            }
+
+            return $progress;
+        } catch (\Exception $e) {
+            \Log::error('Error getting scoring progress: ' . $e->getMessage());
+            return [];
         }
-
-        return $progress;
     }
 
     /**
@@ -127,14 +156,26 @@ class JuriDashboardController extends Controller
      */
     protected function getPendingSubmissions($jury)
     {
-        return Submission::with(['registration.user', 'registration.competition'])
-            ->where('is_final', true)
-            ->whereDoesntHave('scores', function($query) use ($jury) {
-                $query->where('jury_id', $jury->id)->where('is_final', true);
-            })
-            ->orderBy('submitted_at', 'asc')
-            ->take(10)
-            ->get();
+        try {
+            // Get submissions from competitions assigned to this jury
+            $assignedCompetitionIds = $jury->juryCompetitions()->where('is_active', true)->pluck('id');
+            
+            return Submission::with(['registration.user', 'registration.competition'])
+                ->where('status', 'submitted')
+                ->whereHas('registration', function($query) use ($assignedCompetitionIds) {
+                    $query->whereIn('competition_id', $assignedCompetitionIds)
+                          ->where('status', 'confirmed');
+                })
+                ->whereDoesntHave('scores', function($query) use ($jury) {
+                    $query->where('jury_id', $jury->id)->where('is_final', true);
+                })
+                ->orderBy('submitted_at', 'asc')
+                ->take(10)
+                ->get();
+        } catch (\Exception $e) {
+            \Log::error('Error getting pending submissions: ' . $e->getMessage());
+            return collect();
+        }
     }
 
     /**
@@ -145,10 +186,15 @@ class JuriDashboardController extends Controller
      */
     protected function getRecentActivities($jury)
     {
-        return Score::with(['registration.user', 'registration.competition'])
-            ->where('jury_id', $jury->id)
-            ->orderBy('updated_at', 'desc')
-            ->take(10)
-            ->get();
+        try {
+            return Score::with(['registration.user', 'registration.competition'])
+                ->where('jury_id', $jury->id)
+                ->orderBy('updated_at', 'desc')
+                ->take(10)
+                ->get();
+        } catch (\Exception $e) {
+            \Log::error('Error getting recent activities: ' . $e->getMessage());
+            return collect();
+        }
     }
 }
