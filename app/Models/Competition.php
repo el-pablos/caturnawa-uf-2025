@@ -28,10 +28,17 @@ class Competition extends Model
         'category',
         'theme',
         'price',
+        'price_unas_student',
+        'price_external_student',
         'early_bird_price',
         'early_bird_deadline',
         'registration_start',
         'registration_end',
+        'submission_start',
+        'submission_end',
+        'judging_start',
+        'judging_end',
+        'announcement_date',
         'registration_deadline',
         'round1_date',
         'semifinal_date',
@@ -57,6 +64,8 @@ class Competition extends Model
         'contact_person',
         'contact_email',
         'contact_phone',
+        'contact_person_name',
+        'contact_person_whatsapp',
         'whatsapp_group_link',
         'terms_conditions',
         'judging_criteria',
@@ -65,6 +74,10 @@ class Competition extends Model
         'view_count',
         'show_leaderboard',
         'registration_count',
+        'upload_requirements',
+        'document_requirements',
+        'guidelines',
+        'submission_formats',
     ];
 
     /**
@@ -76,6 +89,11 @@ class Competition extends Model
         'early_bird_deadline' => 'datetime',
         'registration_start' => 'datetime',
         'registration_end' => 'datetime',
+        'submission_start' => 'datetime',
+        'submission_end' => 'datetime',
+        'judging_start' => 'datetime',
+        'judging_end' => 'datetime',
+        'announcement_date' => 'datetime',
         'registration_deadline' => 'datetime',
         'round1_date' => 'datetime',
         'semifinal_date' => 'datetime',
@@ -91,6 +109,8 @@ class Competition extends Model
         'is_team_competition' => 'boolean',
         'allow_individual' => 'boolean',
         'price' => 'decimal:2',
+        'price_unas_student' => 'decimal:2',
+        'price_external_student' => 'decimal:2',
         'show_leaderboard' => 'boolean',
         'early_bird_price' => 'decimal:2',
         'prize_amount' => 'decimal:2',
@@ -98,6 +118,9 @@ class Competition extends Model
         'is_featured' => 'boolean',
         'view_count' => 'integer',
         'registration_count' => 'integer',
+        'upload_requirements' => 'array',
+        'document_requirements' => 'array',
+        'submission_formats' => 'array',
     ];
 
     /**
@@ -190,6 +213,36 @@ class Competition extends Model
     {
         return $this->hasMany(Submission::class);
     }
+    
+    /**
+     * Relasi dengan CompetitionRequirement
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function competitionRequirements()
+    {
+        return $this->hasMany(CompetitionRequirement::class);
+    }
+    
+    /**
+     * Relasi dengan CompetitionCriteria
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function competitionCriterias()
+    {
+        return $this->hasMany(CompetitionCriteria::class)->orderBy('order_index');
+    }
+    
+    /**
+     * Relasi dengan CompetitionJudge
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function competitionJudges()
+    {
+        return $this->hasMany(CompetitionJudge::class)->where('is_active', true)->orderBy('order_index');
+    }
 
     /**
      * Relasi many-to-many dengan User (juries)
@@ -207,9 +260,9 @@ class Competition extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function confirmedRegistrations()
+    public function paidRegistrations()
     {
-        return $this->hasMany(Registration::class)->where('status', 'confirmed');
+        return $this->hasMany(Registration::class)->where('status', 'paid');
     }
 
     /**

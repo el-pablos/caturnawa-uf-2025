@@ -70,7 +70,6 @@ class Registration extends Model
      */
     const STATUS_PENDING = 'pending';
     const STATUS_PAID = 'paid';
-    const STATUS_CONFIRMED = 'confirmed';
     const STATUS_CANCELLED = 'cancelled';
     const STATUS_EXPIRED = 'expired';
 
@@ -173,14 +172,14 @@ class Registration extends Model
     }
 
     /**
-     * Scope untuk pendaftaran yang dikonfirmasi
+     * Scope untuk pendaftaran yang sudah dibayar (selesai)
      * 
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeConfirmed($query)
+    public function scopeCompleted($query)
     {
-        return $query->where('status', self::STATUS_CONFIRMED);
+        return $query->where('status', self::STATUS_PAID);
     }
 
     /**
@@ -195,7 +194,7 @@ class Registration extends Model
     }
 
     /**
-     * Scope untuk pendaftaran yang sudah dibayar tapi belum dikonfirmasi
+     * Scope untuk pendaftaran yang sudah dibayar
      * 
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
@@ -246,36 +245,29 @@ class Registration extends Model
     }
 
     /**
-     * Konfirmasi pendaftaran
+     * Tandai sebagai sudah dibayar (selesai)
      * 
      * @return void
      */
-    public function confirm()
+    public function markAsPaid()
     {
         $this->update([
-            'status' => self::STATUS_CONFIRMED,
+            'status' => self::STATUS_PAID,
             'confirmed_at' => now(),
         ]);
+        
+        // Generate QR code setelah pembayaran berhasil
+        $this->generateQRCode();
     }
 
     /**
-     * Check if registration is paid but not confirmed
+     * Check if registration is completed (paid)
      * 
      * @return bool
      */
-    public function isPaidButNotConfirmed()
+    public function isCompleted()
     {
         return $this->status === self::STATUS_PAID;
-    }
-
-    /**
-     * Check if registration is confirmed
-     * 
-     * @return bool
-     */
-    public function isConfirmed()
-    {
-        return $this->status === self::STATUS_CONFIRMED;
     }
 
     /**
@@ -305,7 +297,7 @@ class Registration extends Model
      */
     public function getQrCodeUrlAttribute()
     {
-        if ($this->qr_code && $this->isConfirmed()) {
+        if ($this->qr_code && $this->isCompleted()) {
             // Jika qr_code berisi path file
             if (str_contains($this->qr_code, 'qrcodes/')) {
                 return asset('storage/' . $this->qr_code);
@@ -334,7 +326,7 @@ class Registration extends Model
      */
     public function generateQRCode()
     {
-        if (!$this->isConfirmed()) {
+        if (!$this->isCompleted()) {
             return;
         }
 
