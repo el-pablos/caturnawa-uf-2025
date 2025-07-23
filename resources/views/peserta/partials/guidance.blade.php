@@ -7,10 +7,10 @@
                     <div class="col-md-8">
                         <h4 class="mb-3">
                             <i class="bi bi-star-fill me-2"></i>
-                            Selamat Datang di UNAS Fest 2025!
+                            Panduan Penggunaan Dashboard Caturnawa
                         </h4>
                         <p class="mb-3 lead">
-                            Panduan lengkap untuk membantu Anda berpartisipasi dalam kompetisi dengan sukses.
+                            Panduan lengkap alur website dari registrasi hingga upload karya untuk PIC/Team Leader.
                         </p>
                         <div class="d-flex gap-2">
                             <span class="badge bg-white bg-opacity-20 p-2">
@@ -92,13 +92,11 @@
                                 </div>
                             </div>
                             <div>
-                                <h6 class="fw-bold">Daftar Kompetisi</h6>
+                                <h6 class="fw-bold">Registrasi Akun (PIC/Team Leader)</h6>
                                 <p class="text-muted small mb-2">
-                                    Pilih kompetisi yang ingin diikuti, isi form pendaftaran dengan lengkap, dan upload dokumen yang diperlukan.
+                                    Sebagai perwakilan tim, buat akun baru dengan data umum. Anda akan menjadi PIC untuk tim Anda.
                                 </p>
-                                <a href="{{ route('peserta.competitions.index') }}" class="btn btn-sm btn-outline-primary">
-                                    Lihat Kompetisi
-                                </a>
+                                <span class="badge bg-primary">Langkah Pertama</span>
                             </div>
                         </div>
 
@@ -109,11 +107,13 @@
                                 </div>
                             </div>
                             <div>
-                                <h6 class="fw-bold">Lakukan Pembayaran</h6>
+                                <h6 class="fw-bold">Pilih dan Daftar Kompetisi</h6>
                                 <p class="text-muted small mb-2">
-                                    Bayar biaya pendaftaran melalui berbagai metode pembayaran yang tersedia. Pembayaran akan diverifikasi otomatis.
+                                    Pilih kompetisi yang ingin diikuti. Setiap lomba memiliki requirements berbeda sesuai kebutuhan-it.
                                 </p>
-                                <span class="badge bg-info">Otomatis</span>
+                                <a href="{{ route('peserta.competitions.index') }}" class="btn btn-sm btn-outline-primary">
+                                    Lihat Kompetisi
+                                </a>
                             </div>
                         </div>
 
@@ -124,11 +124,11 @@
                                 </div>
                             </div>
                             <div>
-                                <h6 class="fw-bold">Bergabung dengan Grup WhatsApp</h6>
+                                <h6 class="fw-bold">Isi Data Sesuai Lomba</h6>
                                 <p class="text-muted small mb-2">
-                                    Hubungi contact person untuk mendapatkan link grup WhatsApp peserta dan mendapatkan informasi terkini.
+                                    Setiap lomba memiliki requirements berbeda. Isi data tim, upload dokumen sesuai ketentuan masing-masing lomba.
                                 </p>
-                                <span class="badge bg-success">Wajib</span>
+                                <span class="badge bg-warning">Beda per Lomba</span>
                             </div>
                         </div>
                     </div>
@@ -141,43 +141,41 @@
                                 </div>
                             </div>
                             <div>
-                                <h6 class="fw-bold">Persiapkan Karya</h6>
+                                <h6 class="fw-bold">Lakukan Pembayaran (Seperti Shopee)</h6>
                                 <p class="text-muted small mb-2">
-                                    Kerjakan karya sesuai dengan tema dan kriteria yang ditentukan. Pastikan mengikuti timeline yang ada.
+                                    Bayar kapan pun selama belum timeout. Bisa ganti metode payment. Sekali bayar, selesai.
                                 </p>
-                                <span class="badge bg-warning">Perhatikan Deadline</span>
+                                <span class="badge bg-info">Fleksibel</span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex mb-4">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                    <strong>5</strong>
+                                </div>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold">Konfirmasi ke Contact Person</h6>
+                                <p class="text-muted small mb-2">
+                                    Kirim invoice dan bukti pembayaran ke WhatsApp contact person untuk konfirmasi.
+                                </p>
+                                <span class="badge bg-success">Wajib</span>
                             </div>
                         </div>
 
                         <div class="d-flex mb-4">
                             <div class="flex-shrink-0 me-3">
                                 <div class="bg-danger text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                                    <strong>5</strong>
-                                </div>
-                            </div>
-                            <div>
-                                <h6 class="fw-bold">Upload Karya</h6>
-                                <p class="text-muted small mb-2">
-                                    Upload karya Anda melalui sistem sebelum deadline. Pastikan format file sesuai ketentuan.
-                                </p>
-                                <a href="{{ route('peserta.submissions.index') }}" class="btn btn-sm btn-outline-danger">
-                                    Upload Sekarang
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="d-flex mb-4">
-                            <div class="flex-shrink-0 me-3">
-                                <div class="bg-dark text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
                                     <strong>6</strong>
                                 </div>
                             </div>
                             <div>
-                                <h6 class="fw-bold">Tunggu Hasil Penjurian</h6>
+                                <h6 class="fw-bold">Upload Karya (Tab Upload Karya)</h6>
                                 <p class="text-muted small mb-2">
-                                    Pantau dashboard untuk melihat status penjurian dan pengumuman hasil kompetisi.
+                                    Setelah konfirmasi, buka tab "Upload Karya" di dashboard untuk upload karya sesuai ketentuan lomba.
                                 </p>
-                                <span class="badge bg-secondary">Bersabar</span>
+                                <span class="badge bg-danger">Final Step</span>
                             </div>
                         </div>
                     </div>

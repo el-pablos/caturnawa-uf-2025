@@ -20,7 +20,12 @@
     </li>
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="guidance-tab" data-bs-toggle="pill" data-bs-target="#guidance" type="button" role="tab">
-            <i class="bi bi-compass me-2"></i>Panduan
+            <i class="bi bi-compass me-2"></i>Panduan Penggunaan Dashboard Caturnawa
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="upload-tab" data-bs-toggle="pill" data-bs-target="#upload" type="button" role="tab">
+            <i class="bi bi-cloud-upload me-2"></i>Upload Karya
         </button>
     </li>
     <li class="nav-item" role="presentation">
@@ -275,7 +280,12 @@
     <div class="tab-pane fade" id="guidance" role="tabpanel">
         @include('peserta.partials.guidance')
     </div>
-    
+
+    <!-- Upload Karya Tab -->
+    <div class="tab-pane fade" id="upload" role="tabpanel">
+        @include('peserta.partials.upload-karya')
+    </div>
+
     <!-- Submissions Tab -->
     <div class="tab-pane fade" id="submissions" role="tabpanel">
         <!-- Submissions Status -->
