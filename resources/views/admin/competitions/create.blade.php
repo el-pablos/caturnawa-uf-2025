@@ -41,7 +41,7 @@
                             <label for="category" class="form-label">Kategori <span class="text-danger">*</span></label>
                             <select class="form-select @error('category') is-invalid @enderror" id="category" name="category" required>
                                 <option value="">Pilih Kategori</option>
-                                <option value="event_dcc" {{ old('category') == 'event_dcc' ? 'selected' : '' }}>Event DCC (Data Challenge Competition)</option>
+                                <option value="event_dcc" {{ old('category') == 'event_dcc' ? 'selected' : '' }}>Event DCC (Digital Content Competition)</option>
                                 <option value="event_debate" {{ old('category') == 'event_debate' ? 'selected' : '' }}>Event Debate</option>
                                 <option value="event_scientific_paper" {{ old('category') == 'event_scientific_paper' ? 'selected' : '' }}>Event Scientific Paper</option>
                             </select>
@@ -156,12 +156,12 @@
                     </div>
                     
                     <div class="mb-3">
-                        <label for="whatsapp_group_link" class="form-label">Link Grup WhatsApp</label>
-                        <input type="url" class="form-control @error('whatsapp_group_link') is-invalid @enderror"
+                        <label for="whatsapp_group_link" class="form-label">Nomor WhatsApp Contact Person</label>
+                        <input type="text" class="form-control @error('whatsapp_group_link') is-invalid @enderror"
                                id="whatsapp_group_link" name="whatsapp_group_link"
                                value="{{ old('whatsapp_group_link') }}"
-                               placeholder="https://chat.whatsapp.com/...">
-                        <div class="form-text">Link grup WhatsApp yang akan ditampilkan setelah pembayaran berhasil</div>
+                               placeholder="0812-3456-7890">
+                        <div class="form-text">Nomor WhatsApp Contact Person yang akan dihubungi peserta untuk informasi kompetisi</div>
                         @error('whatsapp_group_link')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
