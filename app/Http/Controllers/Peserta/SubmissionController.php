@@ -33,9 +33,9 @@ class SubmissionController extends Controller
             abort(403, 'Unauthorized access to registration');
         }
 
-        // Check if registration is confirmed
-        if ($registration->status !== 'confirmed') {
-            return redirect()->back()->with('error', 'Can only submit for confirmed registrations');
+        // Check if registration is paid
+        if ($registration->status !== 'paid') {
+            return redirect()->back()->with('error', 'Hanya bisa submit untuk pendaftaran yang sudah dibayar');
         }
 
         // Check if submission already exists
@@ -53,9 +53,9 @@ class SubmissionController extends Controller
             abort(403, 'Unauthorized access to registration');
         }
 
-        // Check if registration is confirmed
-        if ($registration->status !== 'confirmed') {
-            return redirect()->back()->with('error', 'Can only submit for confirmed registrations');
+        // Check if registration is paid
+        if ($registration->status !== 'paid') {
+            return redirect()->back()->with('error', 'Hanya bisa submit untuk pendaftaran yang sudah dibayar');
         }
 
         // Check if submission already exists

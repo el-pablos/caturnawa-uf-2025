@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Registration;
 use App\Models\Payment;
 use App\Services\MidtransService;
+use App\Services\InvoiceService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -19,9 +20,12 @@ use Barryvdh\DomPDF\Facade\Pdf;
 class PaymentController extends Controller
 {
     protected $midtransService;
+    protected $invoiceService;
 
-    public function __construct()
+    public function __construct(InvoiceService $invoiceService)
     {
+        $this->invoiceService = $invoiceService;
+        
         // Only initialize MidtransService if configured
         if (config('midtrans.server_key') && config('midtrans.client_key')) {
             $this->midtransService = app(MidtransService::class);
@@ -724,6 +728,37 @@ class PaymentController extends Controller
             Log::error('Error generating PDF receipt: ' . $e->getMessage());
             Log::error('PDF Error Stack Trace: ' . $e->getTraceAsString());
             return back()->with('error', 'Terjadi kesalahan saat membuat struk PDF: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Generate and download invoice PDF
+     *
+     * @param \App\Models\Registration $registration
+     * @return \Illuminate\Http\Response
+     */
+    public function invoice(Registration $registration)
+    {
+        // Check if user owns this registration
+        if ($registration->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized access to invoice.');
+        }
+
+        // Check if registration is paid
+        if ($registration->status !== 'paid') {
+            return back()->with('error', 'Invoice hanya tersedia untuk pendaftaran yang sudah dibayar.');
+        }
+
+        try {
+            return $this->invoiceService->streamInvoice($registration);
+        } catch (\Exception $e) {
+            Log::error('Invoice generation error: ' . $e->getMessage(), [
+                'registration_id' => $registration->id,
+                'user_id' => Auth::id(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return back()->with('error', 'Terjadi kesalahan saat membuat invoice: ' . $e->getMessage());
         }
     }
 }

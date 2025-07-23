@@ -15,15 +15,15 @@
 <!-- Invoice Info -->
 <text x="70" y="220" fill="#1f2937" font-family="Arial" font-size="18" font-weight="bold">INVOICE</text>
 <text x="70" y="245" fill="#6b7280" font-family="Arial" font-size="12">Invoice No: {{INVOICE_NUMBER}}</text>
-<text x="70" y="265" fill="#6b7280" font-family="Arial" font-size="12">Tanggal: {{DATE}}</text>
-<text x="70" y="285" fill="#6b7280" font-family="Arial" font-size="12">Status: {{STATUS}}</text>
+<text x="70" y="265" fill="#6b7280" font-family="Arial" font-size="12">Tanggal: {{INVOICE_DATE}}</text>
+<text x="70" y="285" fill="#6b7280" font-family="Arial" font-size="12">Status: {{PAYMENT_STATUS}}</text>
 
 <!-- Customer Info -->
 <text x="400" y="220" fill="#1f2937" font-family="Arial" font-size="14" font-weight="bold">Peserta:</text>
 <text x="400" y="245" fill="#374151" font-family="Arial" font-size="12">{{PARTICIPANT_NAME}}</text>
-<text x="400" y="265" fill="#374151" font-family="Arial" font-size="12">{{UNIVERSITY}}</text>
-<text x="400" y="285" fill="#374151" font-family="Arial" font-size="12">{{EMAIL}}</text>
-<text x="400" y="305" fill="#374151" font-family="Arial" font-size="12">{{PHONE}}</text>
+<text x="400" y="265" fill="#374151" font-family="Arial" font-size="12">{{PARTICIPANT_INSTITUTION}}</text>
+<text x="400" y="285" fill="#374151" font-family="Arial" font-size="12">{{PARTICIPANT_EMAIL}}</text>
+<text x="400" y="305" fill="#374151" font-family="Arial" font-size="12">{{PARTICIPANT_PHONE}}</text>
 
 <!-- Line separator -->
 <line x1="70" y1="340" x2="724" y2="340" stroke="#e5e7eb" stroke-width="1"/>
@@ -38,21 +38,21 @@
 <!-- Table Row -->
 <rect x="70" y="400" width="654" height="40" fill="white" stroke="#e5e7eb" stroke-width="1"/>
 <text x="90" y="425" fill="#374151" font-family="Arial" font-size="12">{{COMPETITION_NAME}}</text>
-<text x="400" y="425" fill="#374151" font-family="Arial" font-size="12">{{CATEGORY}}</text>
-<text x="550" y="425" fill="#374151" font-family="Arial" font-size="12">{{PRICE}}</text>
-<text x="650" y="425" fill="#374151" font-family="Arial" font-size="12">{{TOTAL}}</text>
+<text x="400" y="425" fill="#374151" font-family="Arial" font-size="12">{{COMPETITION_CATEGORY}}</text>
+<text x="550" y="425" fill="#374151" font-family="Arial" font-size="12">{{ORIGINAL_PRICE}}</text>
+<text x="650" y="425" fill="#374151" font-family="Arial" font-size="12">{{FINAL_AMOUNT}}</text>
 
 <!-- Subtotal Section -->
 <line x1="450" y1="470" x2="724" y2="470" stroke="#e5e7eb" stroke-width="1"/>
 <text x="550" y="495" fill="#374151" font-family="Arial" font-size="12">Subtotal:</text>
-<text x="650" y="495" fill="#374151" font-family="Arial" font-size="12">{{SUBTOTAL}}</text>
+<text x="650" y="495" fill="#374151" font-family="Arial" font-size="12">{{ORIGINAL_PRICE}}</text>
 
-<text x="550" y="515" fill="#374151" font-family="Arial" font-size="12">Admin Fee:</text>
-<text x="650" y="515" fill="#374151" font-family="Arial" font-size="12">{{ADMIN_FEE}}</text>
+<text x="550" y="515" fill="#374151" font-family="Arial" font-size="12">Discount:</text>
+<text x="650" y="515" fill="#374151" font-family="Arial" font-size="12">-{{DISCOUNT_AMOUNT}}</text>
 
 <rect x="450" y="525" width="274" height="30" fill="#2563eb"/>
 <text x="550" y="545" fill="white" font-family="Arial" font-size="14" font-weight="bold">TOTAL:</text>
-<text x="650" y="545" fill="white" font-family="Arial" font-size="14" font-weight="bold">{{GRAND_TOTAL}}</text>
+<text x="650" y="545" fill="white" font-family="Arial" font-size="14" font-weight="bold">{{FINAL_AMOUNT}}</text>
 
 <!-- Payment Method -->
 <text x="70" y="600" fill="#1f2937" font-family="Arial" font-size="14" font-weight="bold">Metode Pembayaran:</text>
@@ -61,7 +61,7 @@
 <!-- Instructions -->
 <text x="70" y="680" fill="#1f2937" font-family="Arial" font-size="14" font-weight="bold">Instruksi:</text>
 <text x="70" y="705" fill="#374151" font-family="Arial" font-size="12">1. Simpan invoice ini sebagai bukti pembayaran</text>
-<text x="70" y="725" fill="#374151" font-family="Arial" font-size="12">2. Hubungi Contact Person di WhatsApp: {{CONTACT_PERSON}}</text>
+<text x="70" y="725" fill="#374151" font-family="Arial" font-size="12">2. Hubungi Contact Person di WhatsApp: {{CONTACT_WHATSAPP}}</text>
 <text x="70" y="745" fill="#374151" font-family="Arial" font-size="12">3. Kirimkan screenshot invoice dan bukti pembayaran</text>
 <text x="70" y="765" fill="#374151" font-family="Arial" font-size="12">4. Tunggu konfirmasi dari panitia</text>
 
@@ -69,7 +69,7 @@
 <rect x="50" y="950" width="694" height="80" fill="#f3f4f6"/>
 <text x="70" y="980" fill="#6b7280" font-family="Arial" font-size="12">UNAS Fest 2025 - Festival Kompetisi Universitas Nasional</text>
 <text x="70" y="1000" fill="#6b7280" font-family="Arial" font-size="12">Website: https://unasfest.com | Email: info@unasfest.com</text>
-<text x="70" y="1020" fill="#6b7280" font-family="Arial" font-size="12">WhatsApp: {{CONTACT_PERSON}} | Instagram: @unasfest</text>
+<text x="70" y="1020" fill="#6b7280" font-family="Arial" font-size="12">WhatsApp: {{CONTACT_WHATSAPP}} | Instagram: @unasfest</text>
 
 <!-- QR Code placeholder -->
 <rect x="600" y="960" width="60" height="60" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1"/>

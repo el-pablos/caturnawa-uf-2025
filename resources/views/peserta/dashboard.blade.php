@@ -11,7 +11,30 @@
 @endsection
 
 @section('content')
-<!-- Statistics Cards -->
+<!-- Navigation Tabs -->
+<ul class="nav nav-pills mb-4" id="dashboardTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="overview-tab" data-bs-toggle="pill" data-bs-target="#overview" type="button" role="tab">
+            <i class="bi bi-speedometer2 me-2"></i>Overview
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="guidance-tab" data-bs-toggle="pill" data-bs-target="#guidance" type="button" role="tab">
+            <i class="bi bi-compass me-2"></i>Panduan
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="submissions-tab" data-bs-toggle="pill" data-bs-target="#submissions" type="button" role="tab">
+            <i class="bi bi-file-earmark-text me-2"></i>Submissions
+        </button>
+    </li>
+</ul>
+
+<!-- Tab Content -->
+<div class="tab-content" id="dashboardTabsContent">
+    <!-- Overview Tab -->
+    <div class="tab-pane fade show active" id="overview" role="tabpanel">
+        <!-- Statistics Cards -->
 <div class="row mb-4">
     <div class="col-lg-3 col-md-6 mb-3">
         <div class="card border-0 bg-primary text-white">
@@ -246,8 +269,16 @@
         </div>
     </div>
 </div>
-
-<!-- Submissions Status -->
+    </div>
+    
+    <!-- Guidance Tab -->
+    <div class="tab-pane fade" id="guidance" role="tabpanel">
+        @include('peserta.partials.guidance')
+    </div>
+    
+    <!-- Submissions Tab -->
+    <div class="tab-pane fade" id="submissions" role="tabpanel">
+        <!-- Submissions Status -->
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -310,6 +341,7 @@
         </div>
     </div>
 </div>
+
 @endsection
 
 @push('scripts')
