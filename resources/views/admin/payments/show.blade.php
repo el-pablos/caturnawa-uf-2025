@@ -143,32 +143,71 @@
     </div>
 
     <div class="col-lg-4">
-        <!-- Payment Actions -->
+        <!-- Admin Guide -->
         <div class="card mb-4">
             <div class="card-header">
                 <h6 class="mb-0">
-                    <i class="bi bi-gear me-2"></i>Aksi Pembayaran
+                    <i class="bi bi-lightbulb me-2"></i>Panduan Admin
                 </h6>
             </div>
             <div class="card-body">
                 @if($payment->isPending())
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-success" onclick="verifyPayment('{{ $payment->id }}')">
-                            <i class="bi bi-check-circle me-2"></i>Verifikasi Pembayaran
-                        </button>
-                        <button class="btn btn-danger" onclick="rejectPayment('{{ $payment->id }}')">
-                            <i class="bi bi-x-circle me-2"></i>Tolak Pembayaran
-                        </button>
+                    <div class="alert alert-info mb-3">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <strong>Status: Menunggu Pembayaran</strong>
+                    </div>
+                    <div class="small text-muted">
+                        <h6 class="fw-semibold mb-2">Yang harus dilakukan:</h6>
+                        <ul class="mb-0 ps-3">
+                            <li>Tunggu peserta melakukan pembayaran</li>
+                            <li>Sistem akan otomatis memproses pembayaran</li>
+                            <li>Tidak perlu tindakan manual dari admin</li>
+                        </ul>
                     </div>
                 @elseif($payment->isSuccess())
-                    <div class="alert alert-success">
+                    <div class="alert alert-success mb-3">
                         <i class="bi bi-check-circle me-2"></i>
-                        Pembayaran telah berhasil dikonfirmasi
+                        <strong>Pembayaran Berhasil</strong>
+                    </div>
+                    <div class="small text-muted">
+                        <h6 class="fw-semibold mb-2">Status saat ini:</h6>
+                        <ul class="mb-3 ps-3">
+                            <li>✅ Pembayaran telah dikonfirmasi otomatis</li>
+                            <li>✅ Registrasi telah diaktifkan</li>
+                            <li>✅ QR Code tiket telah dibuat</li>
+                        </ul>
+                        <h6 class="fw-semibold mb-2">Yang bisa dilakukan:</h6>
+                        <ul class="mb-0 ps-3">
+                            <li>Lihat detail registrasi peserta</li>
+                            <li>Download struk pembayaran</li>
+                            <li>Pantau status submission peserta</li>
+                        </ul>
+                    </div>
+                @elseif($payment->status === 'failed')
+                    <div class="alert alert-danger mb-3">
+                        <i class="bi bi-x-circle me-2"></i>
+                        <strong>Pembayaran Gagal</strong>
+                    </div>
+                    <div class="small text-muted">
+                        <h6 class="fw-semibold mb-2">Yang harus dilakukan:</h6>
+                        <ul class="mb-0 ps-3">
+                            <li>Hubungi peserta untuk melakukan pembayaran ulang</li>
+                            <li>Berikan panduan pembayaran yang benar</li>
+                            <li>Pastikan peserta menggunakan metode pembayaran yang valid</li>
+                        </ul>
                     </div>
                 @else
-                    <div class="alert alert-secondary">
-                        <i class="bi bi-info-circle me-2"></i>
-                        Status: {{ $payment->status_label }}
+                    <div class="alert alert-warning mb-3">
+                        <i class="bi bi-clock me-2"></i>
+                        <strong>Status: {{ $payment->status_label }}</strong>
+                    </div>
+                    <div class="small text-muted">
+                        <h6 class="fw-semibold mb-2">Yang harus dilakukan:</h6>
+                        <ul class="mb-0 ps-3">
+                            <li>Pantau status pembayaran secara berkala</li>
+                            <li>Sistem akan otomatis memproses jika pembayaran berhasil</li>
+                            <li>Hubungi peserta jika ada kendala</li>
+                        </ul>
                     </div>
                 @endif
             </div>
