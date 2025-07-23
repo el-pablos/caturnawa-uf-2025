@@ -441,14 +441,23 @@ class PaymentController extends Controller
             }
         }
 
+        // MODIFIED: Skip admin confirmation check - payments are auto-confirmed
+        // Show success page directly for successful payments
+        /*
         // If payment is successful but not confirmed by admin, show invoice page
         if ($payment->isSuccess() && !$payment->is_confirmed) {
             return view('payment.invoice', compact('payment', 'registration'));
         }
+        */
 
         // If payment is successful and confirmed, show success page
         if ($payment->isSuccess() && $payment->is_confirmed) {
-            return view('payment.finish', compact('payment', 'registration'));
+            // Add contact WhatsApp fallback if not set
+            if (!$registration->competition->contact_person_whatsapp) {
+                $registration->competition->contact_person_whatsapp = $this->getDefaultContactWhatsApp($registration->competition);
+            }
+
+            return view('payment.finish-simple', compact('payment', 'registration'));
         }
 
         // For other statuses, redirect to appropriate page
@@ -760,5 +769,35 @@ class PaymentController extends Controller
             
             return back()->with('error', 'Terjadi kesalahan saat membuat invoice: ' . $e->getMessage());
         }
+    }
+
+    /**
+     * Get default contact WhatsApp based on competition
+     *
+     * @param \App\Models\Competition $competition
+     * @return string
+     */
+    private function getDefaultContactWhatsApp($competition): string
+    {
+        // Default contact person WhatsApp
+        $defaultWhatsApp = '6281234567890'; // Remove + and - for WhatsApp format
+
+        // Competition-specific contacts
+        $contacts = [
+            'kdbi' => '6281211111111',
+            'edc' => '6281222222222',
+            'short-movie' => '6281233333333',
+            'fotografi' => '6281244444444',
+            'lkti' => '6281255555555',
+        ];
+
+        $slug = \Str::slug($competition->name);
+        foreach ($contacts as $key => $whatsapp) {
+            if (\Str::contains($slug, $key)) {
+                return $whatsapp;
+            }
+        }
+
+        return $defaultWhatsApp;
     }
 }

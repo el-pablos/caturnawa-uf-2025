@@ -210,15 +210,15 @@
                         <div class="mb-3">
                             <i class="bi bi-whatsapp fs-1"></i>
                         </div>
-                        <h6 class="mb-2">Hubungi Contact Person</h6>
+                        <h6 class="mb-2">Konfirmasi Pembayaran</h6>
                         <p class="mb-3 opacity-90">
                             {{ $registration->competition->contact_person_name ?? 'Tim Panitia' }}<br>
-                            <small>Siap membantu Anda 24/7</small>
+                            <small>Kirim invoice dan bukti pembayaran untuk konfirmasi</small>
                         </p>
-                        <a href="https://wa.me/{{ $registration->competition->contact_person_whatsapp }}?text=Halo,%20saya%20sudah%20mendaftar%20{{ $registration->competition->name }}%20dengan%20nomor%20pendaftaran%20{{ $registration->registration_number }}.%20Mohon%20informasi%20selanjutnya." 
+                        <a href="https://wa.me/{{ $registration->competition->contact_person_whatsapp }}?text=Halo,%20saya%20sudah%20menyelesaikan%20pembayaran%20untuk%20{{ $registration->competition->name }}%20dengan%20nomor%20pendaftaran%20{{ $registration->registration_number }}.%20Terlampir%20invoice%20dan%20bukti%20pembayaran.%20Mohon%20konfirmasi%20dan%20arahan%20selanjutnya."
                            class="btn btn-whatsapp" target="_blank">
                             <i class="bi bi-whatsapp me-2"></i>
-                            Chat WhatsApp
+                            Kirim Konfirmasi
                         </a>
                     </div>
                     @endif
@@ -276,29 +276,39 @@
                 <div class="step-item">
                     <div class="step-number">1</div>
                     <div>
-                        <strong>Bergabung dengan WhatsApp Group</strong><br>
+                        <strong>Hubungi Contact Person WhatsApp</strong><br>
                         <small class="text-muted">
-                            Hubungi contact person untuk mendapatkan link grup WhatsApp peserta
+                            Kirim screenshot invoice dan bukti pembayaran ke contact person untuk konfirmasi
                         </small>
                     </div>
                 </div>
-                
+
                 <div class="step-item">
                     <div class="step-number">2</div>
                     <div>
-                        <strong>Pantau Informasi Kompetisi</strong><br>
+                        <strong>Tunggu Konfirmasi Panitia</strong><br>
                         <small class="text-muted">
-                            Cek dashboard secara berkala untuk update jadwal dan pengumuman penting
+                            Contact person akan memverifikasi pembayaran dan memberikan arahan selanjutnya
                         </small>
                     </div>
                 </div>
-                
+
                 <div class="step-item">
                     <div class="step-number">3</div>
                     <div>
-                        <strong>Persiapkan Dokumen Tambahan</strong><br>
+                        <strong>Bergabung dengan WhatsApp Group</strong><br>
                         <small class="text-muted">
-                            Lengkapi dokumen yang diperlukan sebelum deadline yang ditentukan
+                            Setelah konfirmasi, Anda akan diundang ke grup WhatsApp peserta
+                        </small>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-number">4</div>
+                    <div>
+                        <strong>Buka Dashboard untuk Upload Karya</strong><br>
+                        <small class="text-muted">
+                            Setelah konfirmasi, buka tab "Upload Karya" di dashboard untuk mengunggah karya Anda
                         </small>
                     </div>
                 </div>
