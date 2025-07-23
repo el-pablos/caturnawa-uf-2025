@@ -143,7 +143,7 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
         } elseif ($user->isJuri()) {
             return redirect()->route('juri.juri.dashboard');
         } elseif ($user->isPeserta()) {
-            return redirect()->route('peserta.peserta.dashboard');
+            return redirect()->route('peserta.dashboard');
         }
 
         return redirect()->route('login')
