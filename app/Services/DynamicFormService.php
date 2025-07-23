@@ -219,9 +219,10 @@ class DynamicFormService
                 if ($requirement->help_text) {
                     $html .= '<small class="form-text text-muted d-block mb-2">' . $requirement->help_text . '</small>';
                 }
-                if ($requirement->field_options) {
+                $fieldOptions = is_string($requirement->field_options) ? json_decode($requirement->field_options, true) : $requirement->field_options;
+                if ($fieldOptions) {
                     $selectedValues = is_array($fieldValue) ? $fieldValue : [];
-                    foreach ($requirement->field_options as $key => $label) {
+                    foreach ($fieldOptions as $key => $label) {
                         $checked = in_array($key, $selectedValues) ? 'checked' : '';
                         $html .= '<div class="form-check">';
                         $html .= '<input class="form-check-input" type="checkbox" name="' . $fieldName . '[]" value="' . $key . '" ' . $checked . '>';
