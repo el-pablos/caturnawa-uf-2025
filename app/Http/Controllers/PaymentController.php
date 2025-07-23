@@ -398,6 +398,18 @@ class PaymentController extends Controller
                     'user_agent' => request()->userAgent()
                 ]);
 
+                // Check if user has any payments and redirect to the latest one
+                if (Auth::check()) {
+                    $latestPayment = Payment::whereHas('registration', function($q) {
+                        $q->where('user_id', Auth::id());
+                    })->latest()->first();
+
+                    if ($latestPayment) {
+                        return redirect()->route('payment.finish', $latestPayment->id)
+                            ->with('warning', 'Payment ID yang Anda akses tidak ditemukan. Anda dialihkan ke pembayaran terbaru Anda.');
+                    }
+                }
+
                 return view('payment.not-found', [
                     'payment_id' => $paymentId,
                     'message' => 'Payment not found. The payment ID you are looking for does not exist.',
