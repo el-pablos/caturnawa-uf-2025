@@ -72,11 +72,15 @@ class ReportController extends Controller
             ->limit(10)
             ->get();
 
+        // Get competitions for filter dropdown
+        $competitions = Competition::orderBy('name')->get();
+
         return view('admin.reports.index', compact(
             'stats', 
             'monthlyRegistrations', 
             'monthlyRevenue', 
-            'topCompetitions'
+            'topCompetitions',
+            'competitions'
         ));
     }
 
@@ -92,7 +96,11 @@ class ReportController extends Controller
 
         // Filter berdasarkan status
         if ($request->filled('status')) {
-            $query->where('status', $request->status);
+            if ($request->status === 'active') {
+                $query->where('is_active', true);
+            } elseif ($request->status === 'inactive') {
+                $query->where('is_active', false);
+            }
         }
 
         // Filter berdasarkan tanggal
@@ -171,7 +179,7 @@ class ReportController extends Controller
 
         // Filter berdasarkan status
         if ($request->filled('status')) {
-            $query->where('status', $request->status);
+            $query->where('transaction_status', $request->status);
         }
 
         // Filter berdasarkan metode pembayaran
@@ -192,10 +200,10 @@ class ReportController extends Controller
 
         // Summary statistics
         $summary = [
-            'total_payments' => $query->count(),
-            'total_amount' => $query->sum('gross_amount'),
-            'paid_amount' => $query->where('status', 'paid')->sum('gross_amount'),
-            'pending_amount' => $query->where('status', 'pending')->sum('gross_amount'),
+            'total_payments' => (clone $query)->count(),
+            'total_amount' => (clone $query)->sum('gross_amount'),
+            'paid_amount' => (clone $query)->whereIn('transaction_status', ['settlement', 'capture'])->sum('gross_amount'),
+            'pending_amount' => (clone $query)->where('transaction_status', 'pending')->sum('gross_amount'),
         ];
 
         return view('admin.reports.payments', compact('payments', 'summary'));

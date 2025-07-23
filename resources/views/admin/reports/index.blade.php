@@ -8,6 +8,22 @@
 
 @section('header-actions')
     <div class="d-flex gap-2">
+        <div class="dropdown">
+            <button class="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                <i class="bi bi-list me-2"></i>Laporan Detail
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{{ route('admin.reports.competitions') }}">
+                    <i class="bi bi-trophy me-2"></i>Laporan Kompetisi
+                </a></li>
+                <li><a class="dropdown-item" href="{{ route('admin.reports.registrations') }}">
+                    <i class="bi bi-person-check me-2"></i>Laporan Registrasi
+                </a></li>
+                <li><a class="dropdown-item" href="{{ route('admin.reports.payments') }}">
+                    <i class="bi bi-credit-card me-2"></i>Laporan Pembayaran
+                </a></li>
+            </ul>
+        </div>
         <button type="button" class="btn btn-success" onclick="exportReport('excel')">
             <i class="bi bi-file-earmark-excel me-2"></i>Export Excel
         </button>
