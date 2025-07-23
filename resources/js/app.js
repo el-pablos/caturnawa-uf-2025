@@ -1,6 +1,9 @@
 // Bootstrap JavaScript
 import 'bootstrap';
 
+// AOS (Animate On Scroll) Library
+import AOS from 'aos';
+
 // Hot Module Replacement (HMR) for development
 if (import.meta.hot) {
     import.meta.hot.accept();
@@ -23,6 +26,16 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('🚀 UNAS Fest 2025 - Development Mode');
         console.log('📝 Hot reload is active - changes will be reflected automatically');
     }
+
+    // Initialize AOS (Animate On Scroll)
+    AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: true,
+        mirror: false,
+        offset: 100,
+        anchorPlacement: 'top-bottom'
+    });
     
     // Initialize tooltips
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
