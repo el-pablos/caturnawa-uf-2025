@@ -7,22 +7,22 @@
     <!-- Hero Section -->
     <div class="row">
         <div class="col-12">
-            <div class="jumbotron bg-primary text-white p-5 rounded mb-5">
+            <div class="jumbotron bg-primary text-white p-5 rounded mb-5" data-aos="fade-up">
                 <div class="text-center">
-                    <h1 class="display-4 fw-bold mb-3">
+                    <h1 class="display-4 fw-bold mb-3" data-aos="zoom-in" data-aos-delay="200">
                         <i class="bi bi-trophy me-3"></i>Leaderboard UNAS Fest 2025
                     </h1>
-                    <p class="lead mb-4">
+                    <p class="lead mb-4" data-aos="fade-up" data-aos-delay="400">
                         Lihat peringkat terbaru peserta kompetisi UNAS Fest 2025.
                         Pantau posisi Anda dan kompetitor lainnya dalam real-time.
                     </p>
                     <div class="row justify-content-center">
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-3 mb-3" data-aos="fade-up" data-aos-delay="600">
                             <a href="{{ route('public.competitions') }}" class="btn btn-warning btn-lg w-100">
                                 <i class="bi bi-trophy me-2"></i>Lihat Kompetisi
                             </a>
                         </div>
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-3 mb-3" data-aos="fade-up" data-aos-delay="800">
                             <a href="{{ route('public.faq') }}" class="btn btn-light btn-lg w-100">
                                 <i class="bi bi-question-circle me-2"></i>FAQ
                             </a>
@@ -36,12 +36,12 @@
         <!-- Competition Filter Section -->
         <div class="row mb-5">
             <div class="col-12">
-                <h2 class="text-center mb-4">
+                <h2 class="text-center mb-4" data-aos="fade-up">
                     <i class="bi bi-funnel text-info"></i>
                     Filter Kompetisi
                 </h2>
             </div>
-            <div class="col-12">
+            <div class="col-12" data-aos="fade-up" data-aos-delay="200">
                 <div class="card shadow">
                     <div class="card-header bg-info text-white text-center">
                         <h5 class="mb-0">
@@ -73,7 +73,7 @@
             <!-- Competition Info Section -->
             <div class="row mb-5">
                 <div class="col-12">
-                    <h2 class="text-center mb-4">
+                    <h2 class="text-center mb-4" data-aos="fade-up">
                         <i class="bi bi-award text-success"></i>
                         {{ $selectedCompetition->name }}
                     </h2>

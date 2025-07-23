@@ -11,21 +11,21 @@
     <!-- Hero Section -->
     <div class="row">
         <div class="col-12">
-            <div class="jumbotron bg-primary text-white p-5 rounded mb-5">
+            <div class="jumbotron bg-primary text-white p-5 rounded mb-5" data-aos="fade-up">
                 <div class="text-center">
-                    <h1 class="display-4 fw-bold mb-3">
+                    <h1 class="display-4 fw-bold mb-3" data-aos="zoom-in" data-aos-delay="200">
                         <i class="bi bi-headset me-3"></i>Hubungi Kami
                     </h1>
-                    <p class="lead mb-4">
+                    <p class="lead mb-4" data-aos="fade-up" data-aos-delay="400">
                         Ada pertanyaan tentang UNAS Fest 2025? Tim profesional kami siap membantu Anda dengan respon cepat dan solusi terbaik
                     </p>
                     <div class="row justify-content-center">
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-3 mb-3" data-aos="fade-up" data-aos-delay="600">
                             <a href="https://wa.me/6285817378442" class="btn btn-success btn-lg w-100" target="_blank">
                                 <i class="bi bi-whatsapp me-2"></i>WhatsApp
                             </a>
                         </div>
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-3 mb-3" data-aos="fade-up" data-aos-delay="800">
                             <a href="#contact-form" class="btn btn-light btn-lg w-100">
                                 <i class="bi bi-envelope me-2"></i>Kirim Pesan
                             </a>
@@ -54,8 +54,8 @@
     <!-- Contact Form & Info Section -->
     <div class="row mb-5">
         <div class="col-12">
-            <h2 class="text-center mb-4">
-                <i class="bi bi-chat-dots text-success"></i> 
+            <h2 class="text-center mb-4" data-aos="fade-up">
+                <i class="bi bi-chat-dots text-success"></i>
                 Hubungi Tim Kami
             </h2>
         </div>
@@ -63,7 +63,7 @@
 
     <div class="row g-4">
         <!-- Contact Form -->
-        <div class="col-lg-8">
+        <div class="col-lg-8" data-aos="fade-right">
             <div class="card shadow">
                 <div class="card-header bg-primary text-white">
                     <h3 class="card-title mb-0">
@@ -132,7 +132,7 @@
             </div>
 
         <!-- Contact Info -->
-        <div class="col-lg-4">
+        <div class="col-lg-4" data-aos="fade-left">
             <!-- Contact Details -->
             <div class="card shadow mb-4">
                 <div class="card-header bg-info text-white">

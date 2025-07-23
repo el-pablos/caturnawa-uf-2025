@@ -7,32 +7,32 @@
     <!-- Hero Section -->
     <div class="row">
         <div class="col-12">
-            <div class="jumbotron bg-primary text-white p-5 rounded mb-5">
-                <h1 class="display-4">Kompetisi UNAS Fest 2025</h1>
-                <p class="lead">Bergabunglah dengan kompetisi nasional terbesar di Indonesia</p>
-                <hr class="my-4">
-                <p>Tiga kategori kompetisi: Teknologi, Kesehatan, dan Biodiversitas. Bergabunglah dalam festival kompetisi nasional terbesar!</p>
+            <div class="jumbotron bg-primary text-white p-5 rounded mb-5" data-aos="fade-up">
+                <h1 class="display-4" data-aos="zoom-in" data-aos-delay="200">Kompetisi UNAS Fest 2025</h1>
+                <p class="lead" data-aos="fade-up" data-aos-delay="400">Bergabunglah dengan kompetisi nasional terbesar di Indonesia</p>
+                <hr class="my-4" data-aos="fade-up" data-aos-delay="600">
+                <p data-aos="fade-up" data-aos-delay="800">Tiga kategori kompetisi: Teknologi, Kesehatan, dan Biodiversitas. Bergabunglah dalam festival kompetisi nasional terbesar!</p>
             </div>
         </div>
     </div>
 
     <!-- Statistics -->
     <div class="row mb-5">
-        <div class="col-md-6 mb-4">
+        <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
             <div class="card text-center">
                 <div class="card-body">
-                    <i class="bi bi-people-fill text-primary" style="font-size: 2rem;"></i>
-                    <h3 class="mt-2">{{ $stats['participants'] ?? 0 }}</h3>
-                    <p class="text-muted">Peserta Terdaftar</p>
+                    <i class="bi bi-people-fill text-primary" style="font-size: 2rem;" data-aos="zoom-in" data-aos-delay="400"></i>
+                    <h3 class="mt-2" data-aos="fade-up" data-aos-delay="600">{{ $stats['participants'] ?? 0 }}</h3>
+                    <p class="text-muted" data-aos="fade-up" data-aos-delay="800">Peserta Terdaftar</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-6 mb-4">
+        <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
             <div class="card text-center">
                 <div class="card-body">
-                    <i class="bi bi-trophy-fill text-warning" style="font-size: 2rem;"></i>
-                    <h3 class="mt-2">{{ $stats['competitions'] ?? 0 }}</h3>
-                    <p class="text-muted">Kompetisi Aktif</p>
+                    <i class="bi bi-trophy-fill text-warning" style="font-size: 2rem;" data-aos="zoom-in" data-aos-delay="600"></i>
+                    <h3 class="mt-2" data-aos="fade-up" data-aos-delay="800">{{ $stats['competitions'] ?? 0 }}</h3>
+                    <p class="text-muted" data-aos="fade-up" data-aos-delay="1000">Kompetisi Aktif</p>
                 </div>
             </div>
         </div>
@@ -43,13 +43,13 @@
         @foreach($competitions as $category => $categoryCompetitions)
         <div class="row mb-5">
             <div class="col-12">
-                <h2 class="mb-4">
+                <h2 class="mb-4" data-aos="fade-up">
                     <i class="bi bi-trophy text-warning"></i>
                     {{ \App\Models\Competition::CATEGORIES[$category] ?? ucfirst($category) }}
                 </h2>
             </div>
             @foreach($categoryCompetitions as $competition)
-            <div class="col-md-6 col-lg-4 mb-4">
+            <div class="col-md-6 col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 150 }}">
                 <div class="card h-100">
                     <div class="card-body">
                         <h5 class="card-title">{{ $competition->name }}</h5>
