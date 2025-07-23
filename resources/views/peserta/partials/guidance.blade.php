@@ -244,7 +244,7 @@
                         <i class="bi bi-envelope me-2"></i>
                         Email Support
                     </a>
-                    <a href="{{ route('peserta.faqs') }}" class="btn btn-outline-secondary">
+                    <a href="{{ route('public.faq') }}" class="btn btn-outline-secondary">
                         <i class="bi bi-question-circle me-2"></i>
                         FAQ
                     </a>
