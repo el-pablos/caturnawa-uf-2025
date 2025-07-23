@@ -29,7 +29,7 @@ class RedirectIfAuthenticated
                 } elseif ($user->isJuri()) {
                     return redirect()->route('juri.juri.dashboard');
                 } elseif ($user->isPeserta()) {
-                    return redirect()->route('peserta.peserta.dashboard');
+                    return redirect()->route('peserta.dashboard');
                 } else {
                     // User has no roles - log them out to prevent redirect loop
                     Auth::logout();

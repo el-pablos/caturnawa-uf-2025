@@ -173,7 +173,7 @@ class AuthController extends Controller
             // Login otomatis setelah register
             Auth::login($user);
 
-            return redirect()->route('peserta.peserta.dashboard')
+            return redirect()->route('peserta.dashboard')
                 ->with('success', 'Registrasi berhasil! Selamat datang di UNAS Fest 2025.');
 
         } catch (\Exception $e) {

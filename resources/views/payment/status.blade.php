@@ -117,7 +117,7 @@
                                     <i class="bi bi-arrow-left me-1"></i>Kembali ke Pembayaran
                                 </a>
                             @endif
-                            <a href="{{ route('peserta.peserta.dashboard') }}" class="btn btn-outline-secondary">
+                            <a href="{{ route('peserta.dashboard') }}" class="btn btn-outline-secondary">
                                 <i class="bi bi-house me-1"></i>Dashboard
                             </a>
                         </div>

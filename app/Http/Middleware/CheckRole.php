@@ -41,7 +41,7 @@ class CheckRole
                 return redirect()->route('juri.juri.dashboard')
                     ->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');
             } elseif ($user->isPeserta()) {
-                return redirect()->route('peserta.peserta.dashboard')
+                return redirect()->route('peserta.dashboard')
                     ->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');
             }
 
