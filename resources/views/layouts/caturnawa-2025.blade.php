@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     
     <!-- SEO Meta Tags -->
-    <title>@yield('title', 'Caturnawa UNAS Fest 2025 - Festival Kompetisi Nasional Terbesar Indonesia')</title>
+    <title>@yield('title', 'Caturnawa UNAS Fest 2025 - Festival Kompetisi Universitas Nasional Tahunan')</title>
     <meta name="description" content="@yield('description', 'Caturnawa UNAS Fest 2025 - Festival kompetisi nasional terbesar di Indonesia. Kompetisi Debat Bahasa Indonesia, English Debate, Short Movie, dan Scientific Paper. Total hadiah 200 juta rupiah.')">
     <meta name="keywords" content="@yield('keywords', 'caturnawa, unas fest 2025, kompetisi debat indonesia, english debate competition, short movie competition, scientific paper competition, lomba nasional, festival mahasiswa')">
     <meta name="author" content="Caturnawa UNAS Fest 2025">

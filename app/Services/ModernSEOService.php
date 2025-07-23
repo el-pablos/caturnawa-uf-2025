@@ -10,7 +10,7 @@ use Artesaos\SEOTools\Facades\JsonLd;
 
 class ModernSEOService
 {
-    protected $defaultTitle = 'UNAS Fest 2025 - Festival Kompetisi Nasional Terbesar Indonesia';
+    protected $defaultTitle = 'UNAS Fest 2025 - Festival Kompetisi Universitas Nasional Tahunan';
     protected $defaultDescription = 'Bergabunglah dengan UNAS Fest 2025, festival kompetisi nasional terbesar di Indonesia. Kompetisi Teknologi, Kesehatan, dan Biodiversitas dengan total hadiah 500 Juta Rupiah.';
     protected $defaultKeywords = 'unas fest, kompetisi nasional, teknologi, kesehatan, biodiversitas, mahasiswa, indonesia, hadiah, festival';
     protected $siteName = 'UNAS Fest 2025';
