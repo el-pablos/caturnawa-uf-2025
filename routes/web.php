@@ -55,6 +55,10 @@ Route::get('/health', function () {
     return response()->json($checks, $statusCode);
 })->name('health');
 
+// SEO Routes
+Route::get('/sitemap.xml', [App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
+Route::get('/robots.txt', [App\Http\Controllers\SitemapController::class, 'robots'])->name('robots');
+
 // Public Pages Routes (Main Website)
 Route::name('public.')->middleware('maintenance')->group(function () {
     // Home page - accessible via root and /home
