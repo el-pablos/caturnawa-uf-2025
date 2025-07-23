@@ -14,7 +14,7 @@
                 <h1 class="display-4"
                     data-aos="fade-up"
                     data-aos-delay="200"
-                    data-aos-duration="800">Kompetisi UNAS Fest 2025</h1>
+                    data-aos-duration="800">Kompetisi UNAS FEST 2025</h1>
                 <p class="lead"
                    data-aos="fade-up"
                    data-aos-delay="400"

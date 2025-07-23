@@ -653,7 +653,7 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="{{ route('public.home') }}">
-                <strong>UNAS Fest 2025</strong>
+                <strong>UNAS FEST 2025</strong>
             </a>
             
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -718,7 +718,7 @@
                 <div class="row">
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="footer-section">
-                            <h5>UNAS Fest 2025</h5>
+                            <h5>UNAS FEST 2025</h5>
                             <p>Festival Kompetisi Nasional terbesar di Indonesia yang menggabungkan inovasi teknologi, kesehatan, dan biodiversitas untuk membentuk masa depan bangsa.</p>
                             <div class="social-links">
                                 <a href="https://facebook.com/unasfest" class="social-link" target="_blank" rel="noopener">
@@ -749,7 +749,7 @@
                                 <li><a href="{{ route('public.competitions') }}#short-movie"><i class="bi bi-camera-video"></i>Short Movie</a></li>
                                 <li><a href="{{ route('public.competitions') }}#fotografi"><i class="bi bi-camera"></i>Fotografi</a></li>
                                 <li><a href="{{ route('public.competitions') }}#karya-ilmiah"><i class="bi bi-journal-text"></i>Karya Ilmiah</a></li>
-                                <li><a href="{{ route('public.competitions') }}"><i class="bi bi-tropy"></i>Semua Kompetisi</a></li>
+                                <li><a href="{{ route('public.competitions') }}"><i class="bi bi-trophy"></i>Semua Kompetisi</a></li>
                                 <li><a href="{{ route('leaderboard.index') }}"><i class="bi bi-list-ol"></i>Leaderboard</a></li>
                             </ul>
                         </div>
@@ -825,10 +825,10 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6 text-md-start text-center mb-2 mb-md-0">
-                        <p>&copy; 2025 <a href="{{ route('public.home') }}">UNAS Fest</a>. Seluruh hak cipta dilindungi.</p>
+                        <p>&copy; 2025 <a href="{{ route('public.home') }}">UNAS FEST</a>. Seluruh hak cipta dilindungi.</p>
                     </div>
                     <div class="col-md-6 text-md-end text-center">
-                        <p>Dikembangkan oleh <a href="https://unasfest.com" target="_blank">Tim UNAS Fest</a></p>
+                        <p>Dikembangkan oleh <a href="https://unasfest.com" target="_blank">Tim UNAS FEST</a></p>
                     </div>
                 </div>
             </div>

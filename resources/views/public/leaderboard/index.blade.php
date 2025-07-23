@@ -3,6 +3,11 @@
 @section('title', 'Leaderboard - UNAS Fest 2025')
 @section('content')
 <style>
+    html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
     .modern-hero {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         position: relative;
@@ -32,16 +37,6 @@
         height: 200%;
         background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
         animation: rotate 30s linear infinite;
-    }
-
-    @keyframes float {
-        0%, 100% { transform: translateY(0px) rotate(0deg); }
-        50% { transform: translateY(-10px) rotate(180deg); }
-    }
-
-    @keyframes rotate {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
     }
 
     .hero-content {
@@ -134,28 +129,46 @@
         50% { transform: translateY(-15px) rotate(5deg); }
     }
 
-    .dynamic-bg {
-        position: fixed;
+    .modern-container {
+        position: relative;
+        z-index: 1;
+    }
+        .bubbles {
+        position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        z-index: -1;
-        background: linear-gradient(45deg, #f8f9fa 0%, #e9ecef 100%);
         overflow: hidden;
+        z-index: 0;
     }
 
-    .floating-shapes {
+    .bubbles li {
         position: absolute;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        z-index: -1;
+        list-style: none;
+        display: block;
+        width: 20px;
+        height: 20px;
+        background: rgba(255, 255, 255, 0.2);
+        animation: animate-bubbles 25s linear infinite;
+        bottom: -150px;
+        border-radius: 50%;
     }
 
-    .modern-container {
-        position: relative;
-        z-index: 1;
+    .bubbles li:nth-child(1) { left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
+    .bubbles li:nth-child(2) { left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
+    .bubbles li:nth-child(3) { left: 70%; width: 20px; height: 20px; animation-delay: 4s; }
+    .bubbles li:nth-child(4) { left: 40%; width: 60px; height: 60px; animation-delay: 0s; animation-duration: 18s; }
+    .bubbles li:nth-child(5) { left: 65%; width: 20px; height: 20px; animation-delay: 0s; }
+    .bubbles li:nth-child(6) { left: 75%; width: 110px; height: 110px; animation-delay: 3s; }
+    .bubbles li:nth-child(7) { left: 35%; width: 150px; height: 150px; animation-delay: 7s; }
+    .bubbles li:nth-child(8) { left: 50%; width: 25px; height: 25px; animation-delay: 15s; animation-duration: 45s; }
+    .bubbles li:nth-child(9) { left: 20%; width: 15px; height: 15px; animation-delay: 2s; animation-duration: 35s; }
+    .bubbles li:nth-child(10) { left: 85%; width: 150px; height: 150px; animation-delay: 0s; animation-duration: 11s; }
+
+    @keyframes animate-bubbles {
+        0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+        100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; }
     }
 
     @media (max-width: 768px) {
@@ -179,29 +192,19 @@
     <!-- Modern Hero Section -->
     <div class="row">
         <div class="col-12">
-            <div class="modern-hero text-white p-5 mb-5"
-                 data-aos="zoom-in"
-                 data-aos-duration="1200"
-                 data-aos-easing="ease-out-back">
+            <div class="modern-hero text-white p-5 mb-5">
+                <ul class="bubbles">
+                    @for ($i = 0; $i < 10; $i++) <li></li> @endfor
+                </ul>
                 <div class="hero-content text-center">
-                    <div class="floating-trophy mb-4"
-                         data-aos="bounce"
-                         data-aos-delay="300"
-                         data-aos-duration="800">
+                    <div class="floating-trophy mb-4">
                         <i class="bi bi-trophy"></i>
                     </div>
-                    <h1 class="modern-title mb-4"
-                        data-aos="fade-down"
-                        data-aos-delay="500"
-                        data-aos-duration="800"
-                        data-aos-easing="ease-out-cubic">
-                        Leaderboard <span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"> UNAS Fest 2025</span>
+                    <h1 class="modern-title mb-4">
+                        Leaderboard <span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"> UNAS FEST 2025</span>
                     </h1>
-                    <p class="modern-subtitle mb-5"
-                       data-aos="fade-up"
-                       data-aos-delay="700"
-                       data-aos-duration="800">
-                        Lihat peringkat terbaru peserta kompetisi UNAS Fest 2025.
+                    <p class="modern-subtitle mb-5">
+                        Lihat peringkat terbaru peserta kompetisi UNAS FEST 2025.
                         Pantau posisi Anda dan kompetitor lainnya dalam real-time.
                     </p>
                     <div class="row justify-content-center">
@@ -717,103 +720,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-</script>
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Animate Hero Section
-        AOS.init({
-            duration: 1200,
-            easing: 'ease-out-back',
-            once: true
-        });
-
-        // Animate content within Hero
-        AOS.init({
-            duration: 800,
-            easing: 'ease-out-cubic',
-            once: true,
-            selector: '.hero-content h1, .hero-content p, .hero-content .btn'
-        });
-
-        // Animate Leaderboard Section if available
-        const leaderboardSection = document.getElementById('leaderboard-content');
-        if (leaderboardSection) {
-            AOS.init({
-                duration: 1000,
-                easing: 'ease-in-out',
-                once: true,
-                offset: 50,
-                selector: '#leaderboard-content .card'
-            });
-        }
-
-        // Add specific animations to table rows
-        const tableRows = document.querySelectorAll('.table tbody tr');
-        tableRows.forEach((row, index) => {
-            row.setAttribute('data-aos', 'fade-up');
-            row.setAttribute('data-aos-delay', `${index * 50}`);
-            row.setAttribute('data-aos-duration', '600');
-            row.setAttribute('data-aos-easing', 'ease-in-out');
-        });
-
-        // Add animations to badges
-        const badges = document.querySelectorAll('.badge');
-        badges.forEach(badge => {
-            badge.setAttribute('data-aos', 'zoom-in');
-            badge.setAttribute('data-aos-duration', '500');
-            badge.setAttribute('data-aos-easing', 'ease-in-out');
-        });
-
-        // Animate buttons in the table
-        const tableButtons = document.querySelectorAll('.table .btn');
-        tableButtons.forEach(button => {
-            button.setAttribute('data-aos', 'fade-left');
-            button.setAttribute('data-aos-duration', '600');
-            button.setAttribute('data-aos-easing', 'ease-in-out');
-        });
-
-        // Animate badges on leaderboard
-        const leaderboardBadges = document.querySelectorAll('#leaderboard-content .badge');
-        leaderboardBadges.forEach(badge => {
-            badge.setAttribute('data-aos', 'zoom-in');
-            badge.setAttribute('data-aos-duration', '600');
-            badge.setAttribute('data-aos-easing', 'ease-in-out');
-        });
-
-        // Animate cards in leaderboard
-        const leaderboardCards = document.querySelectorAll('#leaderboard-content .card');
-        leaderboardCards.forEach((card, index) => {
-            card.setAttribute('data-aos', 'flip-left');
-            card.setAttribute('data-aos-delay', `${index * 200}`);
-            card.setAttribute('data-aos-duration', '800');
-            card.setAttribute('data-aos-easing', 'ease-out-back');
-        });
-
-        // Animate individual elements inside cards
-        const cardElements = document.querySelectorAll('#leaderboard-content .card-header, #leaderboard-content .card-body, #leaderboard-content .card-footer');
-        cardElements.forEach(element => {
-            element.setAttribute('data-aos', 'fade-up');
-            element.setAttribute('data-aos-duration', '600');
-            element.setAttribute('data-aos-easing', 'ease-in-out');
-        });
-
-        // Animate dropdown or select elements
-        const selectElements = document.querySelectorAll('select.form-select');
-        selectElements.forEach(select => {
-            select.setAttribute('data-aos', 'fade-in');
-            select.setAttribute('data-aos-duration', '800');
-            select.setAttribute('data-aos-easing', 'ease-in-out');
-        });
-
-        // Animate table headers
-        const tableHeaders = document.querySelectorAll('.table thead tr th');
-        tableHeaders.forEach((header, index) => {
-            header.setAttribute('data-aos', 'fade-down');
-            header.setAttribute('data-aos-delay', `${index * 100}`);
-            header.setAttribute('data-aos-duration', '600');
-            header.setAttribute('data-aos-easing', 'ease-in-out');
-        });
-    });
 </script>
 @endpush

@@ -8,16 +8,6 @@
 
 @push('styles')
 <style>
-    .dynamic-bg {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        background: linear-gradient(45deg, #f8f9fa 0%, #e9ecef 100%);
-        overflow: hidden;
-    }
 
     .modern-hero {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -28,17 +18,6 @@
         color: white;
     }
 
-    .modern-hero::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1.5" fill="rgba(255,255,255,0.08)"/><circle cx="50" cy="10" r="0.8" fill="rgba(255,255,255,0.12)"/><circle cx="10" cy="60" r="1.2" fill="rgba(255,255,255,0.06)"/><circle cx="90" cy="30" r="0.9" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-        opacity: 0.3;
-        animation: float 20s ease-in-out infinite;
-    }
 
     .modern-hero::after {
         content: '';
@@ -49,16 +28,6 @@
         height: 200%;
         background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
         animation: rotate 30s linear infinite;
-    }
-
-    @keyframes float {
-        0%, 100% { transform: translateY(0px) rotate(0deg); }
-        50% { transform: translateY(-10px) rotate(180deg); }
-    }
-
-    @keyframes rotate {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
     }
 
     .hero-content {
@@ -164,6 +133,58 @@
         width: 35px;
         text-align: center;
     }
+
+        .bubbles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 0;
+    }
+
+    .bubbles li {
+        position: absolute;
+        list-style: none;
+        display: block;
+        width: 20px;
+        height: 20px;
+        background: rgba(255, 255, 255, 0.2);
+        animation: animate-bubbles 25s linear infinite;
+        bottom: -150px;
+        border-radius: 50%;
+    }
+
+    .bubbles li:nth-child(1) { left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
+    .bubbles li:nth-child(2) { left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
+    .bubbles li:nth-child(3) { left: 70%; width: 20px; height: 20px; animation-delay: 4s; }
+    .bubbles li:nth-child(4) { left: 40%; width: 60px; height: 60px; animation-delay: 0s; animation-duration: 18s; }
+    .bubbles li:nth-child(5) { left: 65%; width: 20px; height: 20px; animation-delay: 0s; }
+    .bubbles li:nth-child(6) { left: 75%; width: 110px; height: 110px; animation-delay: 3s; }
+    .bubbles li:nth-child(7) { left: 35%; width: 150px; height: 150px; animation-delay: 7s; }
+    .bubbles li:nth-child(8) { left: 50%; width: 25px; height: 25px; animation-delay: 15s; animation-duration: 45s; }
+    .bubbles li:nth-child(9) { left: 20%; width: 15px; height: 15px; animation-delay: 2s; animation-duration: 35s; }
+    .bubbles li:nth-child(10) { left: 85%; width: 150px; height: 150px; animation-delay: 0s; animation-duration: 11s; }
+
+    @keyframes animate-bubbles {
+        0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+        100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; }
+    }
+
+    @media (max-width: 768px) {
+        .modern-title {
+            font-size: 2.5rem;
+        }
+
+        .modern-subtitle {
+            font-size: 1rem;
+        }
+
+        .floating-trophy {
+            font-size: 3rem;
+        }
+    }
 </style>
 @endpush
 
@@ -173,22 +194,28 @@
     <!-- Modern Hero Section -->
     <div class="row">
         <div class="col-12">
-            <div class="modern-hero p-5 rounded mb-5" data-aos="zoom-in-up">
-                <div class="hero-content text-center">
-                    <h1 class="modern-title mb-3" data-aos="fade-down" data-aos-delay="200">
-                        <i class="bi bi-headset me-3 floating-icon " data-aos="bounce-in" data-aos-delay="400"></i>Hubungi Kami
-                    </h1>
-                    <p class="modern-subtitle mb-4">
-                        Ada pertanyaan tentang UNAS Fest 2025? Tim kami siap membantu Anda.
-                    </p>
+            <div class="modern-hero p-5 rounded mb-5">
+                <ul class="bubbles">
+                    @for ($i = 0; $i < 10; $i++) <li></li> @endfor
+                </ul>
+                    <div class="hero-content text-center">
+                        <div class="floating-icon mb-4">
+                            <i class="bi bi-headset mb-3"></i>
+                        </div>
+                        <h1 class="modern-title mb-3">
+                            Hubungi Kami
+                        </h1>
+                            <p class="modern-subtitle mb-4">
+                            Ada pertanyaan tentang UNAS FEST 2025? Tim kami siap membantu Anda.
+                            </p>
                     <div class="row justify-content-center">
                         <div class="col-md-4 col-lg-3 mb-3">
-                            <a href="https://wa.me/6285817378442" class="btn modern-btn btn-lg w-100" target="_blank">
+                            <a href="https://wa.me/6285817378442" class="btn modern-btn btn-auto w-100" target="_blank">
                                 <i class="bi bi-whatsapp me-2"></i>WhatsApp
                             </a>
                         </div>
                         <div class="col-md-4 col-lg-3 mb-3">
-                            <a href="#contact-form" class="btn modern-btn-outline btn-lg w-100">
+                            <a href="#contact-form" class="btn modern-btn-outline btn-auto w-100">
                                 <i class="bi bi-envelope me-2"></i>Kirim Pesan
                             </a>
                         </div>
@@ -200,13 +227,13 @@
 
     <!-- Alerts -->
     @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert" data-aos="fade-up">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
             <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     @endif
     @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert" data-aos="fade-up">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <i class="bi bi-exclamation-triangle me-2"></i>{{ session('error') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
@@ -215,7 +242,7 @@
     <!-- Contact Form & Info Section -->
     <div class="row g-4">
         <!-- Contact Form -->
-        <div class="col-lg-8" data-aos="fade-right">
+        <div class="col-lg-8">
             <div class="modern-card">
                 <div class="card-header p-3 bg-primary text-white">
                     <h3 class="card-title mb-0"><i class="bi bi-envelope-fill me-2 w-auto"></i>Kirim Pesan Anda</h3>
@@ -314,14 +341,6 @@
 
 @push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        AOS.init({
-            duration: 800,
-            easing: 'ease-out-cubic',
-            once: true,
-            offset: 50,
-        });
-
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -335,6 +354,5 @@
                 }
             });
         });
-    });
 </script>
 @endpush

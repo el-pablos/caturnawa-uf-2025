@@ -39,23 +39,13 @@
         animation: rotate 30s linear infinite;
     }
     
-    @keyframes float {
-        0%, 100% { transform: translateY(0px) rotate(0deg); }
-        50% { transform: translateY(-10px) rotate(180deg); }
-    }
-    
-    @keyframes rotate {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-    
     .hero-content {
         position: relative;
         z-index: 2;
     }
     
     .modern-title {
-        font-size: 3.5rem;
+        font-size: 3rem;
         font-weight: 800;
         background: linear-gradient(45deg, #fff, #f8f9fa, #fff);
         -webkit-background-clip: text;
@@ -218,53 +208,62 @@
         background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
         animation: rotate 25s linear infinite reverse;
     }
-    
-    .dynamic-bg {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        background: linear-gradient(45deg, #f8f9fa 0%, #e9ecef 100%);
-        overflow: hidden;
-    }
-    
-    .dynamic-bg::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image:
-            radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 40% 40%, rgba(255, 235, 167, 0.1) 0%, transparent 50%);
-        animation: float 20s ease-in-out infinite;
-    }
-    
-    .dynamic-bg::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image:
-            linear-gradient(45deg, transparent 40%, rgba(102, 126, 234, 0.05) 50%, transparent 60%),
-            linear-gradient(-45deg, transparent 40%, rgba(118, 75, 162, 0.05) 50%, transparent 60%);
-        animation: slide 30s linear infinite;
-    }
-    
-    @keyframes slide {
-        0% { transform: translateX(-100%); }
-        100% { transform: translateX(100%); }
-    }
-    
+
     .modern-container {
         position: relative;
         z-index: 1;
+    }
+    .bubbles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 0;
+    }
+
+    .bubbles li {
+        position: absolute;
+        list-style: none;
+        display: block;
+        width: 20px;
+        height: 20px;
+        background: rgba(255, 255, 255, 0.2);
+        animation: animate-bubbles 25s linear infinite;
+        bottom: -150px;
+        border-radius: 50%;
+    }
+
+    .bubbles li:nth-child(1) { left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
+    .bubbles li:nth-child(2) { left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
+    .bubbles li:nth-child(3) { left: 70%; width: 20px; height: 20px; animation-delay: 4s; }
+    .bubbles li:nth-child(4) { left: 40%; width: 60px; height: 60px; animation-delay: 0s; animation-duration: 18s; }
+    .bubbles li:nth-child(5) { left: 65%; width: 20px; height: 20px; animation-delay: 0s; }
+    .bubbles li:nth-child(6) { left: 75%; width: 110px; height: 110px; animation-delay: 3s; }
+    .bubbles li:nth-child(7) { left: 35%; width: 150px; height: 150px; animation-delay: 7s; }
+    .bubbles li:nth-child(8) { left: 50%; width: 25px; height: 25px; animation-delay: 15s; animation-duration: 45s; }
+    .bubbles li:nth-child(9) { left: 20%; width: 15px; height: 15px; animation-delay: 2s; animation-duration: 35s; }
+    .bubbles li:nth-child(10) { left: 85%; width: 150px; height: 150px; animation-delay: 0s; animation-duration: 11s; }
+
+    @keyframes animate-bubbles {
+        0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+        100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; }
+    }
+    
+
+    @media (max-width: 768px) {
+        .modern-title {
+            font-size: 2.5rem;
+        }
+
+        .modern-subtitle {
+            font-size: 1rem;
+        }
+
+        .floating-trophy {
+            font-size: 3rem;
+        }
     }
 </style>
 
@@ -273,53 +272,31 @@
     <!-- Modern Hero Section -->
     <div class="row">
         <div class="col-12">
-            <div class="modern-hero text-white p-5 mb-5"
-                 data-aos="zoom-in"
-                 data-aos-duration="1200"
-                 data-aos-easing="ease-out-back">
+            <div class="modern-hero text-white p-5 mb-5">
+                <ul class="bubbles">
+                    @for ($i = 0; $i < 10; $i++) <li></li> @endfor
+                </ul>
                 <div class="hero-content text-center">
-                    <div class="floating-icon mb-4"
-                         data-aos="bounce"
-                         data-aos-delay="300"
-                         data-aos-duration="800">
+                    <div class="floating-icon mb-4">
                         <i class="bi bi-info-circle"></i>
                     </div>
-                    <h1 class="modern-title mb-4"
-                        data-aos="fade-down"
-                        data-aos-delay="500"
-                        data-aos-duration="800"
-                        data-aos-easing="ease-out-cubic">
-                        Tentang <span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">UNAS Fest 2025</span>
+                    <h1 class="modern-title mb-4">
+                        Tentang <span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">UNAS FEST 2025</span>
                     </h1>
-                    <p class="modern-subtitle mb-5"
-                       data-aos="fade-up"
-                       data-aos-delay="700"
-                       data-aos-duration="800">
+                    <p class="modern-subtitle mb-5">
                         Festival kompetisi nasional terbesar di Indonesia yang menggabungkan inovasi teknologi,
                         kesehatan, dan biodiversitas untuk menciptakan masa depan yang berkelanjutan.
                     </p>
                     <div class="row justify-content-center">
-                        <div class="col-md-3 mb-3"
-                             data-aos="slide-right"
-                             data-aos-delay="900"
-                             data-aos-duration="600">
+                        <div class="col-md-3 mb-3">
                             <a href="{{ route('public.competitions') }}"
-                               class="btn modern-btn btn-lg w-100"
-                               data-aos="pulse"
-                               data-aos-delay="1100"
-                               data-aos-duration="600">
+                               class="btn modern-btn btn-auto w-100">
                                 <i class="bi bi-trophy me-2"></i>Lihat Kompetisi
                             </a>
                         </div>
-                        <div class="col-md-3 mb-3"
-                             data-aos="slide-left"
-                             data-aos-delay="1000"
-                             data-aos-duration="600">
+                        <div class="col-md-3 mb-3">
                             <a href="{{ route('public.contact') }}"
-                               class="btn modern-btn-outline btn-lg w-100"
-                               data-aos="pulse"
-                               data-aos-delay="1200"
-                               data-aos-duration="600">
+                               class="btn modern-btn-outline btn-auto w-100">
                                 <i class="bi bi-envelope me-2"></i>Hubungi Kami
                             </a>
                         </div>
@@ -331,7 +308,7 @@
 
     <!-- Vision & Mission Section -->
     <div class="row g-4 mb-5">
-        <div class="col-lg-6" data-aos="fade-right" data-aos-duration="1000">
+        <div class="col-lg-6">
             <div class="glass-card h-100">
                 <div class="glass-header p-4 text-center">
                     <h3 class="mb-0 fw-bold" style="color: #764ba2;"><i class="bi bi-eye me-2" style="color: #764ba2;"></i>Visi Kami</h3>
@@ -345,7 +322,7 @@
             </div>
         </div>
 
-        <div class="col-lg-6" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+        <div class="col-lg-6">
             <div class="glass-card h-100">
                 <div class="glass-header p-4 text-center">
                     <h3 class="mb-0 fw-bold" style="color: #764ba2;"><i class="bi bi-bullseye me-2"></i>Misi Kami</h3>
@@ -378,14 +355,12 @@
     <div class="row mb-5">
         <div class="col-12">
             <h2 class="text-center mb-4 fw-bold"
-                style="background: linear-gradient(45deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 2.5rem;"
-                data-aos="fade-down"
-                data-aos-duration="800">
+                style="background: linear-gradient(45deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 2.5rem;">
                 <i class="bi bi-gem" style="color: #764ba2;"></i> Nilai-Nilai Kami
             </h2>
-            <p class="text-center text-muted mb-5" data-aos="fade-up" data-aos-delay="200">Prinsip-prinsip yang menjadi fondasi dalam menyelenggarakan UNAS Fest 2025</p>
+            <p class="text-center text-muted mb-5">Prinsip-prinsip yang menjadi fondasi dalam menyelenggarakan UNAS FEST 2025</p>
         </div>
-        <div class="col-lg-3 col-md-6 mb-4" data-aos="zoom-in-up" data-aos-duration="600" data-aos-delay="100">
+        <div class="col-lg-3 col-md-6 mb-4">
             <div class="value-card text-center p-4">
                 <i class="bi bi-lightbulb display-4 mb-3" style="color: #667eea;"></i>
                 <h4 class="fw-bold mb-2">Inovasi</h4>
@@ -394,7 +369,7 @@
                 </p>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 mb-4" data-aos="zoom-in-up" data-aos-duration="600" data-aos-delay="200">
+        <div class="col-lg-3 col-md-6 mb-4">
             <div class="value-card text-center p-4">
                 <i class="bi bi-people display-4 mb-3" style="color: #48bb78;"></i>
                 <h4 class="fw-bold mb-2">Kolaborasi</h4>
@@ -403,7 +378,7 @@
                 </p>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 mb-4" data-aos="zoom-in-up" data-aos-duration="600" data-aos-delay="300">
+        <div class="col-lg-3 col-md-6 mb-4">
             <div class="value-card text-center p-4">
                 <i class="bi bi-award display-4 mb-3" style="color: #feca57;"></i>
                 <h4 class="fw-bold mb-2">Kualitas</h4>
@@ -412,7 +387,7 @@
                 </p>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 mb-4" data-aos="zoom-in-up" data-aos-duration="600" data-aos-delay="400">
+        <div class="col-lg-3 col-md-6 mb-4">
             <div class="value-card text-center p-4">
                 <i class="bi bi-globe display-4 mb-3" style="color: #5a67d8;"></i>
                 <h4 class="fw-bold mb-2">Berkelanjutan</h4>
@@ -426,41 +401,25 @@
     <!-- Call to Action Section -->
     <div class="row mt-5">
         <div class="col-12">
-            <div class="cta-card text-dark"
-                 data-aos="fade-up"
-                 data-aos-duration="1000"
-                 data-aos-delay="300"
-                 data-aos-easing="ease-out-back">
+            <div class="cta-card text-dark">
                 <div class="p-5 text-center position-relative" style="z-index: 2;">
                     <h2 class="fw-bold mb-3" style="color: #d69e2e;">Siap Menjadi Bagian dari Perubahan?</h2>
-                    <p class="lead mb-4 fw-semibold">
-                        Bergabunglah dengan ribuan inovator muda lainnya dan wujudkan ide terbaikmu di UNAS Fest 2025!
+                    <p class="lead mb-4 text-opacity-75 text-white fw-semibold">
+                        Bergabunglah dengan ribuan inovator muda lainnya dan wujudkan ide terbaikmu di UNAS FEST 2025!
                     </p>
                     <div class="row justify-content-center">
-                        <div class="col-md-3 mb-3"
-                             data-aos="slide-right"
-                             data-aos-delay="500"
-                             data-aos-duration="600">
+                        <div class="col-md-3 mb-3">
                             <a href="{{ route('login') }}"
-                               class="btn modern-btn btn-lg w-100"
-                               data-aos="pulse"
-                               data-aos-delay="700"
-                               data-aos-duration="600">
+                               class="btn modern-btn btn-auto w-100">
                                 <i class="bi bi-person-plus me-2"></i>Daftar Sekarang
                             </a>
                         </div>
-                        <div class="col-md-3 mb-3"
-                             data-aos="slide-left"
-                             data-aos-delay="600"
-                             data-aos-duration="600">
+                        <div class="col-md-3 mb-3">
                             <a href="{{ route('public.competitions') }}"
-                               class="btn modern-btn-outline btn-lg w-100"
+                               class="btn modern-btn-outline btn-auto w-100"
                                style="color: #d69e2e; border-color: #d69e2e;"
                                onmouseover="this.style.backgroundColor='rgba(214, 158, 46, 0.1)'; this.style.color='#d69e2e';"
-                               onmouseout="this.style.backgroundColor='transparent'; this.style.color='#d69e2e';"
-                               data-aos="pulse"
-                               data-aos-delay="800"
-                               data-aos-duration="600">
+                               onmouseout="this.style.backgroundColor='transparent'; this.style.color='#d69e2e';">
                                 <i class="bi bi-trophy me-2"></i>Lihat Kompetisi
                             </a>
                         </div>
