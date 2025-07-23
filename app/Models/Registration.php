@@ -48,6 +48,7 @@ class Registration extends Model
         'reopened_by',
         'ticket_code',
         'qr_code',
+        'dynamic_data',
     ];
 
     /**
@@ -63,6 +64,7 @@ class Registration extends Model
         'reopened_at' => 'datetime',
         'amount' => 'decimal:2',
         'original_price' => 'decimal:2',
+        'dynamic_data' => 'array',
     ];
 
     /**
