@@ -6,13 +6,13 @@
 <div class="container my-5">
     <div class="row">
         <div class="col-12">
-            <div class="jumbotron bg-primary text-white p-5 rounded">
-                <h1 class="display-4">UNAS Fest 2025</h1>
-                <p class="lead">Festival Kompetisi Nasional Terbesar Indonesia</p>
+            <div class="jumbotron bg-primary text-white p-5 rounded" style="font-family: 'Poppins', sans-serif; font-weight: bold; text-transform: uppercase;">
+                <h1 class="display-4">UNAS FEST 2025</h1>
+                <p class="lead">FESTIVAL KOMPETISI UNIVERSITAS NASIONAL TAHUNAN</p>
                 <hr class="my-4">
-                <p>Bergabunglah dengan kompetisi Teknologi, Kesehatan, dan Biodiversitas menanti!</p>
+                <p>BERGABUNGLAH DENGAN KOMPETISI TEKNOLOGI, KESEHATAN, DAN BIODIVERSITAS MENANTI!</p>
                 <a class="btn btn-light btn-lg" href="{{ route('public.competitions') }}" role="button">
-                    <i class="bi bi-trophy"></i> Lihat Kompetisi
+                    <i class="bi bi-trophy"></i> LIHAT KOMPETISI
                 </a>
             </div>
         </div>
