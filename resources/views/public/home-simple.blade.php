@@ -6,12 +6,12 @@
 <div class="container my-5">
     <div class="row">
         <div class="col-12">
-            <div class="jumbotron bg-primary text-white p-5 rounded">
-                <h1 class="display-4" style="font-family: 'Poppins', sans-serif; font-weight: bold; text-transform: uppercase;">UNAS FEST 2025</h1>
-                <p class="lead">Festival kompetisi universitas nasional tahunan</p>
-                <hr class="my-4">
-                <p class="lead">Bergabunglah dengan kompetisi teknologi, kesehatan, dan biodiversitas menanti!</p>
-                <a class="btn btn-light btn-lg" href="{{ route('public.competitions') }}" role="button">
+            <div class="jumbotron bg-primary text-white p-5 rounded" data-aos="fade-up">
+                <h1 class="display-4" style="font-family: 'Poppins', sans-serif; font-weight: bold; text-transform: uppercase;" data-aos="zoom-in" data-aos-delay="200">UNAS FEST 2025</h1>
+                <p class="lead" data-aos="fade-up" data-aos-delay="400">Festival kompetisi universitas nasional tahunan</p>
+                <hr class="my-4" data-aos="fade-up" data-aos-delay="600">
+                <p class="lead" data-aos="fade-up" data-aos-delay="800">Bergabunglah dengan kompetisi teknologi, kesehatan, dan biodiversitas menanti!</p>
+                <a class="btn btn-light btn-lg" href="{{ route('public.competitions') }}" role="button" data-aos="bounce-in" data-aos-delay="1000">
                     <i class="bi bi-trophy"></i> LIHAT KOMPETISI
                 </a>
             </div>
@@ -22,7 +22,7 @@
     @if(isset($competitionLeaderboards) && count($competitionLeaderboards) > 0)
     <div class="row mt-5">
         <div class="col-12 mb-4">
-            <div class="text-center">
+            <div class="text-center" data-aos="fade-up">
                 <h2 class="fw-bold text-primary">
                     <i class="bi bi-trophy me-2"></i>Leaderboard UNAS Fest 2025
                 </h2>
@@ -32,7 +32,7 @@
 
         @foreach($competitions as $competition)
             @if(isset($competitionLeaderboards[$competition->id]) && count($competitionLeaderboards[$competition->id]) > 0)
-            <div class="col-lg-6 col-md-12 mb-4">
+            <div class="col-lg-6 col-md-12 mb-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 200 }}">
                 <div class="card shadow h-100">
                     <div class="card-header bg-primary text-white text-center">
                         <h5 class="card-title mb-0">
@@ -137,10 +137,10 @@
     @if($competitions && $competitions->count() > 0)
     <div class="row mt-5">
         <div class="col-12">
-            <h2 class="text-center mb-4">Kompetisi UnasFest</h2>
+            <h2 class="text-center mb-4" data-aos="fade-up">Kompetisi UnasFest</h2>
         </div>
         @foreach($competitions as $competition)
-        <div class="col-md-4 mb-4">
+        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 150 }}">
             <div class="card h-100">
                 @if($competition->image)
                 <img src="{{ asset('storage/competitions/' . $competition->image) }}" 
