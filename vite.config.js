@@ -51,13 +51,25 @@ export default defineConfig({
     build: {
         outDir: 'public/build',
         manifest: true,
+        sourcemap: false, // Disable sourcemaps in production for smaller files
+        minify: 'terser', // Use terser for better minification
+        cssMinify: true,
         rollupOptions: {
             output: {
                 manualChunks: {
-                    vendor: ['bootstrap', 'chart.js', 'sweetalert2'],
+                    vendor: ['bootstrap'],
                     datatables: ['datatables.net', 'datatables.net-bs5'],
+                    aos: ['aos'], // Separate AOS into its own chunk
                 },
+                // Optimize asset file names
+                chunkFileNames: 'assets/js/[name]-[hash].js',
+                entryFileNames: 'assets/js/[name]-[hash].js',
+                assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
             },
         },
+        // Performance optimizations
+        target: 'es2015', // Support modern browsers for better performance
+        cssCodeSplit: true, // Split CSS for better caching
+        assetsInlineLimit: 4096, // Inline small assets as base64
     },
 });

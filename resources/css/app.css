@@ -97,6 +97,70 @@
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
 }
 
+/* Performance Optimizations */
+
+/* Reduce paint and composite layers */
+* {
+    box-sizing: border-box;
+}
+
+/* Optimize animations */
+[data-aos] {
+    will-change: transform, opacity;
+}
+
+[data-aos].aos-animate {
+    will-change: auto;
+}
+
+/* Critical rendering optimizations */
+body {
+    font-display: swap; /* Improve font loading */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Reduce layout thrashing */
+img {
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+}
+
+/* Optimize scrolling performance */
+.container,
+.container-fluid {
+    transform: translateZ(0); /* Force hardware acceleration */
+}
+
+/* Reduce repaints on hover */
+.btn {
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* Optimize table rendering */
+.table-responsive {
+    contain: layout style;
+}
+
+/* CSS containment for better performance */
+.card {
+    contain: layout style;
+}
+
+/* Optimize modal performance */
+.modal {
+    contain: layout style paint;
+}
+
+/* Reduce expensive filters */
+.shadow,
+.shadow-sm,
+.shadow-lg {
+    filter: none; /* Use box-shadow instead of filter */
+}
+
 /* Responsive helpers */
 @media (max-width: 768px) {
     .mobile-center {
@@ -105,5 +169,16 @@
     
     .mobile-full-width {
         width: 100% !important;
+    }
+    
+    /* Better mobile scrolling */
+    body {
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Disable AOS on mobile for better performance */
+    [data-aos] {
+        transform: none !important;
+        opacity: 1 !important;
     }
 }

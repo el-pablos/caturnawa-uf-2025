@@ -27,14 +27,20 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('📝 Hot reload is active - changes will be reflected automatically');
     }
 
-    // Initialize AOS (Animate On Scroll)
+    // Initialize AOS (Animate On Scroll) with optimized settings
     AOS.init({
-        duration: 800,
-        easing: 'ease-in-out',
+        duration: 600, // Reduced from 800ms for faster animations
+        easing: 'ease-out', // Changed to ease-out for better performance
         once: true,
         mirror: false,
-        offset: 100,
-        anchorPlacement: 'top-bottom'
+        offset: 50, // Reduced offset for earlier triggering
+        anchorPlacement: 'top-center', // Changed to top-center for better mobile experience
+        disable: function() {
+            // Disable AOS on mobile devices < 768px for better performance
+            return window.innerWidth < 768;
+        },
+        throttleDelay: 50, // Reduce throttle delay for smoother scrolling
+        debounceDelay: 25 // Reduce debounce delay
     });
     
     // Initialize tooltips
