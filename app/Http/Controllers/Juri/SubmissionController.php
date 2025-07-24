@@ -189,10 +189,10 @@ class SubmissionController extends Controller
                 'created_at' => now(),
             ]);
 
-            // Update submission review status
+            // Update submission review status (only update existing columns)
             $submission->update([
                 'reviewed_at' => now(),
-                'review_status' => 'reviewed',
+                'reviewed_by' => $jury->id,
             ]);
 
             return back()->with('success', 'Komentar berhasil ditambahkan.');
@@ -271,10 +271,10 @@ class SubmissionController extends Controller
                     'created_at' => now(),
                 ]);
 
-                // Update submission status
+                // Update submission status (only update existing columns)
                 $submission->update([
                     'reviewed_at' => now(),
-                    'review_status' => 'reviewed',
+                    'reviewed_by' => $jury->id,
                 ]);
             }
 
