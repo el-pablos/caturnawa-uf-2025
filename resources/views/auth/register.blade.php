@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Register - UNAS Fest 2025</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -398,17 +399,36 @@
             }
         });
 
+        // Debug CSRF token
+        const csrfToken = document.querySelector('meta[name="csrf-token"]');
+        const csrfInput = document.querySelector('input[name="_token"]');
+
+        console.log('Register CSRF Meta Token:', csrfToken ? csrfToken.getAttribute('content') : 'Not found');
+        console.log('Register CSRF Input Token:', csrfInput ? csrfInput.value : 'Not found');
+
+        // Ensure form has CSRF token
+        const form = document.querySelector('form[action*="register"]');
+        if (form && !form.querySelector('input[name="_token"]')) {
+            console.error('Register form missing CSRF token input!');
+            const tokenInput = document.createElement('input');
+            tokenInput.type = 'hidden';
+            tokenInput.name = '_token';
+            tokenInput.value = csrfToken ? csrfToken.getAttribute('content') : '';
+            form.appendChild(tokenInput);
+            console.log('CSRF token input added to register form');
+        }
+
         // Form validation
         document.getElementById('registerForm').addEventListener('submit', function(e) {
             const password = document.getElementById('password').value;
             const confirm = document.getElementById('password_confirmation').value;
-            
+
             if (password !== confirm) {
                 e.preventDefault();
                 alert('Passwords do not match');
                 return false;
             }
-            
+
             if (password.length < 8) {
                 e.preventDefault();
                 alert('Password must be at least 8 characters long');

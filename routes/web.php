@@ -55,6 +55,10 @@ Route::get('/health', function () {
     return response()->json($checks, $statusCode);
 })->name('health');
 
+// SEO Routes
+Route::get('/sitemap.xml', [App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
+Route::get('/robots.txt', [App\Http\Controllers\SitemapController::class, 'robots'])->name('robots');
+
 // Public Pages Routes (Main Website)
 Route::name('public.')->middleware('maintenance')->group(function () {
     // Home page - accessible via root and /home
@@ -139,7 +143,7 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
         } elseif ($user->isJuri()) {
             return redirect()->route('juri.juri.dashboard');
         } elseif ($user->isPeserta()) {
-            return redirect()->route('peserta.peserta.dashboard');
+            return redirect()->route('peserta.dashboard');
         }
 
         return redirect()->route('login')
@@ -188,6 +192,9 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
                 Route::get('/{description}/edit', [App\Http\Controllers\Admin\CompetitionDescriptionController::class, 'edit'])->name('edit');
                 Route::put('/{description}', [App\Http\Controllers\Admin\CompetitionDescriptionController::class, 'update'])->name('update');
                 Route::delete('/{description}', [App\Http\Controllers\Admin\CompetitionDescriptionController::class, 'destroy'])->name('destroy');
+
+                // Special route for Terms & Conditions
+                Route::put('/terms', [App\Http\Controllers\Admin\CompetitionDescriptionController::class, 'updateTerms'])->name('update-terms');
             });
         });
         
@@ -196,7 +203,8 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             Route::get('/', [App\Http\Controllers\Admin\RegistrationController::class, 'index'])->name('index');
             Route::get('/{registration}', [App\Http\Controllers\Admin\RegistrationController::class, 'show'])->name('show');
             Route::patch('/{registration}', [App\Http\Controllers\Admin\RegistrationController::class, 'update'])->name('update');
-            Route::patch('/{registration}/confirm', [App\Http\Controllers\Admin\RegistrationController::class, 'confirm'])->name('confirm');
+            // DISABLED: Manual registration confirmation feature has been disabled
+            // Route::patch('/{registration}/confirm', [App\Http\Controllers\Admin\RegistrationController::class, 'confirm'])->name('confirm');
             Route::patch('/{registration}/cancel', [App\Http\Controllers\Admin\RegistrationController::class, 'cancel'])->name('cancel');
             Route::patch('/{registration}/re-enable', [App\Http\Controllers\Admin\RegistrationController::class, 'reEnable'])->name('re-enable');
             Route::delete('/{registration}', [App\Http\Controllers\Admin\RegistrationController::class, 'destroy'])->name('destroy');
@@ -211,7 +219,8 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             Route::patch('/{payment}', [App\Http\Controllers\Admin\PaymentController::class, 'update'])->name('update');
             Route::patch('/{payment}/verify', [App\Http\Controllers\Admin\PaymentController::class, 'verify'])->name('verify');
             Route::patch('/{payment}/reject', [App\Http\Controllers\Admin\PaymentController::class, 'reject'])->name('reject');
-            Route::patch('/{payment}/confirm', [App\Http\Controllers\Admin\PaymentController::class, 'confirmPayment'])->name('confirm');
+            // DISABLED: Manual payment confirmation feature has been disabled
+            // Route::patch('/{payment}/confirm', [App\Http\Controllers\Admin\PaymentController::class, 'confirmPayment'])->name('confirm');
         });
         
         // User Management (Super Admin only)
@@ -241,8 +250,6 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
         Route::prefix('submissions')->name('submissions.')->group(function () {
             Route::get('/', [App\Http\Controllers\Admin\SubmissionController::class, 'index'])->name('index');
             Route::get('/export', [App\Http\Controllers\Admin\SubmissionController::class, 'export'])->name('export');
-            Route::get('/export/excel', [App\Http\Controllers\Admin\SubmissionController::class, 'exportExcel'])->name('export.excel');
-            Route::get('/export/pdf', [App\Http\Controllers\Admin\SubmissionController::class, 'exportPdf'])->name('export.pdf');
             Route::get('/{submission}', [App\Http\Controllers\Admin\SubmissionController::class, 'show'])->name('show');
             Route::patch('/{submission}/approve', [App\Http\Controllers\Admin\SubmissionController::class, 'approve'])->name('approve');
             Route::patch('/{submission}/reject', [App\Http\Controllers\Admin\SubmissionController::class, 'reject'])->name('reject');
@@ -358,8 +365,13 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
     Route::middleware(['role:peserta'])->prefix('peserta')->name('peserta.')->group(function () {
         
         // Dashboard
-        Route::get('/dashboard', [App\Http\Controllers\Peserta\PesertaDashboardController::class, 'index'])->name('peserta.dashboard');
-        
+        Route::get('/dashboard', [App\Http\Controllers\Peserta\PesertaDashboardController::class, 'index'])->name('dashboard');
+
+        // Profile
+        Route::get('/profile', [App\Http\Controllers\Auth\AuthController::class, 'profile'])->name('profile.edit');
+        Route::put('/profile', [App\Http\Controllers\Auth\AuthController::class, 'updateProfile'])->name('profile.update');
+        Route::put('/profile/password', [App\Http\Controllers\Auth\AuthController::class, 'updatePassword'])->name('profile.password');
+
         // Available Competitions
         Route::prefix('competitions')->name('competitions.')->group(function () {
             Route::get('/', [App\Http\Controllers\Peserta\CompetitionController::class, 'index'])->name('index');
@@ -406,6 +418,7 @@ Route::prefix('payment')->name('payment.')->group(function () {
         Route::get('/error/{payment}', [PaymentController::class, 'error'])->name('error')->where('payment', '[0-9]+');
         Route::post('/check-status', [PaymentController::class, 'checkStatus'])->name('check-status');
         Route::get('/receipt/{payment}', [PaymentController::class, 'downloadReceipt'])->name('receipt');
+        Route::get('/invoice/{registration}', [PaymentController::class, 'invoice'])->name('invoice');
     });
     
     // Public callback routes for Midtrans

@@ -87,11 +87,6 @@ class PaymentController extends Controller
     public function update(Request $request, Payment $payment)
     {
         try {
-            // If no specific data is provided, default to verification
-            if (!$request->has('status') && !$request->has('action')) {
-                return $this->verify($payment);
-            }
-
             // Handle different actions
             $action = $request->input('action');
             if ($action) {
@@ -103,6 +98,14 @@ class PaymentController extends Controller
                     case 'reject':
                         return $this->reject($request, $payment);
                 }
+            }
+
+            // If no action specified but request expects JSON, return error
+            if (request()->wantsJson() && !$request->has('status')) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Action atau status diperlukan untuk update payment.'
+                ], 400);
             }
 
             // Handle manual status update
@@ -149,12 +152,17 @@ class PaymentController extends Controller
 
     /**
      * Konfirmasi pembayaran dan registrasi
+     * DISABLED: Payment confirmation feature has been disabled
      *
      * @param \App\Models\Payment $payment
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
     public function confirmPayment(Payment $payment)
     {
+        // DISABLED: Manual payment confirmation workflow has been disabled
+        // Payments are now automatically processed without admin confirmation
+
+        /*
         try {
             DB::beginTransaction();
 
@@ -166,7 +174,7 @@ class PaymentController extends Controller
 
             if (!$payment) {
                 DB::rollback();
-                
+
                 if (request()->wantsJson()) {
                     return response()->json([
                         'success' => false,
@@ -180,7 +188,7 @@ class PaymentController extends Controller
             // Verify payment is in valid state for confirmation
             if (!$payment->isAwaitingConfirmation()) {
                 DB::rollback();
-                
+
                 if (request()->wantsJson()) {
                     return response()->json([
                         'success' => false,
@@ -223,7 +231,7 @@ class PaymentController extends Controller
             return back()->with('success', 'Pembayaran berhasil dikonfirmasi dan registrasi disetujui.');
         } catch (\Exception $e) {
             DB::rollback();
-            
+
             if (request()->wantsJson()) {
                 return response()->json([
                     'success' => false,
@@ -233,6 +241,17 @@ class PaymentController extends Controller
 
             return back()->with('error', 'Gagal mengkonfirmasi pembayaran: ' . $e->getMessage());
         }
+        */
+
+        // Return message that feature is disabled
+        if (request()->wantsJson()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Fitur konfirmasi pembayaran manual telah dinonaktifkan. Pembayaran diproses otomatis.'
+            ]);
+        }
+
+        return back()->with('info', 'Fitur konfirmasi pembayaran manual telah dinonaktifkan. Pembayaran diproses otomatis.');
     }
 
     /**
@@ -246,11 +265,23 @@ class PaymentController extends Controller
         try {
             // Validate payment can be verified
             if ($payment->status === 'paid') {
-                return back()->with('error', 'Pembayaran sudah diverifikasi sebelumnya.');
+                if (request()->wantsJson()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Pembayaran sudah diverifikasi sebelumnya.'
+                    ], 400);
+                }
+                return redirect()->route('admin.payments.index')->with('error', 'Pembayaran sudah diverifikasi sebelumnya.');
             }
 
             if (!$payment->registration) {
-                return back()->with('error', 'Data registrasi tidak ditemukan.');
+                if (request()->wantsJson()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Data registrasi tidak ditemukan.'
+                    ], 404);
+                }
+                return redirect()->route('admin.payments.index')->with('error', 'Data registrasi tidak ditemukan.');
             }
 
             DB::beginTransaction();
@@ -291,7 +322,7 @@ class PaymentController extends Controller
                 ]);
             }
 
-            return back()->with('success', 'Pembayaran berhasil diverifikasi dan registrasi dikonfirmasi.');
+            return redirect()->route('admin.payments.index')->with('success', 'Pembayaran berhasil diverifikasi dan registrasi dikonfirmasi.');
         } catch (\Exception $e) {
             DB::rollback();
 
@@ -304,7 +335,7 @@ class PaymentController extends Controller
                 ], 500);
             }
 
-            return back()->with('error', 'Gagal memverifikasi pembayaran: ' . $e->getMessage());
+            return redirect()->route('admin.payments.index')->with('error', 'Gagal memverifikasi pembayaran: ' . $e->getMessage());
         }
     }
 

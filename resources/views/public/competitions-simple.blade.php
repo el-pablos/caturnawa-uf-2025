@@ -7,74 +7,32 @@
     <!-- Hero Section -->
     <div class="row">
         <div class="col-12">
-            <div class="jumbotron bg-primary text-white p-5 rounded mb-5"
-                 data-aos="fade-up"
-                 data-aos-duration="1000"
-                 data-aos-easing="ease-out-cubic">
-                <h1 class="display-4"
-                    data-aos="fade-up"
-                    data-aos-delay="200"
-                    data-aos-duration="800">Kompetisi UNAS FEST 2025</h1>
-                <p class="lead"
-                   data-aos="fade-up"
-                   data-aos-delay="400"
-                   data-aos-duration="800">Bergabunglah dengan kompetisi nasional terbesar di Indonesia</p>
-                <hr class="my-4"
-                    data-aos="fade-left"
-                    data-aos-delay="600"
-                    data-aos-duration="600">
-                <p data-aos="fade-up"
-                   data-aos-delay="800"
-                   data-aos-duration="800">Tiga kategori kompetisi: Teknologi, Kesehatan, dan Biodiversitas. Bergabunglah dalam festival kompetisi nasional terbesar!</p>
+            <div class="jumbotron bg-primary text-white p-5 rounded mb-5" data-aos="fade-up">
+                <h1 class="display-4" data-aos="zoom-in" data-aos-delay="200">Kompetisi UNAS Fest 2025</h1>
+                <p class="lead" data-aos="fade-up" data-aos-delay="400">Bergabunglah dengan kompetisi nasional terbesar di Indonesia</p>
+                <hr class="my-4" data-aos="fade-up" data-aos-delay="600">
+                <p data-aos="fade-up" data-aos-delay="800">Tiga kategori kompetisi: Teknologi, Kesehatan, dan Biodiversitas. Bergabunglah dalam festival kompetisi nasional terbesar!</p>
             </div>
         </div>
     </div>
 
     <!-- Statistics -->
     <div class="row mb-5">
-        <div class="col-md-6 mb-4">
-            <div class="card text-center"
-                 data-aos="zoom-in"
-                 data-aos-duration="800"
-                 data-aos-delay="100"
-                 data-aos-easing="ease-out-back">
+        <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="card text-center">
                 <div class="card-body">
-                    <i class="bi bi-people-fill text-primary"
-                       style="font-size: 2rem;"
-                       data-aos="flip-up"
-                       data-aos-delay="300"
-                       data-aos-duration="600"></i>
-                    <h3 class="mt-2"
-                        data-aos="fade-up"
-                        data-aos-delay="500"
-                        data-aos-duration="600">{{ $stats['participants'] ?? 0 }}</h3>
-                    <p class="text-muted"
-                       data-aos="fade-up"
-                       data-aos-delay="700"
-                       data-aos-duration="600">Peserta Terdaftar</p>
+                    <i class="bi bi-people-fill text-primary" style="font-size: 2rem;" data-aos="zoom-in" data-aos-delay="400"></i>
+                    <h3 class="mt-2" data-aos="fade-up" data-aos-delay="600">{{ $stats['participants'] ?? 0 }}</h3>
+                    <p class="text-muted" data-aos="fade-up" data-aos-delay="800">Peserta Terdaftar</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-6 mb-4">
-            <div class="card text-center"
-                 data-aos="zoom-in"
-                 data-aos-duration="800"
-                 data-aos-delay="300"
-                 data-aos-easing="ease-out-back">
+        <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+            <div class="card text-center">
                 <div class="card-body">
-                    <i class="bi bi-trophy-fill text-warning"
-                       style="font-size: 2rem;"
-                       data-aos="flip-up"
-                       data-aos-delay="500"
-                       data-aos-duration="600"></i>
-                    <h3 class="mt-2"
-                        data-aos="fade-up"
-                        data-aos-delay="700"
-                        data-aos-duration="600">{{ $stats['competitions'] ?? 0 }}</h3>
-                    <p class="text-muted"
-                       data-aos="fade-up"
-                       data-aos-delay="900"
-                       data-aos-duration="600">Kompetisi Aktif</p>
+                    <i class="bi bi-trophy-fill text-warning" style="font-size: 2rem;" data-aos="zoom-in" data-aos-delay="600"></i>
+                    <h3 class="mt-2" data-aos="fade-up" data-aos-delay="800">{{ $stats['competitions'] ?? 0 }}</h3>
+                    <p class="text-muted" data-aos="fade-up" data-aos-delay="1000">Kompetisi Aktif</p>
                 </div>
             </div>
         </div>
@@ -85,24 +43,14 @@
         @foreach($competitions as $category => $categoryCompetitions)
         <div class="row mb-5">
             <div class="col-12">
-                <h2 class="mb-4"
-                    data-aos="fade-right"
-                    data-aos-duration="800"
-                    data-aos-easing="ease-out-cubic">
-                    <i class="bi bi-trophy text-warning"
-                       data-aos="bounce"
-                       data-aos-delay="200"
-                       data-aos-duration="600"></i>
+                <h2 class="mb-4" data-aos="fade-up">
+                    <i class="bi bi-trophy text-warning"></i>
                     {{ \App\Models\Competition::CATEGORIES[$category] ?? ucfirst($category) }}
                 </h2>
             </div>
-            @foreach($categoryCompetitions as $index => $competition)
-            <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card h-100"
-                     data-aos="fade-up"
-                     data-aos-duration="800"
-                     data-aos-delay="{{ ($index * 150) + 100 }}"
-                     data-aos-easing="ease-out-back">
+            @foreach($categoryCompetitions as $competition)
+            <div class="col-md-6 col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 150 }}">
+                <div class="card h-100">
                     <div class="card-body">
                         <h5 class="card-title"
                             data-aos="fade-up"

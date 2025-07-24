@@ -444,6 +444,14 @@
                                   placeholder="Jelaskan jika ada kebutuhan khusus...">{{ old('special_needs') }}</textarea>
                     </div>
 
+                    @if($dynamicRequirements && $dynamicRequirements->count() > 0)
+                        <hr>
+                        <h6 class="text-primary mb-3">Persyaratan Kompetisi</h6>
+                        <div class="dynamic-fields">
+                            {!! $dynamicFormHTML !!}
+                        </div>
+                    @endif
+
                     @if($competition->is_team_competition)
                         <hr>
                         <h6>Informasi Tim</h6>

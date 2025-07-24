@@ -435,6 +435,7 @@ class MidtransService
 
     /**
      * Proses pembayaran berhasil
+     * MODIFIED: Auto-confirm registration and payment without admin intervention
      *
      * @param \App\Models\Payment $payment
      * @return void
@@ -443,11 +444,20 @@ class MidtransService
     {
         $registration = $payment->registration;
 
-        // Auto-confirm registration after successful payment
+        // Auto-confirm registration after successful payment (MODIFIED: No admin confirmation needed)
         if (in_array($registration->status, ['pending', 'paid'])) {
             $registration->update([
                 'status' => 'confirmed',
                 'confirmed_at' => now(),
+                'confirmed_by' => null, // System auto-confirmation
+            ]);
+
+            // Auto-confirm payment as well (MODIFIED: No admin confirmation needed)
+            $payment->update([
+                'is_confirmed' => true,
+                'confirmed_at' => now(),
+                'confirmed_by' => null, // System auto-confirmation
+                'confirmation_notes' => 'Pembayaran dikonfirmasi otomatis oleh sistem setelah pembayaran berhasil'
             ]);
 
             // Generate QR Code for confirmed registration
@@ -455,7 +465,7 @@ class MidtransService
         }
 
         // Log event
-        $this->logTransactionEvent($payment, 'Payment successful, registration auto-confirmed');
+        $this->logTransactionEvent($payment, 'Payment successful, registration and payment auto-confirmed by system');
 
         // TODO: Kirim email konfirmasi pembayaran dan registrasi ke peserta
         // $this->sendPaymentConfirmationEmail($registration);

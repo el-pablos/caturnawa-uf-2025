@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     
     <!-- SEO Meta Tags -->
-    <title>@yield('title', 'Caturnawa UNAS Fest 2025 - Festival Kompetisi Nasional Terbesar Indonesia')</title>
+    <title>@yield('title', 'Caturnawa UNAS Fest 2025 - Festival Kompetisi Universitas Nasional Tahunan')</title>
     <meta name="description" content="@yield('description', 'Caturnawa UNAS Fest 2025 - Festival kompetisi nasional terbesar di Indonesia. Kompetisi Debat Bahasa Indonesia, English Debate, Short Movie, dan Scientific Paper. Total hadiah 200 juta rupiah.')">
     <meta name="keywords" content="@yield('keywords', 'caturnawa, unas fest 2025, kompetisi debat indonesia, english debate competition, short movie competition, scientific paper competition, lomba nasional, festival mahasiswa')">
     <meta name="author" content="Caturnawa UNAS Fest 2025">
@@ -99,7 +99,7 @@
                                 {{ Auth::user()->name }}
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('peserta.peserta.dashboard') }}">Dashboard</a></li>
+                                <li><a class="dropdown-item" href="{{ route('peserta.dashboard') }}">Dashboard</a></li>
                                 <li><a class="dropdown-item" href="{{ route('profile.index') }}">Profil</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
@@ -135,7 +135,7 @@
                         <li><a href="{{ route('login') }}" class="mobile-nav-link">Masuk</a></li>
                         <li><a href="{{ route('register') }}" class="mobile-nav-link">Daftar</a></li>
                     @else
-                        <li><a href="{{ route('peserta.peserta.dashboard') }}" class="mobile-nav-link">Dashboard</a></li>
+                        <li><a href="{{ route('peserta.dashboard') }}" class="mobile-nav-link">Dashboard</a></li>
                         <li><a href="{{ route('profile.index') }}" class="mobile-nav-link">Profil</a></li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">
@@ -207,7 +207,7 @@
                             <li><a href="{{ route('public.competitions') }}#kdbi">Kompetisi Debat Bahasa Indonesia</a></li>
                             <li><a href="{{ route('public.competitions') }}#edc">English Debate Competition</a></li>
                             <li><a href="{{ route('public.competitions') }}#short-movie">Short Movie Competition</a></li>
-                            <li><a href="{{ route('public.competitions') }}#fotografi">Fotografi</a></li>
+                            <li><a href="{{ route('public.competitions') }}#infografis">Infografis</a></li>
                             <li><a href="{{ route('public.competitions') }}#karya-ilmiah">Karya Ilmiah</a></li>
                         </ul>
                     </div>

@@ -31,7 +31,7 @@
     <div class="card shadow">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">
-                <i class="fas fa-upload"></i> Submission History
+                <i class="bi bi-cloud-upload"></i> Submission History
             </h6>
         </div>
         <div class="card-body">
@@ -82,15 +82,17 @@
                                     </td>
                                     <td>
                                         <div class="btn-group" role="group">
-                                            <a href="{{ route('peserta.submissions.show', $submission) }}" 
-                                               class="btn btn-sm btn-outline-primary" title="View Details">
-                                                <i class="fas fa-eye"></i>
+                                            <a href="{{ route('peserta.submissions.show', $submission) }}"
+                                               class="btn btn-sm btn-outline-primary" title="Lihat Detail">
+                                                <i class="bi bi-eye"></i>
+                                                <span class="d-none d-md-inline ms-1">Detail</span>
                                             </a>
-                                            
+
                                             @if($submission->status === 'draft')
-                                                <a href="{{ route('peserta.submissions.edit', $submission) }}" 
-                                                   class="btn btn-sm btn-outline-warning" title="Edit">
-                                                    <i class="fas fa-edit"></i>
+                                                <a href="{{ route('peserta.submissions.edit', $submission) }}"
+                                                   class="btn btn-sm btn-outline-warning" title="Edit Submission">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                    <span class="d-none d-md-inline ms-1">Edit</span>
                                                 </a>
                                             @endif
                                         </div>
@@ -107,11 +109,11 @@
                 </div>
             @else
                 <div class="text-center py-5">
-                    <i class="fas fa-upload fa-3x text-muted mb-3"></i>
+                    <i class="bi bi-cloud-upload fa-3x text-muted mb-3"></i>
                     <h5 class="text-muted">No Submissions Yet</h5>
                     <p class="text-muted">You haven't submitted any work yet. Check your confirmed registrations to start submitting.</p>
                     <a href="{{ route('peserta.registrations.index') }}" class="btn btn-primary">
-                        <i class="fas fa-list"></i> View My Registrations
+                        <i class="bi bi-clipboard-check"></i> View My Registrations
                     </a>
                 </div>
             @endif

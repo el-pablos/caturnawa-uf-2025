@@ -32,9 +32,9 @@
     <!-- Hero Section -->
     <div class="row">
         <div class="col-12">
-            <div class="jumbotron bg-primary text-white p-5 rounded mb-5">
+            <div class="jumbotron bg-primary text-white p-5 rounded mb-5" data-aos="fade-down">
                 <div class="text-center">
-                    <h1 class="display-4 fw-bold mb-3">
+                    <h1 class="display-4 fw-bold mb-3" data-aos="zoom-in" data-aos-delay="200">
                         <i class="bi bi-trophy me-3"></i>{{ $competition->name }}
                     </h1>
                     <p class="lead mb-4">
@@ -100,19 +100,19 @@
     <!-- Quick Info -->
     <div class="row mb-5">
         <div class="col-12">
-            <h2 class="text-center mb-4">
+            <h2 class="text-center mb-4" data-aos="fade-up">
                 <i class="bi bi-info-circle text-primary"></i> 
                 Informasi Kompetisi
             </h2>
         </div>
         <div class="col-12">
-            <div class="card shadow">
+            <div class="card shadow" data-aos="fade-up" data-aos-delay="200">
                 <div class="card-header bg-primary text-white text-center">
                     <h3 class="card-title mb-0">Detail Kompetisi</h3>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-6 mb-3" data-aos="flip-left" data-aos-delay="300">
                             <div class="card border-primary">
                                 <div class="card-body text-center">
                                     <i class="bi bi-calendar-event text-primary mb-2" style="font-size: 2rem;"></i>
@@ -124,30 +124,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-6 mb-3" data-aos="flip-right" data-aos-delay="400">
                             <div class="card border-success">
                                 <div class="card-body text-center">
                                     <i class="bi bi-people text-success mb-2" style="font-size: 2rem;"></i>
                                     <h5 class="text-success">Maksimal Tim</h5>
                                     <p class="mb-0">{{ $competition->max_team_members ?? 'Maksimal 3' }} orang</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="card border-warning">
-                                <div class="card-body text-center">
-                                    <i class="bi bi-trophy text-warning mb-2" style="font-size: 2rem;"></i>
-                                    <h5 class="text-warning">Total Hadiah</h5>
-                                    <p class="mb-0">{{ $competition->prize_amount ? 'Rp ' . number_format($competition->prize_amount, 0, ',', '.') : 'Sertifikat & Hadiah Menarik' }}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="card border-info">
-                                <div class="card-body text-center">
-                                    <i class="bi bi-people-fill text-info mb-2" style="font-size: 2rem;"></i>
-                                    <h5 class="text-info">Peserta Terdaftar</h5>
-                                    <p class="mb-0">{{ $competition->registrations->count() ?? 0 }} peserta</p>
                                 </div>
                             </div>
                         </div>
@@ -230,6 +212,34 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    @endif
+
+    <!-- Competition Descriptions -->
+    @if($descriptions && $descriptions->count() > 0)
+        <div class="row mb-5">
+            <div class="col-12">
+                <h2 class="text-center mb-4">
+                    <i class="bi bi-file-text text-primary"></i> 
+                    Deskripsi Kompetisi
+                </h2>
+            </div>
+            <div class="col-12">
+                @foreach($descriptions as $description)
+                    <div class="card shadow mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h4 class="card-title mb-0">
+                                <i class="bi bi-info-circle me-2"></i>{{ $description->title }}
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="prose">
+                                {!! nl2br(e($description->content)) !!}
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
     @endif

@@ -22,6 +22,7 @@
         "concurrently": "^8.2.2",
         "laravel-vite-plugin": "^2.0.0",
         "sass": "^1.56.1",
+        "terser": "^5.43.1",
         "vite": "^7.0.4"
     },
     "dependencies": {

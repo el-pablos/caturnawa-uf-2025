@@ -43,9 +43,9 @@
                             <label for="category" class="form-label">Kategori <span class="text-danger">*</span></label>
                             <select class="form-select @error('category') is-invalid @enderror" id="category" name="category" required>
                                 <option value="">Pilih Kategori</option>
-                                <option value="event_dcc" {{ old('category', $competition->category) == 'event_dcc' ? 'selected' : '' }}>Event DCC (Data Challenge Competition)</option>
-                                <option value="event_debate" {{ old('category', $competition->category) == 'event_debate' ? 'selected' : '' }}>Event Debate</option>
-                                <option value="event_scientific_paper" {{ old('category', $competition->category) == 'event_scientific_paper' ? 'selected' : '' }}>Event Scientific Paper</option>
+                                @foreach(\App\Models\Competition::CATEGORIES as $key => $label)
+                                    <option value="{{ $key }}" {{ old('category', $competition->category) == $key ? 'selected' : '' }}>{{ $label }}</option>
+                                @endforeach
                             </select>
                             @error('category')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -91,20 +91,42 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="registration_start" class="form-label">Mulai Pendaftaran <span class="text-danger">*</span></label>
-                            <input type="datetime-local" class="form-control @error('registration_start') is-invalid @enderror" 
-                                   id="registration_start" name="registration_start" 
+                            <input type="datetime-local" class="form-control @error('registration_start') is-invalid @enderror"
+                                   id="registration_start" name="registration_start"
                                    value="{{ old('registration_start', $competition->registration_start?->format('Y-m-d\TH:i')) }}" required>
                             @error('registration_start')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        
+
                         <div class="col-md-6 mb-3">
                             <label for="registration_end" class="form-label">Akhir Pendaftaran <span class="text-danger">*</span></label>
-                            <input type="datetime-local" class="form-control @error('registration_end') is-invalid @enderror" 
-                                   id="registration_end" name="registration_end" 
+                            <input type="datetime-local" class="form-control @error('registration_end') is-invalid @enderror"
+                                   id="registration_end" name="registration_end"
                                    value="{{ old('registration_end', $competition->registration_end?->format('Y-m-d\TH:i')) }}" required>
                             @error('registration_end')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="competition_start" class="form-label">Mulai Kompetisi <span class="text-danger">*</span></label>
+                            <input type="datetime-local" class="form-control @error('competition_start') is-invalid @enderror"
+                                   id="competition_start" name="competition_start"
+                                   value="{{ old('competition_start', $competition->competition_start?->format('Y-m-d\TH:i')) }}" required>
+                            @error('competition_start')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="competition_end" class="form-label">Akhir Kompetisi <span class="text-danger">*</span></label>
+                            <input type="datetime-local" class="form-control @error('competition_end') is-invalid @enderror"
+                                   id="competition_end" name="competition_end"
+                                   value="{{ old('competition_end', $competition->competition_end?->format('Y-m-d\TH:i')) }}" required>
+                            @error('competition_end')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -135,12 +157,12 @@
                     </div>
                     
                     <div class="mb-3">
-                        <label for="whatsapp_group_link" class="form-label">Link Grup WhatsApp</label>
-                        <input type="url" class="form-control @error('whatsapp_group_link') is-invalid @enderror"
+                        <label for="whatsapp_group_link" class="form-label">Nomor WhatsApp Contact Person</label>
+                        <input type="text" class="form-control @error('whatsapp_group_link') is-invalid @enderror"
                                id="whatsapp_group_link" name="whatsapp_group_link"
                                value="{{ old('whatsapp_group_link', $competition->whatsapp_group_link) }}"
-                               placeholder="https://chat.whatsapp.com/...">
-                        <div class="form-text">Link grup WhatsApp yang akan ditampilkan setelah pembayaran berhasil</div>
+                               placeholder="0812-3456-7890">
+                        <div class="form-text">Nomor WhatsApp Contact Person yang akan dihubungi peserta untuk informasi kompetisi</div>
                         @error('whatsapp_group_link')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -247,22 +269,43 @@ document.addEventListener('DOMContentLoaded', function() {
     earlyBirdInput.addEventListener('input', validateEarlyBird);
     
     // Validate registration dates
-    const startInput = document.getElementById('registration_start');
-    const endInput = document.getElementById('registration_end');
-    
+    const regStartInput = document.getElementById('registration_start');
+    const regEndInput = document.getElementById('registration_end');
+    const compStartInput = document.getElementById('competition_start');
+    const compEndInput = document.getElementById('competition_end');
+
     function validateDates() {
-        const start = new Date(startInput.value);
-        const end = new Date(endInput.value);
-        
-        if (start && end && end <= start) {
-            endInput.setCustomValidity('Tanggal akhir harus setelah tanggal mulai');
+        const regStart = new Date(regStartInput.value);
+        const regEnd = new Date(regEndInput.value);
+        const compStart = new Date(compStartInput.value);
+        const compEnd = new Date(compEndInput.value);
+
+        // Validate registration dates
+        if (regStart && regEnd && regEnd <= regStart) {
+            regEndInput.setCustomValidity('Tanggal akhir pendaftaran harus setelah tanggal mulai pendaftaran');
         } else {
-            endInput.setCustomValidity('');
+            regEndInput.setCustomValidity('');
+        }
+
+        // Validate competition dates
+        if (compStart && compEnd && compEnd <= compStart) {
+            compEndInput.setCustomValidity('Tanggal akhir kompetisi harus setelah tanggal mulai kompetisi');
+        } else {
+            compEndInput.setCustomValidity('');
+        }
+
+        // Validate competition start after registration end
+        if (regEnd && compStart && compStart < regEnd) {
+            compStartInput.setCustomValidity('Tanggal mulai kompetisi harus setelah atau sama dengan tanggal akhir pendaftaran');
+        } else {
+            compStartInput.setCustomValidity('');
         }
     }
-    
-    startInput.addEventListener('change', validateDates);
-    endInput.addEventListener('change', validateDates);
+
+    regStartInput.addEventListener('change', validateDates);
+    regEndInput.addEventListener('change', validateDates);
+    compStartInput.addEventListener('change', validateDates);
+    compEndInput.addEventListener('change', validateDates);
 });
 </script>
 @endpush

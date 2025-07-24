@@ -4,7 +4,7 @@
 @section('page-title', 'Kompetisi Tersedia')
 
 @section('sidebar-menu')
-    <a class="nav-link" href="{{ route('peserta.peserta.dashboard') }}">
+    <a class="nav-link" href="{{ route('peserta.dashboard') }}">
         <i class="bi bi-speedometer2 me-2"></i>Dashboard
     </a>
     <a class="nav-link active" href="{{ route('peserta.competitions.index') }}">
@@ -27,7 +27,7 @@
                 <label for="category" class="form-label">Kategori</label>
                 <select name="category" id="category" class="form-select">
                     <option value="">Semua Kategori</option>
-                    <option value="event_dcc" {{ request('category') === 'event_dcc' ? 'selected' : '' }}>Event DCC</option>
+                    <option value="event_dcc" {{ request('category') === 'event_dcc' ? 'selected' : '' }}>Event DCC (Digital Content Competition)</option>
                     <option value="event_debate" {{ request('category') === 'event_debate' ? 'selected' : '' }}>Event Debate</option>
                     <option value="event_scientific_paper" {{ request('category') === 'event_scientific_paper' ? 'selected' : '' }}>Event Scientific Paper</option>
                 </select>

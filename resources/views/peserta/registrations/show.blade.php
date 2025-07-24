@@ -11,14 +11,14 @@
             <p class="text-muted">{{ $registration->registration_number }}</p>
         </div>
         <a href="{{ route('peserta.registrations.index') }}" class="btn btn-secondary">
-            <i class="fas fa-arrow-left"></i> Back to Registrations
+            <i class="bi bi-arrow-left"></i> Back to Registrations
         </a>
     </div>
 
     <!-- Alerts -->
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
+            <i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     @endif
@@ -157,40 +157,40 @@
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">
-                        <i class="fas fa-cogs"></i> Actions
+                        <i class="bi bi-gear"></i> Actions
                     </h6>
                 </div>
                 <div class="card-body">
                     @if($registration->status === 'pending')
                         <div class="d-grid gap-2">
                             <a href="{{ route('payment.checkout', $registration) }}" class="btn btn-success">
-                                <i class="fas fa-credit-card"></i> Pay Now
+                                <i class="bi bi-credit-card"></i> Pay Now
                             </a>
                             <a href="{{ route('peserta.registrations.documents', $registration) }}" class="btn btn-primary">
-                                <i class="fas fa-upload"></i> Upload Documents
+                                <i class="bi bi-cloud-upload"></i> Upload Documents
                             </a>
                             <button class="btn btn-danger" onclick="cancelRegistration()">
-                                <i class="fas fa-times"></i> Cancel Registration
+                                <i class="bi bi-x-circle"></i> Cancel Registration
                             </button>
                         </div>
                     @elseif($registration->status === 'confirmed')
                         <div class="d-grid gap-2">
                             <a href="{{ route('peserta.registrations.ticket', $registration) }}" class="btn btn-info">
-                                <i class="fas fa-ticket-alt"></i> Download Ticket
+                                <i class="bi bi-ticket-perforated"></i> Download Ticket
                             </a>
                             <a href="{{ route('peserta.registrations.documents', $registration) }}" class="btn btn-outline-primary">
-                                <i class="fas fa-file-alt"></i> Manage Documents
+                                <i class="bi bi-file-earmark-text"></i> Manage Documents
                             </a>
                             @if($registration->competition->whatsapp_group_link)
                                 <a href="{{ $registration->competition->whatsapp_group_link }}"
                                    target="_blank"
                                    class="btn btn-success">
-                                    <i class="fab fa-whatsapp"></i> Join WhatsApp Group
+                                    <i class="bi bi-whatsapp"></i> Join WhatsApp Group
                                 </a>
                             @endif
                             @if($registration->competition->status === 'active')
                                 <a href="{{ route('peserta.submissions.create', $registration) }}" class="btn btn-primary">
-                                    <i class="fas fa-upload"></i> Submit Work
+                                    <i class="bi bi-cloud-upload"></i> Submit Work
                                 </a>
                             @endif
                         </div>
@@ -241,7 +241,7 @@
                         @if($registration->payment->status === 'paid')
                             <div class="d-grid">
                                 <a href="{{ route('download.invoice', $registration->payment) }}" class="btn btn-sm btn-outline-primary">
-                                    <i class="fas fa-download"></i> Download Invoice
+                                    <i class="bi bi-download"></i> Download Invoice
                                 </a>
                             </div>
                         @endif

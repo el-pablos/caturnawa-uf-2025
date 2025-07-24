@@ -3,48 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Struk Pembayaran - {{ $payment->order_id }}</title>
+    <title>Invoice Pembayaran - {{ $payment->order_id }}</title>
     <style>
         body {
             font-family: 'DejaVu Sans', sans-serif;
             font-size: 12px;
-            line-height: 1.4;
+            line-height: 1.6;
             color: #333;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            background: #fff;
         }
-        
+
+        .invoice-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 0;
+        }
+
         .header {
+            background: linear-gradient(135deg, #08599b 0%, #064a87 100%);
+            color: white;
+            padding: 30px;
             text-align: center;
-            border-bottom: 2px solid #007bff;
-            padding-bottom: 20px;
-            margin-bottom: 30px;
+            position: relative;
         }
-        
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #08599b;
+        }
+
         .header h1 {
-            color: #007bff;
-            font-size: 24px;
             margin: 0 0 10px 0;
+            font-size: 28px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
-        
+
         .header h2 {
-            color: #666;
-            font-size: 16px;
-            margin: 0;
+            margin: 0 0 5px 0;
+            font-size: 18px;
             font-weight: normal;
+            opacity: 0.9;
         }
-        
-        .receipt-info {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
+
+        .header .event-info {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-top: 10px;
         }
-        
-        .receipt-info h3 {
-            color: #007bff;
-            margin: 0 0 15px 0;
-            font-size: 16px;
+
+        .invoice-details {
+            display: table;
+            width: 100%;
+            margin: 30px 0;
+        }
+
+        .invoice-left, .invoice-right {
+            display: table-cell;
+            width: 50%;
+            vertical-align: top;
+            padding: 0 15px;
         }
         
         .info-row {
@@ -174,10 +201,15 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>{{ config('app.name') }}</h1>
-        <h2>STRUK PEMBAYARAN PENDAFTARAN KOMPETISI</h2>
-    </div>
+    <div class="invoice-container">
+        <div class="header">
+            <h1>INVOICE PEMBAYARAN</h1>
+            <h2>CATURNAWA UF 2025</h2>
+            <div class="event-info">
+                Universitas Fajar - Makassar<br>
+                Festival Kompetisi Mahasiswa Nasional
+            </div>
+        </div>
 
     <div class="receipt-info">
         <h3>Informasi Struk</h3>

@@ -162,7 +162,7 @@
     @if(isset($competitionLeaderboards) && count($competitionLeaderboards) > 0)
     <div class="row mt-5">
         <div class="col-12 mb-4">
-            <div class="text-center">
+            <div class="text-center" data-aos="fade-up">
                 <h2 class="fw-bold text-primary">
                     <i class="bi bi-trophy me-2"></i>Leaderboard UNAS FEST 2025
                 </h2>
@@ -172,7 +172,7 @@
 
         @foreach($competitions as $compIndex => $competition)
             @if(isset($competitionLeaderboards[$competition->id]) && count($competitionLeaderboards[$competition->id]) > 0)
-            <div class="col-lg-6 col-md-12 mb-4">
+            <div class="col-lg-6 col-md-12 mb-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 200 }}">
                 <div class="card shadow h-100">
                     <div class="card-header bg-primary text-white text-center">
                         <h5 class="card-title mb-0">

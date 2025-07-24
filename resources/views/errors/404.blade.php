@@ -27,7 +27,7 @@
                     <i class="bi bi-clipboard-check me-2"></i>Dashboard Juri
                 </a>
             @elseif(auth()->user()->hasRole('peserta'))
-                <a href="{{ route('peserta.peserta.dashboard') }}" class="btn-error-primary">
+                <a href="{{ route('peserta.dashboard') }}" class="btn-error-primary">
                     <i class="bi bi-person-circle me-2"></i>Dashboard Peserta
                 </a>
             @else
@@ -65,7 +65,7 @@
             @elseif(auth()->user()->hasRole('juri'))
                 window.location.href = "{{ route('juri.juri.dashboard') }}";
             @elseif(auth()->user()->hasRole('peserta'))
-                window.location.href = "{{ route('peserta.peserta.dashboard') }}";
+                window.location.href = "{{ route('peserta.dashboard') }}";
             @else
                 window.location.href = "{{ route('public.home') }}";
             @endif

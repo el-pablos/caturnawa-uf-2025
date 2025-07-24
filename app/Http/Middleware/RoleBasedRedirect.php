@@ -79,7 +79,7 @@ class RoleBasedRedirect
         } elseif ($user->isJuri()) {
             return redirect()->route('juri.juri.dashboard');
         } elseif ($user->isPeserta()) {
-            return redirect()->route('peserta.peserta.dashboard');
+            return redirect()->route('peserta.dashboard');
         }
 
         return redirect()->route('login')

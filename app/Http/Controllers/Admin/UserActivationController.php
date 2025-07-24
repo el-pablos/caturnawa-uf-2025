@@ -15,7 +15,7 @@ class UserActivationController extends Controller
     public function index(Request $request)
     {
         $query = User::whereHas('roles', function($q) {
-            $q->where('name', 'Peserta');
+            $q->where('name', 'peserta');
         });
 
         // Filter by activation status

@@ -11,7 +11,7 @@ return [
     */
 
     'default' => [
-        'title' => 'UNAS Fest 2025 - Festival Kompetisi Nasional Terbesar Indonesia',
+        'title' => 'UNAS Fest 2025 - Festival Kompetisi Universitas Nasional Tahunan',
         'description' => 'UNAS Fest 2025 adalah festival kompetisi nasional terbesar di Indonesia yang menggabungkan inovasi teknologi, kesehatan, dan biodiversitas. Daftar sekarang dan raih prestasi terbaikmu!',
         'keywords' => 'unas fest, kompetisi nasional, lomba indonesia, teknologi, kesehatan, biodiversitas, universitas nasional, festival mahasiswa, kompetisi mahasiswa, lomba karya tulis, debat, konten digital',
         'author' => 'UNAS Fest 2025 Committee',
@@ -23,7 +23,7 @@ return [
 
     'pages' => [
         'home' => [
-            'title' => 'UNAS Fest 2025 - Festival Kompetisi Nasional Terbesar Indonesia',
+            'title' => 'UNAS Fest 2025 - Festival Kompetisi Universitas Nasional Tahunan',
             'description' => 'Bergabunglah dengan UNAS Fest 2025, festival kompetisi nasional terbesar yang menggabungkan teknologi, kesehatan, dan biodiversitas. Daftar sekarang dan wujudkan potensi terbaikmu!',
             'keywords' => 'unas fest 2025, kompetisi nasional, lomba mahasiswa, teknologi, kesehatan, biodiversitas, festival indonesia',
         ],

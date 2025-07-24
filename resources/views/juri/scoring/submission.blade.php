@@ -17,8 +17,8 @@
     <div class="col-lg-8">
         <!-- Submission Details -->
         <div class="card mb-4">
-            <div class="card-header bg-success text-white">
-                <h5 class="mb-0">
+            <div class="card-header border-success">
+                <h5 class="mb-0 text-success">
                     <i class="bi bi-file-earmark-text me-2"></i>{{ $submission->title }}
                 </h5>
             </div>
@@ -218,8 +218,8 @@
     <div class="col-lg-4">
         <!-- Scoring Guidelines -->
         <div class="card mb-3">
-            <div class="card-header bg-info text-white">
-                <h6 class="mb-0">
+            <div class="card-header border-info">
+                <h6 class="mb-0 text-info">
                     <i class="bi bi-book me-2"></i>Panduan Penilaian
                 </h6>
             </div>
@@ -285,8 +285,8 @@
         <!-- Previous Scores (if any) -->
         @if($score && $score->created_at != $score->updated_at)
         <div class="card mb-3">
-            <div class="card-header bg-secondary text-white">
-                <h6 class="mb-0">
+            <div class="card-header border-secondary">
+                <h6 class="mb-0 text-secondary">
                     <i class="bi bi-clock-history me-2"></i>Riwayat Penilaian
                 </h6>
             </div>

@@ -27,7 +27,7 @@
                     <i class="bi bi-clipboard-check me-2"></i>Dashboard Juri
                 </a>
             @elseif(auth()->user()->hasRole('peserta'))
-                <a href="{{ route('peserta.peserta.dashboard') }}" class="btn-error-primary">
+                <a href="{{ route('peserta.dashboard') }}" class="btn-error-primary">
                     <i class="bi bi-person-circle me-2"></i>Dashboard Peserta
                 </a>
             @else

@@ -394,8 +394,35 @@ class CompetitionController extends Controller
     }
 
     /**
+     * Tampilkan daftar registrasi untuk kompetisi tertentu
+     *
+     * @param \App\Models\Competition $competition
+     * @return \Illuminate\View\View
+     */
+    public function registrations(Competition $competition)
+    {
+        $registrations = $competition->registrations()
+            ->with(['user', 'payment'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+
+        return view('admin.competitions.registrations', compact('competition', 'registrations'));
+    }
+
+    /**
+     * Export data kompetisi (alias untuk exportParticipants)
+     *
+     * @param \App\Models\Competition $competition
+     * @return \Illuminate\Http\Response
+     */
+    public function export(Competition $competition)
+    {
+        return $this->exportParticipants($competition);
+    }
+
+    /**
      * Export daftar peserta kompetisi
-     * 
+     *
      * @param \App\Models\Competition $competition
      * @return \Illuminate\Http\Response
      */
@@ -432,9 +459,9 @@ class CompetitionController extends Controller
         }
 
         $filename = 'peserta_' . Str::slug($competition->name) . '_' . date('Ymd_His') . '.csv';
-        
+
         $handle = fopen('php://output', 'w');
-        
+
         ob_start();
         foreach ($csvData as $row) {
             fputcsv($handle, $row);

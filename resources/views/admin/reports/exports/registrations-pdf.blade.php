@@ -158,32 +158,70 @@
         <thead>
             <tr>
                 <th style="width: 5%">No</th>
-                <th style="width: 15%">Tanggal</th>
-                <th style="width: 20%">Nama Peserta</th>
-                <th style="width: 20%">Email</th>
-                <th style="width: 20%">Kompetisi</th>
-                <th style="width: 10%">Status</th>
-                <th style="width: 10%">Biaya</th>
+                <th style="width: 20%">Nama</th>
+                <th style="width: 15%">Tim/Peserta</th>
+                <th style="width: 20%">Universitas</th>
+                <th style="width: 20%">Sekolah</th>
+                <th style="width: 15%">Kompetisi</th>
+                <th style="width: 15%">Status Pembayaran</th>
             </tr>
         </thead>
         <tbody>
             @forelse($registrations as $index => $registration)
+                @php
+                    $isUniversity = false;
+                    $isSchool = false;
+                    $institution = $registration->institution ?? $registration->user->institution ?? '-';
+
+                    // Determine if it's university or school based on institution name
+                    $universityKeywords = ['universitas', 'institut', 'politeknik', 'akademi', 'sekolah tinggi', 'university', 'college'];
+                    $schoolKeywords = ['sma', 'smk', 'man', 'smp', 'mts', 'ma ', 'sekolah menengah'];
+
+                    foreach ($universityKeywords as $keyword) {
+                        if (stripos($institution, $keyword) !== false) {
+                            $isUniversity = true;
+                            break;
+                        }
+                    }
+
+                    if (!$isUniversity) {
+                        foreach ($schoolKeywords as $keyword) {
+                            if (stripos($institution, $keyword) !== false) {
+                                $isSchool = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    $teamName = $registration->team_name ?? 'Individu';
+                    $paymentStatus = 'Belum Bayar';
+
+                    if ($registration->payment) {
+                        if (in_array($registration->payment->transaction_status, ['settlement', 'capture'])) {
+                            $paymentStatus = 'Lunas';
+                        } elseif ($registration->payment->transaction_status == 'pending') {
+                            $paymentStatus = 'Pending';
+                        } else {
+                            $paymentStatus = 'Gagal';
+                        }
+                    }
+                @endphp
                 <tr>
                     <td>{{ $index + 1 }}</td>
-                    <td>{{ $registration->created_at->format('d/m/Y') }}</td>
                     <td>{{ $registration->user->name ?? '-' }}</td>
-                    <td>{{ $registration->user->email ?? '-' }}</td>
+                    <td>{{ $teamName }}</td>
+                    <td>{{ $isUniversity ? $institution : '-' }}</td>
+                    <td>{{ $isSchool ? $institution : '-' }}</td>
                     <td>{{ $registration->competition->name ?? '-' }}</td>
                     <td>
-                        @if($registration->status == 'confirmed')
-                            <span class="status confirmed">Terkonfirmasi</span>
-                        @elseif($registration->status == 'pending')
-                            <span class="status pending">Pending</span>
+                        @if($paymentStatus == 'Lunas')
+                            <span class="status confirmed">{{ $paymentStatus }}</span>
+                        @elseif($paymentStatus == 'Pending')
+                            <span class="status pending">{{ $paymentStatus }}</span>
                         @else
-                            <span class="status cancelled">Dibatalkan</span>
+                            <span class="status cancelled">{{ $paymentStatus }}</span>
                         @endif
                     </td>
-                    <td>Rp {{ number_format($registration->competition->registration_fee ?? 0, 0, ',', '.') }}</td>
                 </tr>
             @empty
                 <tr>

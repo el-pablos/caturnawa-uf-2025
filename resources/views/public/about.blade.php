@@ -308,10 +308,12 @@
 
     <!-- Vision & Mission Section -->
     <div class="row g-4 mb-5">
-        <div class="col-lg-6">
-            <div class="glass-card h-100">
-                <div class="glass-header p-4 text-center">
-                    <h3 class="mb-0 fw-bold" style="color: #764ba2;"><i class="bi bi-eye me-2" style="color: #764ba2;"></i>Visi Kami</h3>
+        <div class="col-lg-6" data-aos="fade-right">
+            <div class="card shadow h-100">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3 class="card-title mb-0">
+                        <i class="bi bi-eye me-2"></i>Visi Kami
+                    </h3>
                 </div>
                 <div class="p-4 text-center" style="color: #2d3748;">
                     <p class="mb-0">
@@ -322,10 +324,12 @@
             </div>
         </div>
 
-        <div class="col-lg-6">
-            <div class="glass-card h-100">
-                <div class="glass-header p-4 text-center">
-                    <h3 class="mb-0 fw-bold" style="color: #764ba2;"><i class="bi bi-bullseye me-2"></i>Misi Kami</h3>
+        <div class="col-lg-6" data-aos="fade-left">
+            <div class="card shadow h-100">
+                <div class="card-header bg-success text-white text-center">
+                    <h3 class="card-title mb-0">
+                        <i class="bi bi-bullseye me-2"></i>Misi Kami
+                    </h3>
                 </div>
                 <div class="p-4" style="color: #2d3748;">
                     <ul class="list-unstyled mb-0">
@@ -352,76 +356,53 @@
     </div>
 
     <!-- Values Section -->
-    <div class="row mb-5">
-        <div class="col-12">
-            <h2 class="text-center mb-4 fw-bold"
-                style="background: linear-gradient(45deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 2.5rem;">
-                <i class="bi bi-gem" style="color: #764ba2;"></i> Nilai-Nilai Kami
-            </h2>
-            <p class="text-center text-muted mb-5">Prinsip-prinsip yang menjadi fondasi dalam menyelenggarakan UNAS FEST 2025</p>
-        </div>
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="value-card text-center p-4">
-                <i class="bi bi-lightbulb display-4 mb-3" style="color: #667eea;"></i>
-                <h4 class="fw-bold mb-2">Inovasi</h4>
-                <p class="text-muted">
-                    Mendorong kreativitas dan pemikiran out-of-the-box untuk menciptakan solusi inovatif yang berdampak.
-                </p>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="value-card text-center p-4">
-                <i class="bi bi-people display-4 mb-3" style="color: #48bb78;"></i>
-                <h4 class="fw-bold mb-2">Kolaborasi</h4>
-                <p class="text-muted">
-                    Membangun kerjasama yang solid antar peserta, panitia, dan stakeholder untuk mencapai tujuan bersama.
-                </p>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="value-card text-center p-4">
-                <i class="bi bi-award display-4 mb-3" style="color: #feca57;"></i>
-                <h4 class="fw-bold mb-2">Kualitas</h4>
-                <p class="text-muted">
-                    Menjaga standar tinggi dalam setiap aspek penyelenggaraan kompetisi dan pelayanan peserta.
-                </p>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="value-card text-center p-4">
-                <i class="bi bi-globe display-4 mb-3" style="color: #5a67d8;"></i>
-                <h4 class="fw-bold mb-2">Berkelanjutan</h4>
-                <p class="text-muted">
-                    Fokus pada solusi yang memberikan dampak jangka panjang bagi masyarakat dan lingkungan.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Call to Action Section -->
-    <div class="row mt-5">
-        <div class="col-12">
-            <div class="cta-card text-dark">
-                <div class="p-5 text-center position-relative" style="z-index: 2;">
-                    <h2 class="fw-bold mb-3" style="color: #d69e2e;">Siap Menjadi Bagian dari Perubahan?</h2>
-                    <p class="lead mb-4 text-opacity-75 text-white fw-semibold">
-                        Bergabunglah dengan ribuan inovator muda lainnya dan wujudkan ide terbaikmu di UNAS FEST 2025!
-                    </p>
-                    <div class="row justify-content-center">
-                        <div class="col-md-3 mb-3">
-                            <a href="{{ route('login') }}"
-                               class="btn modern-btn btn-auto w-100">
-                                <i class="bi bi-person-plus me-2"></i>Daftar Sekarang
-                            </a>
+    <div class="row">
+        <div class="col-12" data-aos="zoom-in">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white text-center">
+                    <h2 class="card-title mb-0">Nilai-Nilai Kami</h2>
+                    <p class="mb-0">Prinsip-prinsip yang menjadi fondasi dalam menyelenggarakan UNAS Fest 2025</p>
+                </div>
+                <div class="card-body">
+                    <div class="row g-4">
+                        <div class="col-lg-3 col-md-6 text-center" data-aos="fade-up" data-aos-delay="100">
+                            <div class="p-3">
+                                <i class="bi bi-lightbulb text-primary" style="font-size: 3rem;"></i>
+                                <h4 class="fw-bold text-primary mt-2">Inovasi</h4>
+                                <p class="text-muted">
+                                    Mendorong kreativitas dan pemikiran out-of-the-box untuk menciptakan solusi inovatif yang berdampak.
+                                </p>
+                            </div>
                         </div>
-                        <div class="col-md-3 mb-3">
-                            <a href="{{ route('public.competitions') }}"
-                               class="btn modern-btn-outline btn-auto w-100"
-                               style="color: #d69e2e; border-color: #d69e2e;"
-                               onmouseover="this.style.backgroundColor='rgba(214, 158, 46, 0.1)'; this.style.color='#d69e2e';"
-                               onmouseout="this.style.backgroundColor='transparent'; this.style.color='#d69e2e';">
-                                <i class="bi bi-trophy me-2"></i>Lihat Kompetisi
-                            </a>
+
+                        <div class="col-lg-3 col-md-6 text-center" data-aos="fade-up" data-aos-delay="200">
+                            <div class="p-3">
+                                <i class="bi bi-people text-success" style="font-size: 3rem;"></i>
+                                <h4 class="fw-bold text-success mt-2">Kolaborasi</h4>
+                                <p class="text-muted">
+                                    Membangun kerjasama yang solid antar peserta, panitia, dan stakeholder untuk mencapai tujuan bersama.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 text-center" data-aos="fade-up" data-aos-delay="300">
+                            <div class="p-3">
+                                <i class="bi bi-award text-warning" style="font-size: 3rem;"></i>
+                                <h4 class="fw-bold text-warning mt-2">Kualitas</h4>
+                                <p class="text-muted">
+                                    Menjaga standar tinggi dalam setiap aspek penyelenggaraan kompetisi dan pelayanan peserta.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 text-center" data-aos="fade-up" data-aos-delay="400">
+                            <div class="p-3">
+                                <i class="bi bi-globe text-info" style="font-size: 3rem;"></i>
+                                <h4 class="fw-bold text-info mt-2">Berkelanjutan</h4>
+                                <p class="text-muted">
+                                    Fokus pada solusi yang memberikan dampak jangka panjang bagi masyarakat dan lingkungan.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>

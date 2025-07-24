@@ -11,21 +11,21 @@
             <p class="text-muted">Manage your competition registrations</p>
         </div>
         <a href="{{ route('peserta.competitions.index') }}" class="btn btn-primary">
-            <i class="fas fa-plus"></i> Register New Competition
+            <i class="bi bi-plus-circle"></i> Register New Competition
         </a>
     </div>
 
     <!-- Alerts -->
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
+            <i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     @endif
 
     @if(session('error'))
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="fas fa-exclamation-triangle me-2"></i>{{ session('error') }}
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ session('error') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     @endif
@@ -34,7 +34,7 @@
     <div class="card shadow">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">
-                <i class="fas fa-list"></i> Registration History
+                <i class="bi bi-clipboard-check"></i> Registration History
             </h6>
         </div>
         <div class="card-body">
@@ -97,22 +97,25 @@
                                     </td>
                                     <td>
                                         <div class="btn-group" role="group">
-                                            <a href="{{ route('peserta.registrations.show', $registration) }}" 
-                                               class="btn btn-sm btn-outline-primary" title="View Details">
-                                                <i class="fas fa-eye"></i>
+                                            <a href="{{ route('peserta.registrations.show', $registration) }}"
+                                               class="btn btn-sm btn-outline-primary" title="Lihat Detail">
+                                                <i class="bi bi-eye"></i>
+                                                <span class="d-none d-md-inline ms-1">Detail</span>
                                             </a>
-                                            
+
                                             @if($registration->status === 'pending')
-                                                <a href="{{ route('payment.checkout', $registration) }}" 
-                                                   class="btn btn-sm btn-outline-success" title="Pay Now">
-                                                    <i class="fas fa-credit-card"></i>
+                                                <a href="{{ route('payment.checkout', $registration) }}"
+                                                   class="btn btn-sm btn-outline-success" title="Bayar Sekarang">
+                                                    <i class="bi bi-credit-card"></i>
+                                                    <span class="d-none d-md-inline ms-1">Bayar</span>
                                                 </a>
                                             @endif
-                                            
+
                                             @if($registration->status === 'confirmed')
-                                                <a href="{{ route('peserta.registrations.ticket', $registration) }}" 
-                                                   class="btn btn-sm btn-outline-info" title="Download Ticket">
-                                                    <i class="fas fa-ticket-alt"></i>
+                                                <a href="{{ route('peserta.registrations.ticket', $registration) }}"
+                                                   class="btn btn-sm btn-outline-info" title="Download Tiket">
+                                                    <i class="bi bi-ticket-perforated"></i>
+                                                    <span class="d-none d-md-inline ms-1">Tiket</span>
                                                 </a>
                                             @endif
                                         </div>
@@ -129,11 +132,11 @@
                 </div>
             @else
                 <div class="text-center py-5">
-                    <i class="fas fa-clipboard-list fa-3x text-muted mb-3"></i>
+                    <i class="bi bi-clipboard-x fa-3x text-muted mb-3"></i>
                     <h5 class="text-muted">No Registrations Yet</h5>
                     <p class="text-muted">You haven't registered for any competitions yet.</p>
                     <a href="{{ route('peserta.competitions.index') }}" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Register for Competition
+                        <i class="bi bi-plus-circle"></i> Register for Competition
                     </a>
                 </div>
             @endif

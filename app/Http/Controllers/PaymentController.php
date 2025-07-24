@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Registration;
 use App\Models\Payment;
 use App\Services\MidtransService;
+use App\Services\InvoiceService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -19,9 +20,12 @@ use Barryvdh\DomPDF\Facade\Pdf;
 class PaymentController extends Controller
 {
     protected $midtransService;
+    protected $invoiceService;
 
-    public function __construct()
+    public function __construct(InvoiceService $invoiceService)
     {
+        $this->invoiceService = $invoiceService;
+        
         // Only initialize MidtransService if configured
         if (config('midtrans.server_key') && config('midtrans.client_key')) {
             $this->midtransService = app(MidtransService::class);
@@ -394,6 +398,18 @@ class PaymentController extends Controller
                     'user_agent' => request()->userAgent()
                 ]);
 
+                // Check if user has any payments and redirect to the latest one
+                if (Auth::check()) {
+                    $latestPayment = Payment::whereHas('registration', function($q) {
+                        $q->where('user_id', Auth::id());
+                    })->latest()->first();
+
+                    if ($latestPayment) {
+                        return redirect()->route('payment.finish', $latestPayment->id)
+                            ->with('warning', 'Payment ID yang Anda akses tidak ditemukan. Anda dialihkan ke pembayaran terbaru Anda.');
+                    }
+                }
+
                 return view('payment.not-found', [
                     'payment_id' => $paymentId,
                     'message' => 'Payment not found. The payment ID you are looking for does not exist.',
@@ -437,14 +453,23 @@ class PaymentController extends Controller
             }
         }
 
+        // MODIFIED: Skip admin confirmation check - payments are auto-confirmed
+        // Show success page directly for successful payments
+        /*
         // If payment is successful but not confirmed by admin, show invoice page
         if ($payment->isSuccess() && !$payment->is_confirmed) {
             return view('payment.invoice', compact('payment', 'registration'));
         }
+        */
 
         // If payment is successful and confirmed, show success page
         if ($payment->isSuccess() && $payment->is_confirmed) {
-            return view('payment.finish', compact('payment', 'registration'));
+            // Add contact WhatsApp fallback if not set
+            if (!$registration->competition->contact_person_whatsapp) {
+                $registration->competition->contact_person_whatsapp = $this->getDefaultContactWhatsApp($registration->competition);
+            }
+
+            return view('payment.finish-simple', compact('payment', 'registration'));
         }
 
         // For other statuses, redirect to appropriate page
@@ -692,8 +717,8 @@ class PaymentController extends Controller
     {
         $registration = $payment->registration;
 
-        // Pastikan payment milik user yang sedang login
-        if ($registration->user_id !== Auth::id()) {
+        // Pastikan payment milik user yang sedang login atau user adalah admin/superadmin
+        if ($registration->user_id !== Auth::id() && !Auth::user()->hasRole(['superadmin', 'admin'])) {
             abort(403, 'Akses ditolak.');
         }
 
@@ -725,5 +750,66 @@ class PaymentController extends Controller
             Log::error('PDF Error Stack Trace: ' . $e->getTraceAsString());
             return back()->with('error', 'Terjadi kesalahan saat membuat struk PDF: ' . $e->getMessage());
         }
+    }
+
+    /**
+     * Generate and download invoice PDF
+     *
+     * @param \App\Models\Registration $registration
+     * @return \Illuminate\Http\Response
+     */
+    public function invoice(Registration $registration)
+    {
+        // Check if user owns this registration
+        if ($registration->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized access to invoice.');
+        }
+
+        // Check if registration is paid
+        if ($registration->status !== 'paid') {
+            return back()->with('error', 'Invoice hanya tersedia untuk pendaftaran yang sudah dibayar.');
+        }
+
+        try {
+            return $this->invoiceService->streamInvoice($registration);
+        } catch (\Exception $e) {
+            Log::error('Invoice generation error: ' . $e->getMessage(), [
+                'registration_id' => $registration->id,
+                'user_id' => Auth::id(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return back()->with('error', 'Terjadi kesalahan saat membuat invoice: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Get default contact WhatsApp based on competition
+     *
+     * @param \App\Models\Competition $competition
+     * @return string
+     */
+    private function getDefaultContactWhatsApp($competition): string
+    {
+        // Default contact person WhatsApp
+        $defaultWhatsApp = '6281234567890'; // Remove + and - for WhatsApp format
+
+        // Competition-specific contacts
+        $contacts = [
+            'kdbi' => '6281211111111',
+            'edc' => '6281222222222',
+            'short-movie' => '6281233333333',
+            'fotografi' => '6281244444444',
+            'lkti' => '6281255555555',
+        ];
+
+        $slug = \Str::slug($competition->name);
+        foreach ($contacts as $key => $whatsapp) {
+            if (\Str::contains($slug, $key)) {
+                return $whatsapp;
+            }
+        }
+
+        return $defaultWhatsApp;
     }
 }

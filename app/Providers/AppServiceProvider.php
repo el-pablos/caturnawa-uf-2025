@@ -22,6 +22,14 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(\App\Services\PricingService::class, function ($app) {
             return new \App\Services\PricingService();
         });
+
+        $this->app->singleton(\App\Services\RegistrationValidationService::class, function ($app) {
+            return new \App\Services\RegistrationValidationService();
+        });
+
+        $this->app->singleton(\App\Services\DynamicFormService::class, function ($app) {
+            return new \App\Services\DynamicFormService();
+        });
     }
 
     /**

@@ -227,12 +227,12 @@
         <!-- Competition Filter Section -->
         <div class="row mb-5">
             <div class="col-12">
-                <h2 class="text-center mb-4">
+                <h2 class="text-center mb-4" data-aos="fade-up">
                     <i class="bi bi-funnel text-info"></i>
                     Filter Kompetisi
                 </h2>
             </div>
-            <div class="col-12">
+            <div class="col-12" data-aos="fade-up" data-aos-delay="200">
                 <div class="card shadow">
                     <div class="card-header bg-info text-white text-center">
                         <h5 class="mb-0">
@@ -264,7 +264,7 @@
             <!-- Competition Info Section -->
             <div class="row mb-5">
                 <div class="col-12">
-                    <h2 class="text-center mb-4">
+                    <h2 class="text-center mb-4" data-aos="fade-up">
                         <i class="bi bi-award text-success"></i>
                         {{ $selectedCompetition->name }}
                     </h2>

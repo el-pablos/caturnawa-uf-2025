@@ -420,12 +420,29 @@ function clearCache() {
     btn.disabled = true;
     btn.innerHTML = '<i class="bi bi-arrow-clockwise me-2 spin"></i>Clearing...';
 
-    // Simulate cache clearing (since we don't have the actual endpoint)
-    setTimeout(() => {
-        showSuccess('Cache berhasil dibersihkan');
+    fetch('{{ route('admin.maintenance.clear-cache') }}', {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showSuccess(data.message);
+        } else {
+            showError(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showError('Terjadi kesalahan saat membersihkan cache');
+    })
+    .finally(() => {
         btn.disabled = false;
         btn.innerHTML = originalText;
-    }, 2000);
+    });
 }
 
 function optimizeApp() {
@@ -437,12 +454,29 @@ function optimizeApp() {
     btn.disabled = true;
     btn.innerHTML = '<i class="bi bi-speedometer2 me-2 spin"></i>Optimizing...';
 
-    // Simulate optimization process
-    setTimeout(() => {
-        showSuccess('Aplikasi berhasil dioptimasi');
+    fetch('{{ route('admin.maintenance.optimize') }}', {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showSuccess(data.message);
+        } else {
+            showError(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showError('Terjadi kesalahan saat mengoptimasi aplikasi');
+    })
+    .finally(() => {
         btn.disabled = false;
         btn.innerHTML = originalText;
-    }, 3000);
+    });
 }
 
 function clearLogs() {
@@ -458,11 +492,29 @@ function clearLogs() {
             btn.disabled = true;
             btn.innerHTML = '<i class="bi bi-trash me-2 spin"></i>Clearing...';
 
-            setTimeout(() => {
-                showSuccess('Log lama berhasil dihapus');
+            fetch('{{ route('admin.maintenance.clear-logs') }}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showSuccess(data.message);
+                } else {
+                    showError(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showError('Terjadi kesalahan saat menghapus log');
+            })
+            .finally(() => {
                 btn.disabled = false;
                 btn.innerHTML = originalText;
-            }, 2000);
+            });
         }
     );
 }
@@ -481,18 +533,48 @@ function runMaintenance() {
     resultDiv.style.display = 'block';
     statusSpan.textContent = 'Running maintenance tasks...';
 
-    setTimeout(() => {
-        statusSpan.textContent = 'Maintenance completed successfully!';
-        resultDiv.querySelector('.alert').className = 'alert alert-success';
+    fetch('{{ route('admin.maintenance.run-all') }}', {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            statusSpan.textContent = data.message;
+            resultDiv.querySelector('.alert').className = 'alert alert-success';
+        } else {
+            statusSpan.textContent = data.message;
+            resultDiv.querySelector('.alert').className = 'alert alert-danger';
+        }
         resultDiv.querySelector('.spinner-border').style.display = 'none';
-
+        
         setTimeout(() => {
             resultDiv.style.display = 'none';
             btn.disabled = false;
             btn.innerHTML = originalText;
-            showSuccess('Maintenance berhasil dijalankan');
-        }, 2000);
-    }, 4000);
+            if (data.success) {
+                showSuccess('Maintenance berhasil dijalankan');
+            } else {
+                showError('Maintenance gagal dijalankan');
+            }
+        }, 3000);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        statusSpan.textContent = 'Error occurred during maintenance';
+        resultDiv.querySelector('.alert').className = 'alert alert-danger';
+        resultDiv.querySelector('.spinner-border').style.display = 'none';
+        
+        setTimeout(() => {
+            resultDiv.style.display = 'none';
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+            showError('Terjadi kesalahan saat menjalankan maintenance');
+        }, 3000);
+    });
 }
 
 function checkSystemHealth() {
@@ -504,24 +586,36 @@ function checkSystemHealth() {
     btn.disabled = true;
     btn.innerHTML = '<i class="bi bi-heart-pulse me-2 spin"></i>Checking...';
 
-    setTimeout(() => {
-        const healthStatus = {
-            database: 'OK',
-            cache: 'OK',
-            storage: 'OK',
-            memory: 'Warning - 60% used'
-        };
-
-        let message = 'System Health Check Results:\n';
-        message += `Database: ${healthStatus.database}\n`;
-        message += `Cache: ${healthStatus.cache}\n`;
-        message += `Storage: ${healthStatus.storage}\n`;
-        message += `Memory: ${healthStatus.memory}`;
-
-        showInfo(message);
+    fetch('{{ route('admin.maintenance.health-check') }}', {
+        method: 'GET',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            let message = 'System Health Check Results:\n';
+            const health = data.data;
+            message += `Database: ${health.database ? 'OK' : 'ERROR'}\n`;
+            message += `Redis: ${health.redis ? 'OK' : 'ERROR'}\n`;
+            message += `Storage: ${health.storage ? 'OK' : 'ERROR'}\n`;
+            message += `Queue: ${health.queue ? 'OK' : 'ERROR'}`;
+            
+            showInfo(message);
+        } else {
+            showError(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showError('Terjadi kesalahan saat mengecek kesehatan sistem');
+    })
+    .finally(() => {
         btn.disabled = false;
         btn.innerHTML = originalText;
-    }, 2000);
+    });
 }
 
 // Backup & Security Functions

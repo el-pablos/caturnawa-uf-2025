@@ -27,13 +27,36 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        // Hanya load statistik dasar untuk initial load
-        $stats = Cache::remember('admin_dashboard_stats', 300, function () {
-            return $this->getMainStatistics();
-        });
+        try {
+            // Hanya load statistik dasar untuk initial load
+            $stats = Cache::remember('admin_dashboard_stats', 300, function () {
+                return $this->getMainStatistics();
+            });
 
-        // Data lainnya akan di-load via AJAX untuk mengurangi initial load time
-        return view('admin.dashboard', compact('stats'));
+            // Fallback jika cache gagal
+            if (!$stats || !is_array($stats)) {
+                $stats = $this->getMainStatistics();
+            }
+
+            // Data lainnya akan di-load via AJAX untuk mengurangi initial load time
+            return view('admin.dashboard', compact('stats'));
+        } catch (\Exception $e) {
+            \Log::error('Admin dashboard index error: ' . $e->getMessage());
+
+            // Return with default stats if everything fails
+            $stats = [
+                'total_users' => 0,
+                'total_registrations' => 0,
+                'confirmed_registrations' => 0,
+                'total_competitions' => 0,
+                'active_competitions' => 0,
+                'total_revenue' => 0,
+                'pending_payments' => 0,
+                'total_submissions' => 0,
+            ];
+
+            return view('admin.dashboard', compact('stats'));
+        }
     }
 
     /**
@@ -43,14 +66,33 @@ class DashboardController extends Controller
      */
     public function getChartDataAjax()
     {
-        $chartData = Cache::remember('admin_dashboard_charts', 600, function () {
-            return $this->getChartData();
-        });
+        try {
+            $chartData = Cache::remember('admin_dashboard_charts', 600, function () {
+                return $this->getChartData();
+            });
 
-        return response()->json([
-            'success' => true,
-            'data' => $chartData
-        ]);
+            // Fallback jika cache gagal
+            if (!$chartData || !is_array($chartData)) {
+                $chartData = $this->getChartData();
+            }
+
+            return response()->json([
+                'success' => true,
+                'data' => $chartData
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Admin dashboard chart data error: ' . $e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to load chart data',
+                'data' => [
+                    'months' => [],
+                    'registrations' => [],
+                    'revenues' => []
+                ]
+            ], 500);
+        }
     }
 
     /**
@@ -94,41 +136,67 @@ class DashboardController extends Controller
      */
     protected function getMainStatistics()
     {
-        // Optimisasi dengan single query untuk multiple counts
-        $userStats = DB::table('users')
-            ->selectRaw('COUNT(*) as total_users')
-            ->first();
+        try {
+            // Optimisasi dengan single query untuk multiple counts
+            $userStats = DB::table('users')
+                ->selectRaw('COUNT(*) as total_users')
+                ->first();
 
-        $competitionStats = DB::table('competitions')
-            ->selectRaw('
-                COUNT(*) as total_competitions,
-                COUNT(CASE WHEN is_active = 1 THEN 1 END) as active_competitions
-            ')
-            ->first();
+            $competitionStats = DB::table('competitions')
+                ->selectRaw('
+                    COUNT(*) as total_competitions,
+                    COUNT(CASE WHEN is_active = 1 THEN 1 END) as active_competitions
+                ')
+                ->first();
 
-        $registrationStats = DB::table('registrations')
-            ->selectRaw('
-                COUNT(*) as total_registrations,
-                COUNT(CASE WHEN status = "confirmed" THEN 1 END) as confirmed_registrations
-            ')
-            ->first();
+            $registrationStats = DB::table('registrations')
+                ->selectRaw('
+                    COUNT(*) as total_registrations,
+                    COUNT(CASE WHEN status = "confirmed" THEN 1 END) as confirmed_registrations
+                ')
+                ->first();
 
-        $paymentStats = DB::table('payments')
-            ->selectRaw('
-                SUM(CASE WHEN transaction_status = ? THEN gross_amount ELSE 0 END) as total_revenue,
-                COUNT(CASE WHEN transaction_status = ? THEN 1 END) as pending_payments
-            ', ['settlement', 'pending'])
-            ->first();
+            $paymentStats = DB::table('payments')
+                ->selectRaw('
+                    SUM(CASE WHEN transaction_status = ? THEN gross_amount ELSE 0 END) as total_revenue,
+                    COUNT(CASE WHEN transaction_status = ? THEN 1 END) as pending_payments
+                ', ['settlement', 'pending'])
+                ->first();
 
-        $submissionCount = DB::table('submissions')->count();
+            // Check if submissions table exists
+            $submissionCount = 0;
+            try {
+                $submissionCount = DB::table('submissions')->count();
+            } catch (\Exception $e) {
+                // Submissions table might not exist yet
+                $submissionCount = 0;
+            }
 
-        return [
-            'total_competitions' => $competitionStats->total_competitions ?? 0,
-            'active_competitions' => $competitionStats->active_competitions ?? 0,
-            'total_revenue' => $paymentStats->total_revenue ?? 0,
-            'pending_payments' => $paymentStats->pending_payments ?? 0,
-            'total_submissions' => $submissionCount ?? 0,
-        ];
+            return [
+                'total_users' => $userStats->total_users ?? 0,
+                'total_registrations' => $registrationStats->total_registrations ?? 0,
+                'confirmed_registrations' => $registrationStats->confirmed_registrations ?? 0,
+                'total_competitions' => $competitionStats->total_competitions ?? 0,
+                'active_competitions' => $competitionStats->active_competitions ?? 0,
+                'total_revenue' => $paymentStats->total_revenue ?? 0,
+                'pending_payments' => $paymentStats->pending_payments ?? 0,
+                'total_submissions' => $submissionCount,
+            ];
+        } catch (\Exception $e) {
+            // Log error and return default values
+            \Log::error('Dashboard statistics error: ' . $e->getMessage());
+
+            return [
+                'total_users' => 0,
+                'total_registrations' => 0,
+                'confirmed_registrations' => 0,
+                'total_competitions' => 0,
+                'active_competitions' => 0,
+                'total_revenue' => 0,
+                'pending_payments' => 0,
+                'total_submissions' => 0,
+            ];
+        }
     }
 
     /**
@@ -138,15 +206,16 @@ class DashboardController extends Controller
      */
     protected function getChartData()
     {
-        // Trend pendaftaran 6 bulan terakhir
-        $registrationTrend = Registration::select(
-            DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'),
-            DB::raw('COUNT(*) as total')
-        )
-        ->where('created_at', '>=', Carbon::now()->subMonths(6))
-        ->groupBy('month')
-        ->orderBy('month')
-        ->get();
+        try {
+            // Trend pendaftaran 6 bulan terakhir
+            $registrationTrend = Registration::select(
+                DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'),
+                DB::raw('COUNT(*) as total')
+            )
+            ->where('created_at', '>=', Carbon::now()->subMonths(6))
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
 
         // Trend pendapatan 6 bulan terakhir  
         $revenueTrend = Payment::select(
@@ -180,11 +249,26 @@ class DashboardController extends Controller
             $revenues[] = $revData ? floatval($revData->total) : 0;
         }
 
-        return [
-            'months' => $months,
-            'registrations' => $registrations,
-            'revenues' => $revenues,
-        ];
+            return [
+                'months' => $months,
+                'registrations' => $registrations,
+                'revenues' => $revenues,
+            ];
+        } catch (\Exception $e) {
+            \Log::error('Dashboard chart data error: ' . $e->getMessage());
+
+            // Return empty chart data
+            $months = [];
+            for ($i = 5; $i >= 0; $i--) {
+                $months[] = Carbon::now()->subMonths($i)->format('M Y');
+            }
+
+            return [
+                'months' => $months,
+                'registrations' => array_fill(0, 6, 0),
+                'revenues' => array_fill(0, 6, 0),
+            ];
+        }
     }
 
     /**
@@ -194,23 +278,31 @@ class DashboardController extends Controller
      */
     protected function getRecentData()
     {
-        return [
+        try {
+            return [
+                'recent_competitions' => Competition::select('id', 'name', 'category', 'created_at', 'is_active')
+                    ->latest()
+                    ->limit(3)
+                    ->get(),
 
-            'recent_competitions' => Competition::select('id', 'name', 'category', 'created_at', 'is_active')
-                ->latest()
-                ->limit(3)
-                ->get(),
+                'recent_payments' => Payment::select('id', 'order_id', 'gross_amount', 'transaction_status', 'created_at', 'registration_id')
+                    ->with([
+                        'registration:id,user_id,competition_id',
+                        'registration.user:id,name,email',
+                        'registration.competition:id,name'
+                    ])
+                    ->latest()
+                    ->limit(5)
+                    ->get(),
+            ];
+        } catch (\Exception $e) {
+            \Log::error('Dashboard recent data error: ' . $e->getMessage());
 
-            'recent_payments' => Payment::select('id', 'order_id', 'gross_amount', 'transaction_status', 'created_at', 'registration_id')
-                ->with([
-                    'registration:id,user_id,competition_id',
-                    'registration.user:id,name,email',
-                    'registration.competition:id,name'
-                ])
-                ->latest()
-                ->limit(5)
-                ->get(),
-        ];
+            return [
+                'recent_competitions' => collect([]),
+                'recent_payments' => collect([]),
+            ];
+        }
     }
 
     /**
@@ -220,12 +312,13 @@ class DashboardController extends Controller
      */
     protected function getUserDistribution()
     {
-        $distribution = User::select('roles.name as role', DB::raw('COUNT(*) as count'))
-            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-            ->where('model_has_roles.model_type', 'App\\Models\\User')
-            ->groupBy('roles.name')
-            ->get();
+        try {
+            $distribution = User::select('roles.name as role', DB::raw('COUNT(*) as count'))
+                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+                ->where('model_has_roles.model_type', 'App\\Models\\User')
+                ->groupBy('roles.name')
+                ->get();
 
         $labels = [];
         $data = [];
@@ -236,16 +329,25 @@ class DashboardController extends Controller
             'Peserta' => '#0d6efd',
         ];
 
-        foreach ($distribution as $item) {
-            $labels[] = $item->role;
-            $data[] = $item->count;
-        }
+            foreach ($distribution as $item) {
+                $labels[] = $item->role;
+                $data[] = $item->count;
+            }
 
-        return [
-            'labels' => $labels,
-            'data' => $data,
-            'colors' => array_values($colors),
-        ];
+            return [
+                'labels' => $labels,
+                'data' => $data,
+                'colors' => array_values($colors),
+            ];
+        } catch (\Exception $e) {
+            \Log::error('Dashboard user distribution error: ' . $e->getMessage());
+
+            return [
+                'labels' => ['Peserta', 'Admin'],
+                'data' => [0, 0],
+                'colors' => ['#0d6efd', '#fd7e14'],
+            ];
+        }
     }
 
     /**

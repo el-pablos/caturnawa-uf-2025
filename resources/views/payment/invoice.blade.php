@@ -132,7 +132,7 @@
                         <a href="{{ route('peserta.registrations.show', $registration) }}" class="btn btn-outline-primary">
                             <i class="bi bi-eye me-1"></i>Lihat Pendaftaran
                         </a>
-                        <a href="{{ route('peserta.peserta.dashboard') }}" class="btn btn-outline-secondary">
+                        <a href="{{ route('peserta.dashboard') }}" class="btn btn-outline-secondary">
                             <i class="bi bi-house me-1"></i>Dashboard
                         </a>
                     </div>

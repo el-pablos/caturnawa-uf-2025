@@ -165,6 +165,13 @@ class SEOService
         $html .= '<meta name="robots" content="' . $this->config['default']['robots'] . '">' . "\n";
         $html .= '<link rel="canonical" href="' . $this->getCanonical() . '">' . "\n";
         
+        // Additional SEO meta tags
+        $html .= '<meta name="language" content="id">' . "\n";
+        $html .= '<meta name="revisit-after" content="7 days">' . "\n";
+        $html .= '<meta name="rating" content="general">' . "\n";
+        $html .= '<meta name="distribution" content="global">' . "\n";
+        $html .= '<meta name="theme-color" content="#2563eb">' . "\n";
+        
         // Open Graph tags
         foreach ($this->getOpenGraph() as $property => $content) {
             $html .= '<meta property="' . $property . '" content="' . $content . '">' . "\n";
@@ -175,11 +182,81 @@ class SEOService
             $html .= '<meta name="' . $name . '" content="' . $content . '">' . "\n";
         }
         
+        // Additional Social Media tags
+        $html .= '<meta property="fb:app_id" content="1234567890">' . "\n"; // Replace with actual Facebook App ID
+        $html .= '<meta name="mobile-web-app-capable" content="yes">' . "\n";
+        $html .= '<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">' . "\n";
+        $html .= '<meta name="apple-mobile-web-app-title" content="UNAS Fest 2025">' . "\n";
+        
         // Favicon and icons
         $html .= '<link rel="icon" type="image/x-icon" href="' . asset($this->config['assets']['logo']['favicon']) . '">' . "\n";
         $html .= '<link rel="apple-touch-icon" href="' . asset($this->config['assets']['logo']['icon']) . '">' . "\n";
+        $html .= '<link rel="shortcut icon" href="' . asset($this->config['assets']['logo']['favicon']) . '">' . "\n";
+        
+        // DNS prefetch for better performance
+        $html .= '<link rel="dns-prefetch" href="//fonts.googleapis.com">' . "\n";
+        $html .= '<link rel="dns-prefetch" href="//cdn.jsdelivr.net">' . "\n";
+        $html .= '<link rel="dns-prefetch" href="//www.google-analytics.com">' . "\n";
         
         return $html;
+    }
+
+    /**
+     * Get breadcrumb structured data
+     */
+    public function getBreadcrumbStructuredData(): array
+    {
+        $breadcrumbs = $this->customData['breadcrumbs'] ?? [];
+        
+        if (empty($breadcrumbs)) {
+            return [];
+        }
+
+        $itemList = [];
+        foreach ($breadcrumbs as $index => $breadcrumb) {
+            $itemList[] = [
+                '@type' => 'ListItem',
+                'position' => $index + 1,
+                'name' => $breadcrumb['name'],
+                'item' => $breadcrumb['url']
+            ];
+        }
+
+        return [
+            '@context' => 'https://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => $itemList
+        ];
+    }
+
+    /**
+     * Get FAQ structured data
+     */
+    public function getFAQStructuredData(): array
+    {
+        $faqs = $this->customData['faqs'] ?? [];
+        
+        if (empty($faqs)) {
+            return [];
+        }
+
+        $mainEntity = [];
+        foreach ($faqs as $faq) {
+            $mainEntity[] = [
+                '@type' => 'Question',
+                'name' => $faq['question'],
+                'acceptedAnswer' => [
+                    '@type' => 'Answer',
+                    'text' => $faq['answer']
+                ]
+            ];
+        }
+
+        return [
+            '@context' => 'https://schema.org',
+            '@type' => 'FAQPage',
+            'mainEntity' => $mainEntity
+        ];
     }
 
     /**
@@ -195,11 +272,25 @@ class SEOService
             $structuredData[] = $this->getEventStructuredData();
         }
 
+        // Add breadcrumb structured data if available
+        $breadcrumbData = $this->getBreadcrumbStructuredData();
+        if (!empty($breadcrumbData)) {
+            $structuredData[] = $breadcrumbData;
+        }
+
+        // Add FAQ structured data if available
+        $faqData = $this->getFAQStructuredData();
+        if (!empty($faqData)) {
+            $structuredData[] = $faqData;
+        }
+
         $json = '';
         foreach ($structuredData as $data) {
-            $json .= '<script type="application/ld+json">' . "\n";
-            $json .= json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . "\n";
-            $json .= '</script>' . "\n";
+            if (!empty($data)) {
+                $json .= '<script type="application/ld+json">' . "\n";
+                $json .= json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . "\n";
+                $json .= '</script>' . "\n";
+            }
         }
 
         return $json;

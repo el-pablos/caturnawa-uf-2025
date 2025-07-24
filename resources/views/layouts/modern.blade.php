@@ -216,7 +216,7 @@
                         <li><a href="{{ route('public.competitions') }}#kdbi">KDBI</a></li>
                         <li><a href="{{ route('public.competitions') }}#edc">EDC</a></li>
                         <li><a href="{{ route('public.competitions') }}#short-movie">Short Movie</a></li>
-                        <li><a href="{{ route('public.competitions') }}#fotografi">Fotografi</a></li>
+                        <li><a href="{{ route('public.competitions') }}#infografis">Infografis</a></li>
                         <li><a href="{{ route('public.competitions') }}#karya-ilmiah">Karya Ilmiah</a></li>
                         <li><a href="{{ route('public.faq') }}">FAQ</a></li>
                         <li><a href="#timeline">Timeline</a></li>

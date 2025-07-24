@@ -7,6 +7,7 @@ use App\Models\Competition;
 use App\Models\Registration;
 use App\Services\RegistrationValidationService;
 use App\Services\PricingService;
+use App\Services\DynamicFormService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -20,11 +21,16 @@ class CompetitionController extends Controller
 {
     protected $registrationValidationService;
     protected $pricingService;
+    protected $dynamicFormService;
 
-    public function __construct(RegistrationValidationService $registrationValidationService, PricingService $pricingService)
-    {
+    public function __construct(
+        RegistrationValidationService $registrationValidationService, 
+        PricingService $pricingService,
+        DynamicFormService $dynamicFormService
+    ) {
         $this->registrationValidationService = $registrationValidationService;
         $this->pricingService = $pricingService;
+        $this->dynamicFormService = $dynamicFormService;
     }
 
     /**
@@ -71,7 +77,13 @@ class CompetitionController extends Controller
         // Cek kompetisi yang sudah didaftari user
         $user = Auth::user();
         $registeredCompetitions = [];
-        
+
+        if ($user) {
+            $registeredCompetitions = $user->registrations()
+                ->pluck('competition_id')
+                ->toArray();
+        }
+
         return view('peserta.competitions.index', compact('competitions', 'registeredCompetitions'));
     }
 
@@ -97,6 +109,10 @@ class CompetitionController extends Controller
         // Get pricing information
         $pricingSummary = $this->pricingService->getPricingSummary();
         $participantCategories = $this->pricingService->getParticipantCategories();
+        
+        // Get dynamic form requirements
+        $dynamicRequirements = $this->dynamicFormService->getCompetitionRequirements($competition);
+        $dynamicFormHTML = $this->dynamicFormService->generateFormHTML($competition);
 
         // Statistik kompetisi (removed participant counts)
         $stats = [
@@ -104,7 +120,17 @@ class CompetitionController extends Controller
             'is_early_bird' => $this->pricingService->isEarlyBirdPeriod(),
         ];
 
-        return view('peserta.competitions.show', compact('competition', 'existingRegistration', 'stats', 'userRegistrations', 'canRegister', 'pricingSummary', 'participantCategories'));
+        return view('peserta.competitions.show', compact(
+            'competition', 
+            'existingRegistration', 
+            'stats', 
+            'userRegistrations', 
+            'canRegister', 
+            'pricingSummary', 
+            'participantCategories',
+            'dynamicRequirements',
+            'dynamicFormHTML'
+        ));
     }
 
     /**
@@ -173,7 +199,10 @@ class CompetitionController extends Controller
             }
         }
 
-        // Validasi form
+        // Get dynamic validation rules
+        $dynamicValidation = $this->dynamicFormService->buildValidationRules($competition, $request->all());
+        
+        // Base validation rules
         $rules = [
             'phone' => 'nullable|string|max:20',
             'institution' => 'nullable|string|max:255',
@@ -182,6 +211,9 @@ class CompetitionController extends Controller
             'emergency_phone' => 'nullable|string|max:20',
             'special_needs' => 'nullable|string|max:500',
         ];
+        
+        // Merge dynamic rules
+        $rules = array_merge($rules, $dynamicValidation['rules']);
         
         // Validasi logo instansi
         $rules['logo_instansi'] = 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048';
@@ -205,7 +237,8 @@ class CompetitionController extends Controller
             }
         }
         
-        $validator = Validator::make($request->all(), $rules, [
+        // Merge validation messages
+        $messages = array_merge([
             'phone.required' => 'Nomor telepon harus diisi',
             'institution.required' => 'Institusi harus diisi',
             'gender.required' => 'Jenis kelamin harus dipilih',
@@ -217,7 +250,9 @@ class CompetitionController extends Controller
             'team_members.min' => 'Minimal ' . ($competition->min_team_members ?? 1) . ' anggota tim',
             'team_members.max' => 'Maksimal ' . ($competition->max_team_members ?? 10) . ' anggota tim',
             'team_members.*.name.required' => 'Nama anggota tim harus diisi',
-        ]);
+        ], $dynamicValidation['messages']);
+        
+        $validator = Validator::make($request->all(), $rules, $messages);
 
         // Validasi khusus untuk siswa SMA/SMK - harus menyertakan institusi
         $validator->after(function ($validator) use ($request) {
@@ -245,6 +280,9 @@ class CompetitionController extends Controller
                 $logoPath = $request->file('logo_instansi')->store('logos', 'public');
             }
 
+            // Process dynamic form data
+            $dynamicFormData = $this->dynamicFormService->processFormData($competition, $request);
+            
             // Calculate price based on user's participant status
             $participantCategory = $this->mapParticipantStatus($user->participant_status);
             $priceData = $this->pricingService->getPriceForCategory($participantCategory);
@@ -266,6 +304,7 @@ class CompetitionController extends Controller
                 'original_price' => $priceData['amount'],
                 'status' => 'pending',
                 'registered_at' => now(),
+                'dynamic_data' => $dynamicFormData,
             ];
 
             if ($competition->is_team_competition) {
@@ -291,6 +330,9 @@ class CompetitionController extends Controller
             }
 
             $registration = Registration::create($registrationData);
+            
+            // Update competition registration count
+            $competition->increment('registration_count');
         } catch (\Exception $e) {
             \Log::error('Registration creation failed: ' . $e->getMessage());
 
@@ -301,7 +343,7 @@ class CompetitionController extends Controller
                 ]);
             }
 
-            return back()->with('error', 'Terjadi kesalahan saat membuat pendaftaran.');
+            return back()->with('error', 'Terjadi kesalahan saat membuat pendaftaran: ' . $e->getMessage())->withInput();
         }
         
         // Check if this is an AJAX request
@@ -309,12 +351,12 @@ class CompetitionController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Pendaftaran berhasil! Silakan lakukan pembayaran untuk mengkonfirmasi pendaftaran Anda.',
-                'redirect_url' => route('payment.checkout', $registration)
+                'redirect_url' => route('peserta.registrations.show', $registration)
             ]);
         }
 
-        // Redirect ke halaman pembayaran
-        return redirect()->route('payment.checkout', $registration)
+        // Redirect ke halaman detail registrasi
+        return redirect()->route('peserta.registrations.show', $registration)
             ->with('success', 'Pendaftaran berhasil! Silakan lakukan pembayaran untuk mengkonfirmasi pendaftaran Anda.');
     }
 

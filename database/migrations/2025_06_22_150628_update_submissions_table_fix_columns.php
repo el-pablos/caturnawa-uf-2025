@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('submissions', function (Blueprint $table) {
             // Tambah kolom status
-            $table->enum('status', ['draft', 'submitted', 'overdue', 'scored'])->default('draft')->after('is_final');
+            $table->enum('status', ['draft', 'submitted', 'overdue', 'scored', 'approved', 'rejected'])->default('draft')->after('is_final');
             
             // Hapus kolom competition_id karena sudah ada relasi melalui registration
             $table->dropForeign(['competition_id']);

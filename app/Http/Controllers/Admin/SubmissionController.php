@@ -172,28 +172,7 @@ class SubmissionController extends Controller
         }
     }
 
-    /**
-     * Export submissions to Excel
-     */
-    public function exportExcel(Request $request)
-    {
-        $query = Submission::with(['registration.user', 'registration.competition']);
 
-        // Apply filters
-        if ($request->filled('competition_id')) {
-            $query->whereHas('registration', function ($q) use ($request) {
-                $q->where('competition_id', $request->competition_id);
-            });
-        }
-
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
-        }
-
-        $submissions = $query->get();
-
-        return Excel::download(new SubmissionExport($submissions), 'submissions.xlsx');
-    }
 
     /**
      * Export submissions to PDF
@@ -226,12 +205,6 @@ class SubmissionController extends Controller
      */
     public function export(Request $request)
     {
-        $type = $request->get('export', 'excel');
-
-        if ($type === 'pdf') {
-            return $this->exportPdf($request);
-        }
-
-        return $this->exportExcel($request);
+        return $this->exportPdf($request);
     }
 }

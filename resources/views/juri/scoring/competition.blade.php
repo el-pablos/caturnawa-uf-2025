@@ -17,8 +17,8 @@
     <div class="col-12">
         <!-- Competition Info -->
         <div class="card mb-4">
-            <div class="card-header bg-success text-white">
-                <h5 class="mb-0">
+            <div class="card-header border-success">
+                <h5 class="mb-0 text-success">
                     <i class="bi bi-trophy me-2"></i>{{ $competition->name }}
                 </h5>
             </div>
@@ -61,8 +61,8 @@
         
         <!-- Submissions List -->
         <div class="card">
-            <div class="card-header bg-info text-white">
-                <h6 class="mb-0">
+            <div class="card-header border-info">
+                <h6 class="mb-0 text-info">
                     <i class="bi bi-list-task me-2"></i>Daftar Karya untuk Dinilai
                 </h6>
             </div>
@@ -210,8 +210,8 @@
     
     <div class="col-md-6">
         <div class="card">
-            <div class="card-header bg-secondary text-white">
-                <h6 class="mb-0">
+            <div class="card-header border-secondary">
+                <h6 class="mb-0 text-secondary">
                     <i class="bi bi-graph-up me-2"></i>Statistik Penilaian
                 </h6>
             </div>

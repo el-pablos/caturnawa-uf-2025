@@ -240,6 +240,15 @@
     @endif
 
     <!-- Contact Form & Info Section -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="text-center mb-4" data-aos="fade-up">
+                <i class="bi bi-chat-dots text-success"></i>
+                Hubungi Tim Kami
+            </h2>
+        </div>
+    </div>
+
     <div class="row g-4">
         <!-- Contact Form -->
         <div class="col-lg-8">

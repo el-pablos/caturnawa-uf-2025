@@ -1,6 +1,9 @@
 // Bootstrap JavaScript
 import 'bootstrap';
 
+// AOS (Animate On Scroll) Library
+import AOS from 'aos';
+
 // Hot Module Replacement (HMR) for development
 if (import.meta.hot) {
     import.meta.hot.accept();
@@ -18,11 +21,49 @@ if (import.meta.hot) {
 // Custom JavaScript for UNAS Fest 2025
 document.addEventListener('DOMContentLoaded', function() {
 
+    // Setup CSRF token for AJAX requests
+    const csrfToken = document.querySelector('meta[name="csrf-token"]');
+    if (csrfToken) {
+        window.axios = window.axios || {};
+        if (window.axios.defaults) {
+            window.axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken.getAttribute('content');
+        }
+
+        // Setup for fetch API
+        window.csrfToken = csrfToken.getAttribute('content');
+
+        // Setup for jQuery if available
+        if (typeof $ !== 'undefined') {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken.getAttribute('content')
+                }
+            });
+        }
+    }
+
     // Development mode indicator
     if (import.meta.env.DEV) {
         console.log('🚀 UNAS Fest 2025 - Development Mode');
         console.log('📝 Hot reload is active - changes will be reflected automatically');
+        console.log('🔒 CSRF token setup complete');
     }
+
+    // Initialize AOS (Animate On Scroll) with optimized settings
+    AOS.init({
+        duration: 600, // Reduced from 800ms for faster animations
+        easing: 'ease-out', // Changed to ease-out for better performance
+        once: true,
+        mirror: false,
+        offset: 50, // Reduced offset for earlier triggering
+        anchorPlacement: 'top-center', // Changed to top-center for better mobile experience
+        disable: function() {
+            // Disable AOS on mobile devices < 768px for better performance
+            return window.innerWidth < 768;
+        },
+        throttleDelay: 50, // Reduce throttle delay for smoother scrolling
+        debounceDelay: 25 // Reduce debounce delay
+    });
     
     // Initialize tooltips
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));

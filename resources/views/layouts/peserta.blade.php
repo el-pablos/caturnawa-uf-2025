@@ -240,7 +240,7 @@
             <!-- Navigation Menu -->
             <div class="nav-menu-container flex-grow-1 overflow-auto">
                 <div class="nav nav-pills flex-column p-3">
-                    <a class="nav-link {{ request()->routeIs('peserta.peserta.dashboard') ? 'active' : '' }}" href="{{ route('peserta.peserta.dashboard') }}">
+                    <a class="nav-link {{ request()->routeIs('peserta.dashboard') ? 'active' : '' }}" href="{{ route('peserta.dashboard') }}">
                         <i class="bi bi-speedometer2 me-2"></i>Dashboard
                     </a>
 

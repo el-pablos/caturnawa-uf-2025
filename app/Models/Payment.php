@@ -231,12 +231,25 @@ class Payment extends Model
 
             // Update waktu pembayaran jika settlement
             if ($payment->isSuccess()) {
-                $payment->update(['paid_at' => now()]);
+                $payment->update([
+                    'paid_at' => now(),
+                    // MODIFIED: Auto-confirm payment without admin intervention
+                    'is_confirmed' => true,
+                    'confirmed_at' => now(),
+                    'confirmed_by' => null, // System auto-confirmation
+                    'confirmation_notes' => 'Pembayaran dikonfirmasi otomatis oleh sistem setelah settlement'
+                ]);
 
-                // Set registration status to 'paid' (waiting for admin confirmation)
-                // Do NOT auto-confirm registration - admin must confirm manually
+                // MODIFIED: Auto-confirm registration without admin intervention
                 if ($payment->registration->status === 'pending') {
-                    $payment->registration->update(['status' => 'paid']);
+                    $payment->registration->update([
+                        'status' => 'confirmed', // Changed from 'paid' to 'confirmed'
+                        'confirmed_at' => now(),
+                        'confirmed_by' => null, // System auto-confirmation
+                    ]);
+
+                    // Generate QR Code for confirmed registration
+                    $payment->registration->generateQRCode();
                 }
 
                 // Store WhatsApp group link in session for display

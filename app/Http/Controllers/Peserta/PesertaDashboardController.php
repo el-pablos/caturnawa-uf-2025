@@ -24,30 +24,55 @@ class PesertaDashboardController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        
-        // Statistik utama
-        $stats = $this->getParticipantStatistics($user);
-        
-        // Registrasi peserta
-        $registrations = $this->getUserRegistrations($user);
-        
-        // Kompetisi yang tersedia
-        $availableCompetitions = $this->getAvailableCompetitions($user);
-        
-        // Submission status
-        $submissions = $this->getUserSubmissions($user);
-        
-        // Upcoming deadlines
-        $upcomingDeadlines = $this->getUpcomingDeadlines($user);
-        
-        return view('peserta.dashboard', compact(
-            'stats',
-            'registrations',
-            'availableCompetitions',
-            'submissions',
-            'upcomingDeadlines'
-        ));
+        try {
+            $user = Auth::user();
+
+            // Statistik utama
+            $stats = $this->getParticipantStatistics($user);
+
+            // Registrasi peserta
+            $registrations = $this->getUserRegistrations($user);
+
+            // Kompetisi yang tersedia
+            $availableCompetitions = $this->getAvailableCompetitions($user);
+
+            // Submission status
+            $submissions = $this->getUserSubmissions($user);
+
+            // Upcoming deadlines
+            $upcomingDeadlines = $this->getUpcomingDeadlines($user);
+
+            return view('peserta.dashboard', compact(
+                'stats',
+                'registrations',
+                'availableCompetitions',
+                'submissions',
+                'upcomingDeadlines'
+            ));
+        } catch (\Exception $e) {
+            \Log::error('Error in PesertaDashboardController@index: ' . $e->getMessage(), [
+                'user_id' => Auth::id(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            // Return dashboard with empty data
+            return view('peserta.dashboard', [
+                'stats' => [
+                    'total_registrations' => 0,
+                    'confirmed_registrations' => 0,
+                    'pending_registrations' => 0,
+                    'total_paid' => 0,
+                    'total_submissions' => 0,
+                    'final_submissions' => 0,
+                ],
+                'registrations' => collect(),
+                'availableCompetitions' => collect(),
+                'submissions' => collect(),
+                'upcomingDeadlines' => []
+            ])->with('error', 'Terjadi kesalahan saat memuat dashboard. Silakan refresh halaman.');
+        }
     }
 
     /**
@@ -58,20 +83,33 @@ class PesertaDashboardController extends Controller
      */
     protected function getParticipantStatistics($user)
     {
-        $registrations = Registration::where('user_id', $user->id)->get();
-        
-        return [
-            'total_registrations' => $registrations->count(),
-            'confirmed_registrations' => $registrations->where('status', 'confirmed')->count(),
-            'pending_registrations' => $registrations->where('status', 'pending')->count(),
-            'total_paid' => $registrations->where('status', 'confirmed')->sum('amount'),
-            'total_submissions' => Submission::whereHas('registration', function($query) use ($user) {
-                $query->where('user_id', $user->id);
-            })->count(),
-            'final_submissions' => Submission::whereHas('registration', function($query) use ($user) {
-                $query->where('user_id', $user->id);
-            })->where('is_final', true)->count(),
-        ];
+        try {
+            $registrations = Registration::where('user_id', $user->id)->get();
+            
+            return [
+                'total_registrations' => $registrations->count(),
+                'confirmed_registrations' => $registrations->where('status', 'confirmed')->count(),
+                'pending_registrations' => $registrations->whereIn('status', ['pending', 'paid'])->count(),
+                'total_paid' => $registrations->whereIn('status', ['confirmed', 'paid'])->sum('amount'),
+                'total_submissions' => Submission::whereHas('registration', function($query) use ($user) {
+                    $query->where('user_id', $user->id);
+                })->count(),
+                'final_submissions' => Submission::whereHas('registration', function($query) use ($user) {
+                    $query->where('user_id', $user->id);
+                })->where('status', 'submitted')->count(),
+            ];
+        } catch (\Exception $e) {
+            \Log::error('Error getting participant statistics: ' . $e->getMessage());
+            
+            return [
+                'total_registrations' => 0,
+                'confirmed_registrations' => 0,
+                'pending_registrations' => 0,
+                'total_paid' => 0,
+                'total_submissions' => 0,
+                'final_submissions' => 0,
+            ];
+        }
     }
 
     /**
@@ -139,7 +177,7 @@ class PesertaDashboardController extends Controller
         // Registration deadlines
         $registrations = Registration::with('competition')
             ->where('user_id', $user->id)
-            ->where('status', 'pending')
+            ->whereIn('status', ['pending', 'paid'])
             ->get();
             
         foreach ($registrations as $registration) {
@@ -161,18 +199,19 @@ class PesertaDashboardController extends Controller
             ->get();
             
         foreach ($confirmedRegistrations as $registration) {
-            if ($registration->competition->submission_deadline && 
+            if ($registration->competition->submission_deadline &&
                 $registration->competition->submission_deadline > now()) {
-                
-                $hasSubmission = Submission::where('registration_id', $registration->id)->exists();
-                
+
+                $submission = Submission::where('registration_id', $registration->id)->first();
+                $hasSubmission = !is_null($submission);
+
                 $deadlines[] = [
                     'type' => 'submission',
                     'title' => 'Batas Submit Karya - ' . $registration->competition->name,
                     'deadline' => $registration->competition->submission_deadline,
                     'status' => $hasSubmission ? 'info' : 'danger',
-                    'action_url' => $hasSubmission 
-                        ? route('peserta.submissions.show', $registration->submission)
+                    'action_url' => $hasSubmission
+                        ? route('peserta.submissions.show', $submission)
                         : route('peserta.submissions.create', $registration),
                 ];
             }

@@ -16,7 +16,7 @@
 <!-- Statistics Cards - Modern White Design -->
 <div class="row mb-4">
     <!-- Competitions Card -->
-    <div class="col-lg-3 col-md-6 mb-3">
+    <div class="col-lg-3 col-md-6 mb-3" data-aos="fade-up" data-aos-delay="100">
         <div class="card h-100 shadow-sm border-0">
             <div class="card-body">
                 <div class="d-flex align-items-center">
@@ -44,7 +44,7 @@
     </div>
 
     <!-- Users Card -->
-    <div class="col-lg-3 col-md-6 mb-3">
+    <div class="col-lg-3 col-md-6 mb-3" data-aos="fade-up" data-aos-delay="200">
         <div class="card h-100 shadow-sm border-0">
             <div class="card-body">
                 <div class="d-flex align-items-center">
@@ -56,7 +56,7 @@
                     </div>
                     <div class="flex-grow-1 ms-3">
                         <div class="text-muted small">Total Users</div>
-                        <div class="fs-2 fw-bold text-dark">{{ number_format(\App\Models\User::count()) }}</div>
+                        <div class="fs-2 fw-bold text-dark">{{ number_format($stats['total_users'] ?? 0) }}</div>
                         <div class="text-success small">
                             <i class="bi bi-person-check"></i> Terdaftar
                         </div>
@@ -72,7 +72,7 @@
     </div>
 
     <!-- Registrations Card -->
-    <div class="col-lg-3 col-md-6 mb-3">
+    <div class="col-lg-3 col-md-6 mb-3" data-aos="fade-up" data-aos-delay="300">
         <div class="card h-100 shadow-sm border-0">
             <div class="card-body">
                 <div class="d-flex align-items-center">
@@ -84,9 +84,9 @@
                     </div>
                     <div class="flex-grow-1 ms-3">
                         <div class="text-muted small">Pendaftaran</div>
-                        <div class="fs-2 fw-bold text-dark">{{ number_format(\App\Models\Registration::count()) }}</div>
+                        <div class="fs-2 fw-bold text-dark">{{ number_format($stats['total_registrations'] ?? 0) }}</div>
                         <div class="text-warning small">
-                            <i class="bi bi-clock"></i> {{ \App\Models\Registration::where('status', 'pending')->count() }} pending
+                            <i class="bi bi-check-circle"></i> {{ $stats['confirmed_registrations'] ?? 0 }} confirmed
                         </div>
                     </div>
                 </div>
@@ -100,7 +100,7 @@
     </div>
 
     <!-- Revenue Card -->
-    <div class="col-lg-3 col-md-6 mb-3">
+    <div class="col-lg-3 col-md-6 mb-3" data-aos="fade-up" data-aos-delay="400">
         <div class="card h-100 shadow-sm border-0">
             <div class="card-body">
                 <div class="d-flex align-items-center">
@@ -131,7 +131,7 @@
 <!-- Additional Statistics Row -->
 <div class="row mb-4">
     <!-- Submissions Card -->
-    <div class="col-lg-3 col-md-6 mb-3">
+    <div class="col-lg-3 col-md-6 mb-3" data-aos="fade-up" data-aos-delay="100">
         <div class="card h-100 shadow-sm border-0">
             <div class="card-body">
                 <div class="d-flex align-items-center">
@@ -159,7 +159,7 @@
     </div>
 
     <!-- System Health Card -->
-    <div class="col-lg-3 col-md-6 mb-3">
+    <div class="col-lg-3 col-md-6 mb-3" data-aos="fade-up" data-aos-delay="200">
         <div class="card h-100 shadow-sm border-0">
             <div class="card-body">
                 <div class="d-flex align-items-center">
@@ -187,7 +187,7 @@
     </div>
 
     <!-- Quick Actions Card -->
-    <div class="col-lg-6 col-md-12 mb-3">
+    <div class="col-lg-6 col-md-12 mb-3" data-aos="fade-up" data-aos-delay="300">
         <div class="card h-100 shadow-sm border-0">
             <div class="card-header bg-transparent border-0">
                 <h6 class="mb-0">
@@ -225,7 +225,7 @@
 <!-- Charts Section -->
 <div class="row mb-4">
     <!-- Registration Trend Chart -->
-    <div class="col-lg-8 mb-3">
+    <div class="col-lg-8 mb-3" data-aos="fade-right">
         <div class="card h-100 shadow-sm border-0">
             <div class="card-header bg-white border-bottom">
                 <div class="d-flex justify-content-between align-items-center">
@@ -248,7 +248,7 @@
     </div>
 
     <!-- User Distribution Chart -->
-    <div class="col-lg-4 mb-3">
+    <div class="col-lg-4 mb-3" data-aos="fade-left">
         <div class="card h-100 shadow-sm border-0">
             <div class="card-header bg-white border-bottom">
                 <h6 class="mb-0 text-dark fw-semibold">
@@ -269,7 +269,7 @@
 
 
     <!-- Active Competitions -->
-    <div class="col-lg-6 mb-3">
+    <div class="col-lg-6 mb-3" data-aos="zoom-in" data-aos-delay="100">
         <div class="card h-100 shadow-sm border-0">
             <div class="card-header bg-white border-bottom">
                 <div class="d-flex justify-content-between align-items-center">
@@ -292,7 +292,7 @@
     </div>
 
     <!-- Recent Payments -->
-    <div class="col-lg-6 mb-3">
+    <div class="col-lg-6 mb-3" data-aos="zoom-in" data-aos-delay="200">
         <div class="card h-100 shadow-sm border-0">
             <div class="card-header bg-white border-bottom">
                 <div class="d-flex justify-content-between align-items-center">

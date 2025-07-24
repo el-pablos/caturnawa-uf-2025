@@ -123,7 +123,7 @@
                                             <td>
                                                 @if($file['url'])
                                                     <a href="{{ $file['url'] }}" class="btn btn-sm btn-outline-primary">
-                                                        <i class="fas fa-download"></i> Download
+                                                        <i class="bi bi-download"></i> Download
                                                     </a>
                                                 @else
                                                     <span class="text-muted">Tidak tersedia</span>
@@ -146,17 +146,14 @@
                     <h5 class="card-title">Aksi</h5>
                     <div class="d-grid gap-2">
                         @if($submission->status !== 'approved')
-                            <form action="{{ route('admin.submissions.approve', $submission) }}" method="POST" class="d-inline">
-                                @csrf
-                                <button type="submit" class="btn btn-success w-100" onclick="return confirm('Yakin ingin menyetujui submission ini?')">
-                                    <i class="fas fa-check"></i> Setujui
-                                </button>
-                            </form>
+                            <button type="button" class="btn btn-success w-100" onclick="approveSubmission({{ $submission->id }})">
+                                <i class="bi bi-check-circle"></i> Setujui
+                            </button>
                         @endif
 
                         @if($submission->status !== 'rejected')
                             <button type="button" class="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#rejectModal">
-                                <i class="fas fa-times"></i> Tolak
+                                <i class="bi bi-x-circle"></i> Tolak
                             </button>
                         @endif
 
@@ -237,3 +234,31 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+function approveSubmission(submissionId) {
+    if (confirm('Apakah Anda yakin ingin menyetujui submission ini?')) {
+        fetch(`/admin/submissions/${submissionId}/approve`, {
+            method: 'PATCH',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan saat menyetujui submission');
+        });
+    }
+}
+</script>
+@endpush
