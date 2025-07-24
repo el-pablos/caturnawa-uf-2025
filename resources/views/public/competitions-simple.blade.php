@@ -75,7 +75,7 @@
                              data-aos-duration="500">
                             <small class="text-success">
                                 <i class="bi bi-currency-dollar"></i>
-                                Hadiah: Rp {{ number_format($competition->prize_pool ?? 0, 0, ',', '.') }}
+                                Hadiah: Rp {{ number_format($competition->prize_amount ?? 0, 0, ',', '.') }}
                             </small>
                         </div>
                         <div class="mb-2"
