@@ -123,7 +123,7 @@
                                             <td>
                                                 @if($file['url'])
                                                     <a href="{{ $file['url'] }}" class="btn btn-sm btn-outline-primary">
-                                                        <i class="fas fa-download"></i> Download
+                                                        <i class="bi bi-download"></i> Download
                                                     </a>
                                                 @else
                                                     <span class="text-muted">Tidak tersedia</span>
@@ -147,13 +147,13 @@
                     <div class="d-grid gap-2">
                         @if($submission->status !== 'approved')
                             <button type="button" class="btn btn-success w-100" onclick="approveSubmission({{ $submission->id }})">
-                                <i class="fas fa-check"></i> Setujui
+                                <i class="bi bi-check-circle"></i> Setujui
                             </button>
                         @endif
 
                         @if($submission->status !== 'rejected')
                             <button type="button" class="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#rejectModal">
-                                <i class="fas fa-times"></i> Tolak
+                                <i class="bi bi-x-circle"></i> Tolak
                             </button>
                         @endif
 

@@ -76,10 +76,10 @@
 
                         <div class="d-flex justify-content-between">
                             <a href="{{ route('admin.competitions.descriptions.index', $competition) }}" class="btn btn-secondary">
-                                <i class="fas fa-times me-2"></i>Batal
+                                <i class="bi bi-x-circle me-2"></i>Batal
                             </a>
                             <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save me-2"></i>Simpan
+                                <i class="bi bi-floppy me-2"></i>Simpan
                             </button>
                         </div>
                     </form>
