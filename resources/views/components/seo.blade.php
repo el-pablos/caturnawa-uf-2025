@@ -64,7 +64,7 @@
 {{-- Additional Meta Tags for Better SEO --}}
 <meta name="theme-color" content="#1e40af">
 <meta name="msapplication-TileColor" content="#1e40af">
-<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="{{ $siteName }}">
 
@@ -216,7 +216,6 @@
 {{-- Additional Performance Hints --}}
 <meta http-equiv="Accept-CH" content="DPR, Viewport-Width, Width">
 <meta name="format-detection" content="telephone=no">
-<meta name="mobile-web-app-capable" content="yes">
 
 {{-- Geo Location (if applicable) --}}
 <meta name="geo.region" content="ID-JK">

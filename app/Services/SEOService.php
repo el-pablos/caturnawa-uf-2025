@@ -184,7 +184,7 @@ class SEOService
         
         // Additional Social Media tags
         $html .= '<meta property="fb:app_id" content="1234567890">' . "\n"; // Replace with actual Facebook App ID
-        $html .= '<meta name="apple-mobile-web-app-capable" content="yes">' . "\n";
+        $html .= '<meta name="mobile-web-app-capable" content="yes">' . "\n";
         $html .= '<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">' . "\n";
         $html .= '<meta name="apple-mobile-web-app-title" content="UNAS Fest 2025">' . "\n";
         
