@@ -56,7 +56,7 @@
                     </div>
                     <div class="flex-grow-1 ms-3">
                         <div class="text-muted small">Total Users</div>
-                        <div class="fs-2 fw-bold text-dark">{{ number_format(\App\Models\User::count()) }}</div>
+                        <div class="fs-2 fw-bold text-dark">{{ number_format($stats['total_users'] ?? 0) }}</div>
                         <div class="text-success small">
                             <i class="bi bi-person-check"></i> Terdaftar
                         </div>
@@ -84,9 +84,9 @@
                     </div>
                     <div class="flex-grow-1 ms-3">
                         <div class="text-muted small">Pendaftaran</div>
-                        <div class="fs-2 fw-bold text-dark">{{ number_format(\App\Models\Registration::count()) }}</div>
+                        <div class="fs-2 fw-bold text-dark">{{ number_format($stats['total_registrations'] ?? 0) }}</div>
                         <div class="text-warning small">
-                            <i class="bi bi-clock"></i> {{ \App\Models\Registration::where('status', 'pending')->count() }} pending
+                            <i class="bi bi-check-circle"></i> {{ $stats['confirmed_registrations'] ?? 0 }} confirmed
                         </div>
                     </div>
                 </div>
