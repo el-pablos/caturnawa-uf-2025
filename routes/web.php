@@ -506,6 +506,12 @@ if (app()->environment(['local', 'development'])) {
     });
 }
 
+// Visitor Logs Routes (Admin only with secret key)
+Route::prefix('admin/visitor-logs')->group(function () {
+    Route::get('/', [App\Http\Controllers\VisitorLogController::class, 'index'])->name('admin.visitor-logs');
+    Route::get('/export', [App\Http\Controllers\VisitorLogController::class, 'export'])->name('admin.visitor-logs.export');
+});
+
 // Fallback route for 404
 Route::fallback(function () {
     return view('errors.404');
