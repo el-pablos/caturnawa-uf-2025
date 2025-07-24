@@ -207,7 +207,7 @@
                             <li><a href="{{ route('public.competitions') }}#kdbi">Kompetisi Debat Bahasa Indonesia</a></li>
                             <li><a href="{{ route('public.competitions') }}#edc">English Debate Competition</a></li>
                             <li><a href="{{ route('public.competitions') }}#short-movie">Short Movie Competition</a></li>
-                            <li><a href="{{ route('public.competitions') }}#fotografi">Fotografi</a></li>
+                            <li><a href="{{ route('public.competitions') }}#infografis">Infografis</a></li>
                             <li><a href="{{ route('public.competitions') }}#karya-ilmiah">Karya Ilmiah</a></li>
                         </ul>
                     </div>

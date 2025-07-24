@@ -21,7 +21,7 @@ class CompetitionRequirementsSeeder extends Seeder
         $kdbiCompetition = Competition::where('slug', 'kdbi-2025')->first();
         $edcCompetition = Competition::where('slug', 'edc-2025')->first();
         $shortMovieCompetition = Competition::where('slug', 'short-movie-2025')->first();
-        $fotografiCompetition = Competition::where('slug', 'fotografi-2025')->first();
+        $infografisCompetition = Competition::where('slug', 'infografis-2025')->first();
         $lktiCompetition = Competition::where('slug', 'karya-ilmiah-2025')->first();
 
         // KDBI Requirements
@@ -42,10 +42,10 @@ class CompetitionRequirementsSeeder extends Seeder
             $this->seedDCCCriteria($shortMovieCompetition);
         }
 
-        // Fotografi Requirements
-        if ($fotografiCompetition) {
-            $this->seedFotografiRequirements($fotografiCompetition);
-            $this->seedFotografiCriteria($fotografiCompetition);
+        // Infografis Requirements
+        if ($infografisCompetition) {
+            $this->seedInfografisRequirements($infografisCompetition);
+            $this->seedInfografisCriteria($infografisCompetition);
         }
 
         // LKTI Requirements
@@ -232,30 +232,30 @@ class CompetitionRequirementsSeeder extends Seeder
         }
     }
 
-    private function seedFotografiRequirements($competition)
+    private function seedInfografisRequirements($competition)
     {
         $requirements = [
             [
-                'field_name' => 'photography_category',
+                'field_name' => 'infographic_category',
                 'field_type' => 'select',
-                'field_label' => 'Kategori Fotografi',
-                'help_text' => 'Pilih kategori fotografi yang akan diikuti',
+                'field_label' => 'Kategori Infografis',
+                'help_text' => 'Pilih kategori infografis yang akan diikuti',
                 'is_required' => true,
                 'field_options' => json_encode([
-                    'nature' => 'Alam dan Landscape',
-                    'portrait' => 'Portrait dan Human Interest',
-                    'street' => 'Street Photography',
-                    'culture' => 'Budaya dan Tradisi',
-                    'architecture' => 'Arsitektur dan Urban'
+                    'educational' => 'Edukasi dan Pembelajaran',
+                    'health' => 'Kesehatan dan Gaya Hidup',
+                    'environment' => 'Lingkungan dan Alam',
+                    'technology' => 'Teknologi dan Inovasi',
+                    'culture' => 'Budaya dan Tradisi'
                 ]),
                 'field_group' => 'basic',
                 'order_index' => 1
             ],
             [
-                'field_name' => 'camera_equipment',
+                'field_name' => 'design_software',
                 'field_type' => 'text',
-                'field_label' => 'Peralatan Kamera',
-                'help_text' => 'Sebutkan kamera dan lensa yang akan digunakan',
+                'field_label' => 'Software Desain',
+                'help_text' => 'Sebutkan software desain yang akan digunakan (Adobe Illustrator, Canva, dll)',
                 'is_required' => true,
                 'validation_rules' => json_encode([
                     'max_length' => 200
@@ -264,10 +264,10 @@ class CompetitionRequirementsSeeder extends Seeder
                 'order_index' => 2
             ],
             [
-                'field_name' => 'photography_experience',
+                'field_name' => 'design_experience',
                 'field_type' => 'textarea',
-                'field_label' => 'Pengalaman Fotografi',
-                'help_text' => 'Ceritakan pengalaman fotografi Anda (kompetisi, pameran, dll)',
+                'field_label' => 'Pengalaman Desain',
+                'help_text' => 'Ceritakan pengalaman desain grafis/infografis Anda (kompetisi, proyek, dll)',
                 'is_required' => true,
                 'validation_rules' => json_encode([
                     'max_length' => 1000
@@ -313,7 +313,7 @@ class CompetitionRequirementsSeeder extends Seeder
                 'field_options' => json_encode([
                     'video' => 'Video/Film Pendek',
                     'animation' => 'Animasi',
-                    'photography' => 'Fotografi Digital',
+                    'infographic' => 'Infografis Digital',
                     'design' => 'Desain Grafis'
                 ]),
                 'field_group' => 'content',
@@ -490,29 +490,29 @@ class CompetitionRequirementsSeeder extends Seeder
         }
     }
 
-    private function seedFotografiCriteria($competition)
+    private function seedInfografisCriteria($competition)
     {
         $criteria = [
             [
-                'criteria_name' => 'Komposisi dan Teknik',
-                'description' => 'Kualitas komposisi dan teknik fotografi',
+                'criteria_name' => 'Desain dan Layout',
+                'description' => 'Kualitas desain visual dan tata letak infografis',
                 'weight_percentage' => 35,
                 'sub_criteria' => json_encode([
-                    'composition' => 'Komposisi',
-                    'lighting' => 'Pencahayaan',
-                    'focus_sharpness' => 'Ketajaman Fokus'
+                    'visual_design' => 'Desain Visual',
+                    'layout' => 'Tata Letak',
+                    'color_harmony' => 'Harmoni Warna'
                 ]),
                 'max_score' => 100,
                 'order_index' => 1
             ],
             [
                 'criteria_name' => 'Kreativitas dan Originalitas',
-                'description' => 'Tingkat kreativitas dan keunikan karya',
+                'description' => 'Tingkat kreativitas dan keunikan karya infografis',
                 'weight_percentage' => 30,
                 'sub_criteria' => json_encode([
                     'creativity' => 'Kreativitas',
                     'originality' => 'Originalitas',
-                    'artistic_vision' => 'Visi Artistik'
+                    'innovation' => 'Inovasi Desain'
                 ]),
                 'max_score' => 100,
                 'order_index' => 2
@@ -524,19 +524,19 @@ class CompetitionRequirementsSeeder extends Seeder
                 'sub_criteria' => json_encode([
                     'theme_relevance' => 'Relevansi Tema',
                     'message_delivery' => 'Penyampaian Pesan',
-                    'cultural_value' => 'Nilai Budaya'
+                    'information_accuracy' => 'Akurasi Informasi'
                 ]),
                 'max_score' => 100,
                 'order_index' => 3
             ],
             [
-                'criteria_name' => 'Impact dan Emosi',
-                'description' => 'Dampak visual dan emosional foto',
+                'criteria_name' => 'Komunikasi Visual',
+                'description' => 'Efektivitas komunikasi visual dan informasi',
                 'weight_percentage' => 10,
                 'sub_criteria' => json_encode([
-                    'visual_impact' => 'Dampak Visual',
-                    'emotional_connection' => 'Koneksi Emosional',
-                    'storytelling' => 'Bercerita'
+                    'visual_clarity' => 'Kejelasan Visual',
+                    'information_flow' => 'Alur Informasi',
+                    'readability' => 'Keterbacaan'
                 ]),
                 'max_score' => 100,
                 'order_index' => 4

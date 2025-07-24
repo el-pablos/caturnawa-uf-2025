@@ -129,7 +129,7 @@ class Competition extends Model
     const CATEGORIES = [
         'debate_competition' => 'Debate Competition',
         'short_movie' => 'Short Movie Competition',
-        'fotografi' => 'Fotografi',
+        'infografis' => 'Infografis',
         'spc' => 'Scientific Paper Competition',
         'karya_ilmiah' => 'Karya Ilmiah',
     ];

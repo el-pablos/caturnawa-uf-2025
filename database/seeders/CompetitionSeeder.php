@@ -76,9 +76,9 @@ class CompetitionSeeder extends Seeder
                 ])
             ],
             [
-                'name' => 'Kompetisi Fotografi',
-                'slug' => 'fotografi-2025',
-                'description' => 'Kompetisi fotografi dengan tema alam dan budaya Indonesia.',
+                'name' => 'Kompetisi Infografis',
+                'slug' => 'infografis-2025',
+                'description' => 'Kompetisi infografis dengan tema alam dan budaya Indonesia.',
                 'category' => 'event_dcc',
                 'price' => 75000,
                 'early_bird_price' => 60000,
@@ -88,7 +88,7 @@ class CompetitionSeeder extends Seeder
                 'competition_start' => Carbon::now()->addDays(60),
                 'competition_end' => Carbon::now()->addDays(62),
                 'is_active' => true,
-                'rules' => 'Aturan kompetisi fotografi.',
+                'rules' => 'Aturan kompetisi infografis.',
                 'prizes' => json_encode([
                     'first' => 'Rp 3.000.000',
                     'second' => 'Rp 2.000.000',
