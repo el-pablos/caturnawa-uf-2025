@@ -112,13 +112,17 @@ class ReportController extends Controller
             $query->where('created_at', '<=', $request->date_to);
         }
 
+        // Get summary statistics before pagination
+        $summaryQuery = clone $query;
+        $allCompetitions = $summaryQuery->get();
+
         $competitions = $query->orderBy('created_at', 'desc')->paginate(20);
 
         // Summary statistics
         $summary = [
-            'total_competitions' => $query->count(),
-            'total_registrations' => $competitions->sum('registrations_count'),
-            'total_confirmed' => $competitions->sum('confirmed_registrations_count'),
+            'total_competitions' => $allCompetitions->count(),
+            'total_registrations' => $allCompetitions->sum('registrations_count'),
+            'total_confirmed' => $allCompetitions->sum('confirmed_registrations_count'),
         ];
 
         return view('admin.reports.competitions', compact('competitions', 'summary'));
