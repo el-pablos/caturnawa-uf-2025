@@ -72,7 +72,7 @@ class PaymentController extends Controller
 
         $payment = Payment::where('registration_id', $registration->id)->first();
 
-        return view('payment.checkout', compact('registration', 'payment'));
+        return view('payment.checkout-simple', compact('registration', 'payment'));
     }
 
     /**

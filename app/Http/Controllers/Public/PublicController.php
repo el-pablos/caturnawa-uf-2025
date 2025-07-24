@@ -100,7 +100,7 @@ class PublicController extends Controller
             'total_prizes' => Competition::active()->sum('prize_amount') ?: 500000000,
         ];
 
-        return view('public.competitions', compact('competitions', 'stats'));
+        return view('public.competitions-simple', compact('competitions', 'stats'));
     }
 
     /**
