@@ -54,15 +54,15 @@
                     <div class="card-body">
                         <h5 class="card-title"
                             data-aos="fade-up"
-                            data-aos-delay="{{ ($index * 150) + 300 }}"
+                            data-aos-delay="{{ ($loop->index * 150) + 300 }}"
                             data-aos-duration="600">{{ $competition->name }}</h5>
                         <p class="card-text"
                            data-aos="fade-up"
-                           data-aos-delay="{{ ($index * 150) + 400 }}"
+                           data-aos-delay="{{ ($loop->index * 150) + 400 }}"
                            data-aos-duration="600">{{ Str::limit($competition->description, 100) }}</p>
                         <div class="mb-2"
                              data-aos="fade-left"
-                             data-aos-delay="{{ ($index * 150) + 500 }}"
+                             data-aos-delay="{{ ($loop->index * 150) + 500 }}"
                              data-aos-duration="500">
                             <small class="text-muted">
                                 <i class="bi bi-calendar"></i>
@@ -71,7 +71,7 @@
                         </div>
                         <div class="mb-2"
                              data-aos="fade-left"
-                             data-aos-delay="{{ ($index * 150) + 600 }}"
+                             data-aos-delay="{{ ($loop->index * 150) + 600 }}"
                              data-aos-duration="500">
                             <small class="text-success">
                                 <i class="bi bi-currency-dollar"></i>
@@ -80,7 +80,7 @@
                         </div>
                         <div class="mb-2"
                              data-aos="fade-left"
-                             data-aos-delay="{{ ($index * 150) + 700 }}"
+                             data-aos-delay="{{ ($loop->index * 150) + 700 }}"
                              data-aos-duration="500">
                             <small class="text-info">
                                 <i class="bi bi-people"></i>
@@ -90,12 +90,12 @@
                     </div>
                     <div class="card-footer"
                          data-aos="fade-up"
-                         data-aos-delay="{{ ($index * 150) + 800 }}"
+                         data-aos-delay="{{ ($loop->index * 150) + 800 }}"
                          data-aos-duration="600">
                         <a href="{{ route('public.competition.detail', $competition->slug) }}"
                            class="btn btn-primary"
                            data-aos="zoom-in"
-                           data-aos-delay="{{ ($index * 150) + 900 }}"
+                           data-aos-delay="{{ ($loop->index * 150) + 900 }}"
                            data-aos-duration="400">
                             <i class="bi bi-eye"></i> Lihat Detail
                         </a>
@@ -103,7 +103,7 @@
                             <a href="{{ route('register') }}"
                                class="btn btn-success ms-2"
                                data-aos="zoom-in"
-                               data-aos-delay="{{ ($index * 150) + 1000 }}"
+                               data-aos-delay="{{ ($loop->index * 150) + 1000 }}"
                                data-aos-duration="400">
                                 <i class="bi bi-person-plus"></i> Daftar
                             </a>
