@@ -44,34 +44,38 @@
                 <!-- Statistics Cards -->
                 <div class="row mb-4">
                     <div class="col-md-3">
-                        <div class="card bg-primary text-white">
+                        <div class="card border-primary">
                             <div class="card-body text-center">
-                                <h4 class="mb-0">{{ $totalSubmissions }}</h4>
-                                <small>Total Karya</small>
+                                <i class="bi bi-file-earmark-text fs-2 text-primary mb-2"></i>
+                                <h4 class="mb-0 text-primary">{{ $totalSubmissions }}</h4>
+                                <small class="text-dark fw-bold">Total Karya</small>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="card bg-warning text-white">
+                        <div class="card border-warning">
                             <div class="card-body text-center">
-                                <h4 class="mb-0">{{ $pendingSubmissions }}</h4>
-                                <small>Belum Dinilai</small>
+                                <i class="bi bi-clock fs-2 text-warning mb-2"></i>
+                                <h4 class="mb-0 text-warning">{{ $pendingSubmissions }}</h4>
+                                <small class="text-dark fw-bold">Belum Dinilai</small>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="card bg-success text-white">
+                        <div class="card border-success">
                             <div class="card-body text-center">
-                                <h4 class="mb-0">{{ $scoredSubmissions }}</h4>
-                                <small>Sudah Dinilai</small>
+                                <i class="bi bi-check-circle fs-2 text-success mb-2"></i>
+                                <h4 class="mb-0 text-success">{{ $scoredSubmissions }}</h4>
+                                <small class="text-dark fw-bold">Sudah Dinilai</small>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="card bg-info text-white">
+                        <div class="card border-info">
                             <div class="card-body text-center">
-                                <h4 class="mb-0">{{ number_format($averageScore, 1) }}</h4>
-                                <small>Rata-rata Nilai</small>
+                                <i class="bi bi-star fs-2 text-info mb-2"></i>
+                                <h4 class="mb-0 text-info">{{ number_format($averageScore, 1) }}</h4>
+                                <small class="text-dark fw-bold">Rata-rata Nilai</small>
                             </div>
                         </div>
                     </div>

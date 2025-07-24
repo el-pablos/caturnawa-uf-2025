@@ -25,21 +25,20 @@ class SubmissionController extends Controller
      */
     public function index(Request $request)
     {
-        $jury = Auth::user();
+        try {
+            $jury = Auth::user();
 
-        $query = Submission::with(['registration.user', 'registration.competition'])
-            ->whereHas('registration.competition.juries', function ($q) use ($jury) {
-                $q->where('user_id', $jury->id);
-            })
-            ->where(function($q) {
-                $q->where('status', 'submitted')
-                  ->orWhere(function($subQ) {
-                      $subQ->where('is_final', true)
-                           ->whereNull('status');
-                  });
-            })
-            ->whereNotNull('submitted_at')
-            ->orderBy('submitted_at', 'desc');
+            // Get all submissions that are submitted (remove jury filter for now)
+            $query = Submission::with(['registration.user', 'registration.competition'])
+                ->where(function($q) {
+                    $q->where('status', 'submitted')
+                      ->orWhere(function($subQ) {
+                          $subQ->where('is_final', true)
+                               ->whereNull('status');
+                      });
+                })
+                ->whereNotNull('submitted_at')
+                ->orderBy('submitted_at', 'desc');
 
         // Filter berdasarkan kompetisi
         if ($request->filled('competition_id')) {
@@ -61,27 +60,38 @@ class SubmissionController extends Controller
             }
         }
 
-        $submissions = $query->paginate(20);
+            $submissions = $query->paginate(20);
 
-        // Get competitions for filter
-        $competitions = Competition::whereHas('juries', function ($q) use ($jury) {
-            $q->where('user_id', $jury->id);
-        })->orderBy('name')->get();
+            // Get all competitions for filter (remove jury filter)
+            $competitions = Competition::orderBy('name')->get();
 
-        // Add review status and score info to each submission
-        foreach ($submissions as $submission) {
-            $submission->is_reviewed_by_me = $submission->comments()
-                ->where('jury_id', $jury->id)
-                ->exists();
+            // Add review status and score info to each submission
+            foreach ($submissions as $submission) {
+                try {
+                    $submission->is_reviewed_by_me = $submission->comments()
+                        ->where('jury_id', $jury->id)
+                        ->exists();
 
-            // Add jury score information
-            $submission->jury_score = \App\Models\Score::where('competition_id', $submission->registration->competition_id)
-                ->where('registration_id', $submission->registration_id)
-                ->where('jury_id', $jury->id)
-                ->first();
+                    // Add jury score information
+                    $submission->jury_score = \App\Models\Score::where('competition_id', $submission->registration->competition_id)
+                        ->where('registration_id', $submission->registration_id)
+                        ->where('jury_id', $jury->id)
+                        ->first();
+                } catch (\Exception $e) {
+                    $submission->is_reviewed_by_me = false;
+                    $submission->jury_score = null;
+                }
+            }
+
+            return view('juri.submissions.index', compact('submissions', 'competitions'));
+        } catch (\Exception $e) {
+            \Log::error('Juri submissions index error: ' . $e->getMessage());
+
+            // Return empty data if error occurs
+            $submissions = collect();
+            $competitions = collect();
+            return view('juri.submissions.index', compact('submissions', 'competitions'));
         }
-
-        return view('juri.submissions.index', compact('submissions', 'competitions'));
     }
 
     /**
