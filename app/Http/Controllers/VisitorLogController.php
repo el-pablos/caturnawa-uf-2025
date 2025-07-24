@@ -134,68 +134,98 @@ class VisitorLogController extends Controller
     private function parseLogEntry($entry)
     {
         $log = [];
-        
+
         // Extract basic info
         if (preg_match('/Timestamp: (.+)/', $entry, $matches)) {
             $log['timestamp'] = trim($matches[1]);
         }
-        
-        if (preg_match('/Real IP: (.+)/', $entry, $matches)) {
+
+        if (preg_match('/Real IP: (.+?) \((.+?)\)/', $entry, $matches)) {
             $log['real_ip'] = trim($matches[1]);
+            $log['ip_type'] = trim($matches[2]);
+        } elseif (preg_match('/Real IP: (.+)/', $entry, $matches)) {
+            $log['real_ip'] = trim($matches[1]);
+            $log['ip_type'] = 'unknown';
         }
-        
+
+        // Extract IP version info
+        if (preg_match('/IP Version: (.+)/', $entry, $matches)) {
+            $log['ip_version'] = trim($matches[1]);
+        }
+
+        if (preg_match('/Is Public IP: (.+)/', $entry, $matches)) {
+            $log['is_public_ip'] = trim($matches[1]) === 'Yes';
+        }
+
+        // Extract all IPs
+        $log['all_ips'] = [];
+        if (preg_match('/--- ALL IP ADDRESSES DETECTED ---\n(.*?)\n--- HTTP HEADERS ---/s', $entry, $matches)) {
+            $ipSection = trim($matches[1]);
+            $ipLines = explode("\n", $ipSection);
+            foreach ($ipLines as $line) {
+                if (preg_match('/\s*(.+?): (.+?) \((.+?), (.+?)\)/', $line, $ipMatches)) {
+                    $log['all_ips'][] = [
+                        'source' => trim($ipMatches[1]),
+                        'ip' => trim($ipMatches[2]),
+                        'type' => trim($ipMatches[3]),
+                        'status' => trim($ipMatches[4])
+                    ];
+                }
+            }
+        }
+
         if (preg_match('/URL: (.+)/', $entry, $matches)) {
             $log['url'] = trim($matches[1]);
         }
-        
+
         if (preg_match('/Method: (.+)/', $entry, $matches)) {
             $log['method'] = trim($matches[1]);
         }
-        
+
         if (preg_match('/Referer: (.+)/', $entry, $matches)) {
             $log['referer'] = trim($matches[1]);
         }
-        
+
         if (preg_match('/User Agent: (.+)/', $entry, $matches)) {
             $log['user_agent'] = trim($matches[1]);
         }
-        
+
         // Extract geo info
         if (preg_match('/Country: (.+)/', $entry, $matches)) {
             $log['country'] = trim($matches[1]);
         }
-        
+
         if (preg_match('/City: (.+)/', $entry, $matches)) {
             $log['city'] = trim($matches[1]);
         }
-        
+
         if (preg_match('/ISP: (.+)/', $entry, $matches)) {
             $log['isp'] = trim($matches[1]);
         }
-        
+
         // Extract device info
         if (preg_match('/Browser: (.+)/', $entry, $matches)) {
             $log['browser'] = trim($matches[1]);
         }
-        
+
         if (preg_match('/Browser Version: (.+)/', $entry, $matches)) {
             $log['browser_version'] = trim($matches[1]);
         }
-        
+
         if (preg_match('/Platform: (.+)/', $entry, $matches)) {
             $log['platform'] = trim($matches[1]);
         }
-        
+
         if (preg_match('/Device Type: (.+)/', $entry, $matches)) {
             $log['device_type'] = trim($matches[1]);
         }
-        
+
         // Extract boolean flags
         $log['is_mobile'] = strpos($entry, 'Is Mobile: Yes') !== false;
         $log['is_tablet'] = strpos($entry, 'Is Tablet: Yes') !== false;
         $log['is_desktop'] = strpos($entry, 'Is Desktop: Yes') !== false;
         $log['is_bot'] = strpos($entry, 'Is Bot: Yes') !== false;
-        
+
         return empty($log) ? null : $log;
     }
 
@@ -238,9 +268,10 @@ class VisitorLogController extends Controller
 
         $csvData = [];
         $csvData[] = [
-            'Timestamp', 'Real IP', 'URL', 'Method', 'Referer', 'User Agent',
-            'Country', 'City', 'ISP', 'Browser', 'Browser Version', 'Platform',
-            'Device Type', 'Is Mobile', 'Is Tablet', 'Is Desktop', 'Is Bot'
+            'Timestamp', 'Real IP', 'IP Type', 'IP Version', 'Is Public IP', 'All IPs Count',
+            'URL', 'Method', 'Referer', 'User Agent', 'Country', 'City', 'ISP',
+            'Browser', 'Browser Version', 'Platform', 'Device Type',
+            'Is Mobile', 'Is Tablet', 'Is Desktop', 'Is Bot'
         ];
 
         foreach ($entries as $entry) {
@@ -249,6 +280,10 @@ class VisitorLogController extends Controller
                 $csvData[] = [
                     $log['timestamp'] ?? '',
                     $log['real_ip'] ?? '',
+                    $log['ip_type'] ?? '',
+                    $log['ip_version'] ?? '',
+                    isset($log['is_public_ip']) ? ($log['is_public_ip'] ? 'Yes' : 'No') : '',
+                    isset($log['all_ips']) ? count($log['all_ips']) : '0',
                     $log['url'] ?? '',
                     $log['method'] ?? '',
                     $log['referer'] ?? '',

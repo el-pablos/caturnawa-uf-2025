@@ -86,6 +86,69 @@
             height: 15px;
             margin-right: 5px;
         }
+
+        .ip-badge {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            padding: 4px 8px;
+            border-radius: 12px;
+            margin-right: 5px;
+        }
+
+        .ip-ipv4 {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+        }
+
+        .ip-ipv6 {
+            background: linear-gradient(45deg, #007bff, #6610f2);
+            color: white;
+        }
+
+        .ip-private {
+            background: linear-gradient(45deg, #ffc107, #fd7e14);
+            color: #212529;
+        }
+
+        .ip-details {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+
+        .ip-list {
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .ip-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 3px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .ip-item:last-child {
+            border-bottom: none;
+        }
+
+        .toggle-ip-details {
+            cursor: pointer;
+            color: #007bff;
+            text-decoration: underline;
+            font-size: 0.85em;
+        }
+
+        .toggle-ip-details:hover {
+            color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -249,14 +312,34 @@
                             <div class="row">
                                 <div class="col-md-8">
                                     <div class="d-flex align-items-center mb-2">
-                                        <strong class="text-primary me-3">{{ $log['real_ip'] ?? 'Unknown' }}</strong>
-                                        
+                                        <div class="me-3">
+                                            <strong class="text-primary">{{ $log['real_ip'] ?? 'Unknown' }}</strong>
+
+                                            @if(isset($log['ip_type']))
+                                                @if($log['ip_type'] === 'ipv4')
+                                                    <span class="ip-badge ip-ipv4">IPv4</span>
+                                                @elseif($log['ip_type'] === 'ipv6')
+                                                    <span class="ip-badge ip-ipv6">IPv6</span>
+                                                @endif
+                                            @endif
+
+                                            @if(isset($log['is_public_ip']) && !$log['is_public_ip'])
+                                                <span class="ip-badge ip-private">Private</span>
+                                            @endif
+
+                                            @if(isset($log['all_ips']) && count($log['all_ips']) > 1)
+                                                <span class="toggle-ip-details" onclick="toggleIpDetails(this)">
+                                                    +{{ count($log['all_ips']) - 1 }} more IPs
+                                                </span>
+                                            @endif
+                                        </div>
+
                                         @if(isset($log['country']) && $log['country'] !== 'unknown')
                                             <span class="badge bg-info badge-custom me-2">
                                                 <i class="bi bi-geo-alt"></i> {{ $log['country'] }}
                                             </span>
                                         @endif
-                                        
+
                                         @if(isset($log['device_type']))
                                             @if($log['device_type'] === 'mobile')
                                                 <span class="badge bg-success badge-custom me-2">
@@ -276,13 +359,42 @@
                                                 </span>
                                             @endif
                                         @endif
-                                        
+
                                         @if(isset($log['browser']) && $log['browser'] !== 'unknown')
                                             <span class="badge bg-secondary badge-custom me-2">
                                                 {{ $log['browser'] }}
                                             </span>
                                         @endif
                                     </div>
+
+                                    @if(isset($log['all_ips']) && count($log['all_ips']) > 1)
+                                        <div class="ip-details" style="display: none;">
+                                            <strong>All Detected IPs:</strong>
+                                            <div class="ip-list mt-2">
+                                                @foreach($log['all_ips'] as $ipInfo)
+                                                    <div class="ip-item">
+                                                        <span>
+                                                            <strong>{{ $ipInfo['source'] }}:</strong>
+                                                            <code>{{ $ipInfo['ip'] }}</code>
+                                                        </span>
+                                                        <span>
+                                                            @if($ipInfo['type'] === 'ipv4')
+                                                                <span class="ip-badge ip-ipv4">IPv4</span>
+                                                            @elseif($ipInfo['type'] === 'ipv6')
+                                                                <span class="ip-badge ip-ipv6">IPv6</span>
+                                                            @endif
+
+                                                            @if($ipInfo['status'] === 'Private')
+                                                                <span class="ip-badge ip-private">Private</span>
+                                                            @else
+                                                                <span class="badge bg-success badge-custom">Public</span>
+                                                            @endif
+                                                        </span>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endif
                                     
                                     <div class="mb-2">
                                         <strong>URL:</strong> 
@@ -360,6 +472,20 @@
                 }, 30000); // Refresh every 30 seconds
                 isAutoRefreshOn = true;
                 document.getElementById('refresh-status').textContent = 'ON';
+            }
+        }
+
+        // Toggle IP details
+        function toggleIpDetails(element) {
+            const logEntry = element.closest('.log-entry');
+            const ipDetails = logEntry.querySelector('.ip-details');
+
+            if (ipDetails.style.display === 'none') {
+                ipDetails.style.display = 'block';
+                element.textContent = element.textContent.replace('+', '-');
+            } else {
+                ipDetails.style.display = 'none';
+                element.textContent = element.textContent.replace('-', '+');
             }
         }
 
