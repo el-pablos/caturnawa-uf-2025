@@ -86,21 +86,22 @@ class PublicController extends Controller
      */
     public function competitions()
     {
-        // Get active competitions for the original beautiful view
+        // Get active competitions with pagination for the original beautiful view
         $competitions = Competition::active()
             ->with(['registrations' => function($query) {
                 $query->where('status', 'confirmed');
             }])
             ->orderBy('registration_start', 'asc')
-            ->get();
+            ->paginate(12);
 
-        // Get statistics for the stats section
+        // Get statistics for the stats section (from all competitions)
+        $allCompetitions = Competition::active()->get();
         $stats = [
-            'total_competitions' => $competitions->count(),
-            'total_participants' => $competitions->sum(function($comp) {
-                return $comp->registrations->count();
+            'total_competitions' => $allCompetitions->count(),
+            'total_participants' => $allCompetitions->sum(function($comp) {
+                return $comp->registrations()->where('status', 'confirmed')->count();
             }),
-            'total_prizes' => $competitions->sum('prize_amount') ?: 500000000,
+            'total_prizes' => $allCompetitions->sum('prize_amount') ?: 500000000,
         ];
 
         return view('public.competitions', compact('competitions', 'stats'));

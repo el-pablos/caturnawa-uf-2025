@@ -16,7 +16,7 @@ try {
         ->orderBy('registration_start', 'asc')
         ->get();
 
-    $competitions = $allCompetitions->groupBy('category');
+    $competitions = $allCompetitions;
 
     $stats = [
         'participants' => $allCompetitions->sum(function($comp) {
@@ -27,13 +27,13 @@ try {
     ];
 
     echo "Data prepared successfully:\n";
-    echo "- Competitions: " . $competitions->count() . " categories\n";
+    echo "- Competitions: " . $competitions->count() . " competitions\n";
     echo "- Stats: " . json_encode($stats) . "\n";
 
     // Try to render the view
     echo "\nTesting view rendering...\n";
-    
-    $view = view('public.competitions-simple', compact('competitions', 'stats'));
+
+    $view = view('public.competitions', compact('competitions', 'stats'));
     $rendered = $view->render();
     
     echo "View rendered successfully!\n";

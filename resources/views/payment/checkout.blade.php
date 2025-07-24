@@ -454,17 +454,32 @@ document.addEventListener('DOMContentLoaded', function() {
                     onSuccess: function(result) {
                         console.log('Payment success:', result);
                         alert('Pembayaran berhasil! Anda akan diarahkan ke halaman konfirmasi.');
-                        window.location.href = `{{ route('payment.finish', $registration) }}`;
+                        // Use payment ID from response, not registration ID
+                        if (data.payment_id) {
+                            window.location.href = `/payment/finish/${data.payment_id}`;
+                        } else {
+                            window.location.href = `{{ route('payment.finish', $registration) }}`;
+                        }
                     },
                     onPending: function(result) {
                         console.log('Payment pending:', result);
                         alert('Pembayaran sedang diproses. Anda akan diarahkan ke halaman status.');
-                        window.location.href = `{{ route('payment.status', $registration) }}`;
+                        // Use payment ID from response, not registration ID
+                        if (data.payment_id) {
+                            window.location.href = `/payment/status/${data.payment_id}`;
+                        } else {
+                            window.location.href = `{{ route('payment.status', $registration) }}`;
+                        }
                     },
                     onError: function(result) {
                         console.log('Payment error:', result);
                         alert('Terjadi kesalahan dalam pembayaran: ' + (result.status_message || 'Unknown error'));
-                        window.location.href = `{{ route('payment.error', $registration) }}`;
+                        // Use payment ID from response, not registration ID
+                        if (data.payment_id) {
+                            window.location.href = `/payment/error/${data.payment_id}`;
+                        } else {
+                            window.location.href = `{{ route('payment.error', $registration) }}`;
+                        }
                     },
                     onClose: function() {
                         console.log('Payment popup closed by user');
