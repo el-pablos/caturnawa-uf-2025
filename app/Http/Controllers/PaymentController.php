@@ -717,8 +717,8 @@ class PaymentController extends Controller
     {
         $registration = $payment->registration;
 
-        // Pastikan payment milik user yang sedang login
-        if ($registration->user_id !== Auth::id()) {
+        // Pastikan payment milik user yang sedang login atau user adalah admin/superadmin
+        if ($registration->user_id !== Auth::id() && !Auth::user()->hasRole(['superadmin', 'admin'])) {
             abort(403, 'Akses ditolak.');
         }
 
