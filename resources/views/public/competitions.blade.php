@@ -2,9 +2,51 @@
 
 @php
     $seoPage = 'competitions';
+    $seoData = [
+        'title' => 'Kompetisi UNAS Fest 2025 - Teknologi, Kesehatan & Biodiversitas',
+        'description' => 'Ikuti berbagai kompetisi menarik di UNAS Fest 2025: Digital Content Competition, English Debate, Scientific Paper, dan lainnya. Daftar sekarang dan raih prestasi gemilang!',
+        'keywords' => 'kompetisi teknologi, kompetisi kesehatan, kompetisi biodiversitas, lomba karya tulis, debat mahasiswa, digital content competition, scientific paper competition',
+        'canonical' => url()->current(),
+        'og_image' => asset('images/competitions-banner.jpg'),
+    ];
 @endphp
 
 @section('title', 'Kompetisi - UNAS Fest 2025')
+
+@push('head')
+<!-- Structured Data for SEO -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": "UNAS Fest 2025 - Festival Kompetisi Nasional",
+    "description": "Festival kompetisi nasional terbesar di Indonesia dengan berbagai kategori: teknologi, kesehatan, dan biodiversitas",
+    "startDate": "2025-01-01",
+    "endDate": "2025-04-30",
+    "eventStatus": "https://schema.org/EventScheduled",
+    "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
+    "location": {
+        "@type": "Place",
+        "name": "Universitas Nasional",
+        "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "ID"
+        }
+    },
+    "organizer": {
+        "@type": "Organization",
+        "name": "UNAS Fest 2025 Committee",
+        "url": "{{ url('/') }}"
+    },
+    "offers": {
+        "@type": "Offer",
+        "price": "75000",
+        "priceCurrency": "IDR",
+        "availability": "https://schema.org/InStock"
+    }
+}
+</script>
+@endpush
 
 @section('content')
 <style>
@@ -394,6 +436,189 @@
         font-size: 3rem;
     }
 }
+
+/* Performance optimizations */
+* {
+    box-sizing: border-box;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    loading: lazy;
+}
+
+/* Reduce animations on mobile for better performance */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Elegant CTA Section */
+.elegant-cta-section {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%);
+    border-radius: 25px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 25px 50px rgba(44, 62, 80, 0.3);
+    margin: 2rem 0;
+    transform: translateY(0);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.elegant-cta-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 35px 70px rgba(44, 62, 80, 0.4);
+}
+
+.cta-background-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.04) 0%, transparent 50%);
+    animation: float 6s ease-in-out infinite;
+}
+
+.cta-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+}
+
+.cta-icon-wrapper {
+    display: inline-block;
+    animation: bounce 2s infinite;
+}
+
+.cta-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    box-shadow: 0 10px 30px rgba(52, 152, 219, 0.4);
+    border: 3px solid rgba(255, 255, 255, 0.2);
+}
+
+.cta-icon i {
+    font-size: 2.5rem;
+    color: #ffffff;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.cta-title {
+    font-size: 2.8rem;
+    color: #ffffff;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    letter-spacing: -0.5px;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(45deg, #ffffff, #ecf0f1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.cta-subtitle {
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 400;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+}
+
+.cta-btn-primary {
+    background: linear-gradient(45deg, #e74c3c, #c0392b);
+    border: none;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 25px rgba(231, 76, 60, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.cta-btn-primary:hover::before {
+    left: 100%;
+}
+
+.cta-btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(231, 76, 60, 0.6);
+    background: linear-gradient(45deg, #e67e22, #d35400);
+}
+
+.cta-btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+}
+
+.cta-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-3px);
+    color: white;
+    box-shadow: 0 15px 35px rgba(255, 255, 255, 0.15);
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
+/* Responsive optimizations */
+@media (max-width: 768px) {
+    .cta-title {
+        font-size: 2.2rem;
+    }
+
+    .cta-icon {
+        width: 60px;
+        height: 60px;
+    }
+
+    .cta-icon i {
+        font-size: 2rem;
+    }
+
+    .cta-btn-primary,
+    .cta-btn-secondary {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+}
 </style>
 
 <div class="dynamic-bg"></div>
@@ -582,33 +807,28 @@
     <!-- Call to Action Section -->
     <div class="row mt-5">
         <div class="col-12">
-            <h2 class="text-center mb-4 fw-bold"
-                style="background: linear-gradient(45deg, #ffeaa7, #fdcb6e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 2.5rem;">
-                <i class="bi bi-rocket"
-                   style="color: #fdcb6e;"></i>
-                Siap Menunjukkan Inovasimu?
-            </h2>
-        </div>
-        <div class="col-12">
-            <div class="cta-card text-white">
-                <div class="glass-header text-center p-4">
-                    <h3 class="mb-2 fw-bold">Bergabunglah dengan UNAS Fest 2025</h3>
-                    <p class="mb-0 opacity-45">Jangan lewatkan kesempatan emas untuk menunjukkan kemampuan terbaikmu</p>
-                </div>
-                <div class="p-5 text-center position-relative" style="z-index: 2;">
-                    <p class="lead mb-4 fw-semibold">
+            <div class="elegant-cta-section">
+                <div class="cta-background-pattern"></div>
+                <div class="cta-content text-center p-5">
+                    <div class="cta-icon-wrapper mb-4">
+                        <div class="cta-icon">
+                            <i class="bi bi-rocket-takeoff"></i>
+                        </div>
+                    </div>
+                    <h2 class="cta-title mb-4 fw-bold">
+                        Siap Menunjukkan Inovasimu?
+                    </h2>
+                    <p class="cta-subtitle mb-4 fs-5">
                         Bergabunglah dengan ribuan peserta lainnya dan wujudkan ide terbaikmu di UNAS Fest 2025!
                     </p>
                     <div class="row justify-content-center">
                         <div class="col-md-3 mb-3">
-                            <a href="{{ route('login') }}"
-                               class="btn modern-btn btn-auto w-100">
+                            <a href="{{ route('login') }}" class="btn cta-btn-primary w-100">
                                 <i class="bi bi-person-plus me-2"></i>Daftar Sekarang
                             </a>
                         </div>
                         <div class="col-md-3 mb-3">
-                            <a href="{{ route('public.contact') }}"
-                               class="btn modern-btn-outline btn-lg w-100">
+                            <a href="{{ route('public.contact') }}" class="btn cta-btn-secondary w-100">
                                 <i class="bi bi-envelope me-2"></i>Hubungi Kami
                             </a>
                         </div>
@@ -619,3 +839,73 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+// Performance optimized JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+    // Intersection Observer for animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-in');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    // Observe elements for animation
+    document.querySelectorAll('.glass-card, .elegant-cta-section').forEach(el => {
+        observer.observe(el);
+    });
+
+    // Debounced scroll handler for better performance
+    let ticking = false;
+    function updateScrollEffects() {
+        // Add scroll effects here if needed
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            requestAnimationFrame(updateScrollEffects);
+            ticking = true;
+        }
+    }, { passive: true });
+
+    // Preload critical images
+    const criticalImages = [
+        // Add critical image URLs here
+    ];
+
+    criticalImages.forEach(src => {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = src;
+        document.head.appendChild(link);
+    });
+});
+
+// Add CSS for animation
+const style = document.createElement('style');
+style.textContent = `
+    .glass-card, .elegant-cta-section {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .animate-in {
+        opacity: 1;
+        transform: translateY(0);
+    }
+`;
+document.head.appendChild(style);
+</script>
+@endpush
