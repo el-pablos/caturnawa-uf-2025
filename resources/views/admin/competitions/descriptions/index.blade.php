@@ -12,10 +12,10 @@
         </div>
         <div>
             <a href="{{ route('admin.competitions.show', $competition) }}" class="btn btn-outline-secondary me-2">
-                <i class="fas fa-arrow-left"></i> Kembali
+                <i class="bi bi-arrow-left"></i> Kembali
             </a>
             <a href="{{ route('admin.competitions.descriptions.create', $competition) }}" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Tambah Deskripsi
+                <i class="bi bi-plus-lg"></i> Tambah Deskripsi
             </a>
         </div>
     </div>
@@ -23,14 +23,14 @@
     <!-- Alerts -->
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
+            <i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     @endif
 
     @if(session('error'))
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="fas fa-exclamation-triangle me-2"></i>{{ session('error') }}
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ session('error') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     @endif
@@ -39,7 +39,7 @@
     <div class="card mb-4 border-primary">
         <div class="card-header bg-primary text-white">
             <h5 class="mb-0">
-                <i class="fas fa-file-contract me-2"></i>
+                <i class="bi bi-file-earmark-text me-2"></i>
                 Syarat & Ketentuan
                 <span class="badge bg-light text-primary ms-2">Editor Khusus</span>
             </h5>
@@ -51,16 +51,16 @@
 
                 <div class="mb-3">
                     <label for="terms_content" class="form-label">
-                        <i class="fas fa-edit me-1"></i>Isi Syarat & Ketentuan
+                        <i class="bi bi-pencil-square me-1"></i>Isi Syarat & Ketentuan
                     </label>
                     <div class="form-text mb-2">
-                        <i class="fas fa-info-circle me-1"></i>
+                        <i class="bi bi-info-circle me-1"></i>
                         Gunakan format berikut untuk membuat syarat & ketentuan yang terstruktur:
                     </div>
 
                     <!-- Template Guide -->
                     <div class="alert alert-info">
-                        <h6><i class="fas fa-lightbulb me-1"></i>Template Format:</h6>
+                        <h6><i class="bi bi-lightbulb me-1"></i>Template Format:</h6>
                         <small>
                             <strong>1. Ketentuan Umum</strong><br>
                             - Poin ketentuan umum 1<br>
@@ -99,23 +99,23 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="text-muted small">
                         @if($termsAndConditions)
-                            <i class="fas fa-clock me-1"></i>
+                            <i class="bi bi-clock me-1"></i>
                             Terakhir diperbarui: {{ $termsAndConditions->updated_at->format('d M Y, H:i') }}
                             @if($termsAndConditions->updater)
                                 oleh {{ $termsAndConditions->updater->name }}
                             @endif
                         @else
-                            <i class="fas fa-info-circle me-1"></i>
+                            <i class="bi bi-info-circle me-1"></i>
                             Belum ada syarat & ketentuan yang dibuat
                         @endif
                     </div>
 
                     <div>
                         <button type="button" class="btn btn-outline-secondary me-2" onclick="fillTemplate()">
-                            <i class="fas fa-magic me-1"></i>Isi Template
+                            <i class="bi bi-magic me-1"></i>Isi Template
                         </button>
                         <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save me-1"></i>
+                            <i class="bi bi-floppy me-1"></i>
                             {{ $termsAndConditions ? 'Perbarui' : 'Simpan' }} Syarat & Ketentuan
                         </button>
                     </div>
@@ -130,7 +130,7 @@
             <div class="card mb-4">
                 <div class="card-header">
                     <h5 class="mb-0">
-                        <i class="fas fa-folder me-2"></i>
+                        <i class="bi bi-folder me-2"></i>
                         {{ ucfirst($section) }}
                         <span class="badge bg-primary ms-2">{{ $sectionDescriptions->count() }}</span>
                     </h5>
@@ -186,13 +186,17 @@
                                         </td>
                                         <td>
                                             <div class="btn-group" role="group">
-                                                <a href="{{ route('admin.competitions.descriptions.edit', [$competition, $description]) }}" 
-                                                   class="btn btn-sm btn-outline-primary">
-                                                    <i class="fas fa-edit"></i>
+                                                <a href="{{ route('admin.competitions.descriptions.edit', [$competition, $description]) }}"
+                                                   class="btn btn-sm btn-outline-primary"
+                                                   title="Edit Deskripsi">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                    <span class="d-none d-md-inline ms-1">Edit</span>
                                                 </a>
-                                                <button type="button" class="btn btn-sm btn-outline-danger" 
-                                                        onclick="confirmDelete({{ $description->id }})">
-                                                    <i class="fas fa-trash"></i>
+                                                <button type="button" class="btn btn-sm btn-outline-danger"
+                                                        onclick="confirmDelete({{ $description->id }})"
+                                                        title="Hapus Deskripsi">
+                                                    <i class="bi bi-trash3"></i>
+                                                    <span class="d-none d-md-inline ms-1">Hapus</span>
                                                 </button>
                                             </div>
                                         </td>
@@ -207,11 +211,11 @@
     @else
         <div class="card">
             <div class="card-body text-center py-5">
-                <i class="fas fa-file-alt text-muted" style="font-size: 4rem;"></i>
+                <i class="bi bi-file-earmark-text text-muted" style="font-size: 4rem;"></i>
                 <h4 class="mt-3">Belum Ada Deskripsi</h4>
                 <p class="text-muted">Mulai dengan menambahkan deskripsi pertama untuk kompetisi ini.</p>
                 <a href="{{ route('admin.competitions.descriptions.create', $competition) }}" class="btn btn-primary">
-                    <i class="fas fa-plus me-2"></i>Tambah Deskripsi
+                    <i class="bi bi-plus-lg me-2"></i>Tambah Deskripsi
                 </a>
             </div>
         </div>
