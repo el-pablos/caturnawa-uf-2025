@@ -38,60 +38,62 @@
 <!-- Statistics Cards -->
 <div class="row mb-4">
     <div class="col-lg-3 col-md-6 mb-3">
-        <div class="stats-card">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <div class="stats-number">{{ $stats['assigned_competitions'] }}</div>
-                    <div class="fw-semibold">Kompetisi Ditugaskan</div>
-                </div>
-                <div class="fs-1 opacity-50">
-                    <i class="bi bi-trophy-fill"></i>
+        <div class="card border-primary shadow-sm">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="h3 mb-0 text-primary fw-bold">{{ $stats['assigned_competitions'] }}</div>
+                        <div class="text-dark fw-semibold">Kompetisi Ditugaskan</div>
+                    </div>
+                    <div class="fs-1 text-primary opacity-75">
+                        <i class="bi bi-trophy-fill"></i>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <div class="col-lg-3 col-md-6 mb-3">
-        <div class="card border-0 bg-success text-white">
+        <div class="card border-success shadow-sm">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <div class="stats-number">{{ $stats['completed_scores'] }}</div>
-                        <div class="fw-semibold">Penilaian Selesai</div>
+                        <div class="h3 mb-0 text-success fw-bold">{{ $stats['completed_scores'] }}</div>
+                        <div class="text-dark fw-semibold">Penilaian Selesai</div>
                     </div>
-                    <div class="fs-1 opacity-50">
+                    <div class="fs-1 text-success opacity-75">
                         <i class="bi bi-check-circle-fill"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <div class="col-lg-3 col-md-6 mb-3">
-        <div class="card border-0 bg-warning text-white">
+        <div class="card border-warning shadow-sm">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <div class="stats-number">{{ $stats['pending_scores'] }}</div>
-                        <div class="fw-semibold">Menunggu Penilaian</div>
+                        <div class="h3 mb-0 text-warning fw-bold">{{ $stats['pending_scores'] }}</div>
+                        <div class="text-dark fw-semibold">Menunggu Penilaian</div>
                     </div>
-                    <div class="fs-1 opacity-50">
+                    <div class="fs-1 text-warning opacity-75">
                         <i class="bi bi-hourglass-split"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <div class="col-lg-3 col-md-6 mb-3">
-        <div class="card border-0 bg-info text-white">
+        <div class="card border-info shadow-sm">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <div class="stats-number">{{ number_format($stats['average_score'], 1) }}</div>
-                        <div class="fw-semibold">Rata-rata Nilai</div>
+                        <div class="h3 mb-0 text-info fw-bold">{{ number_format($stats['average_score'], 1) }}</div>
+                        <div class="text-dark fw-semibold">Rata-rata Nilai</div>
                     </div>
-                    <div class="fs-1 opacity-50">
+                    <div class="fs-1 text-info opacity-75">
                         <i class="bi bi-graph-up"></i>
                     </div>
                 </div>

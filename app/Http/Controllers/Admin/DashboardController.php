@@ -27,13 +27,36 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        // Hanya load statistik dasar untuk initial load
-        $stats = Cache::remember('admin_dashboard_stats', 300, function () {
-            return $this->getMainStatistics();
-        });
+        try {
+            // Hanya load statistik dasar untuk initial load
+            $stats = Cache::remember('admin_dashboard_stats', 300, function () {
+                return $this->getMainStatistics();
+            });
 
-        // Data lainnya akan di-load via AJAX untuk mengurangi initial load time
-        return view('admin.dashboard', compact('stats'));
+            // Fallback jika cache gagal
+            if (!$stats || !is_array($stats)) {
+                $stats = $this->getMainStatistics();
+            }
+
+            // Data lainnya akan di-load via AJAX untuk mengurangi initial load time
+            return view('admin.dashboard', compact('stats'));
+        } catch (\Exception $e) {
+            \Log::error('Admin dashboard index error: ' . $e->getMessage());
+
+            // Return with default stats if everything fails
+            $stats = [
+                'total_users' => 0,
+                'total_registrations' => 0,
+                'confirmed_registrations' => 0,
+                'total_competitions' => 0,
+                'active_competitions' => 0,
+                'total_revenue' => 0,
+                'pending_payments' => 0,
+                'total_submissions' => 0,
+            ];
+
+            return view('admin.dashboard', compact('stats'));
+        }
     }
 
     /**
@@ -43,14 +66,33 @@ class DashboardController extends Controller
      */
     public function getChartDataAjax()
     {
-        $chartData = Cache::remember('admin_dashboard_charts', 600, function () {
-            return $this->getChartData();
-        });
+        try {
+            $chartData = Cache::remember('admin_dashboard_charts', 600, function () {
+                return $this->getChartData();
+            });
 
-        return response()->json([
-            'success' => true,
-            'data' => $chartData
-        ]);
+            // Fallback jika cache gagal
+            if (!$chartData || !is_array($chartData)) {
+                $chartData = $this->getChartData();
+            }
+
+            return response()->json([
+                'success' => true,
+                'data' => $chartData
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Admin dashboard chart data error: ' . $e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to load chart data',
+                'data' => [
+                    'months' => [],
+                    'registrations' => [],
+                    'revenues' => []
+                ]
+            ], 500);
+        }
     }
 
     /**
