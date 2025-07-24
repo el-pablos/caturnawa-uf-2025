@@ -6,9 +6,6 @@
 
 @section('header-actions')
     <div class="d-flex gap-2">
-        <button type="button" class="btn btn-success" onclick="exportSubmissions('excel')">
-            <i class="bi bi-file-earmark-excel me-2"></i>Export Excel
-        </button>
         <button type="button" class="btn btn-danger" onclick="exportSubmissions('pdf')">
             <i class="bi bi-file-earmark-pdf me-2"></i>Export PDF
         </button>
@@ -319,15 +316,13 @@ function deleteSubmission(submissionId) {
 }
 
 function exportSubmissions(format) {
-    const params = new URLSearchParams(window.location.search);
-
-    let exportUrl;
-    if (format === 'pdf') {
-        exportUrl = `{{ route('admin.submissions.export.pdf') }}?${params.toString()}`;
-    } else {
-        exportUrl = `{{ route('admin.submissions.export.excel') }}?${params.toString()}`;
+    // Only support PDF export now
+    if (format !== 'pdf') {
+        return;
     }
 
+    const params = new URLSearchParams(window.location.search);
+    const exportUrl = `{{ route('admin.submissions.export') }}?${params.toString()}`;
     window.open(exportUrl, '_blank');
 }
 

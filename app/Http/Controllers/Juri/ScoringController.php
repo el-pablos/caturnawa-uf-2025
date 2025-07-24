@@ -405,6 +405,137 @@ class ScoringController extends Controller
     }
 
     /**
+     * Tampilkan detail peserta untuk penilaian
+     *
+     * @param \App\Models\Registration $registration
+     * @return \Illuminate\View\View
+     */
+    public function participant(Registration $registration)
+    {
+        $jury = Auth::user();
+
+        // Check if jury has access to this registration's competition
+        $competition = $registration->competition;
+        if (!$competition->juries->contains($jury->id)) {
+            abort(403, 'Anda tidak memiliki akses untuk menilai peserta ini.');
+        }
+
+        // Get existing score from this jury
+        $existingScore = Score::where('registration_id', $registration->id)
+            ->where('jury_id', $jury->id)
+            ->first();
+
+        $criteria = Score::getDefaultCriteria();
+
+        return view('juri.scoring.participant', compact('registration', 'existingScore', 'criteria'));
+    }
+
+    /**
+     * Simpan penilaian untuk peserta
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Registration $registration
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function score(Request $request, Registration $registration)
+    {
+        $jury = Auth::user();
+
+        // Check if jury has access to this registration's competition
+        $competition = $registration->competition;
+        if (!$competition->juries->contains($jury->id)) {
+            abort(403, 'Anda tidak memiliki akses untuk menilai peserta ini.');
+        }
+
+        $criteria = Score::getDefaultCriteria();
+        $rules = [];
+
+        // Dynamic validation rules for each criteria
+        foreach (array_keys($criteria) as $criteriaKey) {
+            $rules["criteria.{$criteriaKey}"] = 'required|numeric|min:0|max:100';
+        }
+
+        $rules['comments'] = 'nullable|string|max:1000';
+
+        $validator = Validator::make($request->all(), $rules, [
+            'criteria.*.required' => 'Semua kriteria penilaian harus diisi',
+            'criteria.*.numeric' => 'Nilai harus berupa angka',
+            'criteria.*.min' => 'Nilai minimal 0',
+            'criteria.*.max' => 'Nilai maksimal 100',
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Find or create score
+        $score = Score::firstOrNew([
+            'competition_id' => $registration->competition_id,
+            'registration_id' => $registration->id,
+            'jury_id' => $jury->id,
+        ]);
+
+        $score->criteria_scores = $request->criteria;
+        $score->comments = $request->comments;
+        $score->is_final = $request->has('is_final') && $request->is_final;
+
+        // Calculate total score
+        $totalScore = 0;
+        if ($request->criteria) {
+            foreach ($request->criteria as $criteriaKey => $value) {
+                $totalScore += (float) $value;
+            }
+        }
+        $score->total_score = $totalScore;
+
+        if ($score->is_final) {
+            $score->submitted_at = now();
+        }
+
+        $score->save();
+
+        $message = $score->is_final ?
+            'Penilaian berhasil disubmit sebagai final.' :
+            'Penilaian berhasil disimpan sebagai draft.';
+
+        return redirect()->route('juri.scoring.participant', $registration)
+            ->with('success', $message);
+    }
+
+    /**
+     * Finalisasi penilaian untuk kompetisi
+     *
+     * @param \App\Models\Competition $competition
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function finalize(Competition $competition)
+    {
+        $jury = Auth::user();
+
+        // Check if jury has access to this competition
+        if (!$competition->juries->contains($jury->id)) {
+            abort(403, 'Anda tidak memiliki akses untuk menfinalisasi kompetisi ini.');
+        }
+
+        // Get all scores from this jury for this competition
+        $scores = Score::where('competition_id', $competition->id)
+            ->where('jury_id', $jury->id)
+            ->get();
+
+        // Mark all scores as final
+        foreach ($scores as $score) {
+            if (!$score->is_final && $score->isComplete()) {
+                $score->submitFinal();
+            }
+        }
+
+        return redirect()->route('juri.scoring.competition', $competition)
+            ->with('success', 'Semua penilaian untuk kompetisi ini telah difinalisasi.');
+    }
+
+    /**
      * Calculate victory points and rankings for a match
      */
     private function calculateVictoryPoints(RoundMatch $match)

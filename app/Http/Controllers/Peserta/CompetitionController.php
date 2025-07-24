@@ -77,7 +77,13 @@ class CompetitionController extends Controller
         // Cek kompetisi yang sudah didaftari user
         $user = Auth::user();
         $registeredCompetitions = [];
-        
+
+        if ($user) {
+            $registeredCompetitions = $user->registrations()
+                ->pluck('competition_id')
+                ->toArray();
+        }
+
         return view('peserta.competitions.index', compact('competitions', 'registeredCompetitions'));
     }
 

@@ -9,9 +9,6 @@
         <a href="{{ route('admin.reports.index') }}" class="btn btn-secondary">
             <i class="bi bi-arrow-left me-2"></i>Kembali
         </a>
-        <button type="button" class="btn btn-success" onclick="exportReport('excel')">
-            <i class="bi bi-file-earmark-excel me-2"></i>Export Excel
-        </button>
         <button type="button" class="btn btn-danger" onclick="exportReport('pdf')">
             <i class="bi bi-file-earmark-pdf me-2"></i>Export PDF
         </button>

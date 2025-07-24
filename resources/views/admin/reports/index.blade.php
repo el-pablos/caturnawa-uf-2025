@@ -24,9 +24,6 @@
                 </a></li>
             </ul>
         </div>
-        <button type="button" class="btn btn-success" onclick="exportReport('excel')">
-            <i class="bi bi-file-earmark-excel me-2"></i>Export Excel
-        </button>
         <button type="button" class="btn btn-danger" onclick="exportReport('pdf')">
             <i class="bi bi-file-earmark-pdf me-2"></i>Export PDF
         </button>
@@ -528,6 +525,11 @@ function createRevenueChart(data) {
 }
 
 function exportReport(format) {
+    // Only support PDF export now
+    if (format !== 'pdf') {
+        return;
+    }
+
     const params = new URLSearchParams(window.location.search);
     params.set('format', format);
 

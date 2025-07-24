@@ -8,9 +8,7 @@ use App\Models\Competition;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
-use App\Exports\RegistrationExport;
 
 /**
  * Controller untuk mengelola registrasi peserta
@@ -131,6 +129,10 @@ class RegistrationController extends Controller
             return back()->with('error', 'Hanya registrasi dengan status pending atau paid yang dapat dikonfirmasi.');
         }
 
+        // DISABLED: Manual registration confirmation workflow has been disabled
+        // Registrations are now automatically confirmed after successful payment
+
+        /*
         try {
             DB::beginTransaction();
 
@@ -164,20 +166,17 @@ class RegistrationController extends Controller
                     'message' => 'Registrasi berhasil dikonfirmasi.'
                 ]);
             }
+        */
 
-            return back()->with('success', 'Registrasi berhasil dikonfirmasi.');
-        } catch (\Exception $e) {
-            DB::rollback();
-
-            if (request()->expectsJson()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Gagal mengkonfirmasi registrasi: ' . $e->getMessage()
-                ]);
-            }
-
-            return back()->with('error', 'Gagal mengkonfirmasi registrasi: ' . $e->getMessage());
+        // Return message that feature is disabled
+        if (request()->expectsJson()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Fitur konfirmasi registrasi manual telah dinonaktifkan. Registrasi dikonfirmasi otomatis setelah pembayaran berhasil.'
+            ]);
         }
+
+        return back()->with('info', 'Fitur konfirmasi registrasi manual telah dinonaktifkan. Registrasi dikonfirmasi otomatis setelah pembayaran berhasil.');
     }
 
     /**
@@ -248,29 +247,7 @@ class RegistrationController extends Controller
         }
     }
 
-    /**
-     * Export registrasi ke Excel
-     * 
-     * @param \Illuminate\Http\Request $request
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
-     */
-    public function exportExcel(Request $request)
-    {
-        $query = Registration::with(['user', 'competition', 'payment']);
 
-        // Apply filters
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
-        }
-
-        if ($request->filled('competition_id')) {
-            $query->where('competition_id', $request->competition_id);
-        }
-
-        $registrations = $query->get();
-
-        return Excel::download(new RegistrationExport($registrations), 'registrations.xlsx');
-    }
 
     /**
      * Export registrasi ke PDF
@@ -392,12 +369,6 @@ class RegistrationController extends Controller
      */
     public function export(Request $request)
     {
-        $format = $request->get('format', 'excel');
-
-        if ($format === 'pdf') {
-            return $this->exportPdf($request);
-        }
-
-        return $this->exportExcel($request);
+        return $this->exportPdf($request);
     }
 }

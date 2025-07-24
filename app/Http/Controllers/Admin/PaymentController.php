@@ -152,12 +152,17 @@ class PaymentController extends Controller
 
     /**
      * Konfirmasi pembayaran dan registrasi
+     * DISABLED: Payment confirmation feature has been disabled
      *
      * @param \App\Models\Payment $payment
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
     public function confirmPayment(Payment $payment)
     {
+        // DISABLED: Manual payment confirmation workflow has been disabled
+        // Payments are now automatically processed without admin confirmation
+
+        /*
         try {
             DB::beginTransaction();
 
@@ -169,7 +174,7 @@ class PaymentController extends Controller
 
             if (!$payment) {
                 DB::rollback();
-                
+
                 if (request()->wantsJson()) {
                     return response()->json([
                         'success' => false,
@@ -183,7 +188,7 @@ class PaymentController extends Controller
             // Verify payment is in valid state for confirmation
             if (!$payment->isAwaitingConfirmation()) {
                 DB::rollback();
-                
+
                 if (request()->wantsJson()) {
                     return response()->json([
                         'success' => false,
@@ -226,7 +231,7 @@ class PaymentController extends Controller
             return back()->with('success', 'Pembayaran berhasil dikonfirmasi dan registrasi disetujui.');
         } catch (\Exception $e) {
             DB::rollback();
-            
+
             if (request()->wantsJson()) {
                 return response()->json([
                     'success' => false,
@@ -236,6 +241,17 @@ class PaymentController extends Controller
 
             return back()->with('error', 'Gagal mengkonfirmasi pembayaran: ' . $e->getMessage());
         }
+        */
+
+        // Return message that feature is disabled
+        if (request()->wantsJson()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Fitur konfirmasi pembayaran manual telah dinonaktifkan. Pembayaran diproses otomatis.'
+            ]);
+        }
+
+        return back()->with('info', 'Fitur konfirmasi pembayaran manual telah dinonaktifkan. Pembayaran diproses otomatis.');
     }
 
     /**

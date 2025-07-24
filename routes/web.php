@@ -250,8 +250,6 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
         Route::prefix('submissions')->name('submissions.')->group(function () {
             Route::get('/', [App\Http\Controllers\Admin\SubmissionController::class, 'index'])->name('index');
             Route::get('/export', [App\Http\Controllers\Admin\SubmissionController::class, 'export'])->name('export');
-            Route::get('/export/excel', [App\Http\Controllers\Admin\SubmissionController::class, 'exportExcel'])->name('export.excel');
-            Route::get('/export/pdf', [App\Http\Controllers\Admin\SubmissionController::class, 'exportPdf'])->name('export.pdf');
             Route::get('/{submission}', [App\Http\Controllers\Admin\SubmissionController::class, 'show'])->name('show');
             Route::patch('/{submission}/approve', [App\Http\Controllers\Admin\SubmissionController::class, 'approve'])->name('approve');
             Route::patch('/{submission}/reject', [App\Http\Controllers\Admin\SubmissionController::class, 'reject'])->name('reject');

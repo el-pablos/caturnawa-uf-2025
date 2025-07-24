@@ -10,11 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-use Maatwebsite\Excel\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
-use App\Exports\CompetitionReportExport;
-use App\Exports\RegistrationReportExport;
-use App\Exports\PaymentReportExport;
 
 /**
  * Controller untuk laporan dan analytics
@@ -215,22 +211,20 @@ class ReportController extends Controller
 
     /**
      * Export laporan
-     * 
+     *
      * @param string $type
      * @param \Illuminate\Http\Request $request
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|\Illuminate\Http\Response
      */
     public function export($type, Request $request)
     {
-        $format = $request->get('format', 'excel'); // excel or pdf
-
         switch ($type) {
             case 'competitions':
-                return $this->exportCompetitions($format, $request);
+                return $this->exportCompetitions($request);
             case 'registrations':
-                return $this->exportRegistrations($format, $request);
+                return $this->exportRegistrations($request);
             case 'payments':
-                return $this->exportPayments($format, $request);
+                return $this->exportPayments($request);
             default:
                 return back()->with('error', 'Tipe laporan tidak valid.');
         }
@@ -239,100 +233,31 @@ class ReportController extends Controller
     /**
      * Export laporan kompetisi
      */
-    private function exportCompetitions($format, $request)
+    private function exportCompetitions($request)
     {
         $competitions = Competition::withCount(['registrations', 'confirmedRegistrations'])->get();
-
-        if ($format === 'pdf') {
-            $pdf = Pdf::loadView('admin.reports.exports.competitions-pdf', compact('competitions'));
-            return $pdf->download('laporan-kompetisi.pdf');
-        }
-
-        // Generate CSV file manually for compatibility
-        $export = new CompetitionReportExport($competitions);
-        $data = $export->export();
-
-        $filename = 'laporan-kompetisi-' . date('Y-m-d-H-i-s') . '.csv';
-        $headers = [
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
-        ];
-
-        $callback = function() use ($data) {
-            $file = fopen('php://output', 'w');
-            foreach ($data as $row) {
-                fputcsv($file, $row);
-            }
-            fclose($file);
-        };
-
-        return response()->stream($callback, 200, $headers);
+        $pdf = Pdf::loadView('admin.reports.exports.competitions-pdf', compact('competitions'));
+        return $pdf->download('laporan-kompetisi.pdf');
     }
 
     /**
      * Export laporan registrasi
      */
-    private function exportRegistrations($format, $request)
+    private function exportRegistrations($request)
     {
         $registrations = Registration::with(['user', 'competition', 'payment'])->get();
-
-        if ($format === 'pdf') {
-            $pdf = Pdf::loadView('admin.reports.exports.registrations-pdf', compact('registrations'));
-            return $pdf->download('laporan-registrasi.pdf');
-        }
-
-        // Generate CSV file manually for compatibility
-        $export = new RegistrationReportExport($registrations);
-        $data = $export->export();
-
-        $filename = 'laporan-registrasi-' . date('Y-m-d-H-i-s') . '.csv';
-        $headers = [
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
-        ];
-
-        $callback = function() use ($data) {
-            $file = fopen('php://output', 'w');
-            foreach ($data as $row) {
-                fputcsv($file, $row);
-            }
-            fclose($file);
-        };
-
-        return response()->stream($callback, 200, $headers);
+        $pdf = Pdf::loadView('admin.reports.exports.registrations-pdf', compact('registrations'));
+        return $pdf->download('laporan-registrasi.pdf');
     }
 
     /**
      * Export laporan pembayaran
      */
-    private function exportPayments($format, $request)
+    private function exportPayments($request)
     {
         $payments = Payment::with(['registration.user', 'registration.competition'])->get();
-
-        if ($format === 'pdf') {
-            $pdf = Pdf::loadView('admin.reports.exports.payments-pdf', compact('payments'));
-            return $pdf->download('laporan-pembayaran.pdf');
-        }
-
-        // Generate CSV file manually for compatibility
-        $export = new PaymentReportExport($payments);
-        $data = $export->export();
-
-        $filename = 'laporan-pembayaran-' . date('Y-m-d-H-i-s') . '.csv';
-        $headers = [
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
-        ];
-
-        $callback = function() use ($data) {
-            $file = fopen('php://output', 'w');
-            foreach ($data as $row) {
-                fputcsv($file, $row);
-            }
-            fclose($file);
-        };
-
-        return response()->stream($callback, 200, $headers);
+        $pdf = Pdf::loadView('admin.reports.exports.payments-pdf', compact('payments'));
+        return $pdf->download('laporan-pembayaran.pdf');
     }
 
     /**
