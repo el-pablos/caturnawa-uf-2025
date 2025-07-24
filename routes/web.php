@@ -110,6 +110,11 @@ Route::middleware('maintenance')->prefix('matalomba')->name('matalomba.')->group
 // Route alias for backward compatibility
 Route::get('/home-alias', [App\Http\Controllers\Public\PublicController::class, 'home'])->name('home');
 
+// CSRF Token Refresh Route
+Route::get('/csrf-token', function () {
+    return response()->json(['csrf_token' => csrf_token()]);
+})->name('csrf.token');
+
 // Authentication Routes
 Route::middleware('guest')->group(function () {
     Route::get('/login', [App\Http\Controllers\Auth\AuthController::class, 'showLogin'])->name('login');
