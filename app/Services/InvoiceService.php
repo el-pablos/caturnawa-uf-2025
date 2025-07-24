@@ -10,31 +10,26 @@ class InvoiceService
 {
     public function generateInvoice(Registration $registration)
     {
-        // Load SVG template from kebutuhan-it folder
-        $templatePath = base_path('kebutuhan-it/INVOICE/invoice-template.svg');
+        // Use the new custom template
+        $templatePath = base_path('keperluan-it/INVOICE/invoice-template-new.svg');
 
         if (!file_exists($templatePath)) {
             throw new \Exception('Invoice template not found: ' . $templatePath);
         }
 
-        $svgTemplate = file_get_contents($templatePath);
-        
         // Generate invoice number if not exists
         $invoiceNumber = $this->generateInvoiceNumber($registration);
-        
+
         // Prepare data for template
         $data = $this->prepareInvoiceData($registration, $invoiceNumber);
-        
-        // Replace placeholders in SVG template
-        $processedSvg = $this->replacePlaceholders($svgTemplate, $data);
-        
-        // Convert SVG to HTML for PDF generation
-        $html = $this->svgToHtml($processedSvg);
-        
+
+        // Create HTML with embedded SVG and dynamic content
+        $html = $this->createInvoiceHtml($templatePath, $data);
+
         // Generate PDF
         $pdf = Pdf::loadHTML($html);
         $pdf->setPaper('A4', 'portrait');
-        
+
         return $pdf;
     }
     
@@ -53,31 +48,20 @@ class InvoiceService
         $payment = $registration->payment;
 
         return [
-            'INVOICE_NUMBER' => $invoiceNumber,
-            'INVOICE_DATE' => now()->format('d/m/Y H:i'),
-            'PAYMENT_STATUS' => $this->getPaymentStatusText($payment),
-
-            // Participant Info
-            'PARTICIPANT_NAME' => $user->name,
-            'PARTICIPANT_EMAIL' => $user->email,
-            'PARTICIPANT_PHONE' => $registration->phone ?? 'Tidak disebutkan',
-            'PARTICIPANT_INSTITUTION' => $registration->institution ?? 'Tidak disebutkan',
-
-            // Competition Info
-            'COMPETITION_NAME' => $competition->name,
-            'COMPETITION_CATEGORY' => ucfirst(str_replace('_', ' ', $competition->category)),
-
-            // Payment Info
-            'ORIGINAL_PRICE' => 'Rp ' . number_format($registration->original_price, 0, ',', '.'),
-            'FINAL_AMOUNT' => 'Rp ' . number_format($registration->amount, 0, ',', '.'),
-            'DISCOUNT_AMOUNT' => 'Rp ' . number_format($registration->original_price - $registration->amount, 0, ',', '.'),
-            'PAYMENT_METHOD' => $this->getPaymentMethodText($payment),
-            'CONTACT_WHATSAPP' => $this->getContactWhatsApp($competition),
-            'DISCOUNT_AMOUNT' => 'Rp ' . number_format($registration->original_price - $registration->amount, 0, ',', '.'),
-            'FINAL_AMOUNT' => 'Rp ' . number_format($registration->amount, 0, ',', '.'),
-            'PAYMENT_STATUS' => 'PAID',
-            'PAYMENT_DATE' => $registration->confirmed_at ? $registration->confirmed_at->format('d F Y H:i') : now()->format('d F Y H:i'),
-            'PAYMENT_METHOD' => 'Online Payment',
+            'invoice_number' => $invoiceNumber,
+            'date' => $payment ? $payment->created_at->format('d F Y') : now()->format('d F Y'),
+            'participant_name' => $user->name,
+            'participant_email' => $user->email,
+            'participant_phone' => $registration->phone ?? 'Tidak disebutkan',
+            'participant_institution' => $registration->institution ?? 'Tidak disebutkan',
+            'competition_name' => $competition->name,
+            'competition_category' => ucfirst(str_replace('_', ' ', $competition->category)),
+            'amount' => $registration->amount,
+            'original_price' => $registration->original_price,
+            'discount_amount' => $registration->original_price - $registration->amount,
+            'status' => $payment ? 'LUNAS' : 'BELUM LUNAS',
+            'payment_method' => $payment ? $payment->payment_method : 'Online Payment',
+            'payment_date' => $registration->confirmed_at ? $registration->confirmed_at->format('d F Y H:i') : now()->format('d F Y H:i'),
             
             // Additional Info
             'NOTES' => 'Terima kasih telah mendaftar di ' . $competition->name . '. Simpan invoice ini sebagai bukti pembayaran yang sah.',
@@ -106,96 +90,92 @@ class InvoiceService
         return $processedSvg;
     }
     
-    private function svgToHtml($svgContent)
+    private function createInvoiceHtml($templatePath, $data)
     {
+        // Read the SVG template
+        $svgContent = file_get_contents($templatePath);
+
         return '
         <!DOCTYPE html>
         <html>
         <head>
             <meta charset="utf-8">
-            <title>Invoice</title>
+            <title>Invoice - ' . $data['invoice_number'] . '</title>
             <style>
                 body {
                     margin: 0;
-                    padding: 20px;
+                    padding: 0;
                     font-family: Arial, sans-serif;
                     background: white;
                 }
-                
+
                 .invoice-container {
-                    max-width: 800px;
+                    width: 100%;
+                    max-width: 794px;
                     margin: 0 auto;
                     background: white;
-                    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+                    position: relative;
                 }
-                
+
+                .invoice-overlay {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 10;
+                    pointer-events: none;
+                }
+
+                .invoice-data {
+                    position: absolute;
+                    font-family: Arial, sans-serif;
+                }
+
                 svg {
                     width: 100%;
                     height: auto;
+                    display: block;
                 }
-                
+
                 @media print {
                     body {
                         padding: 0;
+                        margin: 0;
                     }
-                    
+
                     .invoice-container {
-                        box-shadow: none;
                         max-width: none;
+                        width: 100%;
                     }
-                }
-                
-                /* Custom styles for better PDF rendering */
-                text {
-                    font-family: Arial, sans-serif;
-                }
-                
-                .header-text {
-                    font-weight: bold;
-                    font-size: 24px;
-                }
-                
-                .company-name {
-                    font-weight: bold;
-                    font-size: 20px;
-                    fill: #2c3e50;
-                }
-                
-                .invoice-number {
-                    font-weight: bold;
-                    font-size: 16px;
-                    fill: #e74c3c;
-                }
-                
-                .amount-text {
-                    font-weight: bold;
-                    font-size: 18px;
-                    fill: #27ae60;
-                }
-                
-                .label-text {
-                    font-weight: bold;
-                    fill: #34495e;
-                }
-                
-                .value-text {
-                    fill: #2c3e50;
-                }
-                
-                .notes-text {
-                    font-size: 12px;
-                    fill: #7f8c8d;
-                }
-                
-                .footer-text {
-                    font-size: 10px;
-                    fill: #95a5a6;
                 }
             </style>
         </head>
         <body>
             <div class="invoice-container">
                 ' . $svgContent . '
+                <div class="invoice-overlay">
+                    <!-- Invoice Details -->
+                    <div class="invoice-data" style="top: 225px; left: 170px; font-size: 11px; color: #212529;">' . $data['invoice_number'] . '</div>
+                    <div class="invoice-data" style="top: 245px; left: 120px; font-size: 11px; color: #212529;">' . $data['date'] . '</div>
+                    <div class="invoice-data" style="top: 265px; left: 115px; font-size: 11px; color: #212529; font-weight: bold;">' . strtoupper($data['status']) . '</div>
+                    <div class="invoice-data" style="top: 285px; left: 150px; font-size: 11px; color: #212529;">' . $data['payment_method'] . '</div>
+
+                    <!-- Participant Details -->
+                    <div class="invoice-data" style="top: 225px; left: 530px; font-size: 11px; color: #212529;">' . $data['participant_name'] . '</div>
+                    <div class="invoice-data" style="top: 245px; left: 450px; font-size: 11px; color: #212529;">' . $data['participant_email'] . '</div>
+                    <div class="invoice-data" style="top: 265px; left: 470px; font-size: 11px; color: #212529;">' . $data['participant_phone'] . '</div>
+                    <div class="invoice-data" style="top: 285px; left: 480px; font-size: 11px; color: #212529;">' . $data['participant_institution'] . '</div>
+
+                    <!-- Competition Details -->
+                    <div class="invoice-data" style="top: 410px; left: 180px; font-size: 11px; color: #212529;">' . $data['competition_name'] . '</div>
+                    <div class="invoice-data" style="top: 430px; left: 130px; font-size: 11px; color: #212529;">' . $data['competition_category'] . '</div>
+
+                    <!-- Payment Details -->
+                    <div class="invoice-data" style="top: 557px; right: 70px; font-size: 11px; color: #212529; text-align: right;">Rp ' . number_format($data['original_price'], 0, ',', '.') . '</div>
+                    <div class="invoice-data" style="top: 582px; right: 70px; font-size: 11px; color: #212529; text-align: right;">- Rp ' . number_format($data['discount_amount'], 0, ',', '.') . '</div>
+                    <div class="invoice-data" style="top: 610px; right: 70px; font-size: 12px; color: white; font-weight: bold; text-align: right;">Rp ' . number_format($data['amount'], 0, ',', '.') . '</div>
+                </div>
             </div>
         </body>
         </html>';
