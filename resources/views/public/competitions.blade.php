@@ -105,17 +105,19 @@
     }
     
     .modern-btn {
-        background: linear-gradient(45deg, #667eea, #764ba2);
+        background: linear-gradient(45deg, #ff6b6b, #feca57);
         border: none;
-        border-radius: 25px;
-        padding: 14px 28px;
+        border-radius: 50px;
+        padding: 15px 30px;
         font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
         color: white;
         text-decoration: none;
         display: inline-flex;
         align-items: center;
-        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 10px 20px rgba(255,107,107,0.3);
+        transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
     }
@@ -136,9 +138,8 @@
     }
     
     .modern-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-        background: linear-gradient(45deg, #5a67d8, #6b46c1);
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(255,107,107,0.4);
     }
     
     .modern-btn-outline {
@@ -184,6 +185,44 @@
         overflow: hidden;
         transform: translateY(0);
     }
+
+    /* Bubble Animation for Competition Card */
+    .glass-card .glass-header {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .glass-card .glass-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background:
+            radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+            radial-gradient(circle at 40% 60%, rgba(255, 255, 255, 0.06) 0%, transparent 50%);
+        animation: bubbleFloat 8s ease-in-out infinite;
+        pointer-events: none;
+    }
+
+    .glass-card .glass-header::after {
+        content: '';
+        position: absolute;
+        top: 10%;
+        left: 10%;
+        width: 6px;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        animation: bubbleRise 6s ease-in-out infinite;
+        box-shadow:
+            20px 10px 0 2px rgba(255, 255, 255, 0.2),
+            40px 20px 0 1px rgba(255, 255, 255, 0.15),
+            60px 5px 0 3px rgba(255, 255, 255, 0.1),
+            80px 15px 0 1px rgba(255, 255, 255, 0.2);
+    }
     
     .glass-card::before {
         content: '';
@@ -196,8 +235,6 @@
     }
     
     .glass-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         border-color: rgba(255, 255, 255, 0.3);
     }
     
@@ -473,7 +510,6 @@ img {
 }
 
 .elegant-cta-section:hover {
-    transform: translateY(-3px);
     box-shadow: 0 20px 45px rgba(102, 126, 234, 0.35);
 }
 
@@ -557,7 +593,6 @@ img {
 .cta-btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
-    background: linear-gradient(45deg, #ff5252, #d63031);
 }
 
 .cta-btn-secondary {
@@ -576,9 +611,7 @@ img {
 .cta-btn-secondary:hover {
     background: rgba(255, 255, 255, 0.25);
     border-color: rgba(255, 255, 255, 0.6);
-    transform: translateY(-2px);
     color: white;
-    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.1);
 }
 
 @keyframes pulse {
@@ -600,6 +633,36 @@ img {
 @keyframes float {
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-5px); }
+}
+
+@keyframes bubbleFloat {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.8;
+    }
+    33% {
+        transform: translateY(-10px) rotate(1deg);
+        opacity: 1;
+    }
+    66% {
+        transform: translateY(-5px) rotate(-1deg);
+        opacity: 0.9;
+    }
+}
+
+@keyframes bubbleRise {
+    0% {
+        transform: translateY(0px) scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: translateY(-20px) scale(1.2);
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(-40px) scale(0.8);
+        opacity: 0;
+    }
 }
 
 /* Responsive optimizations */
@@ -869,8 +932,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Add smooth hover effects for buttons
-    document.querySelectorAll('.cta-btn-primary, .cta-btn-secondary').forEach(btn => {
+    // Add smooth hover effects only for primary buttons
+    document.querySelectorAll('.cta-btn-primary').forEach(btn => {
         btn.addEventListener('mouseenter', function() {
             this.style.transform = 'translateY(-2px)';
         });
