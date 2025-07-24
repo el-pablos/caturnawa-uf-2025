@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             SuperAdminSeeder::class,  // Only superadmin user and role
+            CompetitionDetailSeeder::class,  // All competitions with detailed requirements and criteria
         ]);
 
         $this->command->info('✅ Database seeding completed successfully!');
