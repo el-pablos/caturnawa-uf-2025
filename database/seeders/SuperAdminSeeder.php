@@ -69,6 +69,10 @@ class SuperAdminSeeder extends Seeder
             // Finance management
             'view invoices',
             'manage finance',
+
+            // Superadmin exclusive permissions
+            'delete-paid-registrations',
+            'superadmin-actions',
         ];
 
         foreach ($permissions as $permission) {
