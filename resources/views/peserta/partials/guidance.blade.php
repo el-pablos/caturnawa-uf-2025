@@ -320,7 +320,6 @@
                     @php
                         $categories = [
                             'event_debate' => ['icon' => 'bi-chat-square-text', 'name' => 'Debate Competition', 'color' => 'primary'],
-                            'event_dcc' => ['icon' => 'bi-camera-video', 'name' => 'Digital Content Competition', 'color' => 'warning'],
                             'event_scientific_paper' => ['icon' => 'bi-journal-text', 'name' => 'Scientific Paper Competition', 'color' => 'success']
                         ];
                     @endphp
@@ -334,8 +333,6 @@
                                 <p class="card-text small text-muted">
                                     @if($key === 'event_debate')
                                         Kompetisi debat dalam bahasa Indonesia dan Inggris dengan topik terkini.
-                                    @elseif($key === 'event_dcc')
-                                        Kompetisi pembuatan konten digital kreatif seperti video, animasi, dan desain.
                                     @else
                                         Kompetisi penulisan karya ilmiah untuk mahasiswa dan siswa.
                                     @endif
