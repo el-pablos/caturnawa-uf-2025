@@ -37,6 +37,9 @@ class CheckRole
             } elseif ($user->isAdmin()) {
                 return redirect()->route('admin.admin.dashboard')
                     ->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');
+            } elseif ($user->isFinance()) {
+                return redirect()->route('admin.admin.dashboard')
+                    ->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');
             } elseif ($user->isJuri()) {
                 return redirect()->route('juri.juri.dashboard')
                     ->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');

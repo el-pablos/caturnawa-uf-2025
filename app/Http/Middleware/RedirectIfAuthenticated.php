@@ -26,6 +26,8 @@ class RedirectIfAuthenticated
                     return redirect()->route('admin.admin.dashboard');
                 } elseif ($user->isAdmin()) {
                     return redirect()->route('admin.admin.dashboard');
+                } elseif ($user->isFinance()) {
+                    return redirect()->route('admin.admin.dashboard');
                 } elseif ($user->isJuri()) {
                     return redirect()->route('juri.juri.dashboard');
                 } elseif ($user->isPeserta()) {
