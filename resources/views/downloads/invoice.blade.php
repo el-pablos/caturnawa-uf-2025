@@ -51,7 +51,7 @@
         
         .header-logo {
             position: absolute;
-            right: 94px;
+            left: 550px;
             top: 10px;
             width: 100px;
             height: 80px;
@@ -435,6 +435,22 @@
             margin: 0;
         }
         
+        /* QR Code placeholder like in SVG */
+        .footer-qr {
+            position: absolute;
+            left: 600px;
+            top: 10px;
+            width: 60px;
+            height: 60px;
+            background: #e5e7eb;
+            border: 1px solid #9ca3af;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6b7280;
+            font-size: 8px;
+        }
+        
         @media print {
             body { margin: 0; padding: 0; }
             .invoice-container { margin: 0; }
@@ -508,8 +524,9 @@
         <!-- Footer -->
         <div class="footer">
             <p class="footer-line-1">UNAS Fest 2025 - Festival Kompetisi Universitas Nasional</p>
-            <p class="footer-line-2">Website: https://uf25.tams.my.id | Email: info@unasfest.com</p>
+            <p class="footer-line-2">Website: https://unasfest.com | Email: info@unasfest.com</p>
             <p class="footer-line-3">WhatsApp: {{ $payment->registration->competition->contact_person_whatsapp ?? '081234567890' }} | Instagram: @unasfest</p>
+            <div class="footer-qr">QR</div>
         </div>
     </div>
 </body>
