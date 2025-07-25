@@ -243,6 +243,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Cek apakah user adalah Finance
+     *
+     * @return bool
+     */
+    public function isFinance()
+    {
+        return $this->hasRole('finance');
+    }
+
+    /**
      * Cek apakah user adalah Juri
      *
      * @return bool

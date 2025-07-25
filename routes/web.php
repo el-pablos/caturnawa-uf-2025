@@ -145,6 +145,8 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             return redirect()->route('admin.admin.dashboard');
         } elseif ($user->isAdmin()) {
             return redirect()->route('admin.admin.dashboard');
+        } elseif ($user->isFinance()) {
+            return redirect()->route('admin.admin.dashboard');
         } elseif ($user->isJuri()) {
             return redirect()->route('juri.juri.dashboard');
         } elseif ($user->isPeserta()) {
@@ -162,8 +164,8 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
         Route::put('/password', [App\Http\Controllers\Auth\AuthController::class, 'updatePassword'])->name('password');
     });
 
-    // Super Admin & Admin Routes
-    Route::middleware(['role:superadmin|admin'])->prefix('admin')->name('admin.')->group(function () {
+    // Super Admin & Admin & Finance Routes
+    Route::middleware(['role:superadmin|admin|finance'])->prefix('admin')->name('admin.')->group(function () {
 
         // Competition Categories (Super Admin only)
         Route::middleware(['role:superadmin'])->group(function () {
