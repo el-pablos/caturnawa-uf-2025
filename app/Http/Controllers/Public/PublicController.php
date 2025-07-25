@@ -29,11 +29,9 @@ class PublicController extends Controller
      */
     public function home()
     {
-        // Get active competitions
+        // Get all competitions (active and upcoming)
         $competitions = Competition::active()
-            ->where('registration_start', '<=', now())
-            ->where('registration_end', '>=', now())
-            ->take(3)
+            ->orderBy('registration_start', 'asc')
             ->get();
 
         // Get leaderboard data for home page (top 10)
