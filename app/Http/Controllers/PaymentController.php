@@ -144,6 +144,7 @@ class PaymentController extends Controller
                 $response = [
                     'success' => true,
                     'snap_token' => $result['snap_token'],
+                    'payment_id' => $result['payment_id'],
                     'redirect_url' => $result['redirect_url']
                 ];
 
