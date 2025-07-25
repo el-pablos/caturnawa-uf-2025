@@ -82,7 +82,9 @@ echo "\n3. Testing View Rendering...\n";
 try {
     $competition = App\Models\Competition::first();
     if ($competition) {
-        // Test peserta competition show view
+        // Test peserta competition show view with mock user
+        Auth::login(App\Models\User::first());
+
         $view = view('peserta.competitions.show', [
             'competition' => $competition,
             'existingRegistration' => null,
