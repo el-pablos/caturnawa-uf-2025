@@ -5,18 +5,18 @@
             <div class="card-body">
                 <div class="row align-items-center">
                     <div class="col-md-8">
-                        <h4 class="mb-3 text-white">
+                        <h4 class="mb-3 text-white fw-bold" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
                             <i class="bi bi-star-fill me-2"></i>
                             Panduan Penggunaan Dashboard Caturnawa
                         </h4>
-                        <p class="mb-3 lead text-white">
+                        <p class="mb-3 lead text-white" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.5);">
                             Panduan lengkap alur website dari registrasi hingga upload karya untuk PIC/Team Leader.
                         </p>
                         <div class="d-flex gap-2">
-                            <span class="badge bg-white bg-opacity-20 p-2 text-dark">
+                            <span class="badge bg-white bg-opacity-90 p-2 text-dark">
                                 <i class="bi bi-people me-1"></i>{{ App\Models\Registration::where('status', 'paid')->count() }}+ Peserta
                             </span>
-                            <span class="badge bg-white bg-opacity-20 p-2 text-dark">
+                            <span class="badge bg-white bg-opacity-90 p-2 text-dark">
                                 <i class="bi bi-trophy me-1"></i>{{ App\Models\Competition::where('is_active', true)->count() }} Kompetisi
                             </span>
                         </div>
@@ -305,47 +305,3 @@
     </div>
 </div>
 
-<!-- Competition Categories -->
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <h6 class="mb-0">
-                    <i class="bi bi-grid me-2 text-info"></i>
-                    Kategori Kompetisi yang Tersedia
-                </h6>
-            </div>
-            <div class="card-body">
-                <div class="row g-3">
-                    @php
-                        $categories = [
-                            'debat' => ['icon' => 'bi-chat-square-text', 'name' => 'Kompetisi Debat', 'color' => 'primary'],
-                            'karya_ilmiah' => ['icon' => 'bi-journal-text', 'name' => 'Karya Tulis Ilmiah', 'color' => 'success']
-                        ];
-                    @endphp
-                    
-                    @foreach($categories as $key => $category)
-                    <div class="col-md-4">
-                        <div class="card border-{{ $category['color'] }} h-100">
-                            <div class="card-body text-center">
-                                <i class="bi {{ $category['icon'] }} fs-2 text-{{ $category['color'] }} mb-3"></i>
-                                <h6 class="card-title">{{ $category['name'] }}</h6>
-                                <p class="card-text small text-muted">
-                                    @if($key === 'debat')
-                                        Kompetisi debat dalam bahasa Indonesia dan Inggris dengan topik terkini.
-                                    @else
-                                        Kompetisi penulisan karya ilmiah untuk mahasiswa dan siswa.
-                                    @endif
-                                </p>
-                                <a href="{{ route('peserta.competitions.index', ['category' => $key]) }}" class="btn btn-outline-{{ $category['color'] }} btn-sm">
-                                    Lihat Kompetisi
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
