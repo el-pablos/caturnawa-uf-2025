@@ -51,8 +51,8 @@
                 <label for="filter-category" class="form-label fw-semibold">Kategori</label>
                 <select name="category" id="filter-category" class="form-control">
                     <option value="">Semua Kategori</option>
-                    <option value="event_debate" {{ request('category') === 'event_debate' ? 'selected' : '' }}>Event Debate</option>
-                    <option value="event_scientific_paper" {{ request('category') === 'event_scientific_paper' ? 'selected' : '' }}>Event Scientific Paper</option>
+                    <option value="debat" {{ request('category') === 'debat' ? 'selected' : '' }}>Kompetisi Debat</option>
+                    <option value="karya_ilmiah" {{ request('category') === 'karya_ilmiah' ? 'selected' : '' }}>Karya Tulis Ilmiah</option>
                 </select>
             </div>
             <div class="col-md-3">

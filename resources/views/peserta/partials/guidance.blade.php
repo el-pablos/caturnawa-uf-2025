@@ -319,8 +319,8 @@
                 <div class="row g-3">
                     @php
                         $categories = [
-                            'event_debate' => ['icon' => 'bi-chat-square-text', 'name' => 'Debate Competition', 'color' => 'primary'],
-                            'event_scientific_paper' => ['icon' => 'bi-journal-text', 'name' => 'Scientific Paper Competition', 'color' => 'success']
+                            'debat' => ['icon' => 'bi-chat-square-text', 'name' => 'Kompetisi Debat', 'color' => 'primary'],
+                            'karya_ilmiah' => ['icon' => 'bi-journal-text', 'name' => 'Karya Tulis Ilmiah', 'color' => 'success']
                         ];
                     @endphp
                     
@@ -331,7 +331,7 @@
                                 <i class="bi {{ $category['icon'] }} fs-2 text-{{ $category['color'] }} mb-3"></i>
                                 <h6 class="card-title">{{ $category['name'] }}</h6>
                                 <p class="card-text small text-muted">
-                                    @if($key === 'event_debate')
+                                    @if($key === 'debat')
                                         Kompetisi debat dalam bahasa Indonesia dan Inggris dengan topik terkini.
                                     @else
                                         Kompetisi penulisan karya ilmiah untuk mahasiswa dan siswa.
