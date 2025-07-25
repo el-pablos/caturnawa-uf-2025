@@ -284,26 +284,59 @@
                 <div class="col-12">
                     <h2 class="text-center mb-4">Kompetisi UnasFest</h2>
                 </div>
+            </div>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 @foreach($competitions as $index => $competition)
-                <div class="col-md-4 mb-4">
+                <div class="col">
                     <div class="card h-100 bg-white rounded-3 shadow-sm">
                         <div class="card-body p-4">
-                            <h5 class="card-title fw-bold text-primary">{{ $competition->name }}</h5>
-                            <p class="card-text text-muted">{{ Str::limit($competition->description, 100) }}</p>
-                            <p class="text-muted">
-                                <i class="bi bi-calendar text-primary"></i>
-                                {{ $competition->registration_end->format('d M Y') }}
-                            </p>
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h5 class="card-title fw-bold text-primary mb-0">{{ $competition->name }}</h5>
+                                @if($competition->is_active && now()->between($competition->registration_start, $competition->registration_end))
+                                    <span class="badge bg-success">Aktif</span>
+                                @elseif(now()->lt($competition->registration_start))
+                                    <span class="badge bg-warning">Belum Dibuka</span>
+                                @elseif(now()->gt($competition->registration_end))
+                                    <span class="badge bg-secondary">Ditutup</span>
+                                @else
+                                    <span class="badge bg-danger">Tidak Aktif</span>
+                                @endif
+                            </div>
+                            <p class="card-text text-muted mb-3">{{ Str::limit($competition->description, 100) }}</p>
+                            <div class="mb-2">
+                                <small class="text-muted">
+                                    <i class="bi bi-calendar text-primary me-1"></i>
+                                    Pendaftaran: {{ $competition->registration_start->format('d M') }} - {{ $competition->registration_end->format('d M Y') }}
+                                </small>
+                            </div>
+                            <div class="mb-3">
+                                <small class="text-muted">
+                                    <i class="bi bi-tag text-primary me-1"></i>
+                                    {{ $competition->category }}
+                                </small>
+                            </div>
                         </div>
                         <div class="card-footer bg-transparent border-0">
                             <a href="{{ route('public.competition.detail', $competition->slug) }}"
-                            class="btn btn-primary rounded-3 px-4 py-2">
+                               class="btn btn-primary rounded-3 px-4 py-2">
                                 Lihat Detail
                             </a>
                         </div>
                     </div>
                 </div>
                 @endforeach
+            </div>
+        @else
+            <div class="row mt-5">
+                <div class="col-12">
+                    <h2 class="text-center mb-4">Kompetisi UnasFest</h2>
+                    <div class="text-center">
+                        <div class="alert alert-info d-inline-block">
+                            <i class="bi bi-info-circle me-2"></i>
+                            Belum ada kompetisi yang tersedia saat ini. Silakan cek kembali nanti!
+                        </div>
+                    </div>
+                </div>
             </div>
         @endif
     </div>
