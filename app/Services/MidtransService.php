@@ -184,18 +184,19 @@ class MidtransService
             'phone'         => $registration->phone ?: $user->phone,
         ];
 
-        // Fill transaction details - simplified for better QRIS compatibility
-        $transaction = [
-            'transaction_details' => $transaction_details,
-            'customer_details' => $customer_details,
-            'item_details' => $item_details,
+        // Simplified transaction structure matching working examples
+        $time = time();
+        $custom_expiry = [
+            'start_time' => date("Y-m-d H:i:s O", $time),
+            'unit' => 'hour',
+            'duration' => 24
         ];
 
-        // Optional: Add custom expiry
-        $transaction['custom_expiry'] = [
-            'order_time' => now()->format('Y-m-d H:i:s O'),
-            'expiry_duration' => config('midtrans.custom_expiry.duration', 24),
-            'unit' => config('midtrans.custom_expiry.unit', 'hour')
+        $transaction = [
+            'transaction_details' => $transaction_details,
+            'item_details' => $item_details,
+            'customer_details' => $customer_details,
+            'expiry' => $custom_expiry
         ];
 
         return $transaction;
