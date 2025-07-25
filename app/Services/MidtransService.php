@@ -196,7 +196,12 @@ class MidtransService
             'transaction_details' => $transaction_details,
             'item_details' => $item_details,
             'customer_details' => $customer_details,
-            'expiry' => $custom_expiry
+            'expiry' => $custom_expiry,
+            'callbacks' => [
+                'finish' => route('payment.finish', ['payment' => $payment->id]),
+                'unfinish' => route('payment.status', ['paymentId' => $payment->id]),
+                'error' => route('payment.error', ['payment' => $payment->id])
+            ]
         ];
 
         return $transaction;

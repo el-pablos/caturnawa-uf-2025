@@ -243,7 +243,7 @@ class Payment extends Model
                 // MODIFIED: Auto-confirm registration without admin intervention
                 if ($payment->registration->status === 'pending') {
                     $payment->registration->update([
-                        'status' => 'confirmed', // Changed from 'paid' to 'confirmed'
+                        'status' => 'paid', // Use the correct status constant
                         'confirmed_at' => now(),
                         'confirmed_by' => null, // System auto-confirmation
                     ]);
