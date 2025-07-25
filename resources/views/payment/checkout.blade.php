@@ -441,8 +441,21 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             console.log('Payment response data:', data);
 
+            if (data.success) {
+                if (data.snap_token) {
+                    console.log('Opening Midtrans Snap with token:', data.snap_token.substring(0, 20) + '...');
+                } else if (data.redirect_url) {
+                    console.log('No snap_token, redirecting to:', data.redirect_url);
+                    // Don't redirect automatically, show error instead
+                    throw new Error('Tidak ada token pembayaran. Silakan coba lagi.');
+                } else {
+                    throw new Error('Response tidak valid dari server');
+                }
+            } else {
+                throw new Error(data.message || 'Gagal memproses pembayaran');
+            }
+
             if (data.success && data.snap_token) {
-                console.log('Opening Midtrans Snap with token:', data.snap_token.substring(0, 20) + '...');
 
                 // Check if snap is available
                 if (typeof snap === 'undefined') {

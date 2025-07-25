@@ -117,14 +117,27 @@
                 @if($competition->rules)
                     <h5 class="mb-3">Peraturan</h5>
                     <div class="mb-4">
-                        @if(is_array($competition->rules))
+                        @php
+                            $rules = $competition->rules;
+                            if (is_string($rules)) {
+                                $rules = json_decode($rules, true);
+                            }
+                        @endphp
+
+                        @if(is_array($rules) && !empty($rules))
                             <ul class="list-unstyled">
-                                @foreach($competition->rules as $rule)
-                                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>{{ $rule }}</li>
+                                @foreach($rules as $rule)
+                                    <li class="mb-2">
+                                        <i class="bi bi-check-circle text-success me-2"></i>
+                                        {{ $rule }}
+                                    </li>
                                 @endforeach
                             </ul>
                         @else
-                            {!! nl2br(e($competition->rules)) !!}
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle me-2"></i>
+                                Peraturan akan diumumkan segera.
+                            </div>
                         @endif
                     </div>
                 @endif
@@ -143,35 +156,35 @@
 
                         @if(is_array($prizes) && !empty($prizes))
                             <div class="row">
-                                @if(isset($prizes['first']))
+                                @if(isset($prizes['juara_1']) || isset($prizes['first']))
                                     <div class="col-md-4 mb-3">
                                         <div class="card border-warning">
                                             <div class="card-body text-center">
                                                 <i class="bi bi-trophy-fill text-warning fs-1 mb-2"></i>
                                                 <h6 class="card-title">Juara 1</h6>
-                                                <p class="card-text fw-bold text-warning">{{ $prizes['first'] }}</p>
+                                                <p class="card-text fw-bold text-warning">{{ $prizes['juara_1'] ?? $prizes['first'] ?? '' }}</p>
                                             </div>
                                         </div>
                                     </div>
                                 @endif
-                                @if(isset($prizes['second']))
+                                @if(isset($prizes['juara_2']) || isset($prizes['second']))
                                     <div class="col-md-4 mb-3">
                                         <div class="card border-secondary">
                                             <div class="card-body text-center">
                                                 <i class="bi bi-trophy-fill text-secondary fs-1 mb-2"></i>
                                                 <h6 class="card-title">Juara 2</h6>
-                                                <p class="card-text fw-bold text-secondary">{{ $prizes['second'] }}</p>
+                                                <p class="card-text fw-bold text-secondary">{{ $prizes['juara_2'] ?? $prizes['second'] ?? '' }}</p>
                                             </div>
                                         </div>
                                     </div>
                                 @endif
-                                @if(isset($prizes['third']))
+                                @if(isset($prizes['juara_3']) || isset($prizes['third']))
                                     <div class="col-md-4 mb-3">
                                         <div class="card border-dark">
                                             <div class="card-body text-center">
                                                 <i class="bi bi-trophy-fill text-dark fs-1 mb-2"></i>
                                                 <h6 class="card-title">Juara 3</h6>
-                                                <p class="card-text fw-bold text-dark">{{ $prizes['third'] }}</p>
+                                                <p class="card-text fw-bold text-dark">{{ $prizes['juara_3'] ?? $prizes['third'] ?? '' }}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -181,8 +194,11 @@
                                         <h6>Hadiah Lainnya:</h6>
                                         <ul class="list-unstyled">
                                             @foreach($prizes as $key => $prize)
-                                                @if(!in_array($key, ['first', 'second', 'third']))
-                                                    <li class="mb-2"><i class="bi bi-trophy text-warning me-2"></i>{{ ucfirst($key) }}: {{ $prize }}</li>
+                                                @if(!in_array($key, ['juara_1', 'juara_2', 'juara_3', 'first', 'second', 'third']))
+                                                    <li class="mb-2">
+                                                        <i class="bi bi-trophy text-warning me-2"></i>
+                                                        {{ str_replace('_', ' ', ucfirst($key)) }}: {{ $prize }}
+                                                    </li>
                                                 @endif
                                             @endforeach
                                         </ul>
@@ -284,7 +300,7 @@
         <!-- Competition Stats -->
         <div class="peserta-card mb-4">
             <div class="card-header">
-                <h6 class="mb-0">
+                <h6 class="mb-0 text-primary">
                     <i class="bi bi-graph-up me-2"></i>Statistik Kompetisi
                 </h6>
             </div>
@@ -309,7 +325,7 @@
         <!-- Important Dates -->
         <div class="peserta-card">
             <div class="card-header">
-                <h6 class="mb-0">
+                <h6 class="mb-0 text-success">
                     <i class="bi bi-calendar-event me-2"></i>Tanggal Penting
                 </h6>
             </div>

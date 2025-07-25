@@ -67,9 +67,33 @@ class MidtransService
             ];
         }
 
-        // Delete any existing pending payments to avoid order_id conflicts
+        // Check for existing pending payment that's still valid
+        $existingPayment = Payment::where('registration_id', $registration->id)
+            ->whereNotIn('transaction_status', ['settlement', 'capture'])
+            ->where('expired_at', '>', now())
+            ->first();
+
+        if ($existingPayment && $existingPayment->snap_token) {
+            // Return existing payment if still valid
+            Log::info('Reusing existing payment', [
+                'payment_id' => $existingPayment->id,
+                'order_id' => $existingPayment->order_id,
+                'expires_at' => $existingPayment->expired_at
+            ]);
+
+            return [
+                'success' => true,
+                'snap_token' => $existingPayment->snap_token,
+                'payment_id' => $existingPayment->id,
+                'order_id' => $existingPayment->order_id,
+                'redirect_url' => $this->getRedirectUrl($existingPayment),
+            ];
+        }
+
+        // Delete only expired pending payments
         Payment::where('registration_id', $registration->id)
             ->whereNotIn('transaction_status', ['settlement', 'capture'])
+            ->where('expired_at', '<=', now())
             ->delete();
 
         // Create new payment record
