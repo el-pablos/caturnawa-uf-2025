@@ -454,11 +454,6 @@
                         </div>
                     </div>
                     
-                    <div class="mb-3">
-                        <label for="special_needs" class="form-label">Kebutuhan Khusus</label>
-                        <textarea class="form-control" id="special_needs" name="special_needs" rows="3" 
-                                  placeholder="Jelaskan jika ada kebutuhan khusus...">{{ old('special_needs') }}</textarea>
-                    </div>
 
                     @if($dynamicRequirements && $dynamicRequirements->count() > 0)
                         <hr>

@@ -80,12 +80,6 @@
                                 <td class="fw-semibold">Telepon:</td>
                                 <td>{{ $registration->phone ?: $registration->user->phone }}</td>
                             </tr>
-                            @if($registration->special_needs)
-                            <tr>
-                                <td class="fw-semibold">Kebutuhan Khusus:</td>
-                                <td>{{ $registration->special_needs }}</td>
-                            </tr>
-                            @endif
                         </table>
                     </div>
                 </div>
