@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Submission;
 use App\Models\Payment;
 use App\Models\Registration;
+use App\Services\InvoiceService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -175,6 +176,54 @@ class DownloadController extends Controller
 
             // Fallback to HTML view if PDF generation fails
             return view('downloads.ticket', compact('registration'))->with('error', 'PDF generation failed, showing HTML version. Error: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Unified invoice download for all roles except juri
+     *
+     * @param \App\Models\Registration $registration
+     * @return \Illuminate\Http\Response
+     */
+    public function unifiedInvoice(Registration $registration)
+    {
+        $user = Auth::user();
+
+        // Check if user is juri - they cannot download invoices
+        if ($user->isJuri()) {
+            abort(403, 'Juri tidak memiliki akses untuk mengunduh invoice.');
+        }
+
+        // Check permission based on role
+        $hasPermission = false;
+
+        if ($user->isSuperAdmin() || $user->isAdmin() || $user->isFinance()) {
+            // Admin roles can download any invoice
+            $hasPermission = true;
+        } elseif ($user->isPeserta()) {
+            // Peserta can only download their own invoice
+            $hasPermission = ($registration->user_id === $user->id);
+        }
+
+        if (!$hasPermission) {
+            abort(403, 'Anda tidak memiliki akses untuk mengunduh invoice ini.');
+        }
+
+        // Check if registration has payment and is paid
+        if (!$registration->payment || $registration->payment->status !== 'paid') {
+            return redirect()->back()->with('error', 'Invoice hanya tersedia untuk pendaftaran yang sudah dibayar.');
+        }
+
+        try {
+            // Use InvoiceService for consistent invoice generation
+            $invoiceService = app(InvoiceService::class);
+            return $invoiceService->downloadInvoice($registration);
+
+        } catch (\Exception $e) {
+            Log::error('Error generating unified invoice: ' . $e->getMessage());
+            Log::error('Unified Invoice Error Stack Trace: ' . $e->getTraceAsString());
+
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat mengunduh invoice: ' . $e->getMessage());
         }
     }
 }

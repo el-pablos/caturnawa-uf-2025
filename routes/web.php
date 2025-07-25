@@ -488,6 +488,9 @@ Route::middleware(['auth'])->prefix('download')->name('download.')->group(functi
     Route::get('/submission/{submission}/{filename}', [App\Http\Controllers\DownloadController::class, 'submission'])->name('submission');
     Route::get('/payment/{payment}/invoice', [App\Http\Controllers\DownloadController::class, 'invoice'])->name('invoice');
     Route::get('/registration/{registration}/ticket', [App\Http\Controllers\DownloadController::class, 'ticket'])->name('ticket');
+
+    // Unified invoice download for all roles except juri
+    Route::get('/invoice/{registration}', [App\Http\Controllers\DownloadController::class, 'unifiedInvoice'])->name('unified-invoice');
 });
 
 // Error Pages
