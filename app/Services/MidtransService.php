@@ -38,13 +38,12 @@ class MidtransService
     }
 
     /**
-     * Buat transaksi pembayaran baru
+     * Buat transaksi pembayaran baru dengan auto-detect payment methods
      *
      * @param \App\Models\Registration $registration
-     * @param string|null $paymentMethod
      * @return array
      */
-    public function createTransaction(Registration $registration, $paymentMethod = null)
+    public function createTransaction(Registration $registration)
     {
         // Check if Midtrans is properly configured
         if (!$this->isConfigured()) {
@@ -104,8 +103,8 @@ class MidtransService
             'expired_at' => now()->addHours(24), // 24 jam untuk pembayaran
         ]);
 
-        // Siapkan parameter untuk Midtrans
-        $params = $this->buildTransactionParams($registration, $payment, $paymentMethod);
+        // Siapkan parameter untuk Midtrans dengan auto-detect payment methods
+        $params = $this->buildTransactionParams($registration, $payment);
 
         try {
             // Dapatkan Snap Token dari Midtrans
@@ -118,7 +117,7 @@ class MidtransService
                 'order_id' => $payment->order_id,
                 'registration_id' => $registration->id,
                 'amount' => $registration->amount,
-                'payment_method' => $paymentMethod
+                'auto_detect' => true
             ]);
 
             return [
@@ -132,7 +131,7 @@ class MidtransService
             Log::error('Midtrans Transaction Error: ' . $e->getMessage(), [
                 'order_id' => $payment->order_id,
                 'registration_id' => $registration->id,
-                'payment_method' => $paymentMethod
+                'auto_detect' => true
             ]);
 
             return [
@@ -143,14 +142,13 @@ class MidtransService
     }
 
     /**
-     * Bangun parameter transaksi untuk Midtrans
+     * Bangun parameter transaksi untuk Midtrans dengan auto-detect payment methods
      *
      * @param \App\Models\Registration $registration
      * @param \App\Models\Payment $payment
-     * @param string|null $paymentMethod
      * @return array
      */
-    protected function buildTransactionParams(Registration $registration, Payment $payment, $paymentMethod = null)
+    protected function buildTransactionParams(Registration $registration, Payment $payment)
     {
         $user = $registration->user;
         $competition = $registration->competition;
@@ -182,17 +180,19 @@ class MidtransService
             'phone'         => $registration->phone ?: $user->phone,
         ];
 
-        // Fill transaction details
+        // Fill transaction details with auto-detect enabled payment methods
         $transaction = [
             'transaction_details' => $transaction_details,
             'customer_details' => $customer_details,
             'item_details' => $item_details,
+            // Enable all available payment methods for auto-detection
+            'enabled_payments' => [
+                'credit_card', 'mandiri_clickpay', 'cimb_clicks',
+                'bca_klikbca', 'bca_klikpay', 'bri_epay', 'echannel', 'permata_va',
+                'bca_va', 'bni_va', 'other_va', 'gopay', 'shopeepay', 'qris',
+                'indomaret', 'alfamart', 'akulaku', 'kredivo'
+            ],
         ];
-
-        // Configure payment methods based on selected method
-        if ($paymentMethod) {
-            $transaction = $this->configurePaymentMethod($transaction, $paymentMethod);
-        }
 
         // Optional: Add custom expiry
         $transaction['custom_expiry'] = [
@@ -264,81 +264,7 @@ class MidtransService
         return $transaction;
     }
 
-    /**
-     * Create QRIS specific transaction
-     *
-     * @param \App\Models\Registration $registration
-     * @return array
-     */
-    public function createQrisTransaction(Registration $registration)
-    {
-        // Check if Midtrans is properly configured
-        if (!$this->isConfigured()) {
-            Log::error('Midtrans not configured - cannot create QRIS transaction');
-            return [
-                'success' => false,
-                'message' => 'Payment gateway tidak dikonfigurasi. Silakan hubungi administrator.',
-            ];
-        }
-
-        // Delete existing payment to avoid order_id conflict
-        Payment::where('registration_id', $registration->id)->delete();
-
-        // Create new payment record
-        $payment = Payment::create([
-            'registration_id' => $registration->id,
-            'gross_amount' => $registration->amount,
-            'transaction_status' => 'pending',
-            'expired_at' => now()->addHours(24),
-        ]);
-
-        // Build QRIS specific parameters
-        $params = $this->buildTransactionParams($registration, $payment, 'qris');
-
-        // Add additional QRIS configuration for better compatibility
-        $params['qris'] = [
-            'acquirer' => 'gopay'
-        ];
-        $params['enabled_payments'] = ['qris'];
-
-        // Add metadata for QRIS tracking
-        $params['custom_field1'] = 'qris_payment';
-        $params['custom_field2'] = $registration->registration_number;
-        $params['custom_field3'] = 'unas_fest_2025';
-
-        try {
-            // Get Snap Token from Midtrans
-            $snapToken = Snap::getSnapToken($params);
-
-            // Update payment record with snap token
-            $payment->update(['snap_token' => $snapToken]);
-
-            Log::info('QRIS transaction created successfully', [
-                'order_id' => $payment->order_id,
-                'registration_id' => $registration->id,
-                'amount' => $registration->amount
-            ]);
-
-            return [
-                'success' => true,
-                'snap_token' => $snapToken,
-                'payment_id' => $payment->id,
-                'order_id' => $payment->order_id,
-                'redirect_url' => $this->getRedirectUrl($payment),
-            ];
-        } catch (\Exception $e) {
-            Log::error('QRIS Transaction Error: ' . $e->getMessage(), [
-                'order_id' => $payment->order_id,
-                'registration_id' => $registration->id,
-                'params' => $params
-            ]);
-
-            return [
-                'success' => false,
-                'message' => 'Gagal membuat transaksi QRIS: ' . $e->getMessage(),
-            ];
-        }
-    }
+    // QRIS method removed - using auto-detect payment methods now
 
     /**
      * Handle notifikasi dari Midtrans

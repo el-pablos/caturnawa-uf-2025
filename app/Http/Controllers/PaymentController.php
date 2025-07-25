@@ -136,16 +136,9 @@ class PaymentController extends Controller
             ], 400);
         }
 
-        // Get selected payment method
-        $paymentMethod = $request->input('payment_method');
-
         try {
-            // Use specific QRIS method for QRIS payments
-            if (strtolower($paymentMethod) === 'qris') {
-                $result = $this->midtransService->createQrisTransaction($registration);
-            } else {
-                $result = $this->midtransService->createTransaction($registration, $paymentMethod);
-            }
+            // Create transaction with auto-detect payment methods
+            $result = $this->midtransService->createTransaction($registration);
 
             if ($result['success']) {
                 $response = [
@@ -173,7 +166,7 @@ class PaymentController extends Controller
             Log::error('Payment process error: ' . $e->getMessage(), [
                 'registration_id' => $registration->id,
                 'user_id' => Auth::id(),
-                'payment_method' => $paymentMethod,
+                'auto_detect' => true,
                 'trace' => $e->getTraceAsString()
             ]);
 
