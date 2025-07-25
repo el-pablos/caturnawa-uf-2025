@@ -117,8 +117,12 @@ class MidtransService
                 'order_id' => $payment->order_id,
                 'registration_id' => $registration->id,
                 'amount' => $registration->amount,
+                'snap_token' => substr($snapToken, 0, 20) . '...',
                 'auto_detect' => true
             ]);
+
+            // Wait a moment for Midtrans to process the transaction
+            sleep(1);
 
             return [
                 'success' => true,

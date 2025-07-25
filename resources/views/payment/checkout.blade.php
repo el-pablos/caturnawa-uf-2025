@@ -219,9 +219,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Check if Midtrans Snap is loaded
         if (typeof snap === 'undefined') {
             alert('Sistem pembayaran belum siap. Silakan refresh halaman dan coba lagi.');
+            console.error('Midtrans Snap not loaded');
             return;
         }
 
+        console.log('Starting payment process...');
         this.disabled = true;
         this.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing...';
 
@@ -247,27 +249,17 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             console.log('Payment response data:', data);
 
-            if (data.success) {
-                if (data.snap_token) {
-                    console.log('Opening Midtrans Snap with token:', data.snap_token.substring(0, 20) + '...');
-                } else if (data.redirect_url) {
-                    console.log('No snap_token, redirecting to:', data.redirect_url);
-                    // Don't redirect automatically, show error instead
-                    throw new Error('Tidak ada token pembayaran. Silakan coba lagi.');
-                } else {
-                    throw new Error('Response tidak valid dari server');
-                }
-            } else {
-                throw new Error(data.message || 'Gagal memproses pembayaran');
-            }
-
             if (data.success && data.snap_token) {
+                console.log('Payment response successful, opening Midtrans Snap...');
+                console.log('Snap token received:', data.snap_token.substring(0, 20) + '...');
+
                 // Check if snap is available
                 if (typeof snap === 'undefined') {
                     throw new Error('Midtrans Snap tidak tersedia. Silakan refresh halaman.');
                 }
 
                 // Open Midtrans Snap
+                console.log('Calling snap.pay()...');
                 snap.pay(data.snap_token, {
                     onSuccess: function(result) {
                         console.log('Payment success:', result);
@@ -305,8 +297,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         payButton.innerHTML = '<i class="bi bi-credit-card me-2"></i>Pay Now';
                     }
                 });
+            } else if (data.success && !data.snap_token) {
+                throw new Error('Token pembayaran tidak ditemukan dalam response. Silakan coba lagi.');
             } else {
-                throw new Error(data.message || 'Gagal mendapatkan token pembayaran');
+                throw new Error(data.message || 'Gagal memproses pembayaran');
             }
         })
         .catch(error => {
