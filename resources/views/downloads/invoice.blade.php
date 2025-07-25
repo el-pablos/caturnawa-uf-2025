@@ -7,220 +7,231 @@
     <style>
         body {
             font-family: 'DejaVu Sans', Arial, sans-serif;
-            font-size: 14px;
-            line-height: 1.6;
-            color: #333;
+            font-size: 12px;
+            line-height: 1.4;
+            color: #374151;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             background: #fff;
         }
         
         .invoice-container {
-            max-width: 800px;
+            width: 794px;
+            min-height: 1123px;
             margin: 0 auto;
             background: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            overflow: hidden;
+            position: relative;
         }
         
+        /* Header Section */
         .header {
-            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-        
-        .header h1 {
-            margin: 0 0 10px 0;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        
-        .header h2 {
-            margin: 0;
-            font-size: 18px;
-            font-weight: normal;
-            opacity: 0.9;
-        }
-        
-        .invoice-details {
-            padding: 30px;
-        }
-        
-        .invoice-meta {
+            background: #2563eb;
+            height: 120px;
+            margin: 50px 50px 0 50px;
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-        
-        .invoice-meta div {
-            flex: 1;
-            min-width: 250px;
-        }
-        
-        .invoice-meta h3 {
-            color: #007bff;
-            margin: 0 0 15px 0;
-            font-size: 16px;
-            border-bottom: 2px solid #007bff;
-            padding-bottom: 5px;
-        }
-        
-        .info-row {
-            display: flex;
-            margin-bottom: 8px;
-        }
-        
-        .info-label {
-            font-weight: bold;
-            width: 140px;
-            color: #555;
-        }
-        
-        .info-value {
-            flex: 1;
-            color: #333;
-        }
-        
-        .payment-summary {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 25px;
-            margin: 30px 0;
-            border-left: 4px solid #007bff;
-        }
-        
-        .payment-summary h3 {
-            color: #007bff;
-            margin: 0 0 20px 0;
-            font-size: 18px;
-        }
-        
-        .amount-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            padding: 8px 0;
-        }
-        
-        .amount-row.total {
-            border-top: 2px solid #007bff;
-            margin-top: 15px;
-            padding-top: 15px;
-            font-weight: bold;
-            font-size: 18px;
-            color: #007bff;
-        }
-        
-        .status-badge {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-        
-        .status-paid {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .status-pending {
-            background: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeaa7;
-        }
-        
-        .team-details {
-            background: #fff;
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 20px 0;
-        }
-        
-        .team-details h4 {
-            color: #007bff;
-            margin: 0 0 15px 0;
-            font-size: 16px;
-        }
-        
-        .team-member {
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .team-member:last-child {
-            border-bottom: none;
-        }
-        
-        .footer {
-            background: #f8f9fa;
-            padding: 20px 30px;
-            text-align: center;
-            border-top: 1px solid #dee2e6;
-            color: #666;
-        }
-        
-        .footer p {
-            margin: 5px 0;
-            font-size: 12px;
-        }
-        
-        .qr-section {
-            text-align: center;
-            margin: 20px 0;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 8px;
-        }
-        
-        .print-button {
-            background: #007bff;
+            padding: 0 20px;
             color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 20px 0;
+            position: relative;
+        }
+        
+        .header-left h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0 0 5px 0;
+        }
+        
+        .header-left h2 {
             font-size: 14px;
+            margin: 0;
+            font-weight: normal;
+        }
+        
+        .header-logo {
+            width: 100px;
+            height: 80px;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+        
+        /* Invoice Info Section */
+        .invoice-info {
+            padding: 50px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .invoice-details h3 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1f2937;
+            margin: 0 0 15px 0;
+        }
+        
+        .invoice-details p {
+            font-size: 12px;
+            color: #6b7280;
+            margin: 5px 0;
+        }
+        
+        .customer-info h4 {
+            font-size: 14px;
+            font-weight: bold;
+            color: #1f2937;
+            margin: 0 0 15px 0;
+        }
+        
+        .customer-info p {
+            font-size: 12px;
+            color: #374151;
+            margin: 5px 0;
+        }
+        
+        /* Separator Line */
+        .separator {
+            height: 1px;
+            background: #e5e7eb;
+            margin: 0 70px;
+        }
+        
+        /* Table Section */
+        .table-container {
+            margin: 20px 70px;
+        }
+        
+        .table-header {
+            background: #f3f4f6;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            color: #374151;
+            font-size: 12px;
+        }
+        
+        .table-row {
+            background: white;
+            border: 1px solid #e5e7eb;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            color: #374151;
+            font-size: 12px;
+        }
+        
+        .col-competition { width: 310px; padding-left: 20px; }
+        .col-category { width: 150px; }
+        .col-price { width: 100px; }
+        .col-total { width: 74px; }
+        
+        /* Subtotal Section */
+        .subtotal-container {
+            margin: 30px 70px 0 450px;
+        }
+        
+        .subtotal-line {
+            height: 1px;
+            background: #e5e7eb;
+            margin-bottom: 20px;
+        }
+        
+        .subtotal-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: #374151;
+        }
+        
+        .total-row {
+            background: #2563eb;
+            color: white;
+            padding: 8px 15px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        /* Payment Method */
+        .payment-method {
+            margin: 40px 70px;
+        }
+        
+        .payment-method h4 {
+            font-size: 14px;
+            font-weight: bold;
+            color: #1f2937;
+            margin: 0 0 10px 0;
+        }
+        
+        .payment-method p {
+            font-size: 12px;
+            color: #374151;
+            margin: 0;
+        }
+        
+        /* Instructions */
+        .instructions {
+            margin: 40px 70px;
+        }
+        
+        .instructions h4 {
+            font-size: 14px;
+            font-weight: bold;
+            color: #1f2937;
+            margin: 0 0 15px 0;
+        }
+        
+        .instructions p {
+            font-size: 12px;
+            color: #374151;
+            margin: 5px 0;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #f3f4f6;
+            height: 80px;
+            margin: 0 50px 50px 50px;
+            padding: 20px;
+            position: absolute;
+            bottom: 50px;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .footer-info p {
+            font-size: 12px;
+            color: #6b7280;
+            margin: 2px 0;
+        }
+        
+        .footer-qr {
+            width: 60px;
+            height: 60px;
+            background: #e5e7eb;
+            border: 1px solid #9ca3af;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            color: #6b7280;
         }
         
         @media print {
-            body {
-                padding: 0;
-            }
-            .print-button {
-                display: none;
-            }
-            .invoice-container {
-                box-shadow: none;
-                border-radius: 0;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .invoice-meta {
-                flex-direction: column;
-            }
-            
-            .amount-row {
-                flex-direction: column;
-                text-align: left;
-            }
-            
-            .info-row {
-                flex-direction: column;
-            }
-            
-            .info-label {
-                width: auto;
-                margin-bottom: 2px;
-            }
+            body { margin: 0; padding: 0; }
+            .invoice-container { margin: 0; }
         }
     </style>
 </head>
@@ -228,165 +239,99 @@
     <div class="invoice-container">
         <!-- Header -->
         <div class="header">
-            <h1>UNAS FEST 2025</h1>
-            <h2>Invoice Pembayaran Kompetisi</h2>
+            <div class="header-left">
+                <h1>UNAS FEST 2025</h1>
+                <h2>Invoice Pembayaran Kompetisi</h2>
+            </div>
+            <div class="header-logo">
+                LOGO
+            </div>
         </div>
         
-        <!-- Invoice Details -->
-        <div class="invoice-details">
-            <!-- Invoice Meta Information -->
-            <div class="invoice-meta">
-                <div>
-                    <h3>Informasi Invoice</h3>
-                    <div class="info-row">
-                        <span class="info-label">Nomor Invoice:</span>
-                        <span class="info-value">{{ $payment->order_id }}</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Tanggal:</span>
-                        <span class="info-value">{{ $payment->created_at->format('d F Y') }}</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Status:</span>
-                        <span class="info-value">
-                            <span class="status-badge {{ $payment->status === 'paid' ? 'status-paid' : 'status-pending' }}">
-                                {{ $payment->status === 'paid' ? 'LUNAS' : 'PENDING' }}
-                            </span>
-                        </span>
-                    </div>
-                    @if($payment->paid_at)
-                    <div class="info-row">
-                        <span class="info-label">Dibayar pada:</span>
-                        <span class="info-value">{{ $payment->paid_at->format('d F Y H:i') }}</span>
-                    </div>
-                    @endif
-                </div>
-                
-                <div>
-                    <h3>Informasi Peserta</h3>
-                    <div class="info-row">
-                        <span class="info-label">Nama:</span>
-                        <span class="info-value">{{ $payment->registration->user->name }}</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Email:</span>
-                        <span class="info-value">{{ $payment->registration->user->email }}</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Institusi:</span>
-                        <span class="info-value">{{ $payment->registration->user->institution ?? 'Tidak diisi' }}</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Kompetisi:</span>
-                        <span class="info-value">{{ $payment->registration->competition->name }}</span>
-                    </div>
-                </div>
+        <!-- Invoice Info -->
+        <div class="invoice-info">
+            <div class="invoice-details">
+                <h3>INVOICE</h3>
+                <p>Invoice No: {{ $payment->order_id }}</p>
+                <p>Tanggal: {{ $payment->created_at->format('d M Y') }}</p>
+                <p>Status: {{ $payment->status === 'paid' ? 'LUNAS' : 'PENDING' }}</p>
             </div>
             
-            <!-- Team Details if available -->
-            @if($payment->registration->team_name)
-            <div class="team-details">
-                <h4>Detail Tim</h4>
-                <div class="info-row">
-                    <span class="info-label">Nama Tim:</span>
-                    <span class="info-value">{{ $payment->registration->team_name }}</span>
-                </div>
-                
-                @if($payment->registration->teamMembers && $payment->registration->teamMembers->count() > 0)
-                <h5 style="margin: 15px 0 10px 0; color: #666;">Anggota Tim:</h5>
-                @foreach($payment->registration->teamMembers as $index => $member)
-                <div class="team-member">
-                    <strong>{{ $index + 1 }}. {{ $member->name }}</strong>
-                    @if($member->email)
-                    <br><small>{{ $member->email }}</small>
-                    @endif
-                    @if($member->phone)
-                    <br><small>{{ $member->phone }}</small>
-                    @endif
-                </div>
-                @endforeach
-                @endif
+            <div class="customer-info">
+                <h4>Peserta:</h4>
+                <p>{{ $payment->registration->user->name }}</p>
+                <p>{{ $payment->registration->user->institution ?? 'Tidak diisi' }}</p>
+                <p>{{ $payment->registration->user->email }}</p>
+                <p>{{ $payment->registration->phone ?: $payment->registration->user->phone }}</p>
             </div>
-            @endif
-            
-            <!-- Payment Summary -->
-            <div class="payment-summary">
-                <h3>Ringkasan Pembayaran</h3>
-                
-                <div class="amount-row">
-                    <span>Biaya Pendaftaran {{ $payment->registration->competition->name }}:</span>
-                    <span>Rp {{ number_format($payment->amount, 0, ',', '.') }}</span>
-                </div>
-                
-                <div class="amount-row">
-                    <span>Biaya Admin:</span>
-                    <span>Rp 0</span>
-                </div>
-                
-                <div class="amount-row total">
-                    <span>Total Pembayaran:</span>
-                    <span>Rp {{ number_format($payment->amount, 0, ',', '.') }}</span>
-                </div>
-                
-                @if($payment->payment_method)
-                <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #dee2e6;">
-                    <div class="info-row">
-                        <span class="info-label">Metode Pembayaran:</span>
-                        <span class="info-value">{{ ucfirst(str_replace('_', ' ', $payment->payment_method)) }}</span>
-                    </div>
-                    @if($payment->transaction_id)
-                    <div class="info-row">
-                        <span class="info-label">ID Transaksi:</span>
-                        <span class="info-value">{{ $payment->transaction_id }}</span>
-                    </div>
-                    @endif
-                </div>
-                @endif
+        </div>
+        
+        <!-- Separator Line -->
+        <div class="separator"></div>
+        
+        <!-- Table -->
+        <div class="table-container">
+            <div class="table-header">
+                <div class="col-competition">Kompetisi</div>
+                <div class="col-category">Kategori</div>
+                <div class="col-price">Harga</div>
+                <div class="col-total">Total</div>
             </div>
             
-            <!-- QR Code if available -->
-            @if($payment->registration->qr_code)
-            <div class="qr-section">
-                <h4 style="color: #007bff; margin-bottom: 15px;">E-Ticket QR Code</h4>
-                <img src="data:image/png;base64,{{ base64_encode($payment->registration->qr_code) }}" 
-                     alt="QR Code" style="max-width: 200px; height: auto;">
-                <p style="margin: 10px 0 0 0; font-size: 12px; color: #666;">
-                    Tunjukkan QR Code ini saat check-in kompetisi
-                </p>
+            <div class="table-row">
+                <div class="col-competition">{{ $payment->registration->competition->name }}</div>
+                <div class="col-category">{{ $payment->registration->competition->category }}</div>
+                <div class="col-price">Rp {{ number_format($payment->registration->original_price ?? $payment->amount, 0, ',', '.') }}</div>
+                <div class="col-total">Rp {{ number_format($payment->amount, 0, ',', '.') }}</div>
             </div>
-            @endif
+        </div>
+        
+        <!-- Subtotal Section -->
+        <div class="subtotal-container">
+            <div class="subtotal-line"></div>
+            
+            <div class="subtotal-row">
+                <span>Subtotal:</span>
+                <span>Rp {{ number_format($payment->registration->original_price ?? $payment->amount, 0, ',', '.') }}</span>
+            </div>
+            
+            <div class="subtotal-row">
+                <span>Discount:</span>
+                <span>-Rp {{ number_format(($payment->registration->original_price ?? $payment->amount) - $payment->amount, 0, ',', '.') }}</span>
+            </div>
+            
+            <div class="total-row">
+                <span>TOTAL:</span>
+                <span>Rp {{ number_format($payment->amount, 0, ',', '.') }}</span>
+            </div>
+        </div>
+        
+        <!-- Payment Method -->
+        <div class="payment-method">
+            <h4>Metode Pembayaran:</h4>
+            <p>{{ $payment->payment_method_label ?? 'Midtrans Payment Gateway' }}</p>
+        </div>
+        
+        <!-- Instructions -->
+        <div class="instructions">
+            <h4>Instruksi:</h4>
+            <p>1. Simpan invoice ini sebagai bukti pembayaran</p>
+            <p>2. Hubungi Contact Person di WhatsApp: {{ $payment->registration->competition->contact_person_whatsapp ?? '081234567890' }}</p>
+            <p>3. Kirimkan screenshot invoice dan bukti pembayaran</p>
+            <p>4. Tunggu konfirmasi dari panitia</p>
         </div>
         
         <!-- Footer -->
         <div class="footer">
-            <p><strong>UNAS FEST 2025 - Dies Natalis ke-76 Universitas Nasional</strong></p>
-            <p>Invoice ini adalah bukti sah pembayaran pendaftaran kompetisi</p>
-            <p>Dicetak pada: {{ $generated_at->format('d F Y H:i:s') }}</p>
-            <p>Untuk informasi lebih lanjut, hubungi panitia kompetisi UNAS Fest 2025</p>
+            <div class="footer-info">
+                <p>UNAS Fest 2025 - Festival Kompetisi Universitas Nasional</p>
+                <p>Website: https://uf25.tams.my.id | Email: info@unasfest.com</p>
+                <p>WhatsApp: {{ $payment->registration->competition->contact_person_whatsapp ?? '081234567890' }} | Instagram: @unasfest</p>
+            </div>
+            <div class="footer-qr">
+                QR
+            </div>
         </div>
     </div>
-    
-    <!-- Print Button -->
-    <div style="text-align: center; margin: 20px 0;">
-        <button class="print-button" onclick="window.print()">
-            <i class="bi bi-printer"></i> Cetak Invoice
-        </button>
-    </div>
-    
-    <script>
-        // Auto print functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add print styles
-            const style = document.createElement('style');
-            style.textContent = `
-                @media print {
-                    .print-button { display: none !important; }
-                    body { margin: 0; padding: 0; }
-                    .invoice-container { box-shadow: none; }
-                }
-            `;
-            document.head.appendChild(style);
-        });
-    </script>
 </body>
 </html>
