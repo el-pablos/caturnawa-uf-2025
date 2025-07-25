@@ -248,8 +248,6 @@ class Payment extends Model
                         'confirmed_by' => null, // System auto-confirmation
                     ]);
 
-                    // Generate QR Code for confirmed registration
-                    $payment->registration->generateQRCode();
                 }
 
                 // Store WhatsApp group link in session for display

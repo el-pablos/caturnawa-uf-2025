@@ -417,8 +417,6 @@ class MidtransService
                 'confirmation_notes' => 'Pembayaran dikonfirmasi otomatis oleh sistem setelah pembayaran berhasil'
             ]);
 
-            // Generate QR Code for confirmed registration
-            $registration->generateQRCode();
         }
 
         // Log event

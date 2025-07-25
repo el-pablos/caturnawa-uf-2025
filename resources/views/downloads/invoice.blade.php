@@ -208,7 +208,6 @@
             right: 0;
             display: flex;
             align-items: center;
-            justify-content: space-between;
         }
         
         .footer-info p {
@@ -217,17 +216,6 @@
             margin: 2px 0;
         }
         
-        .footer-qr {
-            width: 60px;
-            height: 60px;
-            background: #e5e7eb;
-            border: 1px solid #9ca3af;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 8px;
-            color: #6b7280;
-        }
         
         @media print {
             body { margin: 0; padding: 0; }
@@ -327,9 +315,6 @@
                 <p>UNAS Fest 2025 - Festival Kompetisi Universitas Nasional</p>
                 <p>Website: https://uf25.tams.my.id | Email: info@unasfest.com</p>
                 <p>WhatsApp: {{ $payment->registration->competition->contact_person_whatsapp ?? '081234567890' }} | Instagram: @unasfest</p>
-            </div>
-            <div class="footer-qr">
-                QR
             </div>
         </div>
     </div>

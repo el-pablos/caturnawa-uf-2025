@@ -47,7 +47,6 @@ class Registration extends Model
         'reopened_at',
         'reopened_by',
         'ticket_code',
-        'qr_code',
         'dynamic_data',
     ];
 
@@ -258,8 +257,6 @@ class Registration extends Model
             'confirmed_at' => now(),
         ]);
         
-        // Generate QR code setelah pembayaran berhasil
-        $this->generateQRCode();
     }
 
     /**
@@ -321,34 +318,6 @@ class Registration extends Model
         return $this->team_name ?: $this->user->name;
     }
 
-    /**
-     * Generate QR Code untuk registrasi
-     *
-     * @return void
-     */
-    public function generateQRCode()
-    {
-        if (!$this->isCompleted()) {
-            return;
-        }
-
-        try {
-            // Data yang akan di-encode dalam QR Code
-            $qrData = $this->registration_number;
-
-            // Generate QR Code menggunakan library SimpleSoftwareIO/simple-qrcode
-            $qrCode = \SimpleSoftwareIO\QrCode\Facades\QrCode::format('svg')
-                ->size(300)
-                ->margin(2)
-                ->generate($qrData);
-
-            // Simpan QR Code sebagai SVG string
-            $this->update(['qr_code' => $qrCode]);
-
-        } catch (\Exception $e) {
-            \Log::error('Failed to generate QR Code for registration ' . $this->id . ': ' . $e->getMessage());
-        }
-    }
 
     /**
      * Cancel pendaftaran
