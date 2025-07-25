@@ -10,8 +10,8 @@ class InvoiceService
 {
     public function generateInvoice(Registration $registration)
     {
-        // Use the new custom template
-        $templatePath = base_path('keperluan-it/INVOICE/invoice-template-new.svg');
+        // Use the custom template
+        $templatePath = base_path('kebutuhan-it/INVOICE/invoice-template.svg');
 
         if (!file_exists($templatePath)) {
             throw new \Exception('Invoice template not found: ' . $templatePath);
@@ -95,6 +95,31 @@ class InvoiceService
         // Read the SVG template
         $svgContent = file_get_contents($templatePath);
 
+        // Replace placeholders in SVG with actual data
+        $replacements = [
+            '{{INVOICE_NUMBER}}' => $data['invoice_number'],
+            '{{INVOICE_DATE}}' => $data['date'],
+            '{{PAYMENT_STATUS}}' => strtoupper($data['status']),
+            '{{PARTICIPANT_NAME}}' => $data['participant_name'],
+            '{{PARTICIPANT_INSTITUTION}}' => $data['participant_institution'],
+            '{{PARTICIPANT_EMAIL}}' => $data['participant_email'],
+            '{{PARTICIPANT_PHONE}}' => $data['participant_phone'],
+            '{{COMPETITION_NAME}}' => $data['competition_name'],
+            '{{COMPETITION_CATEGORY}}' => $data['competition_category'],
+            '{{ORIGINAL_PRICE}}' => 'Rp ' . number_format($data['original_price'], 0, ',', '.'),
+            '{{FINAL_AMOUNT}}' => 'Rp ' . number_format($data['amount'], 0, ',', '.'),
+            '{{DISCOUNT_AMOUNT}}' => 'Rp ' . number_format($data['discount_amount'], 0, ',', '.'),
+            '{{PAYMENT_METHOD}}' => $data['payment_method'],
+            '{{PAYMENT_DATE}}' => $data['payment_date'],
+            '{{NOTES}}' => $data['NOTES'] ?? '',
+            '{{CONTACT_PERSON}}' => $data['CONTACT_PERSON'] ?? '',
+            '{{CONTACT_WHATSAPP}}' => $data['CONTACT_WHATSAPP'] ?? ''
+        ];
+
+        foreach ($replacements as $placeholder => $value) {
+            $svgContent = str_replace($placeholder, htmlspecialchars($value), $svgContent);
+        }
+
         return '
         <!DOCTYPE html>
         <html>
@@ -114,22 +139,6 @@ class InvoiceService
                     max-width: 794px;
                     margin: 0 auto;
                     background: white;
-                    position: relative;
-                }
-
-                .invoice-overlay {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    z-index: 10;
-                    pointer-events: none;
-                }
-
-                .invoice-data {
-                    position: absolute;
-                    font-family: Arial, sans-serif;
                 }
 
                 svg {
@@ -154,28 +163,6 @@ class InvoiceService
         <body>
             <div class="invoice-container">
                 ' . $svgContent . '
-                <div class="invoice-overlay">
-                    <!-- Invoice Details -->
-                    <div class="invoice-data" style="top: 225px; left: 170px; font-size: 11px; color: #212529;">' . $data['invoice_number'] . '</div>
-                    <div class="invoice-data" style="top: 245px; left: 120px; font-size: 11px; color: #212529;">' . $data['date'] . '</div>
-                    <div class="invoice-data" style="top: 265px; left: 115px; font-size: 11px; color: #212529; font-weight: bold;">' . strtoupper($data['status']) . '</div>
-                    <div class="invoice-data" style="top: 285px; left: 150px; font-size: 11px; color: #212529;">' . $data['payment_method'] . '</div>
-
-                    <!-- Participant Details -->
-                    <div class="invoice-data" style="top: 225px; left: 530px; font-size: 11px; color: #212529;">' . $data['participant_name'] . '</div>
-                    <div class="invoice-data" style="top: 245px; left: 450px; font-size: 11px; color: #212529;">' . $data['participant_email'] . '</div>
-                    <div class="invoice-data" style="top: 265px; left: 470px; font-size: 11px; color: #212529;">' . $data['participant_phone'] . '</div>
-                    <div class="invoice-data" style="top: 285px; left: 480px; font-size: 11px; color: #212529;">' . $data['participant_institution'] . '</div>
-
-                    <!-- Competition Details -->
-                    <div class="invoice-data" style="top: 410px; left: 180px; font-size: 11px; color: #212529;">' . $data['competition_name'] . '</div>
-                    <div class="invoice-data" style="top: 430px; left: 130px; font-size: 11px; color: #212529;">' . $data['competition_category'] . '</div>
-
-                    <!-- Payment Details -->
-                    <div class="invoice-data" style="top: 557px; right: 70px; font-size: 11px; color: #212529; text-align: right;">Rp ' . number_format($data['original_price'], 0, ',', '.') . '</div>
-                    <div class="invoice-data" style="top: 582px; right: 70px; font-size: 11px; color: #212529; text-align: right;">- Rp ' . number_format($data['discount_amount'], 0, ',', '.') . '</div>
-                    <div class="invoice-data" style="top: 610px; right: 70px; font-size: 12px; color: white; font-weight: bold; text-align: right;">Rp ' . number_format($data['amount'], 0, ',', '.') . '</div>
-                </div>
             </div>
         </body>
         </html>';

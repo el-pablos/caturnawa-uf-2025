@@ -175,7 +175,7 @@
                         </div>
                     @elseif($registration->status === 'confirmed' || $registration->status === 'paid')
                         <div class="d-grid gap-2">
-                            <a href="{{ route('payment.invoice', $registration) }}" class="btn btn-info" target="_blank">
+                            <a href="{{ route('download.unified-invoice', $registration) }}" class="btn btn-info" target="_blank">
                                 <i class="bi bi-receipt"></i> Download Invoice
                             </a>
                             <a href="{{ route('peserta.registrations.documents', $registration) }}" class="btn btn-outline-primary">
@@ -240,7 +240,7 @@
                         
                         @if($registration->payment->status === 'paid')
                             <div class="d-grid">
-                                <a href="{{ route('download.invoice', $registration->payment) }}" class="btn btn-sm btn-outline-primary">
+                                <a href="{{ route('download.unified-invoice', $registration) }}" class="btn btn-sm btn-outline-primary">
                                     <i class="bi bi-download"></i> Download Invoice
                                 </a>
                             </div>
