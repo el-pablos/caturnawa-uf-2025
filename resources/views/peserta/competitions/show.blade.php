@@ -41,11 +41,11 @@
     </div>
 @endif
 
-@if($errors->has('registration_conflict'))
+@if(isset($errors) && $errors->has('registration_conflict'))
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <i class="bi bi-lock-fill me-2"></i><strong>Registrasi Ditolak - Auto Lock Aktif</strong>
         <hr>
-        @foreach($errors->get('registration_conflict') as $conflictErrors)
+        @foreach((isset($errors) ? $errors->get('registration_conflict') : []) as $conflictErrors)
             @if(is_array($conflictErrors))
                 @foreach($conflictErrors as $error)
                     <div class="mb-1">• {{ $error }}</div>
