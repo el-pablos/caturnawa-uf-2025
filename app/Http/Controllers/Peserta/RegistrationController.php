@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Competition;
 use App\Models\Registration;
 use App\Models\User;
+use App\Services\MidtransService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 
 class RegistrationController extends Controller
@@ -32,6 +34,27 @@ class RegistrationController extends Controller
         }
 
         $registration->load(['competition', 'payment', 'teamMembers']);
+
+        // Fix missing payment amount data if needed
+        if ($registration->payment) {
+            $payment = $registration->payment;
+            if ($payment->amount == 0 && $payment->gross_amount > 0) {
+                $payment->update(['amount' => $payment->gross_amount]);
+                Log::info('Auto-fixed missing amount data for payment on page load', [
+                    'payment_id' => $payment->id,
+                    'amount' => $payment->gross_amount
+                ]);
+            } elseif ($payment->amount == 0 && $registration->amount > 0) {
+                $payment->update([
+                    'amount' => $registration->amount,
+                    'gross_amount' => $registration->amount
+                ]);
+                Log::info('Auto-fixed missing amount data from registration on page load', [
+                    'payment_id' => $payment->id,
+                    'amount' => $registration->amount
+                ]);
+            }
+        }
 
         return view('peserta.registrations.show', compact('registration'));
     }
@@ -156,5 +179,92 @@ class RegistrationController extends Controller
         }
 
         return view('peserta.registrations.ticket', compact('registration'));
+    }
+
+    /**
+     * Refresh payment status from Midtrans
+     */
+    public function refreshPaymentStatus(Registration $registration, MidtransService $midtransService)
+    {
+        // Check ownership
+        if ($registration->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized access to registration');
+        }
+
+        // Check if registration has payment
+        if (!$registration->payment) {
+            return redirect()->back()->with('error', 'Tidak ada data pembayaran untuk registrasi ini.');
+        }
+
+        try {
+            $payment = $registration->payment;
+
+            // Fix missing amount data if needed
+            if ($payment->amount == 0 && $payment->gross_amount > 0) {
+                $payment->update(['amount' => $payment->gross_amount]);
+                Log::info('Fixed missing amount data for payment', [
+                    'payment_id' => $payment->id,
+                    'amount' => $payment->gross_amount
+                ]);
+            } elseif ($payment->amount == 0 && $registration->amount > 0) {
+                $payment->update([
+                    'amount' => $registration->amount,
+                    'gross_amount' => $registration->amount
+                ]);
+                Log::info('Fixed missing amount data from registration', [
+                    'payment_id' => $payment->id,
+                    'amount' => $registration->amount
+                ]);
+            }
+
+            // Check if payment has order_id
+            if (!$payment->order_id) {
+                return redirect()->back()->with('error', 'Order ID tidak ditemukan. Tidak dapat mengecek status pembayaran.');
+            }
+
+            Log::info('Manual payment status refresh requested', [
+                'registration_id' => $registration->id,
+                'payment_id' => $payment->id,
+                'order_id' => $payment->order_id,
+                'current_status' => $payment->transaction_status
+            ]);
+
+            // Check transaction status from Midtrans
+            $result = $midtransService->checkTransactionStatus($payment->order_id);
+
+            if ($result['success']) {
+                $data = $result['data'];
+                if (is_object($data)) {
+                    $data = json_decode(json_encode($data), true);
+                }
+
+                Log::info('Midtrans status check result for manual refresh', [
+                    'payment_id' => $payment->id,
+                    'midtrans_status' => $data['transaction_status'] ?? 'unknown',
+                    'current_db_status' => $payment->transaction_status
+                ]);
+
+                // Update payment from Midtrans response
+                $payment->updateFromMidtrans($data);
+
+                return redirect()->back()->with('success', 'Status pembayaran berhasil diperbarui dari Midtrans.');
+            } else {
+                Log::warning('Failed to check payment status from Midtrans', [
+                    'payment_id' => $payment->id,
+                    'order_id' => $payment->order_id,
+                    'error' => $result['message'] ?? 'Unknown error'
+                ]);
+
+                return redirect()->back()->with('error', 'Gagal mengecek status pembayaran: ' . ($result['message'] ?? 'Unknown error'));
+            }
+        } catch (\Exception $e) {
+            Log::error('Error refreshing payment status', [
+                'registration_id' => $registration->id,
+                'payment_id' => $registration->payment->id ?? null,
+                'error' => $e->getMessage()
+            ]);
+
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat memperbarui status pembayaran: ' . $e->getMessage());
+        }
     }
 }

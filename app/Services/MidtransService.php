@@ -99,7 +99,9 @@ class MidtransService
         $payment = Payment::create([
             'registration_id' => $registration->id,
             'gross_amount' => $registration->amount,
+            'amount' => $registration->amount,
             'transaction_status' => 'pending',
+            'status' => 'pending',
             'expired_at' => now()->addHours(24), // 24 jam untuk pembayaran
         ]);
 

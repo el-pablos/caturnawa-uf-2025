@@ -394,6 +394,7 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             Route::put('/{registration}', [App\Http\Controllers\Peserta\RegistrationController::class, 'update'])->name('update');
             Route::delete('/{registration}', [App\Http\Controllers\Peserta\RegistrationController::class, 'cancel'])->name('cancel');
             Route::get('/{registration}/ticket', [App\Http\Controllers\Peserta\RegistrationController::class, 'ticket'])->name('ticket');
+            Route::post('/{registration}/refresh-payment', [App\Http\Controllers\Peserta\RegistrationController::class, 'refreshPaymentStatus'])->name('refresh-payment');
         });
         
         // Submissions
