@@ -204,22 +204,24 @@
                         </div>
                     </div>
 
-                    <!-- WhatsApp Contact -->
+                    <!-- Contact Person Info -->
                     @if($registration->competition->contact_person_whatsapp)
-                    <div class="whatsapp-card">
-                        <div class="mb-3">
-                            <i class="bi bi-whatsapp fs-1"></i>
-                        </div>
-                        <h6 class="mb-2">Konfirmasi Pembayaran</h6>
-                        <p class="mb-3 opacity-90">
-                            {{ $registration->competition->contact_person_name ?? 'Tim Panitia' }}<br>
-                            <small>Kirim invoice dan bukti pembayaran untuk konfirmasi</small>
+                    <div class="info-card">
+                        <h6 class="mb-2">
+                            <i class="bi bi-info-circle me-2 text-info"></i>
+                            Informasi Kontak
+                        </h6>
+                        <p class="text-muted mb-2">
+                            Jika ada pertanyaan terkait kompetisi, Anda dapat menghubungi:
                         </p>
-                        <a href="https://wa.me/{{ $registration->competition->contact_person_whatsapp }}?text=Halo,%20saya%20sudah%20menyelesaikan%20pembayaran%20untuk%20{{ $registration->competition->name }}%20dengan%20nomor%20pendaftaran%20{{ $registration->registration_number }}.%20Terlampir%20invoice%20dan%20bukti%20pembayaran.%20Mohon%20konfirmasi%20dan%20arahan%20selanjutnya."
-                           class="btn btn-whatsapp" target="_blank">
-                            <i class="bi bi-whatsapp me-2"></i>
-                            Kirim Konfirmasi
-                        </a>
+                        <p class="mb-3">
+                            <strong>{{ $registration->competition->contact_person_name ?? 'Tim Panitia' }}</strong><br>
+                            <a href="https://wa.me/{{ $registration->competition->contact_person_whatsapp }}" 
+                               target="_blank" class="text-success">
+                                <i class="bi bi-whatsapp me-1"></i>
+                                {{ $registration->competition->contact_person_whatsapp }}
+                            </a>
+                        </p>
                     </div>
                     @endif
                 </div>
@@ -276,9 +278,9 @@
                 <div class="step-item">
                     <div class="step-number">1</div>
                     <div>
-                        <strong>Hubungi Contact Person WhatsApp</strong><br>
+                        <strong>Pembayaran Berhasil - Status Terkonfirmasi Otomatis</strong><br>
                         <small class="text-muted">
-                            Kirim screenshot invoice dan bukti pembayaran ke contact person untuk konfirmasi
+                            Pembayaran Anda telah berhasil dan status registrasi sudah dikonfirmasi secara otomatis
                         </small>
                     </div>
                 </div>
@@ -286,9 +288,9 @@
                 <div class="step-item">
                     <div class="step-number">2</div>
                     <div>
-                        <strong>Tunggu Konfirmasi Panitia</strong><br>
+                        <strong>Akses Menu "My Registrations"</strong><br>
                         <small class="text-muted">
-                            Contact person akan memverifikasi pembayaran dan memberikan arahan selanjutnya
+                            Buka dashboard peserta dan pilih menu "My Registrations" untuk melihat status pendaftaran
                         </small>
                     </div>
                 </div>
@@ -296,9 +298,9 @@
                 <div class="step-item">
                     <div class="step-number">3</div>
                     <div>
-                        <strong>Bergabung dengan WhatsApp Group</strong><br>
+                        <strong>Klik "Upload Karya" pada Action</strong><br>
                         <small class="text-muted">
-                            Setelah konfirmasi, Anda akan diundang ke grup WhatsApp peserta
+                            Pada halaman registrations, klik tombol hijau "Upload Karya" untuk mengunggah submission
                         </small>
                     </div>
                 </div>
@@ -306,24 +308,15 @@
                 <div class="step-item">
                     <div class="step-number">4</div>
                     <div>
-                        <strong>Buka Dashboard untuk Upload Karya</strong><br>
+                        <strong>Upload Karya Kompetisi</strong><br>
                         <small class="text-muted">
-                            Setelah konfirmasi, buka tab "Upload Karya" di dashboard untuk mengunggah karya Anda
+                            Ikuti panduan upload dan pastikan semua file sesuai dengan ketentuan kompetisi
+                            @if($registration->competition->submission_end)
+                                <br><strong>Deadline: {{ $registration->competition->submission_end->format('d M Y H:i') }}</strong>
+                            @endif
                         </small>
                     </div>
                 </div>
-                
-                @if($registration->competition->submission_start)
-                <div class="step-item">
-                    <div class="step-number">4</div>
-                    <div>
-                        <strong>Upload Karya</strong><br>
-                        <small class="text-muted">
-                            Deadline upload: {{ $registration->competition->submission_end ? $registration->competition->submission_end->format('d M Y') : 'TBA' }}
-                        </small>
-                    </div>
-                </div>
-                @endif
             </div>
 
             <!-- Social Proof -->
@@ -337,16 +330,22 @@
 
             <!-- Action Buttons -->
             <div class="row g-3 mb-4">
-                <div class="col-md-6">
-                    <a href="{{ route('peserta.dashboard') }}" class="btn btn-primary w-100">
-                        <i class="bi bi-house-door me-2"></i>
-                        Kembali ke Dashboard
+                <div class="col-md-4">
+                    <a href="{{ route('peserta.registrations.index') }}" class="btn btn-primary w-100">
+                        <i class="bi bi-clipboard-check me-2"></i>
+                        My Registrations
                     </a>
                 </div>
-                <div class="col-md-6">
-                    <a href="{{ route('peserta.registrations.show', $registration) }}" class="btn btn-outline-primary w-100">
-                        <i class="bi bi-eye me-2"></i>
-                        Lihat Detail Pendaftaran
+                <div class="col-md-4">
+                    <a href="{{ route('peserta.submissions.create', ['registration' => $registration->id]) }}" class="btn btn-success w-100">
+                        <i class="bi bi-upload me-2"></i>
+                        Upload Karya
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a href="{{ route('payment.invoice', $registration) }}" class="btn btn-outline-info w-100" target="_blank">
+                        <i class="bi bi-receipt me-2"></i>
+                        Download Invoice
                     </a>
                 </div>
             </div>
