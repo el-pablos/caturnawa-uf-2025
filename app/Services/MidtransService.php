@@ -184,7 +184,7 @@ class MidtransService
             'phone'         => $registration->phone ?: $user->phone,
         ];
 
-        // Simplified transaction structure matching working examples
+        // Enhanced transaction structure for better QRIS compatibility
         $time = time();
         $custom_expiry = [
             'start_time' => date("Y-m-d H:i:s O", $time),
@@ -201,7 +201,12 @@ class MidtransService
                 'finish' => route('payment.finish', ['payment' => $payment->id]),
                 'unfinish' => route('payment.status', ['paymentId' => $payment->id]),
                 'error' => route('payment.error', ['payment' => $payment->id])
-            ]
+            ],
+            // Enhanced fields for better payment processing
+            'enabled_payments' => ['qris', 'gopay', 'shopeepay', 'bank_transfer', 'echannel', 'permata', 'bca', 'bni', 'bri', 'cstore'],
+            'custom_field1' => 'unas_fest_2025',
+            'custom_field2' => $registration->registration_number,
+            'custom_field3' => $registration->competition->name
         ];
 
         return $transaction;
