@@ -69,12 +69,16 @@
                                         {{ $registration->team_name ?? '-' }}
                                     </td>
                                     <td>
-                                        @if($registration->status === 'confirmed')
+                                        @if($registration->status === 'confirmed' || $registration->status === 'paid')
                                             <span class="badge bg-success">Confirmed</span>
                                         @elseif($registration->status === 'pending')
                                             <span class="badge bg-warning">Pending</span>
-                                        @else
+                                        @elseif($registration->status === 'cancelled')
                                             <span class="badge bg-danger">Cancelled</span>
+                                        @elseif($registration->status === 'expired')
+                                            <span class="badge bg-secondary">Expired</span>
+                                        @else
+                                            <span class="badge bg-info">{{ ucfirst($registration->status) }}</span>
                                         @endif
                                     </td>
                                     <td>
@@ -111,11 +115,11 @@
                                                 </a>
                                             @endif
 
-                                            @if($registration->status === 'confirmed')
-                                                <a href="{{ route('peserta.registrations.ticket', $registration) }}"
-                                                   class="btn btn-sm btn-outline-info" title="Download Tiket">
-                                                    <i class="bi bi-ticket-perforated"></i>
-                                                    <span class="d-none d-md-inline ms-1">Tiket</span>
+                                            @if($registration->status === 'confirmed' || $registration->status === 'paid')
+                                                <a href="{{ route('peserta.submissions.create', ['registration' => $registration->id]) }}"
+                                                   class="btn btn-sm btn-outline-success" title="Upload Karya">
+                                                    <i class="bi bi-upload"></i>
+                                                    <span class="d-none d-md-inline ms-1">Upload Karya</span>
                                                 </a>
                                             @endif
                                         </div>

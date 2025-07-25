@@ -173,10 +173,10 @@
                                 <i class="bi bi-x-circle"></i> Cancel Registration
                             </button>
                         </div>
-                    @elseif($registration->status === 'confirmed')
+                    @elseif($registration->status === 'confirmed' || $registration->status === 'paid')
                         <div class="d-grid gap-2">
-                            <a href="{{ route('peserta.registrations.ticket', $registration) }}" class="btn btn-info">
-                                <i class="bi bi-ticket-perforated"></i> Download Ticket
+                            <a href="{{ route('payment.invoice', $registration) }}" class="btn btn-info" target="_blank">
+                                <i class="bi bi-receipt"></i> Download Invoice
                             </a>
                             <a href="{{ route('peserta.registrations.documents', $registration) }}" class="btn btn-outline-primary">
                                 <i class="bi bi-file-earmark-text"></i> Manage Documents
