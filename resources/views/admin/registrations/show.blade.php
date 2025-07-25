@@ -236,49 +236,6 @@
     </div>
 
     <div class="col-lg-4">
-        <!-- Registration Actions -->
-        <div class="card mb-4">
-            <div class="card-header">
-                <h6 class="mb-0">
-                    <i class="bi bi-gear me-2"></i>Aksi Pendaftaran
-                </h6>
-            </div>
-            <div class="card-body">
-                @if($registration->status === 'pending')
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-success" onclick="confirmRegistration('{{ $registration->id }}')">
-                            <i class="bi bi-check-circle me-2"></i>Konfirmasi Pendaftaran
-                        </button>
-                        <button class="btn btn-danger" onclick="cancelRegistration('{{ $registration->id }}')">
-                            <i class="bi bi-x-circle me-2"></i>Batalkan Pendaftaran
-                        </button>
-                    </div>
-                @elseif($registration->status === 'paid')
-                    <div class="d-grid gap-2">
-                        <div class="alert alert-info">
-                            <i class="bi bi-credit-card me-2"></i>
-                            Pembayaran telah diterima, menunggu konfirmasi admin
-                        </div>
-                        <button class="btn btn-success" onclick="confirmRegistration('{{ $registration->id }}')">
-                            <i class="bi bi-check-circle me-2"></i>Konfirmasi Pendaftaran
-                        </button>
-                        <button class="btn btn-danger" onclick="cancelRegistration('{{ $registration->id }}')">
-                            <i class="bi bi-x-circle me-2"></i>Batalkan Pendaftaran
-                        </button>
-                    </div>
-                @elseif($registration->status === 'confirmed')
-                    <div class="alert alert-success">
-                        <i class="bi bi-check-circle me-2"></i>
-                        Pendaftaran telah dikonfirmasi
-                    </div>
-                @else
-                    <div class="alert alert-secondary">
-                        <i class="bi bi-info-circle me-2"></i>
-                        Status: {{ ucfirst($registration->status) }}
-                    </div>
-                @endif
-            </div>
-        </div>
 
         <!-- Payment Information -->
         @if($registration->payment)
@@ -350,56 +307,3 @@
 </div>
 @endsection
 
-@push('scripts')
-<script>
-function confirmRegistration(registrationId) {
-    if (confirm('Apakah Anda yakin ingin mengkonfirmasi pendaftaran ini?')) {
-        fetch(`/admin/registrations/${registrationId}/confirm`, {
-            method: 'PATCH',
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                'Content-Type': 'application/json',
-            },
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                location.reload();
-            } else {
-                alert('Error: ' + data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Terjadi kesalahan saat mengkonfirmasi pendaftaran');
-        });
-    }
-}
-
-function cancelRegistration(registrationId) {
-    const reason = prompt('Masukkan alasan pembatalan:');
-    if (reason) {
-        fetch(`/admin/registrations/${registrationId}/cancel`, {
-            method: 'PATCH',
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ reason: reason })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                location.reload();
-            } else {
-                alert('Error: ' + data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Terjadi kesalahan saat membatalkan pendaftaran');
-        });
-    }
-}
-</script>
-@endpush
