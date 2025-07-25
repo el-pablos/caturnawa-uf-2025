@@ -184,18 +184,11 @@ class MidtransService
             'phone'         => $registration->phone ?: $user->phone,
         ];
 
-        // Fill transaction details with auto-detect enabled payment methods
+        // Fill transaction details - simplified for better QRIS compatibility
         $transaction = [
             'transaction_details' => $transaction_details,
             'customer_details' => $customer_details,
             'item_details' => $item_details,
-            // Enable all available payment methods for auto-detection
-            'enabled_payments' => [
-                'credit_card', 'mandiri_clickpay', 'cimb_clicks',
-                'bca_klikbca', 'bca_klikpay', 'bri_epay', 'echannel', 'permata_va',
-                'bca_va', 'bni_va', 'other_va', 'gopay', 'shopeepay', 'qris',
-                'indomaret', 'alfamart', 'akulaku', 'kredivo'
-            ],
         ];
 
         // Optional: Add custom expiry
@@ -219,11 +212,10 @@ class MidtransService
     {
         switch (strtolower($paymentMethod)) {
             case 'qris':
-                // QRIS specific configuration
+                // QRIS specific configuration - Use standard QRIS without specific acquirer
                 $transaction['enabled_payments'] = ['qris'];
-                $transaction['qris'] = [
-                    'acquirer' => 'gopay' // Use GoPay as QRIS acquirer for better compatibility
-                ];
+                // Remove acquirer specification to allow Midtrans to handle it properly
+                unset($transaction['qris']);
                 // Add additional configuration for QRIS stability
                 $transaction['custom_field1'] = 'qris_payment';
                 $transaction['custom_field2'] = 'unas_fest_2025';
