@@ -17,6 +17,7 @@ class MissingRolesSeeder extends Seeder
         // Create missing roles
         $roles = [
             'admin' => 'Administrator - Can manage most system features',
+            'finance' => 'Finance - Can manage financial reports and payment data',
             'juri' => 'Juri - Can evaluate submissions and manage competitions',
             'peserta' => 'Peserta - Can register for competitions and submit works'
         ];
@@ -34,6 +35,16 @@ class MissingRolesSeeder extends Seeder
             'manage-registrations' => 'Manage registrations',
             'manage-payments' => 'Manage payments',
             'view-reports' => 'View reports',
+
+            // Finance permissions
+            'view-financial-reports' => 'View financial reports',
+            'manage-financial-data' => 'Manage financial data',
+            'export-financial-data' => 'Export financial data',
+            'view-payment-details' => 'View payment details',
+
+            // Superadmin permissions
+            'delete-paid-registrations' => 'Delete paid registrations',
+            'superadmin-actions' => 'Perform superadmin actions',
 
             // Juri permissions
             'evaluate-submissions' => 'Evaluate submissions',
@@ -55,6 +66,13 @@ class MissingRolesSeeder extends Seeder
         $adminRole->givePermissionTo([
             'manage-users', 'manage-competitions', 'manage-registrations',
             'manage-payments', 'view-reports', 'view-submissions'
+        ]);
+
+        $financeRole = Role::findByName('finance');
+        $financeRole->givePermissionTo([
+            'manage-competitions', 'manage-registrations', 'manage-payments',
+            'view-reports', 'view-submissions', 'view-financial-reports',
+            'manage-financial-data', 'export-financial-data', 'view-payment-details'
         ]);
 
         $juriRole = Role::findByName('juri');

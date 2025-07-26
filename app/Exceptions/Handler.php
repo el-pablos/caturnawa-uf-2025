@@ -74,6 +74,26 @@ class Handler extends ExceptionHandler
         }
 
         if ($exception instanceof \Illuminate\Session\TokenMismatchException) {
+            // Log CSRF token mismatch for debugging
+            \Illuminate\Support\Facades\Log::warning('CSRF Token Mismatch', [
+                'url' => $request->fullUrl(),
+                'method' => $request->method(),
+                'ip' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+                'session_id' => $request->session()->getId(),
+                'csrf_from_session' => $request->session()->token(),
+                'csrf_from_request' => $request->input('_token'),
+                'referer' => $request->header('referer')
+            ]);
+
+            // If it's a login attempt, redirect back with error
+            if ($request->is('login') && $request->isMethod('POST')) {
+                return redirect()->route('login')
+                    ->withInput($request->except('password'))
+                    ->withErrors(['csrf' => 'Sesi kedaluwarsa. Silakan coba login kembali.']);
+            }
+
+            // For other requests, show 419 page
             return response()->view('errors.419', [
                 'exception' => $exception,
                 'request' => $request

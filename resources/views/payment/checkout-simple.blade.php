@@ -22,24 +22,6 @@
         text-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
     
-    .payment-method-card {
-        transition: all 0.3s ease;
-        cursor: pointer;
-        border: 2px solid #e9ecef;
-        background: white;
-    }
-    
-    .payment-method-card:hover {
-        border-color: #0d6efd;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(13, 110, 253, 0.15);
-    }
-    
-    .payment-method-card.selected {
-        border-color: #0d6efd;
-        background: #f8f9fa;
-    }
-    
     .order-summary {
         background: #f8f9fa;
         border-radius: 12px;
@@ -55,17 +37,6 @@
         padding: 12px;
         text-align: center;
         font-size: 0.9rem;
-    }
-    
-    .method-icon {
-        width: 48px;
-        height: 48px;
-        margin: 0 auto 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        background: #f8f9fa;
     }
     
     .btn-pay-now {
@@ -100,6 +71,14 @@
         margin-bottom: 20px;
     }
     
+    .payment-card {
+        background: white;
+        border: 1px solid #e9ecef;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
     @media (max-width: 768px) {
         .timer-display {
             font-size: 2rem;
@@ -111,6 +90,13 @@
         }
     }
 </style>
+@endpush
+
+@push('scripts')
+<!-- Midtrans Snap JS -->
+<script type="text/javascript" 
+        src="{{ $globalConfig['midtrans_production'] ? 'https://app.midtrans.com/snap/snap.js' : 'https://app.sandbox.midtrans.com/snap/snap.js' }}"
+        data-client-key="{{ $globalConfig['midtrans_client_key'] }}"></script>
 @endpush
 
 @section('content')
@@ -126,7 +112,7 @@
     </div>
 
     <div class="row">
-        <!-- Payment Methods -->
+        <!-- Payment Section -->
         <div class="col-lg-8">
             <!-- Competition Info -->
             <div class="competition-info">
@@ -155,91 +141,34 @@
                 </div>
             </div>
 
-            <!-- Payment Methods -->
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white border-0 pb-0">
-                    <h6 class="mb-0">
+            <!-- Payment Card -->
+            <div class="payment-card">
+                <div class="text-center mb-4">
+                    <h6 class="mb-3">
                         <i class="bi bi-wallet2 me-2 text-primary"></i>
-                        Pilih Metode Pembayaran
+                        Pembayaran Aman dengan Midtrans
                     </h6>
+                    <p class="text-muted mb-4">
+                        Sistem akan mendeteksi metode pembayaran yang tersedia secara otomatis.<br>
+                        Pilihan tersedia: Virtual Account, E-Wallet (GoPay, OVO, Dana), QRIS, Kartu Kredit/Debit
+                    </p>
                 </div>
-                <div class="card-body">
-                    <form id="paymentForm">
-                        <input type="hidden" name="registration_id" value="{{ $registration->id }}">
-                        
-                        <div class="row g-3 mb-4">
-                            <!-- Virtual Account -->
-                            <div class="col-md-6">
-                                <div class="payment-method-card p-4 text-center" data-method="bank_transfer">
-                                    <div class="method-icon bg-primary bg-opacity-10">
-                                        <i class="bi bi-bank fs-4 text-primary"></i>
-                                    </div>
-                                    <h6 class="fw-semibold mb-1">Virtual Account</h6>
-                                    <small class="text-muted">BCA, BNI, BRI, Mandiri, Permata</small>
-                                    <div class="mt-2">
-                                        <span class="badge bg-success">Paling Populer</span>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <!-- E-Wallet -->
-                            <div class="col-md-6">
-                                <div class="payment-method-card p-4 text-center" data-method="ewallet">
-                                    <div class="method-icon bg-warning bg-opacity-10">
-                                        <i class="bi bi-phone fs-4 text-warning"></i>
-                                    </div>
-                                    <h6 class="fw-semibold mb-1">E-Wallet</h6>
-                                    <small class="text-muted">GoPay, OVO, Dana, ShopeePay</small>
-                                    <div class="mt-2">
-                                        <span class="badge bg-info">Instant</span>
-                                    </div>
-                                </div>
-                            </div>
+                <form id="paymentForm">
+                    <input type="hidden" name="registration_id" value="{{ $registration->id }}">
+                    
+                    <!-- Payment Security Info -->
+                    <div class="payment-security mb-4">
+                        <i class="bi bi-shield-check me-2"></i>
+                        Pembayaran aman dan terenkripsi dengan teknologi SSL
+                    </div>
 
-                            <!-- Credit Card -->
-                            <div class="col-md-6">
-                                <div class="payment-method-card p-4 text-center" data-method="credit_card">
-                                    <div class="method-icon bg-success bg-opacity-10">
-                                        <i class="bi bi-credit-card fs-4 text-success"></i>
-                                    </div>
-                                    <h6 class="fw-semibold mb-1">Kartu Kredit/Debit</h6>
-                                    <small class="text-muted">Visa, Mastercard, JCB</small>
-                                    <div class="mt-2">
-                                        <span class="badge bg-secondary">Secure</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- QRIS -->
-                            <div class="col-md-6">
-                                <div class="payment-method-card p-4 text-center" data-method="qris">
-                                    <div class="method-icon bg-danger bg-opacity-10">
-                                        <i class="bi bi-qr-code fs-4 text-danger"></i>
-                                    </div>
-                                    <h6 class="fw-semibold mb-1">QRIS</h6>
-                                    <small class="text-muted">Scan QR dengan aplikasi bank</small>
-                                    <div class="mt-2">
-                                        <span class="badge bg-primary">Universal</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <input type="hidden" name="payment_method" id="selectedPaymentMethod">
-
-                        <!-- Payment Security Info -->
-                        <div class="payment-security mb-3">
-                            <i class="bi bi-shield-check me-2"></i>
-                            Pembayaran aman dan terenkripsi dengan teknologi SSL
-                        </div>
-
-                        <!-- Continue Button -->
-                        <button type="button" id="continuePayment" class="btn btn-pay-now w-100" disabled>
-                            <i class="bi bi-lock-fill me-2"></i>
-                            Bayar Sekarang - Rp {{ number_format($registration->amount, 0, ',', '.') }}
-                        </button>
-                    </form>
-                </div>
+                    <!-- Pay Now Button -->
+                    <button type="button" id="payNowButton" class="btn btn-pay-now w-100">
+                        <i class="bi bi-wallet me-2"></i>
+                        Bayar Sekarang - Rp {{ number_format($registration->amount, 0, ',', '.') }}
+                    </button>
+                </form>
             </div>
         </div>
 
@@ -372,42 +301,14 @@ document.addEventListener('DOMContentLoaded', function() {
     updateTimer();
     const timerInterval = setInterval(updateTimer, 1000);
     
-    // Payment method selection
-    const paymentMethods = document.querySelectorAll('.payment-method-card');
-    const selectedMethodInput = document.getElementById('selectedPaymentMethod');
-    const continueButton = document.getElementById('continuePayment');
+    // Pay Now button functionality
+    const payNowButton = document.getElementById('payNowButton');
     
-    paymentMethods.forEach(method => {
-        method.addEventListener('click', function() {
-            // Remove selected class from all methods
-            paymentMethods.forEach(m => m.classList.remove('selected'));
-            
-            // Add selected class to clicked method
-            this.classList.add('selected');
-            
-            // Set the selected method value
-            const methodValue = this.dataset.method;
-            selectedMethodInput.value = methodValue;
-            
-            // Enable continue button
-            continueButton.disabled = false;
-            continueButton.innerHTML = `
-                <i class="bi bi-lock-fill me-2"></i>
-                Bayar dengan ${this.querySelector('h6').textContent} - Rp {{ number_format($registration->amount, 0, ',', '.') }}
-            `;
-        });
-    });
-    
-    // Continue payment
-    continueButton.addEventListener('click', function() {
-        if (!selectedMethodInput.value) {
-            alert('Silakan pilih metode pembayaran terlebih dahulu');
-            return;
-        }
-        
+    payNowButton.addEventListener('click', function() {
         // Show loading
+        const originalText = this.innerHTML;
         this.disabled = true;
-        this.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Memproses...';
+        this.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Memproses Pembayaran...';
         
         // Process payment
         const formData = new FormData(document.getElementById('paymentForm'));
@@ -422,40 +323,41 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.json())
         .then(data => {
-            if (data.success) {
-                if (data.redirect_url) {
-                    window.location.href = data.redirect_url;
-                } else if (data.snap_token) {
-                    // Open Midtrans popup
-                    window.snap.pay(data.snap_token, {
-                        onSuccess: function(result) {
-                            window.location.href = `{{ url('payment/finish') }}/${data.payment_id}`;
-                        },
-                        onPending: function(result) {
-                            window.location.href = `{{ url('payment/status') }}/${data.payment_id}`;
-                        },
-                        onError: function(result) {
-                            window.location.href = `{{ url('payment/error') }}/${data.payment_id}`;
-                        }
-                    });
-                }
+            console.log('Payment response:', data);
+            
+            if (data.success && data.snap_token) {
+                // Open Midtrans Snap popup
+                window.snap.pay(data.snap_token, {
+                    onSuccess: function(result) {
+                        console.log('Payment success:', result);
+                        window.location.href = `{{ url('payment/finish') }}/${data.payment_id}`;
+                    },
+                    onPending: function(result) {
+                        console.log('Payment pending:', result);
+                        window.location.href = `{{ url('payment/status') }}/${data.payment_id}`;
+                    },
+                    onError: function(result) {
+                        console.log('Payment error:', result);
+                        window.location.href = `{{ url('payment/error') }}/${data.payment_id}`;
+                    },
+                    onClose: function() {
+                        console.log('Payment popup closed');
+                        // Re-enable button when popup is closed
+                        payNowButton.disabled = false;
+                        payNowButton.innerHTML = originalText;
+                    }
+                });
             } else {
                 alert(data.message || 'Terjadi kesalahan saat memproses pembayaran');
                 this.disabled = false;
-                this.innerHTML = `
-                    <i class="bi bi-lock-fill me-2"></i>
-                    Bayar Sekarang - Rp {{ number_format($registration->amount, 0, ',', '.') }}
-                `;
+                this.innerHTML = originalText;
             }
         })
         .catch(error => {
-            console.error('Error:', error);
+            console.error('Payment error:', error);
             alert('Terjadi kesalahan koneksi. Silakan coba lagi.');
             this.disabled = false;
-            this.innerHTML = `
-                <i class="bi bi-lock-fill me-2"></i>
-                Bayar Sekarang - Rp {{ number_format($registration->amount, 0, ',', '.') }}
-            `;
+            this.innerHTML = originalText;
         });
     });
     

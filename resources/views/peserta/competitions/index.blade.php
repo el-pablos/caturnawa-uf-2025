@@ -27,9 +27,8 @@
                 <label for="category" class="form-label">Kategori</label>
                 <select name="category" id="category" class="form-select">
                     <option value="">Semua Kategori</option>
-                    <option value="event_dcc" {{ request('category') === 'event_dcc' ? 'selected' : '' }}>Event DCC (Digital Content Competition)</option>
-                    <option value="event_debate" {{ request('category') === 'event_debate' ? 'selected' : '' }}>Event Debate</option>
-                    <option value="event_scientific_paper" {{ request('category') === 'event_scientific_paper' ? 'selected' : '' }}>Event Scientific Paper</option>
+                    <option value="debat" {{ request('category') === 'debat' ? 'selected' : '' }}>Kompetisi Debat</option>
+                    <option value="karya_ilmiah" {{ request('category') === 'karya_ilmiah' ? 'selected' : '' }}>Karya Tulis Ilmiah</option>
                 </select>
             </div>
             <div class="col-md-4">

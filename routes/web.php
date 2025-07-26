@@ -110,6 +110,11 @@ Route::middleware('maintenance')->prefix('matalomba')->name('matalomba.')->group
 // Route alias for backward compatibility
 Route::get('/home-alias', [App\Http\Controllers\Public\PublicController::class, 'home'])->name('home');
 
+// CSRF Token Refresh Route
+Route::get('/csrf-token', function () {
+    return response()->json(['csrf_token' => csrf_token()]);
+})->name('csrf.token');
+
 // Authentication Routes
 Route::middleware('guest')->group(function () {
     Route::get('/login', [App\Http\Controllers\Auth\AuthController::class, 'showLogin'])->name('login');
@@ -140,6 +145,8 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             return redirect()->route('admin.admin.dashboard');
         } elseif ($user->isAdmin()) {
             return redirect()->route('admin.admin.dashboard');
+        } elseif ($user->isFinance()) {
+            return redirect()->route('admin.admin.dashboard');
         } elseif ($user->isJuri()) {
             return redirect()->route('juri.juri.dashboard');
         } elseif ($user->isPeserta()) {
@@ -157,8 +164,8 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
         Route::put('/password', [App\Http\Controllers\Auth\AuthController::class, 'updatePassword'])->name('password');
     });
 
-    // Super Admin & Admin Routes
-    Route::middleware(['role:superadmin|admin'])->prefix('admin')->name('admin.')->group(function () {
+    // Super Admin & Admin & Finance Routes
+    Route::middleware(['role:superadmin|admin|finance'])->prefix('admin')->name('admin.')->group(function () {
 
         // Competition Categories (Super Admin only)
         Route::middleware(['role:superadmin'])->group(function () {
@@ -387,6 +394,7 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             Route::put('/{registration}', [App\Http\Controllers\Peserta\RegistrationController::class, 'update'])->name('update');
             Route::delete('/{registration}', [App\Http\Controllers\Peserta\RegistrationController::class, 'cancel'])->name('cancel');
             Route::get('/{registration}/ticket', [App\Http\Controllers\Peserta\RegistrationController::class, 'ticket'])->name('ticket');
+            Route::post('/{registration}/refresh-payment', [App\Http\Controllers\Peserta\RegistrationController::class, 'refreshPaymentStatus'])->name('refresh-payment');
         });
         
         // Submissions
@@ -481,6 +489,9 @@ Route::middleware(['auth'])->prefix('download')->name('download.')->group(functi
     Route::get('/submission/{submission}/{filename}', [App\Http\Controllers\DownloadController::class, 'submission'])->name('submission');
     Route::get('/payment/{payment}/invoice', [App\Http\Controllers\DownloadController::class, 'invoice'])->name('invoice');
     Route::get('/registration/{registration}/ticket', [App\Http\Controllers\DownloadController::class, 'ticket'])->name('ticket');
+
+    // Unified invoice download for all roles except juri
+    Route::get('/invoice/{registration}', [App\Http\Controllers\DownloadController::class, 'unifiedInvoice'])->name('unified-invoice');
 });
 
 // Error Pages

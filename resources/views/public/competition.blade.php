@@ -188,27 +188,43 @@
     @if($competition->rules)
         <div class="row mb-5">
             <div class="col-12">
-                <h2 class="text-center mb-4">
-                    <i class="bi bi-list-check text-warning"></i> 
-                    Syarat & Ketentuan
-                </h2>
-            </div>
-            <div class="col-12">
-                <div class="card shadow">
-                    <div class="card-header bg-warning text-white text-center">
-                        <h3 class="card-title mb-0">Aturan Kompetisi</h3>
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-gradient" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none;">
+                        <div class="text-center">
+                            <i class="bi bi-list-check fs-2 text-white mb-2"></i>
+                            <h3 class="text-white mb-0 fw-bold">Syarat & Ketentuan</h3>
+                            <small class="text-white-50">Harap dibaca dengan teliti sebelum mendaftar</small>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div class="prose">
+                    <div class="card-body p-4">
+                        <div class="terms-content">
                             @if(is_array($competition->rules))
-                                <ol>
-                                    @foreach($competition->rules as $rule)
-                                        <li>{{ $rule }}</li>
+                                <div class="rules-list">
+                                    @foreach($competition->rules as $index => $rule)
+                                        <div class="rule-item d-flex align-items-start mb-3">
+                                            <div class="rule-number bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 32px; height: 32px; flex-shrink: 0;">
+                                                <span class="fw-bold">{{ $index + 1 }}</span>
+                                            </div>
+                                            <div class="rule-text">
+                                                <p class="mb-0">{{ $rule }}</p>
+                                            </div>
+                                        </div>
                                     @endforeach
-                                </ol>
+                                </div>
                             @else
-                                {!! nl2br(e($competition->rules)) !!}
+                                <div class="formatted-content">
+                                    {!! nl2br(e($competition->rules)) !!}
+                                </div>
                             @endif
+                        </div>
+                        
+                        <div class="alert alert-info mt-4 border-0" style="background: linear-gradient(45deg, #e3f2fd, #f3e5f5);">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-info-circle-fill text-primary me-2"></i>
+                                <div>
+                                    <strong>Penting:</strong> Dengan mendaftar, Anda menyetujui semua syarat dan ketentuan yang telah ditetapkan.
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

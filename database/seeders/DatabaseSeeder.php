@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
         $this->command->info('🌱 Starting fresh database seeding...');
 
         $this->call([
-            SuperAdminSeeder::class,  // Only superadmin user and role
+            SuperAdminSeeder::class,  // Superadmin user and role
+            MissingRolesSeeder::class,  // Create missing roles (admin, peserta, juri)
             CompetitionDetailSeeder::class,  // All competitions with detailed requirements and criteria
         ]);
 

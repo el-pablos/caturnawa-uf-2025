@@ -62,6 +62,20 @@
                         @enderror
                     </div>
                     
+                    <div class="mb-3">
+                        <label for="rules" class="form-label">Syarat & Ketentuan</label>
+                        <textarea class="form-control @error('rules') is-invalid @enderror" 
+                                  id="rules" name="rules" rows="6" 
+                                  placeholder="Masukkan syarat dan ketentuan kompetisi...">{{ old('rules', $competition->rules) }}</textarea>
+                        @error('rules')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                        <div class="form-text">
+                            <i class="bi bi-info-circle me-1"></i>
+                            Gunakan enter untuk memisahkan setiap poin. Akan ditampilkan dengan format yang menarik di halaman kompetisi.
+                        </div>
+                    </div>
+                    
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="price" class="form-label">Harga Pendaftaran <span class="text-danger">*</span></label>

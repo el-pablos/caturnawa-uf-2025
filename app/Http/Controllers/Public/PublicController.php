@@ -29,11 +29,9 @@ class PublicController extends Controller
      */
     public function home()
     {
-        // Get active competitions
+        // Get all competitions (active and upcoming)
         $competitions = Competition::active()
-            ->where('registration_start', '<=', now())
-            ->where('registration_end', '>=', now())
-            ->take(3)
+            ->orderBy('registration_start', 'asc')
             ->get();
 
         // Get leaderboard data for home page (top 10)
@@ -86,7 +84,7 @@ class PublicController extends Controller
      */
     public function competitions()
     {
-        // Get active competitions without grouping by category
+        // Get active competitions with pagination for the original beautiful view
         $competitions = Competition::active()
             ->with(['registrations' => function($query) {
                 $query->where('status', 'confirmed');
@@ -94,10 +92,14 @@ class PublicController extends Controller
             ->orderBy('registration_start', 'asc')
             ->paginate(12);
 
-        // Get statistics (removed participant counts)
+        // Get statistics for the stats section (from all competitions)
+        $allCompetitions = Competition::active()->get();
         $stats = [
-            'active_competitions' => Competition::active()->count(),
-            'total_prizes' => Competition::active()->sum('prize_amount') ?: 500000000,
+            'total_competitions' => $allCompetitions->count(),
+            'total_participants' => $allCompetitions->sum(function($comp) {
+                return $comp->registrations()->where('status', 'confirmed')->count();
+            }),
+            'total_prizes' => $allCompetitions->sum('prize_amount') ?: 500000000,
         ];
 
         return view('public.competitions', compact('competitions', 'stats'));

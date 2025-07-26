@@ -173,10 +173,10 @@
                                 <i class="bi bi-x-circle"></i> Cancel Registration
                             </button>
                         </div>
-                    @elseif($registration->status === 'confirmed')
+                    @elseif($registration->status === 'confirmed' || $registration->status === 'paid')
                         <div class="d-grid gap-2">
-                            <a href="{{ route('peserta.registrations.ticket', $registration) }}" class="btn btn-info">
-                                <i class="bi bi-ticket-perforated"></i> Download Ticket
+                            <a href="{{ route('download.unified-invoice', $registration) }}" class="btn btn-info" target="_blank">
+                                <i class="bi bi-receipt"></i> Download Invoice
                             </a>
                             <a href="{{ route('peserta.registrations.documents', $registration) }}" class="btn btn-outline-primary">
                                 <i class="bi bi-file-earmark-text"></i> Manage Documents
@@ -210,11 +210,21 @@
                         <table class="table table-borderless table-sm">
                             <tr>
                                 <td><strong>Payment Code:</strong></td>
-                                <td>{{ $registration->payment->payment_code }}</td>
+                                <td>{{ $registration->payment->payment_code ?? 'N/A' }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Order ID:</strong></td>
+                                <td>{{ $registration->payment->order_id ?? 'N/A' }}</td>
                             </tr>
                             <tr>
                                 <td><strong>Amount:</strong></td>
                                 <td>Rp {{ number_format($registration->payment->amount, 0, ',', '.') }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Transaction Status:</strong></td>
+                                <td>
+                                    <span class="badge bg-info">{{ $registration->payment->transaction_status ?? 'N/A' }}</span>
+                                </td>
                             </tr>
                             <tr>
                                 <td><strong>Status:</strong></td>
@@ -238,13 +248,21 @@
                             @endif
                         </table>
                         
-                        @if($registration->payment->status === 'paid')
-                            <div class="d-grid">
-                                <a href="{{ route('download.invoice', $registration->payment) }}" class="btn btn-sm btn-outline-primary">
+                        <div class="d-grid gap-2">
+                            @if($registration->payment->status === 'paid')
+                                <a href="{{ route('download.unified-invoice', $registration) }}" class="btn btn-sm btn-outline-primary">
                                     <i class="bi bi-download"></i> Download Invoice
                                 </a>
-                            </div>
-                        @endif
+                            @endif
+
+                            <!-- Refresh Payment Status Button -->
+                            <form action="{{ route('peserta.registrations.refresh-payment', $registration) }}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="submit" class="btn btn-sm btn-outline-info w-100">
+                                    <i class="bi bi-arrow-clockwise"></i> Refresh Payment Status
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             @endif

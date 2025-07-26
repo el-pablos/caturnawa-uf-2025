@@ -72,7 +72,7 @@ class PaymentController extends Controller
 
         $payment = Payment::where('registration_id', $registration->id)->first();
 
-        return view('payment.checkout', compact('registration', 'payment'));
+        return view('payment.checkout-simple', compact('registration', 'payment'));
     }
 
     /**
@@ -136,21 +136,15 @@ class PaymentController extends Controller
             ], 400);
         }
 
-        // Get selected payment method
-        $paymentMethod = $request->input('payment_method');
-
         try {
-            // Use specific QRIS method for QRIS payments
-            if (strtolower($paymentMethod) === 'qris') {
-                $result = $this->midtransService->createQrisTransaction($registration);
-            } else {
-                $result = $this->midtransService->createTransaction($registration, $paymentMethod);
-            }
+            // Create transaction with auto-detect payment methods
+            $result = $this->midtransService->createTransaction($registration);
 
             if ($result['success']) {
                 $response = [
                     'success' => true,
                     'snap_token' => $result['snap_token'],
+                    'payment_id' => $result['payment_id'],
                     'redirect_url' => $result['redirect_url']
                 ];
 
@@ -173,7 +167,7 @@ class PaymentController extends Controller
             Log::error('Payment process error: ' . $e->getMessage(), [
                 'registration_id' => $registration->id,
                 'user_id' => Auth::id(),
-                'payment_method' => $paymentMethod,
+                'auto_detect' => true,
                 'trace' => $e->getTraceAsString()
             ]);
 
@@ -222,8 +216,9 @@ class PaymentController extends Controller
             abort(403, 'Akses ditolak.');
         }
 
-        // Always check payment status from Midtrans to ensure latest status
-        if ($this->midtransService && $payment->order_id) {
+        // Check payment status from Midtrans only if payment is not pending
+        // For pending payments, user might not have opened the popup yet
+        if ($this->midtransService && $payment->order_id && $payment->transaction_status !== 'pending') {
             try {
                 Log::info('Checking payment status from Midtrans', [
                     'payment_id' => $payment->id,
@@ -254,18 +249,35 @@ class PaymentController extends Controller
                         'is_success' => $payment->isSuccess()
                     ]);
                 } else {
-                    Log::warning('Failed to check payment status from Midtrans', [
-                        'payment_id' => $payment->id,
-                        'order_id' => $payment->order_id,
-                        'error' => $result['message'] ?? 'Unknown error'
-                    ]);
+                    // If transaction doesn't exist in Midtrans yet, that's normal for pending payments
+                    if (strpos($result['message'] ?? '', "doesn't exist") !== false) {
+                        Log::info('Transaction not yet created in Midtrans (normal for pending)', [
+                            'payment_id' => $payment->id,
+                            'order_id' => $payment->order_id,
+                            'status' => $payment->transaction_status
+                        ]);
+                    } else {
+                        Log::warning('Failed to check payment status from Midtrans', [
+                            'payment_id' => $payment->id,
+                            'order_id' => $payment->order_id,
+                            'error' => $result['message'] ?? 'Unknown error'
+                        ]);
+                    }
                 }
             } catch (\Exception $e) {
-                Log::error('Error checking payment status from Midtrans', [
-                    'payment_id' => $payment->id,
-                    'order_id' => $payment->order_id,
-                    'error' => $e->getMessage()
-                ]);
+                // Don't log as error if it's just a 404 for pending transaction
+                if (strpos($e->getMessage(), "doesn't exist") !== false && $payment->transaction_status === 'pending') {
+                    Log::info('Pending transaction not yet in Midtrans (expected)', [
+                        'payment_id' => $payment->id,
+                        'order_id' => $payment->order_id
+                    ]);
+                } else {
+                    Log::error('Error checking payment status from Midtrans', [
+                        'payment_id' => $payment->id,
+                        'order_id' => $payment->order_id,
+                        'error' => $e->getMessage()
+                    ]);
+                }
             }
         } else {
             Log::warning('Cannot check payment status - missing service or order_id', [

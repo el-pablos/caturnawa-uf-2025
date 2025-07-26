@@ -327,12 +327,14 @@ class RegistrationController extends Controller
         try {
             DB::beginTransaction();
 
-            // Check if registration has payment
+            // Check if registration has payment - only superadmin can delete paid registrations
             if ($registration->payment && $registration->payment->isSuccess()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Registrasi dengan pembayaran yang sudah berhasil tidak dapat dihapus.'
-                ]);
+                if (!auth()->user()->isSuperAdmin()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Registrasi dengan pembayaran yang sudah berhasil hanya dapat dihapus oleh Super Admin.'
+                    ]);
+                }
             }
 
             // Delete related data

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Competition;
 use App\Models\Registration;
 use App\Models\Submission;
+use App\Services\RegistrationValidationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,9 +18,16 @@ use Illuminate\Support\Facades\Auth;
  */
 class PesertaDashboardController extends Controller
 {
+    protected $registrationValidationService;
+
+    public function __construct(RegistrationValidationService $registrationValidationService)
+    {
+        $this->registrationValidationService = $registrationValidationService;
+    }
+
     /**
      * Tampilkan dashboard peserta
-     * 
+     *
      * @return \Illuminate\View\View
      */
     public function index()
@@ -42,12 +50,16 @@ class PesertaDashboardController extends Controller
             // Upcoming deadlines
             $upcomingDeadlines = $this->getUpcomingDeadlines($user);
 
+            // Auto-lock status
+            $autoLockStatus = $this->getAutoLockStatus($user);
+
             return view('peserta.dashboard', compact(
                 'stats',
                 'registrations',
                 'availableCompetitions',
                 'submissions',
-                'upcomingDeadlines'
+                'upcomingDeadlines',
+                'autoLockStatus'
             ));
         } catch (\Exception $e) {
             \Log::error('Error in PesertaDashboardController@index: ' . $e->getMessage(), [
@@ -223,5 +235,44 @@ class PesertaDashboardController extends Controller
         });
         
         return array_slice($deadlines, 0, 5); // Take 5 nearest deadlines
+    }
+
+    /**
+     * Mendapatkan status auto-lock untuk peserta
+     *
+     * @param \App\Models\User $user
+     * @return array
+     */
+    protected function getAutoLockStatus($user)
+    {
+        try {
+            // Cek apakah user sudah memiliki registrasi yang paid/confirmed
+            $paidRegistrations = Registration::where('user_id', $user->id)
+                ->whereIn('status', ['paid', 'confirmed'])
+                ->with('competition')
+                ->get();
+
+            $isLocked = $paidRegistrations->isNotEmpty();
+
+            return [
+                'is_locked' => $isLocked,
+                'locked_competitions' => $paidRegistrations,
+                'can_register' => !$isLocked,
+                'lock_reason' => $isLocked ? 'Anda sudah terdaftar dan melakukan pembayaran di kompetisi lain' : null,
+                'message' => $isLocked
+                    ? 'Untuk menjaga fairness kompetisi, peserta hanya dapat mendaftar di satu kompetisi per periode.'
+                    : 'Anda dapat mendaftar di kompetisi yang tersedia.'
+            ];
+        } catch (\Exception $e) {
+            \Log::error('Error getting auto-lock status: ' . $e->getMessage());
+
+            return [
+                'is_locked' => false,
+                'locked_competitions' => collect(),
+                'can_register' => true,
+                'lock_reason' => null,
+                'message' => 'Status pendaftaran tersedia.'
+            ];
+        }
     }
 }

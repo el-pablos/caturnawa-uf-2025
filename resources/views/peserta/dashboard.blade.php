@@ -11,8 +11,57 @@
 @endsection
 
 @section('content')
+<style>
+.colorful-tabs .nav-link {
+    border-radius: 12px;
+    margin: 0 5px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.colorful-tabs .nav-link:not(.active) {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    color: #495057;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.colorful-tabs .nav-link:not(.active):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.colorful-tabs #overview-tab.active {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white;
+    border-color: #0056b3;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.colorful-tabs #guidance-tab.active {
+    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+    color: white;
+    border-color: #1e7e34;
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.colorful-tabs #upload-tab.active {
+    background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+    color: #212529;
+    border-color: #e0a800;
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+}
+
+.colorful-tabs #submissions-tab.active {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    color: white;
+    border-color: #c82333;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+</style>
+
 <!-- Navigation Tabs -->
-<ul class="nav nav-pills mb-4" id="dashboardTabs" role="tablist">
+<ul class="nav nav-pills mb-4 colorful-tabs" id="dashboardTabs" role="tablist">
     <li class="nav-item" role="presentation">
         <button class="nav-link active" id="overview-tab" data-bs-toggle="pill" data-bs-target="#overview" type="button" role="tab">
             <i class="bi bi-speedometer2 me-2"></i>Overview
@@ -105,6 +154,79 @@
         </div>
     </div>
 </div>
+
+<!-- Auto-Lock Status Alert -->
+@if($autoLockStatus['is_locked'])
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h6 class="card-title mb-0">
+                    <i class="bi bi-lock-fill me-2"></i>Status Pendaftaran Terkunci
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning mb-3">
+                    <div class="d-flex align-items-start">
+                        <i class="bi bi-info-circle-fill me-3 mt-1 text-warning"></i>
+                        <div>
+                            <strong>{{ $autoLockStatus['lock_reason'] }}</strong>
+                            <p class="mb-0 mt-2">{{ $autoLockStatus['message'] }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                @if($autoLockStatus['locked_competitions']->isNotEmpty())
+                <h6 class="mb-3">Kompetisi yang Sudah Terdaftar:</h6>
+                <div class="row">
+                    @foreach($autoLockStatus['locked_competitions'] as $registration)
+                    <div class="col-md-6 mb-3">
+                        <div class="card border-success">
+                            <div class="card-body">
+                                <h6 class="card-title text-success">
+                                    <i class="bi bi-trophy me-2"></i>{{ $registration->competition->name }}
+                                </h6>
+                                <p class="card-text small mb-2">
+                                    <strong>Status:</strong>
+                                    <span class="badge bg-success">{{ ucfirst($registration->status) }}</span>
+                                </p>
+                                <p class="card-text small mb-0">
+                                    <strong>Terdaftar:</strong> {{ $registration->created_at->format('d M Y') }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
+@else
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-success">
+            <div class="card-header bg-success text-white">
+                <h6 class="card-title mb-0">
+                    <i class="bi bi-unlock-fill me-2"></i>Status Pendaftaran Tersedia
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-success mb-0">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-check-circle-fill me-3 text-success"></i>
+                        <div>
+                            <strong>{{ $autoLockStatus['message'] }}</strong>
+                            <p class="mb-0 mt-1">Silakan pilih kompetisi yang ingin Anda ikuti dari daftar kompetisi yang tersedia.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
 
 <!-- Upcoming Deadlines Alert -->
 @if(count($upcomingDeadlines) > 0)
@@ -255,10 +377,16 @@
                                     {{ $competition->registration_end->diffForHumans() }}
                                 </small>
                                 <div class="mt-1">
-                                    <a href="{{ route('peserta.competitions.show', $competition) }}" 
-                                       class="btn btn-sm btn-outline-primary">
-                                        Daftar
-                                    </a>
+                                    @if($autoLockStatus['is_locked'])
+                                        <button class="btn btn-sm btn-secondary" disabled title="Pendaftaran terkunci">
+                                            <i class="bi bi-lock-fill me-1"></i>Terkunci
+                                        </button>
+                                    @else
+                                        <a href="{{ route('peserta.competitions.show', $competition) }}"
+                                           class="btn btn-sm btn-outline-primary">
+                                            Daftar
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -266,7 +394,14 @@
                     @empty
                     <div class="list-group-item text-center text-muted py-4">
                         <i class="bi bi-trophy fs-1 d-block mb-2 opacity-50"></i>
-                        Tidak ada kompetisi tersedia
+                        @if($autoLockStatus['is_locked'])
+                            Pendaftaran kompetisi terkunci
+                            <div class="mt-2 small">
+                                Anda sudah terdaftar di kompetisi lain
+                            </div>
+                        @else
+                            Tidak ada kompetisi tersedia
+                        @endif
                     </div>
                     @endforelse
                 </div>

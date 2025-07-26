@@ -109,10 +109,17 @@ class Payment extends Model
 
         do {
             $attempts++;
-            $timestamp = now()->format('YmdHis');
-            $microseconds = substr(microtime(), 2, 6); // Get microseconds for more uniqueness
-            $random = str_pad(mt_rand(100000, 999999), 6, '0', STR_PAD_LEFT);
-            $orderId = "UF2025-{$timestamp}{$microseconds}-{$random}";
+            // Format: UF2025-DDMMYYYY-sequence (where sequence is payment ID sequence)
+            $date = now()->format('dmY'); // day, month, year without separator
+            
+            // Get next sequence number for today
+            $today = now()->format('Y-m-d');
+            $todayPaymentsCount = DB::table('payments')
+                ->whereDate('created_at', $today)
+                ->count();
+            
+            $sequence = $todayPaymentsCount + 1;
+            $orderId = "UF2025-{$date}-{$sequence}";
 
             // Check for collision in database with lock to prevent race conditions
             $exists = DB::table('payments')
@@ -243,13 +250,11 @@ class Payment extends Model
                 // MODIFIED: Auto-confirm registration without admin intervention
                 if ($payment->registration->status === 'pending') {
                     $payment->registration->update([
-                        'status' => 'confirmed', // Changed from 'paid' to 'confirmed'
+                        'status' => 'paid', // Use the correct status constant
                         'confirmed_at' => now(),
                         'confirmed_by' => null, // System auto-confirmation
                     ]);
 
-                    // Generate QR Code for confirmed registration
-                    $payment->registration->generateQRCode();
                 }
 
                 // Store WhatsApp group link in session for display

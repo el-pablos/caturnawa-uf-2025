@@ -45,7 +45,7 @@
             </h5>
         </div>
         <div class="card-body">
-            <form action="{{ route('admin.competitions.descriptions.update-terms', $competition) }}" method="POST">
+            <form id="termsForm" action="{{ route('admin.competitions.descriptions.update-terms', $competition) }}" method="POST">
                 @csrf
                 @method('PUT')
 
@@ -254,6 +254,16 @@ function confirmDelete(descriptionId) {
     const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
     modal.show();
 }
+
+// Debug form submission
+document.getElementById('termsForm').addEventListener('submit', function(e) {
+    console.log('Form submission:', {
+        action: this.action,
+        method: this.method,
+        csrf: this.querySelector('input[name="_token"]').value,
+        methodField: this.querySelector('input[name="_method"]').value
+    });
+});
 
 // Fill template for Terms & Conditions
 function fillTemplate() {

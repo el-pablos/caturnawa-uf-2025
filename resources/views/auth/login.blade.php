@@ -104,6 +104,13 @@
                             </div>
                         @endif
 
+                        @if($errors->has('csrf'))
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                <i class="fas fa-clock me-2"></i>{{ $errors->first('csrf') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        @endif
+
                         <form action="{{ route('login') }}" method="POST">
                             @csrf
                             <div class="mb-3">
@@ -237,6 +244,65 @@
                 bsAlert.close();
             });
         }, 5000);
+
+        // CSRF Token Management
+        function refreshCSRFToken() {
+            fetch('/csrf-token', {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.csrf_token) {
+                    // Update CSRF token in form
+                    const csrfInput = document.querySelector('input[name="_token"]');
+                    if (csrfInput) {
+                        csrfInput.value = data.csrf_token;
+                    }
+
+                    // Update meta tag
+                    const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+                    if (csrfMeta) {
+                        csrfMeta.setAttribute('content', data.csrf_token);
+                    }
+
+                    console.log('CSRF token refreshed');
+                }
+            })
+            .catch(error => {
+                console.error('Failed to refresh CSRF token:', error);
+            });
+        }
+
+        // Refresh CSRF token every 5 minutes
+        setInterval(refreshCSRFToken, 5 * 60 * 1000);
+
+        // Refresh CSRF token when page becomes visible (user returns to tab)
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                refreshCSRFToken();
+            }
+        });
+
+        // Form submission with retry on CSRF error
+        const loginForm = document.querySelector('form');
+        loginForm.addEventListener('submit', function(e) {
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+
+            // Show loading state
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Signing In...';
+            submitBtn.disabled = true;
+
+            // Re-enable button after 10 seconds as fallback
+            setTimeout(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 10000);
+        });
     </script>
 </body>
 </html>

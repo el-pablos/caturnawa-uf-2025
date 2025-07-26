@@ -6,221 +6,454 @@
     <title>Invoice - {{ $payment->order_id }}</title>
     <style>
         body {
-            font-family: 'DejaVu Sans', Arial, sans-serif;
-            font-size: 14px;
-            line-height: 1.6;
-            color: #333;
+            font-family: Arial, sans-serif;
             margin: 0;
-            padding: 20px;
-            background: #fff;
+            padding: 0;
+            background: white;
         }
         
         .invoice-container {
-            max-width: 800px;
+            width: 794px;
+            height: 1123px;
             margin: 0 auto;
             background: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            overflow: hidden;
+            position: relative;
         }
         
+        /* Header Section - exact match to SVG */
         .header {
-            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            position: absolute;
+            left: 50px;
+            top: 50px;
+            width: 694px;
+            height: 120px;
+            background: #2563eb;
+        }
+        
+        .header-title {
+            position: absolute;
+            left: 20px;
+            top: 40px;
             color: white;
-            padding: 30px;
-            text-align: center;
-        }
-        
-        .header h1 {
-            margin: 0 0 10px 0;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: bold;
-        }
-        
-        .header h2 {
             margin: 0;
-            font-size: 18px;
-            font-weight: normal;
-            opacity: 0.9;
         }
         
-        .invoice-details {
-            padding: 30px;
-        }
-        
-        .invoice-meta {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-        
-        .invoice-meta div {
-            flex: 1;
-            min-width: 250px;
-        }
-        
-        .invoice-meta h3 {
-            color: #007bff;
-            margin: 0 0 15px 0;
-            font-size: 16px;
-            border-bottom: 2px solid #007bff;
-            padding-bottom: 5px;
-        }
-        
-        .info-row {
-            display: flex;
-            margin-bottom: 8px;
-        }
-        
-        .info-label {
-            font-weight: bold;
-            width: 140px;
-            color: #555;
-        }
-        
-        .info-value {
-            flex: 1;
-            color: #333;
-        }
-        
-        .payment-summary {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 25px;
-            margin: 30px 0;
-            border-left: 4px solid #007bff;
-        }
-        
-        .payment-summary h3 {
-            color: #007bff;
-            margin: 0 0 20px 0;
-            font-size: 18px;
-        }
-        
-        .amount-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            padding: 8px 0;
-        }
-        
-        .amount-row.total {
-            border-top: 2px solid #007bff;
-            margin-top: 15px;
-            padding-top: 15px;
-            font-weight: bold;
-            font-size: 18px;
-            color: #007bff;
-        }
-        
-        .status-badge {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-        
-        .status-paid {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .status-pending {
-            background: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeaa7;
-        }
-        
-        .team-details {
-            background: #fff;
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 20px 0;
-        }
-        
-        .team-details h4 {
-            color: #007bff;
-            margin: 0 0 15px 0;
-            font-size: 16px;
-        }
-        
-        .team-member {
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .team-member:last-child {
-            border-bottom: none;
-        }
-        
-        .footer {
-            background: #f8f9fa;
-            padding: 20px 30px;
-            text-align: center;
-            border-top: 1px solid #dee2e6;
-            color: #666;
-        }
-        
-        .footer p {
-            margin: 5px 0;
-            font-size: 12px;
-        }
-        
-        .qr-section {
-            text-align: center;
-            margin: 20px 0;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 8px;
-        }
-        
-        .print-button {
-            background: #007bff;
+        .header-subtitle {
+            position: absolute;
+            left: 20px;
+            top: 65px;
             color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 20px 0;
             font-size: 14px;
+            margin: 0;
+        }
+        
+        .header-logo {
+            position: absolute;
+            left: 550px;
+            top: 10px;
+            width: 100px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+        
+        /* Invoice Info Section */
+        .invoice-title {
+            position: absolute;
+            left: 70px;
+            top: 220px;
+            color: #1f2937;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .invoice-number {
+            position: absolute;
+            left: 70px;
+            top: 245px;
+            color: #6b7280;
+            font-size: 12px;
+            margin: 0;
+        }
+        
+        .invoice-date {
+            position: absolute;
+            left: 70px;
+            top: 265px;
+            color: #6b7280;
+            font-size: 12px;
+            margin: 0;
+        }
+        
+        .invoice-status {
+            position: absolute;
+            left: 70px;
+            top: 285px;
+            color: #6b7280;
+            font-size: 12px;
+            margin: 0;
+        }
+        
+        /* Customer Info */
+        .customer-title {
+            position: absolute;
+            left: 400px;
+            top: 220px;
+            color: #1f2937;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .customer-name {
+            position: absolute;
+            left: 400px;
+            top: 245px;
+            color: #374151;
+            font-size: 12px;
+            margin: 0;
+        }
+        
+        .customer-institution {
+            position: absolute;
+            left: 400px;
+            top: 265px;
+            color: #374151;
+            font-size: 12px;
+            margin: 0;
+        }
+        
+        .customer-email {
+            position: absolute;
+            left: 400px;
+            top: 285px;
+            color: #374151;
+            font-size: 12px;
+            margin: 0;
+        }
+        
+        .customer-phone {
+            position: absolute;
+            left: 400px;
+            top: 305px;
+            color: #374151;
+            font-size: 12px;
+            margin: 0;
+        }
+        
+        /* Line separator */
+        .separator {
+            position: absolute;
+            left: 70px;
+            top: 340px;
+            width: 654px;
+            height: 1px;
+            background: #e5e7eb;
+        }
+        
+        /* Table Header */
+        .table-header {
+            position: absolute;
+            left: 70px;
+            top: 360px;
+            width: 654px;
+            height: 40px;
+            background: #f3f4f6;
+        }
+        
+        .table-header-kompetisi {
+            position: absolute;
+            left: 20px;
+            top: 25px;
+            color: #374151;
+            font-size: 12px;
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .table-header-kategori {
+            position: absolute;
+            left: 330px;
+            top: 25px;
+            color: #374151;
+            font-size: 12px;
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .table-header-harga {
+            position: absolute;
+            left: 480px;
+            top: 25px;
+            color: #374151;
+            font-size: 12px;
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .table-header-total {
+            position: absolute;
+            left: 580px;
+            top: 25px;
+            color: #374151;
+            font-size: 12px;
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        /* Table Row */
+        .table-row {
+            position: absolute;
+            left: 70px;
+            top: 400px;
+            width: 654px;
+            height: 40px;
+            background: white;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .table-row-kompetisi {
+            position: absolute;
+            left: 20px;
+            top: 25px;
+            color: #374151;
+            font-size: 12px;
+            margin: 0;
+        }
+        
+        .table-row-kategori {
+            position: absolute;
+            left: 330px;
+            top: 25px;
+            color: #374151;
+            font-size: 12px;
+            margin: 0;
+        }
+        
+        .table-row-harga {
+            position: absolute;
+            left: 480px;
+            top: 25px;
+            color: #374151;
+            font-size: 12px;
+            margin: 0;
+        }
+        
+        .table-row-total {
+            position: absolute;
+            left: 580px;
+            top: 25px;
+            color: #374151;
+            font-size: 12px;
+            margin: 0;
+        }
+        
+        /* Subtotal Section */
+        .subtotal-line {
+            position: absolute;
+            left: 450px;
+            top: 470px;
+            width: 274px;
+            height: 1px;
+            background: #e5e7eb;
+        }
+        
+        .subtotal-label {
+            position: absolute;
+            left: 550px;
+            top: 495px;
+            color: #374151;
+            font-size: 12px;
+            margin: 0;
+        }
+        
+        .subtotal-amount {
+            position: absolute;
+            left: 650px;
+            top: 495px;
+            color: #374151;
+            font-size: 12px;
+            margin: 0;
+        }
+        
+        .discount-label {
+            position: absolute;
+            left: 550px;
+            top: 515px;
+            color: #374151;
+            font-size: 12px;
+            margin: 0;
+        }
+        
+        .discount-amount {
+            position: absolute;
+            left: 650px;
+            top: 515px;
+            color: #374151;
+            font-size: 12px;
+            margin: 0;
+        }
+        
+        .total-section {
+            position: absolute;
+            left: 450px;
+            top: 525px;
+            width: 274px;
+            height: 30px;
+            background: #2563eb;
+        }
+        
+        .total-label {
+            position: absolute;
+            left: 100px;
+            top: 20px;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .total-amount {
+            position: absolute;
+            left: 200px;
+            top: 20px;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        /* Payment Method */
+        .payment-method-title {
+            position: absolute;
+            left: 70px;
+            top: 600px;
+            color: #1f2937;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .payment-method-value {
+            position: absolute;
+            left: 70px;
+            top: 625px;
+            color: #374151;
+            font-size: 12px;
+            margin: 0;
+        }
+        
+        /* Instructions */
+        .instructions-title {
+            position: absolute;
+            left: 70px;
+            top: 680px;
+            color: #1f2937;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .instruction-1 {
+            position: absolute;
+            left: 70px;
+            top: 705px;
+            color: #374151;
+            font-size: 12px;
+            margin: 0;
+        }
+        
+        .instruction-2 {
+            position: absolute;
+            left: 70px;
+            top: 725px;
+            color: #374151;
+            font-size: 12px;
+            margin: 0;
+        }
+        
+        .instruction-3 {
+            position: absolute;
+            left: 70px;
+            top: 745px;
+            color: #374151;
+            font-size: 12px;
+            margin: 0;
+        }
+        
+        .instruction-4 {
+            position: absolute;
+            left: 70px;
+            top: 765px;
+            color: #374151;
+            font-size: 12px;
+            margin: 0;
+        }
+        
+        /* Footer */
+        .footer {
+            position: absolute;
+            left: 50px;
+            top: 950px;
+            width: 694px;
+            height: 80px;
+            background: #f3f4f6;
+        }
+        
+        .footer-line-1 {
+            position: absolute;
+            left: 20px;
+            top: 30px;
+            color: #6b7280;
+            font-size: 12px;
+            margin: 0;
+        }
+        
+        .footer-line-2 {
+            position: absolute;
+            left: 20px;
+            top: 50px;
+            color: #6b7280;
+            font-size: 12px;
+            margin: 0;
+        }
+        
+        .footer-line-3 {
+            position: absolute;
+            left: 20px;
+            top: 70px;
+            color: #6b7280;
+            font-size: 12px;
+            margin: 0;
+        }
+        
+        /* QR Code placeholder like in SVG */
+        .footer-qr {
+            position: absolute;
+            left: 600px;
+            top: 10px;
+            width: 60px;
+            height: 60px;
+            background: #e5e7eb;
+            border: 1px solid #9ca3af;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6b7280;
+            font-size: 8px;
         }
         
         @media print {
-            body {
-                padding: 0;
-            }
-            .print-button {
-                display: none;
-            }
-            .invoice-container {
-                box-shadow: none;
-                border-radius: 0;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .invoice-meta {
-                flex-direction: column;
-            }
-            
-            .amount-row {
-                flex-direction: column;
-                text-align: left;
-            }
-            
-            .info-row {
-                flex-direction: column;
-            }
-            
-            .info-label {
-                width: auto;
-                margin-bottom: 2px;
-            }
+            body { margin: 0; padding: 0; }
+            .invoice-container { margin: 0; }
         }
     </style>
 </head>
@@ -228,165 +461,73 @@
     <div class="invoice-container">
         <!-- Header -->
         <div class="header">
-            <h1>UNAS FEST 2025</h1>
-            <h2>Invoice Pembayaran Kompetisi</h2>
+            <h1 class="header-title">UNAS FEST 2025</h1>
+            <p class="header-subtitle">Invoice Pembayaran Kompetisi</p>
+            <div class="header-logo">LOGO</div>
         </div>
         
-        <!-- Invoice Details -->
-        <div class="invoice-details">
-            <!-- Invoice Meta Information -->
-            <div class="invoice-meta">
-                <div>
-                    <h3>Informasi Invoice</h3>
-                    <div class="info-row">
-                        <span class="info-label">Nomor Invoice:</span>
-                        <span class="info-value">{{ $payment->order_id }}</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Tanggal:</span>
-                        <span class="info-value">{{ $payment->created_at->format('d F Y') }}</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Status:</span>
-                        <span class="info-value">
-                            <span class="status-badge {{ $payment->status === 'paid' ? 'status-paid' : 'status-pending' }}">
-                                {{ $payment->status === 'paid' ? 'LUNAS' : 'PENDING' }}
-                            </span>
-                        </span>
-                    </div>
-                    @if($payment->paid_at)
-                    <div class="info-row">
-                        <span class="info-label">Dibayar pada:</span>
-                        <span class="info-value">{{ $payment->paid_at->format('d F Y H:i') }}</span>
-                    </div>
-                    @endif
-                </div>
-                
-                <div>
-                    <h3>Informasi Peserta</h3>
-                    <div class="info-row">
-                        <span class="info-label">Nama:</span>
-                        <span class="info-value">{{ $payment->registration->user->name }}</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Email:</span>
-                        <span class="info-value">{{ $payment->registration->user->email }}</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Institusi:</span>
-                        <span class="info-value">{{ $payment->registration->user->institution ?? 'Tidak diisi' }}</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Kompetisi:</span>
-                        <span class="info-value">{{ $payment->registration->competition->name }}</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Team Details if available -->
-            @if($payment->registration->team_name)
-            <div class="team-details">
-                <h4>Detail Tim</h4>
-                <div class="info-row">
-                    <span class="info-label">Nama Tim:</span>
-                    <span class="info-value">{{ $payment->registration->team_name }}</span>
-                </div>
-                
-                @if($payment->registration->teamMembers && $payment->registration->teamMembers->count() > 0)
-                <h5 style="margin: 15px 0 10px 0; color: #666;">Anggota Tim:</h5>
-                @foreach($payment->registration->teamMembers as $index => $member)
-                <div class="team-member">
-                    <strong>{{ $index + 1 }}. {{ $member->name }}</strong>
-                    @if($member->email)
-                    <br><small>{{ $member->email }}</small>
-                    @endif
-                    @if($member->phone)
-                    <br><small>{{ $member->phone }}</small>
-                    @endif
-                </div>
-                @endforeach
-                @endif
-            </div>
-            @endif
-            
-            <!-- Payment Summary -->
-            <div class="payment-summary">
-                <h3>Ringkasan Pembayaran</h3>
-                
-                <div class="amount-row">
-                    <span>Biaya Pendaftaran {{ $payment->registration->competition->name }}:</span>
-                    <span>Rp {{ number_format($payment->amount, 0, ',', '.') }}</span>
-                </div>
-                
-                <div class="amount-row">
-                    <span>Biaya Admin:</span>
-                    <span>Rp 0</span>
-                </div>
-                
-                <div class="amount-row total">
-                    <span>Total Pembayaran:</span>
-                    <span>Rp {{ number_format($payment->amount, 0, ',', '.') }}</span>
-                </div>
-                
-                @if($payment->payment_method)
-                <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #dee2e6;">
-                    <div class="info-row">
-                        <span class="info-label">Metode Pembayaran:</span>
-                        <span class="info-value">{{ ucfirst(str_replace('_', ' ', $payment->payment_method)) }}</span>
-                    </div>
-                    @if($payment->transaction_id)
-                    <div class="info-row">
-                        <span class="info-label">ID Transaksi:</span>
-                        <span class="info-value">{{ $payment->transaction_id }}</span>
-                    </div>
-                    @endif
-                </div>
-                @endif
-            </div>
-            
-            <!-- QR Code if available -->
-            @if($payment->registration->qr_code)
-            <div class="qr-section">
-                <h4 style="color: #007bff; margin-bottom: 15px;">E-Ticket QR Code</h4>
-                <img src="data:image/png;base64,{{ base64_encode($payment->registration->qr_code) }}" 
-                     alt="QR Code" style="max-width: 200px; height: auto;">
-                <p style="margin: 10px 0 0 0; font-size: 12px; color: #666;">
-                    Tunjukkan QR Code ini saat check-in kompetisi
-                </p>
-            </div>
-            @endif
+        <!-- Invoice Info -->
+        <h2 class="invoice-title">INVOICE</h2>
+        <p class="invoice-number">Invoice No: {{ $payment->order_id }}</p>
+        <p class="invoice-date">Tanggal: {{ $payment->created_at->format('d M Y') }}</p>
+        <p class="invoice-status">Status: {{ $payment->status === 'paid' ? 'LUNAS' : 'PENDING' }}</p>
+        
+        <!-- Customer Info -->
+        <h3 class="customer-title">Peserta:</h3>
+        <p class="customer-name">{{ $payment->registration->user->name }}</p>
+        <p class="customer-institution">{{ $payment->registration->user->institution ?? 'Tidak diisi' }}</p>
+        <p class="customer-email">{{ $payment->registration->user->email }}</p>
+        <p class="customer-phone">{{ $payment->registration->phone ?: $payment->registration->user->phone }}</p>
+        
+        <!-- Line separator -->
+        <div class="separator"></div>
+        
+        <!-- Table Header -->
+        <div class="table-header">
+            <p class="table-header-kompetisi">Kompetisi</p>
+            <p class="table-header-kategori">Kategori</p>
+            <p class="table-header-harga">Harga</p>
+            <p class="table-header-total">Total</p>
         </div>
+        
+        <!-- Table Row -->
+        <div class="table-row">
+            <p class="table-row-kompetisi">{{ $payment->registration->competition->name }}</p>
+            <p class="table-row-kategori">{{ $payment->registration->competition->category }}</p>
+            <p class="table-row-harga">Rp {{ number_format($payment->registration->original_price ?? $payment->amount, 0, ',', '.') }}</p>
+            <p class="table-row-total">Rp {{ number_format($payment->amount, 0, ',', '.') }}</p>
+        </div>
+        
+        <!-- Subtotal Section -->
+        <div class="subtotal-line"></div>
+        <p class="subtotal-label">Subtotal:</p>
+        <p class="subtotal-amount">Rp {{ number_format($payment->registration->original_price ?? $payment->amount, 0, ',', '.') }}</p>
+        <p class="discount-label">Discount:</p>
+        <p class="discount-amount">-Rp {{ number_format(($payment->registration->original_price ?? $payment->amount) - $payment->amount, 0, ',', '.') }}</p>
+        
+        <div class="total-section">
+            <p class="total-label">TOTAL:</p>
+            <p class="total-amount">Rp {{ number_format($payment->amount, 0, ',', '.') }}</p>
+        </div>
+        
+        <!-- Payment Method -->
+        <h3 class="payment-method-title">Metode Pembayaran:</h3>
+        <p class="payment-method-value">{{ $payment->payment_method_label ?? 'Midtrans Payment Gateway' }}</p>
+        
+        <!-- Instructions -->
+        <h3 class="instructions-title">Instruksi:</h3>
+        <p class="instruction-1">1. Simpan invoice ini sebagai bukti pembayaran</p>
+        <p class="instruction-2">2. Hubungi Contact Person di WhatsApp: {{ $payment->registration->competition->contact_person_whatsapp ?? '081234567890' }}</p>
+        <p class="instruction-3">3. Kirimkan screenshot invoice dan bukti pembayaran</p>
+        <p class="instruction-4">4. Tunggu konfirmasi dari panitia</p>
         
         <!-- Footer -->
         <div class="footer">
-            <p><strong>UNAS FEST 2025 - Dies Natalis ke-76 Universitas Nasional</strong></p>
-            <p>Invoice ini adalah bukti sah pembayaran pendaftaran kompetisi</p>
-            <p>Dicetak pada: {{ $generated_at->format('d F Y H:i:s') }}</p>
-            <p>Untuk informasi lebih lanjut, hubungi panitia kompetisi UNAS Fest 2025</p>
+            <p class="footer-line-1">UNAS Fest 2025 - Festival Kompetisi Universitas Nasional</p>
+            <p class="footer-line-2">Website: https://unasfest.com | Email: info@unasfest.com</p>
+            <p class="footer-line-3">WhatsApp: {{ $payment->registration->competition->contact_person_whatsapp ?? '081234567890' }} | Instagram: @unasfest</p>
+            <div class="footer-qr">QR</div>
         </div>
     </div>
-    
-    <!-- Print Button -->
-    <div style="text-align: center; margin: 20px 0;">
-        <button class="print-button" onclick="window.print()">
-            <i class="bi bi-printer"></i> Cetak Invoice
-        </button>
-    </div>
-    
-    <script>
-        // Auto print functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add print styles
-            const style = document.createElement('style');
-            style.textContent = `
-                @media print {
-                    .print-button { display: none !important; }
-                    body { margin: 0; padding: 0; }
-                    .invoice-container { box-shadow: none; }
-                }
-            `;
-            document.head.appendChild(style);
-        });
-    </script>
 </body>
 </html>
