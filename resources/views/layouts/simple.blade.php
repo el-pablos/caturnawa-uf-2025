@@ -605,28 +605,7 @@
             }
         }
         
-        /* User Header Styles */
-        .user-header-container {
-            overflow: visible !important;
-            white-space: nowrap !important;
-            flex-shrink: 0 !important;
-        }
 
-        .user-greeting-text {
-            overflow: visible !important;
-            text-overflow: clip !important;
-            white-space: nowrap !important;
-            flex-shrink: 0 !important;
-        }
-
-        /* Navbar container adjustments */
-        .navbar .container-fluid {
-            overflow: visible !important;
-        }
-
-        .navbar-nav {
-            flex-shrink: 1 !important;
-        }
 
         /* Small Mobile (up to 575px) */
         @media (max-width: 575px) {
@@ -726,17 +705,17 @@
                 <!-- Mobile Login/User Button -->
                 <div class="d-lg-none mobile-login-button-container">
                     @auth
-                        <div class="d-flex align-items-center justify-content-center user-header-container" style="min-width: 350px; width: auto;">
-                            <div class="me-2 flex-shrink-0">
+                        <div class="d-flex align-items-center justify-content-center" style="width: max-content; margin: 0 auto;">
+                            <div class="me-2">
                                 <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=007bff&color=fff&size=32"
                                      alt="Avatar" class="rounded-circle" width="32" height="32">
                             </div>
-                            <div class="text-center user-greeting-text" style="min-width: 220px;">
+                            <div class="text-center" style="white-space: nowrap;">
                                 <div class="small text-muted">Selamat datang king</div>
                                 <div class="fw-bold">{{ Auth::user()->name }}</div>
                                 <div class="small text-primary">as {{ ucfirst(Auth::user()->role) }}</div>
                             </div>
-                            <div class="ms-2 flex-shrink-0">
+                            <div class="ms-2">
                                 <a href="@if(Auth::user()->isSuperAdmin() || Auth::user()->isAdmin() || Auth::user()->isFinance()) {{ route('admin.admin.dashboard') }} @elseif(Auth::user()->isJuri()) {{ route('juri.juri.dashboard') }} @elseif(Auth::user()->isPeserta()) {{ route('peserta.dashboard') }} @else {{ route('dashboard') }} @endif"
                                    class="btn btn-outline-primary btn-sm">
                                     <i class="bi bi-speedometer2"></i>
@@ -752,19 +731,19 @@
             </div>
             
             <!-- Desktop Login/User Button -->
-            <div class="d-none d-lg-block user-header-container" style="position: relative; z-index: 1000;">
+            <div class="d-none d-lg-block">
                 @auth
-                    <div class="d-flex align-items-center" style="min-width: 500px; width: max-content; background: rgba(255,255,255,0.95); padding: 8px 12px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                        <div class="me-3 text-end user-greeting-text" style="min-width: 280px; width: auto;">
+                    <div class="d-flex align-items-center" style="width: max-content;">
+                        <div class="me-3 text-end" style="white-space: nowrap;">
                             <div class="small text-muted">Selamat datang king</div>
                             <div class="fw-bold">{{ Auth::user()->name }}</div>
                             <div class="small text-primary">as {{ ucfirst(Auth::user()->role) }}</div>
                         </div>
-                        <div class="me-2 flex-shrink-0">
+                        <div class="me-2">
                             <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=007bff&color=fff&size=40"
                                  alt="Avatar" class="rounded-circle" width="40" height="40">
                         </div>
-                        <div class="flex-shrink-0">
+                        <div>
                             <a href="@if(Auth::user()->isSuperAdmin() || Auth::user()->isAdmin() || Auth::user()->isFinance()) {{ route('admin.admin.dashboard') }} @elseif(Auth::user()->isJuri()) {{ route('juri.juri.dashboard') }} @elseif(Auth::user()->isPeserta()) {{ route('peserta.dashboard') }} @else {{ route('dashboard') }} @endif"
                                class="btn btn-outline-primary btn-sm">
                                 <i class="bi bi-speedometer2 me-1"></i>Dashboard
