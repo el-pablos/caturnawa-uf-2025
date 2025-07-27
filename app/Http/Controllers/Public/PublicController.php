@@ -338,7 +338,7 @@ class PublicController extends Controller
     public function contact()
     {
 
-        return view('public.contact-new');
+        return view('public.contact');
     }
 
     /**
