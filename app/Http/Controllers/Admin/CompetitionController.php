@@ -122,8 +122,9 @@ class CompetitionController extends Controller
         }
 
         $competitions = $query->orderBy('created_at', 'desc')->get();
+        $categories = Competition::CATEGORIES;
 
-        return view('admin.competitions.index', compact('competitions'));
+        return view('admin.competitions.index', compact('competitions', 'categories'));
     }
 
     /**

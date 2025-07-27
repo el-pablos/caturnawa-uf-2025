@@ -51,8 +51,9 @@
                 <label for="filter-category" class="form-label fw-semibold">Kategori</label>
                 <select name="category" id="filter-category" class="form-control">
                     <option value="">Semua Kategori</option>
-                    <option value="debat" {{ request('category') === 'debat' ? 'selected' : '' }}>Kompetisi Debat</option>
-                    <option value="karya_ilmiah" {{ request('category') === 'karya_ilmiah' ? 'selected' : '' }}>Karya Tulis Ilmiah</option>
+                    @foreach($categories as $key => $label)
+                        <option value="{{ $key }}" {{ request('category') === $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="col-md-3">
