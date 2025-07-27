@@ -174,7 +174,6 @@
                         <ul class="mb-3 ps-3">
                             <li>✅ Pembayaran telah dikonfirmasi otomatis</li>
                             <li>✅ Registrasi telah diaktifkan</li>
-                            <li>✅ QR Code tiket telah dibuat</li>
                         </ul>
                         <h6 class="fw-semibold mb-2">Yang bisa dilakukan:</h6>
                         <ul class="mb-0 ps-3">
