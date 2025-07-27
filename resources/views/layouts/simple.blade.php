@@ -698,19 +698,59 @@
                     </li>
                 </ul>
                 
-                <!-- Mobile Login Button -->
+                <!-- Mobile Login/User Button -->
                 <div class="d-lg-none mobile-login-button-container">
-                    <a class="btn btn-primary btn-sm px-3" href="{{ route('login') }}">
-                        <i class="bi bi-box-arrow-in-right me-1"></i>Masuk
-                    </a>
+                    @auth
+                        <div class="d-flex align-items-center justify-content-center">
+                            <div class="me-2">
+                                <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=007bff&color=fff&size=32"
+                                     alt="Avatar" class="rounded-circle" width="32" height="32">
+                            </div>
+                            <div class="text-center">
+                                <div class="small text-muted">Selamat datang king</div>
+                                <div class="fw-bold">{{ Auth::user()->name }}</div>
+                                <div class="small text-primary">as {{ ucfirst(Auth::user()->role) }}</div>
+                            </div>
+                            <div class="ms-2">
+                                <a href="@if(Auth::user()->isSuperAdmin() || Auth::user()->isAdmin() || Auth::user()->isFinance()) {{ route('admin.admin.dashboard') }} @elseif(Auth::user()->isJuri()) {{ route('juri.juri.dashboard') }} @elseif(Auth::user()->isPeserta()) {{ route('peserta.dashboard') }} @else {{ route('dashboard') }} @endif"
+                                   class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-speedometer2"></i>
+                                </a>
+                            </div>
+                        </div>
+                    @else
+                        <a class="btn btn-primary btn-sm px-3" href="{{ route('login') }}">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>Masuk
+                        </a>
+                    @endauth
                 </div>
             </div>
             
-            <!-- Separate Login Button -->
+            <!-- Desktop Login/User Button -->
             <div class="d-none d-lg-block">
-                <a class="btn btn-primary btn-sm px-3" href="{{ route('login') }}">
-                    <i class="bi bi-box-arrow-in-right me-1"></i>Masuk
-                </a>
+                @auth
+                    <div class="d-flex align-items-center">
+                        <div class="me-2 text-end">
+                            <div class="small text-muted">Selamat datang king</div>
+                            <div class="fw-bold">{{ Auth::user()->name }}</div>
+                            <div class="small text-primary">as {{ ucfirst(Auth::user()->role) }}</div>
+                        </div>
+                        <div class="me-2">
+                            <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=007bff&color=fff&size=40"
+                                 alt="Avatar" class="rounded-circle" width="40" height="40">
+                        </div>
+                        <div>
+                            <a href="@if(Auth::user()->isSuperAdmin() || Auth::user()->isAdmin() || Auth::user()->isFinance()) {{ route('admin.admin.dashboard') }} @elseif(Auth::user()->isJuri()) {{ route('juri.juri.dashboard') }} @elseif(Auth::user()->isPeserta()) {{ route('peserta.dashboard') }} @else {{ route('dashboard') }} @endif"
+                               class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-speedometer2 me-1"></i>Dashboard
+                            </a>
+                        </div>
+                    </div>
+                @else
+                    <a class="btn btn-primary btn-sm px-3" href="{{ route('login') }}">
+                        <i class="bi bi-box-arrow-in-right me-1"></i>Masuk
+                    </a>
+                @endauth
             </div>
         </div>
     </nav>
