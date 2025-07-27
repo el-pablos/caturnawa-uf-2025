@@ -10,8 +10,8 @@ class InvoiceService
 {
     public function generateInvoice(Registration $registration)
     {
-        // Use the custom template
-        $templatePath = base_path('kebutuhan-it/INVOICE/invoice-template.svg');
+        // Use the new custom template with wider header
+        $templatePath = base_path('kebutuhan-it/INVOICE/invoice-template-new.svg');
 
         if (!file_exists($templatePath)) {
             throw new \Exception('Invoice template not found: ' . $templatePath);
@@ -136,7 +136,7 @@ class InvoiceService
 
                 .invoice-container {
                     width: 100%;
-                    max-width: 794px;
+                    max-width: 850px;
                     margin: 0 auto;
                     background: white;
                 }
