@@ -609,12 +609,23 @@
         .user-header-container {
             overflow: visible !important;
             white-space: nowrap !important;
+            flex-shrink: 0 !important;
         }
 
         .user-greeting-text {
             overflow: visible !important;
             text-overflow: clip !important;
             white-space: nowrap !important;
+            flex-shrink: 0 !important;
+        }
+
+        /* Navbar container adjustments */
+        .navbar .container-fluid {
+            overflow: visible !important;
+        }
+
+        .navbar-nav {
+            flex-shrink: 1 !important;
         }
 
         /* Small Mobile (up to 575px) */
@@ -741,10 +752,10 @@
             </div>
             
             <!-- Desktop Login/User Button -->
-            <div class="d-none d-lg-block user-header-container">
+            <div class="d-none d-lg-block user-header-container" style="position: relative; z-index: 1000;">
                 @auth
-                    <div class="d-flex align-items-center" style="min-width: 450px; width: auto;">
-                        <div class="me-3 text-end user-greeting-text" style="min-width: 250px; width: auto;">
+                    <div class="d-flex align-items-center" style="min-width: 500px; width: max-content; background: rgba(255,255,255,0.95); padding: 8px 12px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                        <div class="me-3 text-end user-greeting-text" style="min-width: 280px; width: auto;">
                             <div class="small text-muted">Selamat datang king</div>
                             <div class="fw-bold">{{ Auth::user()->name }}</div>
                             <div class="small text-primary">as {{ ucfirst(Auth::user()->role) }}</div>
