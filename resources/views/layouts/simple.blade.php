@@ -701,12 +701,12 @@
                 <!-- Mobile Login/User Button -->
                 <div class="d-lg-none mobile-login-button-container">
                     @auth
-                        <div class="d-flex align-items-center justify-content-center">
+                        <div class="d-flex align-items-center justify-content-center" style="min-width: 250px;">
                             <div class="me-2">
                                 <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=007bff&color=fff&size=32"
                                      alt="Avatar" class="rounded-circle" width="32" height="32">
                             </div>
-                            <div class="text-center">
+                            <div class="text-center flex-grow-1" style="white-space: nowrap;">
                                 <div class="small text-muted">Selamat datang king</div>
                                 <div class="fw-bold">{{ Auth::user()->name }}</div>
                                 <div class="small text-primary">as {{ ucfirst(Auth::user()->role) }}</div>
@@ -729,8 +729,8 @@
             <!-- Desktop Login/User Button -->
             <div class="d-none d-lg-block">
                 @auth
-                    <div class="d-flex align-items-center">
-                        <div class="me-2 text-end">
+                    <div class="d-flex align-items-center" style="min-width: 300px;">
+                        <div class="me-3 text-end flex-grow-1" style="white-space: nowrap; min-width: 180px;">
                             <div class="small text-muted">Selamat datang king</div>
                             <div class="fw-bold">{{ Auth::user()->name }}</div>
                             <div class="small text-primary">as {{ ucfirst(Auth::user()->role) }}</div>
