@@ -468,6 +468,9 @@ Route::prefix('api')->name('api.')->middleware(['auth'])->group(function () {
     // Registration API
     Route::get('/registrations', [App\Http\Controllers\Api\RegistrationController::class, 'index']);
     Route::get('/registrations/datatable', [App\Http\Controllers\Api\RegistrationController::class, 'datatable']);
+    Route::get('/registrations/{registration}/documents', [App\Http\Controllers\Api\RegistrationController::class, 'documents']);
+    Route::post('/registrations/{registration}/documents', [App\Http\Controllers\Api\RegistrationController::class, 'uploadDocument']);
+    Route::delete('/registrations/{registration}/documents/{type}', [App\Http\Controllers\Api\RegistrationController::class, 'deleteDocument']);
     
     // Payment API
     Route::get('/payments', [App\Http\Controllers\Api\PaymentController::class, 'index']);
