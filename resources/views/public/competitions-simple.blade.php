@@ -161,30 +161,12 @@
                 <p class="text-muted">Data Terkini Festival Kompetisi Nasional</p>
             </div>
         </div>
-        <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
-            <div class="card shadow h-100 text-center">
-                <div class="card-body">
-                    <i class="bi bi-people-fill text-primary" style="font-size: 3rem;"></i>
-                    <h3 class="mt-3 fw-bold text-primary">{{ $stats['total_participants'] ?? 0 }}</h3>
-                    <p class="text-muted mb-0">Peserta Terdaftar</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
-            <div class="card shadow h-100 text-center">
+        <div class="col-12 mb-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="card shadow text-center">
                 <div class="card-body">
                     <i class="bi bi-trophy-fill text-warning" style="font-size: 3rem;"></i>
                     <h3 class="mt-3 fw-bold text-warning">{{ $stats['total_competitions'] ?? 0 }}</h3>
                     <p class="text-muted mb-0">Kompetisi Aktif</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-12 mb-4" data-aos="fade-up" data-aos-delay="300">
-            <div class="card shadow h-100 text-center">
-                <div class="card-body">
-                    <i class="bi bi-currency-dollar text-success" style="font-size: 3rem;"></i>
-                    <h3 class="mt-3 fw-bold text-success">Rp {{ number_format($stats['total_prizes'] ?? 0, 0, ',', '.') }}</h3>
-                    <p class="text-muted mb-0">Total Hadiah</p>
                 </div>
             </div>
         </div>

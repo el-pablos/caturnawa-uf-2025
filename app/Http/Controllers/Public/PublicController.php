@@ -96,10 +96,6 @@ class PublicController extends Controller
         $allCompetitions = Competition::active()->get();
         $stats = [
             'total_competitions' => $allCompetitions->count(),
-            'total_participants' => $allCompetitions->sum(function($comp) {
-                return $comp->registrations()->where('status', 'confirmed')->count();
-            }),
-            'total_prizes' => $allCompetitions->sum('prize_amount') ?: 500000000,
         ];
 
         return view('public.competitions-simple', compact('competitions', 'stats'));
@@ -341,8 +337,8 @@ class PublicController extends Controller
      */
     public function contact()
     {
-        
-        return view('public.contact');
+
+        return view('public.contact-new');
     }
 
     /**
