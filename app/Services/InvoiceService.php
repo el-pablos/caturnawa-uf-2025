@@ -92,34 +92,6 @@ class InvoiceService
     
     private function createInvoiceHtml($templatePath, $data)
     {
-        // Read the SVG template
-        $svgContent = file_get_contents($templatePath);
-
-        // Replace placeholders in SVG with actual data
-        $replacements = [
-            '{{INVOICE_NUMBER}}' => $data['invoice_number'],
-            '{{INVOICE_DATE}}' => $data['date'],
-            '{{PAYMENT_STATUS}}' => strtoupper($data['status']),
-            '{{PARTICIPANT_NAME}}' => $data['participant_name'],
-            '{{PARTICIPANT_INSTITUTION}}' => $data['participant_institution'],
-            '{{PARTICIPANT_EMAIL}}' => $data['participant_email'],
-            '{{PARTICIPANT_PHONE}}' => $data['participant_phone'],
-            '{{COMPETITION_NAME}}' => $data['competition_name'],
-            '{{COMPETITION_CATEGORY}}' => $data['competition_category'],
-            '{{ORIGINAL_PRICE}}' => 'Rp ' . number_format($data['original_price'], 0, ',', '.'),
-            '{{FINAL_AMOUNT}}' => 'Rp ' . number_format($data['amount'], 0, ',', '.'),
-            '{{DISCOUNT_AMOUNT}}' => 'Rp ' . number_format($data['discount_amount'], 0, ',', '.'),
-            '{{PAYMENT_METHOD}}' => $data['payment_method'],
-            '{{PAYMENT_DATE}}' => $data['payment_date'],
-            '{{NOTES}}' => $data['NOTES'] ?? '',
-            '{{CONTACT_PERSON}}' => $data['CONTACT_PERSON'] ?? '',
-            '{{CONTACT_WHATSAPP}}' => $data['CONTACT_WHATSAPP'] ?? ''
-        ];
-
-        foreach ($replacements as $placeholder => $value) {
-            $svgContent = str_replace($placeholder, htmlspecialchars($value), $svgContent);
-        }
-
         return '
         <!DOCTYPE html>
         <html>
@@ -127,42 +99,312 @@ class InvoiceService
             <meta charset="utf-8">
             <title>Invoice - ' . $data['invoice_number'] . '</title>
             <style>
+                @page {
+                    margin: 0;
+                    size: A4;
+                }
+
                 body {
                     margin: 0;
-                    padding: 0;
-                    font-family: Arial, sans-serif;
+                    padding: 20px;
+                    font-family: "DejaVu Sans", Arial, sans-serif;
                     background: white;
+                    color: #333;
+                    line-height: 1.4;
                 }
 
                 .invoice-container {
                     width: 100%;
-                    max-width: 850px;
+                    max-width: 800px;
                     margin: 0 auto;
                     background: white;
                 }
 
-                svg {
-                    width: 100%;
-                    height: auto;
-                    display: block;
+                .header {
+                    background: #154C8C;
+                    color: white;
+                    padding: 30px;
+                    margin-bottom: 30px;
+                    border-radius: 8px;
                 }
 
-                @media print {
-                    body {
-                        padding: 0;
-                        margin: 0;
-                    }
+                .header h1 {
+                    margin: 0 0 10px 0;
+                    font-size: 36px;
+                    font-weight: bold;
+                }
 
-                    .invoice-container {
-                        max-width: none;
-                        width: 100%;
-                    }
+                .header .subtitle {
+                    margin: 0;
+                    font-size: 16px;
+                    opacity: 0.9;
+                }
+
+                .header .tagline {
+                    margin: 5px 0 0 0;
+                    font-size: 14px;
+                    opacity: 0.8;
+                }
+
+                .invoice-details {
+                    display: table;
+                    width: 100%;
+                    margin-bottom: 30px;
+                }
+
+                .invoice-details .left,
+                .invoice-details .right {
+                    display: table-cell;
+                    width: 50%;
+                    vertical-align: top;
+                    padding: 0 15px;
+                }
+
+                .detail-group {
+                    margin-bottom: 20px;
+                }
+
+                .detail-label {
+                    font-size: 10px;
+                    color: #6B7280;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    margin-bottom: 5px;
+                }
+
+                .detail-value {
+                    font-size: 12px;
+                    color: #154C8C;
+                    font-weight: bold;
+                }
+
+                .section-title {
+                    font-size: 18px;
+                    color: #154C8C;
+                    font-weight: bold;
+                    margin: 30px 0 15px 0;
+                    border-bottom: 2px solid #154C8C;
+                    padding-bottom: 5px;
+                }
+
+                .info-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-bottom: 20px;
+                }
+
+                .info-table td {
+                    padding: 8px 12px;
+                    border: 1px solid #E5E7EB;
+                    font-size: 12px;
+                }
+
+                .info-table .label {
+                    background: #F9FAFB;
+                    font-weight: bold;
+                    color: #374151;
+                    width: 30%;
+                }
+
+                .info-table .value {
+                    color: #154C8C;
+                    font-weight: 600;
+                }
+
+                .payment-summary {
+                    background: #F8F9FA;
+                    padding: 20px;
+                    border-radius: 8px;
+                    margin: 20px 0;
+                    border-left: 4px solid #154C8C;
+                }
+
+                .payment-row {
+                    display: table;
+                    width: 100%;
+                    margin-bottom: 10px;
+                }
+
+                .payment-row .label,
+                .payment-row .amount {
+                    display: table-cell;
+                    padding: 5px 0;
+                }
+
+                .payment-row .label {
+                    font-weight: 600;
+                    color: #374151;
+                }
+
+                .payment-row .amount {
+                    text-align: right;
+                    font-weight: bold;
+                    color: #154C8C;
+                }
+
+                .total-row {
+                    border-top: 2px solid #154C8C;
+                    padding-top: 10px;
+                    margin-top: 10px;
+                }
+
+                .total-row .amount {
+                    font-size: 16px;
+                    color: #059669;
+                }
+
+                .status-badge {
+                    display: inline-block;
+                    padding: 6px 12px;
+                    border-radius: 20px;
+                    font-size: 12px;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    background: #10B981;
+                    color: white;
+                }
+
+                .notes {
+                    background: #FEF3C7;
+                    border: 1px solid #F59E0B;
+                    border-radius: 8px;
+                    padding: 15px;
+                    margin: 20px 0;
+                }
+
+                .notes h4 {
+                    margin: 0 0 10px 0;
+                    color: #92400E;
+                    font-size: 14px;
+                }
+
+                .notes p {
+                    margin: 5px 0;
+                    font-size: 12px;
+                    color: #92400E;
+                }
+
+                .footer {
+                    margin-top: 40px;
+                    padding-top: 20px;
+                    border-top: 1px solid #E5E7EB;
+                    text-align: center;
+                    font-size: 11px;
+                    color: #6B7280;
+                }
+
+                .contact-info {
+                    margin-top: 15px;
+                }
+
+                .contact-info p {
+                    margin: 3px 0;
                 }
             </style>
         </head>
         <body>
             <div class="invoice-container">
-                ' . $svgContent . '
+                <!-- Header -->
+                <div class="header">
+                    <h1>INVOICE</h1>
+                    <p class="subtitle">UNAS FEST 2025</p>
+                    <p class="tagline">Festival Kompetisi Nasional</p>
+                </div>
+
+                <!-- Invoice Details -->
+                <div class="invoice-details">
+                    <div class="left">
+                        <div class="detail-group">
+                            <div class="detail-label">Invoice Number</div>
+                            <div class="detail-value">' . $data['invoice_number'] . '</div>
+                        </div>
+                        <div class="detail-group">
+                            <div class="detail-label">Status</div>
+                            <div class="status-badge">' . strtoupper($data['status']) . '</div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="detail-group">
+                            <div class="detail-label">Date</div>
+                            <div class="detail-value">' . $data['date'] . '</div>
+                        </div>
+                        <div class="detail-group">
+                            <div class="detail-label">Payment Date</div>
+                            <div class="detail-value">' . $data['payment_date'] . '</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Participant Information -->
+                <h3 class="section-title">Participant Information</h3>
+                <table class="info-table">
+                    <tr>
+                        <td class="label">Name</td>
+                        <td class="value">' . htmlspecialchars($data['participant_name']) . '</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Institution</td>
+                        <td class="value">' . htmlspecialchars($data['participant_institution']) . '</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Email</td>
+                        <td class="value">' . htmlspecialchars($data['participant_email']) . '</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Phone</td>
+                        <td class="value">' . htmlspecialchars($data['participant_phone']) . '</td>
+                    </tr>
+                </table>
+
+                <!-- Competition Information -->
+                <h3 class="section-title">Competition Details</h3>
+                <table class="info-table">
+                    <tr>
+                        <td class="label">Competition</td>
+                        <td class="value">' . htmlspecialchars($data['competition_name']) . '</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Category</td>
+                        <td class="value">' . htmlspecialchars($data['competition_category']) . '</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Payment Method</td>
+                        <td class="value">' . htmlspecialchars($data['payment_method']) . '</td>
+                    </tr>
+                </table>
+
+                <!-- Payment Summary -->
+                <h3 class="section-title">Payment Summary</h3>
+                <div class="payment-summary">
+                    <div class="payment-row">
+                        <div class="label">Original Price</div>
+                        <div class="amount">Rp ' . number_format($data['original_price'], 0, ',', '.') . '</div>
+                    </div>
+                    <div class="payment-row">
+                        <div class="label">Discount</div>
+                        <div class="amount">- Rp ' . number_format($data['discount_amount'], 0, ',', '.') . '</div>
+                    </div>
+                    <div class="payment-row total-row">
+                        <div class="label">Total Amount</div>
+                        <div class="amount">Rp ' . number_format($data['amount'], 0, ',', '.') . '</div>
+                    </div>
+                </div>
+
+                <!-- Notes -->
+                <div class="notes">
+                    <h4>Important Notes</h4>
+                    <p>' . htmlspecialchars($data['NOTES'] ?? 'Terima kasih telah mendaftar di kompetisi ini. Simpan invoice ini sebagai bukti pembayaran yang sah.') . '</p>
+                </div>
+
+                <!-- Footer -->
+                <div class="footer">
+                    <p><strong>UNAS Fest 2025 - Festival Kompetisi Universitas Nasional</strong></p>
+                    <div class="contact-info">
+                        <p>Website: https://uf25.tams.my.id | Email: info@unasfest.com</p>
+                        <p>WhatsApp: ' . htmlspecialchars($data['CONTACT_WHATSAPP'] ?? '+62 812-3456-7890') . '</p>
+                        <p>Contact Person: ' . htmlspecialchars($data['CONTACT_PERSON'] ?? 'Tim Panitia') . '</p>
+                    </div>
+                </div>
             </div>
         </body>
         </html>';
