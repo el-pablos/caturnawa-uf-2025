@@ -11,43 +11,37 @@
             padding: 0;
             background: white;
         }
-        
+
         .invoice-container {
-            width: 794px;
-            height: 1123px;
+            width: 850px;
+            height: 1124px;
             margin: 0 auto;
             background: white;
             position: relative;
         }
-        
-        /* Header Section - exact match to SVG */
-        .header {
+
+        /* Dynamic text overlays positioned according to SVG */
+        .dynamic-text {
             position: absolute;
-            left: 50px;
-            top: 50px;
-            width: 694px;
-            height: 120px;
-            background: #2563eb;
+            font-family: Arial, sans-serif;
+            color: #154C8C;
+            font-size: 12px;
+            font-weight: normal;
         }
-        
-        .header-title {
-            position: absolute;
-            left: 20px;
-            top: 40px;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-            margin: 0;
-        }
-        
-        .header-subtitle {
-            position: absolute;
-            left: 20px;
-            top: 65px;
-            color: white;
-            font-size: 14px;
-            margin: 0;
-        }
+
+        /* Text positioning based on SVG coordinates */
+        .invoice-number { left: 50px; top: 261px; }
+        .order-date { left: 395px; top: 261px; }
+        .participant-name { left: 50px; top: 300px; }
+        .participant-institution { left: 395px; top: 300px; }
+        .participant-email { left: 50px; top: 339px; }
+        .participant-phone { left: 395px; top: 339px; }
+        .competition-name { left: 50px; top: 378px; }
+        .competition-category { left: 395px; top: 378px; }
+        .team-name { left: 50px; top: 417px; }
+        .team-members { left: 395px; top: 417px; }
+        .payment-amount { left: 50px; top: 456px; }
+        .payment-method { left: 395px; top: 456px; }
         
         .header-logo {
             position: absolute;

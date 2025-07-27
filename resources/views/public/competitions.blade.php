@@ -51,7 +51,7 @@
 @section('content')
 <style>
     .modern-hero {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
         position: relative;
         overflow: hidden;
         border-radius: 20px;
@@ -256,7 +256,7 @@
     }
     
     .stats-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
         border-radius: 20px;
         box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
         position: relative;
@@ -500,7 +500,7 @@ img {
 
 /* Elegant CTA Section - Lightweight */
 .elegant-cta-section {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
     border-radius: 20px;
     position: relative;
     overflow: hidden;

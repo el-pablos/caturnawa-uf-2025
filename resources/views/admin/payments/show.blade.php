@@ -9,8 +9,8 @@
             <i class="bi bi-arrow-left me-2"></i>Kembali
         </a>
         @if($payment->isSuccess())
-        <a href="{{ route('payment.receipt', $payment) }}" class="btn btn-primary">
-            <i class="bi bi-receipt me-2"></i>Download Struk
+        <a href="{{ route('download.unified-invoice', $payment->registration) }}" class="btn btn-primary">
+            <i class="bi bi-receipt me-2"></i>Download Invoice
         </a>
         @endif
     </div>

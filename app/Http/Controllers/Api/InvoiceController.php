@@ -46,6 +46,7 @@ class InvoiceController extends Controller
         $invoiceData = [
             'invoice_number' => $this->generateInvoiceNumber($payment),
             'payment_id' => $payment->id,
+            'registration_id' => $payment->registration->id,
             'order_id' => $payment->order_id,
             'status' => $payment->status,
             'amount' => [

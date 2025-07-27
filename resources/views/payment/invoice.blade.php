@@ -119,7 +119,7 @@
             <div class="card mt-4">
                 <div class="card-body">
                     <div class="d-flex justify-content-center gap-3 flex-wrap">
-                        <a href="{{ route('payment.receipt', $payment) }}" class="btn btn-primary btn-lg">
+                        <a href="{{ route('download.unified-invoice', $registration) }}" class="btn btn-primary btn-lg">
                             <i class="bi bi-download me-2"></i>Download Invoice
                         </a>
                         @if($registration->competition->whatsapp_group_link)
@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Auto download PDF invoice after 3 seconds
     setTimeout(() => {
         // Create hidden link and trigger download
-        const downloadUrl = '{{ route("payment.receipt", $payment) }}';
+        const downloadUrl = '{{ route("download.unified-invoice", $registration) }}';
         const link = document.createElement('a');
         link.href = downloadUrl;
         link.download = 'invoice-{{ $payment->order_id }}.pdf';

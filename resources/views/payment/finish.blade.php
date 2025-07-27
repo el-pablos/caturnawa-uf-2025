@@ -195,8 +195,8 @@
                 </div>
                 <div class="card-body text-center">
                     <p class="mb-3">Unduh struk pembayaran Anda sebagai bukti transaksi yang sah</p>
-                    <a href="{{ route('payment.receipt', $payment) }}" class="btn btn-primary btn-lg" id="downloadReceiptBtn">
-                        <i class="bi bi-download me-2"></i>Download Struk PDF
+                    <a href="{{ route('download.unified-invoice', $registration) }}" class="btn btn-primary btn-lg" id="downloadReceiptBtn">
+                        <i class="bi bi-download me-2"></i>Download Invoice PDF
                     </a>
                     <p class="text-muted mt-2 small">
                         <i class="bi bi-info-circle me-1"></i>
@@ -215,8 +215,8 @@
                         <a href="{{ route('peserta.submissions.index') }}" class="btn btn-success">
                             <i class="bi bi-upload me-1"></i>Upload Karya
                         </a>
-                        <a href="{{ route('payment.receipt', $payment) }}" class="btn btn-outline-primary">
-                            <i class="bi bi-receipt me-1"></i>Download Struk
+                        <a href="{{ route('download.unified-invoice', $registration) }}" class="btn btn-outline-primary">
+                            <i class="bi bi-receipt me-1"></i>Download Invoice
                         </a>
                         <a href="{{ route('peserta.dashboard') }}" class="btn btn-outline-secondary">
                             <i class="bi bi-house me-1"></i>Dashboard
@@ -255,16 +255,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Auto download PDF receipt after 3 seconds
     setTimeout(() => {
         // Create hidden link and trigger download
-        const downloadUrl = '{{ route("payment.receipt", $payment) }}';
+        const downloadUrl = '{{ route("download.unified-invoice", $registration) }}';
         const link = document.createElement('a');
         link.href = downloadUrl;
-        link.download = 'struk-pembayaran-{{ $payment->order_id }}.pdf';
+        link.download = 'invoice-{{ $payment->order_id }}.pdf';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
 
         // Show notification
-        showNotification('Struk pembayaran berhasil diunduh!', 'success');
+        showNotification('Invoice berhasil diunduh!', 'success');
     }, 3000);
 
     // Manual download button
@@ -273,12 +273,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const downloadUrl = this.href;
         const link = document.createElement('a');
         link.href = downloadUrl;
-        link.download = 'struk-pembayaran-{{ $payment->order_id }}.pdf';
+        link.download = 'invoice-{{ $payment->order_id }}.pdf';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
 
-        showNotification('Struk pembayaran berhasil diunduh!', 'success');
+        showNotification('Invoice berhasil diunduh!', 'success');
     });
 });
 

@@ -402,7 +402,21 @@ function refreshInvoices() {
 }
 
 function downloadInvoice(paymentId) {
-    window.open(`/api/invoices/${paymentId}`, '_blank');
+    // First get the registration ID from the payment
+    fetch(`/api/invoices/${paymentId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.registration_id) {
+                // Use the unified invoice download route
+                window.open(`/download/invoice/${data.registration_id}`, '_blank');
+            } else {
+                showAlert('error', 'Gagal mendapatkan data invoice');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('error', 'Terjadi kesalahan saat mengunduh invoice');
+        });
 }
 
 function downloadInvoiceJSON() {

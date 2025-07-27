@@ -236,7 +236,7 @@
                         <p class="text-muted mb-3">
                             Unduh invoice resmi sebagai bukti pembayaran Anda
                         </p>
-                        <a href="{{ route('payment.invoice', $registration) }}" 
+                        <a href="{{ route('download.unified-invoice', $registration) }}"
                            class="btn btn-download-invoice" target="_blank">
                             <i class="bi bi-download me-2"></i>
                             Download Invoice PDF
