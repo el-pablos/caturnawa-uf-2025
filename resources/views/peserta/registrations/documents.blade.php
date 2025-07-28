@@ -2,6 +2,11 @@
 
 @section('title', 'Upload Dokumen - ' . $registration->competition->name)
 
+@push('head')
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<meta name="api-token" content="{{ auth()->user()->createToken('api')->plainTextToken ?? '' }}">
+@endpush
+
 @section('content')
 <div class="container-fluid">
     <!-- Header -->
@@ -77,6 +82,30 @@
         @endforeach
     </div>
 
+    <!-- Document Completion Status -->
+    <div class="card mt-4" id="completion-status">
+        <div class="card-header">
+            <h6 class="mb-0">
+                <i class="bi bi-clipboard-check me-2"></i>Status Kelengkapan Dokumen
+            </h6>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-warning" id="incomplete-warning">
+                <i class="bi bi-exclamation-triangle me-2"></i>
+                <strong>Perhatian!</strong> Anda harus mengupload semua dokumen yang diperlukan sebelum dapat melanjutkan ke tahap upload karya.
+            </div>
+            <div class="alert alert-success d-none" id="complete-success">
+                <i class="bi bi-check-circle me-2"></i>
+                <strong>Selamat!</strong> Semua dokumen telah diupload. Anda dapat melanjutkan ke tahap upload karya.
+                <div class="mt-2">
+                    <a href="{{ route('peserta.submissions.index') }}" class="btn btn-success btn-sm">
+                        <i class="bi bi-upload me-1"></i>Upload Karya
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Instructions -->
     <div class="card mt-4">
         <div class="card-header">
@@ -148,6 +177,7 @@ function loadDocuments() {
                 documents[doc.document_type] = doc;
                 updateDocumentDisplay(doc.document_type, doc);
             });
+            checkCompletion();
         }
     })
     .catch(error => {
@@ -219,6 +249,7 @@ function uploadDocument(type, file) {
         if (data.success) {
             documents[type] = data.data;
             updateDocumentDisplay(type, data.data);
+            checkCompletion();
             showAlert('success', data.message);
         } else {
             showAlert('danger', data.message);
@@ -360,6 +391,24 @@ function showAlert(type, message) {
             alert.remove();
         }
     }, 5000);
+}
+
+function checkCompletion() {
+    const requiredTypes = @json(array_keys(\App\Models\RegistrationDocument::DOCUMENT_TYPES));
+    const uploadedTypes = Object.keys(documents);
+
+    const isComplete = requiredTypes.every(type => uploadedTypes.includes(type));
+
+    const incompleteWarning = document.getElementById('incomplete-warning');
+    const completeSuccess = document.getElementById('complete-success');
+
+    if (isComplete) {
+        incompleteWarning.classList.add('d-none');
+        completeSuccess.classList.remove('d-none');
+    } else {
+        incompleteWarning.classList.remove('d-none');
+        completeSuccess.classList.add('d-none');
+    }
 }
 </script>
 @endsection

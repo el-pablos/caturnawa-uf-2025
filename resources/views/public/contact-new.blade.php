@@ -10,10 +10,10 @@
 <style>
     /* Inherited styles from leaderboard for consistency */
     .modern-hero {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
         position: relative;
         overflow: hidden;
-        border-radius: 20px;
+        border-radius: 25px;
         box-shadow: 0 20px 40px rgba(0,0,0,0.1);
     }
 
@@ -118,7 +118,7 @@
         background: rgba(255, 255, 255, 0.2);
         backdrop-filter: blur(15px);
         -webkit-backdrop-filter: blur(15px);
-        border-radius: 15px;
+        border-radius: 20px;
         border: 1px solid rgba(255, 255, 255, 0.3);
         padding: 2rem;
         text-align: center;
@@ -167,7 +167,7 @@
 
     .map-card {
         background: white;
-        border-radius: 15px;
+        border-radius: 20px;
         overflow: hidden;
         box-shadow: 0 15px 40px rgba(0,0,0,0.1);
         border: 1px solid #e9ecef;

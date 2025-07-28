@@ -9,7 +9,7 @@
 @section('content')
 <style>
     .modern-hero {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
         position: relative;
         overflow: hidden;
         border-radius: 20px;
@@ -146,7 +146,7 @@
                 <div class="hero-content text-center">
                     <h1 class="modern-title mb-4">
                         UNAS<span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"> FEST 2025</span></h1>
-                    <p class="modern-subtitle mb-5">Festival Kompetisi Nasional Terbesar Indonesia</p>
+                    <p class="modern-subtitle mb-5">Website Caturnawa UNASFEST 2025</p>
                 <hr class="my-4">
                 <p>Bergabunglah dengan kompetisi Teknologi, Kesehatan, dan Biodiversitas menanti!</p>
                 <a class="btn modern-btn btn-auto w-auto"

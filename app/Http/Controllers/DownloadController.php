@@ -92,7 +92,7 @@ class DownloadController extends Controller
             $dompdf = new Dompdf($options);
 
             // Render the view to HTML
-            $html = view('downloads.invoice', $data)->render();
+            $html = view('downloads.invoice-new', $data)->render();
 
             // Load HTML into DomPDF
             $dompdf->loadHtml($html);
@@ -117,7 +117,7 @@ class DownloadController extends Controller
                 'generated_at' => now(),
             ];
 
-            return view('downloads.invoice', $data)->with('error', 'PDF generation failed, showing HTML version. Error: ' . $e->getMessage());
+            return view('downloads.invoice-new', $data)->with('error', 'PDF generation failed, showing HTML version. Error: ' . $e->getMessage());
         }
     }
 

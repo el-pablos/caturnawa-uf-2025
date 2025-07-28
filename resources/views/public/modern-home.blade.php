@@ -56,18 +56,10 @@
                 </div>
 
                 <!-- Quick Stats -->
-                <div class="grid grid-cols-3 gap-6 pt-8">
-                    <div class="text-center">
-                        <div class="text-3xl font-bold text-white mb-1">500M</div>
-                        <div class="text-sm text-gray-400">Total Hadiah</div>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-3xl font-bold text-white mb-1">10K+</div>
-                        <div class="text-sm text-gray-400">Peserta</div>
-                    </div>
+                <div class="grid grid-cols-1 gap-6 pt-8">
                     <div class="text-center">
                         <div class="text-3xl font-bold text-white mb-1">100+</div>
-                        <div class="text-sm text-gray-400">Universitas</div>
+                        <div class="text-sm text-gray-400">Universitas Partner</div>
                     </div>
                 </div>
             </div>
@@ -78,33 +70,7 @@
                     <!-- Main Visual Element -->
                     <div class="relative w-full h-96 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
                         <!-- Floating Stats Cards -->
-                        <div class="absolute -top-6 -left-6 bg-white rounded-2xl p-6 shadow-xl scale-in" style="animation-delay: 0.5s;">
-                            <div class="flex items-center space-x-4">
-                                <div class="w-12 h-12 bg-gradient-to-r from-violet-500 to-purple-600 rounded-xl flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="text-2xl font-bold text-gray-900">10,000+</div>
-                                    <div class="text-sm text-gray-600">Peserta Terdaftar</div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="absolute -top-6 -right-6 bg-white rounded-2xl p-6 shadow-xl scale-in" style="animation-delay: 0.7s;">
-                            <div class="flex items-center space-x-4">
-                                <div class="w-12 h-12 bg-gradient-to-r from-accent-500 to-orange-600 rounded-xl flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="text-2xl font-bold text-gray-900">500M</div>
-                                    <div class="text-sm text-gray-600">Total Hadiah</div>
-                                </div>
-                            </div>
-                        </div>
 
                         <div class="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-white rounded-2xl p-6 shadow-xl scale-in" style="animation-delay: 0.9s;">
                             <div class="flex items-center space-x-4">
@@ -558,8 +524,8 @@
                                         <h4 class="text-xl font-bold text-gray-900 mb-2">Momen Bersejarah</h4>
                                         <p class="text-gray-600 mb-6">Rayakan pencapaian luar biasa</p>
                                         <div class="bg-white rounded-xl p-4">
-                                            <div class="text-2xl font-bold text-yellow-600">500M</div>
-                                            <div class="text-sm text-gray-600">Total Hadiah</div>
+                                            <div class="text-2xl font-bold text-yellow-600">15</div>
+                                            <div class="text-sm text-gray-600">Kategori Kompetisi</div>
                                         </div>
                                     </div>
                                 </div>
@@ -596,11 +562,7 @@
             </div>
 
             <!-- Trust Indicators -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 pt-8 border-t border-white/20">
-                <div class="text-center">
-                    <div class="text-2xl font-bold mb-1">10,000+</div>
-                    <div class="text-sm text-gray-400">Peserta Terdaftar</div>
-                </div>
+            <div class="grid grid-cols-2 gap-8 pt-8 border-t border-white/20">
                 <div class="text-center">
                     <div class="text-2xl font-bold mb-1">100+</div>
                     <div class="text-sm text-gray-400">Universitas Partner</div>
@@ -608,10 +570,6 @@
                 <div class="text-center">
                     <div class="text-2xl font-bold mb-1">15</div>
                     <div class="text-sm text-gray-400">Kategori Kompetisi</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-2xl font-bold mb-1">500M</div>
-                    <div class="text-sm text-gray-400">Total Hadiah</div>
                 </div>
             </div>
         </div>

@@ -110,20 +110,7 @@
 <section class="stats-section">
     <div class="container">
         <div class="row g-4">
-            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                <div class="stats-card">
-                    <div class="stats-icon bg-gradient-primary">
-                        <i class="bi bi-people"></i>
-                    </div>
-                    <div class="stats-content">
-                        <h3 class="stats-number text-primary counter" data-target="{{ $stats['participants'] ?? 10000 }}">0</h3>
-                        <p class="stats-label">Peserta Terdaftar</p>
-                        <div class="stats-progress">
-                            <div class="progress-bar bg-primary" style="width: 85%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
 
             <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
                 <div class="stats-card">
@@ -140,20 +127,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                <div class="stats-card">
-                    <div class="stats-icon bg-gradient-warning">
-                        <i class="bi bi-gift"></i>
-                    </div>
-                    <div class="stats-content">
-                        <h3 class="stats-number text-warning">{{ number_format(($stats['total_prize'] ?? 500000000) / 1000000) }} <small>Juta</small></h3>
-                        <p class="stats-label">Total Hadiah</p>
-                        <div class="stats-progress">
-                            <div class="progress-bar bg-warning" style="width: 95%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
 
             <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
                 <div class="stats-card">

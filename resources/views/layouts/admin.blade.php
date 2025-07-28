@@ -250,6 +250,9 @@
             overflow-y: auto;
             overflow-x: hidden;
             padding-bottom: 1rem;
+            max-height: calc(100vh - 120px);
+            scrollbar-width: thin;
+            scrollbar-color: #c1c1c1 #f1f1f1;
         }
 
         /* Responsive navigation adjustments */

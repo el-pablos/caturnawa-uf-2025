@@ -256,8 +256,8 @@
                 </h6>
             </div>
             <div class="card-body" id="user-distribution-container">
-                <div style="height: 250px; position: relative;">
-                    <canvas id="userDistributionChart" style="max-height: 200px;"></canvas>
+                <div class="chart-responsive-container" style="height: 250px; position: relative;">
+                    <canvas id="userDistributionChart"></canvas>
                 </div>
             </div>
         </div>
@@ -449,6 +449,41 @@
             padding: 1rem;
         }
     }
+
+    /* Responsive chart container */
+    .chart-responsive-container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+
+    .chart-responsive-container canvas {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    /* Mobile responsive adjustments */
+    @media (max-width: 768px) {
+        .chart-responsive-container {
+            height: 180px !important;
+        }
+
+        #user-distribution-container .chart-responsive-container {
+            height: 160px !important;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .chart-responsive-container {
+            height: 150px !important;
+        }
+
+        #user-distribution-container .chart-responsive-container {
+            height: 140px !important;
+        }
+    }
 </style>
 @endpush
 
@@ -567,8 +602,8 @@ function loadUserDistribution() {
             if (data.success) {
                 const container = document.getElementById('user-distribution-container');
                 container.innerHTML = `
-                    <div style="height: 200px; position: relative;">
-                        <canvas id="userDistributionChart" style="max-height: 180px;"></canvas>
+                    <div class="chart-responsive-container" style="height: 200px; position: relative;">
+                        <canvas id="userDistributionChart"></canvas>
                     </div>
                     <div class="mt-3" id="user-legend"></div>
                 `;
@@ -588,20 +623,29 @@ function loadUserDistribution() {
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        aspectRatio: 1,
                         plugins: {
                             legend: {
                                 display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                        const percentage = ((context.parsed / total) * 100).toFixed(1);
+                                        return `${context.label}: ${context.parsed} (${percentage}%)`;
+                                    }
+                                }
                             }
                         },
                         layout: {
                             padding: {
-                                top: 10,
-                                bottom: 10,
-                                left: 10,
-                                right: 10
+                                top: 5,
+                                bottom: 5,
+                                left: 5,
+                                right: 5
                             }
-                        }
+                        },
+                        cutout: '50%'
                     }
                 });
 

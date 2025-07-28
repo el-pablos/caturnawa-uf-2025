@@ -75,7 +75,7 @@ class RegistrationDocument extends Model
     public function getFileUrlAttribute()
     {
         if ($this->file_path) {
-            return Storage::url($this->file_path);
+            return Storage::disk('public')->url($this->file_path);
         }
         return null;
     }

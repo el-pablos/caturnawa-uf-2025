@@ -171,7 +171,25 @@
             transform: translateY(-1px);
             color: white;
         }
-        
+
+        /* Scrollbar styling for sidebar */
+        .nav-menu-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .nav-menu-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-menu-container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+
+        .nav-menu-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
         @media (max-width: 768px) {
             .juri-sidebar {
                 transform: translateX(-100%);
@@ -200,7 +218,7 @@
             </div>
             
             <!-- Navigation Menu -->
-            <div class="nav-menu-container flex-grow-1 overflow-auto">
+            <div class="nav-menu-container flex-grow-1 overflow-auto" style="max-height: calc(100vh - 120px); scrollbar-width: thin;">
                 <div class="nav nav-pills flex-column p-3">
                     <a class="nav-link {{ request()->routeIs('juri.juri.dashboard') ? 'active' : '' }}" href="{{ route('juri.juri.dashboard') }}">
                         <i class="bi bi-speedometer2 me-2"></i>Dashboard
