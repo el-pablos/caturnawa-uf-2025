@@ -9,7 +9,7 @@
 @section('content')
 <style>
     .modern-hero {
-        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         position: relative;
         overflow: hidden;
         border-radius: 20px;
@@ -146,7 +146,7 @@
                 <div class="hero-content text-center">
                     <h1 class="modern-title mb-4">
                         UNAS<span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"> FEST 2025</span></h1>
-                    <p class="modern-subtitle mb-5">Website Caturnawa UNASFEST 2025</p>
+                    <p class="modern-subtitle mb-5">Website Caturnawa UNAS FEST 2025</p>
                 <hr class="my-4">
                 <p>Bergabunglah dengan kompetisi Teknologi, Kesehatan, dan Biodiversitas menanti!</p>
                 <a class="btn modern-btn btn-auto w-auto"
@@ -282,7 +282,7 @@
         @if($competitions && $competitions->count() > 0)
             <div class="row mt-5">
                 <div class="col-12">
-                    <h2 class="text-center mb-4">Kompetisi UnasFest</h2>
+                    <h2 class="text-center mb-4 fw-bold" style="color: #667eea;">Kompetisi UNAS FEST</h2>
                 </div>
             </div>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -321,7 +321,7 @@
                         <div class="card-footer bg-transparent border-0">
                             @if($competition->slug)
                             <a href="{{ route('public.competition.detail', $competition->slug) }}"
-                               class="btn btn-primary rounded-3 px-4 py-2">
+                               class="btn btn-primary rounded-3 px-4 py-2 d-flex align-items-center justify-content-center">
                                 Lihat Detail
                             </a>
                             @else
