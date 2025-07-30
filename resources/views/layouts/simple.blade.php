@@ -666,7 +666,7 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="{{ route('public.home') }}">
-                <strong>CATURNAWA UF 25</strong>
+                <strong>UNAS FEST 2025</strong>
             </a>
             
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -705,35 +705,25 @@
                 <!-- Mobile Login/User Button -->
                 <div class="d-lg-none mobile-login-button-container">
                     @auth
-                        <div class="text-center mb-3">
-                            <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=2563eb&color=fff&size=48"
-                                 alt="Avatar" class="rounded-circle mb-2" width="48" height="48">
-                            <div class="fw-bold">{{ Auth::user()->name }}</div>
-                            <div class="small text-muted">{{ ucfirst(Auth::user()->role) }}</div>
+                        <div class="d-flex align-items-center justify-content-center" style="width: max-content; margin: 0 auto;">
+                            <div class="me-2">
+                                <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=007bff&color=fff&size=32"
+                                     alt="Avatar" class="rounded-circle" width="32" height="32">
+                            </div>
+                            <div class="text-center" style="white-space: nowrap;">
+                                <div class="small text-muted">Selamat datang king</div>
+                                <div class="fw-bold">{{ Auth::user()->name }}</div>
+                                <div class="small text-primary">as {{ ucfirst(Auth::user()->role) }}</div>
+                            </div>
+                            <div class="ms-2">
+                                <a href="@if(Auth::user()->isSuperAdmin() || Auth::user()->isAdmin() || Auth::user()->isFinance()) {{ route('admin.admin.dashboard') }} @elseif(Auth::user()->isJuri()) {{ route('juri.juri.dashboard') }} @elseif(Auth::user()->isPeserta()) {{ route('peserta.dashboard') }} @else {{ route('dashboard') }} @endif"
+                                   class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-speedometer2"></i>
+                                </a>
+                            </div>
                         </div>
-                        <ul class="nav flex-column text-center">
-                            <li class="nav-item">
-                                <a class="nav-link" href="@if(Auth::user()->isSuperAdmin() || Auth::user()->isAdmin() || Auth::user()->isFinance()) {{ route('admin.admin.dashboard') }} @elseif(Auth::user()->isJuri()) {{ route('juri.juri.dashboard') }} @elseif(Auth::user()->isPeserta()) {{ route('peserta.dashboard') }} @else {{ route('dashboard') }} @endif">
-                                    <i class="bi bi-speedometer2 me-2"></i>Dashboard
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <i class="bi bi-person-circle me-2"></i>Profil Saya
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-danger" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault(); document.getElementById('logout-form-mobile').submit();">
-                                    <i class="bi bi-box-arrow-right me-2"></i>Keluar
-                                </a>
-                                <form id="logout-form-mobile" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-                            </li>
-                        </ul>
                     @else
-                        <a class="btn btn-primary w-100" href="{{ route('login') }}">
+                        <a class="btn btn-primary btn-sm px-3" href="{{ route('login') }}">
                             <i class="bi bi-box-arrow-in-right me-1"></i>Masuk
                         </a>
                     @endauth
@@ -743,34 +733,22 @@
             <!-- Desktop Login/User Button -->
             <div class="d-none d-lg-block">
                 @auth
-                    <div class="dropdown">
-                        <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=2563eb&color=fff&size=40"
-                                 alt="Avatar" class="rounded-circle me-2" width="40" height="40">
-                            <div class="text-start">
-                                <div class="fw-bold">{{ Auth::user()->name }}</div>
-                                <div class="small text-muted">{{ ucfirst(Auth::user()->role) }}</div>
-                            </div>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li><h6 class="dropdown-header">Selamat datang, {{ Auth::user()->name }}!</h6></li>
-                            <li><a class="dropdown-item" href="@if(Auth::user()->isSuperAdmin() || Auth::user()->isAdmin() || Auth::user()->isFinance()) {{ route('admin.admin.dashboard') }} @elseif(Auth::user()->isJuri()) {{ route('juri.juri.dashboard') }} @elseif(Auth::user()->isPeserta()) {{ route('peserta.dashboard') }} @else {{ route('dashboard') }} @endif">
-                                <i class="bi bi-speedometer2 me-2"></i>Dashboard
-                            </a></li>
-                            <li><a class="dropdown-item" href="#">
-                                <i class="bi bi-person-circle me-2"></i>Profil Saya
-                            </a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <a class="dropdown-item text-danger" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    <i class="bi bi-box-arrow-right me-2"></i>Keluar
-                                </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-                            </li>
-                        </ul>
+                    <div class="d-flex align-items-center" style="width: max-content;">
+                        <div class="me-3 text-end" style="white-space: nowrap;">
+                            <div class="small text-muted">Selamat datang king</div>
+                            <div class="fw-bold">{{ Auth::user()->name }}</div>
+                            <div class="small text-primary">as {{ ucfirst(Auth::user()->role) }}</div>
+                        </div>
+                        <div class="me-2">
+                            <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=007bff&color=fff&size=40"
+                                 alt="Avatar" class="rounded-circle" width="40" height="40">
+                        </div>
+                        <div>
+                            <a href="@if(Auth::user()->isSuperAdmin() || Auth::user()->isAdmin() || Auth::user()->isFinance()) {{ route('admin.admin.dashboard') }} @elseif(Auth::user()->isJuri()) {{ route('juri.juri.dashboard') }} @elseif(Auth::user()->isPeserta()) {{ route('peserta.dashboard') }} @else {{ route('dashboard') }} @endif"
+                               class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-speedometer2 me-1"></i>Dashboard
+                            </a>
+                        </div>
                     </div>
                 @else
                     <a class="btn btn-primary btn-sm px-3" href="{{ route('login') }}">

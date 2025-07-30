@@ -5,7 +5,7 @@
 @push('styles')
 <style>
     .modern-hero {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
         position: relative;
         overflow: hidden;
         border-radius: 20px;
@@ -122,11 +122,6 @@
             font-size: 1.1rem;
         }
     }
-    @media (min-width: 768px) {
-        .border-md-start {
-            border-left: 1px solid #dee2e6;
-        }
-    }
 </style>
 @endpush
 
@@ -198,17 +193,28 @@
                             <i class="bi bi-trophy me-2"></i>{{ $competition->name }}
                         </h5>
                     </div>
-                    <div class="card-body p-4">
-                        <div class="row align-items-center">
-                            <div class="col-md-8">
-                                <p class="card-text mb-3 mb-md-0" style="text-align: justify;">{{ Str::limit($competition->description, 150) }}</p>
-                            </div>
-                            <div class="col-md-4 text-center">
-                                <div class="border-md-start ps-md-3">
-                                    <i class="bi bi-calendar-event text-success d-block mb-2" style="font-size: 1.75rem;"></i>
-                                    <small class="text-muted d-block">Pendaftaran</small>
-                                    <div class="fw-bold">{{ $competition->registration_start->format('d M') }} - {{ $competition->registration_end->format('d M') }}</div>
+                    <div class="card-body">
+                        <p class="card-text">{{ Str::limit($competition->description, 120) }}</p>
+
+                        <div class="row text-center mb-3">
+                            <div class="col-4">
+                                <div class="border-end">
+                                    <i class="bi bi-calendar text-primary d-block mb-1"></i>
+                                    <small class="text-muted">Pendaftaran</small>
+                                    <div class="fw-bold small">{{ $competition->registration_start->format('d M') }} - {{ $competition->registration_end->format('d M') }}</div>
                                 </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="border-end">
+                                    <i class="bi bi-currency-dollar text-success d-block mb-1"></i>
+                                    <small class="text-muted">Hadiah</small>
+                                    <div class="fw-bold small text-success">Rp {{ number_format($competition->prize_amount ?? 0, 0, ',', '.') }}</div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <i class="bi bi-people text-info d-block mb-1"></i>
+                                <small class="text-muted">Peserta</small>
+                                <div class="fw-bold small text-info">{{ $competition->registrations->count() }}</div>
                             </div>
                         </div>
                     </div>
