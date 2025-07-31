@@ -1,5 +1,5 @@
 {{-- Admin Sidebar Menu --}}
-<a class="nav-link {{ request()->routeIs('admin.admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.admin.dashboard') }}">
+<a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
     <i class="bi bi-speedometer2 me-2"></i>Dashboard
 </a>
 
