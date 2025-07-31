@@ -27,7 +27,7 @@
                             </a>
                         @else
                             @if(auth()->user()->isAdmin())
-                                <a href="{{ route('admin.admin.dashboard') }}" class="btn btn-primary btn-lg">
+                                <a href="{{ route('admin.dashboard') }}" class="btn btn-primary btn-lg">
                                     <i class="bi bi-speedometer2 me-2"></i>Dashboard Admin
                                 </a>
                             @elseif(auth()->user()->isJuri())
