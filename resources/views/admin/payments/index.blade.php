@@ -4,7 +4,7 @@
 @section('page-title', 'Kelola Pembayaran')
 
 @section('sidebar-menu')
-    <a class="nav-link" href="{{ route('admin.admin.dashboard') }}">
+    <a class="nav-link" href="{{ route('admin.dashboard') }}">
         <i class="bi bi-speedometer2 me-2"></i>Dashboard
     </a>
     <a class="nav-link" href="{{ route('admin.competitions.index') }}">
