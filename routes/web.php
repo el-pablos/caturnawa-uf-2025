@@ -142,11 +142,11 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
         $user = auth()->user();
 
         if ($user->isSuperAdmin()) {
-            return redirect()->route('admin.admin.dashboard');
+            return redirect()->route('admin.dashboard');
         } elseif ($user->isAdmin()) {
-            return redirect()->route('admin.admin.dashboard');
+            return redirect()->route('admin.dashboard');
         } elseif ($user->isFinance()) {
-            return redirect()->route('admin.admin.dashboard');
+            return redirect()->route('admin.dashboard');
         } elseif ($user->isJuri()) {
             return redirect()->route('juri.juri.dashboard');
         } elseif ($user->isPeserta()) {
@@ -173,7 +173,7 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
         });
 
         // Dashboard
-        Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
+        Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
         Route::get('/dashboard/chart-data', [App\Http\Controllers\Admin\DashboardController::class, 'getChartDataAjax'])->name('dashboard.chart-data');
         Route::get('/dashboard/user-distribution', [App\Http\Controllers\Admin\DashboardController::class, 'getUserDistributionAjax'])->name('dashboard.user-distribution');
         Route::get('/dashboard/recent-data', [App\Http\Controllers\Admin\DashboardController::class, 'getRecentDataAjax'])->name('dashboard.recent-data');
