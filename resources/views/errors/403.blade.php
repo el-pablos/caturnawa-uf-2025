@@ -19,7 +19,7 @@
     <div class="error-actions">
         @auth
             @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('superadmin'))
-                <a href="{{ route('admin.admin.dashboard') }}" class="btn-error-primary">
+                <a href="{{ route('admin.dashboard') }}" class="btn-error-primary">
                     <i class="bi bi-speedometer2 me-2"></i>Dashboard Admin
                 </a>
             @elseif(auth()->user()->hasRole('juri'))

@@ -73,9 +73,9 @@ class RoleBasedRedirect
     private function redirectToUserDashboard($user)
     {
         if ($user->isSuperAdmin()) {
-            return redirect()->route('admin.admin.dashboard');
+            return redirect()->route('admin.dashboard');
         } elseif ($user->isAdmin()) {
-            return redirect()->route('admin.admin.dashboard');
+            return redirect()->route('admin.dashboard');
         } elseif ($user->isJuri()) {
             return redirect()->route('juri.juri.dashboard');
         } elseif ($user->isPeserta()) {

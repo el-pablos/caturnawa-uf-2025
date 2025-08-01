@@ -7,7 +7,7 @@
         <h1 class="h3 mb-0">Aktivasi Akun Peserta</h1>
         <nav class="ms-auto">
             <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="{{ route('admin.admin.dashboard') }}">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
                 <li class="breadcrumb-item active">Aktivasi Akun</li>
             </ol>
         </nav>
