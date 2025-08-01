@@ -714,11 +714,6 @@
                         <ul class="nav flex-column text-center">
                             <li class="nav-item">
                                 <a class="nav-link" href="@if(Auth::user()->isSuperAdmin() || Auth::user()->isAdmin() || Auth::user()->isFinance()) {{ route('admin.dashboard') }} @elseif(Auth::user()->isJuri()) {{ route('juri.juri.dashboard') }} @elseif(Auth::user()->isPeserta()) {{ route('peserta.dashboard') }} @else {{ route('dashboard') }} @endif">
-                                    <i class="bi bi-speedometer2 me-2"></i>Dashboard
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
                                     <i class="bi bi-person-circle me-2"></i>Profil Saya
                                 </a>
                             </li>
@@ -755,11 +750,8 @@
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                             <li><h6 class="dropdown-header">Selamat datang, {{ Auth::user()->name }}!</h6></li>
                             <li><a class="dropdown-item" href="@if(Auth::user()->isSuperAdmin() || Auth::user()->isAdmin() || Auth::user()->isFinance()) {{ route('admin.dashboard') }} @elseif(Auth::user()->isJuri()) {{ route('juri.juri.dashboard') }} @elseif(Auth::user()->isPeserta()) {{ route('peserta.dashboard') }} @else {{ route('dashboard') }} @endif">
-                                <i class="bi bi-speedometer2 me-2"></i>Dashboard
-                            </a></li>
-                            <li><a class="dropdown-item" href="#">
                                 <i class="bi bi-person-circle me-2"></i>Profil Saya
-                            </a></li>
+                            </a>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <a class="dropdown-item text-danger" href="{{ route('logout') }}"
