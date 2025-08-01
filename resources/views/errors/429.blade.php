@@ -1,38 +1,19 @@
-@extends('layouts.error')
+@extends('layouts.error-animated')
 
 @section('title', '429 - Terlalu Banyak Permintaan')
 
-@section('content')
-<div class="error-header">
-    <div class="error-icon">
-        <i class="bi bi-speedometer"></i>
-    </div>
-    <h1 class="error-code">429</h1>
-    <h2 class="error-title">Terlalu Banyak Permintaan</h2>
-</div>
+@section('error-title', 'Too Many Requests')
+@section('error-code', '429')
+@section('error-description', 'Anda telah mengirim terlalu banyak permintaan dalam waktu singkat.')
+@section('error-message', 'Silakan tunggu sebentar sebelum mencoba lagi.')
 
-<div class="error-body">
-    <p class="error-description">
-        Anda telah mengirim terlalu banyak permintaan dalam waktu singkat. Silakan tunggu sebentar sebelum mencoba lagi.
-    </p>
-    
-    <div class="error-actions">
-        <a href="javascript:history.back()" class="btn-error-primary">
-            <i class="bi bi-arrow-left me-2"></i>Kembali
-        </a>
-        
-        <a href="{{ route('public.home') }}" class="btn-error-secondary">
-            <i class="bi bi-house me-2"></i>Beranda
-        </a>
-    </div>
-</div>
-
-<div class="error-footer">
-    <small>
-        <i class="bi bi-info-circle me-1"></i>
-        Pembatasan ini diterapkan untuk menjaga performa sistem. Silakan coba lagi dalam beberapa menit.
-    </small>
-</div>
+@section('error-actions')
+    <a href="javascript:history.back()" class="btn-error">
+        ← Kembali
+    </a>
+    <a href="{{ route('public.home') }}" class="btn-error">
+        Beranda
+    </a>
 @endsection
 
 @section('scripts')

@@ -1,38 +1,19 @@
-@extends('layouts.error')
+@extends('layouts.error-animated')
 
 @section('title', 'Website Sedang Maintenance')
 
-@section('content')
-<div class="error-header">
-    <div class="error-icon">
-        <i class="bi bi-tools"></i>
-    </div>
-    <h1 class="error-code">503</h1>
-    <h2 class="error-title">Sedang Maintenance</h2>
-</div>
+@section('error-title', 'Under Maintenance')
+@section('error-code', '503')
+@section('error-description', '{{ $message ?? "Maaf, website sedang dalam masa pemeliharaan untuk meningkatkan kualitas layanan." }}')
+@section('error-message', 'Silakan coba lagi nanti.')
 
-<div class="error-body">
-    <p class="error-description">
-        {{ $message ?? 'Maaf, website sedang dalam masa pemeliharaan untuk meningkatkan kualitas layanan. Silakan coba lagi nanti.' }}
-    </p>
-
-    <div class="error-actions">
-        <a href="javascript:window.location.reload()" class="btn-error-primary">
-            <i class="bi bi-arrow-clockwise me-2"></i>Coba Lagi
-        </a>
-
-        <a href="mailto:admin@unasfest.com" class="btn-error-secondary">
-            <i class="bi bi-envelope me-2"></i>Hubungi Admin
-        </a>
-    </div>
-</div>
-
-<div class="error-footer">
-    <small>
-        <i class="bi bi-info-circle me-1"></i>
-        Estimasi selesai: {{ $retryAfter ?? 'Segera' }}. Terima kasih atas kesabaran Anda.
-    </small>
-</div>
+@section('error-actions')
+    <a href="javascript:window.location.reload()" class="btn-error">
+        🔄 Coba Lagi
+    </a>
+    <a href="mailto:admin@unasfest.com" class="btn-error">
+        ✉️ Hubungi Admin
+    </a>
 @endsection
 
 @section('scripts')

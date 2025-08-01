@@ -1,66 +1,20 @@
-@extends('layouts.app')
+@extends('layouts.error-animated')
 
 @section('title', 'Pendaftaran Ditutup')
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-lg">
-                <div class="card-body text-center p-5">
-                    <div class="mb-4">
-                        <i class="fas fa-door-closed text-danger" style="font-size: 4rem;"></i>
-                    </div>
-                    
-                    <h1 class="display-4 mb-4">Pendaftaran Ditutup</h1>
-                    
-                    <div class="mb-4">
-                        <p class="lead">{{ $message ?? 'Pendaftaran sedang ditutup, silahkan tungu periode selanjutnya yaaaa....' }}</p>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="feature-icon mb-3">
-                                <i class="fas fa-calendar-alt text-primary" style="font-size: 2rem;"></i>
-                            </div>
-                            <h5>Periode Berikutnya</h5>
-                            <p class="text-muted">Tunggu pengumuman periode pendaftaran berikutnya dari panitia.</p>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="feature-icon mb-3">
-                                <i class="fas fa-bell text-warning" style="font-size: 2rem;"></i>
-                            </div>
-                            <h5>Notifikasi</h5>
-                            <p class="text-muted">Ikuti media sosial kami untuk mendapatkan notifikasi pembukaan pendaftaran.</p>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="feature-icon mb-3">
-                                <i class="fas fa-info-circle text-info" style="font-size: 2rem;"></i>
-                            </div>
-                            <h5>Informasi</h5>
-                            <p class="text-muted">Hubungi panitia jika Anda memiliki pertanyaan lebih lanjut.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-4">
-                        <p class="text-muted">
-                            <small>Pantau terus website ini untuk informasi terbaru mengenai pembukaan pendaftaran.</small>
-                        </p>
-                    </div>
-                    
-                    <div class="mt-4">
-                        <a href="{{ route('home') }}" class="btn btn-primary me-2">
-                            <i class="fas fa-home"></i> Kembali ke Beranda
-                        </a>
-                        <a href="{{ route('public.competitions') }}" class="btn btn-outline-primary">
-                            <i class="fas fa-trophy"></i> Lihat Kompetisi
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+@section('error-title', 'Registration Closed')
+@section('error-code', 'CLOSED')
+@section('error-description', '{{ $message ?? "Pendaftaran sedang ditutup, silahkan tungu periode selanjutnya yaaaa...." }}')
+@section('error-message', 'Pantau terus website ini untuk informasi terbaru mengenai pembukaan pendaftaran.')
+
+@section('error-actions')
+    <a href="{{ route('public.home') }}" class="btn-error">
+        🏠 Kembali ke Beranda
+    </a>
+    <a href="{{ route('public.competitions') }}" class="btn-error">
+        🏆 Lihat Kompetisi
+    </a>
+@endsection
 
 <style>
     body {
