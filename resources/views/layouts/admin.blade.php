@@ -362,8 +362,6 @@
                         <i class="bi bi-person-check me-2"></i>Registrasi
                     </a>
 
-
-
                     <a class="nav-link {{ request()->routeIs('admin.submissions.*') ? 'active' : '' }}" href="{{ route('admin.submissions.index') }}">
                         <i class="bi bi-file-earmark-text me-2"></i>Karya Peserta
                     </a>
@@ -391,6 +389,10 @@
 
                     <a class="nav-link {{ request()->routeIs('profile.*') ? 'active' : '' }}" href="{{ route('profile.index') }}">
                         <i class="bi bi-person-circle me-2"></i>Profil
+                    </a>
+
+                    <a class="nav-link {{ request()->routeIs('profile.*') ? 'active' : '' }}" href="{{ route('public.home') }}">
+                        <i class="bi bi-house me-2"></i>Beranda
                     </a>
                 </div>
             </div>
