@@ -344,9 +344,9 @@
             <div class="col-12 mb-4">
                 <div class="text-center" data-aos="fade-up">
                     <h2 class="fw-bold text-primary">
-                        <i class="bi bi-trophy me-2"></i>Kompetisi Tersedia
+                        <i class="bi bi-trophy me-2"></i>Available Competitions
                     </h2>
-                    <p class="text-muted">Pilih kompetisi yang sesuai dengan minat dan keahlian Anda</p>
+                    <p class="text-muted">Choose competitions that match your interests and expertise</p>
                 </div>
             </div>
         </div>

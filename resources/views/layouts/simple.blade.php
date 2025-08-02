@@ -839,9 +839,9 @@
                             <h5>Contact</h5>
                             <ul>
                                 <li><a href="mailto:info@unasfest.com"><i class="bi bi-envelope"></i>info@unasfest.com</a></li>
-                                <li><a href="tel:0858-1737-8442"><i class="bi bi-telephone"></i>0858-1737-8442</a></li>
+                                <li><a href="tel:0882-1944-5100"><i class="bi bi-telephone"></i>0882-1944-5100</a></li>
                                 <li><a href="{{ route('public.contact') }}"><i class="bi bi-chat-dots"></i>Contact Kami</a></li>
-                                <li><a href="https://wa.me/6285817378442" target="_blank"><i class="bi bi-whatsapp"></i>WhatsApp</a></li>
+                                <li><a href="https://wa.me/6288219445100" target="_blank"><i class="bi bi-whatsapp"></i>WhatsApp</a></li>
                             </ul>
                         </div>
                     </div>
@@ -850,7 +850,7 @@
                 <div class="row mt-4">
                     <div class="col-lg-8 mb-4">
                         <div class="footer-section">
-                            <h5>Lokasi Kami</h5>
+                            <h5>Our Location</h5>
                             <div class="map-container">
                                 <iframe
                                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.7037296897583!2d106.83746531476911!3d-6.301582695377932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ecbc1b26f799%3A0x5b99b2d1c95b8c7d!2sJl.%20Sawo%20Manila%20No.61%2C%20RT.14%2FRW.7%2C%20Pejaten%20Bar.%2C%20Ps.%20Minggu%2C%20Kota%20Jakarta%20Selatan%2C%20Daerah%20Khusus%20Ibukota%20Jakarta%2012520!5e0!3m2!1sid!2sid!4v1625123456789!5m2!1sid!2sid"
@@ -864,7 +864,7 @@
 
                     <div class="col-lg-4 mb-4">
                         <div class="footer-section">
-                            <h5>Statistik Pengunjung</h5>
+                            <h5>Visitor Statistics</h5>
                             <div class="visitor-counter">
                                 <h6><i class="bi bi-graph-up me-2"></i>Data Real-time</h6>
                                 <div class="counter-grid">

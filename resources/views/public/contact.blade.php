@@ -210,7 +210,7 @@
                             </p>
                     <div class="row justify-content-center">
                         <div class="col-md-4 col-lg-3 mb-3">
-                            <a href="https://wa.me/6285817378442" class="btn modern-btn btn-auto w-100" target="_blank">
+                            <a href="https://wa.me/6288219445100" class="btn modern-btn btn-auto w-100" target="_blank">
                                 <i class="bi bi-whatsapp me-2"></i>WhatsApp
                             </a>
                         </div>
@@ -306,7 +306,7 @@
             
             <div class="modern-card info-card mb-4">
                 <div class="card-header p-3 bg-info text-white">
-                    <h4 class="card-title mb-0"><i class="bi bi-info-circle-fill me-2"></i>Informasi Contact</h4>
+                    <h4 class="card-title mb-0"><i class="bi bi-info-circle-fill me-2"></i>Contact Information</h4>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item d-flex align-items-center">
@@ -335,7 +335,7 @@
 
             <div class="modern-card mb-4">
                 <div class="card-header p-3 bg-warning text-dark">
-                    <h5 class="card-title mb-0"><i class="bi bi-clock-fill me-2"></i>Hours Operasional</h5>
+                    <h5 class="card-title mb-0"><i class="bi bi-clock-fill me-2"></i>Operational Hours</h5>
                 </div>
                 <div class="card-body p-3">
                     <div class="d-flex justify-content-between mb-2"><span>Senin - Jumat</span><span class="fw-bold">08:00 - 17:00</span></div>

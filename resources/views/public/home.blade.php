@@ -122,7 +122,7 @@
                         <div class="info-item">
                             <i class="bi bi-trophy"></i>
                             <div>
-                                <span class="info-label">Hadiah</span>
+                                <span class="info-label">Prize</span>
                                 <span class="info-value">menanti</span>
                             </div>
                         </div>
@@ -178,8 +178,8 @@
     
     <!-- Scroll Indicator -->
     <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="2000">
-        <a href="#stats" class="scroll-link" aria-label="Scroll ke statistik">
-            <span>Scroll untuk lebih banyak</span>
+        <a href="#stats" class="scroll-link" aria-label="Scroll to statistics">
+            <span>Scroll for more</span>
             <div class="scroll-arrow">
                 <i class="bi bi-chevron-down"></i>
             </div>
@@ -273,18 +273,18 @@
                         <div class="card-content">
                             <h3 class="card-title font-poppins">{{ $competition->name }}</h3>
                             <p class="card-description">
-                                {{ Str::limit($competition->description ?? 'Bergabunglah dalam kompetisi bergengsi ini dan tunjukkan kemampuan terbaik Anda.', 120) }}
+                                {{ Str::limit($competition->description ?? 'Join this prestigious competition and showcase your best abilities.', 120) }}
                             </p>
 
                             <div class="card-stats">
                                 <div class="stat-item">
-                                    <span class="stat-value">{{ $competition->price ? 'Rp ' . number_format($competition->price, 0, ',', '.') : 'Gratis' }}</span>
+                                    <span class="stat-value">{{ $competition->price ? 'Rp ' . number_format($competition->price, 0, ',', '.') : 'Free' }}</span>
                                     <span class="stat-label">Biaya Registration</span>
                                 </div>
                                 <div class="stat-divider"></div>
                                 <div class="stat-item">
                                     <span class="stat-value">{{ $competition->max_participants ?? '∞' }}</span>
-                                    <span class="stat-label">Max Peserta</span>
+                                    <span class="stat-label">Max Participants</span>
                                 </div>
                             </div>
 
@@ -1320,7 +1320,7 @@ if ('serviceWorker' in navigator) {
         <div class="section-header text-center" data-aos="fade-up">
             <div class="section-badge">
                 <i class="bi bi-chat-heart"></i>
-                <span>Testimoni Peserta</span>
+                <span>Participant Testimonials</span>
             </div>
             <h2 class="section-title">Apa Kata Mereka?</h2>
             <p class="section-subtitle">
@@ -1414,10 +1414,10 @@ if ('serviceWorker' in navigator) {
 <section id="cta" class="cta-section section">
     <div class="container">
         <div class="cta-content" data-aos="zoom-in">
-            <h2 class="cta-title">Siap Berkompetisi?</h2>
+            <h2 class="cta-title">Ready to Compete?</h2>
             <p class="cta-description">
-                Jangan lewatkan kesempatan emas untuk menunjukkan kemampuan terbaik Anda. 
-                Bergabunglah dengan ribuan peserta lainnya dalam festival kompetisi nasional terbesar di Indonesia.
+                Don't miss this golden opportunity to showcase your best abilities.
+                Join thousands of other participants in Indonesia's largest national competition festival.
             </p>
             
             <div class="cta-features">
@@ -1485,23 +1485,23 @@ if ('serviceWorker' in navigator) {
                         </button>
                         <div id="faq1" class="faq-answer collapse">
                             <div class="faq-content">
-                                Registration dapat dilakukan melalui website resmi dengan mengisi formulir online, 
-                                mengunggah dokumen yang diperlukan, dan melakukan pembayaran biaya pendaftaran. 
-                                Proses pendaftaran sangat mudah dan dapat diselesaikan dalam beberapa menit.
+                                Registration can be done through the official website by filling out an online form,
+                                uploading required documents, and making registration fee payment.
+                                The registration process is very easy and can be completed in a few minutes.
                             </div>
                         </div>
                     </div>
                     
                     <div class="faq-item">
                         <button class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq2">
-                            <span>Berapa biaya pendaftaran untuk setiap kompetisi?</span>
+                            <span>What is the registration fee for each competition?</span>
                             <i class="bi bi-chevron-down"></i>
                         </button>
                         <div id="faq2" class="faq-answer collapse">
                             <div class="faq-content">
-                                Biaya pendaftaran bervariasi: KDBI Rp 150.000, EDC Rp 125.000, 
-                                Short Movie Rp 100.000, dan Scientific Paper Rp 75.000. 
-                                Biaya sudah termasuk kit peserta, sertifikat, dan konsumsi selama acara.
+                                Registration fees vary: KDBI Rp 150,000, EDC Rp 125,000,
+                                Short Movie Rp 100,000, and Scientific Paper Rp 75,000.
+                                The fee includes participant kit, certificate, and meals during the event.
                             </div>
                         </div>
                     </div>
@@ -1513,9 +1513,9 @@ if ('serviceWorker' in navigator) {
                         </button>
                         <div id="faq3" class="faq-answer collapse">
                             <div class="faq-content">
-                                Competitions terbuka untuk mahasiswa aktif dari universitas/institut di seluruh Indonesia. 
-                                Peserta harus memiliki Kartu Tanda Mahasiswa (KTM) yang masih berlaku dan 
-                                surat keterangan aktif kuliah dari institusi masing-masing.
+                                Competitions are open to active students from universities/institutes throughout Indonesia.
+                                Participants must have a valid Student Identity Card (KTM) and
+                                an active study certificate from their respective institutions.
                             </div>
                         </div>
                     </div>
@@ -1527,9 +1527,9 @@ if ('serviceWorker' in navigator) {
                         </button>
                         <div id="faq4" class="faq-answer collapse">
                             <div class="faq-content">
-                                Ya, peserta diperbolehkan mendaftar maksimal 2 kompetisi dengan membayar 
-                                biaya pendaftaran untuk masing-masing kompetisi. Namun, pastikan jadwal 
-                                kompetisi tidak bertabrakan.
+                                Yes, participants are allowed to register for a maximum of 2 competitions by paying
+                                the registration fee for each competition. However, make sure the competition
+                                schedules do not conflict.
                             </div>
                         </div>
                     </div>

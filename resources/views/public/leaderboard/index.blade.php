@@ -204,8 +204,8 @@
                         Leaderboard <span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"> UNAS FEST 2025</span>
                     </h1>
                     <p class="modern-subtitle mb-5">
-                        Lihat peringkat terbaru peserta kompetisi UNAS FEST 2025.
-                        Pantau posisi Anda dan kompetitor lainnya dalam real-time.
+                        View the latest rankings of UNAS FEST 2025 competition participants.
+                        Monitor your position and other competitors in real-time.
                     </p>
                     <div class="row justify-content-center">
                         <div class="col-md-3 mb-3">
@@ -281,19 +281,19 @@
                                 <div class="col-md-4">
                                     <div class="stat-item">
                                         <h3 class="text-primary">{{ $selectedCompetition->category }}</h3>
-                                        <p class="text-muted">Kategori</p>
+                                        <p class="text-muted">Category</p>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="stat-item">
                                         <h3 class="text-success">{{ $leaderboard->count() }}</h3>
-                                        <p class="text-muted">Total Peserta</p>
+                                        <p class="text-muted">Total Participants</p>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="stat-item">
                                         <h3 class="text-warning">{{ number_format($selectedCompetition->price ?? 0) }}</h3>
-                                        <p class="text-muted">Hadiah (IDR)</p>
+                                        <p class="text-muted">Prize (IDR)</p>
                                     </div>
                                 </div>
                             </div>
@@ -394,7 +394,7 @@
                     <div class="card shadow">
                         <div class="card-header bg-primary text-white text-center">
                             <h5 class="mb-0">
-                                <i class="bi bi-table me-2"></i>Tabel Peringkat Semua Peserta
+                                <i class="bi bi-table me-2"></i>All Participants Ranking Table
                             </h5>
                         </div>
                         <div class="card-body p-0">
@@ -403,7 +403,7 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th class="text-center" width="80">Rank</th>
-                                            <th>Peserta</th>
+                                            <th>Participant</th>
                                             <th>Karya</th>
                                             <th class="text-center" width="120">Skor</th>
                                             <th class="text-center" width="100">Juri</th>
