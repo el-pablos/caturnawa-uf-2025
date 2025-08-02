@@ -52,7 +52,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Title -->
-    <title>@hasSection('title')@yield('title')@else UNAS Fest 2025 - Festival Kompetisi Nasional @endif</title>
+    <title>@hasSection('title')@yield('title')@else Caturnawa UNAS FEST 2025 - Festival Kompetisi Nasional @endif</title>
 
     <!-- Meta from pages -->
     @stack('meta')
@@ -67,15 +67,15 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg fixed-top" id="mainNavbar">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="{{ route('public.home') }}" aria-label="UNAS Fest 2025 Home">
+            <a class="navbar-brand d-flex align-items-center" href="{{ route('public.home') }}" aria-label="Caturnawa UNAS FEST 2025 Home">
                 <img src="{{ asset('assets/images/logo/unas-fest-logo.webp') }}" 
-                     alt="UNAS Fest 2025 Logo" 
+                     alt="Caturnawa UNAS FEST 2025 Logo" 
                      height="40" 
                      width="40" 
                      class="me-2"
                      loading="eager"
                      onerror="this.style.display='none'">
-                <span class="fw-bold text-primary fs-4">UNAS Fest 2025</span>
+                <span class="fw-bold text-primary fs-4">Caturnawa UNAS FEST 2025</span>
             </a>
             
             <button class="navbar-toggler border-0" 
@@ -153,13 +153,13 @@
                     <div class="footer-brand">
                         <div class="d-flex align-items-center mb-3">
                             <img src="{{ asset('assets/images/logo/unas-fest-logo-white.webp') }}" 
-                                 alt="UNAS Fest 2025" 
+                                 alt="Caturnawa UNAS FEST 2025" 
                                  height="40" 
                                  width="40" 
                                  class="me-3"
                                  loading="lazy"
                                  onerror="this.style.display='none'">
-                            <h5 class="text-white fw-bold mb-0">UNAS Fest 2025</h5>
+                            <h5 class="text-white fw-bold mb-0">Caturnawa UNAS FEST 2025</h5>
                         </div>
                         <p class="text-light mb-4">
                             Festival kompetisi nasional terbesar di Indonesia yang menggabungkan 
@@ -247,7 +247,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <p class="mb-0 text-light">
-                            &copy; {{ date('Y') }} UNAS Fest 2025. All rights reserved.
+                            &copy; {{ date('Y') }} Caturnawa UNAS FEST 2025. All rights reserved.
                         </p>
                     </div>
                     <div class="col-md-6 text-md-end">
@@ -274,7 +274,7 @@
     <div id="pageLoader" class="page-loader">
         <div class="loader-content">
             <div class="spinner"></div>
-            <p>Loading UNAS Fest 2025...</p>
+            <p>Loading Caturnawa UNAS FEST 2025...</p>
         </div>
     </div>
 
@@ -445,7 +445,7 @@
     {
         "@context": "https://schema.org",
         "@type": "Organization",
-        "name": "UNAS Fest 2025",
+        "name": "Caturnawa UNAS FEST 2025",
         "url": "{{ url('/') }}",
         "logo": "{{ asset('assets/images/logo/unas-fest-logo.webp') }}",
         "description": "Festival Kompetisi Nasional terbesar di Indonesia",

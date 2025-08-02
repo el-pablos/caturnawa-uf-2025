@@ -4,7 +4,7 @@
     $seoPage = 'about';
 @endphp
 
-@section('title', 'Tentang Kami - UNAS Fest 2025')
+@section('title', 'About Us - Caturnawa UNAS FEST 2025')
 
 @section('content')
 <style>
@@ -281,23 +281,23 @@
                         <i class="bi bi-info-circle"></i>
                     </div>
                     <h1 class="modern-title mb-4">
-                        Tentang <span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">UNAS FEST 2025</span>
+                        About <span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Caturnawa UNAS FEST 2025</span>
                     </h1>
                     <p class="modern-subtitle mb-5">
-                        Festival kompetisi nasional terbesar di Indonesia yang menggabungkan inovasi teknologi,
-                        kesehatan, dan biodiversitas untuk menciptakan masa depan yang berkelanjutan.
+                        Indonesia's largest national competition festival that combines technology innovation,
+                        health, and biodiversity to create a sustainable future.
                     </p>
                     <div class="row justify-content-center">
                         <div class="col-md-3 mb-3">
                             <a href="{{ route('public.competitions') }}"
                                class="btn modern-btn btn-auto w-100">
-                                <i class="bi bi-trophy me-2"></i>Lihat Kompetisi
+                                <i class="bi bi-trophy me-2"></i>Lihat Competitions
                             </a>
                         </div>
                         <div class="col-md-3 mb-3">
                             <a href="{{ route('public.contact') }}"
                                class="btn modern-btn-outline btn-auto w-100">
-                                <i class="bi bi-envelope me-2"></i>Hubungi Kami
+                                <i class="bi bi-envelope me-2"></i>Contact Kami
                             </a>
                         </div>
                     </div>
@@ -312,7 +312,7 @@
             <div class="card shadow h-100">
                 <div class="card-header bg-primary text-white text-center">
                     <h3 class="card-title mb-0">
-                        <i class="bi bi-eye me-2"></i>Visi Kami
+                        <i class="bi bi-eye me-2"></i>Our Vision
                     </h3>
                 </div>
                 <div class="p-4 text-center" style="color: #2d3748;">
@@ -328,7 +328,7 @@
             <div class="card shadow h-100">
                 <div class="card-header bg-success text-white text-center">
                     <h3 class="card-title mb-0">
-                        <i class="bi bi-bullseye me-2"></i>Misi Kami
+                        <i class="bi bi-bullseye me-2"></i>Our Mission
                     </h3>
                 </div>
                 <div class="p-4" style="color: #2d3748;">
@@ -347,7 +347,7 @@
                         </li>
                         <li class="d-flex align-items-start">
                             <i class="bi bi-check-circle text-success me-3 mt-1"></i>
-                            <span>Mengembangkan solusi berkelanjutan untuk tantangan masa depan</span>
+                            <span>Developing sustainable solutions for future challenges</span>
                         </li>
                     </ul>
                 </div>
@@ -361,7 +361,7 @@
             <div class="card shadow">
                 <div class="card-header bg-info text-white text-center">
                     <h2 class="card-title mb-0">Nilai-Nilai Kami</h2>
-                    <p class="mb-0">Prinsip-prinsip yang menjadi fondasi dalam menyelenggarakan UNAS Fest 2025</p>
+                    <p class="mb-0">Prinsip-prinsip yang menjadi fondasi dalam menyelenggarakan Caturnawa UNAS FEST 2025</p>
                 </div>
                 <div class="card-body">
                     <div class="row g-4">

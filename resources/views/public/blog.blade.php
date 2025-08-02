@@ -1,6 +1,6 @@
 @extends('layouts.simple')
 
-@section('title', 'Blog & Artikel - UNAS Fest 2025')
+@section('title', 'Blog & Artikel - Caturnawa UNAS FEST 2025')
 
 @section('content')
 <div class="container my-5">
@@ -13,7 +13,7 @@
                         <i class="bi bi-journal-text me-3"></i>Blog & Artikel
                     </h1>
                     <p class="lead mb-4">
-                        Temukan tips, panduan, dan informasi terbaru seputar UNAS Fest 2025. 
+                        Temukan tips, panduan, dan informasi terbaru seputar Caturnawa UNAS FEST 2025. 
                         Tingkatkan peluang sukses Anda dengan membaca artikel-artikel berkualitas dari tim ahli kami.
                     </p>
                     <div class="row justify-content-center">
@@ -251,7 +251,7 @@
                     
                     <h5 class="card-title fw-bold mb-3">Tren Teknologi 2025 dalam Kompetisi</h5>
                     <p class="card-text text-muted mb-4 flex-grow-1">
-                        Analisis mendalam tentang tren teknologi terbaru yang menjadi fokus dalam kompetisi teknologi UNAS Fest 2025.
+                        Analisis mendalam tentang tren teknologi terbaru yang menjadi fokus dalam kompetisi teknologi Caturnawa UNAS FEST 2025.
                     </p>
                     
                     <div class="d-flex align-items-center justify-content-between mt-auto">

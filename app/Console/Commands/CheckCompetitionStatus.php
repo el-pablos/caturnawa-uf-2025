@@ -13,7 +13,7 @@ class CheckCompetitionStatus extends Command
 
     public function handle()
     {
-        $this->info('🏆 UNAS Fest 2025 - Competition Status Check');
+        $this->info('🏆 Caturnawa UNAS FEST 2025 - Competition Status Check');
         $this->info('Current Date: ' . now()->format('Y-m-d H:i:s'));
         $this->line(str_repeat('=', 80));
 

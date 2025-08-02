@@ -18,7 +18,7 @@ if (import.meta.hot) {
     });
 }
 
-// Custom JavaScript for UNAS Fest 2025
+// Custom JavaScript for Caturnawa UNAS FEST 2025
 document.addEventListener('DOMContentLoaded', function() {
 
     // Setup CSRF token for AJAX requests
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Development mode indicator
     if (import.meta.env.DEV) {
-        console.log('🚀 UNAS Fest 2025 - Development Mode');
+        console.log('🚀 Caturnawa UNAS FEST 2025 - Development Mode');
         console.log('📝 Hot reload is active - changes will be reflected automatically');
         console.log('🔒 CSRF token setup complete');
     }

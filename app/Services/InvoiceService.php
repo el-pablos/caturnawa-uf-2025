@@ -307,7 +307,7 @@ class InvoiceService
                 <!-- Header -->
                 <div class="header">
                     <h1>INVOICE</h1>
-                    <p class="subtitle">UNAS FEST 2025</p>
+                    <p class="subtitle">Caturnawa UNAS FEST 2025</p>
                     <p class="tagline">Festival Kompetisi Nasional</p>
                 </div>
 
@@ -398,7 +398,7 @@ class InvoiceService
 
                 <!-- Footer -->
                 <div class="footer">
-                    <p><strong>UNAS Fest 2025 - Festival Kompetisi Universitas Nasional</strong></p>
+                    <p><strong>Caturnawa UNAS FEST 2025 - Festival Kompetisi Universitas Nasional</strong></p>
                     <div class="contact-info">
                         <p>Website: https://uf25.tams.my.id | Email: info@unasfest.com</p>
                         <p>WhatsApp: ' . htmlspecialchars($data['CONTACT_WHATSAPP'] ?? '+62 812-3456-7890') . '</p>

@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Mata Lomba - UNAS Fest 2025')
+@section('title', 'Mata Lomba - Caturnawa UNAS FEST 2025')
 
 @section('content')
 <div class="container py-5">
@@ -8,7 +8,7 @@
     <div class="row mb-5">
         <div class="col-12 text-center">
             <h1 class="display-4 fw-bold text-primary mb-3">
-                <i class="bi bi-trophy-fill me-3"></i>Mata Lomba UNAS Fest 2025
+                <i class="bi bi-trophy-fill me-3"></i>Mata Lomba Caturnawa UNAS FEST 2025
             </h1>
             <p class="lead text-muted">
                 Pilih kompetisi dan lihat babak-babak yang tersedia

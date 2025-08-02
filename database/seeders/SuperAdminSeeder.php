@@ -91,7 +91,7 @@ class SuperAdminSeeder extends Seeder
                 'password' => Hash::make('password123'),
                 'phone' => '081234567890',
                 'participant_status' => 'Mahasiswa Unas',
-                'institution' => 'UNAS Fest 2025',
+                'institution' => 'Caturnawa UNAS FEST 2025',
                 'student_id' => 'SUPERADMIN001',
                 'is_active' => true,
                 'email_verified_at' => now(),

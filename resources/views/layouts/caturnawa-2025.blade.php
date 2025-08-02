@@ -6,27 +6,27 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     
     <!-- SEO Meta Tags -->
-    <title>@yield('title', 'Caturnawa UNAS Fest 2025 - Festival Kompetisi Universitas Nasional Tahunan')</title>
-    <meta name="description" content="@yield('description', 'Caturnawa UNAS Fest 2025 - Festival kompetisi nasional terbesar di Indonesia. Kompetisi Debat Bahasa Indonesia, English Debate, Short Movie, dan Scientific Paper. Total hadiah 200 juta rupiah.')">
-    <meta name="keywords" content="@yield('keywords', 'caturnawa, unas fest 2025, kompetisi debat indonesia, english debate competition, short movie competition, scientific paper competition, lomba nasional, festival mahasiswa')">
-    <meta name="author" content="Caturnawa UNAS Fest 2025">
+    <title>@yield('title', 'Caturnawa UNAS FEST 2025 - Festival Kompetisi Universitas Nasional Tahunan')</title>
+    <meta name="description" content="@yield('description', 'Caturnawa UNAS FEST 2025 - Festival kompetisi nasional terbesar di Indonesia. Kompetisi Debat Bahasa Indonesia, English Debate, Short Movie, dan Scientific Paper. Total hadiah 200 juta rupiah.')">
+    <meta name="keywords" content="@yield('keywords', 'caturnawa, Caturnawa UNAS FEST 2025, kompetisi debat indonesia, english debate competition, short movie competition, scientific paper competition, lomba nasional, festival mahasiswa')">
+    <meta name="author" content="Caturnawa UNAS FEST 2025">
     <meta name="robots" content="index, follow">
     <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="@yield('og_title', 'Caturnawa UNAS Fest 2025 - Festival Kompetisi Nasional')">
+    <meta property="og:title" content="@yield('og_title', 'Caturnawa UNAS FEST 2025 - Festival Kompetisi Nasional')">
     <meta property="og:description" content="@yield('og_description', 'Festival kompetisi nasional terbesar di Indonesia dengan total hadiah 200 juta rupiah')">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:image" content="@yield('og_image', asset('assets/images/og/caturnawa-2025-og.jpg'))">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:site_name" content="Caturnawa UNAS Fest 2025">
+    <meta property="og:site_name" content="Caturnawa UNAS FEST 2025">
     <meta property="og:locale" content="id_ID">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="@yield('twitter_title', 'Caturnawa UNAS Fest 2025')">
+    <meta name="twitter:title" content="@yield('twitter_title', 'Caturnawa UNAS FEST 2025')">
     <meta name="twitter:description" content="@yield('twitter_description', 'Festival kompetisi nasional terbesar di Indonesia')">
     <meta name="twitter:image" content="@yield('twitter_image', asset('assets/images/og/caturnawa-2025-twitter.jpg'))">
     <meta name="twitter:creator" content="@caturnawa2025">
@@ -72,7 +72,7 @@
         <div class="container">
             <div class="d-flex align-items-center justify-content-between w-100">
                 <!-- Brand -->
-                <a href="{{ route('public.home') }}" class="navbar-brand" aria-label="Caturnawa UNAS Fest 2025 Home">
+                <a href="{{ route('public.home') }}" class="navbar-brand" aria-label="Caturnawa UNAS FEST 2025 Home">
                     <img src="{{ asset('assets/images/logo/caturnawa-2025.svg') }}" alt="Caturnawa 2025 Logo" width="40" height="40">
                     <span>Caturnawa <strong>2025</strong></span>
                 </a>

@@ -265,7 +265,7 @@ class PublicController extends Controller
                 'institution' => 'Universitas Indonesia',
                 'competition' => 'Teknologi',
                 'rating' => 5,
-                'comment' => 'UNAS Fest 2025 memberikan pengalaman luar biasa! Kompetisinya sangat menantang dan berkualitas tinggi.',
+                'comment' => 'Caturnawa UNAS FEST 2025 memberikan pengalaman luar biasa! Kompetisinya sangat menantang dan berkualitas tinggi.',
                 'avatar' => asset('assets/images/testimonials/default-avatar.png'),
                 'year' => 2024
             ],
@@ -326,9 +326,9 @@ class PublicController extends Controller
             // In real app, save to database
             // For now, just return success message
 
-            return back()->with('success', 'Testimoni Anda berhasil dikirim! Terima kasih atas feedback yang diberikan.');
+            return back()->with('success', 'Your testimonial has been sent successfully! Thank you for your feedback.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Terjadi kesalahan saat menyimpan testimoni. Silakan coba lagi.');
+            return back()->with('error', 'An error occurred while saving your testimonial. Please try again.');
         }
     }
 
@@ -369,9 +369,9 @@ class PublicController extends Controller
             // Send email notification (implement based on your mail configuration)
             // Mail::to(config('seo.contact.email'))->send(new ContactFormMail($request->all()));
             
-            return back()->with('success', 'Pesan Anda berhasil dikirim! Kami akan segera menghubungi Anda.');
+            return back()->with('success', 'Your message has been sent successfully! We will contact you soon.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Terjadi kesalahan saat mengirim pesan. Silakan coba lagi.');
+            return back()->with('error', 'An error occurred while sending your message. Please try again.');
         }
     }
 
@@ -386,7 +386,7 @@ class PublicController extends Controller
             [
                 'title' => 'Tips Sukses Mengikuti Kompetisi Teknologi',
                 'slug' => 'tips-sukses-kompetisi-teknologi',
-                'excerpt' => 'Panduan lengkap untuk mempersiapkan diri mengikuti kompetisi teknologi di UNAS Fest 2025.',
+                'excerpt' => 'Panduan lengkap untuk mempersiapkan diri mengikuti kompetisi teknologi di Caturnawa UNAS FEST 2025.',
                 'content' => '',
                 'featured_image' => asset('assets/images/blog/tech-tips.jpg'),
                 'published_at' => now()->subDays(5),
@@ -395,9 +395,9 @@ class PublicController extends Controller
                 'tags' => ['teknologi', 'kompetisi', 'tips']
             ],
             [
-                'title' => 'Panduan Pendaftaran UNAS Fest 2025',
+                'title' => 'Panduan Pendaftaran Caturnawa UNAS FEST 2025',
                 'slug' => 'panduan-pendaftaran-unas-fest-2025',
-                'excerpt' => 'Langkah-langkah mudah untuk mendaftar kompetisi UNAS Fest 2025.',
+                'excerpt' => 'Langkah-langkah mudah untuk mendaftar kompetisi UNAS FEST 2025.',
                 'content' => '',
                 'featured_image' => asset('assets/images/blog/registration-guide.jpg'),
                 'published_at' => now()->subDays(10),
@@ -438,8 +438,8 @@ class PublicController extends Controller
     public function faq()
     {
         $this->seoService->setCustomData([
-            'title' => 'FAQ - Frequently Asked Questions | UNAS Fest 2025',
-            'description' => 'Temukan jawaban untuk pertanyaan yang sering diajukan seputar UNAS Fest 2025.',
+            'title' => 'FAQ - Frequently Asked Questions | Caturnawa UNAS FEST 2025',
+            'description' => 'Temukan jawaban untuk pertanyaan yang sering diajukan seputar Caturnawa UNAS FEST 2025.',
         ]);
 
         $faqs = [
@@ -452,12 +452,12 @@ class PublicController extends Controller
                 'answer' => 'Biaya pendaftaran bervariasi tergantung kategori kompetisi. Informasi lengkap dapat dilihat di halaman detail kompetisi. Pembayaran dapat dilakukan melalui berbagai metode yang tersedia.'
             ],
             [
-                'question' => 'Siapa saja yang bisa mengikuti UNAS Fest 2025?',
-                'answer' => 'UNAS Fest 2025 terbuka untuk seluruh mahasiswa aktif di universitas/institusi pendidikan tinggi di Indonesia. Peserta harus menunjukkan bukti status mahasiswa aktif saat pendaftaran.'
+                'question' => 'Siapa saja yang bisa mengikuti Caturnawa UNAS FEST 2025?',
+                'answer' => 'Caturnawa UNAS FEST 2025 terbuka untuk seluruh mahasiswa aktif di universitas/institusi pendidikan tinggi di Indonesia. Peserta harus menunjukkan bukti status mahasiswa aktif saat pendaftaran.'
             ],
             [
                 'question' => 'Berapa total hadiah yang tersedia?',
-                'answer' => 'Total hadiah UNAS Fest 2025 mencapai 500 juta rupiah yang tersebar di berbagai kategori kompetisi: Teknologi, Kesehatan, dan Biodiversitas.'
+                'answer' => 'Total hadiah Caturnawa UNAS FEST 2025 mencapai 500 juta rupiah yang tersebar di berbagai kategori kompetisi: Teknologi, Kesehatan, dan Biodiversitas.'
             ],
             [
                 'question' => 'Apakah boleh mendaftar lebih dari satu kompetisi?',
@@ -502,8 +502,8 @@ class PublicController extends Controller
     public function privacy()
     {
         $this->seoService->setCustomData([
-            'title' => 'Privacy Policy | UNAS Fest 2025',
-            'description' => 'Kebijakan privasi UNAS Fest 2025 mengenai pengumpulan, penggunaan, dan perlindungan data pribadi.',
+            'title' => 'Privacy Policy | Caturnawa UNAS FEST 2025',
+            'description' => 'Kebijakan privasi Caturnawa UNAS FEST 2025 mengenai pengumpulan, penggunaan, dan perlindungan data pribadi.',
         ]);
 
         return view('public.privacy');
@@ -515,8 +515,8 @@ class PublicController extends Controller
     public function terms()
     {
         $this->seoService->setCustomData([
-            'title' => 'Terms of Service | UNAS Fest 2025',
-            'description' => 'Syarat dan ketentuan penggunaan layanan UNAS Fest 2025.',
+            'title' => 'Terms of Service | Caturnawa UNAS FEST 2025',
+            'description' => 'Syarat dan ketentuan penggunaan layanan Caturnawa UNAS FEST 2025.',
         ]);
 
         return view('public.terms');
@@ -528,8 +528,8 @@ class PublicController extends Controller
     public function timeline()
     {
         $this->seoService->setCustomData([
-            'title' => 'Timeline | UNAS Fest 2025',
-            'description' => 'Timeline lengkap kegiatan UNAS Fest 2025 dari pendaftaran hingga pengumuman pemenang.',
+            'title' => 'Timeline | Caturnawa UNAS FEST 2025',
+            'description' => 'Timeline lengkap kegiatan Caturnawa UNAS FEST 2025 dari pendaftaran hingga pengumuman pemenang.',
         ]);
 
         // Timeline data
@@ -537,7 +537,7 @@ class PublicController extends Controller
             [
                 'date' => '1 Januari - 28 Februari 2025',
                 'title' => 'Pendaftaran Dibuka',
-                'description' => 'Periode pendaftaran untuk semua kategori kompetisi UNAS Fest 2025.',
+                'description' => 'Periode pendaftaran untuk semua kategori kompetisi UNAS FEST 2025.',
                 'status' => 'active',
                 'icon' => 'bi-calendar-plus'
             ],
@@ -565,7 +565,7 @@ class PublicController extends Controller
             [
                 'date' => '12 April 2025',
                 'title' => 'Final & Awarding',
-                'description' => 'Acara final dan pengumuman pemenang UNAS Fest 2025.',
+                'description' => 'Acara final dan pengumuman pemenang Caturnawa UNAS FEST 2025.',
                 'status' => 'upcoming',
                 'icon' => 'bi-trophy'
             ]

@@ -1,6 +1,6 @@
 {
-    "name": "UNAS Fest 2025 - Festival Kompetisi Teknologi",
-    "short_name": "UNAS Fest 2025",
+    "name": "Caturnawa UNAS FEST 2025 - Festival Kompetisi Teknologi",
+    "short_name": "Caturnawa UNAS FEST 2025",
     "description": "Festival kompetisi teknologi terbesar di Indonesia. Ikuti berbagai kompetisi programming, design, business plan, dan essay writing dengan total hadiah jutaan rupiah.",
     "start_url": "/public",
     "display": "standalone",
@@ -120,7 +120,7 @@
             "sizes": "1280x720",
             "type": "image/png",
             "form_factor": "wide",
-            "label": "Homepage UNAS Fest 2025"
+            "label": "Homepage Caturnawa UNAS FEST 2025"
         },
         {
             "src": "/images/screenshot-mobile-1.png",

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Laporan Kompetisi - UNAS Fest 2025</title>
+    <title>Laporan Kompetisi - Caturnawa UNAS FEST 2025</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -122,7 +122,7 @@
 </head>
 <body>
     <div class="header">
-        <h1>UNAS FEST 2025</h1>
+        <h1>Caturnawa UNAS FEST 2025</h1>
         <h2>Laporan Kompetisi</h2>
     </div>
     
@@ -191,7 +191,7 @@
     </table>
     
     <div class="footer">
-        <p>Laporan ini digenerate secara otomatis oleh sistem UNAS Fest 2025</p>
+        <p>Laporan ini digenerate secara otomatis oleh sistem Caturnawa UNAS FEST 2025</p>
         <p>© {{ date('Y') }} Universitas Nasional. All rights reserved.</p>
     </div>
 </body>

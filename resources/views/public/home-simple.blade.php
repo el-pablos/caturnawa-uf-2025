@@ -4,7 +4,7 @@
     $seoPage = 'home';
 @endphp
 
-@section('title', 'UNAS Fest 2025 - Festival Kompetisi Nasional')
+@section('title', 'Caturnawa UNAS FEST 2025 - Festival Competitions Nasional')
 
 @section('content')
 <style>
@@ -145,14 +145,14 @@
                 </ul>
                 <div class="hero-content text-center">
                     <h1 class="modern-title mb-4">
-                        UNAS<span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"> FEST 2025</span></h1>
+                        Caturnawa<span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"> UNAS FEST 2025</span></h1>
                     <p class="modern-subtitle mb-5">Website Caturnawa UNAS FEST 2025</p>
                 <hr class="my-4">
                 <p>Bergabunglah dengan kompetisi Teknologi, Kesehatan, dan Biodiversitas menanti!</p>
                 <a class="btn modern-btn btn-auto w-auto"
                    href="{{ route('public.competitions') }}"
                    role="button">
-                    <i class="bi bi-trophy"></i> Lihat Kompetisi
+                    <i class="bi bi-trophy"></i> Lihat Competitions
                 </a>
             </div>
         </div>
@@ -164,9 +164,9 @@
         <div class="col-12 mb-4">
             <div class="text-center" data-aos="fade-up">
                 <h2 class="fw-bold text-primary">
-                    <i class="bi bi-trophy me-2"></i>Leaderboard UNAS FEST 2025
+                    <i class="bi bi-trophy me-2"></i>Leaderboard Caturnawa UNAS FEST 2025
                 </h2>
-                <p class="text-muted">Peringkat Tim Terbaik Per Kompetisi</p>
+                <p class="text-muted">Peringkat Tim Terbaik Per Competitions</p>
             </div>
         </div>
 
@@ -240,7 +240,7 @@
                 <div class="card-footer text-center">
                     <a href="{{ route('leaderboard.index', ['competition' => $competition->id]) }}"
                        class="btn btn-outline-primary btn-sm">
-                        <i class="bi bi-eye me-1"></i>Lihat Detail
+                        <i class="bi bi-eye me-1"></i>View Details
                     </a>
                     <a href="{{ route('matalomba.show', $competition->slug) }}"
                        class="btn btn-outline-success btn-sm ms-2">
@@ -270,7 +270,7 @@
                     <p class="text-muted">Leaderboard akan ditampilkan setelah ada submission yang dinilai.</p>
                     <a href="{{ route('public.competitions') }}"
                        class="btn btn-primary">
-                        <i class="bi bi-trophy me-2"></i>Lihat Kompetisi
+                        <i class="bi bi-trophy me-2"></i>Lihat Competitions
                     </a>
                 </div>
             </div>
@@ -282,7 +282,7 @@
         @if($competitions && $competitions->count() > 0)
             <div class="row mt-5">
                 <div class="col-12">
-                    <h2 class="text-center mb-4 fw-bold" style="color: #667eea;">Kompetisi UNAS FEST</h2>
+                    <h2 class="text-center mb-4 fw-bold" style="color: #667eea;">Competitions UNAS FEST</h2>
                 </div>
             </div>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -293,13 +293,13 @@
                             <div class="d-flex justify-content-between align-items-start mb-3">
                                 <h5 class="card-title fw-bold text-primary mb-0">{{ $competition->name ?? 'Competition' }}</h5>
                                 @if(($competition->is_active ?? false) && $competition->registration_start && $competition->registration_end && now()->between($competition->registration_start, $competition->registration_end))
-                                    <span class="badge bg-success">Aktif</span>
+                                    <span class="badge bg-success">Active</span>
                                 @elseif($competition->registration_start && now()->lt($competition->registration_start))
-                                    <span class="badge bg-warning">Belum Dibuka</span>
+                                    <span class="badge bg-warning">Not Open Yet</span>
                                 @elseif($competition->registration_end && now()->gt($competition->registration_end))
                                     <span class="badge bg-secondary">Ditutup</span>
                                 @else
-                                    <span class="badge bg-danger">Tidak Aktif</span>
+                                    <span class="badge bg-danger">Tidak Active</span>
                                 @endif
                             </div>
                             <p class="card-text text-muted mb-3">{{ Str::limit($competition->description ?? 'No description available', 100) }}</p>
@@ -307,7 +307,7 @@
                             <div class="mb-2">
                                 <small class="text-muted">
                                     <i class="bi bi-calendar text-primary me-1"></i>
-                                    Pendaftaran: {{ $competition->registration_start->format('d M') }} - {{ $competition->registration_end->format('d M Y') }}
+                                    Registration: {{ $competition->registration_start->format('d M') }} - {{ $competition->registration_end->format('d M Y') }}
                                 </small>
                             </div>
                             @endif
@@ -322,7 +322,7 @@
                             @if($competition->slug)
                             <a href="{{ route('public.competition.detail', $competition->slug) }}"
                                class="btn btn-primary rounded-3 px-4 py-2 d-flex align-items-center justify-content-center">
-                                Lihat Detail
+                                View Details
                             </a>
                             @else
                             <span class="btn btn-secondary rounded-3 px-4 py-2 disabled">
@@ -337,7 +337,7 @@
         @else
             <div class="row mt-5">
                 <div class="col-12">
-                    <h2 class="text-center mb-4">Kompetisi UnasFest</h2>
+                    <h2 class="text-center mb-4">Competitions UnasFest</h2>
                     <div class="text-center">
                         <div class="alert alert-info d-inline-block">
                             <i class="bi bi-info-circle me-2"></i>

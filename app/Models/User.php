@@ -13,7 +13,7 @@ use Spatie\Permission\Traits\HasRoles;
  * Model User untuk mengelola data pengguna sistem
  * 
  * Kelas ini menangani autentikasi, otorisasi, dan relasi
- * dengan data peserta lomba UNAS Fest 2025
+ * dengan data peserta lomba Caturnawa UNAS FEST 2025
  */
 class User extends Authenticatable
 {

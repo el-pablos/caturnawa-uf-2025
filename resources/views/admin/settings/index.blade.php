@@ -36,7 +36,7 @@
                             <div class="col-md-6 mb-3">
                                 <label for="app_name" class="form-label fw-semibold">Nama Aplikasi</label>
                                 <input type="text" class="form-control" id="app_name" name="app_name"
-                                       value="UNAS Fest 2025" readonly>
+                                       value="Caturnawa UNAS FEST 2025" readonly>
                                 <div class="form-text">Nama aplikasi yang ditampilkan di header</div>
                             </div>
 
@@ -51,7 +51,7 @@
                         <div class="row">
                             <div class="col-md-12 mb-3">
                                 <label for="app_description" class="form-label fw-semibold">Deskripsi Aplikasi</label>
-                                <textarea class="form-control" id="app_description" name="app_description" rows="3" readonly>Platform kompetisi dan festival UNAS Fest 2025 - Sistem manajemen kompetisi terintegrasi untuk mengelola pendaftaran, pembayaran, dan penilaian peserta.</textarea>
+                                <textarea class="form-control" id="app_description" name="app_description" rows="3" readonly>Platform kompetisi dan festival Caturnawa UNAS FEST 2025 - Sistem manajemen kompetisi terintegrasi untuk mengelola pendaftaran, pembayaran, dan penilaian peserta.</textarea>
                                 <div class="form-text">Deskripsi singkat tentang aplikasi</div>
                             </div>
                         </div>
@@ -136,7 +136,7 @@
                             <div class="col-md-6 mb-3">
                                 <label for="mail_from_name" class="form-label fw-semibold">Nama Pengirim</label>
                                 <input type="text" class="form-control" id="mail_from_name" name="mail_from_name"
-                                       value="UNAS Fest 2025">
+                                       value="Caturnawa UNAS FEST 2025">
                                 <div class="form-text">Nama yang muncul sebagai pengirim email</div>
                             </div>
 

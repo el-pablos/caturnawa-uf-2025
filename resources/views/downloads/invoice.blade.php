@@ -455,7 +455,7 @@
     <div class="invoice-container">
         <!-- Header -->
         <div class="header">
-            <h1 class="header-title">UNAS FEST 2025</h1>
+            <h1 class="header-title">Caturnawa UNAS FEST 2025</h1>
             <p class="header-subtitle">Invoice Pembayaran Kompetisi</p>
             <div class="header-logo">LOGO</div>
         </div>
@@ -517,7 +517,7 @@
         
         <!-- Footer -->
         <div class="footer">
-            <p class="footer-line-1">UNAS Fest 2025 - Festival Kompetisi Universitas Nasional</p>
+            <p class="footer-line-1">Caturnawa UNAS FEST 2025 - Festival Kompetisi Universitas Nasional</p>
             <p class="footer-line-2">Website: https://unasfest.com | Email: info@unasfest.com</p>
             <p class="footer-line-3">WhatsApp: {{ $payment->registration->competition->contact_person_whatsapp ?? '081234567890' }} | Instagram: @unasfest</p>
             <div class="footer-qr">QR</div>

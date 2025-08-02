@@ -4,7 +4,7 @@
     $seoPage = 'privacy';
 @endphp
 
-@section('title', 'Privacy Policy - UNAS Fest 2025')
+@section('title', 'Privacy Policy - Caturnawa UNAS FEST 2025')
 
 @section('content')
 <style>
@@ -212,7 +212,7 @@
                         Privacy Policy
                     </h1>
                     <p class="modern-subtitle mb-5 pt-2">
-                        Komitmen kami untuk melindungi dan menghargai privasi Anda di UNAS Fest 2025.
+                        Komitmen kami untuk melindungi dan menghargai privasi Anda di Caturnawa UNAS FEST 2025.
                     </p>
                     <div class="row justify-content-center">
                         <div class="col-md-3 mb-3">

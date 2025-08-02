@@ -8,7 +8,7 @@
     {{-- SEO Component --}}
     <x-seo
         :title="isset($seoTitle) ? $seoTitle : (isset($title) ? $title . ' - ' . config('app.name') : config('app.name'))"
-        :description="$seoDescription ?? 'UNAS Fest 2025 adalah festival kompetisi teknologi terbesar di Indonesia dengan berbagai kategori kompetisi menarik.'"
+        :description="$seoDescription ?? 'Caturnawa UNAS FEST 2025 adalah festival kompetisi teknologi terbesar di Indonesia dengan berbagai kategori kompetisi menarik.'"
         :keywords="$seoKeywords ?? 'unas fest, kompetisi teknologi, programming, design, business plan, essay, universitas nasional'"
         :image="$seoImage ?? null"
         :url="$seoUrl ?? request()->url()"

@@ -4,7 +4,7 @@
     $seoPage = 'contact';
 @endphp
 
-@section('title', 'Hubungi Kami - UNAS Fest 2025')
+@section('title', 'Contact Kami - Caturnawa UNAS FEST 2025')
 
 @push('styles')
 <style>
@@ -203,10 +203,10 @@
                             <i class="bi bi-headset mb-3"></i>
                         </div>
                         <h1 class="modern-title mb-3">
-                            Hubungi Kami
+                            Contact Kami
                         </h1>
                             <p class="modern-subtitle mb-4">
-                            Ada pertanyaan tentang UNAS FEST 2025? Tim kami siap membantu Anda.
+                            Have questions about Caturnawa UNAS FEST 2025? Our team is ready to help you.
                             </p>
                     <div class="row justify-content-center">
                         <div class="col-md-4 col-lg-3 mb-3">
@@ -216,7 +216,7 @@
                         </div>
                         <div class="col-md-4 col-lg-3 mb-3">
                             <a href="#contact-form" class="btn modern-btn-outline btn-auto w-100">
-                                <i class="bi bi-envelope me-2"></i>Kirim Pesan
+                                <i class="bi bi-envelope me-2"></i>Send Message
                             </a>
                         </div>
                     </div>
@@ -244,7 +244,7 @@
         <div class="col-12">
             <h2 class="text-center mb-4" data-aos="fade-up">
                 <i class="bi bi-chat-dots text-success"></i>
-                Hubungi Tim Kami
+                Contact Our Team
             </h2>
         </div>
     </div>
@@ -254,14 +254,14 @@
         <div class="col-lg-8">
             <div class="modern-card">
                 <div class="card-header p-3 bg-primary text-white">
-                    <h3 class="card-title mb-0"><i class="bi bi-envelope-fill me-2 w-auto"></i>Kirim Pesan Anda</h3>
+                    <h3 class="card-title mb-0"><i class="bi bi-envelope-fill me-2 w-auto"></i>Send Message Anda</h3>
                 </div>
                 <div class="card-body p-4" id="contact-form">
                     <form action="{{ route('public.contact.send') }}" method="POST">
                         @csrf
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label for="name" class="form-label">Nama Lengkap</label>
+                                <label for="name" class="form-label">Full Name</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
                                 @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
@@ -271,26 +271,26 @@
                                 @error('email')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
                             <div class="col-12">
-                                <label for="subject" class="form-label">Subjek</label>
+                                <label for="subject" class="form-label">Subject</label>
                                 <select class="form-select @error('subject') is-invalid @enderror" id="subject" name="subject" required>
-                                    <option value="">Pilih Subjek</option>
-                                    <option value="Informasi Kompetisi" {{ old('subject') == 'Informasi Kompetisi' ? 'selected' : '' }}>Informasi Kompetisi</option>
-                                    <option value="Pendaftaran" {{ old('subject') == 'Pendaftaran' ? 'selected' : '' }}>Pendaftaran</option>
-                                    <option value="Pembayaran" {{ old('subject') == 'Pembayaran' ? 'selected' : '' }}>Pembayaran</option>
-                                    <option value="Teknis Website" {{ old('subject') == 'Teknis Website' ? 'selected' : '' }}>Teknis Website</option>
-                                    <option value="Kerjasama" {{ old('subject') == 'Kerjasama' ? 'selected' : '' }}>Kerjasama</option>
-                                    <option value="Lainnya" {{ old('subject') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                                    <option value="">Choose Subject</option>
+                                    <option value="Competition Information" {{ old('subject') == 'Competition Information' ? 'selected' : '' }}>Competition Information</option>
+                                    <option value="Registration" {{ old('subject') == 'Registration' ? 'selected' : '' }}>Registration</option>
+                                    <option value="Payment" {{ old('subject') == 'Payment' ? 'selected' : '' }}>Payment</option>
+                                    <option value="Technical Website" {{ old('subject') == 'Technical Website' ? 'selected' : '' }}>Technical Website</option>
+                                    <option value="Partnership" {{ old('subject') == 'Partnership' ? 'selected' : '' }}>Partnership</option>
+                                    <option value="Others" {{ old('subject') == 'Others' ? 'selected' : '' }}>Others</option>
                                 </select>
                                 @error('subject')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
                             <div class="col-12">
-                                <label for="message" class="form-label">Pesan</label>
-                                <textarea class="form-control @error('message') is-invalid @enderror" id="message" name="message" rows="5" placeholder="Tuliskan pesan Anda di sini..." required>{{ old('message') }}</textarea>
+                                <label for="message" class="form-label">Message</label>
+                                <textarea class="form-control @error('message') is-invalid @enderror" id="message" name="message" rows="5" placeholder="Write your message here..." required>{{ old('message') }}</textarea>
                                 @error('message')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
                             <div class="col-12">
                                 <button type="submit" class="btn btn-primary btn-lg w-100">
-                                    <i class="bi bi-send me-2"></i>Kirim Pesan
+                                    <i class="bi bi-send me-2"></i>Send Message
                                 </button>
                             </div>
                         </div>
@@ -306,7 +306,7 @@
             
             <div class="modern-card info-card mb-4">
                 <div class="card-header p-3 bg-info text-white">
-                    <h4 class="card-title mb-0"><i class="bi bi-info-circle-fill me-2"></i>Informasi Kontak</h4>
+                    <h4 class="card-title mb-0"><i class="bi bi-info-circle-fill me-2"></i>Informasi Contact</h4>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item d-flex align-items-center">
@@ -319,14 +319,14 @@
                     <li class="list-group-item d-flex align-items-center">
                         <i class="bi bi-telephone-fill text-success info-icon me-3"></i>
                         <div>
-                            <h6 class="fw-bold mb-0">Telepon</h6>
+                            <h6 class="fw-bold mb-0">Phone</h6>
                             <a href="tel:{{ $contact['phone'] }}" class="text-decoration-none">{{ $contact['phone'] }}</a>
                         </div>
                     </li>
                     <li class="list-group-item d-flex align-items-center">
                         <i class="bi bi-geo-alt-fill text-danger info-icon me-3"></i>
                         <div>
-                            <h6 class="fw-bold mb-0">Alamat</h6>
+                            <h6 class="fw-bold mb-0">Address</h6>
                             <p class="text-muted mb-0">{{ $contact['address'] }}</p>
                         </div>
                     </li>
@@ -335,7 +335,7 @@
 
             <div class="modern-card mb-4">
                 <div class="card-header p-3 bg-warning text-dark">
-                    <h5 class="card-title mb-0"><i class="bi bi-clock-fill me-2"></i>Jam Operasional</h5>
+                    <h5 class="card-title mb-0"><i class="bi bi-clock-fill me-2"></i>Hours Operasional</h5>
                 </div>
                 <div class="card-body p-3">
                     <div class="d-flex justify-content-between mb-2"><span>Senin - Jumat</span><span class="fw-bold">08:00 - 17:00</span></div>

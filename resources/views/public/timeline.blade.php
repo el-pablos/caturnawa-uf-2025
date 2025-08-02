@@ -1,6 +1,6 @@
 @extends('layouts.caturnawa-2025')
 
-@section('title', 'Timeline - UNAS Fest 2025')
+@section('title', 'Timeline - Caturnawa UNAS FEST 2025')
 
 @section('content')
 <div class="container my-5">
@@ -9,7 +9,7 @@
         <div class="col-12">
             <div class="text-center mb-5">
                 <h1 class="display-4 fw-bold text-primary mb-3">
-                    <i class="bi bi-clock-history me-3"></i>Timeline UNAS Fest 2025
+                    <i class="bi bi-clock-history me-3"></i>Timeline Caturnawa UNAS FEST 2025
                 </h1>
                 <p class="lead text-muted mb-4">
                     Ikuti setiap tahapan kompetisi dengan cermat agar tidak melewatkan kesempatan emas ini
@@ -58,7 +58,7 @@
                 <div class="bg-light p-5 rounded-4">
                     <h3 class="fw-bold text-primary mb-3">Siap Bergabung?</h3>
                     <p class="text-muted mb-4">
-                        Jangan lewatkan kesempatan untuk menjadi bagian dari UNAS Fest 2025. 
+                        Jangan lewatkan kesempatan untuk menjadi bagian dari Caturnawa UNAS FEST 2025. 
                         Daftarkan diri Anda sekarang dan raih prestasi terbaik!
                     </p>
                     <div class="d-flex gap-3 justify-content-center flex-wrap">

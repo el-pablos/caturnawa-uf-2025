@@ -91,7 +91,7 @@ class InvoiceController extends Controller
                 'va_number' => $payment->va_number ?? null,
             ],
             'finance_notes' => [
-                'department' => 'Finance Department - UNAS Fest 2025',
+                'department' => 'Finance Department - Caturnawa UNAS FEST 2025',
                 'processed_by' => $user->name,
                 'processed_at' => now()->toISOString(),
                 'verification_status' => $this->getVerificationStatus($payment),

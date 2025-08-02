@@ -666,7 +666,7 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="{{ route('public.home') }}">
-                <strong>CATURNAWA UF 25</strong>
+                <strong>Caturnawa UNAS FEST 2025</strong>
             </a>
             
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -677,12 +677,12 @@
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item" data-aos="fade-down">
                         <a class="nav-link {{ request()->routeIs('public.home') ? 'active' : '' }}" href="{{ route('public.home') }}">
-                            <i class="bi bi-house me-1"></i>Beranda
+                            <i class="bi bi-house me-1"></i>Home
                         </a>
                     </li>
                     <li class="nav-item"  data-aos="fade-down">
                         <a class="nav-link {{ request()->routeIs('public.competitions*') ? 'active' : '' }}" href="{{ route('public.competitions') }}">
-                            <i class="bi bi-trophy me-1"></i>Kompetisi
+                            <i class="bi bi-trophy me-1"></i>Competitions
                         </a>
                     </li>
                     <li class="nav-item"  data-aos="fade-down">
@@ -692,12 +692,12 @@
                     </li>
                     <li class="nav-item"  data-aos="fade-down">
                         <a class="nav-link {{ request()->routeIs('public.about') ? 'active' : '' }}" href="{{ route('public.about') }}">
-                            <i class="bi bi-info-circle me-1"></i>Tentang
+                            <i class="bi bi-info-circle me-1"></i>About
                         </a>
                     </li>
                     <li class="nav-item"  data-aos="fade-down">
                         <a class="nav-link {{ request()->routeIs('public.contact') ? 'active' : '' }}" href="{{ route('public.contact') }}">
-                            <i class="bi bi-envelope me-1"></i>Kontak
+                            <i class="bi bi-envelope me-1"></i>Contact
                         </a>
                     </li>
                 </ul>
@@ -714,13 +714,13 @@
                         <ul class="nav flex-column text-center">
                             <li class="nav-item">
                                 <a class="nav-link" href="@if(Auth::user()->isSuperAdmin() || Auth::user()->isAdmin() || Auth::user()->isFinance()) {{ route('admin.dashboard') }} @elseif(Auth::user()->isJuri()) {{ route('juri.juri.dashboard') }} @elseif(Auth::user()->isPeserta()) {{ route('peserta.dashboard') }} @else {{ route('dashboard') }} @endif">
-                                    <i class="bi bi-person-circle me-2"></i>Profil Saya
+                                    <i class="bi bi-person-circle me-2"></i>My Profile
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-danger" href="{{ route('logout') }}"
                                    onclick="event.preventDefault(); document.getElementById('logout-form-mobile').submit();">
-                                    <i class="bi bi-box-arrow-right me-2"></i>Keluar
+                                    <i class="bi bi-box-arrow-right me-2"></i>Logout
                                 </a>
                                 <form id="logout-form-mobile" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
@@ -729,7 +729,7 @@
                         </ul>
                     @else
                         <a class="btn btn-primary w-100" href="{{ route('login') }}">
-                            <i class="bi bi-box-arrow-in-right me-1"></i>Masuk
+                            <i class="bi bi-box-arrow-in-right me-1"></i>Login
                         </a>
                     @endauth
                 </div>
@@ -748,15 +748,15 @@
                             </div>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li><h6 class="dropdown-header">Selamat datang, {{ Auth::user()->name }}!</h6></li>
+                            <li><h6 class="dropdown-header">Welcome, {{ Auth::user()->name }}!</h6></li>
                             <li><a class="dropdown-item" href="@if(Auth::user()->isSuperAdmin() || Auth::user()->isAdmin() || Auth::user()->isFinance()) {{ route('admin.dashboard') }} @elseif(Auth::user()->isJuri()) {{ route('juri.juri.dashboard') }} @elseif(Auth::user()->isPeserta()) {{ route('peserta.dashboard') }} @else {{ route('dashboard') }} @endif">
-                                <i class="bi bi-person-circle me-2"></i>Profil Saya
+                                <i class="bi bi-person-circle me-2"></i>My Profile
                             </a>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <a class="dropdown-item text-danger" href="{{ route('logout') }}"
                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    <i class="bi bi-box-arrow-right me-2"></i>Keluar
+                                    <i class="bi bi-box-arrow-right me-2"></i>Logout
                                 </a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
@@ -766,7 +766,7 @@
                     </div>
                 @else
                     <a class="btn btn-primary btn-sm px-3" href="{{ route('login') }}">
-                        <i class="bi bi-box-arrow-in-right me-1"></i>Masuk
+                        <i class="bi bi-box-arrow-in-right me-1"></i>Login
                     </a>
                 @endauth
             </div>
@@ -785,8 +785,8 @@
                 <div class="row">
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="footer-section">
-                            <h5>UNAS FEST 2025</h5>
-                            <p>Festival Kompetisi Nasional terbesar di Indonesia yang menggabungkan inovasi teknologi, kesehatan, dan biodiversitas untuk membentuk masa depan bangsa.</p>
+                            <h5>Caturnawa UNAS FEST 2025</h5>
+                            <p>Festival Competitions Nasional terbesar di Indonesia yang menggabungkan inovasi teknologi, kesehatan, dan biodiversitas untuk membentuk masa depan bangsa.</p>
                             <div class="social-links">
                                 <a href="https://facebook.com/unasfest" class="social-link" target="_blank" rel="noopener">
                                     <i class="bi bi-facebook"></i>
@@ -809,14 +809,14 @@
                     
                     <div class="col-lg-2 col-md-6 mb-4">
                         <div class="footer-section">
-                            <h5>Kompetisi</h5>
+                            <h5>Competitions</h5>
                             <ul>
                                 <li><a href="{{ route('public.competitions') }}#kdbi"><i class="bi bi-chat-square-text"></i>KDBI</a></li>
                                 <li><a href="{{ route('public.competitions') }}#edc"><i class="bi bi-globe"></i>EDC</a></li>
                                 <li><a href="{{ route('public.competitions') }}#short-movie"><i class="bi bi-camera-video"></i>Short Movie</a></li>
                                 <li><a href="{{ route('public.competitions') }}#infografis"><i class="bi bi-bar-chart"></i>Infografis</a></li>
                                 <li><a href="{{ route('public.competitions') }}#karya-ilmiah"><i class="bi bi-journal-text"></i>Karya Ilmiah</a></li>
-                                <li><a href="{{ route('public.competitions') }}"><i class="bi bi-trophy"></i>Semua Kompetisi</a></li>
+                                <li><a href="{{ route('public.competitions') }}"><i class="bi bi-trophy"></i>Semua Competitions</a></li>
                                 <li><a href="{{ route('leaderboard.index') }}"><i class="bi bi-list-ol"></i>Leaderboard</a></li>
                             </ul>
                         </div>
@@ -826,7 +826,7 @@
                         <div class="footer-section">
                             <h5>Informasi</h5>
                             <ul>
-                                <li><a href="{{ route('public.about') }}"><i class="bi bi-info-circle"></i>Tentang Kami</a></li>
+                                <li><a href="{{ route('public.about') }}"><i class="bi bi-info-circle"></i>About Kami</a></li>
                                 <li><a href="{{ route('public.faq') }}"><i class="bi bi-question-circle"></i>FAQ</a></li>
                                 <li><a href="{{ route('public.terms') }}"><i class="bi bi-file-text"></i>Syarat & Ketentuan</a></li>
                                 <li><a href="{{ route('public.privacy') }}"><i class="bi bi-shield-check"></i>Kebijakan Privasi</a></li>
@@ -836,11 +836,11 @@
 
                     <div class="col-lg-2 col-md-6 mb-4">
                         <div class="footer-section">
-                            <h5>Kontak</h5>
+                            <h5>Contact</h5>
                             <ul>
                                 <li><a href="mailto:info@unasfest.com"><i class="bi bi-envelope"></i>info@unasfest.com</a></li>
                                 <li><a href="tel:0858-1737-8442"><i class="bi bi-telephone"></i>0858-1737-8442</a></li>
-                                <li><a href="{{ route('public.contact') }}"><i class="bi bi-chat-dots"></i>Hubungi Kami</a></li>
+                                <li><a href="{{ route('public.contact') }}"><i class="bi bi-chat-dots"></i>Contact Kami</a></li>
                                 <li><a href="https://wa.me/6285817378442" target="_blank"><i class="bi bi-whatsapp"></i>WhatsApp</a></li>
                             </ul>
                         </div>
@@ -870,7 +870,7 @@
                                 <div class="counter-grid">
                                     <div class="counter-item">
                                         <span class="counter-number" data-target="{{ $visitorStats['today'] ?? 0 }}">0</span>
-                                        <span class="counter-label">Hari Ini</span>
+                                        <span class="counter-label">Days Ini</span>
                                     </div>
                                     <div class="counter-item">
                                         <span class="counter-number" data-target="{{ $visitorStats['this_week'] ?? 0 }}">0</span>

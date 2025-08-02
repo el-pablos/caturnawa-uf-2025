@@ -1,6 +1,6 @@
 @extends('layouts.simple')
 
-@section('title', 'Leaderboard - UNAS Fest 2025')
+@section('title', 'Leaderboard - Caturnawa UNAS FEST 2025')
 @section('content')
 <style>
     html, body {

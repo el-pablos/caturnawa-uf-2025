@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Selamat Datang - UNAS Fest 2025')
+@section('title', 'Selamat Datang - Caturnawa UNAS FEST 2025')
 
 @section('content')
 <!-- Hero Section -->
@@ -11,7 +11,7 @@
                 <div class="hero-content">
                     <h1 class="hero-title">
                         Selamat Datang di
-                        <span class="text-gradient">UNAS Fest 2025</span>
+                        <span class="text-gradient">Caturnawa UNAS FEST 2025</span>
                     </h1>
                     <p class="hero-subtitle">
                         Festival kompetisi terbesar Universitas Nasional yang menggabungkan kreativitas, 
@@ -71,7 +71,7 @@
     <div class="container">
         <div class="row text-center mb-5">
             <div class="col-12">
-                <h2 class="section-title">Mengapa Memilih UNAS Fest 2025?</h2>
+                <h2 class="section-title">Mengapa Memilih Caturnawa UNAS FEST 2025?</h2>
                 <p class="section-subtitle">Platform kompetisi terdepan dengan berbagai keunggulan</p>
             </div>
         </div>

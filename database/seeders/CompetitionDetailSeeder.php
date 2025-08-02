@@ -71,7 +71,7 @@ class CompetitionDetailSeeder extends Seeder
                     'favorite_choice' => 'Rp 1.000.000 + Sertifikat + Merchandise',
                     'best_innovation' => 'Rp 1.000.000 + Sertifikat + Merchandise'
                 ]),
-                'contact_person_name' => 'Tim DCC UNAS Fest 2025',
+                'contact_person_name' => 'Tim DCC Caturnawa UNAS FEST 2025',
                 'contact_person_whatsapp' => '+62 812-3456-7890',
                 'guidelines' => 'Peserta wajib mengikuti semua tahapan kompetisi dari registrasi hingga pengumuman pemenang. Karya yang tidak sesuai tema atau melanggar aturan akan didiskualifikasi.',
                 'submission_formats' => json_encode([
@@ -132,7 +132,7 @@ class CompetitionDetailSeeder extends Seeder
                 'best_speaker' => 'Rp 1.500.000 + Trophy + Sertifikat + Merchandise',
                 'best_interjection' => 'Rp 1.000.000 + Sertifikat + Merchandise'
             ]),
-            'contact_person_name' => 'Tim EDC UNAS Fest 2025',
+            'contact_person_name' => 'Tim EDC Caturnawa UNAS FEST 2025',
             'contact_person_whatsapp' => '+62 813-4567-8901',
             'guidelines' => 'Peserta wajib hadir tepat waktu sesuai jadwal yang telah ditentukan. Keterlambatan dapat mengakibatkan diskualifikasi.',
             'submission_formats' => json_encode([
@@ -186,7 +186,7 @@ class CompetitionDetailSeeder extends Seeder
                 'best_speaker' => 'Rp 1.000.000 + Trophy + Sertifikat + Merchandise',
                 'best_team_work' => 'Rp 750.000 + Sertifikat + Merchandise'
             ]),
-            'contact_person_name' => 'Tim KDBI UNAS Fest 2025',
+            'contact_person_name' => 'Tim KDBI Caturnawa UNAS FEST 2025',
             'contact_person_whatsapp' => '+62 814-5678-9012',
             'guidelines' => 'Peserta wajib menggunakan bahasa Indonesia formal dan menghindari penggunaan bahasa gaul atau tidak baku.',
             'submission_formats' => json_encode([
@@ -241,7 +241,7 @@ class CompetitionDetailSeeder extends Seeder
                 'best_innovation' => 'Rp 1.500.000 + Sertifikat + Merchandise',
                 'best_methodology' => 'Rp 1.500.000 + Sertifikat + Merchandise'
             ]),
-            'contact_person_name' => 'Tim SPC UNAS Fest 2025',
+            'contact_person_name' => 'Tim SPC Caturnawa UNAS FEST 2025',
             'contact_person_whatsapp' => '+62 815-6789-0123',
             'guidelines' => 'Paper harus mengikuti template yang disediakan dan memenuhi standar penulisan ilmiah internasional.',
             'submission_formats' => json_encode([
@@ -297,7 +297,7 @@ class CompetitionDetailSeeder extends Seeder
                 'people_choice' => 'Rp 500.000 + Sertifikat + Merchandise',
                 'best_data_visualization' => 'Rp 500.000 + Sertifikat + Merchandise'
             ]),
-            'contact_person_name' => 'Tim Infografis UNAS Fest 2025',
+            'contact_person_name' => 'Tim Infografis Caturnawa UNAS FEST 2025',
             'contact_person_whatsapp' => '+62 816-7890-1234',
             'guidelines' => 'Infografis harus mudah dipahami, informatif, dan memiliki nilai edukasi yang tinggi untuk masyarakat umum.',
             'submission_formats' => json_encode([
@@ -642,7 +642,7 @@ class CompetitionDetailSeeder extends Seeder
                 'field_name' => 'motivation_letter',
                 'field_type' => 'textarea',
                 'field_label' => 'Surat Motivasi',
-                'help_text' => 'Tuliskan motivasi tim mengikuti KDBI UNAS Fest 2025 dan kontribusi yang diharapkan',
+                'help_text' => 'Tuliskan motivasi tim mengikuti KDBI Caturnawa UNAS FEST 2025 dan kontribusi yang diharapkan',
                 'is_required' => true,
                 'validation_rules' => json_encode(['max_length' => 1000]),
                 'field_group' => 'motivation',

@@ -328,9 +328,9 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container" data-aos="fade-down" data-aos-duration="100">
             <a class="navbar-brand font-poppins" href="{{ route('public.home') }}">
-                <img src="{{ asset('assets/images/logo/unas-fest-logo.png') }}" alt="UNAS Fest 2025" height="40" class="me-2"
+                <img src="{{ asset('assets/images/logo/unas-fest-logo.png') }}" alt="Caturnawa UNAS FEST 2025" height="40" class="me-2"
                      onerror="this.style.display='none'">
-                UNAS Fest 2025
+                Caturnawa UNAS FEST 2025
             </a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -396,9 +396,9 @@
             <div class="row g-4">
                 <div class="col-lg-3">
                     <div class="d-flex align-items-center mb-3">
-                        <img src="{{ asset('assets/images/logo/unas-fest-logo-white.png') }}" alt="UNAS Fest 2025" height="40" class="me-3"
+                        <img src="{{ asset('assets/images/logo/unas-fest-logo-white.png') }}" alt="Caturnawa UNAS FEST 2025" height="40" class="me-3"
                              onerror="this.style.display='none'">
-                        <h5 class="font-poppins mb-0">UNAS Fest 2025</h5>
+                        <h5 class="font-poppins mb-0">Caturnawa UNAS FEST 2025</h5>
                     </div>
                     <p class="text-light mb-3">Festival kompetisi nasional terbesar di Indonesia yang menggabungkan teknologi, kesehatan, dan biodiversitas.</p>
                     <div class="d-flex gap-3">
@@ -490,7 +490,7 @@
 
             <div class="row align-items-center">
                 <div class="col-md-6">
-                    <p class="mb-0 text-light">&copy; {{ date('Y') }} UNAS Fest 2025. All rights reserved.</p>
+                    <p class="mb-0 text-light">&copy; {{ date('Y') }} Caturnawa UNAS FEST 2025. All rights reserved.</p>
                 </div>
                 <div class="col-md-6 text-md-end">
                     <a href="#" class="text-light text-decoration-none me-3">Privacy Policy</a>

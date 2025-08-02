@@ -174,7 +174,7 @@ class AuthController extends Controller
             Auth::login($user);
 
             return redirect()->route('peserta.dashboard')
-                ->with('success', 'Registrasi berhasil! Selamat datang di UNAS Fest 2025.');
+                ->with('success', 'Registrasi berhasil! Selamat datang di Caturnawa UNAS FEST 2025.');
 
         } catch (\Exception $e) {
             \Log::error('Registration error: ' . $e->getMessage());

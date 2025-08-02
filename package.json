@@ -1,7 +1,7 @@
 {
     "name": "unas-fest-2025",
     "version": "1.0.0",
-    "description": "UNAS Fest 2025 Competition Registration System",
+    "description": "Caturnawa UNAS FEST 2025 Competition Registration System",
     "main": "index.js",
     "scripts": {
         "dev": "vite",

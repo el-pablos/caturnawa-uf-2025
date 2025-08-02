@@ -64,13 +64,13 @@
                 <div class="text-center position-relative">
                     <div class="hero-image-container">
                         <img src="{{ asset('assets/images/hero/hero-illustration.svg') }}"
-                             alt="UNAS Fest 2025 Illustration"
+                             alt="Caturnawa UNAS FEST 2025 Illustration"
                              class="img-fluid hero-main-image"
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                         <div class="d-none align-items-center justify-content-center hero-fallback">
                             <div class="text-center text-white">
                                 <i class="bi bi-trophy-fill" style="font-size: 8rem; opacity: 0.3;"></i>
-                                <h3 class="mt-3 opacity-50">UNAS Fest 2025</h3>
+                                <h3 class="mt-3 opacity-50">Caturnawa UNAS FEST 2025</h3>
                             </div>
                         </div>
                     </div>
@@ -298,7 +298,7 @@
 <section class="section bg-light">
     <div class="container">
         <div class="text-center mb-5" data-aos="fade-up">
-            <h2 class="section-title font-poppins">Timeline UNAS Fest 2025</h2>
+            <h2 class="section-title font-poppins">Timeline Caturnawa UNAS FEST 2025</h2>
             <p class="section-subtitle">
                 Jadwal lengkap kegiatan dari pendaftaran hingga pengumuman pemenang
             </p>
@@ -361,7 +361,7 @@
                                         <i class="bi bi-trophy me-2"></i>Pengumuman Pemenang
                                     </h5>
                                     <p class="text-muted mb-2">30 Maret 2025</p>
-                                    <p class="card-text">Pengumuman pemenang dan acara penutupan UNAS Fest 2025.</p>
+                                    <p class="card-text">Pengumuman pemenang dan acara penutupan Caturnawa UNAS FEST 2025.</p>
                                 </div>
                             </div>
                         </div>
@@ -379,7 +379,7 @@
             <div class="col-lg-6" data-aos="fade-right">
                 <h2 class="font-poppins fw-bold mb-4">Siap Bergabung?</h2>
                 <p class="lead text-muted mb-4">
-                    Jangan lewatkan kesempatan emas untuk menunjukkan inovasi terbaikmu di UNAS Fest 2025. 
+                    Jangan lewatkan kesempatan emas untuk menunjukkan inovasi terbaikmu di Caturnawa UNAS FEST 2025. 
                     Daftar sekarang dan raih prestasi gemilang!
                 </p>
                 <div class="d-flex flex-wrap gap-3">

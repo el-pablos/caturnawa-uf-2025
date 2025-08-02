@@ -116,7 +116,7 @@
     <div class="container-custom text-center">
         <div class="max-w-3xl mx-auto">
             <h2 class="text-3xl md:text-4xl font-clash font-bold mb-6">
-                Siap Bergabung dengan UNAS Fest 2025?
+                Siap Bergabung dengan Caturnawa UNAS FEST 2025?
             </h2>
             <p class="text-xl text-gray-300 mb-8">
                 Jangan lewatkan kesempatan emas untuk menjadi bagian dari festival kompetisi nasional terbesar

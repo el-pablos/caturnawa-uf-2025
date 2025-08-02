@@ -1,6 +1,6 @@
 @extends('layouts.simple')
 
-@section('title', 'Kompetisi - UNAS Fest 2025')
+@section('title', 'Kompetisi - Caturnawa UNAS FEST 2025')
 
 @push('styles')
 <style>
@@ -282,15 +282,15 @@
                 </ul>
                 <div class="hero-content text-center">
                     <h1 class="modern-title mb-4">
-                        KOMPETISI<span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"> UNAS FEST 2025</span>
+                        COMPETITIONS<span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"> UNAS FEST 2025</span>
                     </h1>
-                    <p class="modern-subtitle mb-5">Bergabunglah dengan kompetisi nasional terbesar di Indonesia</p>
+                    <p class="modern-subtitle mb-5">Join Indonesia's largest national competition</p>
                     <hr class="my-4">
-                    <p>Tiga kategori kompetisi: Teknologi, Kesehatan, dan Biodiversitas menanti!</p>
+                    <p>Three competition categories: Technology, Health, and Biodiversity await!</p>
                     <a class="btn modern-btn btn-auto w-auto"
                        href="#competitions-list"
                        role="button">
-                        <i class="bi bi-trophy"></i> Lihat Kompetisi
+                        <i class="bi bi-trophy"></i> View Competitions
                     </a>
                 </div>
             </div>
@@ -302,9 +302,9 @@
         <div class="col-12 mb-4">
             <div class="text-center" data-aos="fade-up">
                 <h2 class="fw-bold text-primary">
-                    <i class="bi bi-stopwatch me-2"></i>Countdown UNAS FEST 2025
+                    <i class="bi bi-stopwatch me-2"></i>Countdown Caturnawa UNAS FEST 2025
                 </h2>
-                <p class="text-muted">Menuju Grand Final & Awarding Ceremony</p>
+                <p class="text-muted">Towards Grand Final & Awarding Ceremony</p>
             </div>
         </div>
 
@@ -314,22 +314,22 @@
                 <div class="countdown-wrapper">
                     <div class="countdown-item">
                         <div class="countdown-number" id="days">0</div>
-                        <div class="countdown-label">Hari</div>
+                        <div class="countdown-label">Days</div>
                     </div>
                     <div class="countdown-separator">:</div>
                     <div class="countdown-item">
                         <div class="countdown-number" id="hours">0</div>
-                        <div class="countdown-label">Jam</div>
+                        <div class="countdown-label">Hours</div>
                     </div>
                     <div class="countdown-separator">:</div>
                     <div class="countdown-item">
                         <div class="countdown-number" id="minutes">0</div>
-                        <div class="countdown-label">Menit</div>
+                        <div class="countdown-label">Minutes</div>
                     </div>
                     <div class="countdown-separator">:</div>
                     <div class="countdown-item">
                         <div class="countdown-number" id="seconds">0</div>
-                        <div class="countdown-label">Detik</div>
+                        <div class="countdown-label">Seconds</div>
                     </div>
                 </div>
 
@@ -367,7 +367,7 @@
                             <div class="col-md-4 text-center">
                                 <div class="border-md-start ps-md-3">
                                     <i class="bi bi-calendar-event text-success d-block mb-2" style="font-size: 1.75rem;"></i>
-                                    <small class="text-muted d-block">Pendaftaran</small>
+                                    <small class="text-muted d-block">Registration</small>
                                     <div class="fw-bold">{{ $competition->registration_start->format('d M') }} - {{ $competition->registration_end->format('d M') }}</div>
                                 </div>
                             </div>
@@ -376,19 +376,19 @@
                     <div class="card-footer bg-light">
                         <div class="d-grid gap-2 d-md-flex justify-content-md-center">
                             <a href="{{ route('public.competition.detail', $competition->slug) }}" class="btn btn-outline-primary">
-                                <i class="bi bi-eye"></i> Lihat Detail
+                                <i class="bi bi-eye"></i> View Details
                             </a>
                             @if($competition->registration_start <= now() && $competition->registration_end >= now())
                                 <a href="{{ route('register') }}" class="btn btn-success">
-                                    <i class="bi bi-person-plus"></i> Daftar Sekarang
+                                    <i class="bi bi-person-plus"></i> Register Now
                                 </a>
                             @else
                                 <button class="btn btn-secondary" disabled>
                                     <i class="bi bi-clock"></i>
                                     @if($competition->registration_start > now())
-                                        Belum Dibuka
+                                        Not Open Yet
                                     @else
-                                        Pendaftaran Ditutup
+                                        Registration Closed
                                     @endif
                                 </button>
                             @endif
@@ -411,10 +411,10 @@
                 <div class="card shadow text-center">
                     <div class="card-body py-5">
                         <i class="bi bi-trophy text-muted" style="font-size: 4rem;"></i>
-                        <h4 class="mt-3 text-muted">Belum Ada Kompetisi</h4>
-                        <p class="text-muted mb-4">Kompetisi akan segera dibuka. Pantau terus website ini untuk informasi terbaru!</p>
+                        <h4 class="mt-3 text-muted">No Competitions Yet</h4>
+                        <p class="text-muted mb-4">Competitions will be opened soon. Keep monitoring this website for the latest information!</p>
                         <a href="{{ route('public.home') }}" class="btn modern-btn">
-                            <i class="bi bi-house"></i> Kembali ke Beranda
+                            <i class="bi bi-house"></i> Back to Home
                         </a>
                     </div>
                 </div>
@@ -476,7 +476,7 @@ document.addEventListener('DOMContentLoaded', function() {
             countdownContainer.innerHTML = `
                 <div class="text-center text-white">
                     <i class="bi bi-trophy-fill" style="font-size: 4rem; color: #ffd700;"></i>
-                    <h2 class="mt-3 mb-2" style="color: #ffd700;">🎉 UNAS FEST 2025 DIMULAI! 🎉</h2>
+                    <h2 class="mt-3 mb-2" style="color: #ffd700;">🎉 Caturnawa UNAS FEST 2025 DIMULAI! 🎉</h2>
                     <p class="mb-0" style="font-size: 1.2rem;">Selamat datang di Grand Final & Awarding Ceremony!</p>
                 </div>
             `;

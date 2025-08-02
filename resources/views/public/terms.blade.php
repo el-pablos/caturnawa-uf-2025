@@ -4,7 +4,7 @@
     $seoPage = 'terms';
 @endphp
 
-@section('title', 'Syarat & Ketentuan - UNAS Fest 2025')
+@section('title', 'Syarat & Ketentuan - Caturnawa UNAS FEST 2025')
 
 @section('content')
 <style>
@@ -203,7 +203,7 @@
                         Syarat & Ketentuan
                     </h1>
                     <p class="modern-subtitle mb-0">
-                        Mohon dibaca dengan seksama sebelum berpartisipasi dalam UNAS Fest 2025.
+                        Mohon dibaca dengan seksama sebelum berpartisipasi dalam Caturnawa UNAS FEST 2025.
                     </p>
                 </div>
             </div>
@@ -223,7 +223,7 @@
                     <div class="mb-5">
                         <h3 class="fw-bold">1. Penerimaan Syarat</h3>
                         <p>
-                            Dengan mengakses dan menggunakan layanan UNAS Fest 2025, Anda menyetujui untuk terikat oleh syarat dan ketentuan ini. Jika Anda tidak setuju dengan syarat ini, mohon untuk tidak menggunakan layanan kami.
+                            Dengan mengakses dan menggunakan layanan Caturnawa UNAS FEST 2025, Anda menyetujui untuk terikat oleh syarat dan ketentuan ini. Jika Anda tidak setuju dengan syarat ini, mohon untuk tidak menggunakan layanan kami.
                         </p>
                     </div>
 
