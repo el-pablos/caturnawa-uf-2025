@@ -11,10 +11,10 @@ return [
     */
 
     'default' => [
-        'title' => 'UNAS Fest 2025 - Festival Kompetisi Universitas Nasional Tahunan',
-        'description' => 'UNAS Fest 2025 adalah festival kompetisi nasional terbesar di Indonesia yang menggabungkan inovasi teknologi, kesehatan, dan biodiversitas. Daftar sekarang dan raih prestasi terbaikmu!',
+        'title' => 'Caturnawa UNAS FEST 2025 - Festival Kompetisi Universitas Nasional Tahunan',
+        'description' => 'Caturnawa UNAS FEST 2025 adalah festival kompetisi nasional terbesar di Indonesia yang menggabungkan inovasi teknologi, kesehatan, dan biodiversitas. Daftar sekarang dan raih prestasi terbaikmu!',
         'keywords' => 'unas fest, kompetisi nasional, lomba indonesia, teknologi, kesehatan, biodiversitas, universitas nasional, festival mahasiswa, kompetisi mahasiswa, lomba karya tulis, debat, konten digital',
-        'author' => 'UNAS Fest 2025 Committee',
+        'author' => 'Caturnawa UNAS FEST 2025 Committee',
         'robots' => 'index, follow',
         'canonical' => env('APP_URL'),
         'og_type' => 'website',
@@ -23,18 +23,18 @@ return [
 
     'pages' => [
         'home' => [
-            'title' => 'UNAS Fest 2025 - Festival Kompetisi Universitas Nasional Tahunan',
-            'description' => 'Bergabunglah dengan UNAS Fest 2025, festival kompetisi nasional terbesar yang menggabungkan teknologi, kesehatan, dan biodiversitas. Daftar sekarang dan wujudkan potensi terbaikmu!',
-            'keywords' => 'unas fest 2025, kompetisi nasional, lomba mahasiswa, teknologi, kesehatan, biodiversitas, festival indonesia',
+            'title' => 'Caturnawa UNAS FEST 2025 - Festival Kompetisi Universitas Nasional Tahunan',
+            'description' => 'Bergabunglah dengan Caturnawa UNAS FEST 2025, festival kompetisi nasional terbesar yang menggabungkan teknologi, kesehatan, dan biodiversitas. Daftar sekarang dan wujudkan potensi terbaikmu!',
+            'keywords' => 'Caturnawa UNAS FEST 2025, kompetisi nasional, lomba mahasiswa, teknologi, kesehatan, biodiversitas, festival indonesia',
         ],
         'competitions' => [
-            'title' => 'Kompetisi UNAS Fest 2025 - Teknologi, Kesehatan & Biodiversitas',
-            'description' => 'Ikuti berbagai kompetisi menarik di UNAS Fest 2025: Kompetisi Teknologi, Kesehatan, dan Biodiversitas. Daftar sekarang dan raih prestasi gemilang!',
+            'title' => 'kompetisi UNAS FEST 2025 - Teknologi, Kesehatan & Biodiversitas',
+            'description' => 'Ikuti berbagai kompetisi menarik di Caturnawa UNAS FEST 2025: Kompetisi Teknologi, Kesehatan, dan Biodiversitas. Daftar sekarang dan raih prestasi gemilang!',
             'keywords' => 'kompetisi teknologi, kompetisi kesehatan, kompetisi biodiversitas, lomba karya tulis, debat mahasiswa',
         ],
         'about' => [
-            'title' => 'Tentang UNAS Fest 2025 - Panitia & Departemen Penyelenggara',
-            'description' => 'Kenali tim panitia UNAS Fest 2025 dari berbagai departemen: IT, Keamanan, Infrastruktur, Hubungan Masyarakat, dan lainnya. Organisasi terpercaya untuk festival kompetisi nasional.',
+            'title' => 'Tentang Caturnawa UNAS FEST 2025 - Panitia & Departemen Penyelenggara',
+            'description' => 'Kenali tim panitia Caturnawa UNAS FEST 2025 dari berbagai departemen: IT, Keamanan, Infrastruktur, Hubungan Masyarakat, dan lainnya. Organisasi terpercaya untuk festival kompetisi nasional.',
             'keywords' => 'panitia unas fest, departemen unas fest, tim penyelenggara, universitas nasional, organisasi mahasiswa',
         ],
         'testimonials' => [
@@ -43,13 +43,13 @@ return [
             'keywords' => 'testimoni unas fest, review peserta, pengalaman kompetisi, feedback mahasiswa',
         ],
         'contact' => [
-            'title' => 'Kontak UNAS Fest 2025 - Hubungi Kami Sekarang',
-            'description' => 'Hubungi tim UNAS Fest 2025 untuk informasi lebih lanjut tentang kompetisi, pendaftaran, dan kerjasama. Kami siap membantu Anda 24/7.',
+            'title' => 'Kontak Caturnawa UNAS FEST 2025 - Hubungi Kami Sekarang',
+            'description' => 'Hubungi tim Caturnawa UNAS FEST 2025 untuk informasi lebih lanjut tentang kompetisi, pendaftaran, dan kerjasama. Kami siap membantu Anda 24/7.',
             'keywords' => 'kontak unas fest, hubungi panitia, informasi pendaftaran, customer service',
         ],
         'blog' => [
-            'title' => 'Blog UNAS Fest 2025 - Tips, Guide & Berita Kompetisi',
-            'description' => 'Baca artikel terbaru tentang tips kompetisi, guide pendaftaran, dan berita terkini seputar UNAS Fest 2025. Tingkatkan peluang menang Anda!',
+            'title' => 'Blog Caturnawa UNAS FEST 2025 - Tips, Guide & Berita Kompetisi',
+            'description' => 'Baca artikel terbaru tentang tips kompetisi, guide pendaftaran, dan berita terkini seputar Caturnawa UNAS FEST 2025. Tingkatkan peluang menang Anda!',
             'keywords' => 'blog unas fest, tips kompetisi, guide pendaftaran, berita mahasiswa, artikel teknologi',
         ],
     ],
@@ -119,7 +119,7 @@ return [
         'organization' => [
             '@context' => 'https://schema.org',
             '@type' => 'Organization',
-            'name' => 'UNAS Fest 2025',
+            'name' => 'Caturnawa UNAS FEST 2025',
             'url' => env('APP_URL'),
             'logo' => env('APP_URL') . '/assets/images/logo/unas-fest-logo.png',
             'description' => 'Festival kompetisi nasional terbesar di Indonesia',
@@ -144,7 +144,7 @@ return [
         'event' => [
             '@context' => 'https://schema.org',
             '@type' => 'Event',
-            'name' => 'UNAS Fest 2025',
+            'name' => 'Caturnawa UNAS FEST 2025',
             'description' => 'Festival kompetisi nasional terbesar di Indonesia',
             'startDate' => '2025-03-01',
             'endDate' => '2025-03-31',

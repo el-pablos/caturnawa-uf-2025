@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Register - UNAS Fest 2025</title>
+    <title>Register - Caturnawa UNAS FEST 2025</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -75,7 +75,7 @@
                 <div class="card register-card">
                     <div class="register-header">
                         <h2 class="fw-bold mb-2">
-                            <i class="fas fa-user-plus me-2"></i>Join UNAS Fest 2025
+                            <i class="fas fa-user-plus me-2"></i>Join Caturnawa UNAS FEST 2025
                         </h2>
                         <p class="mb-0 opacity-75">Create your account and start competing</p>
                     </div>

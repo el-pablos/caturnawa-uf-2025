@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Development Server Configuration for UNAS Fest 2025
+ * Development Server Configuration for Caturnawa UNAS FEST 2025
  * 
  * This script provides enhanced development experience with:
  * - Hot Module Replacement (HMR)
@@ -80,7 +80,7 @@ function startServer(name, config) {
 }
 
 function main() {
-    log('🎯 UNAS Fest 2025 - Development Server', colors.bright);
+    log('🎯 Caturnawa UNAS FEST 2025 - Development Server', colors.bright);
     log('=====================================', colors.bright);
     log('');
     

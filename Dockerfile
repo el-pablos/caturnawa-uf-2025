@@ -1,4 +1,4 @@
-# Multi-stage Dockerfile for UNAS Fest 2025 Laravel Application
+# Multi-stage Dockerfile for Caturnawa UNAS FEST 2025 Laravel Application
 # Stage 1: Build stage with Composer
 FROM php:8.3-fpm-alpine AS builder
 

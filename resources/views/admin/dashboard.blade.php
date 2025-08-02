@@ -233,7 +233,7 @@
                         <i class="bi bi-graph-up me-2 text-primary"></i>Tren Pendaftaran & Pendapatan 2025
                     </h6>
                     <div class="badge bg-primary bg-opacity-10 text-primary">
-                        UNAS Fest 2025
+                        Caturnawa UNAS FEST 2025
                     </div>
                 </div>
             </div>

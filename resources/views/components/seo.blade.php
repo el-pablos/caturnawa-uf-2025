@@ -1,12 +1,12 @@
-{{-- SEO Component for UNAS Fest 2025 --}}
+{{-- SEO Component for Caturnawa UNAS FEST 2025 --}}
 @props([
-    'title' => 'UNAS Fest 2025 - Festival Kompetisi Teknologi Terbesar',
-    'description' => 'UNAS Fest 2025 adalah festival kompetisi teknologi terbesar di Indonesia. Ikuti berbagai kompetisi programming, design, business plan, dan essay writing dengan total hadiah jutaan rupiah.',
+    'title' => 'Caturnawa UNAS FEST 2025 - Festival Kompetisi Teknologi Terbesar',
+    'description' => 'Caturnawa UNAS FEST 2025 adalah festival kompetisi teknologi terbesar di Indonesia. Ikuti berbagai kompetisi programming, design, business plan, dan essay writing dengan total hadiah jutaan rupiah.',
     'keywords' => 'unas fest, kompetisi teknologi, programming contest, design competition, business plan, essay writing, universitas nasional, jakarta, indonesia, teknologi, inovasi',
     'image' => null,
     'url' => null,
     'type' => 'website',
-    'author' => 'UNAS Fest 2025 Committee',
+    'author' => 'Caturnawa UNAS FEST 2025 Committee',
     'robots' => 'index, follow',
     'canonical' => null
 ])
@@ -16,7 +16,7 @@
     $currentUrl = $url ?? request()->url();
     $canonicalUrl = $canonical ?? $currentUrl;
     $ogImage = $image ?? $defaultImage;
-    $siteName = 'UNAS Fest 2025';
+    $siteName = 'Caturnawa UNAS FEST 2025';
     $locale = 'id_ID';
 @endphp
 
@@ -91,7 +91,7 @@
 {
     "@context": "https://schema.org",
     "@type": "Event",
-    "name": "UNAS Fest 2025",
+    "name": "Caturnawa UNAS FEST 2025",
     "description": "{{ $description }}",
     "image": "{{ $ogImage }}",
     "startDate": "2025-03-01",
@@ -131,7 +131,7 @@
 {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "UNAS Fest 2025",
+    "name": "Caturnawa UNAS FEST 2025",
     "url": "{{ config('app.url') }}",
     "logo": "{{ asset('images/unas-fest-logo.png') }}",
     "description": "{{ $description }}",

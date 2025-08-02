@@ -1,11 +1,11 @@
-# UNAS Fest 2025 - Hybrid Docker Makefile
+# Caturnawa UNAS FEST 2025 - Hybrid Docker Makefile
 # by Tamas
 
 .PHONY: help build up down restart logs shell mysql redis clean setup dev prod test infra
 
 # Default target
 help: ## Show this help message
-	@echo "🐳 UNAS Fest 2025 - Hybrid Docker Commands"
+	@echo "🐳 Caturnawa UNAS FEST 2025 - Hybrid Docker Commands"
 	@echo "by Tamas"
 	@echo "=========================================="
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)

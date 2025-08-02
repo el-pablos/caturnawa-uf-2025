@@ -99,12 +99,12 @@ return [
         'va_number' => '',
         'free_text' => [
             'inquiry' => [
-                'id' => 'Pembayaran UNAS Fest 2025',
-                'en' => 'UNAS Fest 2025 Payment',
+                'id' => 'Pembayaran Caturnawa UNAS FEST 2025',
+                'en' => 'Caturnawa UNAS FEST 2025 Payment',
             ],
             'payment' => [
-                'id' => 'Terima kasih telah mendaftar UNAS Fest 2025',
-                'en' => 'Thank you for registering UNAS Fest 2025',
+                'id' => 'Terima kasih telah mendaftar Caturnawa UNAS FEST 2025',
+                'en' => 'Thank you for registering Caturnawa UNAS FEST 2025',
             ],
         ],
     ],
@@ -131,7 +131,7 @@ return [
      */
     'echannel' => [
         'bill_info1' => 'Payment For:',
-        'bill_info2' => 'UNAS Fest 2025',
+        'bill_info2' => 'Caturnawa UNAS FEST 2025',
     ],
 
     /**
@@ -139,7 +139,7 @@ return [
      */
     'cstore' => [
         'store' => 'indomaret',
-        'message' => 'Pembayaran UNAS Fest 2025',
+        'message' => 'Pembayaran Caturnawa UNAS FEST 2025',
     ],
 
     /**

@@ -60,6 +60,6 @@ class HomeController extends Controller
         // Here you can implement email sending logic
         // For now, we'll just return success message
 
-        return back()->with('success', 'Pesan Anda telah berhasil dikirim. Tim kami akan segera menghubungi Anda.');
+        return back()->with('success', 'Your message has been sent successfully. Our team will contact you soon.');
     }
 }

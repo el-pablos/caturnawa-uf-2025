@@ -175,7 +175,7 @@ class SettingController extends Controller
 
             // Default settings
             return [
-                'app_name' => config('app.name', 'UNAS Fest 2025'),
+                'app_name' => config('app.name', 'Caturnawa UNAS FEST 2025'),
                 'app_description' => 'Platform kompetisi dan festival UNAS',
                 'contact_email' => 'info@unasfest.ac.id',
                 'contact_phone' => '+62 21 1234567',

@@ -4,7 +4,7 @@
     $seoPage = 'faq';
 @endphp
 
-@section('title', 'FAQ - UNAS Fest 2025')
+@section('title', 'FAQ - Caturnawa UNAS FEST 2025')
 
 @section('content')
 <style>
@@ -237,7 +237,7 @@
                         Frequently Asked Questions
                     </h1>
                     <p class="modern-subtitle mb-0">
-                        Temukan jawaban untuk pertanyaan yang sering diajukan seputar UNAS Fest 2025.
+                        Temukan jawaban untuk pertanyaan yang sering diajukan seputar Caturnawa UNAS FEST 2025.
                     </p>
                 </div>
             </div>

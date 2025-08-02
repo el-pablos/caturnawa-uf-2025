@@ -1,7 +1,7 @@
 {
     "name": "unasfest/competition-registration",
     "type": "project",
-    "description": "UNAS Fest 2025 Competition Registration System with Midtrans Payment Gateway",
+    "description": "Caturnawa UNAS FEST 2025 Competition Registration System with Midtrans Payment Gateway",
     "keywords": ["laravel", "competition", "registration", "midtrans", "payment"],
     "license": "MIT",
     "require": {

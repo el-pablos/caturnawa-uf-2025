@@ -3,9 +3,9 @@
 @php
     $seoPage = 'competition';
     $seoData = [
-        'title' => $competition->name . ' - UNAS Fest 2025',
+        'title' => $competition->name . ' - Caturnawa UNAS FEST 2025',
         'description' => $competition->description,
-        'keywords' => 'kompetisi ' . strtolower($competition->category ?? 'umum') . ', ' . strtolower($competition->name) . ', unas fest 2025',
+        'keywords' => 'kompetisi ' . strtolower($competition->category ?? 'umum') . ', ' . strtolower($competition->name) . ', Caturnawa UNAS FEST 2025',
         'og_image' => $competition->image ? asset('storage/' . $competition->image) : null,
     ];
 @endphp
@@ -148,7 +148,7 @@
 </style>
 @endpush
 
-@section('title', $competition->name . ' - UNAS Fest 2025')
+@section('title', $competition->name . ' - Caturnawa UNAS FEST 2025')
 
 @section('content')
 <div class="container my-5">

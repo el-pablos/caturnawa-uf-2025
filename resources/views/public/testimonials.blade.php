@@ -1,6 +1,6 @@
 @extends('layouts.simple')
 
-@section('title', 'Testimonials - UNAS Fest 2025')
+@section('title', 'Testimonials - Caturnawa UNAS FEST 2025')
 
 @section('content')
 <div class="container my-5">

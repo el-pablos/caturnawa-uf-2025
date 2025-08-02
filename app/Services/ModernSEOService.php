@@ -10,10 +10,10 @@ use Artesaos\SEOTools\Facades\JsonLd;
 
 class ModernSEOService
 {
-    protected $defaultTitle = 'UNAS Fest 2025 - Festival Kompetisi Universitas Nasional Tahunan';
-    protected $defaultDescription = 'Bergabunglah dengan UNAS Fest 2025, festival kompetisi nasional terbesar di Indonesia. Kompetisi Teknologi, Kesehatan, dan Biodiversitas dengan total hadiah 500 Juta Rupiah.';
+    protected $defaultTitle = 'Caturnawa UNAS FEST 2025 - Festival Kompetisi Universitas Nasional Tahunan';
+    protected $defaultDescription = 'Bergabunglah dengan Caturnawa UNAS FEST 2025, festival kompetisi nasional terbesar di Indonesia. Kompetisi Teknologi, Kesehatan, dan Biodiversitas dengan total hadiah 500 Juta Rupiah.';
     protected $defaultKeywords = 'unas fest, kompetisi nasional, teknologi, kesehatan, biodiversitas, mahasiswa, indonesia, hadiah, festival';
-    protected $siteName = 'UNAS Fest 2025';
+    protected $siteName = 'Caturnawa UNAS FEST 2025';
     protected $siteUrl;
     protected $logoUrl;
 
@@ -64,9 +64,9 @@ class ModernSEOService
      */
     public function setCompetitionsPage()
     {
-        $title = 'Kompetisi UNAS Fest 2025 - Teknologi, Kesehatan, Biodiversitas';
-        $description = 'Ikuti kompetisi nasional UNAS Fest 2025 dalam bidang Teknologi, Kesehatan, dan Biodiversitas. Total hadiah 500 Juta Rupiah. Daftar sekarang!';
-        $keywords = 'kompetisi teknologi, kompetisi kesehatan, kompetisi biodiversitas, lomba mahasiswa, hadiah kompetisi, unas fest 2025';
+        $title = 'kompetisi UNAS FEST 2025 - Teknologi, Kesehatan, Biodiversitas';
+        $description = 'Ikuti kompetisi nasional Caturnawa UNAS FEST 2025 dalam bidang Teknologi, Kesehatan, dan Biodiversitas. Total hadiah 500 Juta Rupiah. Daftar sekarang!';
+        $keywords = 'kompetisi teknologi, kompetisi kesehatan, kompetisi biodiversitas, lomba mahasiswa, hadiah kompetisi, Caturnawa UNAS FEST 2025';
 
         SEOMeta::setTitle($title);
         SEOMeta::setDescription($description);
@@ -98,8 +98,8 @@ class ModernSEOService
      */
     public function setAboutPage()
     {
-        $title = 'Tentang UNAS Fest 2025 - Visi, Misi, dan Tim Profesional';
-        $description = 'Pelajari lebih lanjut tentang UNAS Fest 2025, visi misi kami, dan tim profesional yang menyelenggarakan festival kompetisi nasional terbesar di Indonesia.';
+        $title = 'Tentang Caturnawa UNAS FEST 2025 - Visi, Misi, dan Tim Profesional';
+        $description = 'Pelajari lebih lanjut tentang Caturnawa UNAS FEST 2025, visi misi kami, dan tim profesional yang menyelenggarakan festival kompetisi nasional terbesar di Indonesia.';
         $keywords = 'tentang unas fest, visi misi, tim panitia, festival kompetisi, universitas nasional';
 
         SEOMeta::setTitle($title);
@@ -124,8 +124,8 @@ class ModernSEOService
      */
     public function setContactPage()
     {
-        $title = 'Kontak UNAS Fest 2025 - Hubungi Tim Kami';
-        $description = 'Hubungi tim UNAS Fest 2025 untuk informasi lebih lanjut tentang kompetisi, pendaftaran, dan kerjasama. Customer support 24/7 siap membantu Anda.';
+        $title = 'Kontak Caturnawa UNAS FEST 2025 - Hubungi Tim Kami';
+        $description = 'Hubungi tim Caturnawa UNAS FEST 2025 untuk informasi lebih lanjut tentang kompetisi, pendaftaran, dan kerjasama. Customer support 24/7 siap membantu Anda.';
         $keywords = 'kontak unas fest, hubungi panitia, customer support, informasi kompetisi, bantuan pendaftaran';
 
         SEOMeta::setTitle($title);
@@ -176,8 +176,8 @@ class ModernSEOService
      */
     public function setCompetitionPage($competition)
     {
-        $title = "Kompetisi {$competition->name} - UNAS Fest 2025";
-        $description = "Ikuti kompetisi {$competition->name} di UNAS Fest 2025. {$competition->description} Hadiah menarik menanti!";
+        $title = "Kompetisi {$competition->name} - Caturnawa UNAS FEST 2025";
+        $description = "Ikuti kompetisi {$competition->name} di Caturnawa UNAS FEST 2025. {$competition->description} Hadiah menarik menanti!";
         $keywords = "kompetisi {$competition->name}, {$competition->category}, lomba mahasiswa, hadiah kompetisi";
 
         SEOMeta::setTitle($title);
@@ -219,7 +219,7 @@ class ModernSEOService
      */
     public function setBlogPost($post)
     {
-        $title = $post->title . ' - UNAS Fest 2025 Blog';
+        $title = $post->title . ' - Caturnawa UNAS FEST 2025 Blog';
         $description = $post->excerpt ?? substr(strip_tags($post->content), 0, 160);
         $keywords = $post->tags ?? 'unas fest, blog, artikel, informasi';
 

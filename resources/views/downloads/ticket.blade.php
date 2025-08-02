@@ -258,7 +258,7 @@
         <!-- Ticket Header -->
         <div class="ticket-header">
             <h1>E-TICKET</h1>
-            <h2>UNAS FEST 2025 - Dies Natalis ke-76</h2>
+            <h2>Caturnawa UNAS FEST 2025 - Dies Natalis ke-76</h2>
         </div>
         
         <!-- Ticket Body -->
@@ -369,10 +369,10 @@
         
         <!-- Ticket Footer -->
         <div class="ticket-footer">
-            <p><strong>UNAS FEST 2025 - Dies Natalis ke-76 Universitas Nasional</strong></p>
+            <p><strong>Caturnawa UNAS FEST 2025 - Dies Natalis ke-76 Universitas Nasional</strong></p>
             <p>E-ticket ini adalah bukti sah partisipasi dalam kompetisi</p>
             <p>Dicetak pada: {{ $generated_at->format('d F Y H:i:s') }}</p>
-            <p>Untuk informasi lebih lanjut, hubungi panitia UNAS Fest 2025</p>
+            <p>Untuk informasi lebih lanjut, hubungi panitia Caturnawa UNAS FEST 2025</p>
         </div>
     </div>
 </body>

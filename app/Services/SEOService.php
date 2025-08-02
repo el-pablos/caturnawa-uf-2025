@@ -108,7 +108,7 @@ class SEOService
             'og:url' => $this->getCanonical(),
             'og:type' => $this->customData['og_type'] ?? $this->config['default']['og_type'],
             'og:image' => $this->customData['og_image'] ?? asset($this->config['assets']['logo']['main']),
-            'og:site_name' => 'UNAS Fest 2025',
+            'og:site_name' => 'Caturnawa UNAS FEST 2025',
             'og:locale' => 'id_ID',
         ];
     }
@@ -186,7 +186,7 @@ class SEOService
         $html .= '<meta property="fb:app_id" content="1234567890">' . "\n"; // Replace with actual Facebook App ID
         $html .= '<meta name="mobile-web-app-capable" content="yes">' . "\n";
         $html .= '<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">' . "\n";
-        $html .= '<meta name="apple-mobile-web-app-title" content="UNAS Fest 2025">' . "\n";
+        $html .= '<meta name="apple-mobile-web-app-title" content="Caturnawa UNAS FEST 2025">' . "\n";
         
         // Favicon and icons
         $html .= '<link rel="icon" type="image/x-icon" href="' . asset($this->config['assets']['logo']['favicon']) . '">' . "\n";

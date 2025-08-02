@@ -1,6 +1,6 @@
 @extends('layouts.simple')
 
-@section('title', 'Kompetisi - UNAS Fest 2025')
+@section('title', 'Kompetisi - Caturnawa UNAS FEST 2025')
 
 @push('styles')
 <style>
@@ -127,6 +127,147 @@
             border-left: 1px solid #dee2e6;
         }
     }
+
+    /* Countdown Timer Styles */
+    .countdown-container {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 20px;
+        padding: 40px 20px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .countdown-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="10" cy="50" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="90" cy="30" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+        opacity: 0.3;
+        pointer-events: none;
+    }
+
+    .countdown-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .countdown-item {
+        text-align: center;
+        color: white;
+        min-width: 100px;
+    }
+
+    .countdown-number {
+        font-size: 4rem;
+        font-weight: 800;
+        line-height: 1;
+        background: linear-gradient(45deg, #fff, #f8f9fa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        display: block;
+        margin-bottom: 10px;
+        animation: pulse 2s ease-in-out infinite alternate;
+        transition: transform 0.15s ease-in-out;
+    }
+
+    .countdown-label {
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: rgba(255,255,255,0.9);
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .countdown-separator {
+        font-size: 3rem;
+        font-weight: 800;
+        color: rgba(255,255,255,0.7);
+        animation: blink 1s ease-in-out infinite;
+        margin: 0 10px;
+    }
+
+    .event-info {
+        text-align: center;
+        position: relative;
+        z-index: 2;
+    }
+
+    .event-detail {
+        color: rgba(255,255,255,0.9);
+        font-size: 1.1rem;
+        font-weight: 500;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .event-detail i {
+        font-size: 1.3rem;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        100% { transform: scale(1.05); }
+    }
+
+    @keyframes blink {
+        0%, 50% { opacity: 1; }
+        51%, 100% { opacity: 0.3; }
+    }
+
+    /* Responsive Design for Countdown */
+    @media (max-width: 768px) {
+        .countdown-number {
+            font-size: 2.5rem;
+        }
+
+        .countdown-separator {
+            font-size: 2rem;
+            margin: 0 5px;
+        }
+
+        .countdown-item {
+            min-width: 70px;
+        }
+
+        .countdown-wrapper {
+            gap: 10px;
+        }
+
+        .event-detail {
+            font-size: 1rem;
+            flex-direction: column;
+            gap: 5px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .countdown-number {
+            font-size: 2rem;
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .countdown-separator {
+            font-size: 1.5rem;
+        }
+    }
 </style>
 @endpush
 
@@ -141,38 +282,58 @@
                 </ul>
                 <div class="hero-content text-center">
                     <h1 class="modern-title mb-4">
-                        KOMPETISI<span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"> UNAS FEST 2025</span>
+                        COMPETITIONS<span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"> UNAS FEST 2025</span>
                     </h1>
-                    <p class="modern-subtitle mb-5">Bergabunglah dengan kompetisi nasional terbesar di Indonesia</p>
+                    <p class="modern-subtitle mb-5">Join Indonesia's largest national competition</p>
                     <hr class="my-4">
-                    <p>Tiga kategori kompetisi: Teknologi, Kesehatan, dan Biodiversitas menanti!</p>
+                    <p>Three competition categories: Technology, Health, and Biodiversity await!</p>
                     <a class="btn modern-btn btn-auto w-auto"
                        href="#competitions-list"
                        role="button">
-                        <i class="bi bi-trophy"></i> Lihat Kompetisi
+                        <i class="bi bi-trophy"></i> View Competitions
                     </a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Statistics -->
+    <!-- Countdown Timer -->
     <div class="row mt-5 mb-5">
         <div class="col-12 mb-4">
             <div class="text-center" data-aos="fade-up">
                 <h2 class="fw-bold text-primary">
-                    <i class="bi bi-graph-up me-2"></i>Statistik UNAS FEST 2025
+                    <i class="bi bi-stopwatch me-2"></i>Countdown Caturnawa UNAS FEST 2025
                 </h2>
-                <p class="text-muted">Data Terkini Festival Kompetisi Nasional</p>
+                <p class="text-muted">Towards Grand Final & Awarding Ceremony</p>
             </div>
         </div>
-        <div class="col-12 mb-4" data-aos="fade-up" data-aos-delay="200">
-            <div class="card shadow text-center">
-                <div class="card-body">
-                    <i class="bi bi-trophy-fill text-warning" style="font-size: 3rem;"></i>
-                    <h3 class="mt-3 fw-bold text-warning">{{ $stats['total_competitions'] ?? 0 }}</h3>
-                    <p class="text-muted mb-0">Kompetisi Aktif</p>
+
+        <!-- Countdown Display -->
+        <div class="col-12" data-aos="fade-up" data-aos-delay="200">
+            <div class="countdown-container">
+                <div class="countdown-wrapper">
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="days">0</div>
+                        <div class="countdown-label">Days</div>
+                    </div>
+                    <div class="countdown-separator">:</div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="hours">0</div>
+                        <div class="countdown-label">Hours</div>
+                    </div>
+                    <div class="countdown-separator">:</div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="minutes">0</div>
+                        <div class="countdown-label">Minutes</div>
+                    </div>
+                    <div class="countdown-separator">:</div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="seconds">0</div>
+                        <div class="countdown-label">Seconds</div>
+                    </div>
                 </div>
+
+
             </div>
         </div>
     </div>
@@ -183,9 +344,9 @@
             <div class="col-12 mb-4">
                 <div class="text-center" data-aos="fade-up">
                     <h2 class="fw-bold text-primary">
-                        <i class="bi bi-trophy me-2"></i>Kompetisi Tersedia
+                        <i class="bi bi-trophy me-2"></i>Available Competitions
                     </h2>
-                    <p class="text-muted">Pilih kompetisi yang sesuai dengan minat dan keahlian Anda</p>
+                    <p class="text-muted">Choose competitions that match your interests and expertise</p>
                 </div>
             </div>
         </div>
@@ -206,7 +367,7 @@
                             <div class="col-md-4 text-center">
                                 <div class="border-md-start ps-md-3">
                                     <i class="bi bi-calendar-event text-success d-block mb-2" style="font-size: 1.75rem;"></i>
-                                    <small class="text-muted d-block">Pendaftaran</small>
+                                    <small class="text-muted d-block">Registration</small>
                                     <div class="fw-bold">{{ $competition->registration_start->format('d M') }} - {{ $competition->registration_end->format('d M') }}</div>
                                 </div>
                             </div>
@@ -215,19 +376,19 @@
                     <div class="card-footer bg-light">
                         <div class="d-grid gap-2 d-md-flex justify-content-md-center">
                             <a href="{{ route('public.competition.detail', $competition->slug) }}" class="btn btn-outline-primary">
-                                <i class="bi bi-eye"></i> Lihat Detail
+                                <i class="bi bi-eye"></i> View Details
                             </a>
                             @if($competition->registration_start <= now() && $competition->registration_end >= now())
                                 <a href="{{ route('register') }}" class="btn btn-success">
-                                    <i class="bi bi-person-plus"></i> Daftar Sekarang
+                                    <i class="bi bi-person-plus"></i> Register Now
                                 </a>
                             @else
                                 <button class="btn btn-secondary" disabled>
                                     <i class="bi bi-clock"></i>
                                     @if($competition->registration_start > now())
-                                        Belum Dibuka
+                                        Not Open Yet
                                     @else
-                                        Pendaftaran Ditutup
+                                        Registration Closed
                                     @endif
                                 </button>
                             @endif
@@ -250,10 +411,10 @@
                 <div class="card shadow text-center">
                     <div class="card-body py-5">
                         <i class="bi bi-trophy text-muted" style="font-size: 4rem;"></i>
-                        <h4 class="mt-3 text-muted">Belum Ada Kompetisi</h4>
-                        <p class="text-muted mb-4">Kompetisi akan segera dibuka. Pantau terus website ini untuk informasi terbaru!</p>
+                        <h4 class="mt-3 text-muted">No Competitions Yet</h4>
+                        <p class="text-muted mb-4">Competitions will be opened soon. Keep monitoring this website for the latest information!</p>
                         <a href="{{ route('public.home') }}" class="btn modern-btn">
-                            <i class="bi bi-house"></i> Kembali ke Beranda
+                            <i class="bi bi-house"></i> Back to Home
                         </a>
                     </div>
                 </div>
@@ -262,3 +423,74 @@
     @endif
 </div>
 @endsection
+
+
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Set target date: November 10, 2025, 00:00:00 WIB (UTC+7)
+    const targetDate = new Date('2025-11-10T00:00:00+07:00').getTime();
+
+    // Update countdown every second
+    const countdownInterval = setInterval(function() {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        // Calculate time units
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Update display with animation
+        updateCountdownDisplay('days', days);
+        updateCountdownDisplay('hours', hours);
+        updateCountdownDisplay('minutes', minutes);
+        updateCountdownDisplay('seconds', seconds);
+
+        // Check if countdown is finished
+        if (distance < 0) {
+            clearInterval(countdownInterval);
+            showEventStarted();
+        }
+    }, 1000);
+
+    function updateCountdownDisplay(elementId, value) {
+        const element = document.getElementById(elementId);
+        const formattedValue = value.toString().padStart(2, '0');
+
+        if (element && element.textContent !== formattedValue) {
+            element.style.transform = 'scale(1.1)';
+            element.textContent = formattedValue;
+
+            setTimeout(() => {
+                element.style.transform = 'scale(1)';
+            }, 150);
+        }
+    }
+
+    function showEventStarted() {
+        const countdownContainer = document.querySelector('.countdown-container');
+        if (countdownContainer) {
+            countdownContainer.innerHTML = `
+                <div class="text-center text-white">
+                    <i class="bi bi-trophy-fill" style="font-size: 4rem; color: #ffd700;"></i>
+                    <h2 class="mt-3 mb-2" style="color: #ffd700;">🎉 Caturnawa UNAS FEST 2025 DIMULAI! 🎉</h2>
+                    <p class="mb-0" style="font-size: 1.2rem;">Selamat datang di Grand Final & Awarding Ceremony!</p>
+                </div>
+            `;
+        }
+    }
+
+    // Add smooth transition effects
+    const style = document.createElement('style');
+    style.textContent = `
+        .countdown-number {
+            transition: transform 0.15s ease-in-out;
+        }
+    `;
+    document.head.appendChild(style);
+});
+</script>
+@endpush

@@ -9,7 +9,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-10">
             <div class="text-center mb-5">
-                <h1 class="display-4 fw-bold text-primary">Tentang UNAS Fest 2025</h1>
+                <h1 class="display-4 fw-bold text-primary">Tentang Caturnawa UNAS FEST 2025</h1>
                 <p class="lead text-muted">Kompetisi teknologi terbesar yang menggabungkan inovasi, kreativitas, dan kolaborasi</p>
             </div>
             
@@ -80,7 +80,7 @@
             
             <div class="text-center mb-5">
                 <h2 class="fw-bold text-primary mb-3">Nilai-Nilai Kami</h2>
-                <p class="text-muted">Prinsip-prinsip yang menjadi fondasi dalam setiap kegiatan UNAS Fest 2025</p>
+                <p class="text-muted">Prinsip-prinsip yang menjadi fondasi dalam setiap kegiatan Caturnawa UNAS FEST 2025</p>
             </div>
             
             <div class="row">

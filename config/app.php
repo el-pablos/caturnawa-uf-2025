@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'UNAS Fest 2025'),
+    'name' => env('APP_NAME', 'Caturnawa UNAS FEST 2025'),
 
     /*
     |--------------------------------------------------------------------------

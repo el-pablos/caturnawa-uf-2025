@@ -1,5 +1,5 @@
 /**
- * Caturnawa UNAS Fest 2025 - Main JavaScript
+ * Caturnawa UNAS FEST 2025 - Main JavaScript
  * Modern, performance-optimized JavaScript for enhanced UX
  */
 

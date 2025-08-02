@@ -64,7 +64,7 @@
 
             <!-- Header Title -->
             <text x="50" y="60" fill="white" font-family="Arial" font-size="36" font-weight="bold">INVOICE</text>
-            <text x="50" y="90" fill="white" font-family="Arial" font-size="16">UNAS FEST 2025</text>
+            <text x="50" y="90" fill="white" font-family="Arial" font-size="16">Caturnawa UNAS FEST 2025</text>
             <text x="50" y="110" fill="white" font-family="Arial" font-size="14">Festival Kompetisi Nasional</text>
 
             <!-- Logo Placeholder -->
@@ -111,7 +111,7 @@
             <line x1="425" y1="230" x2="425" y2="530" stroke="#E5E7EB" stroke-width="1"/>
 
             <!-- Footer -->
-            <text x="50" y="600" fill="#6B7280" font-family="Arial" font-size="12" font-weight="bold">Thank you for participating in UNAS FEST 2025!</text>
+            <text x="50" y="600" fill="#6B7280" font-family="Arial" font-size="12" font-weight="bold">Thank you for participating in Caturnawa UNAS FEST 2025!</text>
             <text x="50" y="620" fill="#6B7280" font-family="Arial" font-size="10">For questions, contact: info@unasfest.com | +62 21 1234 5678</text>
 
             <!-- Footer line -->

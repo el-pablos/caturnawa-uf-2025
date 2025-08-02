@@ -1,29 +1,29 @@
 @extends('layouts.simple')
 
-@section('title', 'UNAS Fest 2025 - The Universitas Nasional Festival 2025')
+@section('title', 'Caturnawa UNAS FEST 2025 - The Universitas Nasional Festival 2025')
 
 @push('meta')
-<meta name="description" content="The Universitas Nasional Festival 2025 (UNAS FEST 2025) is one of the annual events held to commemorate and celebrate the 76th anniversary of Dies Natalis. Join the biggest national competition festival in Indonesia.">
-<meta name="keywords" content="UNAS Fest 2025, kompetisi nasional, teknologi, kesehatan, biodiversitas, universitas nasional, festival mahasiswa, lomba, hadiah">
+<meta name="description" content="The Universitas Nasional Festival 2025 (Caturnawa UNAS FEST 2025) is one of the annual events held to commemorate and celebrate the 76th anniversary of Dies Natalis. Join the biggest national competition festival in Indonesia.">
+<meta name="keywords" content="Caturnawa UNAS FEST 2025, kompetisi nasional, teknologi, kesehatan, biodiversitas, universitas nasional, festival mahasiswa, lomba, hadiah">
 <meta name="author" content="Universitas Nasional">
 <meta name="robots" content="index, follow">
 <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 
 <!-- Open Graph Meta Tags -->
-<meta property="og:title" content="UNAS Fest 2025 - The Universitas Nasional Festival 2025">
-<meta property="og:description" content="The Universitas Nasional Festival 2025 (UNAS FEST 2025) is one of the annual events held to commemorate and celebrate the 76th anniversary of Dies Natalis.">
+<meta property="og:title" content="Caturnawa UNAS FEST 2025 - The Universitas Nasional Festival 2025">
+<meta property="og:description" content="The Universitas Nasional Festival 2025 (Caturnawa UNAS FEST 2025) is one of the annual events held to commemorate and celebrate the 76th anniversary of Dies Natalis.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{{ url('/') }}">
 <meta property="og:image" content="{{ asset('assets/images/og/unas-fest-2025-og.jpg') }}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:site_name" content="UNAS Fest 2025">
+<meta property="og:site_name" content="Caturnawa UNAS FEST 2025">
 <meta property="og:locale" content="id_ID">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="UNAS Fest 2025 - The Universitas Nasional Festival 2025">
-<meta name="twitter:description" content="The Universitas Nasional Festival 2025 (UNAS FEST 2025) is one of the annual events held to commemorate and celebrate the 76th anniversary of Dies Natalis.">
+<meta name="twitter:title" content="Caturnawa UNAS FEST 2025 - The Universitas Nasional Festival 2025">
+<meta name="twitter:description" content="The Universitas Nasional Festival 2025 (Caturnawa UNAS FEST 2025) is one of the annual events held to commemorate and celebrate the 76th anniversary of Dies Natalis.">
 <meta name="twitter:image" content="{{ asset('assets/images/og/unas-fest-2025-twitter.jpg') }}">
 <meta name="twitter:creator" content="@unasfest">
 
@@ -43,8 +43,8 @@
 {
   "@context": "https://schema.org",
   "@type": "Event",
-  "name": "UNAS Fest 2025",
-  "description": "The Universitas Nasional Festival 2025 (UNAS FEST 2025) is one of the annual events held to commemorate and celebrate the 76th anniversary of Dies Natalis",
+  "name": "Caturnawa UNAS FEST 2025",
+  "description": "The Universitas Nasional Festival 2025 (Caturnawa UNAS FEST 2025) is one of the annual events held to commemorate and celebrate the 76th anniversary of Dies Natalis",
   "startDate": "2025-01-01",
   "endDate": "2025-03-30",
   "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
@@ -102,17 +102,17 @@
 
                     <!-- Subtitle -->
                     <p class="hero-subtitle font-poppins" data-aos="fade-up" data-aos-delay="600">
-                        The Universitas Nasional Festival 2025 (UNAS FEST 2025) is one of the annual events held to commemorate and celebrate the 76th anniversary of Dies Natalis
+                        The Universitas Nasional Festival 2025 (Caturnawa UNAS FEST 2025) is one of the annual events held to commemorate and celebrate the 76th anniversary of Dies Natalis
                     </p>
                     
                     <!-- CTA Buttons -->
                     <div class="hero-actions" data-aos="fade-up" data-aos-delay="800">
-                        <a href="{{ route('public.competitions') }}" class="btn btn-primary btn-cta" aria-label="Daftar kompetisi UNAS Fest 2025">
-                            <span class="btn-text">Daftar Kompetisi</span>
+                        <a href="{{ route('public.competitions') }}" class="btn btn-primary btn-cta" aria-label="Register kompetisi UNAS FEST 2025">
+                            <span class="btn-text">Register Competitions</span>
                             <i class="bi bi-arrow-right"></i>
                         </a>
-                        <a href="#kompetisi" class="btn btn-outline btn-cta" aria-label="Lihat informasi kompetisi">
-                            <span class="btn-text">Lihat Kompetisi</span>
+                        <a href="#kompetisi" class="btn btn-outline btn-cta" aria-label="View competition information">
+                            <span class="btn-text">View Competitions</span>
                             <i class="bi bi-play-circle"></i>
                         </a>
                     </div>
@@ -122,7 +122,7 @@
                         <div class="info-item">
                             <i class="bi bi-trophy"></i>
                             <div>
-                                <span class="info-label">Hadiah</span>
+                                <span class="info-label">Prize</span>
                                 <span class="info-value">menanti</span>
                             </div>
                         </div>
@@ -142,7 +142,7 @@
                     <!-- Main Illustration -->
                     <div class="hero-illustration">
                         <img src="{{ asset('assets/images/hero/hero-2025.webp') }}" 
-                             alt="UNAS Fest 2025 - Festival Kompetisi Nasional" 
+                             alt="Caturnawa UNAS FEST 2025 - Festival Competitions Nasional" 
                              class="hero-image"
                              loading="eager"
                              width="600"
@@ -157,7 +157,7 @@
                             </div>
                             <div class="stat-content">
                                 <span class="stat-number">5</span>
-                                <span class="stat-label">Kompetisi</span>
+                                <span class="stat-label">Competitions</span>
                             </div>
                         </div>
 
@@ -178,8 +178,8 @@
     
     <!-- Scroll Indicator -->
     <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="2000">
-        <a href="#stats" class="scroll-link" aria-label="Scroll ke statistik">
-            <span>Scroll untuk lebih banyak</span>
+        <a href="#stats" class="scroll-link" aria-label="Scroll to statistics">
+            <span>Scroll for more</span>
             <div class="scroll-arrow">
                 <i class="bi bi-chevron-down"></i>
             </div>
@@ -191,8 +191,8 @@
 <section id="stats" class="stats-section">
     <div class="container">
         <div class="section-header text-center" data-aos="fade-up">
-            <h2 class="section-title font-poppins fw-bold">Mengapa UNAS Fest 2025?</h2>
-            <p class="section-subtitle font-poppins">The Universitas Nasional Festival 2025 (UNAS FEST 2025) is one of the annual events held to commemorate and celebrate the 76th anniversary of Dies Natalis</p>
+            <h2 class="section-title font-poppins fw-bold">Mengapa Caturnawa UNAS FEST 2025?</h2>
+            <p class="section-subtitle font-poppins">The Universitas Nasional Festival 2025 (Caturnawa UNAS FEST 2025) is one of the annual events held to commemorate and celebrate the 76th anniversary of Dies Natalis</p>
         </div>
         
         <div class="row g-4">
@@ -203,7 +203,7 @@
                     </div>
                     <div class="stats-content">
                         <h3 class="stats-number counter" data-target="5">0</h3>
-                        <p class="stats-label">Kompetisi Tersedia</p>
+                        <p class="stats-label">Competitions Tersedia</p>
                         <div class="stats-bar">
                             <div class="progress-fill" data-progress="100"></div>
                         </div>
@@ -237,11 +237,11 @@
         <div class="section-header text-center" data-aos="fade-up">
             <div class="section-badge">
                 <i class="bi bi-trophy"></i>
-                <span>Kompetisi UnasFest</span>
+                <span>Competitions UnasFest</span>
             </div>
-            <h2 class="section-title font-poppins fw-bold">Kompetisi UNAS Fest 2025</h2>
+            <h2 class="section-title font-poppins fw-bold">kompetisi UNAS FEST 2025</h2>
             <p class="section-subtitle font-poppins">
-                The Universitas Nasional Festival 2025 (UNAS FEST 2025) is one of the annual events held to commemorate and celebrate the 76th anniversary of Dies Natalis
+                The Universitas Nasional Festival 2025 (Caturnawa UNAS FEST 2025) is one of the annual events held to commemorate and celebrate the 76th anniversary of Dies Natalis
             </p>
         </div>
 
@@ -253,7 +253,7 @@
                             <div class="card-icon">
                                 <i class="bi bi-trophy-fill"></i>
                             </div>
-                            <div class="card-badge">{{ $competition->category ?? 'Kompetisi' }}</div>
+                            <div class="card-badge">{{ $competition->category ?? 'Competitions' }}</div>
                         </div>
 
                         <div class="card-image">
@@ -273,23 +273,23 @@
                         <div class="card-content">
                             <h3 class="card-title font-poppins">{{ $competition->name }}</h3>
                             <p class="card-description">
-                                {{ Str::limit($competition->description ?? 'Bergabunglah dalam kompetisi bergengsi ini dan tunjukkan kemampuan terbaik Anda.', 120) }}
+                                {{ Str::limit($competition->description ?? 'Join this prestigious competition and showcase your best abilities.', 120) }}
                             </p>
 
                             <div class="card-stats">
                                 <div class="stat-item">
-                                    <span class="stat-value">{{ $competition->price ? 'Rp ' . number_format($competition->price, 0, ',', '.') : 'Gratis' }}</span>
-                                    <span class="stat-label">Biaya Pendaftaran</span>
+                                    <span class="stat-value">{{ $competition->price ? 'Rp ' . number_format($competition->price, 0, ',', '.') : 'Free' }}</span>
+                                    <span class="stat-label">Biaya Registration</span>
                                 </div>
                                 <div class="stat-divider"></div>
                                 <div class="stat-item">
                                     <span class="stat-value">{{ $competition->max_participants ?? '∞' }}</span>
-                                    <span class="stat-label">Max Peserta</span>
+                                    <span class="stat-label">Max Participants</span>
                                 </div>
                             </div>
 
                             <a href="{{ route('public.competition.detail', $competition->slug) }}" class="card-button">
-                                <span>Lihat Detail</span>
+                                <span>View Details</span>
                                 <i class="bi bi-arrow-right"></i>
                             </a>
                         </div>
@@ -299,8 +299,8 @@
                 <div class="col-12">
                     <div class="text-center py-5">
                         <i class="bi bi-trophy fs-1 text-muted mb-3"></i>
-                        <h4 class="text-muted">Belum Ada Kompetisi</h4>
-                        <p class="text-muted">Kompetisi akan segera dibuka. Pantau terus website ini!</p>
+                        <h4 class="text-muted">Belum Ada Competitions</h4>
+                        <p class="text-muted">Competitions akan segera dibuka. Pantau terus website ini!</p>
                     </div>
                 </div>
             @endforelse
@@ -1320,7 +1320,7 @@ if ('serviceWorker' in navigator) {
         <div class="section-header text-center" data-aos="fade-up">
             <div class="section-badge">
                 <i class="bi bi-chat-heart"></i>
-                <span>Testimoni Peserta</span>
+                <span>Participant Testimonials</span>
             </div>
             <h2 class="section-title">Apa Kata Mereka?</h2>
             <p class="section-subtitle">
@@ -1341,7 +1341,7 @@ if ('serviceWorker' in navigator) {
                         </div>
                         <p class="testimonial-text">
                             "Caturnawa benar-benar mengubah cara saya berpikir dan berbicara. 
-                            Kompetisi debat yang berkualitas dengan juri yang profesional."
+                            Competitions debat yang berkualitas dengan juri yang profesional."
                         </p>
                     </div>
                     <div class="testimonial-author">
@@ -1414,20 +1414,20 @@ if ('serviceWorker' in navigator) {
 <section id="cta" class="cta-section section">
     <div class="container">
         <div class="cta-content" data-aos="zoom-in">
-            <h2 class="cta-title">Siap Berkompetisi?</h2>
+            <h2 class="cta-title">Ready to Compete?</h2>
             <p class="cta-description">
-                Jangan lewatkan kesempatan emas untuk menunjukkan kemampuan terbaik Anda. 
-                Bergabunglah dengan ribuan peserta lainnya dalam festival kompetisi nasional terbesar di Indonesia.
+                Don't miss this golden opportunity to showcase your best abilities.
+                Join thousands of other participants in Indonesia's largest national competition festival.
             </p>
             
             <div class="cta-features">
                 <div class="feature-item">
                     <i class="bi bi-check-circle-fill"></i>
-                    <span>Pendaftaran Online Mudah</span>
+                    <span>Registration Online Mudah</span>
                 </div>
                 <div class="feature-item">
                     <i class="bi bi-shield-check"></i>
-                    <span>Pembayaran Aman</span>
+                    <span>Payment Aman</span>
                 </div>
                 <div class="feature-item">
                     <i class="bi bi-headset"></i>
@@ -1441,7 +1441,7 @@ if ('serviceWorker' in navigator) {
             
             <div class="cta-actions">
                 <a href="{{ route('register') }}" class="btn btn-cta-primary btn-xl">
-                    <span>Daftar Sekarang</span>
+                    <span>Register Sekarang</span>
                     <i class="bi bi-arrow-right"></i>
                 </a>
                 <a href="{{ route('public.competitions') }}" class="btn btn-cta-outline btn-xl">
@@ -1485,23 +1485,23 @@ if ('serviceWorker' in navigator) {
                         </button>
                         <div id="faq1" class="faq-answer collapse">
                             <div class="faq-content">
-                                Pendaftaran dapat dilakukan melalui website resmi dengan mengisi formulir online, 
-                                mengunggah dokumen yang diperlukan, dan melakukan pembayaran biaya pendaftaran. 
-                                Proses pendaftaran sangat mudah dan dapat diselesaikan dalam beberapa menit.
+                                Registration can be done through the official website by filling out an online form,
+                                uploading required documents, and making registration fee payment.
+                                The registration process is very easy and can be completed in a few minutes.
                             </div>
                         </div>
                     </div>
                     
                     <div class="faq-item">
                         <button class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq2">
-                            <span>Berapa biaya pendaftaran untuk setiap kompetisi?</span>
+                            <span>What is the registration fee for each competition?</span>
                             <i class="bi bi-chevron-down"></i>
                         </button>
                         <div id="faq2" class="faq-answer collapse">
                             <div class="faq-content">
-                                Biaya pendaftaran bervariasi: KDBI Rp 150.000, EDC Rp 125.000, 
-                                Short Movie Rp 100.000, dan Scientific Paper Rp 75.000. 
-                                Biaya sudah termasuk kit peserta, sertifikat, dan konsumsi selama acara.
+                                Registration fees vary: KDBI Rp 150,000, EDC Rp 125,000,
+                                Short Movie Rp 100,000, and Scientific Paper Rp 75,000.
+                                The fee includes participant kit, certificate, and meals during the event.
                             </div>
                         </div>
                     </div>
@@ -1513,9 +1513,9 @@ if ('serviceWorker' in navigator) {
                         </button>
                         <div id="faq3" class="faq-answer collapse">
                             <div class="faq-content">
-                                Kompetisi terbuka untuk mahasiswa aktif dari universitas/institut di seluruh Indonesia. 
-                                Peserta harus memiliki Kartu Tanda Mahasiswa (KTM) yang masih berlaku dan 
-                                surat keterangan aktif kuliah dari institusi masing-masing.
+                                Competitions are open to active students from universities/institutes throughout Indonesia.
+                                Participants must have a valid Student Identity Card (KTM) and
+                                an active study certificate from their respective institutions.
                             </div>
                         </div>
                     </div>
@@ -1527,9 +1527,9 @@ if ('serviceWorker' in navigator) {
                         </button>
                         <div id="faq4" class="faq-answer collapse">
                             <div class="faq-content">
-                                Ya, peserta diperbolehkan mendaftar maksimal 2 kompetisi dengan membayar 
-                                biaya pendaftaran untuk masing-masing kompetisi. Namun, pastikan jadwal 
-                                kompetisi tidak bertabrakan.
+                                Yes, participants are allowed to register for a maximum of 2 competitions by paying
+                                the registration fee for each competition. However, make sure the competition
+                                schedules do not conflict.
                             </div>
                         </div>
                     </div>
@@ -1554,7 +1554,7 @@ if ('serviceWorker' in navigator) {
                     <p class="text-muted mb-4">Masih ada pertanyaan lain?</p>
                     <a href="{{ route('public.contact') }}" class="btn btn-primary">
                         <i class="bi bi-chat-dots"></i>
-                        <span>Hubungi Kami</span>
+                        <span>Contact Kami</span>
                     </a>
                 </div>
             </div>
@@ -1827,7 +1827,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const distance = targetDate.getTime() - now;
             
             if (distance < 0) {
-                element.innerHTML = '<span class="countdown-expired">Pendaftaran telah berakhir</span>';
+                element.innerHTML = '<span class="countdown-expired">Registration telah berakhir</span>';
                 return;
             }
             
@@ -1839,19 +1839,19 @@ document.addEventListener('DOMContentLoaded', function() {
             element.innerHTML = `
                 <div class="countdown-item">
                     <span class="countdown-number">${days}</span>
-                    <span class="countdown-label">Hari</span>
+                    <span class="countdown-label">Days</span>
                 </div>
                 <div class="countdown-item">
                     <span class="countdown-number">${hours}</span>
-                    <span class="countdown-label">Jam</span>
+                    <span class="countdown-label">Hours</span>
                 </div>
                 <div class="countdown-item">
                     <span class="countdown-number">${minutes}</span>
-                    <span class="countdown-label">Menit</span>
+                    <span class="countdown-label">Minutes</span>
                 </div>
                 <div class="countdown-item">
                     <span class="countdown-number">${seconds}</span>
-                    <span class="countdown-label">Detik</span>
+                    <span class="countdown-label">Seconds</span>
                 </div>
             `;
         };

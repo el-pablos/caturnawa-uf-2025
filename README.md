@@ -1,5 +1,5 @@
 <<<<<<<<< Temporary merge branch 1
-# 🏆 UNAS Fest 2025 - Competition Management System
+# 🏆 Caturnawa UNAS FEST 2025 - Competition Management System
 
 <div align="center">
 
@@ -44,7 +44,7 @@
 
 ## 🎯 Project Overview
 
-**UNAS Fest 2025** adalah platform manajemen kompetisi modern yang dibangun dengan teknologi terdepan untuk mendukung berbagai jenis kompetisi akademik dan non-akademik. Sistem ini dirancang untuk memberikan pengalaman yang seamless bagi peserta, juri, dan administrator.
+**Caturnawa UNAS FEST 2025** adalah platform manajemen kompetisi modern yang dibangun dengan teknologi terdepan untuk mendukung berbagai jenis kompetisi akademik dan non-akademik. Sistem ini dirancang untuk memberikan pengalaman yang seamless bagi peserta, juri, dan administrator.
 
 ### 🎨 Design Philosophy
 
@@ -61,7 +61,7 @@
 
 ```mermaid
 mindmap
-  root((UNAS Fest 2025))
+  root((Caturnawa UNAS FEST 2025))
     (Competition Management)
       Multi-category Support
       Dynamic Pricing
@@ -483,7 +483,7 @@ sudo chmod -R 755 storage bootstrap/cache
 
 ```env
 # Application
-APP_NAME="UNAS Fest 2025"
+APP_NAME="Caturnawa UNAS FEST 2025"
 APP_ENV=production
 APP_KEY=base64:your_generated_key_here
 APP_DEBUG=false
@@ -1040,7 +1040,7 @@ php artisan storage:link
 #!/bin/bash
 # health-check.sh
 
-echo "🔍 UNAS Fest 2025 Health Check"
+echo "🔍 Caturnawa UNAS FEST 2025 Health Check"
 echo "================================"
 
 # Check web server
@@ -1127,7 +1127,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 <div align="center">
 
-**🏆 UNAS Fest 2025 Development Team**
+**🏆 Caturnawa UNAS FEST 2025 Development Team**
 
 [![GitHub](https://img.shields.io/badge/GitHub-el--pablos-black?style=flat-square&logo=github)](https://github.com/el-pablos)
 [![Email](https://img.shields.io/badge/Email-yeteprem.end23juni%40gmail.com-red?style=flat-square&logo=gmail)](mailto:yeteprem.end23juni@gmail.com)
@@ -1144,12 +1144,12 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 =========
 <div align="center">
 
-# 🏆 UNAS Fest 2025 - Caturnawa
+# 🏆 Caturnawa UNAS FEST 2025 - Caturnawa
 ### *Platform Kompetisi Universitas Nasional Festival*
 
 ---
 
-[![UNAS Fest 2025](https://img.shields.io/badge/UNAS%20Fest-2025-FF6B35?style=for-the-badge&logo=trophy&logoColor=white)](https://github.com/el-pablos/caturnawa-uf-2025)
+[![Caturnawa UNAS FEST 2025](https://img.shields.io/badge/UNAS%20Fest-2025-FF6B35?style=for-the-badge&logo=trophy&logoColor=white)](https://github.com/el-pablos/caturnawa-uf-2025)
 [![Laravel](https://img.shields.io/badge/Laravel-10.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
 [![PHP](https://img.shields.io/badge/PHP-8.3+-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docker.com)
@@ -1197,11 +1197,11 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 <div align="center">
 
-### 🏆 **UNAS Fest 2025** adalah platform kompetisi digital terdepan yang dibangun dengan teknologi modern
+### 🏆 **Caturnawa UNAS FEST 2025** adalah platform kompetisi digital terdepan yang dibangun dengan teknologi modern
 
 </div>
 
-**UNAS Fest 2025** merupakan platform kompetisi komprehensif yang dikembangkan menggunakan **Laravel 10** dan **Bootstrap 5**. Sistem ini mendukung integrasi pembayaran Midtrans, kontrol akses berbasis peran, dashboard analitik, dan menawarkan tiga mode deployment yang fleksibel: Infrastructure Only, Full Docker Development, dan Full Docker Production.
+**Caturnawa UNAS FEST 2025** merupakan platform kompetisi komprehensif yang dikembangkan menggunakan **Laravel 10** dan **Bootstrap 5**. Sistem ini mendukung integrasi pembayaran Midtrans, kontrol akses berbasis peran, dashboard analitik, dan menawarkan tiga mode deployment yang fleksibel: Infrastructure Only, Full Docker Development, dan Full Docker Production.
 
 ### 🎯 **Visi & Misi**
 
@@ -2728,7 +2728,7 @@ nano .env  # atau editor favorit Anda
 **📋 Konfigurasi Wajib:**
 ```env
 # Aplikasi
-APP_NAME="UNAS Fest 2025"
+APP_NAME="Caturnawa UNAS FEST 2025"
 APP_ENV=local
 APP_DEBUG=true
 APP_URL=http://localhost:8000
@@ -2772,7 +2772,7 @@ nano .env
 **📋 Konfigurasi Wajib:**
 ```env
 # Aplikasi
-APP_NAME="UNAS Fest 2025"
+APP_NAME="Caturnawa UNAS FEST 2025"
 APP_ENV=production
 APP_DEBUG=false
 APP_URL=http://localhost:8000
@@ -3825,7 +3825,7 @@ curl -I http://localhost:8000/health
 
 ```env
 # Aplikasi
-APP_NAME="UNAS Fest 2025"
+APP_NAME="Caturnawa UNAS FEST 2025"
 APP_ENV=production
 APP_DEBUG=false
 APP_URL=https://yourdomain.com
@@ -4332,7 +4332,7 @@ Proyek ini dilisensikan di bawah MIT License - lihat file [LICENSE](LICENSE) unt
 - Laravel Community
 - Docker Community
 - PHP Community
-- UNAS Fest 2025 Team
+- Caturnawa UNAS FEST 2025 Team
 
 </td>
 </tr>
@@ -4464,7 +4464,7 @@ Proyek ini dilisensikan di bawah MIT License - lihat file [LICENSE](LICENSE) unt
 </details>
 
 =======
-# 🏆 UNAS Fest 2025 - Competition Management System
+# 🏆 Caturnawa UNAS FEST 2025 - Competition Management System
 
 <div align="center">
 
@@ -4509,7 +4509,7 @@ Proyek ini dilisensikan di bawah MIT License - lihat file [LICENSE](LICENSE) unt
 
 ## 🎯 Project Overview
 
-**UNAS Fest 2025** adalah platform manajemen kompetisi modern yang dibangun dengan teknologi terdepan untuk mendukung berbagai jenis kompetisi akademik dan non-akademik. Sistem ini dirancang untuk memberikan pengalaman yang seamless bagi peserta, juri, dan administrator.
+**Caturnawa UNAS FEST 2025** adalah platform manajemen kompetisi modern yang dibangun dengan teknologi terdepan untuk mendukung berbagai jenis kompetisi akademik dan non-akademik. Sistem ini dirancang untuk memberikan pengalaman yang seamless bagi peserta, juri, dan administrator.
 
 ### 🎨 Design Philosophy
 
@@ -4526,7 +4526,7 @@ Proyek ini dilisensikan di bawah MIT License - lihat file [LICENSE](LICENSE) unt
 
 ```mermaid
 mindmap
-  root((UNAS Fest 2025))
+  root((Caturnawa UNAS FEST 2025))
     (Competition Management)
       Multi-category Support
       Dynamic Pricing
@@ -4948,7 +4948,7 @@ sudo chmod -R 755 storage bootstrap/cache
 
 ```env
 # Application
-APP_NAME="UNAS Fest 2025"
+APP_NAME="Caturnawa UNAS FEST 2025"
 APP_ENV=production
 APP_KEY=base64:your_generated_key_here
 APP_DEBUG=false
@@ -5505,7 +5505,7 @@ php artisan storage:link
 #!/bin/bash
 # health-check.sh
 
-echo "🔍 UNAS Fest 2025 Health Check"
+echo "🔍 Caturnawa UNAS FEST 2025 Health Check"
 echo "================================"
 
 # Check web server
@@ -5592,7 +5592,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 <div align="center">
 
-**🏆 UNAS Fest 2025 Development Team**
+**🏆 Caturnawa UNAS FEST 2025 Development Team**
 
 [![GitHub](https://img.shields.io/badge/GitHub-el--pablos-black?style=flat-square&logo=github)](https://github.com/el-pablos)
 [![Email](https://img.shields.io/badge/Email-yeteprem.end23juni%40gmail.com-red?style=flat-square&logo=gmail)](mailto:yeteprem.end23juni@gmail.com)
@@ -5611,7 +5611,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 <div align="center">
 
-## 🌟 **UNAS Fest 2025 - Caturnawa**
+## 🌟 **Caturnawa UNAS FEST 2025 - Caturnawa**
 
 ### 🏆 *Menghubungkan Talenta Terbaik Indonesia dalam Satu Ekosistem Digital*
 
@@ -5620,7 +5620,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 [![Made with ❤️](https://img.shields.io/badge/Made%20with-❤️-red?style=for-the-badge)](https://github.com/el-pablos/caturnawa-uf-2025)
 [![Laravel](https://img.shields.io/badge/Powered%20by-Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
 [![Docker](https://img.shields.io/badge/Containerized%20with-Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docker.com)
-**© 2024 UNAS Fest 2025. All rights reserved.**
+**© 2024 Caturnawa UNAS FEST 2025. All rights reserved.**
 
 ---
 
@@ -5631,6 +5631,6 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ---
 
-**🎉 UNAS Fest 2025 - Caturnawa**
+**🎉 Caturnawa UNAS FEST 2025 - Caturnawa**
 
 *Ready for development and production deployment with maximum flexibility and cross-platform compatibility!* 🚀

@@ -13,7 +13,7 @@
             </div>
             
             <h1 class="text-4xl md:text-5xl font-clash font-bold mb-6">
-                Tim <span class="text-gradient-accent">UNAS Fest 2025</span>
+                Tim <span class="text-gradient-accent">Caturnawa UNAS FEST 2025</span>
             </h1>
             
             <p class="text-xl text-gray-300 leading-relaxed">
@@ -31,7 +31,7 @@
                 Tim Kepemimpinan
             </h2>
             <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                Para pemimpin berpengalaman yang memandu visi dan misi UNAS Fest 2025
+                Para pemimpin berpengalaman yang memandu visi dan misi Caturnawa UNAS FEST 2025
             </p>
         </div>
         
