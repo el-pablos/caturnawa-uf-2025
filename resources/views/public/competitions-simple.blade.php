@@ -301,7 +301,7 @@
     <div class="row mt-5 mb-5">
         <div class="col-12 mb-4">
             <div class="text-center" data-aos="fade-up">
-                <h2 class="fw-bold text-primary">
+                <h2 class="fw-bold" style="color: #667eea;">
                     <i class="bi bi-stopwatch me-2"></i>Countdown Caturnawa UNAS FEST 2025
                 </h2>
                 <p class="text-muted">Towards Grand Final & Awarding Ceremony</p>
@@ -343,7 +343,7 @@
         <div class="row mt-5" id="competitions-list">
             <div class="col-12 mb-4">
                 <div class="text-center" data-aos="fade-up">
-                    <h2 class="fw-bold text-primary">
+                    <h2 class="fw-bold" style="color: #667eea;">
                         <i class="bi bi-trophy me-2"></i>Available Competitions
                     </h2>
                     <p class="text-muted">Choose competitions that match your interests and expertise</p>
@@ -382,7 +382,7 @@
                                 <a href="{{ route('register') }}" class="btn btn-success">
                                     <i class="bi bi-person-plus"></i> Register Now
                                 </a>
-                            @else
+                            @else 
                                 <button class="btn btn-secondary" disabled>
                                     <i class="bi bi-clock"></i>
                                     @if($competition->registration_start > now())

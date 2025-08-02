@@ -786,7 +786,7 @@
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="footer-section">
                             <h5>Caturnawa UNAS FEST 2025</h5>
-                            <p>Festival Competitions Nasional terbesar di Indonesia yang menggabungkan inovasi teknologi, kesehatan, dan biodiversitas untuk membentuk masa depan bangsa.</p>
+                            <p>The largest national festival competition in Indonesia that combines technological innovation, health, and biodiversity to shape the future of the nation.</p>
                             <div class="social-links">
                                 <a href="https://facebook.com/unasfest" class="social-link" target="_blank" rel="noopener">
                                     <i class="bi bi-facebook"></i>
@@ -814,9 +814,9 @@
                                 <li><a href="{{ route('public.competitions') }}#kdbi"><i class="bi bi-chat-square-text"></i>KDBI</a></li>
                                 <li><a href="{{ route('public.competitions') }}#edc"><i class="bi bi-globe"></i>EDC</a></li>
                                 <li><a href="{{ route('public.competitions') }}#short-movie"><i class="bi bi-camera-video"></i>Short Movie</a></li>
-                                <li><a href="{{ route('public.competitions') }}#infografis"><i class="bi bi-bar-chart"></i>Infografis</a></li>
-                                <li><a href="{{ route('public.competitions') }}#karya-ilmiah"><i class="bi bi-journal-text"></i>Karya Ilmiah</a></li>
-                                <li><a href="{{ route('public.competitions') }}"><i class="bi bi-trophy"></i>Semua Competitions</a></li>
+                                <li><a href="{{ route('public.competitions') }}#infografis"><i class="bi bi-bar-chart"></i>Infographics</a></li>
+                                <li><a href="{{ route('public.competitions') }}#karya-ilmiah"><i class="bi bi-journal-text"></i>Scientific Work</a></li>
+                                <li><a href="{{ route('public.competitions') }}"><i class="bi bi-trophy"></i>All Competitions</a></li>
                                 <li><a href="{{ route('leaderboard.index') }}"><i class="bi bi-list-ol"></i>Leaderboard</a></li>
                             </ul>
                         </div>
@@ -824,12 +824,12 @@
                     
                     <div class="col-lg-2 col-md-6 mb-4">
                         <div class="footer-section">
-                            <h5>Informasi</h5>
+                            <h5>Information</h5>
                             <ul>
-                                <li><a href="{{ route('public.about') }}"><i class="bi bi-info-circle"></i>About Kami</a></li>
+                                <li><a href="{{ route('public.about') }}"><i class="bi bi-info-circle"></i>About Us</a></li>
                                 <li><a href="{{ route('public.faq') }}"><i class="bi bi-question-circle"></i>FAQ</a></li>
-                                <li><a href="{{ route('public.terms') }}"><i class="bi bi-file-text"></i>Syarat & Ketentuan</a></li>
-                                <li><a href="{{ route('public.privacy') }}"><i class="bi bi-shield-check"></i>Kebijakan Privasi</a></li>
+                                <li><a href="{{ route('public.terms') }}"><i class="bi bi-file-text"></i>Terms & Conditions</a></li>
+                                <li><a href="{{ route('public.privacy') }}"><i class="bi bi-shield-check"></i>Privacy Policy</a></li>
                             </ul>
                         </div>
                     </div>
@@ -840,7 +840,7 @@
                             <ul>
                                 <li><a href="mailto:info@unasfest.com"><i class="bi bi-envelope"></i>info@unasfest.com</a></li>
                                 <li><a href="tel:0882-1944-5100"><i class="bi bi-telephone"></i>0882-1944-5100</a></li>
-                                <li><a href="{{ route('public.contact') }}"><i class="bi bi-chat-dots"></i>Contact Kami</a></li>
+                                <li><a href="{{ route('public.contact') }}"><i class="bi bi-chat-dots"></i>Contact Us</a></li>
                                 <li><a href="https://wa.me/6288219445100" target="_blank"><i class="bi bi-whatsapp"></i>WhatsApp</a></li>
                             </ul>
                         </div>
@@ -870,16 +870,16 @@
                                 <div class="counter-grid">
                                     <div class="counter-item">
                                         <span class="counter-number" data-target="{{ $visitorStats['today'] ?? 0 }}">0</span>
-                                        <span class="counter-label">Days Ini</span>
+                                        <span class="counter-label">Days</span>
                                     </div>
                                     <div class="counter-item">
                                         <span class="counter-number" data-target="{{ $visitorStats['this_week'] ?? 0 }}">0</span>
-                                        <span class="counter-label">Minggu Ini</span>
+                                        <span class="counter-label">Weeks</span>
                                     </div>
                                 </div>
                                 <div class="total-visitors">
                                     <span class="counter-number" data-target="{{ $visitorStats['total'] ?? 0 }}">0</span>
-                                    <span class="counter-label">Total Pengunjung</span>
+                                    <span class="counter-label">Total Visitors</span>
                                 </div>
                             </div>
                         </div>
@@ -892,10 +892,10 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6 text-md-start text-center mb-2 mb-md-0">
-                        <p>&copy; 2025 <a href="{{ route('public.home') }}">UNAS FEST</a>. Seluruh hak cipta dilindungi.</p>
+                        <p>&copy; 2025 <a href="{{ route('public.home') }}">UNAS FEST</a>. All rights reserved.</p>
                     </div>
                     <div class="col-md-6 text-md-end text-center">
-                        <p>Dikembangkan oleh <a href="https://unasfest.com" target="_blank">Tim UNAS FEST</a></p>
+                        <p>Developed by <a href="https://unasfest.com" target="_blank">UNAS FEST Team</a></p>
                     </div>
                 </div>
             </div>

@@ -15,20 +15,20 @@
                     <div class="floating-icon mb-4">
                         <i class="bi bi-chat-heart me-3"></i>
                     </div>
-                    <h1 class="modern-title mb-4">Testimoni
+                    <h1 class="modern-title mb-4">Testimonials
                     </h1>
                     <p class="modern-subtitle lead mb-4">
-                        Dengarkan pengalaman dan cerita inspiratif dari para peserta UNAS FEST yang telah merasakan transformasi melalui kompetisi nasional terbesar ini
+                        Listen to the experiences and inspiring stories of UNAS FEST participants who have undergone transformation through this largest national competition.
                     </p>
                     <div class="row justify-content-center">
                         <div class="col-md-3 mb-3">
                             <a href="{{ route('public.competitions') }}" class="btn modern-btn btn-auto w-100">
-                                <i class="bi bi-trophy me-2"></i>Lihat Kompetisi
+                                <i class="bi bi-trophy me-2"></i>See Competition
                             </a>
                         </div>
                         <div class="col-md-3 mb-3">
                             <a href="#add-testimonial" class="btn modern-btn-outline btn-auto w-100">
-                                <i class="bi bi-plus-circle me-2"></i>Beri Testimoni
+                                <i class="bi bi-plus-circle me-2"></i>Give Testimonials
                             </a>
                         </div>
                     </div>
@@ -44,7 +44,7 @@
                 <div class="card-body">
                     <i class="bi bi-star-fill text-warning" style="font-size: 2rem;"></i>
                     <h3 class="mt-2">4.8/5</h3>
-                    <p class="text-muted">Rating Rata-rata</p>
+                    <p class="text-muted">Average Rating</p>
                 </div>
             </div>
         </div>
@@ -53,7 +53,7 @@
                 <div class="card-body">
                     <i class="bi bi-chat-dots-fill text-primary" style="font-size: 2rem;"></i>
                     <h3 class="mt-2">{{ count($testimonials) }}+</h3>
-                    <p class="text-muted">Testimoni Peserta</p>
+                    <p class="text-muted">Participant Testimonials</p>
                 </div>
             </div>
         </div>
@@ -65,7 +65,7 @@
         <div class="col-12">
             <h2 class="text-center mb-4">
                 <i class="bi bi-chat-quote text-primary"></i> 
-                Apa Kata Mereka?
+                What do they say?
             </h2>
         </div>
         @foreach($testimonials as $testimonial)
@@ -93,7 +93,7 @@
                     <div class="border-top pt-3">
                         <h6 class="fw-bold mb-1">{{ $testimonial['name'] }}</h6>
                         <small class="text-muted d-block">{{ $testimonial['institution'] }}</small>
-                        <small class="text-primary">Kompetisi {{ $testimonial['competition'] }} {{ $testimonial['year'] }}</small>
+                        <small class="text-primary">competition {{ $testimonial['competition'] }} {{ $testimonial['year'] }}</small>
                     </div>
                 </div>
             </div>
@@ -108,16 +108,16 @@
             <div class="card shadow">
                 <div class="card-header bg-success-modern text-white">
                     <h2 class="card-title mb-0">
-                        <i class="bi bi-plus-circle me-2"></i>Bagikan Pengalaman Anda
+                        <i class="bi bi-plus-circle me-2"></i>Share Your Experience
                     </h2>
-                    <p class="mb-0">Sudah pernah mengikuti UNAS Fest? Ceritakan pengalaman Anda untuk menginspirasi peserta lainnya!</p>
+                    <p class="mb-0">Share Your Experience Have you ever participated in UNAS Fest? Tell us about your experience to inspire other participants!</p>
                 </div>
                 <div class="card-body p-4">
                     <form action="{{ route('public.testimonials.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label for="name" class="form-label">Nama Lengkap</label>
+                                <label for="name" class="form-label">Full Name</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" 
                                        id="name" name="name" value="{{ old('name') }}" required>
                                 @error('name')
@@ -126,7 +126,7 @@
                             </div>
                             
                             <div class="col-md-6">
-                                <label for="institution" class="form-label">Institusi/Universitas</label>
+                                <label for="institution" class="form-label">Institutions/Universities</label>
                                 <input type="text" class="form-control @error('institution') is-invalid @enderror" 
                                        id="institution" name="institution" value="{{ old('institution') }}" required>
                                 @error('institution')
@@ -135,13 +135,13 @@
                             </div>
                             
                             <div class="col-md-6">
-                                <label for="competition" class="form-label">Kompetisi yang Diikuti</label>
+                                <label for="competition" class="form-label">Competitions Participated In</label>
                                 <select class="form-select @error('competition') is-invalid @enderror" 
                                         id="competition" name="competition" required>
-                                    <option value="">Pilih Kompetisi</option>
-                                    <option value="Teknologi" {{ old('competition') == 'Teknologi' ? 'selected' : '' }}>Teknologi</option>
-                                    <option value="Kesehatan" {{ old('competition') == 'Kesehatan' ? 'selected' : '' }}>Kesehatan</option>
-                                    <option value="Biodiversitas" {{ old('competition') == 'Biodiversitas' ? 'selected' : '' }}>Biodiversitas</option>
+                                    <option value="">Select Competition</option>
+                                    <option value="Teknologi" {{ old('competition') == 'Teknologi' ? 'selected' : '' }}>Technology</option>
+                                    <option value="Kesehatan" {{ old('competition') == 'Kesehatan' ? 'selected' : '' }}>Health</option>
+                                    <option value="Biodiversitas" {{ old('competition') == 'Biodiversitas' ? 'selected' : '' }}>Biodiversity</option>
                                 </select>
                                 @error('competition')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -149,10 +149,10 @@
                             </div>
                             
                             <div class="col-md-6">
-                                <label for="year" class="form-label">Tahun Mengikuti</label>
+                                <label for="year" class="form-label">Year of Enrollment</label>
                                 <select class="form-select @error('year') is-invalid @enderror" 
                                         id="year" name="year" required>
-                                    <option value="">Pilih Tahun</option>
+                                    <option value="">Select Year</option>
                                     @for($y = date('Y'); $y >= 2020; $y--)
                                         <option value="{{ $y }}" {{ old('year') == $y ? 'selected' : '' }}>{{ $y }}</option>
                                     @endfor
@@ -163,7 +163,7 @@
                             </div>
                             
                             <div class="col-12">
-                                <label for="rating" class="form-label">Rating Pengalaman</label>
+                                <label for="rating" class="form-label">Experience Rating</label>
                                 <div class="rating-input d-flex justify-content-center mb-3">
                                     @for($i = 5; $i >= 1; $i--)
                                         <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}" 
@@ -179,7 +179,7 @@
                             </div>
                             
                             <div class="col-12">
-                                <label for="comment" class="form-label">Testimoni Anda</label>
+                                <label for="comment" class="form-label">Your Testimonials</label>
                                 <textarea class="form-control @error('comment') is-invalid @enderror" 
                                           id="comment" name="comment" rows="4" 
                                           placeholder="Ceritakan pengalaman Anda mengikuti UNAS Fest..." required>{{ old('comment') }}</textarea>
@@ -189,10 +189,10 @@
                             </div>
                             
                             <div class="col-12">
-                                <label for="photo" class="form-label">Foto Profil (Opsional)</label>
+                                <label for="photo" class="form-label">Profile Photo (Optional)</label>
                                 <input type="file" class="form-control @error('photo') is-invalid @enderror" 
                                        id="photo" name="photo" accept="image/*">
-                                <div class="form-text">Format: JPG, PNG. Maksimal 2MB.</div>
+                                <div class="form-text">Format: JPG, PNG. Maximum 2MB.</div>
                                 @error('photo')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -200,7 +200,7 @@
                             
                             <div class="col-12 text-center">
                                 <button type="submit" class="btn btn-success-modern text-white btn-lg">
-                                    <i class="bi bi-send me-2"></i>Kirim Testimoni
+                                    <i class="bi bi-send me-2"></i>Send Testimonial
                                 </button>
                             </div>
                         </div>

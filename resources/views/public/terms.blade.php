@@ -4,7 +4,7 @@
     $seoPage = 'terms';
 @endphp
 
-@section('title', 'Syarat & Ketentuan - Caturnawa UNAS FEST 2025')
+@section('title', 'Terms & Conditions - Caturnawa UNAS FEST 2025')
 
 @section('content')
 <style>
@@ -200,10 +200,10 @@
                         <i class="bi bi-file-text"></i>
                     </div>
                     <h1 class="modern-title mb-4">
-                        Syarat & Ketentuan
+                        Terms & Conditions
                     </h1>
                     <p class="modern-subtitle mb-0">
-                        Mohon dibaca dengan seksama sebelum berpartisipasi dalam Caturnawa UNAS FEST 2025.
+                        Please read carefully before participating in Caturnawa UNAS FEST 2025.
                     </p>
                 </div>
             </div>
@@ -216,94 +216,94 @@
             <div class="glass-card">
                 <div class="glass-header p-4">
                     <h2 class="card-title mb-0 text-center fw-bold" style="color: #764ba2;">
-                        <i class="bi bi-file-earmark-text me-2"></i>Detail Syarat & Ketentuan
+                        <i class="bi bi-file-earmark-text me-2"></i>Terms & Conditions Details
                     </h2>
                 </div>
                 <div class="card-body p-5 terms-content">
                     <div class="mb-5">
-                        <h3 class="fw-bold">1. Penerimaan Syarat</h3>
+                        <h3 class="fw-bold">1. Acceptance of Terms</h3>
                         <p>
-                            Dengan mengakses dan menggunakan layanan Caturnawa UNAS FEST 2025, Anda menyetujui untuk terikat oleh syarat dan ketentuan ini. Jika Anda tidak setuju dengan syarat ini, mohon untuk tidak menggunakan layanan kami.
+                            By accessing and using the Caturnawa UNAS FEST 2025 services, you agree to be bound by these terms and conditions. If you do not agree to these terms, please do not use our services.
                         </p>
                     </div>
 
                     <div class="mb-5">
-                        <h3 class="fw-bold">2. Pendaftaran dan Akun</h3>
-                        <p>Untuk berpartisipasi dalam kompetisi, Anda harus:</p>
+                        <h3 class="fw-bold">2. Registration and Account</h3>
+                        <p>To participate in competitions, you must:</p>
                         <ul>
-                            <li>Memberikan informasi yang akurat dan lengkap</li>
-                            <li>Menjaga kerahasiaan akun dan password</li>
-                            <li>Bertanggung jawab atas semua aktivitas di akun Anda</li>
-                            <li>Segera melaporkan penggunaan akun yang tidak sah</li>
+                            <li>Provide accurate and complete information</li>
+                            <li>Maintain the confidentiality of your account and password</li>
+                            <li>Be responsible for all activities in your account</li>
+                            <li>Immediately report unauthorized account usage</li>
                         </ul>
                     </div>
 
                     <div class="mb-5">
-                        <h3 class="fw-bold">3. Aturan Kompetisi</h3>
-                        <p>Peserta kompetisi wajib:</p>
+                        <h3 class="fw-bold">3. Competition Rules</h3>
+                        <p>Competition participants must:</p>
                         <ul>
-                            <li>Mengikuti semua aturan dan panduan kompetisi</li>
-                            <li>Menyerahkan karya yang original dan tidak melanggar hak cipta</li>
-                            <li>Menghormati peserta lain dan panitia</li>
-                            <li>Menerima keputusan juri sebagai keputusan final</li>
-                            <li>Hadir pada acara yang diwajibkan</li>
+                            <li>Follow all competition rules and guidelines</li>
+                            <li>Submit original work that does not violate copyright</li>
+                            <li>Respect other participants and organizers</li>
+                            <li>Accept judges' decisions as final</li>
+                            <li>Attend mandatory events</li>
                         </ul>
                     </div>
 
                     <div class="mb-5">
-                        <h3 class="fw-bold">4. Hak Kekayaan Intelektual</h3>
+                        <h3 class="fw-bold">4. Intellectual Property Rights</h3>
                         <p>
-                            Peserta mempertahankan hak cipta atas karya mereka, namun memberikan izin kepada UNAS Fest untuk:
+                            Participants retain copyright to their work, but grant permission to UNAS Fest to:
                         </p>
                         <ul>
-                            <li>Menampilkan karya untuk keperluan penilaian</li>
-                            <li>Mempublikasikan karya pemenang untuk promosi</li>
-                            <li>Menggunakan karya untuk dokumentasi acara</li>
+                            <li>Display work for evaluation purposes</li>
+                            <li>Publish winning entries for promotion</li>
+                            <li>Use work for event documentation</li>
                         </ul>
                     </div>
 
                     <div class="mb-5">
-                        <h3 class="fw-bold">5. Pembayaran dan Pengembalian Dana</h3>
-                        <p>Ketentuan pembayaran:</p>
+                        <h3 class="fw-bold">5. Payment and Refunds</h3>
+                        <p>Payment terms:</p>
                         <ul>
-                            <li>Biaya pendaftaran harus dibayar sesuai jadwal</li>
-                            <li>Pembayaran yang telah dilakukan tidak dapat dikembalikan</li>
-                            <li>Pengecualian pengembalian dana hanya dalam kondisi tertentu</li>
-                            <li>Semua biaya tambahan menjadi tanggung jawab peserta</li>
+                            <li>Registration fees must be paid according to schedule</li>
+                            <li>Payments made are non-refundable</li>
+                            <li>Refund exceptions only under certain conditions</li>
+                            <li>All additional costs are the participant's responsibility</li>
                         </ul>
                     </div>
 
                     <div class="mb-5">
-                        <h3 class="fw-bold">6. Diskualifikasi</h3>
+                        <h3 class="fw-bold">6. Disqualification</h3>
                         <p>
-                            Panitia berhak mendiskualifikasi peserta yang:
+                            Organizers reserve the right to disqualify participants who:
                         </p>
                         <ul>
-                            <li>Melanggar aturan kompetisi</li>
-                            <li>Memberikan informasi palsu</li>
-                            <li>Melakukan plagiarisme atau pelanggaran hak cipta</li>
-                            <li>Berperilaku tidak pantas atau merugikan</li>
-                            <li>Tidak memenuhi persyaratan yang ditetapkan</li>
+                            <li>Violate competition rules</li>
+                            <li>Provide false information</li>
+                            <li>Commit plagiarism or copyright infringement</li>
+                            <li>Behave inappropriately or harmfully</li>
+                            <li>Fail to meet established requirements</li>
                         </ul>
                     </div>
 
                     <div class="mb-5">
-                        <h3 class="fw-bold">7. Batasan Tanggung Jawab</h3>
+                        <h3 class="fw-bold">7. Limitation of Liability</h3>
                         <p>
-                            UNAS Fest tidak bertanggung jawab atas:
+                            UNAS Fest is not responsible for:
                         </p>
                         <ul>
-                            <li>Kerugian yang timbul dari partisipasi dalam kompetisi</li>
-                            <li>Masalah teknis atau gangguan sistem</li>
-                            <li>Kehilangan atau kerusakan karya yang dikirimkan</li>
-                            <li>Perubahan jadwal atau pembatalan acara</li>
+                            <li>Losses arising from participation in competitions</li>
+                            <li>Technical problems or system disruptions</li>
+                            <li>Loss or damage to submitted work</li>
+                            <li>Schedule changes or event cancellations</li>
                         </ul>
                     </div>
 
                     <div class="mb-4">
-                        <h3 class="fw-bold">8. Perubahan Syarat</h3>
+                        <h3 class="fw-bold">8. Changes to Terms</h3>
                         <p>
-                            Kami berhak mengubah syarat dan ketentuan ini sewaktu-waktu. Perubahan akan diberitahukan melalui website resmi dan email terdaftar.
+                            We reserve the right to change these terms and conditions at any time. Changes will be notified through the official website and registered email.
                         </p>
                     </div>
                 </div>
@@ -312,21 +312,21 @@
 
                     <div class="text-center">
                         <p class="text-muted small mb-4">
-                            Syarat dan ketentuan ini terakhir diperbarui pada {{ date('d F Y') }}
+                            These terms and conditions were last updated on {{ date('F d, Y') }}
                         </p>
-                        <h3 class="fw-bold mb-4" style="color: #667eea;">Punya Pertanyaan Lain?</h3>
+                        <h3 class="fw-bold mb-4" style="color: #667eea;">Have Other Questions?</h3>
                         <p class="text-muted mb-4">
-                            Jika ada bagian dari syarat dan ketentuan yang kurang jelas, jangan ragu untuk menghubungi kami.
+                            If any part of these terms and conditions is unclear, please don't hesitate to contact us.
                         </p>
                         <div class="row justify-content-center">
                             <div class="col-md-auto mb-2">
                                 <a href="{{ route('public.contact') }}" class="btn modern-btn w-auto">
-                                    <i class="bi bi-envelope me-2"></i>Hubungi Kami
+                                    <i class="bi bi-envelope me-2"></i>Contact Us
                                 </a>
                             </div>
                             <div class="col-md-auto mb-2">
                                 <a href="{{ route('public.home') }}" class="btn modern-btn-outline w-auto" style="color: #764ba2; border-color: #764ba2;" onmouseover="this.style.backgroundColor='rgba(118, 75, 162, 0.1)'; this.style.color='#764ba2';" onmouseout="this.style.backgroundColor='transparent';">
-                                    <i class="bi bi-house me-2"></i>Kembali ke Beranda
+                                    <i class="bi bi-house me-2"></i>Back to Home
                                 </a>
                             </div>
                         </div>

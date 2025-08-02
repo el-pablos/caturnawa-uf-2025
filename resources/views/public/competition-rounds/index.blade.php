@@ -8,10 +8,10 @@
     <div class="row mb-5">
         <div class="col-12 text-center">
             <h1 class="display-4 fw-bold text-primary mb-3">
-                <i class="bi bi-trophy-fill me-3"></i>Mata Lomba Caturnawa UNAS FEST 2025
+                <i class="bi bi-trophy-fill me-3"></i>Caturnawa UNAS FEST 2025 Competition Rounds
             </h1>
             <p class="lead text-muted">
-                Pilih kompetisi dan lihat babak-babak yang tersedia
+                Select a competition and view available rounds
             </p>
         </div>
     </div>
@@ -40,7 +40,7 @@
                         <div class="col-12">
                             <div class="text-center">
                                 <div class="h5 text-success mb-0">{{ $competition->rounds->count() }}</div>
-                                <small class="text-muted">Babak Kompetisi</small>
+                                <small class="text-muted">Competition Rounds</small>
                             </div>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                     <!-- Available Rounds -->
                     @if($competition->rounds->count() > 0)
                     <div class="mb-3">
-                        <h6 class="text-muted mb-2">Babak Tersedia:</h6>
+                        <h6 class="text-muted mb-2">Available Rounds:</h6>
                         <div class="d-flex flex-wrap gap-1">
                             @foreach($competition->rounds as $round)
                             <span class="badge bg-light text-dark border">
@@ -64,11 +64,11 @@
                     <div class="d-grid gap-2">
                         <a href="{{ route('matalomba.show', $competition->slug) }}" 
                            class="btn btn-primary">
-                            <i class="bi bi-eye me-2"></i>Lihat Detail Babak
+                            <i class="bi bi-eye me-2"></i>View Round Details
                         </a>
                         <a href="{{ route('public.competition.detail', $competition->slug) }}" 
                            class="btn btn-outline-secondary btn-sm">
-                            <i class="bi bi-info-circle me-2"></i>Info Kompetisi
+                            <i class="bi bi-info-circle me-2"></i>Competition Info
                         </a>
                     </div>
                 </div>
@@ -79,10 +79,10 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-body text-center py-5">
                     <i class="bi bi-trophy text-muted" style="font-size: 4rem;"></i>
-                    <h4 class="text-muted mt-3">Belum Ada Kompetisi</h4>
-                    <p class="text-muted">Kompetisi akan segera tersedia. Silakan cek kembali nanti.</p>
+                    <h4 class="text-muted mt-3">No Competitions Available</h4>
+                    <p class="text-muted">Competitions will be available soon. Please check back later.</p>
                     <a href="{{ route('public.home') }}" class="btn btn-primary">
-                        <i class="bi bi-house me-2"></i>Kembali ke Beranda
+                        <i class="bi bi-house me-2"></i>Back to Home
                     </a>
                 </div>
             </div>
@@ -95,16 +95,16 @@
         <div class="col-12">
             <div class="card bg-light border-0">
                 <div class="card-body text-center">
-                    <h5 class="card-title">Navigasi Cepat</h5>
+                    <h5 class="card-title">Quick Navigation</h5>
                     <div class="d-flex justify-content-center gap-3 flex-wrap">
                         <a href="{{ route('public.competitions') }}" class="btn btn-outline-primary">
-                            <i class="bi bi-list-ul me-2"></i>Semua Kompetisi
+                            <i class="bi bi-list-ul me-2"></i>All Competitions
                         </a>
                         <a href="{{ route('leaderboard.index') }}" class="btn btn-outline-success">
                             <i class="bi bi-trophy me-2"></i>Leaderboard
                         </a>
                         <a href="{{ route('public.home') }}" class="btn btn-outline-secondary">
-                            <i class="bi bi-house me-2"></i>Beranda
+                            <i class="bi bi-house me-2"></i>Home
                         </a>
                     </div>
                 </div>

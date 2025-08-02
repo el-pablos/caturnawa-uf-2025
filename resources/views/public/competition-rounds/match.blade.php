@@ -18,8 +18,8 @@
                         <p class="text-white-50 mb-0">{{ $round->name }} - {{ $competition->name }}</p>
                     </div>
                 </div>
-                <a href="{{ route('matalomba.round', [$competition->slug, $round->round_type]) }}" class="btn btn-outline-light">
-                    <i class="bi bi-arrow-left me-2"></i>Kembali
+                <a href="{{ route('matalomba.round', [$competition->slug, $round->round_type]) }}" class="btn btn-outline-light btn-auto w-100">
+                    <i class="bi bi-arrow-left me-2"></i>Back
                 </a>
             </div>
         </div>
@@ -31,13 +31,13 @@
                 <div class="card shadow-lg border-0">
                     <div class="card-header bg-info text-white">
                         <h5 class="mb-0">
-                            <i class="bi bi-info-circle me-2"></i>Informasi Pertandingan
+                            <i class="bi bi-info-circle me-2"></i>Match Information
                         </h5>
                     </div>
                     <div class="card-body">
                         @if($match->motion)
                         <div class="mb-3">
-                            <h6 class="text-primary">Mosi:</h6>
+                            <h6 class="text-primary">Motion:</h6>
                             <p class="fs-5 fst-italic">"{{ $match->motion }}"</p>
                         </div>
                         @endif
@@ -45,14 +45,14 @@
                         <div class="row">
                             @if($match->scheduled_at)
                             <div class="col-md-6">
-                                <h6 class="text-primary">Waktu:</h6>
+                                <h6 class="text-primary">Time:</h6>
                                 <p><i class="bi bi-clock me-2"></i>{{ $match->scheduled_at->format('d M Y, H:i') }} WIB</p>
                             </div>
                             @endif
                             
                             @if($match->room_name)
                             <div class="col-md-6">
-                                <h6 class="text-primary">Ruangan:</h6>
+                                <h6 class="text-primary">Room:</h6>
                                 <p><i class="bi bi-geo-alt me-2"></i>{{ $match->room_name }}</p>
                             </div>
                             @endif
@@ -75,7 +75,7 @@
                 <div class="card shadow-lg border-0">
                     <div class="card-header bg-success text-white">
                         <h5 class="mb-0">
-                            <i class="bi bi-trophy me-2"></i>Hasil Pertandingan
+                            <i class="bi bi-trophy me-2"></i>Match Results
                         </h5>
                     </div>
                     <div class="card-body">
@@ -91,13 +91,13 @@
                                         <thead class="table-dark">
                                             <tr>
                                                 <th>Adjudicators</th>
-                                                <th>Nama Tim</th>
-                                                <th>Posisi Tim</th>
-                                                <th>Nama Peserta</th>
+                                                <th>Team Name</th>
+                                                <th>Team Position</th>
+                                                <th>Participant Name</th>
                                                 <th>Score</th>
                                                 <th>Victory Point</th>
                                                 <th>Individual</th>
-                                                <th>Tim Skor</th>
+                                                <th>Team Score</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -172,8 +172,8 @@
                         @else
                             <div class="text-center py-5">
                                 <i class="bi bi-clipboard-data text-muted" style="font-size: 4rem;"></i>
-                                <h5 class="text-muted mt-3">Hasil pertandingan belum tersedia</h5>
-                                <p class="text-muted">Hasil akan diumumkan setelah pertandingan selesai</p>
+                                <h5 class="text-muted mt-3">Match results not yet available</h5>
+                                <p class="text-muted">Results will be announced after the match is completed</p>
                             </div>
                         @endif
                     </div>

@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', $competition->name . ' - Babak Kompetisi')
+@section('title', $competition->name . ' - Competition Rounds')
 
 @section('content')
 <div class="container-fluid py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh;">
@@ -18,8 +18,8 @@
                         <p class="text-white-50 mb-0">{{ $competition->short_description }}</p>
                     </div>
                 </div>
-                <a href="{{ route('public.competitions') }}" class="btn btn-outline-light">
-                    <i class="bi bi-arrow-left me-2"></i>Kembali
+                <a href="{{ route('public.competitions') }}" class="btn btn-outline-light btn-auto w-100">
+                    <i class="bi bi-arrow-left me-2"></i>Back
                 </a>
             </div>
         </div>
@@ -30,13 +30,13 @@
                 <div class="card shadow-lg border-0">
                     <div class="card-body p-4">
                         <h5 class="card-title text-primary mb-3">
-                            <i class="bi bi-info-circle me-2"></i>Tentang Kompetisi
+                            <i class="bi bi-info-circle me-2"></i>About Competition
                         </h5>
                         <p class="card-text">{{ $competition->description }}</p>
                         
                         @if($competition->theme)
                         <div class="alert alert-info">
-                            <strong>Tema:</strong> {{ $competition->theme }}
+                            <strong>Theme:</strong> {{ $competition->theme }}
                         </div>
                         @endif
                     </div>
@@ -50,7 +50,7 @@
                 <div class="card shadow-lg border-0">
                     <div class="card-header bg-primary text-white">
                         <h5 class="mb-0">
-                            <i class="bi bi-people me-2"></i>Peserta Kompetisi
+                            <i class="bi bi-people me-2"></i>Competition Participants
                         </h5>
                     </div>
                     <div class="card-body">
@@ -89,8 +89,8 @@
                         @else
                             <div class="text-center py-5">
                                 <i class="bi bi-people text-muted" style="font-size: 4rem;"></i>
-                                <h5 class="text-muted mt-3">Belum ada peserta terdaftar</h5>
-                                <p class="text-muted">Peserta akan muncul setelah melakukan konfirmasi pembayaran</p>
+                                <h5 class="text-muted mt-3">No participants registered yet</h5>
+                                <p class="text-muted">Participants will appear after payment confirmation</p>
                             </div>
                         @endif
                     </div>
@@ -104,7 +104,7 @@
                 <div class="card shadow-lg border-0">
                     <div class="card-header bg-success text-white">
                         <h5 class="mb-0">
-                            <i class="bi bi-trophy me-2"></i>Pilih Babak
+                            <i class="bi bi-trophy me-2"></i>Select Round
                         </h5>
                     </div>
                     <div class="card-body">
@@ -157,8 +157,8 @@
                         @else
                             <div class="text-center py-5">
                                 <i class="bi bi-calendar-x text-muted" style="font-size: 4rem;"></i>
-                                <h5 class="text-muted mt-3">Babak kompetisi belum tersedia</h5>
-                                <p class="text-muted">Babak kompetisi akan diumumkan setelah periode registrasi berakhir</p>
+                                <h5 class="text-muted mt-3">Competition rounds not yet available</h5>
+                                <p class="text-muted">Competition rounds will be announced after the registration period ends</p>
                             </div>
                         @endif
                     </div>

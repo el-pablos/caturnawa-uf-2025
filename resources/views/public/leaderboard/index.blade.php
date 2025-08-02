@@ -18,7 +18,9 @@
 
     .modern-hero::before {
         content: '';
-        position: absolute;
+        position: abso                        <h5 class="mb-0">
+                            <i class="bi bi-info-circle me-2"></i>Competition Information
+                        </h5>e;
         top: 0;
         left: 0;
         right: 0;
@@ -209,13 +211,13 @@
                     </p>
                     <div class="row justify-content-center">
                         <div class="col-md-3 mb-3">
-                            <a href="{{ route('public.competitions') }}" class="btn modern-btn btn-lg w-100">
-                                <i class="bi bi-trophy me-2"></i>Lihat Kompetisi
+                            <a href="{{ route('public.competitions') }}" class="btn modern-btn btn-auto w-100">
+                                <i class="bi bi-trophy me-2"></i>View Competitions
                             </a>
                         </div>
                         <div class="col-md-3 mb-3">
-                            <a href="{{ route('public.faq') }}" class="btn modern-btn-outline btn-lg w-100">
-                                <i class="bi bi-question-circle me-2"></i>Tentang
+                            <a href="{{ route('public.faq') }}" class="btn modern-btn-outline btn-auto w-100">
+                                <i class="bi bi-question-circle me-2"></i>About
                             </a>
                         </div>
                     </div>
@@ -227,22 +229,22 @@
         <!-- Competition Filter Section -->
         <div class="row mb-5">
             <div class="col-12">
-                <h2 class="text-center mb-4" data-aos="fade-up">
-                    <i class="bi bi-funnel text-info"></i>
-                    Filter Kompetisi
+                <h2 class="text-center fw-bold mb-4" style="color: #667eea;">
+                    <i class="bi bi-funnel"></i>
+                    Filter Competition
                 </h2>
             </div>
             <div class="col-12" data-aos="fade-up" data-aos-delay="200">
                 <div class="card shadow">
                     <div class="card-header bg-info text-white text-center">
                         <h5 class="mb-0">
-                            <i class="bi bi-trophy me-2"></i>Pilih Kompetisi untuk Melihat Leaderboard
+                            <i class="bi bi-trophy me-2"></i>Select Competition to View Leaderboard
                         </h5>
                     </div>
                     <div class="card-body">
                         <div class="row align-items-center">
                             <div class="col-md-3">
-                                <label class="form-label fw-semibold">Pilih Kompetisi:</label>
+                                <label class="form-label fw-semibold">Select Competition:</label>
                             </div>
                             <div class="col-md-9">
                                 <select id="competitionSelect" class="form-select form-select-lg">
@@ -273,7 +275,7 @@
                     <div class="card shadow">
                         <div class="card-header bg-success text-white text-center">
                             <h5 class="mb-0">
-                                <i class="bi bi-info-circle me-2"></i>Informasi Kompetisi
+                                <i class="bi bi-info-circle me-2"></i>Competition Information
                             </h5>
                         </div>
                         <div class="card-body text-center">
@@ -308,14 +310,14 @@
                     <div class="col-12">
                         <h2 class="text-center mb-4">
                             <i class="bi bi-trophy-fill text-warning"></i>
-                            Top 3 Pemenang
+                            Top 3 Winners
                         </h2>
                     </div>
                     <div class="col-12">
                         <div class="card shadow">
                             <div class="card-header bg-warning text-dark text-center">
                                 <h5 class="mb-0">
-                                    <i class="bi bi-star me-2"></i>Podium Juara
+                                    <i class="bi bi-star me-2"></i>Winner Podium
                                 </h5>
                             </div>
                             <div class="card-body">
@@ -324,12 +326,12 @@
                                 <div class="col-md-4 order-md-1 mb-4">
                                     <div class="card border-secondary">
                                         <div class="card-header bg-secondary text-white text-center">
-                                            <h4><i class="bi bi-award-fill me-2"></i>Juara 2</h4>
+                                            <h4><i class="bi bi-award-fill me-2"></i>2nd Place</h4>
                                         </div>
                                         <div class="card-body text-center">
                                             <h5 class="card-title text-primary">{{ $leaderboard[1]['participant_name'] ?? 'Unknown Participant' }}</h5>
                                             @if(isset($leaderboard[1]['team_name']) && $leaderboard[1]['team_name'])
-                                                <p class="text-muted">Tim: {{ $leaderboard[1]['team_name'] }}</p>
+                                                <p class="text-muted">Team: {{ $leaderboard[1]['team_name'] }}</p>
                                             @endif
                                             <p class="card-text"><strong>{{ $leaderboard[1]['submission_title'] ?? $leaderboard[1]['team_name'] ?? 'No Title' }}</strong></p>
                                             <div class="score-badge">
@@ -343,12 +345,12 @@
                                 <div class="col-md-4 order-md-2 mb-4">
                                     <div class="card border-warning shadow-lg">
                                         <div class="card-header bg-warning text-dark text-center">
-                                            <h4><i class="bi bi-trophy-fill me-2"></i>Juara 1</h4>
+                                            <h4><i class="bi bi-trophy-fill me-2"></i>1st Place</h4>
                                         </div>
                                         <div class="card-body text-center">
                                             <h5 class="card-title text-primary">{{ $leaderboard[0]['participant_name'] ?? 'Unknown Participant' }}</h5>
                                             @if(isset($leaderboard[0]['team_name']) && $leaderboard[0]['team_name'])
-                                                <p class="text-muted">Tim: {{ $leaderboard[0]['team_name'] }}</p>
+                                                <p class="text-muted">Team: {{ $leaderboard[0]['team_name'] }}</p>
                                             @endif
                                             <p class="card-text"><strong>{{ $leaderboard[0]['submission_title'] ?? $leaderboard[0]['team_name'] ?? 'No Title' }}</strong></p>
                                             <div class="score-badge">
@@ -362,12 +364,12 @@
                                 <div class="col-md-4 order-md-3 mb-4">
                                     <div class="card border-danger">
                                         <div class="card-header bg-danger text-white text-center">
-                                            <h4><i class="bi bi-award-fill me-2"></i>Juara 3</h4>
+                                            <h4><i class="bi bi-award-fill me-2"></i>3rd Place</h4>
                                         </div>
                                         <div class="card-body text-center">
                                             <h5 class="card-title text-primary">{{ $leaderboard[2]['participant_name'] ?? 'Unknown Participant' }}</h5>
                                             @if(isset($leaderboard[2]['team_name']) && $leaderboard[2]['team_name'])
-                                                <p class="text-muted">Tim: {{ $leaderboard[2]['team_name'] }}</p>
+                                                <p class="text-muted">Team: {{ $leaderboard[2]['team_name'] }}</p>
                                             @endif
                                             <p class="card-text"><strong>{{ $leaderboard[2]['submission_title'] ?? $leaderboard[2]['team_name'] ?? 'No Title' }}</strong></p>
                                             <div class="score-badge">
@@ -387,7 +389,7 @@
                 <div class="col-12">
                     <h2 class="text-center mb-4">
                         <i class="bi bi-list-ol text-primary"></i>
-                        Peringkat Lengkap
+                        Complete Rankings
                     </h2>
                 </div>
                 <div class="col-12">
@@ -404,9 +406,9 @@
                                         <tr>
                                             <th class="text-center" width="80">Rank</th>
                                             <th>Participant</th>
-                                            <th>Karya</th>
-                                            <th class="text-center" width="120">Skor</th>
-                                            <th class="text-center" width="100">Juri</th>
+                                            <th>Work</th>
+                                            <th class="text-center" width="120">Score</th>
+                                            <th class="text-center" width="100">Judges</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -433,7 +435,7 @@
                                                     <div>
                                                         <strong>{{ $item['participant_name'] ?? 'Unknown Participant' }}</strong>
                                                         @if(isset($item['team_name']) && $item['team_name'])
-                                                            <br><small class="text-muted">Tim: {{ $item['team_name'] }}</small>
+                                                            <br><small class="text-muted">Team: {{ $item['team_name'] }}</small>
                                                         @endif
                                                         @if(isset($item['institution']) && $item['institution'])
                                                             <br><small class="text-muted">{{ $item['institution'] }}</small>
@@ -447,7 +449,7 @@
                                                     <span class="badge bg-primary fs-6">{{ $item['average_score'] ?? 0 }}/100</span>
                                                 </td>
                                                 <td class="text-center">
-                                                    <span class="text-muted">{{ $item['total_juries'] ?? 0 }} juri</span>
+                                                    <span class="text-muted">{{ $item['total_juries'] ?? 0 }} judges</span>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -462,24 +464,24 @@
             <!-- No Data Section -->
             <div class="row mb-5">
                 <div class="col-12">
-                    <h2 class="text-center mb-4">
-                        <i class="bi bi-exclamation-triangle text-warning"></i>
-                        Belum Ada Data
+                    <h2 class="text-center fw-bold mb-4" style="color: #667eea;">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        No Data Available
                     </h2>
                 </div>
                 <div class="col-12">
                     <div class="card shadow">
                         <div class="card-header bg-warning text-dark text-center">
                             <h5 class="mb-0">
-                                <i class="bi bi-info-circle me-2"></i>Informasi
+                                <i class="bi bi-info-circle me-2"></i>Information
                             </h5>
                         </div>
                         <div class="card-body text-center py-5">
                             <i class="bi bi-trophy fs-1 text-muted mb-3"></i>
-                            <h5 class="text-muted">Belum Ada Penilaian</h5>
-                            <p class="text-muted">Leaderboard untuk kompetisi {{ $selectedCompetition->name }} belum tersedia.</p>
+                            <h5 class="text-muted">No Evaluations Yet</h5>
+                            <p class="text-muted">Leaderboard for {{ $selectedCompetition->name }} competition is not available yet.</p>
                             <a href="{{ route('public.competitions') }}" class="btn btn-primary">
-                                <i class="bi bi-arrow-left me-2"></i>Kembali ke Kompetisi
+                                <i class="bi bi-arrow-left me-2"></i>Back to Competitions
                             </a>
                         </div>
                     </div>
@@ -492,22 +494,22 @@
             <div class="col-12">
                 <h2 class="text-center mb-4">
                     <i class="bi bi-exclamation-circle text-danger"></i>
-                    Belum Ada Kompetisi
+                    No Competitions Available
                 </h2>
             </div>
             <div class="col-12">
                 <div class="card shadow">
                     <div class="card-header bg-danger text-white text-center">
                         <h5 class="mb-0">
-                            <i class="bi bi-info-circle me-2"></i>Informasi
+                            <i class="bi bi-info-circle me-2"></i>Information
                         </h5>
                     </div>
                     <div class="card-body text-center py-5">
                         <i class="bi bi-trophy fs-1 text-muted mb-3"></i>
-                        <h5 class="text-muted">Belum Ada Kompetisi</h5>
-                        <p class="text-muted">Leaderboard akan tersedia setelah ada kompetisi yang aktif.</p>
+                        <h5 class="text-muted">No Competitions Available</h5>
+                        <p class="text-muted">Leaderboard will be available after there are active competitions.</p>
                         <a href="{{ route('public.competitions') }}" class="btn btn-primary">
-                            <i class="bi bi-plus-circle me-2"></i>Lihat Kompetisi
+                            <i class="bi bi-plus-circle me-2"></i>View Competitions
                         </a>
                     </div>
                 </div>

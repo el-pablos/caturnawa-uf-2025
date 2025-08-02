@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Selamat Datang - Caturnawa UNAS FEST 2025')
+@section('title', 'Welcome - Caturnawa UNAS FEST 2025')
 
 @section('content')
 <!-- Hero Section -->
@@ -10,33 +10,33 @@
             <div class="col-lg-6">
                 <div class="hero-content">
                     <h1 class="hero-title">
-                        Selamat Datang di
+                        Welcome to
                         <span class="text-gradient">Caturnawa UNAS FEST 2025</span>
                     </h1>
                     <p class="hero-subtitle">
-                        Festival kompetisi terbesar Universitas Nasional yang menggabungkan kreativitas, 
-                        inovasi, dan teknologi dalam berbagai kategori lomba menarik.
+                        The biggest competition festival at Universitas Nasional that combines creativity, 
+                        innovation, and technology in various exciting competition categories.
                     </p>
                     <div class="hero-buttons">
                         @guest
                             <a href="{{ route('register') }}" class="btn btn-primary btn-lg me-3">
-                                <i class="bi bi-person-plus me-2"></i>Daftar Sekarang
+                                <i class="bi bi-person-plus me-2"></i>Register Now
                             </a>
                             <a href="{{ route('login') }}" class="btn btn-outline-primary btn-lg">
-                                <i class="bi bi-box-arrow-in-right me-2"></i>Masuk
+                                <i class="bi bi-box-arrow-in-right me-2"></i>Login
                             </a>
                         @else
                             @if(auth()->user()->isAdmin())
                                 <a href="{{ route('admin.dashboard') }}" class="btn btn-primary btn-lg">
-                                    <i class="bi bi-speedometer2 me-2"></i>Dashboard Admin
+                                    <i class="bi bi-speedometer2 me-2"></i>Admin Dashboard
                                 </a>
                             @elseif(auth()->user()->isJuri())
                                 <a href="{{ route('juri.juri.dashboard') }}" class="btn btn-primary btn-lg">
-                                    <i class="bi bi-clipboard-check me-2"></i>Dashboard Juri
+                                    <i class="bi bi-clipboard-check me-2"></i>Judge Dashboard
                                 </a>
                             @else
                                 <a href="{{ route('peserta.peserta.dashboard') }}" class="btn btn-primary btn-lg">
-                                    <i class="bi bi-trophy me-2"></i>Dashboard Peserta
+                                    <i class="bi bi-trophy me-2"></i>Participant Dashboard
                                 </a>
                             @endif
                         @endguest
@@ -47,18 +47,18 @@
                 <div class="hero-image">
                     <div class="floating-card">
                         <i class="bi bi-trophy-fill text-warning"></i>
-                        <h3>Kompetisi Bergengsi</h3>
-                        <p>Berbagai kategori lomba dengan hadiah menarik</p>
+                        <h3>Prestigious Competition</h3>
+                        <p>Various competition categories with attractive prizes</p>
                     </div>
                     <div class="floating-card">
                         <i class="bi bi-people-fill text-info"></i>
-                        <h3>Komunitas Kreatif</h3>
-                        <p>Bergabung dengan ribuan peserta dari seluruh Indonesia</p>
+                        <h3>Creative Community</h3>
+                        <p>Join thousands of participants from all over Indonesia</p>
                     </div>
                     <div class="floating-card">
                         <i class="bi bi-award-fill text-success"></i>
-                        <h3>Sertifikat Resmi</h3>
-                        <p>Dapatkan pengakuan atas prestasi Anda</p>
+                        <h3>Official Certificate</h3>
+                        <p>Get recognition for your achievements</p>
                     </div>
                 </div>
             </div>
@@ -71,8 +71,8 @@
     <div class="container">
         <div class="row text-center mb-5">
             <div class="col-12">
-                <h2 class="section-title">Mengapa Memilih Caturnawa UNAS FEST 2025?</h2>
-                <p class="section-subtitle">Platform kompetisi terdepan dengan berbagai keunggulan</p>
+                <h2 class="section-title">Why Choose Caturnawa UNAS FEST 2025?</h2>
+                <p class="section-subtitle">Leading competition platform with various advantages</p>
             </div>
         </div>
         <div class="row g-4">
@@ -81,8 +81,8 @@
                     <div class="feature-icon">
                         <i class="bi bi-lightning-charge-fill"></i>
                     </div>
-                    <h4>Pendaftaran Mudah</h4>
-                    <p>Sistem pendaftaran online yang cepat dan user-friendly</p>
+                    <h4>Easy Registration</h4>
+                    <p>Fast and user-friendly online registration system</p>
                 </div>
             </div>
             <div class="col-md-4">
@@ -90,8 +90,8 @@
                     <div class="feature-icon">
                         <i class="bi bi-shield-check-fill"></i>
                     </div>
-                    <h4>Sistem Aman</h4>
-                    <p>Keamanan data dan transaksi terjamin dengan teknologi terkini</p>
+                    <h4>Secure System</h4>
+                    <p>Data and transaction security guaranteed with the latest technology</p>
                 </div>
             </div>
             <div class="col-md-4">
@@ -99,8 +99,8 @@
                     <div class="feature-icon">
                         <i class="bi bi-headset"></i>
                     </div>
-                    <h4>Support 24/7</h4>
-                    <p>Tim support siap membantu Anda kapan saja</p>
+                    <h4>24/7 Support</h4>
+                    <p>Support team ready to help you anytime</p>
                 </div>
             </div>
         </div>
@@ -112,13 +112,13 @@
     <div class="container">
         <div class="row justify-content-center text-center">
             <div class="col-lg-8">
-                <h2 class="cta-title">Siap Menunjukkan Bakat Anda?</h2>
+                <h2 class="cta-title">Ready to Show Your Talent?</h2>
                 <p class="cta-subtitle">
-                    Bergabunglah dengan ribuan peserta lainnya dan raih kesempatan memenangkan hadiah menarik!
+                    Join thousands of other participants and get the chance to win attractive prizes!
                 </p>
                 @guest
                     <a href="{{ route('register') }}" class="btn btn-primary btn-lg">
-                        <i class="bi bi-rocket-takeoff me-2"></i>Mulai Sekarang
+                        <i class="bi bi-rocket-takeoff me-2"></i>Start Now
                     </a>
                 @endguest
             </div>
