@@ -333,23 +333,7 @@
                     </div>
                 </div>
 
-                <!-- Event Info -->
-                <div class="event-info mt-4">
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <div class="event-detail">
-                                <i class="bi bi-calendar-event text-primary"></i>
-                                <span class="ms-2"><strong>10 November 2025</strong></span>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="event-detail">
-                                <i class="bi bi-geo-alt text-danger"></i>
-                                <span class="ms-2">Universitas Nasional</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>
