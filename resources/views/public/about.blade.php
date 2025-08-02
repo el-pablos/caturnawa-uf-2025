@@ -291,13 +291,13 @@
                         <div class="col-md-3 mb-3">
                             <a href="{{ route('public.competitions') }}"
                                class="btn modern-btn btn-auto w-100">
-                                <i class="bi bi-trophy me-2"></i>Lihat Competitions
+                                <i class="bi bi-trophy me-2"></i>View Competitions
                             </a>
                         </div>
                         <div class="col-md-3 mb-3">
                             <a href="{{ route('public.contact') }}"
                                class="btn modern-btn-outline btn-auto w-100">
-                                <i class="bi bi-envelope me-2"></i>Contact Kami
+                                <i class="bi bi-envelope me-2"></i>Contact Us
                             </a>
                         </div>
                     </div>
@@ -335,15 +335,15 @@
                     <ul class="list-unstyled mb-0">
                         <li class="mb-3 d-flex align-items-start">
                             <i class="bi bi-check-circle text-success me-3 mt-1"></i>
-                            <span>Memberikan platform kompetisi berkualitas tinggi untuk mahasiswa Indonesia</span>
+                            <span>Providing high-quality competition platform for Indonesian students</span>
                         </li>
                         <li class="mb-3 d-flex align-items-start">
                             <i class="bi bi-check-circle text-success me-3 mt-1"></i>
-                            <span>Mendorong inovasi dan kreativitas dalam menyelesaikan masalah nyata</span>
+                            <span>Encouraging innovation and creativity in solving real-world problems</span>
                         </li>
                         <li class="mb-3 d-flex align-items-start">
                             <i class="bi bi-check-circle text-success me-3 mt-1"></i>
-                            <span>Membangun jaringan kolaborasi antar universitas di seluruh Indonesia</span>
+                            <span>Building collaborative networks between universities across Indonesia</span>
                         </li>
                         <li class="d-flex align-items-start">
                             <i class="bi bi-check-circle text-success me-3 mt-1"></i>

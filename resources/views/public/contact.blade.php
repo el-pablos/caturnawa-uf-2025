@@ -203,7 +203,7 @@
                             <i class="bi bi-headset mb-3"></i>
                         </div>
                         <h1 class="modern-title mb-3">
-                            Contact Kami
+                            Contact Us
                         </h1>
                             <p class="modern-subtitle mb-4">
                             Have questions about Caturnawa UNAS FEST 2025? Our team is ready to help you.
@@ -254,7 +254,7 @@
         <div class="col-lg-8">
             <div class="modern-card">
                 <div class="card-header p-3 bg-primary text-white">
-                    <h3 class="card-title mb-0"><i class="bi bi-envelope-fill me-2 w-auto"></i>Send Message Anda</h3>
+                    <h3 class="card-title mb-0"><i class="bi bi-envelope-fill me-2 w-auto"></i>Send Your Message</h3>
                 </div>
                 <div class="card-body p-4" id="contact-form">
                     <form action="{{ route('public.contact.send') }}" method="POST">

@@ -1427,7 +1427,7 @@ if ('serviceWorker' in navigator) {
                 </div>
                 <div class="feature-item">
                     <i class="bi bi-shield-check"></i>
-                    <span>Pembayaran Aman</span>
+                    <span>Payment Aman</span>
                 </div>
                 <div class="feature-item">
                     <i class="bi bi-headset"></i>
