@@ -212,17 +212,17 @@
                         Privacy Policy
                     </h1>
                     <p class="modern-subtitle mb-5 pt-2">
-                        Komitmen kami untuk melindungi dan menghargai privasi Anda di Caturnawa UNAS FEST 2025.
+                        Our commitment to protecting and respecting your privacy at Caturnawa UNAS FEST 2025.
                     </p>
                     <div class="row justify-content-center">
                         <div class="col-md-3 mb-3">
                             <a href="{{ route('public.contact') }}" class="btn modern-btn btn-lg w-100">
-                                <i class="bi bi-envelope me-2"></i>Hubungi Kami
+                                <i class="bi bi-envelope me-2"></i>Contact Us
                             </a>
                         </div>
                         <div class="col-md-3 mb-3">
                             <a href="{{ route('public.home') }}" class="btn modern-btn-outline btn-lg w-100">
-                                <i class="bi bi-house me-2"></i>Beranda
+                                <i class="bi bi-house me-2"></i>Home
                             </a>
                         </div>
                     </div>
@@ -237,31 +237,31 @@
             <div class="glass-card">
                 <div class="glass-header p-4 text-center">
                     <h2 class="card-title mb-0 fw-bold" style="color: #764ba2;">
-                        <i class="bi bi-shield-check me-2"></i>Detail Kebijakan Privasi
+                        <i class="bi bi-shield-check me-2"></i>Privacy Policy Details
                     </h2>
-                    <p class="mb-0 text-muted">Komitmen kami dalam melindungi data dan privasi Anda</p>
+                    <p class="mb-0 text-muted">Our commitment to protecting your data and privacy</p>
                 </div>
                 <div class="card-body p-5">
                     
                     <!-- Section 1 -->
                     <div class="mb-5">
                         <h3 class="fw-bold mb-3 text-primary">
-                            <i class="bi bi-info-circle me-2"></i>1. Informasi yang Kami Kumpulkan
+                            <i class="bi bi-info-circle me-2"></i>1. Information We Collect
                         </h3>
                         <p class="text-muted mb-3">
-                            Kami mengumpulkan informasi yang Anda berikan secara langsung kepada kami, seperti:
+                            We collect information that you provide directly to us, such as:
                         </p>
                         <div class="row">
                             <div class="col-md-6">
                                 <ul class="list-unstyled">
-                                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Nama lengkap dan informasi kontak</li>
-                                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Informasi institusi/universitas</li>
+                                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Full name and contact information</li>
+                                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Institution/university information</li>
                                 </ul>
                             </div>
                             <div class="col-md-6">
                                 <ul class="list-unstyled">
-                                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Data pendaftaran kompetisi</li>
-                                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Dokumen dan file yang diunggah</li>
+                                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Competition registration data</li>
+                                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Documents and uploaded files</li>
                                 </ul>
                             </div>
                         </div>
@@ -270,24 +270,24 @@
                     <!-- Section 2 -->
                     <div class="mb-5">
                         <h3 class="fw-bold mb-3 text-success">
-                            <i class="bi bi-gear me-2"></i>2. Bagaimana Kami Menggunakan Informasi
+                            <i class="bi bi-gear me-2"></i>2. How We Use Information
                         </h3>
                         <p class="text-muted mb-3">
-                            Informasi yang kami kumpulkan digunakan untuk:
+                            The information we collect is used to:
                         </p>
                         <div class="row">
                             <div class="col-md-6">
                                 <ul class="list-unstyled">
-                                    <li class="mb-2"><i class="bi bi-arrow-right text-primary me-2"></i>Memproses pendaftaran kompetisi</li>
-                                    <li class="mb-2"><i class="bi bi-arrow-right text-primary me-2"></i>Berkomunikasi dengan peserta</li>
-                                    <li class="mb-2"><i class="bi bi-arrow-right text-primary me-2"></i>Menyelenggarakan acara dan kompetisi</li>
+                                    <li class="mb-2"><i class="bi bi-arrow-right text-primary me-2"></i>Process competition registrations</li>
+                                    <li class="mb-2"><i class="bi bi-arrow-right text-primary me-2"></i>Communicate with participants</li>
+                                    <li class="mb-2"><i class="bi bi-arrow-right text-primary me-2"></i>Organize events and competitions</li>
                                 </ul>
                             </div>
                             <div class="col-md-6">
                                 <ul class="list-unstyled">
-                                    <li class="mb-2"><i class="bi bi-arrow-right text-primary me-2"></i>Memberikan dukungan teknis</li>
-                                    <li class="mb-2"><i class="bi bi-arrow-right text-primary me-2"></i>Meningkatkan layanan kami</li>
-                                    <li class="mb-2"><i class="bi bi-arrow-right text-primary me-2"></i>Mengirim update dan informasi</li>
+                                    <li class="mb-2"><i class="bi bi-arrow-right text-primary me-2"></i>Provide technical support</li>
+                                    <li class="mb-2"><i class="bi bi-arrow-right text-primary me-2"></i>Improve our services</li>
+                                    <li class="mb-2"><i class="bi bi-arrow-right text-primary me-2"></i>Send updates and information</li>
                                 </ul>
                             </div>
                         </div>
@@ -296,18 +296,18 @@
                     <!-- Section 3 -->
                     <div class="mb-5">
                         <h3 class="fw-bold mb-3 text-warning">
-                            <i class="bi bi-shield-lock me-2"></i>3. Perlindungan Data
+                            <i class="bi bi-shield-lock me-2"></i>3. Data Protection
                         </h3>
                         <p class="text-muted mb-3">
-                            Kami berkomitmen untuk melindungi informasi pribadi Anda dengan:
+                            We are committed to protecting your personal information with:
                         </p>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="card border-warning mb-3">
                                     <div class="card-body text-center">
                                         <i class="bi bi-lock-fill text-warning" style="font-size: 2rem;"></i>
-                                        <h5 class="mt-2">Enkripsi Data</h5>
-                                        <p class="text-muted small">Data sensitif dienkripsi dengan standar industri</p>
+                                        <h5 class="mt-2">Data Encryption</h5>
+                                        <p class="text-muted small">Sensitive data is encrypted with industry standards</p>
                                     </div>
                                 </div>
                             </div>
@@ -315,8 +315,8 @@
                                 <div class="card border-success mb-3">
                                     <div class="card-body text-center">
                                         <i class="bi bi-eye-slash-fill text-success" style="font-size: 2rem;"></i>
-                                        <h5 class="mt-2">Akses Terbatas</h5>
-                                        <p class="text-muted small">Hanya staff terotorisasi yang dapat mengakses data</p>
+                                        <h5 class="mt-2">Limited Access</h5>
+                                        <p class="text-muted small">Only authorized staff can access data</p>
                                     </div>
                                 </div>
                             </div>
@@ -326,32 +326,32 @@
                     <!-- Section 4 -->
                     <div class="mb-5">
                         <h3 class="fw-bold mb-3 text-danger">
-                            <i class="bi bi-share me-2"></i>4. Berbagi Informasi
+                            <i class="bi bi-share me-2"></i>4. Information Sharing
                         </h3>
                         <div class="alert alert-warning">
                             <i class="bi bi-exclamation-triangle me-2"></i>
-                            <strong>Penting:</strong> Kami tidak akan menjual, menyewakan, atau membagikan informasi pribadi Anda kepada pihak ketiga tanpa persetujuan Anda.
+                            <strong>Important:</strong> We will not sell, rent, or share your personal information with third parties without your consent.
                         </div>
-                        <p class="text-muted mb-3">Pengecualian hanya berlaku untuk:</p>
+                        <p class="text-muted mb-3">Exceptions only apply to:</p>
                         <ul class="list-unstyled">
-                            <li class="mb-2"><i class="bi bi-dot text-danger"></i>Keperluan penyelenggaraan kompetisi</li>
-                            <li class="mb-2"><i class="bi bi-dot text-danger"></i>Jika diwajibkan oleh hukum</li>
-                            <li class="mb-2"><i class="bi bi-dot text-danger"></i>Untuk melindungi hak dan keamanan</li>
+                            <li class="mb-2"><i class="bi bi-dot text-danger"></i>Competition organization purposes</li>
+                            <li class="mb-2"><i class="bi bi-dot text-danger"></i>When required by law</li>
+                            <li class="mb-2"><i class="bi bi-dot text-danger"></i>To protect rights and security</li>
                         </ul>
                     </div>
 
                     <!-- Section 5 -->
                     <div class="mb-5">
                         <h3 class="fw-bold mb-3 text-info">
-                            <i class="bi bi-person-check me-2"></i>5. Hak Anda
+                            <i class="bi bi-person-check me-2"></i>5. Your Rights
                         </h3>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <div class="d-flex align-items-start">
                                     <i class="bi bi-eye text-info me-3 mt-1"></i>
                                     <div>
-                                        <h6 class="fw-bold mb-1">Akses Data</h6>
-                                        <p class="text-muted small mb-0">Mengakses informasi pribadi Anda</p>
+                                        <h6 class="fw-bold mb-1">Data Access</h6>
+                                        <p class="text-muted small mb-0">Access your personal information</p>
                                     </div>
                                 </div>
                             </div>
@@ -359,8 +359,8 @@
                                 <div class="d-flex align-items-start">
                                     <i class="bi bi-pencil text-info me-3 mt-1"></i>
                                     <div>
-                                        <h6 class="fw-bold mb-1">Perbaiki Data</h6>
-                                        <p class="text-muted small mb-0">Memperbarui atau mengoreksi data</p>
+                                        <h6 class="fw-bold mb-1">Correct Data</h6>
+                                        <p class="text-muted small mb-0">Update or correct data</p>
                                     </div>
                                 </div>
                             </div>
@@ -368,8 +368,8 @@
                                 <div class="d-flex align-items-start">
                                     <i class="bi bi-trash text-info me-3 mt-1"></i>
                                     <div>
-                                        <h6 class="fw-bold mb-1">Hapus Data</h6>
-                                        <p class="text-muted small mb-0">Menghapus akun dan data Anda</p>
+                                        <h6 class="fw-bold mb-1">Delete Data</h6>
+                                        <p class="text-muted small mb-0">Delete your account and data</p>
                                     </div>
                                 </div>
                             </div>
@@ -377,8 +377,8 @@
                                 <div class="d-flex align-items-start">
                                     <i class="bi bi-x-circle text-info me-3 mt-1"></i>
                                     <div>
-                                        <h6 class="fw-bold mb-1">Tarik Persetujuan</h6>
-                                        <p class="text-muted small mb-0">Menarik persetujuan penggunaan data</p>
+                                        <h6 class="fw-bold mb-1">Withdraw Consent</h6>
+                                        <p class="text-muted small mb-0">Withdraw consent for data use</p>
                                     </div>
                                 </div>
                             </div>
@@ -388,10 +388,10 @@
                     <!-- Contact Section -->
                     <div class="text-center">
                         <h3 class="fw-bold mb-3 text-secondary">
-                            <i class="bi bi-telephone me-2"></i>Hubungi Kami
+                            <i class="bi bi-telephone me-2"></i>Contact Us
                         </h3>
                         <p class="text-muted mb-4">
-                            Jika Anda memiliki pertanyaan tentang kebijakan privasi ini, silakan hubungi kami:
+                            If you have any questions about this privacy policy, please contact us:
                         </p>
                         <div class="row justify-content-center">
                             <div class="col-md-8">
@@ -405,12 +405,12 @@
                                             </div>
                                             <div class="col-md-4 mb-3">
                                                 <i class="bi bi-telephone text-success" style="font-size: 1.5rem;"></i>
-                                                <p class="small mb-1"><strong>Telepon</strong></p>
+                                                <p class="small mb-1"><strong>Phone</strong></p>
                                                 <p class="small mb-0">+62 21 7806700</p>
                                             </div>
                                             <div class="col-md-4 mb-3">
                                                 <i class="bi bi-geo-alt text-danger" style="font-size: 1.5rem;"></i>
-                                                <p class="small mb-1"><strong>Alamat</strong></p>
+                                                <p class="small mb-1"><strong>Address</strong></p>
                                                 <p class="small mb-0">UNAS Jakarta Selatan</p>
                                             </div>
                                         </div>
@@ -422,10 +422,10 @@
                         <div class="mt-4">
                             <p class="text-muted small mb-3">
                                 <i class="bi bi-calendar me-1"></i>
-                                Kebijakan privasi ini terakhir diperbarui pada {{ date('d F Y') }}
+                                This privacy policy was last updated on {{ date('F d, Y') }}
                             </p>
                             <a href="{{ route('public.home') }}" class="btn modern-btn-outline w-auto" style="color: #764ba2; border-color: #764ba2;" onmouseover="this.style.backgroundColor='rgba(118, 75, 162, 0.1)'; this.style.color='#764ba2';" onmouseout="this.style.backgroundColor='transparent';">
-                                <i class="bi bi-house me-2"></i>Kembali ke Beranda
+                                <i class="bi bi-house me-2"></i>Back to Home
                             </a>
                         </div>
                     </div>

@@ -46,6 +46,11 @@
         letter-spacing: -1px;
     }
 
+    .modern-container {
+        position: relative;
+        z-index: 1;
+    }
+
     .modern-subtitle {
         font-size: 1.3rem;
         font-weight: 300;
@@ -134,7 +139,7 @@
         text-align: center;
     }
 
-        .bubbles {
+    .bubbles {
         position: absolute;
         top: 0;
         left: 0;
@@ -190,7 +195,7 @@
 
 @section('content')
 <div class="dynamic-bg"></div>
-<div class="container my-5">
+<div class="container my-5 modern-container">
     <!-- Modern Hero Section -->
     <div class="row">
         <div class="col-12">
@@ -242,8 +247,8 @@
     <!-- Contact Form & Info Section -->
     <div class="row mb-5">
         <div class="col-12">
-            <h2 class="text-center mb-4" data-aos="fade-up">
-                <i class="bi bi-chat-dots text-success"></i>
+            <h2 class="text-center fw-bold mb-4" style="color: #667eea;">
+                <i class="bi bi-chat-dots me-2"></i>
                 Contact Our Team
             </h2>
         </div>
@@ -338,9 +343,9 @@
                     <h5 class="card-title mb-0"><i class="bi bi-clock-fill me-2"></i>Operational Hours</h5>
                 </div>
                 <div class="card-body p-3">
-                    <div class="d-flex justify-content-between mb-2"><span>Senin - Jumat</span><span class="fw-bold">08:00 - 17:00</span></div>
-                    <div class="d-flex justify-content-between mb-2"><span>Sabtu</span><span class="fw-bold">08:00 - 12:00</span></div>
-                    <div class="d-flex justify-content-between"><span>Minggu</span><span class="text-danger fw-bold">Tutup</span></div>
+                    <div class="d-flex justify-content-between mb-2"><span>Monday - Friday</span><span class="fw-bold">8:00 AM - 5:00 PM</span></div>
+                    <div class="d-flex justify-content-between mb-2"><span>Saturday</span><span class="fw-bold">8:00 AM - 12:00 PM</span></div>
+                    <div class="d-flex justify-content-between"><span>Sunday</span><span class="text-danger fw-bold">Closed</span></div>
                 </div>
             </div>
         </div>

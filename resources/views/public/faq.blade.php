@@ -237,7 +237,7 @@
                         Frequently Asked Questions
                     </h1>
                     <p class="modern-subtitle mb-0">
-                        Temukan jawaban untuk pertanyaan yang sering diajukan seputar Caturnawa UNAS FEST 2025.
+                        Find answers to frequently asked questions about Caturnawa UNAS FEST 2025.
                     </p>
                 </div>
             </div>
@@ -250,7 +250,7 @@
             <div class="glass-card">
                 <div class="glass-header p-4">
                     <h2 class="card-title mb-0 text-center fw-bold" style="color: #764ba2;">
-                        <i class="bi bi-patch-question me-2"></i>Pertanyaan Umum
+                        <i class="bi bi-patch-question me-2"></i>General Questions
                     </h2>
                 </div>
                 <div class="card-body p-0">
@@ -278,14 +278,14 @@
                     <hr class="my-5" style="border-color: rgba(0,0,0,0.1);">
 
                     <div class="text-center">
-                        <h3 class="fw-bold mb-4" style="color: #667eea;">Masih Ada Pertanyaan?</h3>
+                        <h3 class="fw-bold mb-4" style="color: #667eea;">Still Have Questions?</h3>
                         <p class="text-muted mb-4">
-                            Jika Anda tidak menemukan jawaban yang dicari, jangan ragu untuk menghubungi tim kami.
+                            If you can't find the answer you're looking for, don't hesitate to contact our team.
                         </p>
                         <div class="row justify-content-center">
                             <div class="col-md-auto mb-2">
                                 <a href="{{ route('public.contact') }}" class="btn modern-btn w-auto">
-                                    <i class="bi bi-envelope me-2"></i>Hubungi Kami
+                                    <i class="bi bi-envelope me-2"></i>Contact Us
                                 </a>
                             </div>
                             <div class="col-md-auto mb-2">

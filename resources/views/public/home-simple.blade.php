@@ -146,13 +146,13 @@
                 <div class="hero-content text-center">
                     <h1 class="modern-title mb-4">
                         Caturnawa<span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"> UNAS FEST 2025</span></h1>
-                    <p class="modern-subtitle mb-5">Website Caturnawa UNAS FEST 2025</p>
+                    <p class="modern-subtitle mb-5">Caturnawa UNAS FEST 2025 Website</p>
                 <hr class="my-4">
-                <p>Bergabunglah dengan kompetisi Teknologi, Kesehatan, dan Biodiversitas menanti!</p>
+                <p>Join the Technology, Health, and Biodiversity competitions awaiting you!</p>
                 <a class="btn modern-btn btn-auto w-auto"
                    href="{{ route('public.competitions') }}"
                    role="button">
-                    <i class="bi bi-trophy"></i> Lihat Competitions
+                    <i class="bi bi-trophy"></i> View Competitions
                 </a>
             </div>
         </div>
@@ -164,9 +164,9 @@
         <div class="col-12 mb-4">
             <div class="text-center" data-aos="fade-up">
                 <h2 class="fw-bold text-primary">
-                    <i class="bi bi-trophy me-2"></i>Leaderboard Caturnawa UNAS FEST 2025
+                    <i class="bi bi-trophy me-2"></i>Caturnawa UNAS FEST 2025 Leaderboard
                 </h2>
-                <p class="text-muted">Peringkat Tim Terbaik Per Competitions</p>
+                <p class="text-muted">Top Team Rankings Per Competition</p>
             </div>
         </div>
 
@@ -178,7 +178,7 @@
                         <h5 class="card-title mb-0">
                             <i class="bi bi-trophy me-2"></i>{{ $competition->name }}
                         </h5>
-                        <small>Top 4 Peringkat</small>
+                        <small>Top 4 Rankings</small>
                     </div>
                     <div class="card-body p-0">
                         <div class="table-responsive">
@@ -186,8 +186,8 @@
                                 <thead class="table-light">
                                     <tr>
                                         <th class="text-center" width="100">Rank</th>
-                                        <th>Tim</th>
-                                        <th>Institusi</th>
+                                        <th>Team</th>
+                                        <th>Institution</th>
                                         <th class="text-center" width="100">Victory Points</th>
                                 </tr>
                             </thead>
@@ -224,7 +224,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <small>{{ $team['institution'] ?? 'Tidak ada' }}</small>
+                                            <small>{{ $team['institution'] ?? 'No data' }}</small>
                                         </td>
                                         <td class="text-center">
                                             <span class="badge bg-success">
@@ -244,7 +244,7 @@
                     </a>
                     <a href="{{ route('matalomba.show', $competition->slug) }}"
                        class="btn btn-outline-success btn-sm ms-2">
-                        <i class="bi bi-trophy me-1"></i>Lihat Babak
+                        <i class="bi bi-trophy me-1"></i>View Rounds
                     </a>
                 </div>
             </div>
@@ -255,7 +255,7 @@
         <div class="col-12 text-center mt-3">
             <a href="{{ route('leaderboard.index') }}"
                class="btn btn-primary btn-lg">
-                <i class="bi bi-trophy me-2"></i>Lihat Semua Leaderboard
+                <i class="bi bi-trophy me-2"></i>View All Leaderboards
             </a>
         </div>
     </div>
@@ -266,11 +266,11 @@
                 <div class="card-body text-center py-5">
                     <i class="bi bi-trophy text-muted"
                        style="font-size: 4rem;"></i>
-                    <h4 class="mt-3 text-muted">Leaderboard Belum Tersedia</h4>
-                    <p class="text-muted">Leaderboard akan ditampilkan setelah ada submission yang dinilai.</p>
+                    <h4 class="mt-3 text-muted">Leaderboard Not Available Yet</h4>
+                    <p class="text-muted">Leaderboard will be displayed after submissions are evaluated.</p>
                     <a href="{{ route('public.competitions') }}"
                        class="btn btn-primary">
-                        <i class="bi bi-trophy me-2"></i>Lihat Competitions
+                        <i class="bi bi-trophy me-2"></i>View Competitions
                     </a>
                 </div>
             </div>
@@ -282,7 +282,7 @@
         @if($competitions && $competitions->count() > 0)
             <div class="row mt-5">
                 <div class="col-12">
-                    <h2 class="text-center mb-4 fw-bold" style="color: #667eea;">Competitions UNAS FEST</h2>
+                    <h2 class="text-center mb-4 fw-bold" style="color: #667eea;">UNAS FEST Competitions</h2>
                 </div>
             </div>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -297,9 +297,9 @@
                                 @elseif($competition->registration_start && now()->lt($competition->registration_start))
                                     <span class="badge bg-warning">Not Open Yet</span>
                                 @elseif($competition->registration_end && now()->gt($competition->registration_end))
-                                    <span class="badge bg-secondary">Ditutup</span>
+                                    <span class="badge bg-secondary">Closed</span>
                                 @else
-                                    <span class="badge bg-danger">Tidak Active</span>
+                                    <span class="badge bg-danger">Not Active</span>
                                 @endif
                             </div>
                             <p class="card-text text-muted mb-3">{{ Str::limit($competition->description ?? 'No description available', 100) }}</p>
@@ -326,7 +326,7 @@
                             </a>
                             @else
                             <span class="btn btn-secondary rounded-3 px-4 py-2 disabled">
-                                Detail Tidak Tersedia
+                                Details Not Available
                             </span>
                             @endif
                         </div>
@@ -337,11 +337,11 @@
         @else
             <div class="row mt-5">
                 <div class="col-12">
-                    <h2 class="text-center mb-4">Competitions UnasFest</h2>
+                    <h2 class="text-center mb-4">UnasFest Competitions</h2>
                     <div class="text-center">
                         <div class="alert alert-info d-inline-block">
                             <i class="bi bi-info-circle me-2"></i>
-                            Belum ada kompetisi yang tersedia saat ini. Silakan cek kembali nanti!
+                            No competitions are currently available. Please check back later!
                         </div>
                     </div>
                 </div>

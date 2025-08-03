@@ -7,6 +7,8 @@
 @section('title', 'About Us - Caturnawa UNAS FEST 2025')
 
 @section('content')
+
+@push('styles')
 <style>
     .modern-hero {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -266,6 +268,7 @@
         }
     }
 </style>
+@endpush
 
 <div class="dynamic-bg"></div>
 <div class="container my-5 modern-container">
@@ -317,9 +320,8 @@
                 </div>
                 <div class="p-4 text-center" style="color: #2d3748;">
                     <p class="mb-0">
-                        Menjadi festival kompetisi nasional terdepan yang menginspirasi inovasi berkelanjutan
-                        dalam bidang teknologi, kesehatan, dan biodiversitas untuk masa depan Indonesia yang lebih baik.
-                    </p>
+                        To become a leading national competition festival that inspires sustainable innovation
+                        in the fields of technology, health, and biodiversity for a better future for Indonesia.</p>
                 </div>
             </div>
         </div>
@@ -360,17 +362,17 @@
         <div class="col-12" data-aos="zoom-in">
             <div class="card shadow">
                 <div class="card-header bg-info text-white text-center">
-                    <h2 class="card-title mb-0">Nilai-Nilai Kami</h2>
-                    <p class="mb-0">Prinsip-prinsip yang menjadi fondasi dalam menyelenggarakan Caturnawa UNAS FEST 2025</p>
+                    <h2 class="card-title mb-0">Our Values</h2>
+                    <p class="mb-0">The principles that form the foundation for organizing Caturnawa UNAS FEST 2025</p>
                 </div>
                 <div class="card-body">
                     <div class="row g-4">
                         <div class="col-lg-3 col-md-6 text-center" data-aos="fade-up" data-aos-delay="100">
                             <div class="p-3">
                                 <i class="bi bi-lightbulb text-primary" style="font-size: 3rem;"></i>
-                                <h4 class="fw-bold text-primary mt-2">Inovasi</h4>
+                                <h4 class="fw-bold text-primary mt-2">Innovation</h4>
                                 <p class="text-muted">
-                                    Mendorong kreativitas dan pemikiran out-of-the-box untuk menciptakan solusi inovatif yang berdampak.
+                                    Encouraging creativity and out-of-the-box thinking to create innovative solutions that make an impact.
                                 </p>
                             </div>
                         </div>
@@ -378,9 +380,9 @@
                         <div class="col-lg-3 col-md-6 text-center" data-aos="fade-up" data-aos-delay="200">
                             <div class="p-3">
                                 <i class="bi bi-people text-success" style="font-size: 3rem;"></i>
-                                <h4 class="fw-bold text-success mt-2">Kolaborasi</h4>
+                                <h4 class="fw-bold text-success mt-2">Collaboration</h4>
                                 <p class="text-muted">
-                                    Membangun kerjasama yang solid antar peserta, panitia, dan stakeholder untuk mencapai tujuan bersama.
+                                    Building solid cooperation between participants, committees, and stakeholders to achieve common goals.
                                 </p>
                             </div>
                         </div>
@@ -388,9 +390,9 @@
                         <div class="col-lg-3 col-md-6 text-center" data-aos="fade-up" data-aos-delay="300">
                             <div class="p-3">
                                 <i class="bi bi-award text-warning" style="font-size: 3rem;"></i>
-                                <h4 class="fw-bold text-warning mt-2">Kualitas</h4>
+                                <h4 class="fw-bold text-warning mt-2">Quality</h4>
                                 <p class="text-muted">
-                                    Menjaga standar tinggi dalam setiap aspek penyelenggaraan kompetisi dan pelayanan peserta.
+                                    Maintaining high standards in every aspect of competition organization and participant services.
                                 </p>
                             </div>
                         </div>
@@ -398,9 +400,9 @@
                         <div class="col-lg-3 col-md-6 text-center" data-aos="fade-up" data-aos-delay="400">
                             <div class="p-3">
                                 <i class="bi bi-globe text-info" style="font-size: 3rem;"></i>
-                                <h4 class="fw-bold text-info mt-2">Berkelanjutan</h4>
+                                <h4 class="fw-bold text-info mt-2">Sustainable</h4>
                                 <p class="text-muted">
-                                    Fokus pada solusi yang memberikan dampak jangka panjang bagi masyarakat dan lingkungan.
+                                    Focus on solutions that have a long-term impact on society and the environment.
                                 </p>
                             </div>
                         </div>

@@ -84,7 +84,7 @@
                 <!-- Submissions Table -->
                 <div class="table-responsive">
                     <table class="table table-hover">
-                        <thead class="table-dark">
+                        <thead class="table-light text-center">
                             <tr>
                                 <th>Peserta</th>
                                 <th>Kompetisi</th>

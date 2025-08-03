@@ -18,8 +18,8 @@
                         <p class="text-white-50 mb-0">{{ $competition->name }}</p>
                     </div>
                 </div>
-                <a href="{{ route('matalomba.show', $competition->slug) }}" class="btn btn-outline-light">
-                    <i class="bi bi-arrow-left me-2"></i>Kembali
+                <a href="{{ route('matalomba.show', $competition->slug) }}" class="btn btn-outline-light btn-auto w-100">
+                    <i class="bi bi-arrow-left me-2"></i>Back
                 </a>
             </div>
         </div>
@@ -87,8 +87,8 @@
                         @else
                             <div class="text-center py-5">
                                 <i class="bi bi-graph-up text-muted" style="font-size: 4rem;"></i>
-                                <h5 class="text-muted mt-3">Leaderboard belum tersedia</h5>
-                                <p class="text-muted">Leaderboard akan muncul setelah pertandingan dimulai</p>
+                                <h5 class="text-muted mt-3">Leaderboard not yet available</h5>
+                                <p class="text-muted">Leaderboard will appear after matches begin</p>
                             </div>
                         @endif
                     </div>
@@ -125,7 +125,7 @@
                                             @if($match->motion)
                                                 <div class="mb-3">
                                                     <small class="text-muted">
-                                                        <strong>Mosi:</strong><br>
+                                                        <strong>Motion:</strong><br>
                                                         "{{ Str::limit($match->motion, 100) }}"
                                                     </small>
                                                 </div>
@@ -148,7 +148,7 @@
                                             
                                             <a href="{{ route('matalomba.match', [$competition->slug, $round->round_type, $match->match_name]) }}" 
                                                class="btn btn-primary">
-                                                <i class="bi bi-eye me-2"></i>Detail
+                                                <i class="bi bi-eye me-2"></i>Details
                                             </a>
                                         </div>
                                     </div>
@@ -158,8 +158,8 @@
                         @else
                             <div class="text-center py-5">
                                 <i class="bi bi-calendar-x text-muted" style="font-size: 4rem;"></i>
-                                <h5 class="text-muted mt-3">Pertandingan belum dijadwalkan</h5>
-                                <p class="text-muted">Jadwal pertandingan akan diumumkan oleh panitia</p>
+                                <h5 class="text-muted mt-3">Matches not yet scheduled</h5>
+                                <p class="text-muted">Match schedule will be announced by the committee</p>
                             </div>
                         @endif
                     </div>

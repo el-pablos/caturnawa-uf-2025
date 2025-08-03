@@ -157,11 +157,11 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="{{ route('public.home') }}">
-                    <i class="bi bi-house me-1"></i>Beranda
+                    <i class="bi bi-house me-1"></i>Home
                 </a>
             </li>
             <li class="breadcrumb-item">
-                <a href="{{ route('public.competitions') }}">Kompetisi</a>
+                <a href="{{ route('public.competitions') }}">Competitions</a>
             </li>
             <li class="breadcrumb-item active">{{ $competition->name }}</li>
         </ol>
@@ -179,36 +179,40 @@
                         <i class="bi bi-trophy"></i> {{ $competition->name }}
                     </h1>
                     <p class="modern-subtitle mb-4">
-                        {{ $competition->description ?? 'Kompetisi inovatif yang menantang kreativitas dan kemampuan peserta.' }}
+                        {{ $competition->description ?? 'Innovative competition that challenges participants\' creativity and abilities.' }}
                     </p>
                     
                     <!-- Status Badge -->
                     <div class="mb-4">
                         @if($competition->registration_start > now())
                             <span class="badge bg-light text-dark fs-5 px-4 py-2" style="border-radius: 50px;">
-                                <i class="bi bi-clock me-2"></i>Segera Dibuka
+                                <i class="bi bi-clock me-2"></i>Opening Soon
                             </span>
                         @elseif($competition->registration_end < now())
                             <span class="badge bg-danger fs-5 px-4 py-2" style="border-radius: 50px;">
-                                <i class="bi bi-x-circle me-2"></i>Pendaftaran Ditutup
+                                <i class="bi bi-x-circle me-2"></i>Registration Closed
                             </span>
                         @else
                             <span class="badge bg-success fs-5 px-4 py-2" style="border-radius: 50px;">
-                                <i class="bi bi-check-circle me-2"></i>Pendaftaran Dibuka
+                                <i class="bi bi-check-circle me-2"></i>Registration Open
                             </span>
                         @endif
                     </div>
 
                     <!-- Action Buttons -->
-                    <div class="d-flex justify-content-center gap-3">
+                    <div class="row justify-content-center">
                         @if($competition->registration_start <= now() && $competition->registration_end >= now())
-                            <a href="{{ route('login') }}" class="btn modern-btn">
-                                <i class="bi bi-person-plus me-2"></i>Daftar Sekarang
-                            </a>
+                            <div class="col-md-4 col-lg-3 mb-3">
+                                <a href="{{ route('login') }}" class="btn modern-btn btn-auto w-100">
+                                    <i class="bi bi-person-plus me-2"></i>Register Now
+                                </a>
+                            </div>
                         @endif
-                        <a href="{{ route('public.competitions') }}" class="btn modern-btn-outline">
-                            <i class="bi bi-arrow-left me-2"></i>Kembali ke Kompetisi
-                        </a>
+                        <div class="col-md-4 col-lg-3 mb-3">
+                            <a href="{{ route('public.competitions') }}" class="btn modern-btn-outline btn-auto w-100">
+                                <i class="bi bi-arrow-left me-2"></i>Back to Competition
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -221,7 +225,7 @@
             <div class="col-12">
                 <div class="card shadow">
                     <div class="card-header bg-secondary text-white text-center">
-                        <h3 class="card-title mb-0">Gambar Kompetisi</h3>
+                        <h3 class="card-title mb-0">Competition Image</h3>
                     </div>
                     <div class="card-body text-center">
                         <img src="{{ asset('storage/' . $competition->image) }}" 
@@ -239,13 +243,13 @@
         <div class="col-12">
             <h2 class="text-center mb-4 fw-bold" style="color:#667eea;" data-aos="fade-up">
                 <i class="bi bi-info-circle"></i> 
-                Informasi Kompetisi
+                Competition Information
             </h2>
         </div>
         <div class="col-12">
             <div class="card shadow" data-aos="fade-up" data-aos-delay="200">
                 <div class="card-header bg-primary text-white text-center">
-                    <h3 class="card-title mb-0">Detail Kompetisi</h3>
+                    <h3 class="card-title mb-0">Competition Details</h3>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -253,7 +257,7 @@
                             <div class="card border-primary">
                                 <div class="card-body text-center">
                                     <i class="bi bi-calendar-event text-primary mb-2" style="font-size: 2rem;"></i>
-                                    <h5 class="text-primary">Periode Pendaftaran</h5>
+                                    <h5 class="text-primary">Registration Period</h5>
                                     <p class="mb-0">
                                         {{ $competition->registration_start ? \Carbon\Carbon::parse($competition->registration_start)->format('d M Y') : 'TBA' }} - 
                                         {{ $competition->registration_end ? \Carbon\Carbon::parse($competition->registration_end)->format('d M Y') : 'TBA' }}
@@ -265,8 +269,8 @@
                             <div class="card border-success">
                                 <div class="card-body text-center">
                                     <i class="bi bi-people text-success mb-2" style="font-size: 2rem;"></i>
-                                    <h5 class="text-success">Maksimal Tim</h5>
-                                    <p class="mb-0">{{ $competition->max_team_members ?? 'Maksimal 3' }} orang</p>
+                                    <h5 class="text-success">Maximum Team</h5>
+                                    <p class="mb-0">{{ $competition->max_team_members ?? 'Maximum 3' }} people</p>
                                 </div>
                             </div>
                         </div>
@@ -282,13 +286,13 @@
             <div class="col-12">
                 <h2 class="text-center mb-4 fw-bold " style="color:#667eea;">
                     <i class="bi bi-calendar-week"></i> 
-                    Jadwal Kompetisi
+                    Competition Schedule
                 </h2>
             </div>
             <div class="col-12">
                 <div class="card shadow">
                     <div class="card-header bg-success text-white text-center">
-                        <h3 class="card-title mb-0">Timeline Kompetisi</h3>
+                        <h3 class="card-title mb-0">Competition Timeline</h3>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -297,7 +301,7 @@
                                     <div class="card border-success">
                                         <div class="card-body text-center">
                                             <i class="bi bi-play-circle text-success mb-2" style="font-size: 2rem;"></i>
-                                            <h5 class="text-success">Mulai Kompetisi</h5>
+                                            <h5 class="text-success">Competition Start</h5>
                                             <p class="mb-0">{{ \Carbon\Carbon::parse($competition->competition_start)->format('d M Y, H:i') }}</p>
                                         </div>
                                     </div>
@@ -308,7 +312,7 @@
                                     <div class="card border-danger">
                                         <div class="card-body text-center">
                                             <i class="bi bi-stop-circle text-danger mb-2" style="font-size: 2rem;"></i>
-                                            <h5 class="text-danger">Selesai Kompetisi</h5>
+                                            <h5 class="text-danger">Competition End</h5>
                                             <p class="mb-0">{{ \Carbon\Carbon::parse($competition->competition_end)->format('d M Y, H:i') }}</p>
                                         </div>
                                     </div>
@@ -329,8 +333,8 @@
                     <div class="card-header bg-gradient" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none;">
                         <div class="text-center">
                             <i class="bi bi-list-check fs-2 text-white mb-2"></i>
-                            <h3 class="mb-0 fw-bold" style="color: #667eea;">Syarat & Ketentuan</h3>
-                            <small class="text-muted d-block mt-50">Harap dibaca dengan teliti sebelum mendaftar</small>
+                            <h3 class="mb-0 fw-bold" style="color: #667eea;">Terms & Conditions</h3>
+                            <small class="text-muted d-block mt-50">Please read carefully before registering</small>
                         </div>
                     </div>
                     <div class="card-body p-4">
@@ -362,7 +366,7 @@
                             <div class="d-flex align-items-center">
                                 <i class="bi bi-info-circle-fill text-primary me-2"></i>
                                 <div>
-                                    <strong>Penting:</strong> Dengan mendaftar, Anda menyetujui semua syarat dan ketentuan yang telah ditetapkan.
+                                    <strong>Important:</strong> By registering, you agree to all the terms and conditions that have been set.
                                 </div>
                             </div>
                         </div>
@@ -378,7 +382,7 @@
             <div class="col-12">
                 <h2 class="text-center mb-4">
                     <i class="bi bi-file-text text-primary"></i> 
-                    Deskripsi Kompetisi
+                    Competition Description
                 </h2>
             </div>
             <div class="col-12">
@@ -405,54 +409,54 @@
         <div class="col-12">
             <h2 class="text-center mb-4 fw-bold" style="color:#667eea;" data-aos="fade-up">
                 <i class="bi bi-rocket"></i> 
-                Siap Bergabung?
+                Ready to Join?
             </h2>
         </div>
         <div class="col-12">
             <div class="card shadow">
                 <div class="card-header bg-primary text-white text-center">
-                    <h3 class="card-title mb-0">Bergabunglah dengan {{ $competition->name }}</h3>
-                    <p class="mb-0">Jangan lewatkan kesempatan emas ini untuk menunjukkan kemampuan terbaikmu!</p>
+                    <h3 class="card-title mb-0">Join {{ $competition->name }}</h3>
+                    <p class="mb-0">Don't miss this golden opportunity to showcase your best abilities!</p>
                 </div>
                 <div class="card-body text-center">
                     @if($competition->registration_start <= now() && $competition->registration_end >= now())
                         <div class="alert alert-success">
                             <i class="bi bi-check-circle me-2"></i>
-                            <strong>Pendaftaran Dibuka!</strong> Segera daftar sebelum kuota penuh.
+                            <strong>Registration Open!</strong> Register immediately before the quota is full.
                         </div>
                         <div class="row justify-content-center">
                             <div class="col-md-4 mb-3">
                                 <a href="{{ route('login') }}" class="btn btn-primary btn-lg w-100">
-                                    <i class="bi bi-person-plus me-2"></i>Daftar Sekarang
+                                    <i class="bi bi-person-plus me-2"></i>Register Now
                                 </a>
                             </div>
                             <div class="col-md-4 mb-3">
                                 <a href="{{ route('public.contact') }}" class="btn btn-outline-primary btn-lg w-100">
-                                    <i class="bi bi-question-circle me-2"></i>Ada Pertanyaan?
+                                    <i class="bi bi-question-circle me-2"></i>Have Questions?
                                 </a>
                             </div>
                         </div>
                     @elseif($competition->registration_start > now())
                         <div class="alert alert-warning">
                             <i class="bi bi-clock me-2"></i>
-                            <strong>Pendaftaran Belum Dibuka!</strong> Tunggu tanggal {{ \Carbon\Carbon::parse($competition->registration_start)->format('d M Y') }}.
+                            <strong>Registration Not Open Yet!</strong> Wait until {{ \Carbon\Carbon::parse($competition->registration_start)->format('d M Y') }}.
                         </div>
                         <div class="row justify-content-center">
                             <div class="col-md-4 mb-3">
                                 <a href="{{ route('public.competitions') }}" class="btn btn-primary btn-lg w-100">
-                                    <i class="bi bi-arrow-left me-2"></i>Lihat Kompetisi Lain
+                                    <i class="bi bi-arrow-left me-2"></i>View Other Competitions
                                 </a>
                             </div>
                         </div>
                     @else
                         <div class="alert alert-danger">
                             <i class="bi bi-x-circle me-2"></i>
-                            <strong>Pendaftaran Sudah Ditutup!</strong> Jangan lewatkan kompetisi berikutnya.
+                            <strong>Registration Closed!</strong> Don't miss the next competition.
                         </div>
                         <div class="row justify-content-center">
                             <div class="col-md-4 mb-3">
                                 <a href="{{ route('public.competitions') }}" class="btn btn-primary btn-lg w-100">
-                                    <i class="bi bi-arrow-left me-2"></i>Lihat Kompetisi Lain
+                                    <i class="bi bi-arrow-left me-2"></i>View Other Competitions
                                 </a>
                             </div>
                         </div>

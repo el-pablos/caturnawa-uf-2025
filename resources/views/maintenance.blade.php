@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Dalam Pemeliharaan - Caturnawa UNAS FEST 2025</title>
+    <title>Website Under Maintenance - Caturnawa UNAS FEST 2025</title>
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -175,7 +175,7 @@
             <i class="bi bi-gear-fill"></i>
         </div>
         
-        <h1 class="maintenance-title">Website Dalam Pemeliharaan</h1>
+        <h1 class="maintenance-title">Website Under Maintenance</h1>
         
         <p class="maintenance-message">
             {{ $message ?? 'Maaf yahh website dalam masa pemeliharaan, silahkan coba nanti' }}
@@ -187,15 +187,15 @@
         </p>
         
         <div class="maintenance-details">
-            <h5><i class="bi bi-info-circle me-2"></i>Informasi Pemeliharaan</h5>
-            <p><i class="bi bi-clock me-2"></i>Kami sedang melakukan pemeliharaan sistem untuk meningkatkan performa</p>
-            <p><i class="bi bi-shield-check me-2"></i>Data Anda tetap aman selama proses pemeliharaan</p>
-            <p><i class="bi bi-arrow-clockwise me-2"></i>Website akan kembali normal setelah pemeliharaan selesai</p>
+            <h5><i class="bi bi-info-circle me-2"></i>Maintenance Information</h5>
+            <p><i class="bi bi-clock me-2"></i>We are currently performing system maintenance to improve performance.</p>
+            <p><i class="bi bi-shield-check me-2"></i>Your data remains secure during maintenance.</p>
+            <p><i class="bi bi-arrow-clockwise me-2"></i>The website will return to normal after maintenance is complete.</p>
         </div>
         
         <div class="contact-info">
-            <h6><i class="bi bi-envelope me-2"></i>Butuh Bantuan?</h6>
-            <p>Jika ada pertanyaan mendesak, silahkan hubungi:</p>
+            <h6><i class="bi bi-envelope me-2"></i>Need help?</h6>
+            <p>If you have any urgent questions, please contact:</p>
             <p>
                 <i class="bi bi-envelope-fill me-2"></i>
                 <a href="mailto:info@unasfest.com" class="contact-link">info@unasfest.com</a>
