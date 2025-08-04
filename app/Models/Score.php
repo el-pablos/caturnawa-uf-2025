@@ -945,131 +945,41 @@ class Score extends Model
     {
         return [
             'semifinal_round' => [
-                'Cinematography - Angle Shot' => [
-                    'description' => 'Camera angle techniques and shot composition quality',
-                    'weight' => 40,
+                'Cinematography Score' => [
+                    'description' => 'Overall cinematography assessment including angle shot (40%), image composition (30%), and image quality (30%)',
+                    'weight' => 33.33,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Cinematography - Image Composition' => [
-                    'description' => 'Visual composition and framing of images in the video',
-                    'weight' => 30,
+                'Visual and Form Score' => [
+                    'description' => 'Visual elements assessment including costume set (25%), visual effects (25%), arrangement of elements (25%), and property/place settings (25%)',
+                    'weight' => 33.33,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Cinematography - Image Quality' => [
-                    'description' => 'Technical quality of images including resolution and clarity',
-                    'weight' => 30,
-                    'min_score' => 0,
-                    'max_score' => 100
-                ],
-                'Visual and Form - Costume Set' => [
-                    'description' => 'Quality and appropriateness of costumes and set design',
-                    'weight' => 25,
-                    'min_score' => 0,
-                    'max_score' => 100
-                ],
-                'Visual and Form - Visual Effect' => [
-                    'description' => 'Quality and effectiveness of visual effects used',
-                    'weight' => 25,
-                    'min_score' => 0,
-                    'max_score' => 100
-                ],
-                'Visual and Form - Arrangement of Elements' => [
-                    'description' => 'Organization and arrangement of visual elements',
-                    'weight' => 25,
-                    'min_score' => 0,
-                    'max_score' => 100
-                ],
-                'Visual and Form - Property and Place Settings' => [
-                    'description' => 'Quality of props and location settings used',
-                    'weight' => 25,
-                    'min_score' => 0,
-                    'max_score' => 100
-                ],
-                'Visual and Editing - Footage/Picture Assembly' => [
-                    'description' => 'Quality of video editing and footage assembly',
-                    'weight' => 40,
-                    'min_score' => 0,
-                    'max_score' => 100
-                ],
-                'Visual and Editing - Background Music' => [
-                    'description' => 'Appropriateness and quality of background music',
-                    'weight' => 20,
-                    'min_score' => 0,
-                    'max_score' => 100
-                ],
-                'Visual and Editing - Sound Effects' => [
-                    'description' => 'Quality and effectiveness of sound effects',
-                    'weight' => 20,
-                    'min_score' => 0,
-                    'max_score' => 100
-                ],
-                'Visual and Editing - Narration/Dialogue' => [
-                    'description' => 'Quality of narration and dialogue delivery',
-                    'weight' => 20,
+                'Visual and Editing Score' => [
+                    'description' => 'Editing quality assessment including footage assembly (40%), background music (20%), sound effects (20%), and narration/dialogue (20%)',
+                    'weight' => 33.34,
                     'min_score' => 0,
                     'max_score' => 100
                 ]
             ],
             'final_round' => [
-                'Presentation Content - Informative Supporting' => [
-                    'description' => 'Presentation content must be informative, structured, and support the purpose of the work with relevant facts, data, and stories',
-                    'weight' => 50,
+                'Presentation Content Score' => [
+                    'description' => 'Overall presentation content assessment including informative supporting (50%), does not digress (20%), and structured flow (30%)',
+                    'weight' => 33.33,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Presentation Content - Does Not Digress' => [
-                    'description' => 'Speech must be relevant and not deviate to unrelated topics',
-                    'weight' => 20,
+                'Presentation Speech Score' => [
+                    'description' => 'Speech delivery assessment including interesting opening (10%), clear voice & eye contact (30%), polite language (30%), and calmness (30%)',
+                    'weight' => 33.33,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Presentation Content - Has Structured Flow' => [
-                    'description' => 'Presentation must have organized content and logical flow',
-                    'weight' => 30,
-                    'min_score' => 0,
-                    'max_score' => 100
-                ],
-                'Presentation Speech - Interesting Opening' => [
-                    'description' => 'Presentation must have an engaging and interesting opening',
-                    'weight' => 10,
-                    'min_score' => 0,
-                    'max_score' => 100
-                ],
-                'Presentation Speech - Clear Voice Intonation and Eye Contact' => [
-                    'description' => 'Clear voice intonation and good eye contact with audience',
-                    'weight' => 30,
-                    'min_score' => 0,
-                    'max_score' => 100
-                ],
-                'Presentation Speech - Using Polite Language' => [
-                    'description' => 'Using appropriate and polite language during presentation',
-                    'weight' => 30,
-                    'min_score' => 0,
-                    'max_score' => 100
-                ],
-                'Presentation Speech - Calmness in Delivering Material' => [
-                    'description' => 'Maintaining calmness and composure while delivering the presentation',
-                    'weight' => 30,
-                    'min_score' => 0,
-                    'max_score' => 100
-                ],
-                'Q&A Session - Relevant Answer to the Question' => [
-                    'description' => 'Answers must be relevant and directly address the questions asked',
-                    'weight' => 40,
-                    'min_score' => 0,
-                    'max_score' => 100
-                ],
-                'Q&A Session - Easy to Understand Language' => [
-                    'description' => 'Answers delivered in language that is easy to understand',
-                    'weight' => 30,
-                    'min_score' => 0,
-                    'max_score' => 100
-                ],
-                'Q&A Session - Good Understanding of the Work' => [
-                    'description' => 'Showing deep understanding and knowledge of the work created',
-                    'weight' => 30,
+                'Q&A Session Score' => [
+                    'description' => 'Question and answer session assessment including relevant answers (40%), easy language (30%), and good understanding (30%)',
+                    'weight' => 33.34,
                     'min_score' => 0,
                     'max_score' => 100
                 ]
