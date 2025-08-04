@@ -145,6 +145,92 @@
             font-size: 1rem;
         }
     }
+
+    /* Timeline Styles */
+    .timeline-container {
+        position: relative;
+    }
+
+    .timeline {
+        position: relative;
+        padding-left: 30px;
+    }
+
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 15px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(to bottom, #667eea, #764ba2);
+    }
+
+    .timeline-item {
+        position: relative;
+        margin-bottom: 30px;
+        padding-left: 40px;
+    }
+
+    .timeline-marker {
+        position: absolute;
+        left: -25px;
+        top: 5px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 3px solid white;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        z-index: 1;
+    }
+
+    .timeline-content {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        border-left: 4px solid #667eea;
+        transition: all 0.3s ease;
+    }
+
+    .timeline-content:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .timeline-header {
+        margin-bottom: 10px;
+    }
+
+    .timeline-header h5 {
+        margin-bottom: 5px;
+        font-weight: 700;
+    }
+
+    .timeline-content ul li {
+        margin-bottom: 5px;
+        font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+        .timeline {
+            padding-left: 20px;
+        }
+
+        .timeline-item {
+            padding-left: 30px;
+        }
+
+        .timeline-marker {
+            left: -20px;
+            width: 16px;
+            height: 16px;
+        }
+
+        .timeline-content {
+            padding: 15px;
+        }
+    }
 </style>
 @endpush
 
@@ -281,49 +367,284 @@
     </div>
 
     <!-- Competition Timeline -->
-    @if($competition->competition_start || $competition->competition_end)
-        <div class="row mb-5">
-            <div class="col-12">
-                <h2 class="text-center mb-4 fw-bold " style="color:#667eea;">
-                    <i class="bi bi-calendar-week"></i> 
-                    Competition Schedule
-                </h2>
-            </div>
-            <div class="col-12">
-                <div class="card shadow">
-                    <div class="card-header bg-success text-white text-center">
-                        <h3 class="card-title mb-0">Competition Timeline</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            @if($competition->competition_start)
-                                <div class="col-md-6 mb-3">
-                                    <div class="card border-success">
-                                        <div class="card-body text-center">
-                                            <i class="bi bi-play-circle text-success mb-2" style="font-size: 2rem;"></i>
-                                            <h5 class="text-success">Competition Start</h5>
-                                            <p class="mb-0">{{ \Carbon\Carbon::parse($competition->competition_start)->format('d M Y, H:i') }}</p>
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="text-center mb-4 fw-bold" style="color:#667eea;">
+                <i class="bi bi-calendar-week"></i>
+                Timeline {{ $competition->name }} UNAS FEST 2025
+            </h2>
+        </div>
+        <div class="col-12">
+            <div class="card shadow-lg border-0">
+                <div class="card-header text-white text-center" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <h3 class="card-title mb-0 fw-bold">
+                        <i class="bi bi-clock-history me-2"></i>Competition Timeline & Schedule
+                    </h3>
+                    <p class="mb-0 mt-2 opacity-75">Complete schedule from registration to awarding ceremony</p>
+                </div>
+                <div class="card-body p-0">
+                    @if($competition->slug == 'edc')
+                        <!-- EDC Timeline -->
+                        <div class="timeline-container p-4">
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <div class="timeline-marker bg-primary"></div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-header">
+                                            <h5 class="text-primary mb-1">Registration Period</h5>
+                                            <small class="text-muted">Phase 1</small>
                                         </div>
+                                        <p class="mb-2"><strong>November 15 - December 20, 2024</strong></p>
+                                        <ul class="list-unstyled mb-0">
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Online registration opens</li>
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Document submission</li>
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Payment confirmation</li>
+                                        </ul>
                                     </div>
                                 </div>
-                            @endif
-                            @if($competition->competition_end)
-                                <div class="col-md-6 mb-3">
-                                    <div class="card border-danger">
-                                        <div class="card-body text-center">
-                                            <i class="bi bi-stop-circle text-danger mb-2" style="font-size: 2rem;"></i>
-                                            <h5 class="text-danger">Competition End</h5>
-                                            <p class="mb-0">{{ \Carbon\Carbon::parse($competition->competition_end)->format('d M Y, H:i') }}</p>
+
+                                <div class="timeline-item">
+                                    <div class="timeline-marker bg-warning"></div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-header">
+                                            <h5 class="text-warning mb-1">Technical Meeting</h5>
+                                            <small class="text-muted">Phase 2</small>
                                         </div>
+                                        <p class="mb-2"><strong>January 10, 2025</strong></p>
+                                        <ul class="list-unstyled mb-0">
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Competition briefing</li>
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Rules explanation</li>
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Q&A session</li>
+                                        </ul>
                                     </div>
                                 </div>
-                            @endif
+
+                                <div class="timeline-item">
+                                    <div class="timeline-marker bg-info"></div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-header">
+                                            <h5 class="text-info mb-1">Preliminary Round</h5>
+                                            <small class="text-muted">Phase 3</small>
+                                        </div>
+                                        <p class="mb-2"><strong>January 15-17, 2025</strong></p>
+                                        <ul class="list-unstyled mb-0">
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Opening ceremony</li>
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Preliminary debates</li>
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Qualification announcement</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item">
+                                    <div class="timeline-marker bg-success"></div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-header">
+                                            <h5 class="text-success mb-1">Final Round</h5>
+                                            <small class="text-muted">Phase 4</small>
+                                        </div>
+                                        <p class="mb-2"><strong>January 20, 2025</strong></p>
+                                        <ul class="list-unstyled mb-0">
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Semi-final debates</li>
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Grand final debate</li>
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Awarding ceremony</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    @elseif($competition->slug == 'spc')
+                        <!-- SPC Timeline -->
+                        <div class="timeline-container p-4">
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <div class="timeline-marker bg-primary"></div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-header">
+                                            <h5 class="text-primary mb-1">Registration & Submission</h5>
+                                            <small class="text-muted">Phase 1</small>
+                                        </div>
+                                        <p class="mb-2"><strong>November 15 - December 25, 2024</strong></p>
+                                        <ul class="list-unstyled mb-0">
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Online registration</li>
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Scientific paper submission</li>
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Payment confirmation</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item">
+                                    <div class="timeline-marker bg-warning"></div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-header">
+                                            <h5 class="text-warning mb-1">Paper Review</h5>
+                                            <small class="text-muted">Phase 2</small>
+                                        </div>
+                                        <p class="mb-2"><strong>December 26, 2024 - January 5, 2025</strong></p>
+                                        <ul class="list-unstyled mb-0">
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Expert panel review</li>
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Quality assessment</li>
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Finalist selection</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item">
+                                    <div class="timeline-marker bg-info"></div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-header">
+                                            <h5 class="text-info mb-1">Presentation Preparation</h5>
+                                            <small class="text-muted">Phase 3</small>
+                                        </div>
+                                        <p class="mb-2"><strong>January 6-15, 2025</strong></p>
+                                        <ul class="list-unstyled mb-0">
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Finalist announcement</li>
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Presentation guidelines</li>
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Technical briefing</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item">
+                                    <div class="timeline-marker bg-success"></div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-header">
+                                            <h5 class="text-success mb-1">Final Presentation</h5>
+                                            <small class="text-muted">Phase 4</small>
+                                        </div>
+                                        <p class="mb-2"><strong>January 18-20, 2025</strong></p>
+                                        <ul class="list-unstyled mb-0">
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Scientific presentations</li>
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Q&A sessions</li>
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Winner announcement</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @elseif($competition->slug == 'kdbi')
+                        <!-- KDBI Timeline -->
+                        <div class="timeline-container p-4">
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <div class="timeline-marker bg-primary"></div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-header">
+                                            <h5 class="text-primary mb-1">Registration Period</h5>
+                                            <small class="text-muted">Phase 1</small>
+                                        </div>
+                                        <p class="mb-2"><strong>November 15 - December 20, 2024</strong></p>
+                                        <ul class="list-unstyled mb-0">
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Team registration</li>
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Document verification</li>
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Payment confirmation</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item">
+                                    <div class="timeline-marker bg-warning"></div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-header">
+                                            <h5 class="text-warning mb-1">Technical Meeting</h5>
+                                            <small class="text-muted">Phase 2</small>
+                                        </div>
+                                        <p class="mb-2"><strong>January 8, 2025</strong></p>
+                                        <ul class="list-unstyled mb-0">
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Competition format briefing</li>
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Rules and regulations</li>
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Schedule confirmation</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item">
+                                    <div class="timeline-marker bg-info"></div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-header">
+                                            <h5 class="text-info mb-1">Preliminary Round</h5>
+                                            <small class="text-muted">Phase 3</small>
+                                        </div>
+                                        <p class="mb-2"><strong>January 12-14, 2025</strong></p>
+                                        <ul class="list-unstyled mb-0">
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Opening ceremony</li>
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Preliminary debates</li>
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Semifinalist selection</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item">
+                                    <div class="timeline-marker bg-success"></div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-header">
+                                            <h5 class="text-success mb-1">Final Championship</h5>
+                                            <small class="text-muted">Phase 4</small>
+                                        </div>
+                                        <p class="mb-2"><strong>January 18, 2025</strong></p>
+                                        <ul class="list-unstyled mb-0">
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Semi-final rounds</li>
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Grand final debate</li>
+                                            <li><i class="bi bi-check-circle text-success me-2"></i>Closing & awarding ceremony</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <!-- Default Timeline for other competitions -->
+                        <div class="timeline-container p-4">
+                            <div class="row">
+                                @if($competition->registration_start)
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card border-primary">
+                                            <div class="card-body text-center">
+                                                <i class="bi bi-calendar-plus text-primary mb-2" style="font-size: 2rem;"></i>
+                                                <h5 class="text-primary">Registration Opens</h5>
+                                                <p class="mb-0">{{ \Carbon\Carbon::parse($competition->registration_start)->format('d M Y, H:i') }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                                @if($competition->registration_end)
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card border-warning">
+                                            <div class="card-body text-center">
+                                                <i class="bi bi-calendar-x text-warning mb-2" style="font-size: 2rem;"></i>
+                                                <h5 class="text-warning">Registration Closes</h5>
+                                                <p class="mb-0">{{ \Carbon\Carbon::parse($competition->registration_end)->format('d M Y, H:i') }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                                @if($competition->competition_start)
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card border-success">
+                                            <div class="card-body text-center">
+                                                <i class="bi bi-play-circle text-success mb-2" style="font-size: 2rem;"></i>
+                                                <h5 class="text-success">Competition Start</h5>
+                                                <p class="mb-0">{{ \Carbon\Carbon::parse($competition->competition_start)->format('d M Y, H:i') }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                                @if($competition->competition_end)
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card border-danger">
+                                            <div class="card-body text-center">
+                                                <i class="bi bi-stop-circle text-danger mb-2" style="font-size: 2rem;"></i>
+                                                <h5 class="text-danger">Competition End</h5>
+                                                <p class="mb-0">{{ \Carbon\Carbon::parse($competition->competition_end)->format('d M Y, H:i') }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
-    @endif
+    </div>
 
     <!-- Rules & Requirements -->
     @if($competition->rules)
