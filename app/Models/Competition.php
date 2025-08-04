@@ -128,7 +128,7 @@ class Competition extends Model
      */
     const CATEGORIES = [
         'event_dcc' => 'Digital Content Competition',
-        'event_debate' => 'Debate Competition',
+        'event_debate' => 'English Debate Competition (EDC)',
         'event_scientific_paper' => 'Scientific Paper Competition',
         // Legacy categories for backward compatibility
         'debate_competition' => 'Debate Competition',
@@ -136,6 +136,270 @@ class Competition extends Model
         'infografis' => 'Infografis',
         'spc' => 'Scientific Paper Competition',
         'karya_ilmiah' => 'Karya Ilmiah',
+    ];
+
+    /**
+     * EDC UNAS FEST 2025 Timeline Constants
+     * Based on official documents: ALUR PESERTA EDC.pdf
+     * 
+     * Note: The documents show 2025 dates which might need adjustment for actual event year
+     */
+    const EDC_TIMELINE_2025 = [
+        // Registration Phases (sesuai dokumen DOCX)
+        'early_bird_start' => '2025-08-25',     // 25 August 2025
+        'early_bird_end' => '2025-08-31',       // 31 August 2025
+        'phase_1_start' => '2025-09-01',        // 1 September 2025  
+        'phase_1_end' => '2025-09-13',          // 13 September 2025
+        'phase_2_start' => '2025-09-14',        // 14 September 2025
+        'phase_2_end' => '2025-09-26',          // 26 September 2025
+        
+        // Competition Events (sesuai dokumen PDF)
+        'webinar_technical_meeting' => '2025-09-27',  // Saturday, 27 September 2025
+        'preliminary_day_1' => '2025-10-13',          // Monday, 13 October 2025  
+        'preliminary_day_2' => '2025-10-14',          // Tuesday, 14 October 2025
+        'semifinal_date' => '2025-10-15',             // Wednesday, 15 October 2025
+        'final_date' => '2025-10-27',                 // Monday, 27 October 2025
+        'award_ceremony' => '2025-11-10',             // Monday, 10 November 2025
+    ];
+
+    /**
+     * Get adjusted EDC timeline for current year
+     * This method adjusts the timeline based on current year if needed
+     * 
+     * @param int|null $year Override year (default: current year)
+     * @return array
+     */
+    public static function getAdjustedEdcTimeline($year = null)
+    {
+        $targetYear = $year ?? now()->year;
+        $adjustedTimeline = [];
+        
+        foreach (self::EDC_TIMELINE_2025 as $key => $date) {
+            $carbonDate = \Carbon\Carbon::parse($date);
+            $adjustedDate = $carbonDate->setYear($targetYear);
+            $adjustedTimeline[$key] = $adjustedDate->format('Y-m-d');
+        }
+        
+        return $adjustedTimeline;
+    }
+
+    /**
+     * EDC Pricing Constants
+     */
+    const EDC_PRICING_2025 = [
+        'early_bird' => 150000,  // Rp.150.000/Team (25-31 Aug 2025)
+        'phase_1' => 250000,     // Rp.250.000/Team (1-13 Sept 2025)
+        'phase_2' => 300000,     // Rp.300.000/Team (14-26 Sept 2025)
+    ];
+
+    /**
+     * KDBI UNAS FEST 2025 Timeline Constants
+     * Based on official documents: ALUR PESERTA KDBI.pdf
+     * 
+     * Note: The documents show 2025 dates which might need adjustment for actual event year
+     */
+    const KDBI_TIMELINE_2025 = [
+        // Registration Phases (sesuai dokumen KDBI)
+        'early_bird_start' => '2025-08-25',     // 25 August 2025
+        'early_bird_end' => '2025-08-31',       // 31 August 2025
+        'phase_1_start' => '2025-09-01',        // 1 September 2025  
+        'phase_1_end' => '2025-09-13',          // 13 September 2025
+        'phase_2_start' => '2025-09-14',        // 14 September 2025
+        'phase_2_end' => '2025-09-26',          // 26 September 2025
+        
+        // Competition Events (sesuai dokumen PDF)
+        'webinar_technical_meeting' => '2025-09-27',  // Saturday, 27 September 2025
+        'preliminary_day_1' => '2025-10-13',          // Monday, 13 October 2025  
+        'preliminary_day_2' => '2025-10-14',          // Tuesday, 14 October 2025
+        'semifinal_date' => '2025-10-15',             // Wednesday, 15 October 2025
+        'final_date' => '2025-10-27',                 // Monday, 27 October 2025
+        'award_ceremony' => '2025-11-10',             // Monday, 10 November 2025
+    ];
+
+    /**
+     * Get adjusted KDBI timeline for current year
+     * This method adjusts the timeline based on current year if needed
+     * 
+     * @param int|null $year Override year (default: current year)
+     * @return array
+     */
+    public static function getAdjustedKdbiTimeline($year = null)
+    {
+        $targetYear = $year ?? now()->year;
+        $adjustedTimeline = [];
+        
+        foreach (self::KDBI_TIMELINE_2025 as $key => $date) {
+            $carbonDate = \Carbon\Carbon::parse($date);
+            $adjustedDate = $carbonDate->setYear($targetYear);
+            $adjustedTimeline[$key] = $adjustedDate->format('Y-m-d');
+        }
+        
+        return $adjustedTimeline;
+    }
+
+    /**
+     * KDBI Pricing Constants
+     */
+    const KDBI_PRICING_2025 = [
+        'early_bird' => 150000,  // Rp.150.000/Tim (25-31 Aug 2025)
+        'phase_1' => 250000,     // Rp.250.000/Tim (1-13 Sept 2025)
+        'phase_2' => 300000,     // Rp.300.000/Tim (14-26 Sept 2025)
+    ];
+
+    /**
+     * KDBI Competition Rules
+     */
+    const KDBI_RULES_2025 = [
+        'Peserta merupakan mahasiswa/i aktif program sarjana yang terdaftar di PDDikti (Pangkalan Data Pendidikan Tinggi) untuk seluruh universitas negeri dan swasta di Indonesia dari berbagai program studi.',
+        'Peserta merupakan tim yang terdiri dari 2 individu (anggota tim diperbolehkan seluruhnya laki-laki, perempuan, ataupun campuran). Posisi pembicara yang peserta pilih tidak dapat diubah hingga kompetisi berakhir.',
+        'Peserta berasal dari universitas yang sama, diperbolehkan beda program studi, fakultas, ataupun semester.',
+        'Peserta wajib mengikuti peraturan yang telah ditentukan dan dicantumkan pada buku pedoman kegiatan KDBI UNAS FEST 2025.',
+        'Peserta yang telah membayar biaya pendaftaran, kemudian membatalkan keikutsertaannya, maka biaya tersebut tidak dapat dikembalikan.',
+        'Setiap tim wajib untuk membuat nama tim yang sesuai dengan tema UNAS FEST 2025, tanpa menyinggung unsur Suku, Agama, Ras, dan Antar Golongan (SARA).',
+        'Debat akan dilakukan secara daring menggunakan Zoom Meeting yang disediakan oleh panitia UNAS FEST 2025.',
+        'Tim akan melalui babak Penyisihan (24 tim → 12 tim), Semifinal (12 tim → 4 tim), dan Babak Final (4 tim).',
+        'Penilaian meliputi Verbal Adjudication dengan penjelasan evaluasi dan peringkat, serta Silent Round tanpa pengumuman hasil langsung.',
+        'Sistem Reset Point berlaku dimana poin kumulatif dari babak penyisihan tidak dibawa ke babak final.',
+    ];
+
+    /**
+     * KDBI Assessment Types
+     */
+    const KDBI_ASSESSMENT_TYPES = [
+        'verbal_adjudication' => 'Verbal Adjudication - Penjelasan lisan dari juri setelah debat selesai',
+        'silent_round' => 'Silent Round - Babak debat tanpa pengumuman hasil langsung dan tanpa verbal adjudication',
+        'reset_point' => 'Reset Point - Poin kumulatif dari babak penyisihan tidak dibawa ke babak berikutnya (final round)',
+    ];
+
+    /**
+     * SPC UNAS FEST 2025 Timeline Constants
+     * Based on scientific paper competition standards
+     * 
+     * Note: Academic timeline with submission, review, and presentation phases
+     */
+    const SPC_TIMELINE_2025 = [
+        // Registration Phases
+        'early_bird_start' => '2025-08-01',         // 1 August 2025
+        'early_bird_end' => '2025-08-31',           // 31 August 2025
+        'regular_registration_start' => '2025-09-01', // 1 September 2025
+        'regular_registration_end' => '2025-09-30',   // 30 September 2025
+        
+        // Submission Phases  
+        'abstract_submission_deadline' => '2025-09-15',    // 15 September 2025
+        'full_paper_submission_deadline' => '2025-10-10',  // 10 October 2025
+        'plagiarism_check_deadline' => '2025-10-12',       // 12 October 2025
+        
+        // Review Process
+        'review_assignment_start' => '2025-10-13',         // 13 October 2025
+        'review_period_start' => '2025-10-15',             // 15 October 2025
+        'review_period_end' => '2025-11-15',               // 15 November 2025
+        'review_notification' => '2025-11-20',             // 20 November 2025
+        
+        // Revision Process
+        'revision_submission_start' => '2025-11-21',       // 21 November 2025
+        'revision_submission_deadline' => '2025-12-01',    // 1 December 2025
+        'final_paper_deadline' => '2025-12-05',            // 5 December 2025
+        
+        // Presentation & Award
+        'presentation_date' => '2025-12-15',               // 15 December 2025
+        'award_ceremony' => '2025-12-20',                  // 20 December 2025
+    ];
+
+    /**
+     * Get adjusted SPC timeline for current year
+     * This method adjusts the timeline based on current year if needed
+     * 
+     * @param int|null $year Override year (default: current year)
+     * @return array
+     */
+    public static function getAdjustedSpcTimeline($year = null)
+    {
+        $targetYear = $year ?? now()->year;
+        $adjustedTimeline = [];
+        
+        foreach (self::SPC_TIMELINE_2025 as $key => $date) {
+            $carbonDate = \Carbon\Carbon::parse($date);
+            $adjustedDate = $carbonDate->setYear($targetYear);
+            $adjustedTimeline[$key] = $adjustedDate->format('Y-m-d');
+        }
+        
+        return $adjustedTimeline;
+    }
+
+    /**
+     * SPC Pricing Constants
+     */
+    const SPC_PRICING_2025 = [
+        'early_bird' => 75000,      // Rp.75.000 (1-31 Aug 2025)
+        'regular' => 100000,        // Rp.100.000 (1-30 Sept 2025)  
+        'international' => 150000,  // Rp.150.000 (International participants)
+    ];
+
+    /**
+     * SPC Research Fields
+     */
+    const SPC_RESEARCH_FIELDS = [
+        'technology' => 'Technology and Innovation',
+        'health' => 'Health and Medicine',
+        'environment' => 'Environmental Science and Sustainability',
+        'social' => 'Social Sciences and Humanities',
+        'economics' => 'Economics and Business Management',
+        'education' => 'Education and Learning Innovation',
+        'agriculture' => 'Agriculture and Food Security',
+        'energy' => 'Renewable Energy and Green Technology',
+    ];
+
+    /**
+     * SPC Competition Rules
+     */
+    const SPC_RULES_2025 = [
+        'Peserta merupakan mahasiswa/i aktif program sarjana, magister, atau doktor yang terdaftar di perguruan tinggi Indonesia atau luar negeri.',
+        'Karya tulis harus original dan belum pernah dipublikasikan dalam jurnal atau prosiding manapun.',
+        'Tim dapat terdiri dari 1-3 orang (individual atau kelompok) dari universitas yang sama atau berbeda.',
+        'Mengikuti format penulisan ilmiah yang telah ditentukan dengan template yang disediakan panitia.',
+        'Naskah ditulis maksimal 15 halaman (tidak termasuk cover, daftar pustaka, dan lampiran).',
+        'Menggunakan referensi minimal 15 sumber (jurnal ilmiah, buku, prosiding) dengan 70% referensi terbaru dari 10 tahun terakhir.',
+        'Similarity index maksimal 20% berdasarkan hasil Turnitin, Grammarly, atau tools similarity lainnya.',
+        'Menggunakan bahasa Indonesia atau bahasa Inggris yang baik dan benar sesuai kaidah penulisan ilmiah.',
+        'Menyertakan abstract dalam bahasa Inggris maksimal 300 kata dengan 5-7 keywords.',
+        'Peserta wajib menghadiri sesi presentasi final jika lolos ke tahap tersebut.',
+        'Keputusan juri bersifat final dan tidak dapat diganggu gugat.',
+        'Panitia berhak mendiskualifikasi peserta yang terbukti melakukan plagiasi atau pelanggaran etika akademik.',
+    ];
+
+    /**
+     * SPC Assessment Types
+     */
+    const SPC_ASSESSMENT_TYPES = [
+        'blind_review' => 'Blind Review - Penilaian oleh reviewer tanpa mengetahui identitas penulis',
+        'presentation_evaluation' => 'Presentation Evaluation - Penilaian berdasarkan presentasi final',
+        'plagiarism_check' => 'Plagiarism Check - Pengecekan similarity dan orisinalitas karya',
+        'academic_rigor' => 'Academic Rigor - Penentuanbstrak berdasarkan standar penulisan ilmiah',
+    ];
+
+    /**
+     * EDC Competition Rules
+     */
+    const EDC_RULES_2025 = [
+        'Participants are active undergraduate students registered in PDDikti (Pangkalan Data Pendidikan Tinggi) for state and private universities in Indonesia from various study programs.',
+        'Participants are teams consisting of two individuals (team members can be male, female, or mixed). The speaker position that participants choose cannot be changed until the competition ends.',
+        'Participants come from the same university and can be from different study programs, faculties, or semesters.',
+        'Participants must follow the rules that have been determined and listed in the EDC UNAS FEST 2025 guidebook.',
+        'Participants who have paid the registration fee and somehow cancelled their participation will not get a refund.',
+        'All participants must create a group name that relates to the UNAS FEST 2025 theme, without offending any elements of Ethnicity, Religion, Race, and Intergroup (SARA).',
+        'The debate will be conducted online via Zoom Meeting, using a meeting link provided by the UNAS FEST 2025 committees.',
+        'Teams will progress through Preliminary Rounds (24 teams → 12 teams), Semifinal (12 teams → 4 teams), and Final Round (4 teams).',
+        'Assessment includes Verbal Adjudication with evaluation and ranking explanation, and Silent Rounds without immediate result announcement.',
+        'Reset Point system applies where cumulative points from preliminary rounds are not carried over to the final round.',
+    ];
+
+    /**
+     * EDC Assessment Types
+     */
+    const EDC_ASSESSMENT_TYPES = [
+        'verbal_adjudication' => 'Verbal Adjudication - Verbal explanation from the judge after the debate concludes',
+        'silent_round' => 'Silent Round - A debate round without immediate result announcement and without verbal adjudication',
+        'reset_point' => 'Reset Point - Cumulative points from preliminary rounds are not carried over to final round',
     ];
 
     /**
@@ -441,6 +705,19 @@ class Competition extends Model
     {
         $timeline = [];
 
+        // For specific competition categories, use detailed timelines
+        if ($this->category === 'event_debate') {
+            // Check if this is KDBI (Indonesian debate) or EDC (English debate)
+            if (stripos($this->name, 'KDBI') !== false || stripos($this->name, 'Indonesia') !== false) {
+                return $this->getKdbiTimeline();
+            } else {
+                return $this->getEdcTimeline();
+            }
+        } elseif ($this->category === 'event_scientific_paper') {
+            return $this->getSpcTimeline();
+        }
+
+        // Default timeline for other competitions
         if ($this->registration_start) {
             $timeline[] = [
                 'title' => 'Pendaftaran Dibuka',
@@ -507,5 +784,499 @@ class Competition extends Model
         });
 
         return $timeline;
+    }
+
+    /**
+     * Get EDC specific timeline sesuai dokumen
+     *
+     * @return array
+     */
+    public function getEdcTimeline()
+    {
+        // Use adjusted timeline for current/appropriate year
+        $adjustedDates = self::getAdjustedEdcTimeline();
+        
+        $timeline = [
+            [
+                'title' => 'Early Bird Registration',
+                'description' => 'Rp.150.000/Team',
+                'date' => \Carbon\Carbon::parse($adjustedDates['early_bird_start']),
+                'end_date' => \Carbon\Carbon::parse($adjustedDates['early_bird_end']),
+                'status' => now() > \Carbon\Carbon::parse($adjustedDates['early_bird_end']) ? 'completed' : 
+                           (now() >= \Carbon\Carbon::parse($adjustedDates['early_bird_start']) ? 'ongoing' : 'upcoming'),
+                'icon' => 'bi-calendar-plus',
+                'color' => 'success'
+            ],
+            [
+                'title' => 'Phase 1 Registration',
+                'description' => 'Rp.250.000/Team',
+                'date' => \Carbon\Carbon::parse($adjustedDates['phase_1_start']),
+                'end_date' => \Carbon\Carbon::parse($adjustedDates['phase_1_end']),
+                'status' => now() > \Carbon\Carbon::parse($adjustedDates['phase_1_end']) ? 'completed' : 
+                           (now() >= \Carbon\Carbon::parse($adjustedDates['phase_1_start']) ? 'ongoing' : 'upcoming'),
+                'icon' => 'bi-calendar-check',
+                'color' => 'warning'
+            ],
+            [
+                'title' => 'Phase 2 Registration',
+                'description' => 'Rp.300.000/Team',
+                'date' => \Carbon\Carbon::parse($adjustedDates['phase_2_start']),
+                'end_date' => \Carbon\Carbon::parse($adjustedDates['phase_2_end']),
+                'status' => now() > \Carbon\Carbon::parse($adjustedDates['phase_2_end']) ? 'completed' : 
+                           (now() >= \Carbon\Carbon::parse($adjustedDates['phase_2_start']) ? 'ongoing' : 'upcoming'),
+                'icon' => 'bi-calendar-x',
+                'color' => 'danger'
+            ],
+            [
+                'title' => 'Webinar & Technical Meeting',
+                'description' => 'Tips and tricks for debate competitions via Zoom',
+                'date' => \Carbon\Carbon::parse($adjustedDates['webinar_technical_meeting']),
+                'status' => now() >= \Carbon\Carbon::parse($adjustedDates['webinar_technical_meeting']) ? 'completed' : 'upcoming',
+                'icon' => 'bi-camera-video',
+                'color' => 'info'
+            ],
+            [
+                'title' => 'Preliminary Round Day 1',
+                'description' => '24 Teams - Online via Zoom Meeting',
+                'date' => \Carbon\Carbon::parse($adjustedDates['preliminary_day_1']),
+                'status' => now() >= \Carbon\Carbon::parse($adjustedDates['preliminary_day_1']) ? 'completed' : 'upcoming',
+                'icon' => 'bi-trophy',
+                'color' => 'primary'
+            ],
+            [
+                'title' => 'Preliminary Round Day 2',
+                'description' => '24 Teams - Online via Zoom Meeting',
+                'date' => \Carbon\Carbon::parse($adjustedDates['preliminary_day_2']),
+                'status' => now() >= \Carbon\Carbon::parse($adjustedDates['preliminary_day_2']) ? 'completed' : 'upcoming',
+                'icon' => 'bi-trophy',
+                'color' => 'primary'
+            ],
+            [
+                'title' => 'Semifinal Debate',
+                'description' => '12 Teams qualified from Preliminary Rounds',
+                'date' => \Carbon\Carbon::parse($adjustedDates['semifinal_date']),
+                'status' => now() >= \Carbon\Carbon::parse($adjustedDates['semifinal_date']) ? 'completed' : 'upcoming',
+                'icon' => 'bi-award',
+                'color' => 'info'
+            ],
+            [
+                'title' => 'Final Round',
+                'description' => '4 Teams - Determine 1st, 2nd, 3rd place and best speaker',
+                'date' => \Carbon\Carbon::parse($adjustedDates['final_date']),
+                'status' => now() >= \Carbon\Carbon::parse($adjustedDates['final_date']) ? 'completed' : 'upcoming',
+                'icon' => 'bi-trophy-fill',
+                'color' => 'danger'
+            ],
+            [
+                'title' => 'Award Ceremony',
+                'description' => 'UNAS Cyber Auditorium - All committees, adjudicators and participants',
+                'date' => \Carbon\Carbon::parse($adjustedDates['award_ceremony']),
+                'status' => now() >= \Carbon\Carbon::parse($adjustedDates['award_ceremony']) ? 'completed' : 'upcoming',
+                'icon' => 'bi-megaphone',
+                'color' => 'success'
+            ]
+        ];
+
+        return $timeline;
+    }
+
+    /**
+     * Get KDBI specific timeline sesuai dokumen
+     *
+     * @return array
+     */
+    public function getKdbiTimeline()
+    {
+        // Use adjusted timeline for current/appropriate year
+        $adjustedDates = self::getAdjustedKdbiTimeline();
+        
+        $timeline = [
+            [
+                'title' => 'Early Bird Registration',
+                'description' => 'Rp.150.000/Tim',
+                'date' => \Carbon\Carbon::parse($adjustedDates['early_bird_start']),
+                'end_date' => \Carbon\Carbon::parse($adjustedDates['early_bird_end']),
+                'status' => now() > \Carbon\Carbon::parse($adjustedDates['early_bird_end']) ? 'completed' : 
+                           (now() >= \Carbon\Carbon::parse($adjustedDates['early_bird_start']) ? 'ongoing' : 'upcoming'),
+                'icon' => 'bi-calendar-plus',
+                'color' => 'success'
+            ],
+            [
+                'title' => 'Phase 1 Registration',
+                'description' => 'Rp.250.000/Tim',
+                'date' => \Carbon\Carbon::parse($adjustedDates['phase_1_start']),
+                'end_date' => \Carbon\Carbon::parse($adjustedDates['phase_1_end']),
+                'status' => now() > \Carbon\Carbon::parse($adjustedDates['phase_1_end']) ? 'completed' : 
+                           (now() >= \Carbon\Carbon::parse($adjustedDates['phase_1_start']) ? 'ongoing' : 'upcoming'),
+                'icon' => 'bi-calendar-check',
+                'color' => 'warning'
+            ],
+            [
+                'title' => 'Phase 2 Registration',
+                'description' => 'Rp.300.000/Tim',
+                'date' => \Carbon\Carbon::parse($adjustedDates['phase_2_start']),
+                'end_date' => \Carbon\Carbon::parse($adjustedDates['phase_2_end']),
+                'status' => now() > \Carbon\Carbon::parse($adjustedDates['phase_2_end']) ? 'completed' : 
+                           (now() >= \Carbon\Carbon::parse($adjustedDates['phase_2_start']) ? 'ongoing' : 'upcoming'),
+                'icon' => 'bi-calendar-x',
+                'color' => 'danger'
+            ],
+            [
+                'title' => 'Webinar & Technical Meeting',
+                'description' => 'Tips dan trik kompetisi debat via Zoom',
+                'date' => \Carbon\Carbon::parse($adjustedDates['webinar_technical_meeting']),
+                'status' => now() >= \Carbon\Carbon::parse($adjustedDates['webinar_technical_meeting']) ? 'completed' : 'upcoming',
+                'icon' => 'bi-camera-video',
+                'color' => 'info'
+            ],
+            [
+                'title' => 'Babak Penyisihan Hari 1',
+                'description' => '24 Tim - Secara daring via Zoom Meeting',
+                'date' => \Carbon\Carbon::parse($adjustedDates['preliminary_day_1']),
+                'status' => now() >= \Carbon\Carbon::parse($adjustedDates['preliminary_day_1']) ? 'completed' : 'upcoming',
+                'icon' => 'bi-trophy',
+                'color' => 'primary'
+            ],
+            [
+                'title' => 'Babak Penyisihan Hari 2',
+                'description' => '24 Tim - Secara daring via Zoom Meeting',
+                'date' => \Carbon\Carbon::parse($adjustedDates['preliminary_day_2']),
+                'status' => now() >= \Carbon\Carbon::parse($adjustedDates['preliminary_day_2']) ? 'completed' : 'upcoming',
+                'icon' => 'bi-trophy',
+                'color' => 'primary'
+            ],
+            [
+                'title' => 'Semifinal Debat',
+                'description' => '12 Tim yang lolos dari Babak Penyisihan',
+                'date' => \Carbon\Carbon::parse($adjustedDates['semifinal_date']),
+                'status' => now() >= \Carbon\Carbon::parse($adjustedDates['semifinal_date']) ? 'completed' : 'upcoming',
+                'icon' => 'bi-award',
+                'color' => 'info'
+            ],
+            [
+                'title' => 'Final Debat',
+                'description' => '4 Tim - Menentukan juara 1, 2, 3, dan best speaker',
+                'date' => \Carbon\Carbon::parse($adjustedDates['final_date']),
+                'status' => now() >= \Carbon\Carbon::parse($adjustedDates['final_date']) ? 'completed' : 'upcoming',
+                'icon' => 'bi-trophy-fill',
+                'color' => 'danger'
+            ],
+            [
+                'title' => 'Acara Pemberian Penghargaan',
+                'description' => 'UNAS Cyber Auditorium - Seluruh panitia, juri, dan peserta',
+                'date' => \Carbon\Carbon::parse($adjustedDates['award_ceremony']),
+                'status' => now() >= \Carbon\Carbon::parse($adjustedDates['award_ceremony']) ? 'completed' : 'upcoming',
+                'icon' => 'bi-megaphone',
+                'color' => 'success'
+            ]
+        ];
+
+        return $timeline;
+    }
+
+    /**
+     * Get SPC specific timeline sesuai standar kompetisi karya ilmiah
+     *
+     * @return array
+     */
+    public function getSpcTimeline()
+    {
+        // Use adjusted timeline for current/appropriate year
+        $adjustedDates = self::getAdjustedSpcTimeline();
+        
+        $timeline = [
+            [
+                'title' => 'Early Bird Registration',
+                'description' => 'Rp.75.000 - Pendaftaran tahap awal',
+                'date' => \Carbon\Carbon::parse($adjustedDates['early_bird_start']),
+                'end_date' => \Carbon\Carbon::parse($adjustedDates['early_bird_end']),
+                'status' => now() > \Carbon\Carbon::parse($adjustedDates['early_bird_end']) ? 'completed' : 
+                           (now() >= \Carbon\Carbon::parse($adjustedDates['early_bird_start']) ? 'ongoing' : 'upcoming'),
+                'icon' => 'bi-calendar-plus',
+                'color' => 'success'
+            ],
+            [
+                'title' => 'Regular Registration',
+                'description' => 'Rp.100.000 - Pendaftaran reguler',
+                'date' => \Carbon\Carbon::parse($adjustedDates['regular_registration_start']),
+                'end_date' => \Carbon\Carbon::parse($adjustedDates['regular_registration_end']),
+                'status' => now() > \Carbon\Carbon::parse($adjustedDates['regular_registration_end']) ? 'completed' : 
+                           (now() >= \Carbon\Carbon::parse($adjustedDates['regular_registration_start']) ? 'ongoing' : 'upcoming'),
+                'icon' => 'bi-calendar-check',
+                'color' => 'warning'
+            ],
+            [
+                'title' => 'Abstract Submission Deadline',
+                'description' => 'Batas akhir pengumpulan abstrak',
+                'date' => \Carbon\Carbon::parse($adjustedDates['abstract_submission_deadline']),
+                'status' => now() >= \Carbon\Carbon::parse($adjustedDates['abstract_submission_deadline']) ? 'completed' : 'upcoming',
+                'icon' => 'bi-file-text',
+                'color' => 'info'
+            ],
+            [
+                'title' => 'Full Paper Submission Deadline',
+                'description' => 'Batas akhir pengumpulan karya tulis lengkap',
+                'date' => \Carbon\Carbon::parse($adjustedDates['full_paper_submission_deadline']),
+                'status' => now() >= \Carbon\Carbon::parse($adjustedDates['full_paper_submission_deadline']) ? 'completed' : 'upcoming',
+                'icon' => 'bi-file-earmark-text',
+                'color' => 'primary'
+            ],
+            [
+                'title' => 'Plagiarism Check Deadline',
+                'description' => 'Batas akhir pengumpulan laporan similarity (Turnitin/Grammarly)',
+                'date' => \Carbon\Carbon::parse($adjustedDates['plagiarism_check_deadline']),
+                'status' => now() >= \Carbon\Carbon::parse($adjustedDates['plagiarism_check_deadline']) ? 'completed' : 'upcoming',
+                'icon' => 'bi-shield-check',
+                'color' => 'secondary'
+            ],
+            [
+                'title' => 'Review Period',
+                'description' => 'Periode penilaian oleh reviewer ahli',
+                'date' => \Carbon\Carbon::parse($adjustedDates['review_period_start']),
+                'end_date' => \Carbon\Carbon::parse($adjustedDates['review_period_end']),
+                'status' => now() > \Carbon\Carbon::parse($adjustedDates['review_period_end']) ? 'completed' : 
+                           (now() >= \Carbon\Carbon::parse($adjustedDates['review_period_start']) ? 'ongoing' : 'upcoming'),
+                'icon' => 'bi-search',
+                'color' => 'info'
+            ],
+            [
+                'title' => 'Review Notification',
+                'description' => 'Pengumuman hasil review dan feedback',
+                'date' => \Carbon\Carbon::parse($adjustedDates['review_notification']),
+                'status' => now() >= \Carbon\Carbon::parse($adjustedDates['review_notification']) ? 'completed' : 'upcoming',
+                'icon' => 'bi-bell',
+                'color' => 'warning'
+            ],
+            [
+                'title' => 'Revision Submission Deadline',
+                'description' => 'Batas akhir pengumpulan revisi berdasarkan feedback reviewer',
+                'date' => \Carbon\Carbon::parse($adjustedDates['revision_submission_deadline']),
+                'status' => now() >= \Carbon\Carbon::parse($adjustedDates['revision_submission_deadline']) ? 'completed' : 'upcoming',
+                'icon' => 'bi-arrow-repeat',
+                'color' => 'primary'
+            ],
+            [
+                'title' => 'Final Paper Deadline',
+                'description' => 'Batas akhir pengumpulan naskah final',
+                'date' => \Carbon\Carbon::parse($adjustedDates['final_paper_deadline']),
+                'status' => now() >= \Carbon\Carbon::parse($adjustedDates['final_paper_deadline']) ? 'completed' : 'upcoming',
+                'icon' => 'bi-file-check',
+                'color' => 'success'
+            ],
+            [
+                'title' => 'Presentation Session',
+                'description' => 'Sesi presentasi final peserta terbaik',
+                'date' => \Carbon\Carbon::parse($adjustedDates['presentation_date']),
+                'status' => now() >= \Carbon\Carbon::parse($adjustedDates['presentation_date']) ? 'completed' : 'upcoming',
+                'icon' => 'bi-presentation',
+                'color' => 'danger'
+            ],
+            [
+                'title' => 'Award Ceremony',
+                'description' => 'Pemberian penghargaan dan publikasi hasil',
+                'date' => \Carbon\Carbon::parse($adjustedDates['award_ceremony']),
+                'status' => now() >= \Carbon\Carbon::parse($adjustedDates['award_ceremony']) ? 'completed' : 'upcoming',
+                'icon' => 'bi-trophy',
+                'color' => 'success'
+            ]
+        ];
+
+        return $timeline;
+    }
+
+    /**
+     * Check if this is EDC competition
+     *
+     * @return bool
+     */
+    public function isEdcCompetition()
+    {
+        return $this->category === 'event_debate' && (stripos($this->name, 'EDC') !== false || stripos($this->name, 'English') !== false);
+    }
+
+    /**
+     * Check if this is KDBI competition
+     *
+     * @return bool
+     */
+    public function isKdbiCompetition()
+    {
+        return $this->category === 'event_debate' && (stripos($this->name, 'KDBI') !== false || stripos($this->name, 'Indonesia') !== false);
+    }
+
+    /**
+     * Check if this is SPC competition
+     *
+     * @return bool
+     */
+    public function isSpcCompetition()
+    {
+        return $this->category === 'event_scientific_paper';
+    }
+
+    /**
+     * Get current EDC pricing phase
+     *
+     * @return array
+     */
+    public function getCurrentEdcPricing()
+    {
+        $now = now();
+        $adjustedDates = self::getAdjustedEdcTimeline();
+        
+        if ($now <= \Carbon\Carbon::parse($adjustedDates['early_bird_end'])) {
+            return [
+                'phase' => 'early_bird',
+                'price' => self::EDC_PRICING_2025['early_bird'],
+                'phase_name' => 'Early Bird',
+                'deadline' => $adjustedDates['early_bird_end']
+            ];
+        }
+        
+        if ($now <= \Carbon\Carbon::parse($adjustedDates['phase_1_end'])) {
+            return [
+                'phase' => 'phase_1',
+                'price' => self::EDC_PRICING_2025['phase_1'],
+                'phase_name' => 'Phase 1',
+                'deadline' => $adjustedDates['phase_1_end']
+            ];
+        }
+        
+        if ($now <= \Carbon\Carbon::parse($adjustedDates['phase_2_end'])) {
+            return [
+                'phase' => 'phase_2',
+                'price' => self::EDC_PRICING_2025['phase_2'],
+                'phase_name' => 'Phase 2',
+                'deadline' => $adjustedDates['phase_2_end']
+            ];
+        }
+        
+        return [
+            'phase' => 'closed',
+            'price' => 0,
+            'phase_name' => 'Registration Closed',
+            'deadline' => null
+        ];
+    }
+
+    /**
+     * Get current KDBI pricing phase
+     *
+     * @return array
+     */
+    public function getCurrentKdbiPricing()
+    {
+        $now = now();
+        $adjustedDates = self::getAdjustedKdbiTimeline();
+        
+        if ($now <= \Carbon\Carbon::parse($adjustedDates['early_bird_end'])) {
+            return [
+                'phase' => 'early_bird',
+                'price' => self::KDBI_PRICING_2025['early_bird'],
+                'phase_name' => 'Early Bird',
+                'deadline' => $adjustedDates['early_bird_end']
+            ];
+        }
+        
+        if ($now <= \Carbon\Carbon::parse($adjustedDates['phase_1_end'])) {
+            return [
+                'phase' => 'phase_1',
+                'price' => self::KDBI_PRICING_2025['phase_1'],
+                'phase_name' => 'Phase 1',
+                'deadline' => $adjustedDates['phase_1_end']
+            ];
+        }
+        
+        if ($now <= \Carbon\Carbon::parse($adjustedDates['phase_2_end'])) {
+            return [
+                'phase' => 'phase_2',
+                'price' => self::KDBI_PRICING_2025['phase_2'],
+                'phase_name' => 'Phase 2',
+                'deadline' => $adjustedDates['phase_2_end']
+            ];
+        }
+        
+        return [
+            'phase' => 'closed',
+            'price' => 0,
+            'phase_name' => 'Pendaftaran Ditutup',
+            'deadline' => null
+        ];
+    }
+
+    /**
+     * Get EDC rules
+     *
+     * @return array
+     */
+    public function getEdcRules()
+    {
+        return self::EDC_RULES_2025;
+    }
+
+    /**
+     * Get current SPC pricing phase
+     *
+     * @return array
+     */
+    public function getCurrentSpcPricing()
+    {
+        $now = now();
+        $adjustedDates = self::getAdjustedSpcTimeline();
+        
+        if ($now <= \Carbon\Carbon::parse($adjustedDates['early_bird_end'])) {
+            return [
+                'phase' => 'early_bird',
+                'price' => self::SPC_PRICING_2025['early_bird'],
+                'phase_name' => 'Early Bird',
+                'deadline' => $adjustedDates['early_bird_end']
+            ];
+        }
+        
+        if ($now <= \Carbon\Carbon::parse($adjustedDates['regular_registration_end'])) {
+            return [
+                'phase' => 'regular',
+                'price' => self::SPC_PRICING_2025['regular'],
+                'phase_name' => 'Regular Registration',
+                'deadline' => $adjustedDates['regular_registration_end']
+            ];
+        }
+        
+        return [
+            'phase' => 'closed',
+            'price' => 0,
+            'phase_name' => 'Pendaftaran Ditutup',
+            'deadline' => null
+        ];
+    }
+
+    /**
+     * Get KDBI rules
+     *
+     * @return array
+     */
+    public function getKdbiRules()
+    {
+        return self::KDBI_RULES_2025;
+    }
+
+    /**
+     * Get SPC rules
+     *
+     * @return array
+     */
+    public function getSpcRules()
+    {
+        return self::SPC_RULES_2025;
+    }
+
+    /**
+     * Get SPC research fields
+     *
+     * @return array
+     */
+    public function getSpcResearchFields()
+    {
+        return self::SPC_RESEARCH_FIELDS;
     }
 }
