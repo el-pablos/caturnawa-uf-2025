@@ -146,89 +146,145 @@
         }
     }
 
-    /* Timeline Styles */
-    .timeline-container {
+    /* Modern Timeline Styles */
+    .modern-timeline-container {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 30px;
+    }
+
+    .modern-timeline {
         position: relative;
+        padding-left: 0;
     }
 
-    .timeline {
-        position: relative;
-        padding-left: 30px;
-    }
-
-    .timeline::before {
-        content: '';
-        position: absolute;
-        left: 15px;
-        top: 0;
-        bottom: 0;
-        width: 2px;
-        background: linear-gradient(to bottom, #667eea, #764ba2);
-    }
-
-    .timeline-item {
-        position: relative;
-        margin-bottom: 30px;
-        padding-left: 40px;
-    }
-
-    .timeline-marker {
-        position: absolute;
-        left: -25px;
-        top: 5px;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        border: 3px solid white;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-        z-index: 1;
-    }
-
-    .timeline-content {
+    .timeline-event {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 25px;
         background: white;
         border-radius: 12px;
         padding: 20px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        border-left: 4px solid #667eea;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
         transition: all 0.3s ease;
+        border-left: 4px solid transparent;
     }
 
-    .timeline-content:hover {
+    .timeline-event:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
     }
 
-    .timeline-header {
-        margin-bottom: 10px;
+    .timeline-date {
+        flex-shrink: 0;
+        width: 80px;
+        height: 80px;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        margin-right: 20px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
-    .timeline-header h5 {
-        margin-bottom: 5px;
+    .date-number {
+        font-size: 1.8rem;
+        font-weight: 800;
+        line-height: 1;
+    }
+
+    .date-month {
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-top: 2px;
+    }
+
+    .timeline-details {
+        flex: 1;
+        padding-top: 5px;
+    }
+
+    .event-title {
+        font-size: 1.25rem;
         font-weight: 700;
+        margin-bottom: 8px;
+        line-height: 1.3;
     }
 
-    .timeline-content ul li {
-        margin-bottom: 5px;
-        font-size: 0.9rem;
+    .event-price {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #495057;
     }
+
+    .event-description {
+        font-size: 0.95rem;
+        color: #6c757d;
+        margin-bottom: 8px;
+        line-height: 1.4;
+    }
+
+    .event-period {
+        font-size: 0.85rem;
+        margin-top: 5px;
+        margin-bottom: 0;
+    }
+
+    .badge {
+        font-size: 0.75rem;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* Color variations for timeline dates */
+    .timeline-event:nth-child(1) { border-left-color: #28a745; }
+    .timeline-event:nth-child(2) { border-left-color: #ffc107; }
+    .timeline-event:nth-child(3) { border-left-color: #dc3545; }
+    .timeline-event:nth-child(4) { border-left-color: #17a2b8; }
+    .timeline-event:nth-child(5) { border-left-color: #007bff; }
+    .timeline-event:nth-child(6) { border-left-color: #007bff; }
+    .timeline-event:nth-child(7) { border-left-color: #17a2b8; }
+    .timeline-event:nth-child(8) { border-left-color: #dc3545; }
+    .timeline-event:nth-child(9) { border-left-color: #28a745; }
 
     @media (max-width: 768px) {
-        .timeline {
-            padding-left: 20px;
+        .modern-timeline-container {
+            padding: 20px 15px;
         }
 
-        .timeline-item {
-            padding-left: 30px;
-        }
-
-        .timeline-marker {
-            left: -20px;
-            width: 16px;
-            height: 16px;
-        }
-
-        .timeline-content {
+        .timeline-event {
+            flex-direction: column;
+            text-align: center;
             padding: 15px;
+        }
+
+        .timeline-date {
+            width: 70px;
+            height: 70px;
+            margin-right: 0;
+            margin-bottom: 15px;
+            align-self: center;
+        }
+
+        .date-number {
+            font-size: 1.5rem;
+        }
+
+        .date-month {
+            font-size: 0.7rem;
+        }
+
+        .event-title {
+            font-size: 1.1rem;
         }
     }
 </style>
@@ -385,207 +441,363 @@
                 <div class="card-body p-0">
                     @if($competition->slug == 'edc')
                         <!-- EDC Timeline -->
-                        <div class="timeline-container p-4">
-                            <div class="timeline">
-                                <div class="timeline-item">
-                                    <div class="timeline-marker bg-primary"></div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-header">
-                                            <h5 class="text-primary mb-1">Registration Period</h5>
-                                            <small class="text-muted">Phase 1</small>
-                                        </div>
-                                        <p class="mb-2"><strong>November 15 - December 20, 2024</strong></p>
-                                        <ul class="list-unstyled mb-0">
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Online registration opens</li>
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Document submission</li>
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Payment confirmation</li>
-                                        </ul>
+                        <div class="modern-timeline-container p-4">
+                            <div class="modern-timeline">
+                                <!-- Early Bird Registration -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-success">
+                                        <div class="date-number">25</div>
+                                        <div class="date-month">Aug 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-success">Early Bird Registration</h5>
+                                        <p class="event-price">Rp.150.000/Team</p>
+                                        <span class="badge bg-success">Upcoming</span>
+                                        <p class="event-period text-muted">s/d 31 Aug 2024</p>
                                     </div>
                                 </div>
 
-                                <div class="timeline-item">
-                                    <div class="timeline-marker bg-warning"></div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-header">
-                                            <h5 class="text-warning mb-1">Technical Meeting</h5>
-                                            <small class="text-muted">Phase 2</small>
-                                        </div>
-                                        <p class="mb-2"><strong>January 10, 2025</strong></p>
-                                        <ul class="list-unstyled mb-0">
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Competition briefing</li>
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Rules explanation</li>
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Q&A session</li>
-                                        </ul>
+                                <!-- Phase 1 Registration -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-warning">
+                                        <div class="date-number">01</div>
+                                        <div class="date-month">Sep 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-warning">Phase 1 Registration</h5>
+                                        <p class="event-price">Rp.250.000/Team</p>
+                                        <span class="badge bg-warning">Upcoming</span>
+                                        <p class="event-period text-muted">s/d 15 Sep 2024</p>
                                     </div>
                                 </div>
 
-                                <div class="timeline-item">
-                                    <div class="timeline-marker bg-info"></div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-header">
-                                            <h5 class="text-info mb-1">Preliminary Round</h5>
-                                            <small class="text-muted">Phase 3</small>
-                                        </div>
-                                        <p class="mb-2"><strong>January 15-17, 2025</strong></p>
-                                        <ul class="list-unstyled mb-0">
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Opening ceremony</li>
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Preliminary debates</li>
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Qualification announcement</li>
-                                        </ul>
+                                <!-- Phase 2 Registration -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-danger">
+                                        <div class="date-number">16</div>
+                                        <div class="date-month">Sep 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-danger">Phase 2 Registration</h5>
+                                        <p class="event-price">Rp.300.000/Team</p>
+                                        <span class="badge bg-danger">Upcoming</span>
+                                        <p class="event-period text-muted">s/d 30 Sep 2024</p>
                                     </div>
                                 </div>
 
-                                <div class="timeline-item">
-                                    <div class="timeline-marker bg-success"></div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-header">
-                                            <h5 class="text-success mb-1">Final Round</h5>
-                                            <small class="text-muted">Phase 4</small>
-                                        </div>
-                                        <p class="mb-2"><strong>January 20, 2025</strong></p>
-                                        <ul class="list-unstyled mb-0">
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Semi-final debates</li>
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Grand final debate</li>
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Awarding ceremony</li>
-                                        </ul>
+                                <!-- Webinar & Technical Meeting -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-info">
+                                        <div class="date-number">27</div>
+                                        <div class="date-month">Sep 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-info">Webinar & Technical Meeting</h5>
+                                        <p class="event-description">Tips and tricks for debate competitions via Zoom</p>
+                                        <span class="badge bg-info">Upcoming</span>
+                                    </div>
+                                </div>
+
+                                <!-- Preliminary Round Day 1 -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-primary">
+                                        <div class="date-number">12</div>
+                                        <div class="date-month">Oct 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-primary">Preliminary Round Day 1</h5>
+                                        <p class="event-description">24 Teams - Online via Zoom Meeting</p>
+                                        <span class="badge bg-primary">Upcoming</span>
+                                    </div>
+                                </div>
+
+                                <!-- Preliminary Round Day 2 -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-primary">
+                                        <div class="date-number">14</div>
+                                        <div class="date-month">Oct 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-primary">Preliminary Round Day 2</h5>
+                                        <p class="event-description">24 Teams - Online via Zoom Meeting</p>
+                                        <span class="badge bg-primary">Upcoming</span>
+                                    </div>
+                                </div>
+
+                                <!-- Semifinal Debate -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-info">
+                                        <div class="date-number">19</div>
+                                        <div class="date-month">Oct 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-info">Semifinal Debate</h5>
+                                        <p class="event-description">12 Teams qualified from Preliminary Rounds</p>
+                                        <span class="badge bg-info">Upcoming</span>
+                                    </div>
+                                </div>
+
+                                <!-- Final Round -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-danger">
+                                        <div class="date-number">27</div>
+                                        <div class="date-month">Oct 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-danger">Final Round</h5>
+                                        <p class="event-description">4 Teams - Determining 1st, 2nd, 3rd place and best speaker</p>
+                                        <span class="badge bg-danger">Upcoming</span>
+                                    </div>
+                                </div>
+
+                                <!-- Award Ceremony -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-success">
+                                        <div class="date-number">10</div>
+                                        <div class="date-month">Nov 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-success">Award Ceremony</h5>
+                                        <p class="event-description">UNAS Cyber Auditorium - All committees, adjudicators and participants</p>
+                                        <span class="badge bg-success">Upcoming</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     @elseif($competition->slug == 'spc')
                         <!-- SPC Timeline -->
-                        <div class="timeline-container p-4">
-                            <div class="timeline">
-                                <div class="timeline-item">
-                                    <div class="timeline-marker bg-primary"></div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-header">
-                                            <h5 class="text-primary mb-1">Registration & Submission</h5>
-                                            <small class="text-muted">Phase 1</small>
-                                        </div>
-                                        <p class="mb-2"><strong>November 15 - December 25, 2024</strong></p>
-                                        <ul class="list-unstyled mb-0">
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Online registration</li>
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Scientific paper submission</li>
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Payment confirmation</li>
-                                        </ul>
+                        <div class="modern-timeline-container p-4">
+                            <div class="modern-timeline">
+                                <!-- Early Bird Registration -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-success">
+                                        <div class="date-number">25</div>
+                                        <div class="date-month">Aug 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-success">Early Bird Registration</h5>
+                                        <p class="event-price">Rp.100.000/Team</p>
+                                        <span class="badge bg-success">Upcoming</span>
+                                        <p class="event-period text-muted">s/d 31 Aug 2024</p>
                                     </div>
                                 </div>
 
-                                <div class="timeline-item">
-                                    <div class="timeline-marker bg-warning"></div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-header">
-                                            <h5 class="text-warning mb-1">Paper Review</h5>
-                                            <small class="text-muted">Phase 2</small>
-                                        </div>
-                                        <p class="mb-2"><strong>December 26, 2024 - January 5, 2025</strong></p>
-                                        <ul class="list-unstyled mb-0">
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Expert panel review</li>
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Quality assessment</li>
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Finalist selection</li>
-                                        </ul>
+                                <!-- Phase 1 Registration -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-warning">
+                                        <div class="date-number">01</div>
+                                        <div class="date-month">Sep 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-warning">Phase 1 Registration</h5>
+                                        <p class="event-price">Rp.150.000/Team</p>
+                                        <span class="badge bg-warning">Upcoming</span>
+                                        <p class="event-period text-muted">s/d 15 Sep 2024</p>
                                     </div>
                                 </div>
 
-                                <div class="timeline-item">
-                                    <div class="timeline-marker bg-info"></div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-header">
-                                            <h5 class="text-info mb-1">Presentation Preparation</h5>
-                                            <small class="text-muted">Phase 3</small>
-                                        </div>
-                                        <p class="mb-2"><strong>January 6-15, 2025</strong></p>
-                                        <ul class="list-unstyled mb-0">
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Finalist announcement</li>
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Presentation guidelines</li>
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Technical briefing</li>
-                                        </ul>
+                                <!-- Phase 2 Registration -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-danger">
+                                        <div class="date-number">16</div>
+                                        <div class="date-month">Sep 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-danger">Phase 2 Registration</h5>
+                                        <p class="event-price">Rp.200.000/Team</p>
+                                        <span class="badge bg-danger">Upcoming</span>
+                                        <p class="event-period text-muted">s/d 30 Sep 2024</p>
                                     </div>
                                 </div>
 
-                                <div class="timeline-item">
-                                    <div class="timeline-marker bg-success"></div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-header">
-                                            <h5 class="text-success mb-1">Final Presentation</h5>
-                                            <small class="text-muted">Phase 4</small>
-                                        </div>
-                                        <p class="mb-2"><strong>January 18-20, 2025</strong></p>
-                                        <ul class="list-unstyled mb-0">
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Scientific presentations</li>
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Q&A sessions</li>
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Winner announcement</li>
-                                        </ul>
+                                <!-- Paper Submission Deadline -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-info">
+                                        <div class="date-number">15</div>
+                                        <div class="date-month">Oct 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-info">Paper Submission Deadline</h5>
+                                        <p class="event-description">Final submission of scientific papers</p>
+                                        <span class="badge bg-info">Upcoming</span>
+                                    </div>
+                                </div>
+
+                                <!-- Paper Review Process -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-primary">
+                                        <div class="date-number">16</div>
+                                        <div class="date-month">Oct 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-primary">Paper Review Process</h5>
+                                        <p class="event-description">Expert panel review and quality assessment</p>
+                                        <span class="badge bg-primary">Upcoming</span>
+                                        <p class="event-period text-muted">s/d 25 Oct 2024</p>
+                                    </div>
+                                </div>
+
+                                <!-- Finalist Announcement -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-info">
+                                        <div class="date-number">28</div>
+                                        <div class="date-month">Oct 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-info">Finalist Announcement</h5>
+                                        <p class="event-description">Selected papers for final presentation</p>
+                                        <span class="badge bg-info">Upcoming</span>
+                                    </div>
+                                </div>
+
+                                <!-- Final Presentation -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-danger">
+                                        <div class="date-number">10</div>
+                                        <div class="date-month">Nov 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-danger">Final Presentation</h5>
+                                        <p class="event-description">Scientific presentations and Q&A sessions</p>
+                                        <span class="badge bg-danger">Upcoming</span>
+                                    </div>
+                                </div>
+
+                                <!-- Award Ceremony -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-success">
+                                        <div class="date-number">10</div>
+                                        <div class="date-month">Nov 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-success">Award Ceremony</h5>
+                                        <p class="event-description">UNAS Cyber Auditorium - Winner announcement and awarding</p>
+                                        <span class="badge bg-success">Upcoming</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     @elseif($competition->slug == 'kdbi')
                         <!-- KDBI Timeline -->
-                        <div class="timeline-container p-4">
-                            <div class="timeline">
-                                <div class="timeline-item">
-                                    <div class="timeline-marker bg-primary"></div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-header">
-                                            <h5 class="text-primary mb-1">Registration Period</h5>
-                                            <small class="text-muted">Phase 1</small>
-                                        </div>
-                                        <p class="mb-2"><strong>November 15 - December 20, 2024</strong></p>
-                                        <ul class="list-unstyled mb-0">
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Team registration</li>
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Document verification</li>
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Payment confirmation</li>
-                                        </ul>
+                        <div class="modern-timeline-container p-4">
+                            <div class="modern-timeline">
+                                <!-- Early Bird Registration -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-success">
+                                        <div class="date-number">25</div>
+                                        <div class="date-month">Aug 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-success">Early Bird Registration</h5>
+                                        <p class="event-price">Rp.120.000/Team</p>
+                                        <span class="badge bg-success">Upcoming</span>
+                                        <p class="event-period text-muted">s/d 31 Aug 2024</p>
                                     </div>
                                 </div>
 
-                                <div class="timeline-item">
-                                    <div class="timeline-marker bg-warning"></div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-header">
-                                            <h5 class="text-warning mb-1">Technical Meeting</h5>
-                                            <small class="text-muted">Phase 2</small>
-                                        </div>
-                                        <p class="mb-2"><strong>January 8, 2025</strong></p>
-                                        <ul class="list-unstyled mb-0">
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Competition format briefing</li>
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Rules and regulations</li>
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Schedule confirmation</li>
-                                        </ul>
+                                <!-- Phase 1 Registration -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-warning">
+                                        <div class="date-number">01</div>
+                                        <div class="date-month">Sep 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-warning">Phase 1 Registration</h5>
+                                        <p class="event-price">Rp.200.000/Team</p>
+                                        <span class="badge bg-warning">Upcoming</span>
+                                        <p class="event-period text-muted">s/d 15 Sep 2024</p>
                                     </div>
                                 </div>
 
-                                <div class="timeline-item">
-                                    <div class="timeline-marker bg-info"></div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-header">
-                                            <h5 class="text-info mb-1">Preliminary Round</h5>
-                                            <small class="text-muted">Phase 3</small>
-                                        </div>
-                                        <p class="mb-2"><strong>January 12-14, 2025</strong></p>
-                                        <ul class="list-unstyled mb-0">
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Opening ceremony</li>
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Preliminary debates</li>
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Semifinalist selection</li>
-                                        </ul>
+                                <!-- Phase 2 Registration -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-danger">
+                                        <div class="date-number">16</div>
+                                        <div class="date-month">Sep 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-danger">Phase 2 Registration</h5>
+                                        <p class="event-price">Rp.250.000/Team</p>
+                                        <span class="badge bg-danger">Upcoming</span>
+                                        <p class="event-period text-muted">s/d 30 Sep 2024</p>
                                     </div>
                                 </div>
 
-                                <div class="timeline-item">
-                                    <div class="timeline-marker bg-success"></div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-header">
-                                            <h5 class="text-success mb-1">Final Championship</h5>
-                                            <small class="text-muted">Phase 4</small>
-                                        </div>
-                                        <p class="mb-2"><strong>January 18, 2025</strong></p>
-                                        <ul class="list-unstyled mb-0">
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Semi-final rounds</li>
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Grand final debate</li>
-                                            <li><i class="bi bi-check-circle text-success me-2"></i>Closing & awarding ceremony</li>
-                                        </ul>
+                                <!-- Technical Meeting -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-info">
+                                        <div class="date-number">25</div>
+                                        <div class="date-month">Sep 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-info">Technical Meeting</h5>
+                                        <p class="event-description">Competition format briefing and rules explanation</p>
+                                        <span class="badge bg-info">Upcoming</span>
+                                    </div>
+                                </div>
+
+                                <!-- Preliminary Round Day 1 -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-primary">
+                                        <div class="date-number">10</div>
+                                        <div class="date-month">Oct 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-primary">Preliminary Round Day 1</h5>
+                                        <p class="event-description">Opening ceremony and preliminary debates</p>
+                                        <span class="badge bg-primary">Upcoming</span>
+                                    </div>
+                                </div>
+
+                                <!-- Preliminary Round Day 2 -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-primary">
+                                        <div class="date-number">12</div>
+                                        <div class="date-month">Oct 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-primary">Preliminary Round Day 2</h5>
+                                        <p class="event-description">Continuation of preliminary debates</p>
+                                        <span class="badge bg-primary">Upcoming</span>
+                                    </div>
+                                </div>
+
+                                <!-- Semifinal Round -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-info">
+                                        <div class="date-number">17</div>
+                                        <div class="date-month">Oct 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-info">Semifinal Round</h5>
+                                        <p class="event-description">Semifinalist selection and debates</p>
+                                        <span class="badge bg-info">Upcoming</span>
+                                    </div>
+                                </div>
+
+                                <!-- Final Championship -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-danger">
+                                        <div class="date-number">25</div>
+                                        <div class="date-month">Oct 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-danger">Final Championship</h5>
+                                        <p class="event-description">Grand final debate and winner determination</p>
+                                        <span class="badge bg-danger">Upcoming</span>
+                                    </div>
+                                </div>
+
+                                <!-- Award Ceremony -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-success">
+                                        <div class="date-number">10</div>
+                                        <div class="date-month">Nov 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-success">Award Ceremony</h5>
+                                        <p class="event-description">UNAS Cyber Auditorium - Closing and awarding ceremony</p>
+                                        <span class="badge bg-success">Upcoming</span>
                                     </div>
                                 </div>
                             </div>
