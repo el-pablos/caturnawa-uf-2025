@@ -1,0 +1,80 @@
+{
+  "tahap_penyisihan": {
+    "Kerapihan Struktur": {
+      "description": "Karya yang dibuat terstruktur dan mudah dipahami",
+      "weight": 15
+    },
+    "Judul Kreatif dan Menarik": {
+      "description": "Judul singkat, jelas, relevan dengan tema dan menggunakan tipografi yang mendukung daya tarik visual",
+      "weight": 10
+    },
+    "Isi/Pesan": {
+      "description": "Singkat, padat, dan bahasa yang digunakan jelas keterbacaannya/mudah dipahami",
+      "weight": 10
+    },
+    "Desain Visual": {
+      "description": "Penyusunan elemen yang proporsional (tidak terlalu besar/kecil), dan warna yang digunakan dalam karya menarik",
+      "weight": 20
+    },
+    "Teori dan Konsep Jelas": {
+      "description": "Keberhasilan menyampaikan pesan, karya memiliki ide atau tema yang kuat sesuai fakta dan konsisten",
+      "weight": 20
+    },
+    "Komposisi Gambar": {
+      "description": "Penataan harmonis dan pengaturan elemen-elemen visual seperti gambar, teks, warna, ikon, dan ruang dalam sebuah infografis mudah dipahami, dan mampu menarik perhatian audiens",
+      "weight": 10
+    },
+    "Kualitas Editing": {
+      "description": "Kualitas editing menilai tingkat ketelitian dalam proses pembuatan poster, termasuk ketajaman gambar, kebersihan desain (tidak ada elemen yang terpotong), dan konsistensi gaya visual",
+      "weight": 15
+    }
+  },
+  "tahap_semifinal": {
+    "Kualitas Pesan yang Disampaikan Dalam Poster": {
+      "description": "Pesan harus disampaikan secara singkat, langsung, dan tidak ambigu, seperti pemilihan kata-kata yang tepat",
+      "weight": 15
+    },
+    "Orisinalitas Karya": {
+      "description": "Orisinalitas mengacu pada keaslian karya, yang berarti poster tersebut adalah hasil ciptaan sendiri, bukan plagiat atau pengambilan dari karya orang lain, serta belum pernah dipublikasikan sebelumnya",
+      "weight": 20
+    },
+    "Kedalaman Analisis Karya": {
+      "description": "Kemampuan peserta dalam menggali konsep, tema, dan konteks yang relevan, serta dapat menyampaikan pesan dengan efektif melalui elemen visual dan teks",
+      "weight": 20
+    },
+    "Kekuatan Visualisasi Data": {
+      "description": "Kemampuan karya dalam menyampaikan informasi secara visual dengan cara yang jelas, akurat, dan menarik perhatian pembaca",
+      "weight": 15
+    },
+    "Konsistensi Tema & Desain": {
+      "description": "Konsistensi tema dan desain mengacu pada keselarasan semua elemen poster seperti warna, tipografi, gambar, dan gaya visual dengan tema utama yang ingin disampaikan",
+      "weight": 15
+    },
+    "Keindahan/Sisi Artistik Penyajian Visual": {
+      "description": "Keindahan atau sisi artistik menilai karya Infografis dalam bentuk estetika secara keseluruhan, termasuk harmoni warna, komposisi visual, dan kreativitas dalam penyajian",
+      "weight": 15
+    }
+  },
+  "tahap_final": {
+    "Pemahaman Terhadap Karya": {
+      "description": "Seberapa baik peserta memahami isi, tujuan, dan konteks karya tersebut",
+      "weight": 25
+    },
+    "Kepercayaan Diri Saat Presentasi": {
+      "description": "Seberapa baik peserta menyampaikan presentasi, termasuk bahasa tubuh, intonasi suara, dan kontak mata dengan audiens",
+      "weight": 20
+    },
+    "Kesesuaian Isi Pembicaraan Dengan Isi Karya": {
+      "description": "Penjelasan lisan harus mendukung dan memperkuat pesan yang disampaikan melalui karya, tanpa menyimpang dari tema yang diusung",
+      "weight": 15
+    },
+    "Kualitas/Kemenarikan Isi Presentasi": {
+      "description": "Seberapa baik presentasi tersebut seperti memiliki alur yang logis, Informasi yang relevan, dan gaya penyampaian yang menarik",
+      "weight": 20
+    },
+    "Sesi Tanya Jawab": {
+      "description": "Kemampuan pembicara dalam menangani sesi tanya jawab dengan jelas dan tepat, Seperti jawaban harus relevan dengan pertanyaan, disampaikan dengan bahasa yang mudah dipahami, dan menunjukan pemahaman mendalam terhadap karya",
+      "weight": 20
+    }
+  }
+}
