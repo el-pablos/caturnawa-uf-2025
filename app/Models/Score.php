@@ -937,135 +937,139 @@ class Score extends Model
     }
 
     /**
-     * Get DCC Short Video criteria untuk penilaian (3 tahap)
+     * Get DCC Short Video criteria untuk penilaian (2 tahap sesuai PDF)
      *
      * @return array
      */
     public static function getDccShortVideoCriteria()
     {
         return [
-            'preliminary_round' => [
-                'Video Duration' => [
-                    'description' => 'According to the specified duration of 3 minutes maximum',
-                    'weight' => 10,
-                    'min_score' => 0,
-                    'max_score' => 100
-                ],
-                'Opening: Main Title' => [
-                    'description' => 'Videos created have attractive, creative, and relevant main titles with video content',
-                    'weight' => 15,
-                    'min_score' => 0,
-                    'max_score' => 100
-                ],
-                'Content (Theme Appropriate)' => [
-                    'description' => 'How relevant the message conveyed in the video, content must be well structured, have a logical or consistent flow, and not deviate from the main theme',
-                    'weight' => 20,
-                    'min_score' => 0,
-                    'max_score' => 100
-                ],
-                'Effectiveness of Sentences Used' => [
-                    'description' => 'Sentences must be clear, concise, and easily understood by the audience, and use language well to convey the core message of the video to audiences that are easy to understand',
-                    'weight' => 15,
-                    'min_score' => 0,
-                    'max_score' => 100
-                ],
-                'Image/Video Quality' => [
-                    'description' => 'Video quality such as resolution, image clarity, lighting, and visual composition',
-                    'weight' => 20,
-                    'min_score' => 0,
-                    'max_score' => 100
-                ],
-                'Caption/Text Clarity' => [
-                    'description' => 'Captions or text used in the video are clear, match the video flow, easy to read or understand, and do not interfere with other visual elements',
-                    'weight' => 10,
-                    'min_score' => 0,
-                    'max_score' => 100
-                ],
-                'Closing/Credit Title' => [
-                    'description' => 'How impressive the video closing is with a strong conclusion and leaves a positive impression, as well as clear credit titles, and in accordance with the video style',
-                    'weight' => 10,
-                    'min_score' => 0,
-                    'max_score' => 100
-                ]
-            ],
             'semifinal_round' => [
-                'Acting: Facial Expressions and Character' => [
-                    'description' => 'Suitability of facial expressions, gestures, body language, and expressions can describe the situation conveyed such as joy, sadness, or tension, so that it feels natural and convincing',
+                'Cinematography - Angle Shot' => [
+                    'description' => 'Camera angle techniques and shot composition quality',
+                    'weight' => 40,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Cinematography - Image Composition' => [
+                    'description' => 'Visual composition and framing of images in the video',
+                    'weight' => 30,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Cinematography - Image Quality' => [
+                    'description' => 'Technical quality of images including resolution and clarity',
+                    'weight' => 30,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Visual and Form - Costume Set' => [
+                    'description' => 'Quality and appropriateness of costumes and set design',
+                    'weight' => 25,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Visual and Form - Visual Effect' => [
+                    'description' => 'Quality and effectiveness of visual effects used',
+                    'weight' => 25,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Visual and Form - Arrangement of Elements' => [
+                    'description' => 'Organization and arrangement of visual elements',
+                    'weight' => 25,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Visual and Form - Property and Place Settings' => [
+                    'description' => 'Quality of props and location settings used',
+                    'weight' => 25,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Visual and Editing - Footage/Picture Assembly' => [
+                    'description' => 'Quality of video editing and footage assembly',
+                    'weight' => 40,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Visual and Editing - Background Music' => [
+                    'description' => 'Appropriateness and quality of background music',
                     'weight' => 20,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Quality of Dialogue/Narration/Human Voice' => [
-                    'description' => 'Clarity of intonation and emotion in word pronunciation, both in dialogue between characters and voice over',
-                    'weight' => 10,
-                    'min_score' => 0,
-                    'max_score' => 100
-                ],
-                'Lighting Quality' => [
-                    'description' => 'Ability to support atmosphere, visual clarity, and video aesthetics such as good lighting (no disturbing shadows/over exposure)',
-                    'weight' => 10,
-                    'min_score' => 0,
-                    'max_score' => 100
-                ],
-                'Visual Effects Quality (Transitions and Animation)' => [
-                    'description' => 'Use of visual effects such as transitions between scenes, and use of animation (Moving Text/Graphic Elements)',
+                'Visual and Editing - Sound Effects' => [
+                    'description' => 'Quality and effectiveness of sound effects',
                     'weight' => 20,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Property Quality (Property and Setting Relationship, and Objects)' => [
-                    'description' => 'Use of appropriate properties such as costumes, props, and background settings',
-                    'weight' => 10,
-                    'min_score' => 0,
-                    'max_score' => 100
-                ],
-                'Video, Narration and Background Music Relationship' => [
-                    'description' => 'The relationship between visual elements, narration/dialogue, and background music that is harmonious and increases video interest',
-                    'weight' => 10,
-                    'min_score' => 0,
-                    'max_score' => 100
-                ],
-                'Editing and Mixing Quality' => [
-                    'description' => 'Includes video editing such as scene cutting, clip merging, and adjustment, music, sound effects and timing so that the flow feels smooth',
+                'Visual and Editing - Narration/Dialogue' => [
+                    'description' => 'Quality of narration and dialogue delivery',
                     'weight' => 20,
                     'min_score' => 0,
                     'max_score' => 100
                 ]
             ],
             'final_round' => [
-                'Suitability of Speech Content with Work Content' => [
-                    'description' => 'Speech must be relevant, supportive, and strengthen the message conveyed in the work, without deviating to unrelated topics',
+                'Presentation Content - Informative Supporting' => [
+                    'description' => 'Presentation content must be informative, structured, and support the purpose of the work with relevant facts, data, and stories',
+                    'weight' => 50,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Presentation Content - Does Not Digress' => [
+                    'description' => 'Speech must be relevant and not deviate to unrelated topics',
                     'weight' => 20,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Presentation Flow' => [
-                    'description' => 'Includes presentations having an interesting opening, organized content, and strong closing',
+                'Presentation Content - Has Structured Flow' => [
+                    'description' => 'Presentation must have organized content and logical flow',
+                    'weight' => 30,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Presentation Speech - Interesting Opening' => [
+                    'description' => 'Presentation must have an engaging and interesting opening',
                     'weight' => 10,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Confidence During Presentation' => [
-                    'description' => 'Includes body language, eye contact with audience, clear voice intonation, and calmness in speaking',
-                    'weight' => 15,
+                'Presentation Speech - Clear Voice Intonation and Eye Contact' => [
+                    'description' => 'Clear voice intonation and good eye contact with audience',
+                    'weight' => 30,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Quality/Attractiveness of Presentation Content' => [
-                    'description' => 'Presentation content must be informative, structured, and support the purpose of the work, with relevant facts, data, or stories',
-                    'weight' => 15,
+                'Presentation Speech - Using Polite Language' => [
+                    'description' => 'Using appropriate and polite language during presentation',
+                    'weight' => 30,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Ethics and Appearance' => [
-                    'description' => 'Includes professional nature during presentations, such as respecting the audience, using polite language, appropriate clothing, neatness, and harmony of appearance',
-                    'weight' => 20,
+                'Presentation Speech - Calmness in Delivering Material' => [
+                    'description' => 'Maintaining calmness and composure while delivering the presentation',
+                    'weight' => 30,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Clarity of Question and Answer Session' => [
-                    'description' => 'The speaker\'s ability to handle question and answer sessions clearly and precisely, such as answers must be relevant to questions, delivered in language that is easy to understand, and shows deep understanding of the work',
-                    'weight' => 20,
+                'Q&A Session - Relevant Answer to the Question' => [
+                    'description' => 'Answers must be relevant and directly address the questions asked',
+                    'weight' => 40,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Q&A Session - Easy to Understand Language' => [
+                    'description' => 'Answers delivered in language that is easy to understand',
+                    'weight' => 30,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Q&A Session - Good Understanding of the Work' => [
+                    'description' => 'Showing deep understanding and knowledge of the work created',
+                    'weight' => 30,
                     'min_score' => 0,
                     'max_score' => 100
                 ]
