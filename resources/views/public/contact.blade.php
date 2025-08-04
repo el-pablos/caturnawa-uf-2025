@@ -332,7 +332,7 @@
                         <i class="bi bi-geo-alt-fill text-danger info-icon me-3"></i>
                         <div>
                             <h6 class="fw-bold mb-0">Address</h6>
-                            <p class="text-muted mb-0">{{ $contact['address'] }}</p>
+                            <p class="text-muted mb-0">{{   $contact['address'] }}</p>
                         </div>
                     </li>
                 </ul>
