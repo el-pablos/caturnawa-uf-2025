@@ -992,97 +992,57 @@
         </div>
     </div>
 
-    <!-- Parameter Penilaian -->
-    @if($competition->judging_criteria)
-        <div class="row mb-5">
-            <div class="col-12">
-                <h2 class="text-center mb-4 fw-bold" style="color:#667eea;" data-aos="fade-up">
-                    <i class="bi bi-clipboard-check"></i>
-                    Parameter Penilaian {{ $competition->name }}
-                </h2>
-            </div>
-            <div class="col-12">
-                <div class="card shadow" data-aos="fade-up" data-aos-delay="200">
-                    <div class="card-header bg-info text-white text-center">
-                        <h3 class="card-title mb-0">Kriteria Penilaian</h3>
-                    </div>
-                    <div class="card-body">
-                        @php
-                            $criteria = null;
-                            try {
-                                $criteria = json_decode($competition->judging_criteria, true);
-                            } catch (Exception $e) {
-                                $criteria = null;
-                            }
-                        @endphp
-
-                        @if(is_array($criteria) && !empty($criteria))
-                            @foreach($criteria as $stage => $stageCriteria)
-                                @if(is_array($stageCriteria) && !empty($stageCriteria))
-                                    <div class="mb-4">
-                                        <h4 class="text-primary mb-3 text-capitalize">
-                                            <i class="bi bi-star-fill me-2"></i>
-                                            {{ ucwords(str_replace('_', ' ', $stage)) }}
-                                        </h4>
-                                        <div class="table-responsive">
-                                            <table class="table table-striped table-hover">
-                                                <thead class="table-primary">
-                                                    <tr>
-                                                        <th width="5%">No</th>
-                                                        <th width="25%">Criteria</th>
-                                                        <th width="60%">Description</th>
-                                                        <th width="10%">Weight</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @php $no = 1; @endphp
-                                                    @foreach($stageCriteria as $criterion => $details)
-                                                        @if(is_array($details))
-                                                            <tr>
-                                                                <td class="text-center fw-bold">{{ $no++ }}</td>
-                                                                <td class="fw-semibold">{{ $criterion }}</td>
-                                                                <td>{{ $details['description'] ?? '-' }}</td>
-                                                                <td class="text-center">
-                                                                    <span class="badge bg-primary">{{ $details['weight'] ?? 0 }} points</span>
-                                                                </td>
-                                                            </tr>
-                                                        @endif
-                                                    @endforeach
-                                                </tbody>
-                                                <tfoot class="table-secondary">
-                                                    <tr>
-                                                        <td colspan="3" class="text-end fw-bold">Total:</td>
-                                                        <td class="text-center fw-bold">
-                                                            <span class="badge bg-success">
-                                                                @php
-                                                                    $total = 0;
-                                                                    foreach($stageCriteria as $criterion => $details) {
-                                                                        if(is_array($details)) {
-                                                                            $total += $details['weight'] ?? 0;
-                                                                        }
-                                                                    }
-                                                                @endphp
-                                                                {{ $total }} points
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div>
-                                    </div>
-                                @endif
-                            @endforeach
-                        @else
-                            <div class="alert alert-info">
-                                <i class="bi bi-info-circle me-2"></i>
-                                Judging criteria will be announced during the technical meeting.
+    <!-- Judging Information (Public) -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="text-center mb-4 fw-bold" style="color:#667eea;" data-aos="fade-up">
+                <i class="bi bi-clipboard-check"></i>
+                Judging Process
+            </h2>
+        </div>
+        <div class="col-12">
+            <div class="card shadow" data-aos="fade-up" data-aos-delay="200">
+                <div class="card-header bg-info text-white text-center">
+                    <h3 class="card-title mb-0">Evaluation Stages</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="text-center">
+                                <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                    <i class="bi bi-1-circle-fill fs-3"></i>
+                                </div>
+                                <h5 class="fw-bold">Preliminary Round</h5>
+                                <p class="text-muted">Initial evaluation of submitted works based on technical quality and creativity.</p>
                             </div>
-                        @endif
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="text-center">
+                                <div class="bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                    <i class="bi bi-2-circle-fill fs-3"></i>
+                                </div>
+                                <h5 class="fw-bold">Semifinal Round</h5>
+                                <p class="text-muted">Advanced evaluation focusing on concept depth and artistic presentation.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="text-center">
+                                <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                    <i class="bi bi-3-circle-fill fs-3"></i>
+                                </div>
+                                <h5 class="fw-bold">Final Round</h5>
+                                <p class="text-muted">Final presentation and Q&A session with expert panel judges.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert alert-info mt-3">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <strong>Note:</strong> Detailed judging criteria will be shared with finalists during the technical meeting. All evaluations will be conducted by expert panels in their respective fields.
                     </div>
                 </div>
             </div>
         </div>
-    @endif
+    </div>
 
     <!-- Rules & Requirements -->
     @if($competition->rules)

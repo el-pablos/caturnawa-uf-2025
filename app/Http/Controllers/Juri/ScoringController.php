@@ -165,6 +165,15 @@ class ScoringController extends Controller
             $criteria = Score::getKdbiCriteria();
         } elseif ($competition && $competition->isSpcCompetition()) {
             $criteria = Score::getSpcCriteria();
+        } elseif ($competition && $competition->category === 'event_dcc') {
+            // For DCC, we need to determine which criteria to use based on competition name
+            if (str_contains(strtolower($competition->name), 'infografis')) {
+                $criteria = Score::getDccInfografisCriteria();
+            } elseif (str_contains(strtolower($competition->name), 'video')) {
+                $criteria = Score::getDccShortVideoCriteria();
+            } else {
+                $criteria = Score::getDefaultCriteria();
+            }
         } else {
             $criteria = Score::getDefaultCriteria();
         }
@@ -185,7 +194,8 @@ class ScoringController extends Controller
         $isEdcCompetition = $competition && $competition->isEdcCompetition();
         $isKdbiCompetition = $competition && $competition->isKdbiCompetition();
         $isSpcCompetition = $competition && $competition->isSpcCompetition();
-        
+        $isDccCompetition = $competition && $competition->category === 'event_dcc';
+
         // Use specific criteria based on competition type
         if ($isEdcCompetition) {
             $criteria = Score::getEdcCriteria();
@@ -193,6 +203,15 @@ class ScoringController extends Controller
             $criteria = Score::getKdbiCriteria();
         } elseif ($isSpcCompetition) {
             $criteria = Score::getSpcCriteria();
+        } elseif ($isDccCompetition) {
+            // For DCC, we need to determine which criteria to use based on competition name
+            if (str_contains(strtolower($competition->name), 'infografis')) {
+                $criteria = Score::getDccInfografisCriteria();
+            } elseif (str_contains(strtolower($competition->name), 'video')) {
+                $criteria = Score::getDccShortVideoCriteria();
+            } else {
+                $criteria = Score::getDefaultCriteria();
+            }
         } else {
             $criteria = Score::getDefaultCriteria();
         }
@@ -204,8 +223,8 @@ class ScoringController extends Controller
             if ($isEdcCompetition || $isKdbiCompetition) {
                 // EDC and KDBI use 50-100 range
                 $rules["criteria.{$criteriaKey}"] = 'required|numeric|min:50|max:100';
-            } elseif ($isSpcCompetition) {
-                // SPC uses 0-100 range
+            } elseif ($isSpcCompetition || $isDccCompetition) {
+                // SPC and DCC use 0-100 range
                 $rules["criteria.{$criteriaKey}"] = 'required|numeric|min:0|max:100';
             } else {
                 // Other competitions use 0-100 range
@@ -228,6 +247,9 @@ class ScoringController extends Controller
             $messages['criteria.*.max'] = 'Nilai maksimal 100';
         } elseif ($isSpcCompetition) {
             $messages['criteria.*.min'] = 'Nilai minimal 0 (sesuai standar SPC)';
+            $messages['criteria.*.max'] = 'Nilai maksimal 100';
+        } elseif ($isDccCompetition) {
+            $messages['criteria.*.min'] = 'Nilai minimal 0 (sesuai standar DCC)';
             $messages['criteria.*.max'] = 'Nilai maksimal 100';
         } else {
             $messages['criteria.*.min'] = 'Nilai minimal 0';

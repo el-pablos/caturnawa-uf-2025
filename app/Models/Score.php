@@ -790,13 +790,13 @@ class Score extends Model
 
     /**
      * Validate criteria scores untuk EDC
-     * 
+     *
      * @return array
      */
     public function validateEdcCriterias()
     {
         $errors = [];
-        
+
         if (!$this->criteria_scores || !is_array($this->criteria_scores)) {
             $errors[] = 'Criteria scores harus diisi';
             return $errors;
@@ -809,5 +809,329 @@ class Score extends Model
         }
 
         return $errors;
+    }
+
+    /**
+     * Get DCC Infografis criteria untuk penilaian (3 tahap)
+     *
+     * @return array
+     */
+    public static function getDccInfografisCriteria()
+    {
+        return [
+            'preliminary_round' => [
+                'Structure Neatness' => [
+                    'description' => 'Works created are structured and easy to understand',
+                    'weight' => 15,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Creative and Attractive Title' => [
+                    'description' => 'Short, clear title, relevant to the theme and using typography that supports visual appeal',
+                    'weight' => 10,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Content/Message' => [
+                    'description' => 'Concise, dense, and the language used is clear and easy to understand',
+                    'weight' => 10,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Visual Design' => [
+                    'description' => 'Proportional arrangement of elements (not too big/small), and colors used in attractive works',
+                    'weight' => 20,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Clear Theory and Concept' => [
+                    'description' => 'Success in conveying messages, works have strong ideas or themes according to facts and consistent',
+                    'weight' => 20,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Image Composition' => [
+                    'description' => 'Harmonious arrangement and arrangement of visual elements such as images, text, colors, icons, and space in an infographic that is easy to understand and able to attract audience attention',
+                    'weight' => 10,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Editing Quality' => [
+                    'description' => 'Editing quality assesses the level of accuracy in the poster creation process, including image sharpness, design cleanliness (no cropped elements), and visual style consistency',
+                    'weight' => 15,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ]
+            ],
+            'semifinal_round' => [
+                'Quality of Message Delivered in Poster' => [
+                    'description' => 'Messages must be delivered concisely, directly, and unambiguously, such as appropriate word choice',
+                    'weight' => 15,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Work Originality' => [
+                    'description' => 'Originality refers to the authenticity of the work, meaning the poster is the result of one\'s own creation, not plagiarism or taking from other people\'s work, and has never been published before',
+                    'weight' => 20,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Depth of Work Analysis' => [
+                    'description' => 'Participants\' ability to explore relevant concepts, themes, and contexts, and can convey messages effectively through visual and text elements',
+                    'weight' => 20,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Data Visualization Strength' => [
+                    'description' => 'The ability of the work to convey information visually in a clear, accurate, and attention-grabbing way for readers',
+                    'weight' => 15,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Theme & Design Consistency' => [
+                    'description' => 'Theme and design consistency refers to the harmony of all poster elements such as colors, typography, images, and visual style with the main theme to be conveyed',
+                    'weight' => 15,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Beauty/Artistic Side of Visual Presentation' => [
+                    'description' => 'Beauty or artistic side assesses Infographic works in terms of overall aesthetics, including color harmony, visual composition, and creativity in presentation',
+                    'weight' => 15,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ]
+            ],
+            'final_round' => [
+                'Understanding of the Work' => [
+                    'description' => 'How well participants understand the content, purpose, and context of the work',
+                    'weight' => 25,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Confidence During Presentation' => [
+                    'description' => 'How well participants deliver presentations, including body language, voice intonation, and eye contact with the audience',
+                    'weight' => 20,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Suitability of Speech Content with Work Content' => [
+                    'description' => 'Oral explanations must support and strengthen the message conveyed through the work, without deviating from the theme being carried',
+                    'weight' => 15,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Quality/Attractiveness of Presentation Content' => [
+                    'description' => 'How good the presentation is, such as having a logical flow, relevant information, and an attractive delivery style',
+                    'weight' => 20,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Question and Answer Session' => [
+                    'description' => 'The speaker\'s ability to handle question and answer sessions clearly and precisely, such as answers must be relevant to questions, delivered in language that is easy to understand, and shows deep understanding of the work',
+                    'weight' => 20,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * Get DCC Short Video criteria untuk penilaian (3 tahap)
+     *
+     * @return array
+     */
+    public static function getDccShortVideoCriteria()
+    {
+        return [
+            'preliminary_round' => [
+                'Video Duration' => [
+                    'description' => 'According to the specified duration of 3 minutes maximum',
+                    'weight' => 10,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Opening: Main Title' => [
+                    'description' => 'Videos created have attractive, creative, and relevant main titles with video content',
+                    'weight' => 15,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Content (Theme Appropriate)' => [
+                    'description' => 'How relevant the message conveyed in the video, content must be well structured, have a logical or consistent flow, and not deviate from the main theme',
+                    'weight' => 20,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Effectiveness of Sentences Used' => [
+                    'description' => 'Sentences must be clear, concise, and easily understood by the audience, and use language well to convey the core message of the video to audiences that are easy to understand',
+                    'weight' => 15,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Image/Video Quality' => [
+                    'description' => 'Video quality such as resolution, image clarity, lighting, and visual composition',
+                    'weight' => 20,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Caption/Text Clarity' => [
+                    'description' => 'Captions or text used in the video are clear, match the video flow, easy to read or understand, and do not interfere with other visual elements',
+                    'weight' => 10,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Closing/Credit Title' => [
+                    'description' => 'How impressive the video closing is with a strong conclusion and leaves a positive impression, as well as clear credit titles, and in accordance with the video style',
+                    'weight' => 10,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ]
+            ],
+            'semifinal_round' => [
+                'Acting: Facial Expressions and Character' => [
+                    'description' => 'Suitability of facial expressions, gestures, body language, and expressions can describe the situation conveyed such as joy, sadness, or tension, so that it feels natural and convincing',
+                    'weight' => 20,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Quality of Dialogue/Narration/Human Voice' => [
+                    'description' => 'Clarity of intonation and emotion in word pronunciation, both in dialogue between characters and voice over',
+                    'weight' => 10,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Lighting Quality' => [
+                    'description' => 'Ability to support atmosphere, visual clarity, and video aesthetics such as good lighting (no disturbing shadows/over exposure)',
+                    'weight' => 10,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Visual Effects Quality (Transitions and Animation)' => [
+                    'description' => 'Use of visual effects such as transitions between scenes, and use of animation (Moving Text/Graphic Elements)',
+                    'weight' => 20,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Property Quality (Property and Setting Relationship, and Objects)' => [
+                    'description' => 'Use of appropriate properties such as costumes, props, and background settings',
+                    'weight' => 10,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Video, Narration and Background Music Relationship' => [
+                    'description' => 'The relationship between visual elements, narration/dialogue, and background music that is harmonious and increases video interest',
+                    'weight' => 10,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Editing and Mixing Quality' => [
+                    'description' => 'Includes video editing such as scene cutting, clip merging, and adjustment, music, sound effects and timing so that the flow feels smooth',
+                    'weight' => 20,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ]
+            ],
+            'final_round' => [
+                'Suitability of Speech Content with Work Content' => [
+                    'description' => 'Speech must be relevant, supportive, and strengthen the message conveyed in the work, without deviating to unrelated topics',
+                    'weight' => 20,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Presentation Flow' => [
+                    'description' => 'Includes presentations having an interesting opening, organized content, and strong closing',
+                    'weight' => 10,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Confidence During Presentation' => [
+                    'description' => 'Includes body language, eye contact with audience, clear voice intonation, and calmness in speaking',
+                    'weight' => 15,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Quality/Attractiveness of Presentation Content' => [
+                    'description' => 'Presentation content must be informative, structured, and support the purpose of the work, with relevant facts, data, or stories',
+                    'weight' => 15,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Ethics and Appearance' => [
+                    'description' => 'Includes professional nature during presentations, such as respecting the audience, using polite language, appropriate clothing, neatness, and harmony of appearance',
+                    'weight' => 20,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Clarity of Question and Answer Session' => [
+                    'description' => 'The speaker\'s ability to handle question and answer sessions clearly and precisely, such as answers must be relevant to questions, delivered in language that is easy to understand, and shows deep understanding of the work',
+                    'weight' => 20,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * Check if this is a DCC competition score
+     *
+     * @return bool
+     */
+    public function isDccScore()
+    {
+        return $this->competition &&
+               $this->competition->category === 'event_dcc';
+    }
+
+    /**
+     * Get DCC criteria berdasarkan jenis kompetisi
+     *
+     * @return array
+     */
+    public function getDccCriteria()
+    {
+        if (!$this->isDccScore()) {
+            return [];
+        }
+
+        if (str_contains(strtolower($this->competition->name), 'infografis')) {
+            return self::getDccInfografisCriteria();
+        }
+
+        if (str_contains(strtolower($this->competition->name), 'video')) {
+            return self::getDccShortVideoCriteria();
+        }
+
+        return [];
+    }
+
+    /**
+     * Validate DCC score (0-100 scale)
+     *
+     * @param float $score
+     * @return bool
+     */
+    public static function isValidDccScore($score)
+    {
+        return is_numeric($score) && $score >= 0 && $score <= 100;
+    }
+
+    /**
+     * Get grade untuk DCC scoring (0-100 scale)
+     *
+     * @return string
+     */
+    public function getDccGradeAttribute()
+    {
+        $score = $this->total_score;
+
+        if ($score >= 90) return 'A';
+        if ($score >= 80) return 'B+';
+        if ($score >= 70) return 'B';
+        if ($score >= 60) return 'C+';
+        if ($score >= 50) return 'C';
+
+        return 'D';
     }
 }
