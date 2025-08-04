@@ -1,22 +1,22 @@
 <!-- Welcome Guide -->
 <div class="row mb-4">
     <div class="col-12">
-        <div class="card border-0 bg-gradient" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <div class="card border-0 bg-gradient" style="background: linear-gradient(135deg, #6f42c1 0%, #5a2d91 100%); box-shadow: 0 4px 12px rgba(111, 66, 193, 0.25);">
             <div class="card-body">
                 <div class="row align-items-center">
                     <div class="col-md-8">
-                        <h4 class="mb-3 text-white fw-bold" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
+                        <h4 class="mb-3 fw-bold" style="color: #ffffff; text-shadow: 2px 2px 6px rgba(0,0,0,0.8); font-weight: 800;">
                             <i class="bi bi-star-fill me-2"></i>
                             Panduan Penggunaan Dashboard Caturnawa
                         </h4>
-                        <p class="mb-3 lead text-white" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.5);">
+                        <p class="mb-3 lead" style="color: #ffffff; text-shadow: 1px 1px 4px rgba(0,0,0,0.7); font-weight: 500;">
                             Panduan lengkap alur website dari registrasi hingga upload karya untuk PIC/Team Leader.
                         </p>
                         <div class="d-flex gap-2">
-                            <span class="badge bg-white bg-opacity-90 p-2 text-dark">
+                            <span class="badge p-2" style="background-color: rgba(255,255,255,0.95); color: #1f2937; font-weight: 600; text-shadow: none;">
                                 <i class="bi bi-people me-1"></i>{{ App\Models\Registration::where('status', 'paid')->count() }}+ Peserta
                             </span>
-                            <span class="badge bg-white bg-opacity-90 p-2 text-dark">
+                            <span class="badge p-2" style="background-color: rgba(255,255,255,0.95); color: #1f2937; font-weight: 600; text-shadow: none;">
                                 <i class="bi bi-trophy me-1"></i>{{ App\Models\Competition::where('is_active', true)->count() }} Kompetisi
                             </span>
                         </div>
@@ -43,25 +43,25 @@
             <div class="card-body">
                 <div class="row g-3">
                     <div class="col-md-3">
-                        <a href="{{ route('peserta.competitions.index') }}" class="btn btn-primary w-100 h-100 d-flex flex-column justify-content-center">
+                        <a href="{{ route('peserta.competitions.index') }}" class="btn w-100 h-100 d-flex flex-column justify-content-center text-white" style="background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%); border: none; min-height: 120px; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 20px rgba(79, 70, 229, 0.35)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(79, 70, 229, 0.25)'">
                             <i class="bi bi-plus-circle fs-3 mb-2"></i>
                             <span>Daftar Kompetisi</span>
                         </a>
                     </div>
                     <div class="col-md-3">
-                        <a href="{{ route('peserta.registrations.index') }}" class="btn btn-success w-100 h-100 d-flex flex-column justify-content-center">
+                        <a href="{{ route('peserta.registrations.index') }}" class="btn w-100 h-100 d-flex flex-column justify-content-center text-white" style="background: linear-gradient(135deg, #059669 0%, #047857 100%); border: none; min-height: 120px; box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 20px rgba(5, 150, 105, 0.35)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(5, 150, 105, 0.25)'">
                             <i class="bi bi-list-check fs-3 mb-2"></i>
                             <span>Lihat Pendaftaran</span>
                         </a>
                     </div>
                     <div class="col-md-3">
-                        <a href="{{ route('peserta.submissions.index') }}" class="btn btn-info w-100 h-100 d-flex flex-column justify-content-center">
+                        <a href="{{ route('peserta.submissions.index') }}" class="btn w-100 h-100 d-flex flex-column justify-content-center text-white" style="background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%); border: none; min-height: 120px; box-shadow: 0 4px 12px rgba(8, 145, 178, 0.25); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 20px rgba(8, 145, 178, 0.35)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(8, 145, 178, 0.25)'">
                             <i class="bi bi-cloud-upload fs-3 mb-2"></i>
                             <span>Upload Karya</span>
                         </a>
                     </div>
                     <div class="col-md-3">
-                        <a href="{{ route('peserta.profile.edit') }}" class="btn btn-secondary w-100 h-100 d-flex flex-column justify-content-center">
+                        <a href="{{ route('peserta.profile.edit') }}" class="btn w-100 h-100 d-flex flex-column justify-content-center text-white" style="background: linear-gradient(135deg, #7c2d12 0%, #6b1f0f 100%); border: none; min-height: 120px; box-shadow: 0 4px 12px rgba(124, 45, 18, 0.25); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 20px rgba(124, 45, 18, 0.35)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(124, 45, 18, 0.25)'">
                             <i class="bi bi-person-gear fs-3 mb-2"></i>
                             <span>Edit Profil</span>
                         </a>
@@ -87,7 +87,7 @@
                     <div class="col-md-6">
                         <div class="d-flex mb-4">
                             <div class="flex-shrink-0 me-3">
-                                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <div class="text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%); box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);">
                                     <strong>1</strong>
                                 </div>
                             </div>
@@ -102,7 +102,7 @@
 
                         <div class="d-flex mb-4">
                             <div class="flex-shrink-0 me-3">
-                                <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <div class="text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background: linear-gradient(135deg, #059669 0%, #047857 100%); box-shadow: 0 2px 8px rgba(5, 150, 105, 0.3);">
                                     <strong>2</strong>
                                 </div>
                             </div>
@@ -119,7 +119,7 @@
 
                         <div class="d-flex mb-4">
                             <div class="flex-shrink-0 me-3">
-                                <div class="bg-warning text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <div class="text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background: linear-gradient(135deg, #d97706 0%, #b45309 100%); box-shadow: 0 2px 8px rgba(217, 119, 6, 0.3);">
                                     <strong>3</strong>
                                 </div>
                             </div>
@@ -136,7 +136,7 @@
                     <div class="col-md-6">
                         <div class="d-flex mb-4">
                             <div class="flex-shrink-0 me-3">
-                                <div class="bg-info text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <div class="text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%); box-shadow: 0 2px 8px rgba(8, 145, 178, 0.3);">
                                     <strong>4</strong>
                                 </div>
                             </div>
@@ -151,7 +151,7 @@
 
                         <div class="d-flex mb-4">
                             <div class="flex-shrink-0 me-3">
-                                <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <div class="text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background: linear-gradient(135deg, #059669 0%, #047857 100%); box-shadow: 0 2px 8px rgba(5, 150, 105, 0.3);">
                                     <strong>5</strong>
                                 </div>
                             </div>
@@ -166,7 +166,7 @@
 
                         <div class="d-flex mb-4">
                             <div class="flex-shrink-0 me-3">
-                                <div class="bg-danger text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <div class="text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);">
                                     <strong>6</strong>
                                 </div>
                             </div>
