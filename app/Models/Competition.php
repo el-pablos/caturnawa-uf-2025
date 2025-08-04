@@ -715,6 +715,8 @@ class Competition extends Model
             }
         } elseif ($this->category === 'event_scientific_paper') {
             return $this->getSpcTimeline();
+        } elseif ($this->category === 'event_dcc') {
+            return $this->getDccTimeline();
         }
 
         // Default timeline for other competitions
@@ -1278,5 +1280,303 @@ class Competition extends Model
     public function getSpcResearchFields()
     {
         return self::SPC_RESEARCH_FIELDS;
+    }
+
+    /**
+     * DCC UNAS FEST 2025 Timeline Constants
+     * Based on official documents: DESKRIPSI DCC.pdf
+     * 
+     * DCC terdiri dari dua cabang lomba: Short Video dan Infographics
+     * - 15 tim per cabang melalui tahapan penyisihan
+     * - 15 tim lolos semifinal → 7 tim terbaik ke final
+     * - Final dinilai online, awarding onsite
+     */
+    const DCC_TIMELINE_2025 = [
+        // Registration Phases (sesuai dokumen PDF)
+        'early_bird_start' => '2025-08-01',      // Early Bird Registration Start
+        'early_bird_end' => '2025-08-31',        // Early Bird Registration End
+        'phase_1_start' => '2025-09-01',         // Phase 1 Registration Start
+        'phase_1_end' => '2025-09-15',           // Phase 1 Registration End
+        'phase_2_start' => '2025-09-16',         // Phase 2 Registration Start
+        'phase_2_end' => '2025-09-30',           // Phase 2 Registration End (Final Registration)
+        
+        // Competition Events
+        'webinar_start' => '2025-10-01',         // Webinar untuk pengembangan kapasitas peserta
+        'webinar_end' => '2025-10-03',           // Webinar selesai
+        'submission_start' => '2025-10-04',      // Mulai pengumpulan karya
+        'submission_deadline' => '2025-10-20',   // Batas akhir pengumpulan karya
+        
+        // Judging Phases
+        'preliminary_judging_start' => '2025-10-21',    // Tahap penyisihan (15 tim)
+        'preliminary_judging_end' => '2025-10-25',      // Penyisihan selesai
+        'preliminary_announcement' => '2025-10-26',     // Pengumuman lolos semifinal
+        
+        'semifinal_judging_start' => '2025-10-27',      // Tahap semifinal (15 tim → 7 tim)
+        'semifinal_judging_end' => '2025-10-31',        // Semifinal selesai
+        'semifinal_announcement' => '2025-11-01',       // Pengumuman lolos final
+        
+        'final_judging_start' => '2025-11-02',          // Final judging (7 tim, dinilai online)
+        'final_judging_end' => '2025-11-05',            // Final judging selesai
+        
+        // Award Event
+        'awarding_ceremony' => '2025-11-10',            // Awarding ceremony (onsite)
+    ];
+
+    /**
+     * Get adjusted DCC timeline for current year
+     * 
+     * @param int|null $year Override year (default: current year)
+     * @return array
+     */
+    public static function getAdjustedDccTimeline($year = null)
+    {
+        $targetYear = $year ?? now()->year;
+        $adjustedTimeline = [];
+        
+        foreach (self::DCC_TIMELINE_2025 as $key => $date) {
+            $carbonDate = \Carbon\Carbon::parse($date);
+            $adjustedDate = $carbonDate->setYear($targetYear);
+            $adjustedTimeline[$key] = $adjustedDate->format('Y-m-d');
+        }
+        
+        return $adjustedTimeline;
+    }
+
+    /**
+     * DCC Pricing Constants sesuai BIAYA PENDAFTARAN DCC.pdf
+     */
+    const DCC_PRICING_2025 = [
+        'early_bird' => 50000,    // Rp.50.000 (Early Bird)
+        'phase_1' => 65000,       // Rp.65.000 (Fase 1)
+        'phase_2' => 75000,       // Rp.75.000 (Fase 2)
+    ];
+
+    /**
+     * DCC Competition Rules sesuai SYARAT DAN KETENTUAN LOMBA.pdf
+     */
+    const DCC_RULES_2025 = [
+        // INFOGRAFIS Rules
+        'infografis_rules' => [
+            'Peserta Digital Content Competition UNAS FEST 2025 wajib menyertakan surat keterangan siswa/i aktif yang dikeluarkan oleh pihak sekolah SMA/MA/SMK sederajat di JABODETABEK',
+            'Peserta Digital Content Competition UNAS FEST 2025 bersifat kelompok yang terdiri dari 3 orang',
+            'Peserta Digital Content Competition UNAS FEST 2025 wajib melakukan pendaftaran di web yang telah disediakan oleh panitia',
+            'Peserta Digital Content Competition UNAS FEST 2025 wajib mengikuti seluruh prosedur dan persyaratan yang telah ditentukan oleh panitia',
+            'Peserta Digital Content Competition UNAS FEST 2025 wajib mengikuti batas waktu pengerjaan karya short video dan infographic yang telah ditentukan oleh panitia',
+            'Peserta Digital Content Competition UNAS FEST 2025 wajib mengikuti tema lomba yang telah ditetapkan oleh panitia',
+            'Karya yang diunggah harus merupakan hasil ciptaan asli peserta, bukan hasil plagiarisme, dan belum pernah diikutsertakan atau dipublikasikan dalam kompetisi lain',
+            'Karya tidak diperkenankan mengandung unsur SARA (Suku, Agama, Ras, dan Antargolongan), kekerasan, pornografi, ujaran kebencian, kata kata kasar, maupun konten lain yang bertentangan dengan norma, etika dan peraturan perundang-undangan yang berlaku di Indonesia',
+            'Peserta diwajibkan mengunggah karya melalui platform media sosial yang telah ditentukan (Youtube, Instagram, atau Tiktok) dengan menyertakan tagar resmi lomba dan mention akun resmi UNAS FEST',
+            'Akun media sosial yang digunakan peserta untuk mengunggah hasil karya wajib bersifat publik (tidak dalam keadaan privat) selama periode kompetisi berlangsung',
+            'Panitia penyelenggara berhak melakukan diskualifikasi terhadap peserta yang tidak mematuhi persyaratan dan terbukti melakukan kecurangan dalam bentuk apa pun',
+            'Keputusan dewan juri bersifat final, mengikat, dan tidak dapat diganggu gugat',
+            'Peserta dibebaskan untuk menggunakan software desain grafis apapun, seperti Freehand, Corel Draw, Adobe Photoshop, Canva atau aplikasi serupa dengan ketentuan tidak diperbolehkan menggunakan aplikasi berbasis kecerdasan buatan (AI)',
+            'Kualitas desain infographic wajib memiliki resolusi full HD untuk memastikan ketajaman gambar yang optimal serta kesesuaian dengan ketentuan platform yang digunakan',
+            'Karya infographic harus memadukan elemen teks, grafik, ilustrasi, dan ikon yang saling mendukung guna menyampaikan informasi secara jelas, sistematis, dan efektif',
+            'Ukuran desain infographic disarankan dalam rasio 4 : 5 (potrait) untuk optimalisasi tampilan di media sosial'
+        ],
+        
+        // SHORT VIDEO Rules
+        'short_video_rules' => [
+            'Peserta Digital Content Competition UNAS FEST 2025 wajib menyertakan surat keterangan siswa/i aktif yang dikeluarkan oleh pihak sekolah SMA/MA/SMK sederajat di JABODETABEK',
+            'Peserta Digital Content Competition UNAS FEST 2025 merupakan siswa/i aktif SMA/MA/SMK sederajat di JABODETABEK',
+            'Peserta Digital Content Competition UNAS FEST 2025 bersifat kelompok yang terdiri dari 3 orang',
+            'Peserta Digital Content Competition UNAS FEST 2025 wajib melakukan pendaftaran di web yang telah disediakan oleh panitia',
+            'Peserta Digital Content Competition UNAS FEST 2025 wajib mengikuti seluruh prosedur dan persyaratan yang telah ditentukan oleh panitia',
+            'Peserta Digital Content Competition UNAS FEST 2025 wajib mengikuti batas waktu pengerjaan karya short video dan infographic yang telah ditentukan oleh panitia',
+            'Peserta Digital Content Competition UNAS FEST 2025 wajib mengikuti tema lomba yang telah ditetapkan oleh panitia',
+            'Karya short video berdurasi maksimum 3 (tiga) menit',
+            'Karya yang diunggah harus merupakan hasil ciptaan asli peserta, bukan hasil plagiarisme, dan belum pernah diikutsertakan atau dipublikasikan dalam kompetisi lain',
+            'Karya tidak diperkenankan mengandung unsur SARA (Suku, Agama, Ras, dan Antargolongan), kekerasan, pornografi, ujaran kebencian, kata kata kasar, maupun konten lain yang bertentangan dengan norma, etika dan peraturan perundang-undangan yang berlaku di Indonesia',
+            'Peserta diwajibkan mengunggah karya melalui platform media sosial yang telah ditentukan (Youtube, Instagram, atau Tiktok) dengan menyertakan tagar resmi lomba dan mention akun resmi UNAS FEST',
+            'Akun media sosial yang digunakan peserta untuk mengunggah hasil karya wajib bersifat publik (tidak dalam keadaan privat) selama periode kompetisi berlangsung',
+            'Panitia penyelenggara berhak melakukan diskualifikasi terhadap peserta yang tidak mematuhi persyaratan dan terbukti melakukan kecurangan dalam bentuk apa pun',
+            'Keputusan dewan juri bersifat final, mengikat, dan tidak dapat diganggu gugat',
+            'Peserta dibebaskan untuk menggunakan software desain grafis apapun, seperti Freehand, Corel Draw, Adobe Photoshop, Canva atau aplikasi serupa dengan ketentuan tidak diperbolehkan menggunakan aplikasi berbasis kecerdasan buatan (AI)'
+        ]
+    ];
+
+    /**
+     * Get current DCC pricing phase
+     *
+     * @return array
+     */
+    public function getCurrentDccPricing()
+    {
+        $now = now();
+        $adjustedDates = self::getAdjustedDccTimeline();
+        
+        if ($now <= \Carbon\Carbon::parse($adjustedDates['early_bird_end'])) {
+            return [
+                'phase' => 'early_bird',
+                'price' => self::DCC_PRICING_2025['early_bird'],
+                'phase_name' => 'Early Bird',
+                'deadline' => $adjustedDates['early_bird_end']
+            ];
+        }
+        
+        if ($now <= \Carbon\Carbon::parse($adjustedDates['phase_1_end'])) {
+            return [
+                'phase' => 'phase_1',
+                'price' => self::DCC_PRICING_2025['phase_1'],
+                'phase_name' => 'Fase 1',
+                'deadline' => $adjustedDates['phase_1_end']
+            ];
+        }
+        
+        if ($now <= \Carbon\Carbon::parse($adjustedDates['phase_2_end'])) {
+            return [
+                'phase' => 'phase_2',
+                'price' => self::DCC_PRICING_2025['phase_2'],
+                'phase_name' => 'Fase 2',
+                'deadline' => $adjustedDates['phase_2_end']
+            ];
+        }
+        
+        return [
+            'phase' => 'closed',
+            'price' => 0,
+            'phase_name' => 'Pendaftaran Ditutup',
+            'deadline' => null
+        ];
+    }
+
+    /**
+     * Get DCC specific timeline sesuai dokumen
+     *
+     * @return array
+     */
+    public function getDccTimeline()
+    {
+        // Use adjusted timeline for current/appropriate year
+        $adjustedDates = self::getAdjustedDccTimeline();
+        
+        $timeline = [
+            [
+                'title' => 'Early Bird Registration',
+                'description' => 'Rp.50.000 - Pendaftaran tahap awal',
+                'date' => \Carbon\Carbon::parse($adjustedDates['early_bird_start']),
+                'end_date' => \Carbon\Carbon::parse($adjustedDates['early_bird_end']),
+                'status' => now() > \Carbon\Carbon::parse($adjustedDates['early_bird_end']) ? 'completed' : 
+                           (now() >= \Carbon\Carbon::parse($adjustedDates['early_bird_start']) ? 'ongoing' : 'upcoming'),
+                'icon' => 'bi-calendar-plus',
+                'color' => 'success'
+            ],
+            [
+                'title' => 'Fase 1 Registration',
+                'description' => 'Rp.65.000 - Pendaftaran fase 1',
+                'date' => \Carbon\Carbon::parse($adjustedDates['phase_1_start']),
+                'end_date' => \Carbon\Carbon::parse($adjustedDates['phase_1_end']),
+                'status' => now() > \Carbon\Carbon::parse($adjustedDates['phase_1_end']) ? 'completed' : 
+                           (now() >= \Carbon\Carbon::parse($adjustedDates['phase_1_start']) ? 'ongoing' : 'upcoming'),
+                'icon' => 'bi-calendar-check',
+                'color' => 'warning'
+            ],
+            [
+                'title' => 'Fase 2 Registration',
+                'description' => 'Rp.75.000 - Pendaftaran fase terakhir',
+                'date' => \Carbon\Carbon::parse($adjustedDates['phase_2_start']),
+                'end_date' => \Carbon\Carbon::parse($adjustedDates['phase_2_end']),
+                'status' => now() > \Carbon\Carbon::parse($adjustedDates['phase_2_end']) ? 'completed' : 
+                           (now() >= \Carbon\Carbon::parse($adjustedDates['phase_2_start']) ? 'ongoing' : 'upcoming'),
+                'icon' => 'bi-calendar-x',
+                'color' => 'danger'
+            ],
+            [
+                'title' => 'Webinar Pengembangan Kapasitas',
+                'description' => 'Kegiatan webinar untuk memberikan pemahaman, keterampilan teknis, serta arahan dalam proses pembuatan karya',
+                'date' => \Carbon\Carbon::parse($adjustedDates['webinar_start']),
+                'end_date' => \Carbon\Carbon::parse($adjustedDates['webinar_end']),
+                'status' => now() > \Carbon\Carbon::parse($adjustedDates['webinar_end']) ? 'completed' : 
+                           (now() >= \Carbon\Carbon::parse($adjustedDates['webinar_start']) ? 'ongoing' : 'upcoming'),
+                'icon' => 'bi-camera-video',
+                'color' => 'info'
+            ],
+            [
+                'title' => 'Periode Pengumpulan Karya',
+                'description' => 'Periode untuk mengumpulkan karya Short Video atau Infografis',
+                'date' => \Carbon\Carbon::parse($adjustedDates['submission_start']),
+                'end_date' => \Carbon\Carbon::parse($adjustedDates['submission_deadline']),
+                'status' => now() > \Carbon\Carbon::parse($adjustedDates['submission_deadline']) ? 'completed' : 
+                           (now() >= \Carbon\Carbon::parse($adjustedDates['submission_start']) ? 'ongoing' : 'upcoming'),
+                'icon' => 'bi-upload',
+                'color' => 'primary'
+            ],
+            [
+                'title' => 'Tahap Penyisihan',
+                'description' => '15 tim per cabang lomba dinilai untuk lolos ke semifinal',
+                'date' => \Carbon\Carbon::parse($adjustedDates['preliminary_judging_start']),
+                'end_date' => \Carbon\Carbon::parse($adjustedDates['preliminary_judging_end']),
+                'status' => now() > \Carbon\Carbon::parse($adjustedDates['preliminary_judging_end']) ? 'completed' : 
+                           (now() >= \Carbon\Carbon::parse($adjustedDates['preliminary_judging_start']) ? 'ongoing' : 'upcoming'),
+                'icon' => 'bi-trophy',
+                'color' => 'primary'
+            ],
+            [
+                'title' => 'Pengumuman Lolos Semifinal',
+                'description' => '15 tim lolos semifinal untuk masing-masing cabang lomba',
+                'date' => \Carbon\Carbon::parse($adjustedDates['preliminary_announcement']),
+                'status' => now() >= \Carbon\Carbon::parse($adjustedDates['preliminary_announcement']) ? 'completed' : 'upcoming',
+                'icon' => 'bi-megaphone',
+                'color' => 'info'
+            ],
+            [
+                'title' => 'Tahap Semifinal',
+                'description' => '15 tim dipilih 7 tim terbaik untuk melaju ke babak final',
+                'date' => \Carbon\Carbon::parse($adjustedDates['semifinal_judging_start']),
+                'end_date' => \Carbon\Carbon::parse($adjustedDates['semifinal_judging_end']),
+                'status' => now() > \Carbon\Carbon::parse($adjustedDates['semifinal_judging_end']) ? 'completed' : 
+                           (now() >= \Carbon\Carbon::parse($adjustedDates['semifinal_judging_start']) ? 'ongoing' : 'upcoming'),
+                'icon' => 'bi-award',
+                'color' => 'info'
+            ],
+            [
+                'title' => 'Pengumuman Lolos Final',
+                'description' => '7 tim terbaik lolos ke babak final',
+                'date' => \Carbon\Carbon::parse($adjustedDates['semifinal_announcement']),
+                'status' => now() >= \Carbon\Carbon::parse($adjustedDates['semifinal_announcement']) ? 'completed' : 'upcoming',
+                'icon' => 'bi-megaphone',
+                'color' => 'warning'
+            ],
+            [
+                'title' => 'Final Judging (Online)',
+                'description' => '7 tim finalis dinilai secara online',
+                'date' => \Carbon\Carbon::parse($adjustedDates['final_judging_start']),
+                'end_date' => \Carbon\Carbon::parse($adjustedDates['final_judging_end']),
+                'status' => now() > \Carbon\Carbon::parse($adjustedDates['final_judging_end']) ? 'completed' : 
+                           (now() >= \Carbon\Carbon::parse($adjustedDates['final_judging_start']) ? 'ongoing' : 'upcoming'),
+                'icon' => 'bi-trophy-fill',
+                'color' => 'danger'
+            ],
+            [
+                'title' => 'Awarding Ceremony (Onsite)',
+                'description' => 'Acara pemberian penghargaan secara onsite',
+                'date' => \Carbon\Carbon::parse($adjustedDates['awarding_ceremony']),
+                'status' => now() >= \Carbon\Carbon::parse($adjustedDates['awarding_ceremony']) ? 'completed' : 'upcoming',
+                'icon' => 'bi-trophy-fill',
+                'color' => 'success'
+            ]
+        ];
+
+        return $timeline;
+    }
+
+    /**
+     * Check if this is DCC competition
+     *
+     * @return bool
+     */
+    public function isDccCompetition()
+    {
+        return $this->category === 'event_dcc';
+    }
+
+    /**
+     * Get DCC rules
+     *
+     * @return array
+     */
+    public function getDccRules()
+    {
+        return self::DCC_RULES_2025;
     }
 }

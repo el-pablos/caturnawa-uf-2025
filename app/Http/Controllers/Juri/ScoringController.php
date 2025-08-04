@@ -166,13 +166,16 @@ class ScoringController extends Controller
         } elseif ($competition && $competition->isSpcCompetition()) {
             $criteria = Score::getSpcCriteria();
         } elseif ($competition && $competition->category === 'event_dcc') {
-            // For DCC, we need to determine which criteria to use based on competition name
-            if (str_contains(strtolower($competition->name), 'infografis')) {
-                $criteria = Score::getDccInfografisCriteria();
-            } elseif (str_contains(strtolower($competition->name), 'video')) {
-                $criteria = Score::getDccShortVideoCriteria();
+            // For DCC, determine criteria based on competition name and current round
+            // Get current judging phase based on timeline
+            $currentPhase = $this->getCurrentDccJudgingPhase($competition);
+            
+            if (str_contains(strtolower($competition->name), 'infographics')) {
+                $criteria = Score::getDccInfografisCriteria($currentPhase);
+            } elseif (str_contains(strtolower($competition->name), 'short video') || str_contains(strtolower($competition->name), 'video')) {
+                $criteria = Score::getDccShortVideoCriteria($currentPhase);
             } else {
-                $criteria = Score::getDefaultCriteria();
+                $criteria = Score::getDccShortVideoCriteria('preliminary_round'); // Default to preliminary
             }
         } else {
             $criteria = Score::getDefaultCriteria();
@@ -204,13 +207,15 @@ class ScoringController extends Controller
         } elseif ($isSpcCompetition) {
             $criteria = Score::getSpcCriteria();
         } elseif ($isDccCompetition) {
-            // For DCC, we need to determine which criteria to use based on competition name
-            if (str_contains(strtolower($competition->name), 'infografis')) {
-                $criteria = Score::getDccInfografisCriteria();
-            } elseif (str_contains(strtolower($competition->name), 'video')) {
-                $criteria = Score::getDccShortVideoCriteria();
+            // For DCC, determine criteria based on competition name and current round
+            $currentPhase = $this->getCurrentDccJudgingPhase($competition);
+            
+            if (str_contains(strtolower($competition->name), 'infographics')) {
+                $criteria = Score::getDccInfografisCriteria($currentPhase);
+            } elseif (str_contains(strtolower($competition->name), 'short video') || str_contains(strtolower($competition->name), 'video')) {
+                $criteria = Score::getDccShortVideoCriteria($currentPhase);
             } else {
-                $criteria = Score::getDefaultCriteria();
+                $criteria = Score::getDccShortVideoCriteria('preliminary_round'); // Default to preliminary
             }
         } else {
             $criteria = Score::getDefaultCriteria();
@@ -603,6 +608,29 @@ class ScoringController extends Controller
 
         return redirect()->route('juri.scoring.competition', $competition)
             ->with('success', 'Semua penilaian untuk kompetisi ini telah difinalisasi.');
+    }
+
+    /**
+     * Determine current DCC judging phase based on timeline
+     *
+     * @param \App\Models\Competition $competition
+     * @return string
+     */
+    private function getCurrentDccJudgingPhase(Competition $competition)
+    {
+        $now = now();
+        $timeline = Competition::getAdjustedDccTimeline();
+        
+        // Check current date against DCC timeline
+        if ($now->lt(\Carbon\Carbon::parse($timeline['preliminary_judging_start']))) {
+            return 'preliminary_round';
+        } elseif ($now->lt(\Carbon\Carbon::parse($timeline['semifinal_judging_start']))) {
+            return 'preliminary_round';
+        } elseif ($now->lt(\Carbon\Carbon::parse($timeline['final_judging_start']))) {
+            return 'semifinal_round';
+        } else {
+            return 'final_round';
+        }
     }
 
     /**

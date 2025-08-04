@@ -812,179 +812,303 @@ class Score extends Model
     }
 
     /**
-     * Get DCC Infografis criteria untuk penilaian (3 tahap)
+     * Get DCC Infografis criteria untuk penilaian (3 tahap sesuai Parameter Penilaian Infografis.pdf)
+     * Returns in format compatible with scoring controller
      *
+     * @param string $phase Optional phase filter (preliminary_round, semifinal_round, final_round)
      * @return array
      */
-    public static function getDccInfografisCriteria()
+    public static function getDccInfografisCriteria($phase = null)
     {
-        return [
+        $fullCriteria = [
+            // Tahap Penyisihan sesuai PDF halaman 1
             'preliminary_round' => [
-                'Structure Neatness' => [
-                    'description' => 'Works created are structured and easy to understand',
+                'Kerapihan Struktur' => [
+                    'description' => 'Karya yang dibuat terstruktur dan mudah dipahami',
                     'weight' => 15,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Creative and Attractive Title' => [
-                    'description' => 'Short, clear title, relevant to the theme and using typography that supports visual appeal',
+                'Judul Kreatif dan Menarik' => [
+                    'description' => 'Judul singkat, jelas, relevan dengan tema dan menggunakan tipografi yang mendukung daya tarik visual',
                     'weight' => 10,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Content/Message' => [
-                    'description' => 'Concise, dense, and the language used is clear and easy to understand',
+                'Isi/Pesan' => [
+                    'description' => 'Singkat, padat, dan bahasa yang digunakan jelas keterbacaannya/mudah dipahami',
                     'weight' => 10,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Visual Design' => [
-                    'description' => 'Proportional arrangement of elements (not too big/small), and colors used in attractive works',
+                'Desain visual' => [
+                    'description' => 'Penyusunan elemen yang proporsional (tidak terlalu besar/kecil), dan warna yang digunakan dalam karya menarik',
                     'weight' => 20,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Clear Theory and Concept' => [
-                    'description' => 'Success in conveying messages, works have strong ideas or themes according to facts and consistent',
+                'Teori dan Konsep Jelas' => [
+                    'description' => 'Keberhasilan menyampaikan pesan, karya memiliki ide atau tema yang kuat sesuai fakta dan konsisten',
                     'weight' => 20,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Image Composition' => [
-                    'description' => 'Harmonious arrangement and arrangement of visual elements such as images, text, colors, icons, and space in an infographic that is easy to understand and able to attract audience attention',
+                'Komposisi Gambar' => [
+                    'description' => 'Penataan harmonis dan pengaturan elemen-elemen visual seperti gambar, teks, warna, ikon, dan ruang dalam sebuah infografis mudah dipahami, dan mampu menarik perhatian audiens',
                     'weight' => 10,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Editing Quality' => [
-                    'description' => 'Editing quality assesses the level of accuracy in the poster creation process, including image sharpness, design cleanliness (no cropped elements), and visual style consistency',
+                'Kualitas Editing' => [
+                    'description' => 'Kualitas editing menilai tingkat ketelitian dalam proses pembuatan poster, termasuk ketajaman gambar, kebersihan desain (tidak ada elemen yang terpotong), dan konsistensi gaya visual',
                     'weight' => 15,
                     'min_score' => 0,
                     'max_score' => 100
                 ]
             ],
+            
+            // Tahap Semifinal sesuai PDF halaman 1-2
             'semifinal_round' => [
-                'Quality of Message Delivered in Poster' => [
-                    'description' => 'Messages must be delivered concisely, directly, and unambiguously, such as appropriate word choice',
+                'Kualitas Pesan yang Disampaikan Dalam Poster' => [
+                    'description' => 'Pesan harus disampaikan secara singkat, langsung, dan tidak ambigu, seperti pemilihan kata-kata yang tepat',
                     'weight' => 15,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Work Originality' => [
-                    'description' => 'Originality refers to the authenticity of the work, meaning the poster is the result of one\'s own creation, not plagiarism or taking from other people\'s work, and has never been published before',
+                'Orisinalitas Karya' => [
+                    'description' => 'Orisinalitas mengacu pada keaslian karya, yang berarti poster tersebut adalah hasil ciptaan sendiri, bukan plagiat atau pengambilan dari karya orang lain, serta belum pernah dipublikasikan sebelumnya',
                     'weight' => 20,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Depth of Work Analysis' => [
-                    'description' => 'Participants\' ability to explore relevant concepts, themes, and contexts, and can convey messages effectively through visual and text elements',
+                'Kedalaman Analisis Karya' => [
+                    'description' => 'Kemampuan peserta dalam menggali konsep, tema, dan konteks yang relevan, serta dapat menyampaikan pesan dengan efektif melalui elemen visual dan teks',
                     'weight' => 20,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Data Visualization Strength' => [
-                    'description' => 'The ability of the work to convey information visually in a clear, accurate, and attention-grabbing way for readers',
+                'Kekuatan Visualisasi Data' => [
+                    'description' => 'Kemampuan karya dalam menyampaikan informasi secara visual dengan cara yang jelas, akurat, dan menarik perhatian pembaca',
                     'weight' => 15,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Theme & Design Consistency' => [
-                    'description' => 'Theme and design consistency refers to the harmony of all poster elements such as colors, typography, images, and visual style with the main theme to be conveyed',
+                'Konsistensi Tema & Desain' => [
+                    'description' => 'Konsistensi tema dan desain mengacu pada keselarasan semua elemen poster seperti warna, tipografi, gambar, dan gaya visual dengan tema utama yang ingin disampaikan',
                     'weight' => 15,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Beauty/Artistic Side of Visual Presentation' => [
-                    'description' => 'Beauty or artistic side assesses Infographic works in terms of overall aesthetics, including color harmony, visual composition, and creativity in presentation',
+                'Keindahan/Sisi Artistik Penyajian Visual' => [
+                    'description' => 'Keindahan atau sisi artistik menilai karya Infografis dalam bentuk estetika secara keseluruhan, termasuk harmoni warna, komposisi visual, dan kreativitas dalam penyajian',
                     'weight' => 15,
                     'min_score' => 0,
                     'max_score' => 100
                 ]
             ],
+            
+            // Tahap Final sesuai PDF halaman 2-3
             'final_round' => [
-                'Understanding of the Work' => [
-                    'description' => 'How well participants understand the content, purpose, and context of the work',
+                'Pemahaman Terhadap Karya' => [
+                    'description' => 'Seberapa baik peserta memahami isi, tujuan, dan konteks karya tersebut',
                     'weight' => 25,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Confidence During Presentation' => [
-                    'description' => 'How well participants deliver presentations, including body language, voice intonation, and eye contact with the audience',
+                'Kepercayaan Diri Saat Presentasi' => [
+                    'description' => 'Seberapa baik peserta menyampaikan presentasi, termasuk bahasa tubuh, intonasi suara, dan kontak mata dengan audiens',
                     'weight' => 20,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Suitability of Speech Content with Work Content' => [
-                    'description' => 'Oral explanations must support and strengthen the message conveyed through the work, without deviating from the theme being carried',
+                'Kesesuaian Isi Pembicaraan Dengan Isi Karya' => [
+                    'description' => 'Penjelasan lisan harus mendukung dan memperkuat pesan yang disampaikan melalui karya, tanpa menyimpang dari tema yang diusung',
                     'weight' => 15,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Quality/Attractiveness of Presentation Content' => [
-                    'description' => 'How good the presentation is, such as having a logical flow, relevant information, and an attractive delivery style',
+                'Kualitas/Kemenarikan Isi Presentasi' => [
+                    'description' => 'Seberapa baik presentasi tersebut seperti memiliki alur yang logis, informasi yang relevan, dan gaya penyampaian yang menarik',
                     'weight' => 20,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Question and Answer Session' => [
-                    'description' => 'The speaker\'s ability to handle question and answer sessions clearly and precisely, such as answers must be relevant to questions, delivered in language that is easy to understand, and shows deep understanding of the work',
+                'Sesi Tanya Jawab' => [
+                    'description' => 'Kemampuan pembicara dalam menangani sesi tanya jawab dengan jelas dan tepat, seperti jawaban harus relevan dengan pertanyaan, disampaikan dengan bahasa yang mudah dipahami, dan menunjukan pemahaman mendalam terhadap karya',
                     'weight' => 20,
                     'min_score' => 0,
                     'max_score' => 100
                 ]
             ]
         ];
+        
+        if ($phase) {
+            // Return specific phase criteria formatted for controller
+            $phaseCriteria = $fullCriteria[$phase] ?? [];
+            $formattedCriteria = [];
+            foreach ($phaseCriteria as $name => $details) {
+                $formattedCriteria[str_replace(' ', '_', strtolower($name))] = $name;
+            }
+            return $formattedCriteria;
+        }
+        
+        return $fullCriteria;
     }
 
     /**
-     * Get DCC Short Video criteria untuk penilaian (2 tahap sesuai PDF)
+     * Get DCC Short Video criteria untuk penilaian (3 tahap sesuai PARAMETER PENILAIAN SHORT VIDEO DCC.pdf)
+     * Returns in format compatible with scoring controller
      *
+     * @param string $phase Optional phase filter (preliminary_round, semifinal_round, final_round)
      * @return array
      */
-    public static function getDccShortVideoCriteria()
+    public static function getDccShortVideoCriteria($phase = null)
     {
-        return [
-            'semifinal_round' => [
-                'Cinematography Score' => [
-                    'description' => 'Overall cinematography assessment including angle shot (40%), image composition (30%), and image quality (30%)',
-                    'weight' => 33.33,
+        $fullCriteria = [
+            // Tahap Penyisihan sesuai PDF halaman 1
+            'preliminary_round' => [
+                'Durasi Video' => [
+                    'description' => 'Sesuai dengan durasi yang ditentukan yaitu 3 menit',
+                    'weight' => 10,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Visual and Form Score' => [
-                    'description' => 'Visual elements assessment including costume set (25%), visual effects (25%), arrangement of elements (25%), and property/place settings (25%)',
-                    'weight' => 33.33,
+                'Opening: Main Title (Judul) Video yang Dibuat' => [
+                    'description' => 'Memiliki judul utama yang menarik, kreatif, dan relevan dengan isi video',
+                    'weight' => 15,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Visual and Editing Score' => [
-                    'description' => 'Editing quality assessment including footage assembly (40%), background music (20%), sound effects (20%), and narration/dialogue (20%)',
-                    'weight' => 33.34,
+                'Konten/Isi (Sesuai Tema)' => [
+                    'description' => 'Seberapa relevan pesan yang disampaikan dalam video, isi harus terstruktur dengan baik, memiliki alur yang logis atau konsisten, dan tidak menyimpang dari tema utama',
+                    'weight' => 20,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Keefektifan Kalimat yang Digunakan' => [
+                    'description' => 'Kalimat harus jelas, singkat, dan mudah dipahami oleh audiens, dan penggunaan bahasa dengan baik untuk menyampaikan inti pesan video ke audiens yang mudah dipahami',
+                    'weight' => 15,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Kualitas Gambar/Video' => [
+                    'description' => 'Kualitas video seperti resolusi, kejernihan gambar, pencahayaan, dan komposisi visual',
+                    'weight' => 20,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Kejelasan Caption/Text' => [
+                    'description' => 'Bagaimana caption atau text yang digunakan dalam video tersebut jelas, sesuai dengan alur videonya, mudah dibaca atau dipahami, dan tidak mengganggu elemen visual lainnya',
+                    'weight' => 10,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Closing/Penutup/Credit Title' => [
+                    'description' => 'Seberapa berkesan penutup video dengan kesimpulan yang kuat dan meninggalkan kesan positif, serta credit title yang jelas, dan sesuai dengan gaya video',
+                    'weight' => 10,
                     'min_score' => 0,
                     'max_score' => 100
                 ]
             ],
+            
+            // Tahap Semi Final sesuai PDF halaman 2
+            'semifinal_round' => [
+                'Akting: Mimik dan Karakter' => [
+                    'description' => 'Kesesuaian mimik, gestur, bahasa tubuh, dan ekspresi dapat menggambarkan situasi yang disampaikan seperti kegembiraan, kesedihan, atau ketegangan, agar terasa alami dan meyakinkan',
+                    'weight' => 20,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Kualitas Dialog/Narasi/Suara Manusia' => [
+                    'description' => 'Kejelasan intonasi dan emosi dalam pengucapan kata-kata, baik dalam dialog antar karakter maupun voice over',
+                    'weight' => 10,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Kualitas Lighting/Pencahayaan' => [
+                    'description' => 'Kemampuan untuk mendukung suasana, kejelasan visual, dan estetika video seperti pencahayaan yang baik (tidak ada bayangan mengganggu/over exposure)',
+                    'weight' => 10,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Kualitas Efek Visual (Transisi dan Animasi)' => [
+                    'description' => 'Penggunaan efek visual seperti transisi antar adegan, dan penggunaan animasi (Teks Bergerak/Elemen Grafis)',
+                    'weight' => 20,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Kualitas Property (Keterkaitan Property dan Setting, serta Objek)' => [
+                    'description' => 'Penggunaan properti yang sesuai seperti kostum, alat peraga, dan latar tempat',
+                    'weight' => 10,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Hubungan Video, Narasi dan Musik Latar' => [
+                    'description' => 'Keterkaitan antara elemen visual, narasi/dialog, dan musik latar yang selaras dan meningkatkan ketertarikan video',
+                    'weight' => 10,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Kualitas Editing dan Mixing' => [
+                    'description' => 'Mencakup penyuntingan video seperti pemotongan adegan, penggabungan klip, dan penyesuaian, musik, efek suara dan waktu agar alur terasa mulus',
+                    'weight' => 20,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ]
+            ],
+            
+            // Tahap Final sesuai PDF halaman 3-4
             'final_round' => [
-                'Presentation Content Score' => [
-                    'description' => 'Overall presentation content assessment including informative supporting (50%), does not digress (20%), and structured flow (30%)',
-                    'weight' => 33.33,
+                'Kesesuaian Isi Pembicaraan Dengan Isi Karya' => [
+                    'description' => 'Pembicaraan harus relevan, mendukung, dan memperkuat pesan yang disampaikan dalam karya, tanpa menyimpang ke topik yang tidak terkait',
+                    'weight' => 20,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Presentation Speech Score' => [
-                    'description' => 'Speech delivery assessment including interesting opening (10%), clear voice & eye contact (30%), polite language (30%), and calmness (30%)',
-                    'weight' => 33.33,
+                'Alur Presentasi' => [
+                    'description' => 'Mencakup presentasi memiliki pembukaan yang menarik, isi yang terorganisir, dan penutup yang kuat',
+                    'weight' => 10,
                     'min_score' => 0,
                     'max_score' => 100
                 ],
-                'Q&A Session Score' => [
-                    'description' => 'Question and answer session assessment including relevant answers (40%), easy language (30%), and good understanding (30%)',
-                    'weight' => 33.34,
+                'Kepercayaan Diri Saat Presentasi' => [
+                    'description' => 'Mencakup bahasa tubuh, kontak mata dengan audiens, intonasi suara yang jelas, dan ketenangan dalam berbicara',
+                    'weight' => 15,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Kualitas/Kemenarikan Isi Presentasi' => [
+                    'description' => 'Isi Presentasi harus informatif, terstruktur, dan mendukung tujuan karya, dengan fakta, data, atau cerita yang relevan',
+                    'weight' => 15,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Etika dan Penampilan' => [
+                    'description' => 'Mencakup sifat profesional selama presentasi, seperti menghormati audiens, menggunakan bahasa yang sopan, kesesuaian pakaian, kerapihan, dan keselarasan penampilan',
+                    'weight' => 20,
+                    'min_score' => 0,
+                    'max_score' => 100
+                ],
+                'Kejelasan Sesi Tanya Jawab' => [
+                    'description' => 'Kemampuan pembicara dalam menangani sesi tanya jawab dengan jelas dan tepat, seperti jawaban harus relevan dengan pertanyaan, disampaikan dengan bahasa yang mudah dipahami, dan menunjukan pemahaman mendalam terhadap karya',
+                    'weight' => 20,
                     'min_score' => 0,
                     'max_score' => 100
                 ]
             ]
         ];
+        
+        if ($phase) {
+            // Return specific phase criteria formatted for controller
+            $phaseCriteria = $fullCriteria[$phase] ?? [];
+            $formattedCriteria = [];
+            foreach ($phaseCriteria as $name => $details) {
+                $formattedCriteria[str_replace(' ', '_', strtolower($name))] = $name;
+            }
+            return $formattedCriteria;
+        }
+        
+        return $fullCriteria;
     }
 
     /**

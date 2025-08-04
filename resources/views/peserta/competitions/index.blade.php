@@ -29,6 +29,7 @@
                     <option value="">Semua Kategori</option>
                     <option value="debat" {{ request('category') === 'debat' ? 'selected' : '' }}>Kompetisi Debat</option>
                     <option value="karya_ilmiah" {{ request('category') === 'karya_ilmiah' ? 'selected' : '' }}>Karya Tulis Ilmiah</option>
+                    <option value="event_dcc" {{ request('category') === 'event_dcc' ? 'selected' : '' }}>Digital Creative Competition (DCC)</option>
                 </select>
             </div>
             <div class="col-md-4">
