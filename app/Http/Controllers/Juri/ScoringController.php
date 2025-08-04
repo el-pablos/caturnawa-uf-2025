@@ -157,7 +157,17 @@ class ScoringController extends Controller
             ]);
         }
 
-        $criteria = Score::getDefaultCriteria();
+        // Use specific criteria based on competition type
+        $competition = $submission->registration->competition;
+        if ($competition && $competition->isEdcCompetition()) {
+            $criteria = Score::getEdcCriteria();
+        } elseif ($competition && $competition->isKdbiCompetition()) {
+            $criteria = Score::getKdbiCriteria();
+        } elseif ($competition && $competition->isSpcCompetition()) {
+            $criteria = Score::getSpcCriteria();
+        } else {
+            $criteria = Score::getDefaultCriteria();
+        }
         
         return view('juri.scoring.submission', compact('submission', 'score', 'criteria'));
     }
@@ -171,22 +181,60 @@ class ScoringController extends Controller
      */
     public function store(Request $request, Submission $submission)
     {
-        $criteria = Score::getDefaultCriteria();
+        $competition = $submission->registration->competition;
+        $isEdcCompetition = $competition && $competition->isEdcCompetition();
+        $isKdbiCompetition = $competition && $competition->isKdbiCompetition();
+        $isSpcCompetition = $competition && $competition->isSpcCompetition();
+        
+        // Use specific criteria based on competition type
+        if ($isEdcCompetition) {
+            $criteria = Score::getEdcCriteria();
+        } elseif ($isKdbiCompetition) {
+            $criteria = Score::getKdbiCriteria();
+        } elseif ($isSpcCompetition) {
+            $criteria = Score::getSpcCriteria();
+        } else {
+            $criteria = Score::getDefaultCriteria();
+        }
+        
         $rules = [];
         
         // Dynamic validation rules for each criteria
         foreach (array_keys($criteria) as $criteriaKey) {
-            $rules["criteria.{$criteriaKey}"] = 'required|numeric|min:0|max:100';
+            if ($isEdcCompetition || $isKdbiCompetition) {
+                // EDC and KDBI use 50-100 range
+                $rules["criteria.{$criteriaKey}"] = 'required|numeric|min:50|max:100';
+            } elseif ($isSpcCompetition) {
+                // SPC uses 0-100 range
+                $rules["criteria.{$criteriaKey}"] = 'required|numeric|min:0|max:100';
+            } else {
+                // Other competitions use 0-100 range
+                $rules["criteria.{$criteriaKey}"] = 'required|numeric|min:0|max:100';
+            }
         }
         
         $rules['comments'] = 'nullable|string|max:1000';
 
-        $validator = Validator::make($request->all(), $rules, [
+        $messages = [
             'criteria.*.required' => 'Semua kriteria penilaian harus diisi',
             'criteria.*.numeric' => 'Nilai harus berupa angka',
-            'criteria.*.min' => 'Nilai minimal 0',
-            'criteria.*.max' => 'Nilai maksimal 100',
-        ]);
+        ];
+        
+        if ($isEdcCompetition) {
+            $messages['criteria.*.min'] = 'Nilai minimal 50 (sesuai standar EDC)';
+            $messages['criteria.*.max'] = 'Nilai maksimal 100';
+        } elseif ($isKdbiCompetition) {
+            $messages['criteria.*.min'] = 'Nilai minimal 50 (sesuai standar KDBI)';
+            $messages['criteria.*.max'] = 'Nilai maksimal 100';
+        } elseif ($isSpcCompetition) {
+            $messages['criteria.*.min'] = 'Nilai minimal 0 (sesuai standar SPC)';
+            $messages['criteria.*.max'] = 'Nilai maksimal 100';
+        } else {
+            $messages['criteria.*.min'] = 'Nilai minimal 0';
+            $messages['criteria.*.max'] = 'Nilai maksimal 100';
+        }
+
+        $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
             return back()

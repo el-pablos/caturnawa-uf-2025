@@ -220,44 +220,85 @@ class CompetitionController extends Controller
 
         // Validasi untuk kompetisi tim
         if ($competition->is_team_competition) {
-            $rules['team_name'] = 'required|string|max:255';
-            $rules['team_members'] = 'required|array|min:1|max:5';
-            $rules['team_members.*.name'] = 'required|string|max:255';
-            $rules['team_members.*.email'] = 'required|email|max:255';
-            $rules['team_members.*.phone'] = 'required|string|max:20';
-            $rules['team_members.*.foto'] = 'required|image|mimes:jpeg,png,jpg|max:2048';
+            if ($competition->isEdcCompetition()) {
+                // Use EDC-specific validation rules
+                $edcRules = Registration::getEdcValidationRules();
+                $rules = array_merge($rules, $edcRules);
+            } else {
+                // Standard team competition rules
+                $rules['team_name'] = 'required|string|max:255';
+                $rules['team_members'] = 'required|array|min:1|max:5';
+                $rules['team_members.*.name'] = 'required|string|max:255';
+                $rules['team_members.*.email'] = 'required|email|max:255';
+                $rules['team_members.*.phone'] = 'required|string|max:20';
+                $rules['team_members.*.foto'] = 'required|image|mimes:jpeg,png,jpg|max:2048';
 
-            // Validasi jumlah anggota tim
-            if ($competition->min_team_members) {
-                $rules['team_members'] = 'required|array|min:' . $competition->min_team_members . '|max:5';
-            }
-            if ($competition->max_team_members) {
-                $maxMembers = min($competition->max_team_members, 5);
-                $rules['team_members'] = 'required|array|min:1|max:' . $maxMembers;
+                // Validasi jumlah anggota tim
+                if ($competition->min_team_members) {
+                    $rules['team_members'] = 'required|array|min:' . $competition->min_team_members . '|max:5';
+                }
+                if ($competition->max_team_members) {
+                    $maxMembers = min($competition->max_team_members, 5);
+                    $rules['team_members'] = 'required|array|min:1|max:' . $maxMembers;
+                }
             }
         }
         
         // Merge validation messages
-        $messages = array_merge([
+        $baseMessages = [
             'phone.required' => 'Nomor telepon harus diisi',
             'institution.required' => 'Institusi harus diisi',
             'gender.required' => 'Jenis kelamin harus dipilih',
             'gender.in' => 'Jenis kelamin tidak valid',
             'participant_category.required' => 'Kategori peserta harus dipilih',
             'participant_category.in' => 'Kategori peserta tidak valid',
-            'team_name.required' => 'Nama tim harus diisi',
-            'team_members.required' => 'Anggota tim harus diisi',
-            'team_members.min' => 'Minimal ' . ($competition->min_team_members ?? 1) . ' anggota tim',
-            'team_members.max' => 'Maksimal ' . ($competition->max_team_members ?? 10) . ' anggota tim',
-            'team_members.*.name.required' => 'Nama anggota tim harus diisi',
-        ], $dynamicValidation['messages']);
+        ];
+        
+        if ($competition->isEdcCompetition()) {
+            // Use EDC-specific messages
+            $edcMessages = Registration::getEdcValidationMessages();
+            $messages = array_merge($baseMessages, $edcMessages, $dynamicValidation['messages']);
+        } else {
+            // Use standard messages
+            $standardMessages = [
+                'team_name.required' => 'Nama tim harus diisi',
+                'team_members.required' => 'Anggota tim harus diisi',
+                'team_members.min' => 'Minimal ' . ($competition->min_team_members ?? 1) . ' anggota tim',
+                'team_members.max' => 'Maksimal ' . ($competition->max_team_members ?? 10) . ' anggota tim',
+                'team_members.*.name.required' => 'Nama anggota tim harus diisi',
+            ];
+            $messages = array_merge($baseMessages, $standardMessages, $dynamicValidation['messages']);
+        }
         
         $validator = Validator::make($request->all(), $rules, $messages);
 
         // Validasi khusus untuk siswa SMA/SMK - harus menyertakan institusi
-        $validator->after(function ($validator) use ($request) {
+        $validator->after(function ($validator) use ($request, $competition) {
             if ($request->participant_category === 'high_school_student' && empty($request->institution)) {
                 $validator->errors()->add('institution', 'Institusi wajib diisi untuk siswa SMA/SMK');
+            }
+            
+            // EDC-specific validations
+            if ($competition->isEdcCompetition() && $request->team_members) {
+                // Validate team name for SARA compliance
+                if ($request->team_name) {
+                    $teamNameErrors = Registration::validateEdcTeamName($request->team_name);
+                    foreach ($teamNameErrors as $error) {
+                        $validator->errors()->add('team_name', $error);
+                    }
+                }
+                
+                // Validate same university requirement
+                $universityErrors = Registration::validateSameUniversity($request->team_members);
+                foreach ($universityErrors as $error) {
+                    $validator->errors()->add('team_members', $error);
+                }
+                
+                // Validate speaker positions
+                $speakerErrors = Registration::validateSpeakerPositions($request->team_members);
+                foreach ($speakerErrors as $error) {
+                    $validator->errors()->add('team_members', $error);
+                }
             }
         });
 
@@ -283,9 +324,15 @@ class CompetitionController extends Controller
             // Process dynamic form data
             $dynamicFormData = $this->dynamicFormService->processFormData($competition, $request);
             
-            // Calculate price based on user's participant status
-            $participantCategory = $this->mapParticipantStatus($user->participant_status);
-            $priceData = $this->pricingService->getPriceForCategory($participantCategory);
+            // Calculate price based on competition type and user's participant status
+            if ($competition->isEdcCompetition()) {
+                // Use EDC-specific pricing
+                $priceData = Registration::getCurrentEdcPricing();
+            } else {
+                // Use standard pricing service
+                $participantCategory = $this->mapParticipantStatus($user->participant_status);
+                $priceData = $this->pricingService->getPriceForCategory($participantCategory);
+            }
 
             // Buat registrasi baru
             $registrationData = [
