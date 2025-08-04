@@ -677,6 +677,131 @@
                                 </div>
                             </div>
                         </div>
+                    @elseif($competition->category == 'event_dcc')
+                        <!-- DCC Timeline -->
+                        <div class="modern-timeline-container p-4">
+                            <div class="modern-timeline">
+                                <!-- Early Bird Registration -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-success">
+                                        <div class="date-number">25</div>
+                                        <div class="date-month">Aug 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-success">Early Bird Registration</h5>
+                                        <p class="event-price">Rp.50.000/Team</p>
+                                        <span class="badge bg-success">Upcoming</span>
+                                        <p class="event-period text-muted">s/d 31 Aug 2024</p>
+                                    </div>
+                                </div>
+
+                                <!-- Phase 1 Registration -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-warning">
+                                        <div class="date-number">01</div>
+                                        <div class="date-month">Sep 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-warning">Phase 1 Registration</h5>
+                                        <p class="event-price">Rp.65.000/Team</p>
+                                        <span class="badge bg-warning">Upcoming</span>
+                                        <p class="event-period text-muted">s/d 13 Sep 2024</p>
+                                    </div>
+                                </div>
+
+                                <!-- Phase 2 Registration -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-danger">
+                                        <div class="date-number">14</div>
+                                        <div class="date-month">Sep 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-danger">Phase 2 Registration</h5>
+                                        <p class="event-price">Rp.75.000/Team</p>
+                                        <span class="badge bg-danger">Upcoming</span>
+                                        <p class="event-period text-muted">s/d 26 Sep 2024</p>
+                                    </div>
+                                </div>
+
+                                <!-- Webinar & Technical Meeting -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-info">
+                                        <div class="date-number">28</div>
+                                        <div class="date-month">Sep 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-info">Webinar & Technical Meeting</h5>
+                                        <p class="event-description">Tips and tricks for digital content creation via Zoom</p>
+                                        <span class="badge bg-info">Upcoming</span>
+                                    </div>
+                                </div>
+
+                                <!-- Administrative Selection -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-primary">
+                                        <div class="date-number">01</div>
+                                        <div class="date-month">Oct 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-primary">Administrative Selection</h5>
+                                        <p class="event-description">Document verification and participant validation</p>
+                                        <span class="badge bg-primary">Upcoming</span>
+                                    </div>
+                                </div>
+
+                                <!-- Submission Deadline -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-warning">
+                                        <div class="date-number">15</div>
+                                        <div class="date-month">Oct 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-warning">Submission Deadline</h5>
+                                        <p class="event-description">Final submission of digital content works</p>
+                                        <span class="badge bg-warning">Upcoming</span>
+                                    </div>
+                                </div>
+
+                                <!-- Semifinal Round -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-info">
+                                        <div class="date-number">25</div>
+                                        <div class="date-month">Oct 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-info">Semifinal Round</h5>
+                                        <p class="event-description">Online evaluation and semifinalist selection</p>
+                                        <span class="badge bg-info">Upcoming</span>
+                                    </div>
+                                </div>
+
+                                <!-- Final Round -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-danger">
+                                        <div class="date-number">05</div>
+                                        <div class="date-month">Nov 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-danger">Final Round</h5>
+                                        <p class="event-description">Online final evaluation and winner determination</p>
+                                        <span class="badge bg-danger">Upcoming</span>
+                                    </div>
+                                </div>
+
+                                <!-- Award Ceremony -->
+                                <div class="timeline-event">
+                                    <div class="timeline-date bg-success">
+                                        <div class="date-number">15</div>
+                                        <div class="date-month">Nov 2024</div>
+                                    </div>
+                                    <div class="timeline-details">
+                                        <h5 class="event-title text-success">Award Ceremony</h5>
+                                        <p class="event-description">UNAS Cyber Auditorium - Onsite awarding ceremony</p>
+                                        <span class="badge bg-success">Upcoming</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     @elseif($competition->slug == 'kdbi-2025')
                         <!-- KDBI Timeline -->
                         <div class="modern-timeline-container p-4">
