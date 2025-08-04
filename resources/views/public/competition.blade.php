@@ -439,7 +439,7 @@
                     <p class="mb-0 mt-2 opacity-75">Complete schedule from registration to awarding ceremony</p>
                 </div>
                 <div class="card-body p-0">
-                    @if($competition->slug == 'edc')
+                    @if($competition->slug == 'edc-2025')
                         <!-- EDC Timeline -->
                         <div class="modern-timeline-container p-4">
                             <div class="modern-timeline">
@@ -564,7 +564,7 @@
                                 </div>
                             </div>
                         </div>
-                    @elseif($competition->slug == 'spc')
+                    @elseif($competition->slug == 'spc-2025')
                         <!-- SPC Timeline -->
                         <div class="modern-timeline-container p-4">
                             <div class="modern-timeline">
@@ -677,7 +677,7 @@
                                 </div>
                             </div>
                         </div>
-                    @elseif($competition->slug == 'kdbi')
+                    @elseif($competition->slug == 'kdbi-2025')
                         <!-- KDBI Timeline -->
                         <div class="modern-timeline-container p-4">
                             <div class="modern-timeline">
