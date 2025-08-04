@@ -1,22 +1,22 @@
 <!-- Upload Karya Header -->
 <div class="row mb-4">
     <div class="col-12">
-        <div class="card border-0 bg-gradient" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+        <div class="card border-0 bg-gradient" style="background: linear-gradient(135deg, #17a2b8 0%, #138496 100%); box-shadow: 0 4px 12px rgba(23, 162, 184, 0.25);">
             <div class="card-body text-white">
                 <div class="row align-items-center">
                     <div class="col-md-8">
-                        <h4 class="mb-3">
+                        <h4 class="mb-3 fw-bold" style="color: #ffffff; text-shadow: 2px 2px 6px rgba(0,0,0,0.8); font-weight: 800;">
                             <i class="bi bi-cloud-upload-fill me-2"></i>
                             Upload Karya Kompetisi
                         </h4>
-                        <p class="mb-3 lead">
+                        <p class="mb-3 lead" style="color: #ffffff; text-shadow: 1px 1px 4px rgba(0,0,0,0.7); font-weight: 500;">
                             Upload karya Anda sesuai dengan ketentuan masing-masing lomba yang telah dikonfirmasi pembayarannya.
                         </p>
                         <div class="d-flex gap-2">
-                            <span class="badge bg-white bg-opacity-20 p-2">
+                            <span class="badge p-2" style="background-color: rgba(255,255,255,0.95); color: #1f2937; font-weight: 600; text-shadow: none;">
                                 <i class="bi bi-check-circle me-1"></i>Tanpa Konfirmasi Admin
                             </span>
-                            <span class="badge bg-white bg-opacity-20 p-2">
+                            <span class="badge p-2" style="background-color: rgba(255,255,255,0.95); color: #1f2937; font-weight: 600; text-shadow: none;">
                                 <i class="bi bi-lightning me-1"></i>Langsung Submit
                             </span>
                         </div>
