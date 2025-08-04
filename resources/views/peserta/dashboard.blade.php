@@ -39,24 +39,127 @@
 }
 
 .colorful-tabs #guidance-tab.active {
-    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
-    color: white;
-    border-color: #1e7e34;
-    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+    background: linear-gradient(135deg, #6f42c1 0%, #5a2d91 100%) !important;
+    color: white !important;
+    border-color: #5a2d91 !important;
+    box-shadow: 0 4px 12px rgba(111, 66, 193, 0.3) !important;
 }
 
 .colorful-tabs #upload-tab.active {
-    background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
-    color: #212529;
-    border-color: #e0a800;
-    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%) !important;
+    color: white !important;
+    border-color: #138496 !important;
+    box-shadow: 0 4px 12px rgba(23, 162, 184, 0.3) !important;
 }
 
 .colorful-tabs #submissions-tab.active {
-    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-    color: white;
-    border-color: #c82333;
-    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    background: linear-gradient(135deg, #fd7e14 0%, #e55a00 100%) !important;
+    color: white !important;
+    border-color: #e55a00 !important;
+    box-shadow: 0 4px 12px rgba(253, 126, 20, 0.3) !important;
+}
+
+/* Improved contrast for better visibility */
+.colorful-tabs .nav-link {
+    font-size: 0.95rem;
+    padding: 12px 20px;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.colorful-tabs .nav-link:not(.active) {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    color: #495057;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    border: 1px solid #e9ecef;
+}
+
+.colorful-tabs .nav-link:not(.active):hover {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    color: #212529;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+}
+
+/* Enhanced active tab styling */
+.colorful-tabs .nav-link.active {
+    transform: translateY(-2px) !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.025em !important;
+}
+
+/* Force override any conflicting styles */
+#dashboardTabs #overview-tab.nav-link.active {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%) !important;
+    color: white !important;
+    border-color: #0056b3 !important;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3) !important;
+}
+
+#dashboardTabs #guidance-tab.nav-link.active {
+    background: linear-gradient(135deg, #6f42c1 0%, #5a2d91 100%) !important;
+    color: white !important;
+    border-color: #5a2d91 !important;
+    box-shadow: 0 4px 12px rgba(111, 66, 193, 0.3) !important;
+}
+
+#dashboardTabs #upload-tab.nav-link.active {
+    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%) !important;
+    color: white !important;
+    border-color: #138496 !important;
+    box-shadow: 0 4px 12px rgba(23, 162, 184, 0.3) !important;
+}
+
+#dashboardTabs #submissions-tab.nav-link.active {
+    background: linear-gradient(135deg, #fd7e14 0%, #e55a00 100%) !important;
+    color: white !important;
+    border-color: #e55a00 !important;
+    box-shadow: 0 4px 12px rgba(253, 126, 20, 0.3) !important;
+}
+
+/* Statistics Cards with Better Contrast */
+.card.bg-primary {
+    background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%) !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25) !important;
+}
+
+.card.bg-success {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25) !important;
+}
+
+.card.bg-warning {
+    background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25) !important;
+    color: white !important;
+}
+
+.card.bg-info {
+    background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%) !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(8, 145, 178, 0.25) !important;
+}
+
+/* Ensure text is always readable on colored cards */
+.card.bg-primary .stats-number,
+.card.bg-success .stats-number,
+.card.bg-warning .stats-number,
+.card.bg-info .stats-number {
+    color: white !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.card.bg-primary .fw-semibold,
+.card.bg-success .fw-semibold,
+.card.bg-warning .fw-semibold,
+.card.bg-info .fw-semibold {
+    color: rgba(255,255,255,0.95) !important;
 }
 </style>
 
@@ -88,6 +191,38 @@
 <div class="tab-content" id="dashboardTabsContent">
     <!-- Overview Tab -->
     <div class="tab-pane fade show active" id="overview" role="tabpanel">
+        <!-- Overview Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card border-0 bg-gradient" style="background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);">
+                    <div class="card-body text-white">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h4 class="mb-3 fw-bold" style="color: #ffffff; text-shadow: 2px 2px 6px rgba(0,0,0,0.8); font-weight: 800;">
+                                    <i class="bi bi-speedometer2 me-2"></i>
+                                    Dashboard Overview
+                                </h4>
+                                <p class="mb-3 lead" style="color: #ffffff; text-shadow: 1px 1px 4px rgba(0,0,0,0.7); font-weight: 500;">
+                                    Ringkasan aktivitas dan status kompetisi Anda dalam satu tampilan.
+                                </p>
+                                <div class="d-flex gap-2">
+                                    <span class="badge p-2" style="background-color: rgba(255,255,255,0.95); color: #1f2937; font-weight: 600; text-shadow: none;">
+                                        <i class="bi bi-graph-up me-1"></i>Live Statistics
+                                    </span>
+                                    <span class="badge p-2" style="background-color: rgba(255,255,255,0.95); color: #1f2937; font-weight: 600; text-shadow: none;">
+                                        <i class="bi bi-bell me-1"></i>Quick Actions
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <i class="bi bi-pie-chart display-1 opacity-75"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Statistics Cards -->
 <div class="row mb-4">
     <div class="col-lg-3 col-md-6 mb-3">
@@ -423,6 +558,38 @@
 
     <!-- Submissions Tab -->
     <div class="tab-pane fade" id="submissions" role="tabpanel">
+        <!-- Submissions Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card border-0 bg-gradient" style="background: linear-gradient(135deg, #fd7e14 0%, #e55a00 100%); box-shadow: 0 4px 12px rgba(253, 126, 20, 0.25);">
+                    <div class="card-body text-white">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h4 class="mb-3 fw-bold" style="color: #ffffff; text-shadow: 2px 2px 6px rgba(0,0,0,0.8); font-weight: 800;">
+                                    <i class="bi bi-file-earmark-text-fill me-2"></i>
+                                    Status Submissions
+                                </h4>
+                                <p class="mb-3 lead" style="color: #ffffff; text-shadow: 1px 1px 4px rgba(0,0,0,0.7); font-weight: 500;">
+                                    Kelola dan pantau status karya yang telah Anda submit untuk setiap kompetisi.
+                                </p>
+                                <div class="d-flex gap-2">
+                                    <span class="badge p-2" style="background-color: rgba(255,255,255,0.95); color: #1f2937; font-weight: 600; text-shadow: none;">
+                                        <i class="bi bi-eye me-1"></i>Real-time Status
+                                    </span>
+                                    <span class="badge p-2" style="background-color: rgba(255,255,255,0.95); color: #1f2937; font-weight: 600; text-shadow: none;">
+                                        <i class="bi bi-graph-up me-1"></i>Track Progress
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <i class="bi bi-clipboard-data display-1 opacity-75"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Submissions Status -->
 <div class="row">
     <div class="col-12">
