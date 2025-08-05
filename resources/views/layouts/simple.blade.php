@@ -29,6 +29,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet" crossorigin="anonymous">
     
+    <!-- SweetAlert2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
+    
     <style>
         :root {
             --primary-color: #2563eb;
@@ -718,8 +721,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-danger" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault(); document.getElementById('logout-form-mobile').submit();">
+                                <a class="nav-link text-danger" href="#" onclick="confirmLogout('logout-form-mobile')">
                                     <i class="bi bi-box-arrow-right me-2"></i>Logout
                                 </a>
                                 <form id="logout-form-mobile" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -754,8 +756,7 @@
                             </a>
                             <li><hr class="dropdown-divider"></li>
                             <li>
-                                <a class="dropdown-item text-danger" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <a class="dropdown-item text-danger" href="#" onclick="confirmLogout('logout-form')">
                                     <i class="bi bi-box-arrow-right me-2"></i>Logout
                                 </a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -902,6 +903,9 @@
         </div>
     </footer>
 
+    <!-- SweetAlert2 JS - Load first -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+    
     <!-- Bootstrap JS with defer loading -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous" defer></script>
     
@@ -983,6 +987,60 @@
                 }, 300);
             });
         });
+
+        // Logout confirmation function using SweetAlert2
+        function confirmLogout(formId) {
+            // Check if SweetAlert2 is loaded
+            if (typeof Swal === 'undefined') {
+                console.error('SweetAlert2 is not loaded');
+                // Fallback to browser confirm
+                if (confirm('Are you sure you want to logout?')) {
+                    document.getElementById(formId).submit();
+                }
+                return;
+            }
+
+            Swal.fire({
+                title: 'Confirm Logout',
+                text: 'Are you sure you want to logout? You will be redirected to the home page.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: '<i class="bi bi-box-arrow-right me-1"></i>Yes, Logout',
+                cancelButtonText: '<i class="bi bi-x-lg me-1"></i>Cancel',
+                customClass: {
+                    confirmButton: 'btn btn-danger me-2',
+                    cancelButton: 'btn btn-secondary me-2'
+                },
+                buttonsStyling: false,
+                reverseButtons: true,
+                focusCancel: true,
+                background: '#ffffff',
+                color: '#212529',
+                iconColor: '#ffc107'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Show loading state
+                    Swal.fire({
+                        title: 'Logging out...',
+                        text: 'Please wait while we log you out.',
+                        icon: 'info',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        showConfirmButton: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                    
+                    // Submit the logout form
+                    setTimeout(() => {
+                        document.getElementById(formId).submit();
+                    }, 500);
+                }
+            });
+        }
     </script>
     
     @stack('scripts')
