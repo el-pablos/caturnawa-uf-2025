@@ -311,8 +311,8 @@
 
     <!-- Vision & Mission Section -->
     <div class="row g-4 mb-5">
-        <div class="col-lg-6" data-aos="fade-right">
-            <div class="card shadow h-100">
+        <div class="col-8 offset-2" data-aos="fade-up">
+            <div class="card shadow">
                 <div class="card-header bg-primary text-white text-center">
                     <h3 class="card-title mb-0">
                         <i class="bi bi-eye me-2"></i>Our Vision
@@ -320,14 +320,14 @@
                 </div>
                 <div class="p-4 text-center" style="color: #2d3748;">
                     <p class="mb-0">
-                        To become a leading national competition festival that inspires sustainable innovation
-                        in the fields of technology, health, and biodiversity for a better future for Indonesia.</p>
+                        Being a forum for coaching and training as well as a benchmark (barometer) in terms of improving the quality of 
+                        students in committee and organizational activities at the Universitas Nasional.</p>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-6" data-aos="fade-left">
-            <div class="card shadow h-100">
+        <div class="col-10 offset-1" data-aos="fade-up" data-aos-delay="200">
+            <div class="card shadow">
                 <div class="card-header bg-success text-white text-center">
                     <h3 class="card-title mb-0">
                         <i class="bi bi-bullseye me-2"></i>Our Mission
@@ -336,20 +336,28 @@
                 <div class="p-4" style="color: #2d3748;">
                     <ul class="list-unstyled mb-0">
                         <li class="mb-3 d-flex align-items-start">
-                            <i class="bi bi-check-circle text-success me-3 mt-1"></i>
-                            <span>Providing high-quality competition platform for Indonesian students</span>
+                            <i class="bi bi-1-square-fill text-success me-3 mt-1"></i>
+                            <span>Training students of Universitas Nasional through the UNAS FEST 2025 program involves stages like Preparation (Conceptor), Planning (Conceptor), Execution (Executor), Evaluation (Evaluator), and Development (Innovator) to boost their organizational soft and hard skills.</span>
                         </li>
                         <li class="mb-3 d-flex align-items-start">
-                            <i class="bi bi-check-circle text-success me-3 mt-1"></i>
-                            <span>Encouraging innovation and creativity in solving real-world problems</span>
+                            <i class="bi bi-2-square-fill text-success me-3 mt-1"></i>
+                            <span>Aligned with the predetermined main theme, this event aims to raise global awareness among students about environmental issues and climate change. Through this activity, the younger generation can identify and learn about renewable energy sources that are not yet fully explored or utilized in many countries.</span>
                         </li>
                         <li class="mb-3 d-flex align-items-start">
-                            <i class="bi bi-check-circle text-success me-3 mt-1"></i>
-                            <span>Building collaborative networks between universities across Indonesia</span>
+                            <i class="bi bi-3-square-fill text-success me-3 mt-1"></i>
+                            <span>This event also aims to develop students' critical, analytical, creative, innovative, adaptive, fair, and competitive thinking skills through their participation in UNAS FEST 2025. It serves as a platform for students to broaden their social connections.</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <i class="bi bi-4-square-fill text-success me-3 mt-1"></i>
+                            <span>UNAS FEST provides an opportunity for students to compete for achievements at both international and national levels.</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <i class="bi bi-5-square-fill text-success me-3 mt-1"></i>
+                            <span>The younger generation can also introduce new innovations in technology for the wise development and utilization of renewable energy.</span>
                         </li>
                         <li class="d-flex align-items-start">
-                            <i class="bi bi-check-circle text-success me-3 mt-1"></i>
-                            <span>Developing sustainable solutions for future challenges</span>
+                            <i class="bi bi-6-square-fill text-success me-3 mt-1"></i>
+                            <span>The UNAS FEST committee includes members from various study programs at Universitas Nasional, providing a diverse and inclusive environment for student engagement.</span>
                         </li>
                     </ul>
                 </div>
