@@ -391,7 +391,7 @@
                         <i class="bi bi-person-circle me-2"></i>Profil
                     </a>
 
-                    <a class="nav-link {{ request()->routeIs('profile.*') ? 'active' : '' }}" href="{{ route('public.home') }}">
+                    <a class="nav-link {{ request()->routeIs('#') ? 'active' : '' }}" href="{{ route('public.home') }}">
                         <i class="bi bi-house me-2"></i>Beranda
                     </a>
                 </div>
@@ -419,7 +419,8 @@
                             <li>
                                 <form action="{{ route('logout') }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="dropdown-item">
+                                    <button type="submit" class="dropdown-item" style="margin-top: 1rem; border: 1px solid rgba(255, 255, 255, 0.3); color: red;"
+                                            onclick="confirmLogout('logout-form')">
                                         <i class="bi bi-box-arrow-right me-2"></i>Logout
                                     </button>
                                 </form>

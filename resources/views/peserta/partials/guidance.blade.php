@@ -185,6 +185,132 @@
     </div>
 </div>
 
+<!-- Leaderboard Guide -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0">
+                    <i class="bi bi-trophy me-2 text-warning"></i>
+                    Cara Melihat Nilai & Leaderboard
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info" role="alert">
+                    <i class="bi bi-info-circle me-2"></i>
+                    <strong>Catatan:</strong> Nilai dan leaderboard akan tersedia setelah proses penilaian selesai oleh juri.
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="d-flex mb-4">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%); box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);">
+                                    <strong>1</strong>
+                                </div>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold">Tunggu Proses Penilaian</h6>
+                                <p class="text-muted small mb-2">
+                                    Setelah masa submit karya berakhir, juri akan melakukan proses penilaian. Proses ini membutuhkan waktu sesuai dengan kompleksitas kompetisi.
+                                </p>
+                                <span class="badge bg-secondary">Tahap Evaluasi</span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex mb-4">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background: linear-gradient(135deg, #d97706 0%, #b45309 100%); box-shadow: 0 2px 8px rgba(217, 119, 6, 0.3);">
+                                    <strong>2</strong>
+                                </div>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold">Akses Leaderboard</h6>
+                                <p class="text-muted small mb-2">
+                                    Untuk melihat ranking peserta, klik tombol "Lihat Leaderboard" atau akses melalui halaman publik website untuk melihat posisi Anda.
+                                </p>
+                                <a href="{{ route('leaderboard.index') }}" class="btn btn-sm btn-outline-warning">
+                                    <i class="bi bi-trophy me-1"></i>Lihat Leaderboard
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="d-flex mb-4">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%); box-shadow: 0 2px 8px rgba(8, 145, 178, 0.3);">
+                                    <strong>3</strong>
+                                </div>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold">Filter per Kompetisi</h6>
+                                <p class="text-muted small mb-2">
+                                    Pada halaman leaderboard, pilih kompetisi tertentu menggunakan dropdown filter untuk melihat ranking yang lebih spesifik.
+                                </p>
+                                <span class="badge bg-info">Multi Kategori</span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex mb-4">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);">
+                                    <strong>4</strong>
+                                </div>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold">Pengumuman Pemenang</h6>
+                                <p class="text-muted small mb-2">
+                                    Pemenang resmi akan diumumkan melalui website, email, dan grup WhatsApp sesuai jadwal yang telah ditentukan.
+                                </p>
+                                <span class="badge bg-danger">Pengumuman Resmi</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card border-primary h-100">
+                            <div class="card-body text-center">
+                                <i class="bi bi-graph-up-arrow fs-2 text-primary mb-2"></i>
+                                <h6 class="card-title">Nilai Individual</h6>
+                                <p class="card-text small text-muted">
+                                    Lihat skor detail per kriteria penilaian untuk karya yang Anda submit.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-warning h-100">
+                            <div class="card-body text-center">
+                                <i class="bi bi-list-ol fs-2 text-warning mb-2"></i>
+                                <h6 class="card-title">Ranking Sementara</h6>
+                                <p class="card-text small text-muted">
+                                    Pantau posisi Anda di leaderboard yang diupdate secara berkala.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-success h-100">
+                            <div class="card-body text-center">
+                                <i class="bi bi-award fs-2 text-success mb-2"></i>
+                                <h6 class="card-title">Hasil Final</h6>
+                                <p class="card-text small text-muted">
+                                    Hasil akhir dan pemenang akan diumumkan sesuai timeline kompetisi.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Important Information -->
 <div class="row mb-4">
     <div class="col-md-6">
@@ -304,4 +430,3 @@
         </div>
     </div>
 </div>
-

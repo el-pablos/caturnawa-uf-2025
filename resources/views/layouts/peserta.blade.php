@@ -141,7 +141,7 @@
         
         .peserta-brand {
             font-weight: 700;
-            color: var(--peserta-primary) !important;
+            color: var(--peserta-accent) !important;
         }
 
         .peserta-content {
@@ -250,8 +250,8 @@
     <nav class="peserta-sidebar" id="peserta-sidebar">
         <div class="position-sticky">
             <!-- Brand -->
-            <div class="peserta-brand px-3 py-3 border-bottom border-light border-opacity-25">
-                <i class="bi bi-person-badge me-2"></i>
+            <div class="peserta-brand px-3 py-3 border-bottom border-light border-opacity-25" style="display: flex; align-items: center; gap: 8px;">
+                <i class="bi bi-person-badge me-2 text-light"></i>
                 Portal Peserta
             </div>
             
@@ -282,11 +282,11 @@
                     <a class="nav-link {{ request()->routeIs('profile.*') ? 'active' : '' }}" href="{{ route('profile.index') }}">
                         <i class="bi bi-person-circle me-2"></i>Profil
                     </a>
-                    <a class="nav-link {{ request()->routeIs('profile.*') ? 'active' : '' }}" href="{{ route('public.home') }}">
+                    <a class="nav-link {{ request()->routeIs('#') ? 'active' : '' }}" href="{{ route('public.home') }}">
                         <i class="bi bi-house me-2"></i>Beranda
                     </a>
                     <!-- Logout Button -->
-                    <a href="#" class="nav-link text-danger" id="logout-link-sidebar" onclick="handleLogout(event)" style="margin-top: 1rem; border: 1px solid rgba(220, 53, 69, 0.3); background-color: rgba(220, 53, 69, 0.1);">
+                    <a href="#" class="nav-link text-white" id="logout-link-sidebar" onclick="handleLogout(event)" style="margin-top: 1rem; border: 1px solid rgba(255, 255, 255, 0.3); background-color: darkred;">
                         <i class="bi bi-box-arrow-right me-2"></i>Logout
                     </a>
                 </div>
