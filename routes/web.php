@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Cache;
 |
 */
 
-// Health Check Route for Docker
+// Health Check Route
 Route::get('/health', function () {
     $checks = [
         'status' => 'healthy',

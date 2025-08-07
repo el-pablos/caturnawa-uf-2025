@@ -1,222 +1,211 @@
-# Caturnawa UNAS FEST 2025 - Hybrid Docker Makefile
+# Caturnawa UNAS FEST 2025 - Laravel Development Makefile
 # by Tamas
 
-.PHONY: help build up down restart logs shell mysql redis clean setup dev prod test infra
+.PHONY: help setup build dev serve hot migrate test clean check info
 
 # Default target
 help: ## Show this help message
-	@echo "🐳 Caturnawa UNAS FEST 2025 - Hybrid Docker Commands"
+	@echo "🚀 Caturnawa UNAS FEST 2025 - Laravel Development Commands"
 	@echo "by Tamas"
 	@echo "=========================================="
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
 ##@ Setup Commands
-setup: ## Run hybrid setup script
-	@echo "🚀 Running hybrid setup..."
-	@./setup.sh
-
-setup-infra: ## Setup infrastructure only mode
-	@echo "🏗️  Setting up infrastructure only..."
-	@DOCKER_MODE=infrastructure ./setup.sh
-
-setup-dev: ## Setup full development mode
-	@echo "🛠️  Setting up development mode..."
-	@DOCKER_MODE=development ./setup.sh
-
-setup-prod: ## Setup production mode
-	@echo "🚀 Setting up production mode..."
-	@DOCKER_MODE=production ./setup.sh
+setup: ## Run interactive setup script
+	@echo "🚀 Running interactive setup..."
+	@./start.sh
 
 env: ## Copy environment template
 	@if [ ! -f .env ]; then \
-		echo "📋 Copying .env.example.docker to .env..."; \
-		cp .env.example.docker .env; \
+		echo "📋 Copying .env.example to .env..."; \
+		cp .env.example .env; \
 		echo "✅ Please edit .env file with your configuration"; \
 	else \
 		echo "⚠️  .env file already exists"; \
 	fi
 
-##@ Docker Operations
-build: ## Build Docker images
-	@echo "🔨 Building Docker images..."
-	@docker-compose build
+##@ Development Operations
+build: ## Build frontend assets
+	@echo "🔨 Building frontend assets..."
+	@npm run build
 
-up: ## Start all services
-	@echo "🚀 Starting all services..."
-	@docker-compose up -d
+dev: ## Start development servers
+	@echo "🚀 Starting development servers..."
+	@npm run dev:full
 
-down: ## Stop all services
-	@echo "🛑 Stopping all services..."
-	@docker-compose down
-
-restart: ## Restart all services
-	@echo "🔄 Restarting all services..."
-	@docker-compose restart
-
-status: ## Show service status
-	@echo "📊 Service Status:"
-	@docker-compose ps
-
-##@ Development
-infra: ## Start infrastructure only (MySQL, Redis, MailHog)
-	@echo "🏗️  Starting infrastructure services..."
-	@docker-compose -f docker-compose.infrastructure.yml up -d
-
-infra-down: ## Stop infrastructure services
-	@echo "🛑 Stopping infrastructure services..."
-	@docker-compose -f docker-compose.infrastructure.yml down
-
-dev: ## Start development environment
-	@echo "🛠️  Starting development environment..."
-	@docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
-
-dev-down: ## Stop development environment
-	@echo "🛑 Stopping development environment..."
-	@docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
-
-serve: ## Start Laravel development server (for infrastructure mode)
-	@echo "🚀 Starting Laravel development server..."
+serve: ## Start Laravel development server
+	@echo "🚀 Starting Laravel server..."
 	@php artisan serve --host=0.0.0.0 --port=8000
 
-##@ Logs & Monitoring
-logs: ## Show all logs
-	@docker-compose logs -f
+hot: ## Start Vite dev server
+	@echo "⚡ Starting Vite dev server..."
+	@npm run hot
 
-logs-app: ## Show application logs
-	@docker-compose logs -f app
-
-logs-mysql: ## Show MySQL logs
-	@docker-compose logs -f mysql
-
-logs-redis: ## Show Redis logs
-	@docker-compose logs -f redis
-
-health: ## Check application health
-	@echo "🏥 Checking application health..."
-	@curl -s http://localhost:8000/health | jq . || echo "Health check failed"
-
-##@ Container Access
-shell: ## Access application container shell
-	@echo "🐚 Accessing application container..."
-	@docker-compose exec app bash
-
-mysql: ## Access MySQL CLI
-	@echo "🗄️  Accessing MySQL CLI..."
-	@docker-compose exec mysql mysql -u root -p
-
-redis: ## Access Redis CLI
-	@echo "🔴 Accessing Redis CLI..."
-	@docker-compose exec redis redis-cli
-
-##@ Laravel Commands
-artisan: ## Run artisan command (usage: make artisan cmd="migrate")
-	@docker-compose exec app php artisan $(cmd)
-
+##@ Database Operations
 migrate: ## Run database migrations
 	@echo "📊 Running database migrations..."
-	@docker-compose exec app php artisan migrate
+	@php artisan migrate
 
 migrate-fresh: ## Fresh migration with seeding
 	@echo "🔄 Running fresh migrations with seeding..."
-	@docker-compose exec app php artisan migrate:fresh --seed
+	@php artisan migrate:fresh --seed
 
 seed: ## Run database seeders
 	@echo "🌱 Running database seeders..."
-	@docker-compose exec app php artisan db:seed
+	@php artisan db:seed
+
+db-status: ## Show migration status
+	@echo "📊 Migration Status:"
+	@php artisan migrate:status
+
+##@ Logs & Monitoring
+logs: ## Show Laravel logs
+	@echo "📋 Showing Laravel logs..."
+	@tail -f storage/logs/laravel.log
+
+health: ## Check application health
+	@curl -s http://localhost:8000/health | head -10
+
+##@ Database Access
+mysql: ## Access MySQL CLI
+	@echo "🗄️  Accessing MySQL CLI..."
+	@mysql -h 127.0.0.1 -u root -p
+
+tinker: ## Access Laravel Tinker
+	@echo "🔧 Starting Laravel Tinker..."
+	@php artisan tinker
+
+##@ Laravel Commands
+artisan: ## Run artisan command (usage: make artisan cmd="migrate")
+	@php artisan $(cmd)
 
 cache-clear: ## Clear all caches
 	@echo "🧹 Clearing all caches..."
-	@docker-compose exec app php artisan cache:clear
-	@docker-compose exec app php artisan config:clear
-	@docker-compose exec app php artisan route:clear
-	@docker-compose exec app php artisan view:clear
+	@php artisan cache:clear
+	@php artisan config:clear
+	@php artisan route:clear
+	@php artisan view:clear
 
 cache-optimize: ## Optimize caches for production
 	@echo "⚡ Optimizing caches..."
-	@docker-compose exec app php artisan config:cache
-	@docker-compose exec app php artisan route:cache
-	@docker-compose exec app php artisan view:cache
+	@php artisan config:cache
+	@php artisan route:cache
+	@php artisan view:cache
 
+key-generate: ## Generate application key
+	@echo "🔑 Generating application key..."
+	@php artisan key:generate
+
+storage-link: ## Create storage link
+	@echo "🔗 Creating storage link..."
+	@php artisan storage:link
+
+##@ Dependencies
 composer-install: ## Install Composer dependencies
 	@echo "📦 Installing Composer dependencies..."
-	@docker-compose exec app composer install --optimize-autoloader
+	@composer install --optimize-autoloader
 
 composer-update: ## Update Composer dependencies
 	@echo "🔄 Updating Composer dependencies..."
-	@docker-compose exec app composer update
+	@composer update
+
+npm-install: ## Install NPM dependencies
+	@echo "📦 Installing NPM dependencies..."
+	@npm install
+
+npm-update: ## Update NPM dependencies
+	@echo "🔄 Updating NPM dependencies..."
+	@npm update
 
 ##@ Testing
 test: ## Run all tests
 	@echo "🧪 Running tests..."
-	@docker-compose exec app php artisan test
+	@php artisan test
 
 test-feature: ## Run feature tests
 	@echo "🧪 Running feature tests..."
-	@docker-compose exec app php artisan test --testsuite=Feature
+	@php artisan test --testsuite=Feature
 
 test-unit: ## Run unit tests
 	@echo "🧪 Running unit tests..."
-	@docker-compose exec app php artisan test --testsuite=Unit
+	@php artisan test --testsuite=Unit
 
 test-coverage: ## Run tests with coverage
 	@echo "🧪 Running tests with coverage..."
-	@docker-compose exec app php artisan test --coverage
+	@php artisan test --coverage
 
-##@ Database Operations
+##@ Backup & Restore
 db-backup: ## Backup database
 	@echo "💾 Creating database backup..."
-	@docker-compose exec mysql mysqldump -u root -p unas_fest_2025 > backup_$(shell date +%Y%m%d_%H%M%S).sql
+	@mysqldump -h 127.0.0.1 -u root -p unas_fest_2025 > backup_$(shell date +%Y%m%d_%H%M%S).sql
 	@echo "✅ Backup created: backup_$(shell date +%Y%m%d_%H%M%S).sql"
 
 db-restore: ## Restore database (usage: make db-restore file="backup.sql")
 	@echo "📥 Restoring database from $(file)..."
-	@docker-compose exec -T mysql mysql -u root -p unas_fest_2025 < $(file)
+	@mysql -h 127.0.0.1 -u root -p unas_fest_2025 < $(file)
 
 ##@ Maintenance
-clean: ## Clean up Docker resources
-	@echo "🧹 Cleaning up Docker resources..."
-	@docker-compose down --volumes --remove-orphans
-	@docker system prune -f
-	@docker volume prune -f
+clean: ## Clean up cache and temporary files
+	@echo "🧹 Cleaning up cache and temporary files..."
+	@php artisan cache:clear
+	@php artisan config:clear
+	@php artisan route:clear
+	@php artisan view:clear
+	@rm -rf node_modules/.cache
+	@rm -rf public/hot
 
-clean-all: ## Clean up everything (including images)
+clean-all: ## Clean up everything (cache, dependencies, build files)
 	@echo "🧹 Cleaning up everything..."
-	@docker-compose down --volumes --remove-orphans --rmi all
-	@docker system prune -af
-	@docker volume prune -f
+	@php artisan cache:clear
+	@php artisan config:clear
+	@php artisan route:clear
+	@php artisan view:clear
+	@rm -rf node_modules
+	@rm -rf vendor
+	@rm -rf public/build
+	@rm -rf public/hot
 
-permissions: ## Fix file permissions
+permissions: ## Fix file permissions (Linux/macOS)
 	@echo "🔧 Fixing file permissions..."
-	@docker-compose exec app chown -R www-data:www-data storage bootstrap/cache
-	@docker-compose exec app chmod -R 755 storage bootstrap/cache
+	@chmod -R 775 storage bootstrap/cache
+	@chmod -R 755 public
 
 ##@ Production
-prod: ## Start production environment
-	@echo "🚀 Starting production environment..."
-	@DOCKER_TARGET=production docker-compose up -d --build
+prod-build: ## Build for production
+	@echo "🚀 Building for production..."
+	@npm run build
+	@composer install --no-dev --optimize-autoloader
+	@php artisan config:cache
+	@php artisan route:cache
+	@php artisan view:cache
 
 prod-deploy: ## Deploy to production
 	@echo "🚀 Deploying to production..."
 	@git pull origin master
-	@DOCKER_TARGET=production docker-compose up -d --build
-	@docker-compose exec app composer install --no-dev --optimize-autoloader
-	@docker-compose exec app php artisan migrate --force
-	@docker-compose exec app php artisan config:cache
-	@docker-compose exec app php artisan route:cache
-	@docker-compose exec app php artisan view:cache
+	@composer install --no-dev --optimize-autoloader
+	@npm ci
+	@npm run build
+	@php artisan migrate --force
+	@php artisan config:cache
+	@php artisan route:cache
+	@php artisan view:cache
 
 ##@ Information
 info: ## Show system information
 	@echo "ℹ️  System Information:"
-	@echo "Docker version: $(shell docker --version)"
-	@echo "Docker Compose version: $(shell docker-compose --version)"
+	@echo "PHP version: $(shell php --version | head -1)"
+	@echo "Composer version: $(shell composer --version 2>/dev/null || echo 'Not installed')"
+	@echo "Node.js version: $(shell node --version 2>/dev/null || echo 'Not installed')"
+	@echo "NPM version: $(shell npm --version 2>/dev/null || echo 'Not installed')"
+	@echo "Laravel version: $(shell php artisan --version 2>/dev/null || echo 'Not available')"
 	@echo "Available memory: $(shell free -h | grep '^Mem:' | awk '{print $$2}' 2>/dev/null || echo 'N/A')"
 	@echo "Disk space: $(shell df -h . | tail -1 | awk '{print $$4}' 2>/dev/null || echo 'N/A')"
+
+check: ## Check system requirements
+	@echo "🔍 Checking system requirements..."
+	@./start.sh
 
 urls: ## Show application URLs
 	@echo "🌐 Application URLs:"
 	@echo "Main Application: http://localhost:8000"
 	@echo "Health Check: http://localhost:8000/health"
-	@echo "phpMyAdmin (dev): http://localhost:8080"
-	@echo "MailHog (dev): http://localhost:8025"
-	@echo "Redis Commander (dev): http://localhost:8081"
