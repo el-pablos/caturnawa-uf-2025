@@ -24,7 +24,6 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '18'
-        cache: 'npm'
         
     - name: Get composer cache directory
       id: composer-cache
@@ -40,8 +39,11 @@ jobs:
     - name: Install PHP dependencies
       run: composer install --no-dev --optimize-autoloader --no-interaction
       
+    - name: Clear npm cache
+      run: npm cache clean --force
+
     - name: Install Node.js dependencies
-      run: npm ci
+      run: npm install
       
     - name: Build assets
       run: npm run build
