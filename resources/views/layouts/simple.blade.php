@@ -812,11 +812,11 @@
                         <div class="footer-section">
                             <h5>Competitions</h5>
                             <ul>
-                                <li><a href="{{ route('public.competitions') }}#kdbi"><i class="bi bi-chat-square-text"></i>KDBI</a></li>
-                                <li><a href="{{ route('public.competitions') }}#edc"><i class="bi bi-globe"></i>EDC</a></li>
-                                <li><a href="{{ route('public.competitions') }}#short-movie"><i class="bi bi-camera-video"></i>Short Movie</a></li>
-                                <li><a href="{{ route('public.competitions') }}#infografis"><i class="bi bi-bar-chart"></i>Infographics</a></li>
-                                <li><a href="{{ route('public.competitions') }}#karya-ilmiah"><i class="bi bi-journal-text"></i>Scientific Work</a></li>
+                                <li><a href="{{ route('public.competition.detail', 'kdbi-2025') }}"><i class="bi bi-chat-square-text"></i>KDBI</a></li>
+                                <li><a href="{{ route('public.competition.detail', 'edc-2025') }}"><i class="bi bi-globe"></i>EDC</a></li>
+                                <li><a href="{{ route('public.competition.detail', 'short-movie-2025') }}"><i class="bi bi-camera-video"></i>Short Movie</a></li>
+                                <li><a href="{{ route('public.competition.detail', 'infografis-2025') }}"><i class="bi bi-bar-chart"></i>Infographics</a></li>
+                                <li><a href="{{ route('public.competition.detail', 'spc-2025') }}"><i class="bi bi-journal-text"></i>Scientific Work</a></li>
                                 <li><a href="{{ route('public.competitions') }}"><i class="bi bi-trophy"></i>All Competitions</a></li>
                                 <li><a href="{{ route('leaderboard.index') }}"><i class="bi bi-list-ol"></i>Leaderboard</a></li>
                             </ul>
@@ -854,7 +854,7 @@
                             <h5>Our Location</h5>
                             <div class="map-container">
                                 <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.7037296897583!2d106.83746531476911!3d-6.301582695377932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ecbc1b26f799%3A0x5b99b2d1c95b8c7d!2sJl.%20Sawo%20Manila%20No.61%2C%20RT.14%2FRW.7%2C%20Pejaten%20Bar.%2C%20Ps.%20Minggu%2C%20Kota%20Jakarta%20Selatan%2C%20Daerah%20Khusus%20Ibukota%20Jakarta%2012520!5e0!3m2!1sid!2sid!4v1625123456789!5m2!1sid!2sid"
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.8701837480444!2d106.83684327482962!3d-6.280791893708094!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f211176e9827%3A0xb4bc144c3140a2d9!2sUniversitas%20Nasional!5e0!3m2!1sid!2sid!4v1755100408847!5m2!1sid!2sid"
                                     loading="lazy"
                                     referrerpolicy="no-referrer-when-downgrade"
                                     title="Lokasi Universitas Nasional Jakarta - Jl. Sawo Manila No.61">

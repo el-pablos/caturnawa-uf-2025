@@ -1,15 +1,15 @@
 <!-- Welcome Guide -->
 <div class="row mb-4">
     <div class="col-12">
-        <div class="card border-0 bg-gradient" style="background: linear-gradient(135deg, #6f42c1 0%, #5a2d91 100%); box-shadow: 0 4px 12px rgba(111, 66, 193, 0.25);">
+        <div class="card border-0 bg-gradient" style="background: linear-gradient(135deg, #6f42c1 0%, #5a2d91 100%) !important; box-shadow: 0 4px 12px rgba(111, 66, 193, 0.3);">
             <div class="card-body">
                 <div class="row align-items-center">
                     <div class="col-md-8">
-                        <h4 class="mb-3 fw-bold" style="color: #ffffff; text-shadow: 2px 2px 6px rgba(0,0,0,0.8); font-weight: 800;">
+                        <h4 class="mb-3 fw-bold" style="color: #ffffff; font-weight: 800;">
                             <i class="bi bi-star-fill me-2"></i>
                             Panduan Penggunaan Dashboard Caturnawa
                         </h4>
-                        <p class="mb-3 lead" style="color: #ffffff; text-shadow: 1px 1px 4px rgba(0,0,0,0.7); font-weight: 500;">
+                        <p class="mb-3 lead" style="color: #e0e0e0; font-weight: 500;">
                             Panduan lengkap alur website dari registrasi hingga upload karya untuk PIC/Team Leader.
                         </p>
                         <div class="d-flex gap-2">
@@ -360,7 +360,7 @@
                 <p class="mb-3">Jika mengalami kendala atau memiliki pertanyaan, jangan ragu untuk menghubungi kami:</p>
                 
                 <div class="d-grid gap-2">
-                    <a href="https://wa.me/6281234567890" target="_blank" class="btn btn-success">
+                    <a href="https://wa.me/6288219445100" target="_blank" class="btn btn-success">
                         <i class="bi bi-whatsapp me-2"></i>
                         WhatsApp Support
                     </a>

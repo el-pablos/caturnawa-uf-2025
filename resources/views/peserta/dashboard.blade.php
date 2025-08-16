@@ -31,6 +31,11 @@
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
+#overview .card.bg-gradient {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%) !important;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.25) !important;
+}
+
 .colorful-tabs #overview-tab.active {
     background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
     color: white;
@@ -194,7 +199,7 @@
         <!-- Overview Header -->
         <div class="row mb-4">
             <div class="col-12">
-                <div class="card border-0 bg-gradient" style="background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);">
+                <div class="card border-0 bg-gradient">
                     <div class="card-body text-white">
                         <div class="row align-items-center">
                             <div class="col-md-8">
@@ -561,7 +566,7 @@
         <!-- Submissions Header -->
         <div class="row mb-4">
             <div class="col-12">
-                <div class="card border-0 bg-gradient" style="background: linear-gradient(135deg, #fd7e14 0%, #e55a00 100%); box-shadow: 0 4px 12px rgba(253, 126, 20, 0.25);">
+                <div class="card border-0 bg-gradient" style="background: linear-gradient(135deg, #fd7e14 0%, #e55a00 100%) !important; box-shadow: 0 4px 12px rgba(253, 126, 20, 0.25);">
                     <div class="card-body text-white">
                         <div class="row align-items-center">
                             <div class="col-md-8">
