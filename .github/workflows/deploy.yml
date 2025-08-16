@@ -36,6 +36,14 @@ jobs:
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
         restore-keys: ${{ runner.os }}-composer-
         
+    - name: Create Laravel cache directories
+      run: |
+        mkdir -p bootstrap/cache
+        mkdir -p storage/framework/cache/data
+        mkdir -p storage/framework/sessions
+        mkdir -p storage/framework/views
+        chmod -R 755 bootstrap/cache storage/framework
+
     - name: Install PHP dependencies
       run: composer install --no-dev --optimize-autoloader --no-interaction
       
@@ -90,8 +98,9 @@ jobs:
           php8.2 /usr/local/bin/composer install --no-dev --optimize-autoloader --no-interaction
           
           echo "Installing Node.js dependencies..."
-          npm ci
-          
+          npm cache clean --force
+          npm install
+
           echo "Building assets..."
           npm run build
           
