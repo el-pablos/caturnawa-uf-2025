@@ -318,6 +318,23 @@
         /* Map Styling */
         #footer-map {
             border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Responsive map styling */
+        @media (max-width: 768px) {
+            #footer-map {
+                height: 180px !important;
+            }
+        }
+
+        @media (max-width: 576px) {
+            #footer-map {
+                height: 150px !important;
+                border-radius: 8px;
+            }
         }
     </style>
     
@@ -509,8 +526,36 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
-    <!-- Google Maps API -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dO9O8nce6hq9qU&callback=initFooterMap"></script>
+    <!-- Leaflet CSS and JS for OpenStreetMap -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Custom styles for dark theme map -->
+    <style>
+        #footer-map {
+            filter: invert(1) hue-rotate(180deg);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        #footer-map .leaflet-popup-content-wrapper {
+            filter: invert(1) hue-rotate(180deg);
+        }
+
+        #footer-map .leaflet-control-attribution {
+            filter: invert(1) hue-rotate(180deg);
+            background: rgba(0, 0, 0, 0.7) !important;
+            color: white !important;
+        }
+
+        #footer-map .leaflet-control-attribution a {
+            color: #60a5fa !important;
+        }
+
+        .custom-marker {
+            filter: invert(1) hue-rotate(180deg);
+        }
+    </style>
 
     <script>
         // Initialize AOS
@@ -546,106 +591,91 @@
             }
         });
 
-        // Initialize Footer Map
+        // Initialize Footer Map with OpenStreetMap
         function initFooterMap() {
-            const universitas = { lat: -6.2697, lng: 106.8049 }; // Universitas Nasional Jakarta coordinates
+            const universitas = [-6.2383, 106.8437]; // Universitas Nasional Jakarta - Kampus Utama
 
-            const map = new google.maps.Map(document.getElementById('footer-map'), {
-                zoom: 15,
+            // Initialize the map
+            const map = L.map('footer-map', {
                 center: universitas,
-                styles: [
-                    {
-                        "featureType": "all",
-                        "elementType": "labels.text.fill",
-                        "stylers": [{"color": "#ffffff"}]
-                    },
-                    {
-                        "featureType": "all",
-                        "elementType": "labels.text.stroke",
-                        "stylers": [{"color": "#000000"}, {"lightness": 13}]
-                    },
-                    {
-                        "featureType": "administrative",
-                        "elementType": "geometry.fill",
-                        "stylers": [{"color": "#000000"}]
-                    },
-                    {
-                        "featureType": "administrative",
-                        "elementType": "geometry.stroke",
-                        "stylers": [{"color": "#144b53"}, {"lightness": 14}, {"weight": 1.4}]
-                    },
-                    {
-                        "featureType": "landscape",
-                        "elementType": "all",
-                        "stylers": [{"color": "#08304b"}]
-                    },
-                    {
-                        "featureType": "poi",
-                        "elementType": "geometry",
-                        "stylers": [{"color": "#0c4152"}, {"lightness": 5}]
-                    },
-                    {
-                        "featureType": "road.highway",
-                        "elementType": "geometry.fill",
-                        "stylers": [{"color": "#000000"}]
-                    },
-                    {
-                        "featureType": "road.highway",
-                        "elementType": "geometry.stroke",
-                        "stylers": [{"color": "#0b434f"}, {"lightness": 25}]
-                    },
-                    {
-                        "featureType": "road.arterial",
-                        "elementType": "geometry.fill",
-                        "stylers": [{"color": "#000000"}]
-                    },
-                    {
-                        "featureType": "road.arterial",
-                        "elementType": "geometry.stroke",
-                        "stylers": [{"color": "#0b3d51"}, {"lightness": 16}]
-                    },
-                    {
-                        "featureType": "road.local",
-                        "elementType": "geometry",
-                        "stylers": [{"color": "#000000"}]
-                    },
-                    {
-                        "featureType": "transit",
-                        "elementType": "all",
-                        "stylers": [{"color": "#146474"}]
-                    },
-                    {
-                        "featureType": "water",
-                        "elementType": "all",
-                        "stylers": [{"color": "#021019"}]
-                    }
-                ],
-                disableDefaultUI: true,
+                zoom: 17,
                 zoomControl: false,
-                mapTypeControl: false,
-                scaleControl: false,
-                streetViewControl: false,
-                rotateControl: false,
-                fullscreenControl: false
+                attributionControl: true
             });
 
-            const marker = new google.maps.Marker({
-                position: universitas,
-                map: map,
-                title: 'Universitas Nasional Jakarta',
-                icon: {
-                    url: 'data:image/svg+xml;charset=UTF-8,<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="16" fill="%2360a5fa"/><circle cx="16" cy="16" r="8" fill="white"/></svg>',
-                    scaledSize: new google.maps.Size(32, 32)
-                }
+            // Add OpenStreetMap tiles with dark theme
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 19
+            }).addTo(map);
+
+            // Custom marker icon
+            const customIcon = L.divIcon({
+                html: `<div style="
+                    width: 30px;
+                    height: 30px;
+                    background: #60a5fa;
+                    border: 3px solid white;
+                    border-radius: 50%;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: white;
+                    font-weight: bold;
+                    font-size: 16px;
+                ">🏫</div>`,
+                className: 'custom-marker',
+                iconSize: [30, 30],
+                iconAnchor: [15, 15]
             });
 
-            const infoWindow = new google.maps.InfoWindow({
-                content: '<div style="color: #333; font-weight: 600;">Universitas Nasional Jakarta</div>'
+            // Add marker
+            const marker = L.marker(universitas, { icon: customIcon }).addTo(map);
+
+            // Add popup
+            marker.bindPopup(`
+                <div style="color: #333; font-weight: 600; padding: 10px; max-width: 250px;">
+                    <h6 style="margin: 0 0 8px 0; color: #2563eb;">Universitas Nasional Jakarta</h6>
+                    <p style="margin: 0; font-size: 14px; line-height: 1.4;">
+                        Jl. Sawo Manila No.61<br>
+                        Pasar Minggu, Jakarta Selatan<br>
+                        DKI Jakarta 12520
+                    </p>
+                    <div style="margin-top: 10px;">
+                        <a href="https://www.openstreetmap.org/directions?from=&to=${universitas[0]},${universitas[1]}"
+                           target="_blank"
+                           style="color: #2563eb; text-decoration: none; font-size: 12px;">
+                            📍 Get Directions
+                        </a>
+                    </div>
+                </div>
+            `);
+
+            // Auto re-center map on window resize for responsiveness
+            window.addEventListener('resize', () => {
+                setTimeout(() => {
+                    map.setView(universitas, 17);
+                    map.invalidateSize();
+                }, 100);
             });
 
-            marker.addListener('click', () => {
-                infoWindow.open(map, marker);
+            // Auto re-center when map container becomes visible
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            map.setView(universitas, 17);
+                            map.invalidateSize();
+                        }, 200);
+                    }
+                });
             });
+
+            const mapElement = document.getElementById('footer-map');
+            if (mapElement) {
+                observer.observe(mapElement);
+            }
         }
 
         // Visitor Stats Counter
