@@ -1,5 +1,7 @@
 # 🏆 Caturnawa UNAS FEST 2025 - Competition Management System
 
+[![CI/CD Pipeline](https://github.com/el-pablos/caturnawa-uf-2025/actions/workflows/deploy.yml/badge.svg)](https://github.com/el-pablos/caturnawa-uf-2025/actions/workflows/deploy.yml)
+
 <!-- CI/CD Pipeline: Automated deployment enabled via GitHub Actions -->
 
 <div align="center">
