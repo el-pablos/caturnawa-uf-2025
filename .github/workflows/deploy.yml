@@ -1,0 +1,128 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, mysql, gd
+        coverage: none
+        
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Get composer cache directory
+      id: composer-cache
+      run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      
+    - name: Cache composer dependencies
+      uses: actions/cache@v3
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
+        
+    - name: Install PHP dependencies
+      run: composer install --no-dev --optimize-autoloader --no-interaction
+      
+    - name: Install Node.js dependencies
+      run: npm ci
+      
+    - name: Build assets
+      run: npm run build
+      
+    - name: Create deployment archive
+      run: |
+        tar -czf deployment.tar.gz \
+          --exclude='.git' \
+          --exclude='.github' \
+          --exclude='node_modules' \
+          --exclude='tests' \
+          --exclude='.env.example' \
+          --exclude='README.md' \
+          --exclude='*.md' \
+          .
+          
+    - name: Deploy to server
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        port: ${{ secrets.PORT }}
+        script: |
+          # Set variables
+          PROJECT_DIR="/root/work/projek-unasfest/caturnawa-uf-2025"
+          BACKUP_DIR="/root/backups/caturnawa-$(date +%Y%m%d-%H%M%S)"
+          
+          # Create backup
+          echo "Creating backup..."
+          mkdir -p /root/backups
+          cp -r $PROJECT_DIR $BACKUP_DIR
+          
+          # Navigate to project directory
+          cd $PROJECT_DIR
+          
+          # Pull latest changes
+          echo "Pulling latest changes..."
+          git fetch origin
+          git reset --hard origin/master
+          
+          # Install/update dependencies
+          echo "Installing PHP dependencies..."
+          php8.2 /usr/local/bin/composer install --no-dev --optimize-autoloader --no-interaction
+          
+          echo "Installing Node.js dependencies..."
+          npm ci
+          
+          echo "Building assets..."
+          npm run build
+          
+          # Fix permissions
+          echo "Fixing permissions..."
+          chmod 755 /root /root/work /root/work/projek-unasfest
+          chown -R www-data:www-data storage bootstrap/cache
+          chmod -R 775 storage bootstrap/cache
+          mkdir -p storage/framework/views
+          chown -R www-data:www-data storage/framework/views
+          chmod -R 775 storage/framework/views
+          
+          # Clear caches
+          echo "Clearing caches..."
+          rm -rf bootstrap/cache/config.php bootstrap/cache/routes.php bootstrap/cache/services.php
+          rm -rf storage/framework/cache/data/* storage/framework/views/*
+          
+          # Test deployment
+          echo "Testing deployment..."
+          response=$(curl -s -o /dev/null -w "%{http_code}" "https://caturnawa.tams.my.id")
+          if [ "$response" = "200" ]; then
+            echo "✅ Deployment successful! Website is responding correctly (HTTP $response)"
+          else
+            echo "❌ Deployment failed! Website returned HTTP $response"
+            echo "Rolling back..."
+            rm -rf $PROJECT_DIR
+            mv $BACKUP_DIR $PROJECT_DIR
+            exit 1
+          fi
+          
+          # Clean up old backups (keep last 5)
+          echo "Cleaning up old backups..."
+          cd /root/backups
+          ls -t | tail -n +6 | xargs -r rm -rf
+          
+          echo "🚀 Deployment completed successfully!"
