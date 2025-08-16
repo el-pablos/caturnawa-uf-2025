@@ -1,7 +1,7 @@
 <!-- Upload Karya Header -->
 <div class="row mb-4">
     <div class="col-12">
-        <div class="card border-0 bg-gradient" style="background: linear-gradient(135deg, #17a2b8 0%, #138496 100%); box-shadow: 0 4px 12px rgba(23, 162, 184, 0.25);">
+        <div class="card border-0 bg-gradient" style="background: linear-gradient(135deg, #17a2b8 0%, #138496 100%) !important; box-shadow: 0 4px 12px rgba(23, 162, 184, 0.25);">
             <div class="card-body text-white">
                 <div class="row align-items-center">
                     <div class="col-md-8">

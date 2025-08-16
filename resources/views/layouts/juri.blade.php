@@ -126,6 +126,11 @@
             margin-left: 0;
         }
         
+        .juri-sidebar
+        .juri-brand {
+            color: white !important;
+        } 
+
         .juri-navbar {
             background: white;
             border-bottom: 1px solid #bbf7d0;

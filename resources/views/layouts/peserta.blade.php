@@ -144,6 +144,10 @@
             color: var(--peserta-accent) !important;
         }
 
+        .peserta-sidebar .peserta-brand {
+            color: white !important;
+        }
+
         .peserta-content {
             padding: 2rem;
             background: #faf5ff;
