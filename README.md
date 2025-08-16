@@ -1,5 +1,7 @@
 # 🏆 Caturnawa UNAS FEST 2025 - Competition Management System
 
+<!-- CI/CD Pipeline: Automated deployment enabled via GitHub Actions -->
+
 <div align="center">
 
 ![UNAS Fest Logo](https://img.shields.io/badge/🏆%20UNAS%20Fest-2025-ff6b35?style=for-the-badge&logoColor=white)
