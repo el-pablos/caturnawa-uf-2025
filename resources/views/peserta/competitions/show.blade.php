@@ -468,8 +468,17 @@
                         <h6>Informasi Tim</h6>
                         <div class="mb-3">
                             <label for="team_name" class="form-label">Nama Tim <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="team_name" name="team_name" 
-                                   value="{{ old('team_name') }}" required>
+                            <input type="text" class="form-control @error('team_name') is-invalid @enderror" id="team_name" name="team_name" 
+                                   value="{{ old('team_name') }}" required maxlength="100" 
+                                   placeholder="Masukkan nama tim yang unik dan menarik">
+                            @error('team_name')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                            <small class="form-text text-muted">
+                                <i class="bi bi-info-circle me-1"></i>Nama tim harus unik dan maksimal 100 karakter
+                            </small>
                         </div>
                         
                         <div id="team-members">
