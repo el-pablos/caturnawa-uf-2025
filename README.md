@@ -2,6 +2,7 @@
 
 [![CI/CD Pipeline](https://github.com/el-pablos/caturnawa-uf-2025/actions/workflows/deploy.yml/badge.svg)](https://github.com/el-pablos/caturnawa-uf-2025/actions/workflows/deploy.yml)
 [![Node.js Version](https://img.shields.io/badge/Node.js-v20-green.svg)](https://nodejs.org/)
+[![Deployment Status](https://img.shields.io/badge/Deployment-Automated-blue.svg)](https://caturnawa.tams.my.id)
 
 <!-- CI/CD Pipeline: Automated deployment enabled via GitHub Actions -->
 
