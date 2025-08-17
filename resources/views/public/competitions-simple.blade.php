@@ -284,9 +284,31 @@
                     <h1 class="modern-title mb-4 w-auto">
                         Competitions <span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"> Caturnawa UNAS FEST 2025</span>
                     </h1>
-                    <p class="modern-subtitle mb-5">Join Indonesia's largest national competition</p>
+                    <p class="modern-subtitle mb-5">Join Indonesia's largest national academic competition</p>
                     <hr class="my-4">
-                    <p>Three competition categories: Technology, Health, and Biodiversity await!</p>
+                    <div class="row text-center text-white">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <i class="bi bi-chat-square-text" style="font-size: 2rem;"></i>
+                                <h5 class="mt-2">Debate Competition</h5>
+                                <p class="small">KDBI & EDC</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <i class="bi bi-camera-video" style="font-size: 2rem;"></i>
+                                <h5 class="mt-2">Digital Content</h5>
+                                <p class="small">Short Video & Infographics</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <i class="bi bi-journal-text" style="font-size: 2rem;"></i>
+                                <h5 class="mt-2">Scientific Paper</h5>
+                                <p class="small">Research Competition</p>
+                            </div>
+                        </div>
+                    </div>
                     <a class="btn modern-btn btn-auto w-auto"
                        href="#competitions-list"
                        role="button">
@@ -350,6 +372,89 @@
                 </div>
             </div>
         </div>
+
+        <!-- Filters Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <form method="GET" action="{{ route('public.competitions') }}" class="row g-3" id="filterForm">
+                            <div class="col-md-3">
+                                <label for="category" class="form-label"><i class="bi bi-funnel"></i> Category</label>
+                                <select class="form-select" id="category" name="category" onchange="document.getElementById('filterForm').submit();">
+                                    @foreach($categories as $value => $label)
+                                        <option value="{{ $value }}" {{ $category == $value ? 'selected' : '' }}>
+                                            {{ $label }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="status" class="form-label"><i class="bi bi-clock"></i> Status</label>
+                                <select class="form-select" id="status" name="status" onchange="document.getElementById('filterForm').submit();">
+                                    <option value="all" {{ $status == 'all' ? 'selected' : '' }}>All Status</option>
+                                    <option value="open" {{ $status == 'open' ? 'selected' : '' }}>Open Registration</option>
+                                    <option value="upcoming" {{ $status == 'upcoming' ? 'selected' : '' }}>Upcoming</option>
+                                    <option value="closed" {{ $status == 'closed' ? 'selected' : '' }}>Registration Closed</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="search" class="form-label"><i class="bi bi-search"></i> Search</label>
+                                <input type="text" class="form-control" id="search" name="search" 
+                                       value="{{ $search }}" placeholder="Search competition name or description...">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">&nbsp;</label>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="bi bi-search"></i> Search
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        
+                        @if($category || $status != 'all' || $search)
+                        <div class="mt-3">
+                            <a href="{{ route('public.competitions') }}" class="btn btn-outline-secondary btn-sm">
+                                <i class="bi bi-x-circle"></i> Clear Filters
+                            </a>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card bg-primary text-white h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-trophy" style="font-size: 2rem;"></i>
+                        <h3 class="mt-2">{{ $stats['total_competitions'] }}</h3>
+                        <p class="mb-0">Total Competitions</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-success text-white h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-door-open" style="font-size: 2rem;"></i>
+                        <h3 class="mt-2">{{ $stats['open_registrations'] }}</h3>
+                        <p class="mb-0">Open Registrations</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-warning text-white h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-calendar-event" style="font-size: 2rem;"></i>
+                        <h3 class="mt-2">{{ $stats['upcoming_competitions'] }}</h3>
+                        <p class="mb-0">Coming Soon</p>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             @foreach($competitions as $competition)
             <div class="col-lg-6 col-md-12 mb-4" data-aos="fade-up" data-aos-delay="{{ ($loop->index % 4) * 150 }}">
@@ -360,17 +465,109 @@
                         </h5>
                     </div>
                     <div class="card-body p-4">
-                        <div class="row align-items-center">
-                            <div class="col-md-8">
-                                <p class="card-text mb-3 mb-md-0" style="text-align: justify;">{{ Str::limit($competition->description, 150) }}</p>
-                            </div>
-                            <div class="col-md-4 text-center">
-                                <div class="border-md-start ps-md-3">
-                                    <i class="bi bi-calendar-event text-success d-block mb-2" style="font-size: 1.75rem;"></i>
-                                    <small class="text-muted d-block">Registration</small>
-                                    <div class="fw-bold">{{ $competition->registration_start->format('d M') }} - {{ $competition->registration_end->format('d M') }}</div>
+                        <!-- Competition Description -->
+                        <p class="card-text mb-3" style="text-align: justify;">{{ Str::limit($competition->description, 150) }}</p>
+                        
+                        <!-- Competition Details Grid -->
+                        <div class="row g-3 mb-3">
+                            <!-- Registration Period -->
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-calendar-event text-primary me-2"></i>
+                                    <div>
+                                        <small class="text-muted d-block">Registration Period</small>
+                                        <div class="fw-bold small">{{ $competition->registration_start->format('d M') }} - {{ $competition->registration_end->format('d M') }}</div>
+                                    </div>
                                 </div>
                             </div>
+                            
+                            <!-- Team Structure -->
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-people text-info me-2"></i>
+                                    <div>
+                                        <small class="text-muted d-block">Team Structure</small>
+                                        <div class="fw-bold small">
+                                            @if($competition->is_team_competition)
+                                                {{ $competition->min_team_members }} {{ $competition->min_team_members == $competition->max_team_members ? 'members' : '- ' . $competition->max_team_members . ' members' }}
+                                            @else
+                                                Individual
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Current Pricing -->
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-cash text-success me-2"></i>
+                                    <div>
+                                        <small class="text-muted d-block">Current Price</small>
+                                        <div class="fw-bold small">
+                                            @php
+                                                $now = now();
+                                                $currentPrice = $competition->price; // default to regular price
+                                                $priceLabel = 'Regular';
+                                                
+                                                if($now <= $competition->early_bird_deadline) {
+                                                    $currentPrice = $competition->early_bird_price;
+                                                    $priceLabel = 'Early Bird';
+                                                } elseif($now <= $competition->phase1_deadline) {
+                                                    $currentPrice = $competition->phase1_price ?? $competition->price;
+                                                    $priceLabel = 'Phase 1';
+                                                }
+                                            @endphp
+                                            Rp {{ number_format($currentPrice, 0, ',', '.') }}
+                                            <span class="badge bg-warning text-dark ms-1">{{ $priceLabel }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Competition Status -->
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-circle-fill me-2 
+                                        @if($competition->registration_start <= now() && $competition->registration_end >= now()) text-success
+                                        @elseif($competition->registration_start > now()) text-warning
+                                        @else text-danger
+                                        @endif
+                                    "></i>
+                                    <div>
+                                        <small class="text-muted d-block">Status</small>
+                                        <div class="fw-bold small">
+                                            @if($competition->registration_start <= now() && $competition->registration_end >= now())
+                                                Open Registration
+                                            @elseif($competition->registration_start > now())
+                                                Coming Soon
+                                            @else
+                                                Registration Closed
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Competition Category Badge -->
+                        <div class="mb-3">
+                            @php
+                                $categoryColors = [
+                                    'event_debate' => 'bg-info',
+                                    'event_dcc' => 'bg-success', 
+                                    'event_scientific_paper' => 'bg-primary'
+                                ];
+                                $categoryIcons = [
+                                    'event_debate' => 'bi-chat-square-text',
+                                    'event_dcc' => 'bi-camera-video',
+                                    'event_scientific_paper' => 'bi-journal-text'
+                                ];
+                            @endphp
+                            <span class="badge {{ $categoryColors[$competition->category] ?? 'bg-secondary' }} p-2">
+                                <i class="{{ $categoryIcons[$competition->category] ?? 'bi-trophy' }} me-1"></i>
+                                {{ $categories[$competition->category] ?? $competition->category }}
+                            </span>
                         </div>
                     </div>
                     <div class="card-footer bg-light">

@@ -82,23 +82,75 @@ class PublicController extends Controller
     /**
      * Display competitions page
      */
-    public function competitions()
+    public function competitions(Request $request)
     {
-        // Get active competitions with pagination for the original beautiful view
-        $competitions = Competition::active()
+        // Get filter parameters
+        $category = $request->get('category');
+        $status = $request->get('status');
+        $search = $request->get('search');
+
+        // Start with active competitions query
+        $query = Competition::active()
             ->with(['registrations' => function($query) {
                 $query->where('status', 'confirmed');
-            }])
-            ->orderBy('registration_start', 'asc')
-            ->paginate(12);
+            }]);
+
+        // Apply category filter
+        if ($category && $category !== 'all') {
+            $query->where('category', $category);
+        }
+
+        // Apply status filter
+        if ($status && $status !== 'all') {
+            $now = now();
+            switch ($status) {
+                case 'open':
+                    $query->where('registration_start', '<=', $now)
+                          ->where('registration_end', '>=', $now);
+                    break;
+                case 'upcoming':
+                    $query->where('registration_start', '>', $now);
+                    break;
+                case 'closed':
+                    $query->where('registration_end', '<', $now);
+                    break;
+            }
+        }
+
+        // Apply search filter
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('name_en', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%")
+                  ->orWhere('description_en', 'like', "%{$search}%");
+            });
+        }
+
+        $competitions = $query->orderBy('registration_start', 'asc')->paginate(12);
+
+        // Get all categories for filter dropdown
+        $categories = [
+            'all' => 'All Categories',
+            'event_debate' => 'Debate Competition',
+            'event_dcc' => 'Digital Content Competition',
+            'event_scientific_paper' => 'Scientific Paper Competition'
+        ];
 
         // Get statistics for the stats section (from all competitions)
         $allCompetitions = Competition::active()->get();
         $stats = [
             'total_competitions' => $allCompetitions->count(),
+            'open_registrations' => $allCompetitions->filter(function($comp) {
+                $now = now();
+                return $comp->registration_start <= $now && $comp->registration_end >= $now;
+            })->count(),
+            'upcoming_competitions' => $allCompetitions->filter(function($comp) {
+                return $comp->registration_start > now();
+            })->count(),
         ];
 
-        return view('public.competitions-simple', compact('competitions', 'stats'));
+        return view('public.competitions-simple', compact('competitions', 'stats', 'categories', 'category', 'status', 'search'));
     }
 
     /**
