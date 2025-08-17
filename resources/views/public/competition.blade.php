@@ -3,9 +3,9 @@
 @php
     $seoPage = 'competition';
     $seoData = [
-        'title' => $competition->name . ' - Caturnawa UNAS FEST 2025',
-        'description' => $competition->description,
-        'keywords' => 'kompetisi ' . strtolower($competition->category ?? 'umum') . ', ' . strtolower($competition->name) . ', Caturnawa UNAS FEST 2025',
+        'title' => ($competition->name_en ?? $competition->name) . ' - Caturnawa UNAS FEST 2025',
+        'description' => $competition->description_en ?? $competition->description,
+        'keywords' => 'competition ' . strtolower($competition->category ?? 'general') . ', ' . strtolower($competition->name_en ?? $competition->name) . ', Caturnawa UNAS FEST 2025',
         'og_image' => $competition->image ? asset('storage/' . $competition->image) : null,
     ];
 @endphp
@@ -304,7 +304,7 @@
 </style>
 @endpush
 
-@section('title', $competition->name . ' - Caturnawa UNAS FEST 2025')
+@section('title', ($competition->name_en ?? $competition->name) . ' - Caturnawa UNAS FEST 2025')
 
 @section('content')
 <div class="container my-5">
@@ -319,7 +319,7 @@
             <li class="breadcrumb-item">
                 <a href="{{ route('public.competitions') }}">Competitions</a>
             </li>
-            <li class="breadcrumb-item active">{{ $competition->name }}</li>
+            <li class="breadcrumb-item active">{{ $competition->name_en ?? $competition->name }}</li>
         </ol>
     </nav>
 
@@ -335,10 +335,10 @@
                         <i class="bi bi-trophy" style="font-size: 4rem;"></i>
                     </div>                 
                     <h1 class="modern-title mb-3">
-                        {{ $competition->name }} - <span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Caturnawa UNAS FEST 2025</span>
+                        {{ $competition->name_en ?? $competition->name }} - <span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Caturnawa UNAS FEST 2025</span>
                     </h1>
                     <p class="modern-subtitle mb-4">
-                        {{ $competition->description ?? 'Innovative competition that challenges participants\' creativity and abilities.' }}
+                        {{ $competition->description_en ?? $competition->description ?? 'Innovative competition that challenges participants\' creativity and abilities.' }}
                     </p>
 
                     @if($competition->theme)
@@ -519,7 +519,7 @@
                                     </div>
                                     <div class="timeline-details">
                                         <h5 class="event-title text-info">Webinar & Technical Meeting</h5>
-                                        <p class="event-description">Tips and tricks for debate competitions via Zoom</p>
+                                        <p class="event-description">Tips and tricks for event design competitions via Zoom</p>
                                         <span class="badge bg-info">Upcoming</span>
                                     </div>
                                 </div>
@@ -1151,7 +1151,7 @@
         <div class="col-12">
             <div class="card shadow">
                 <div class="card-header bg-primary text-white text-center">
-                    <h3 class="card-title mb-0">Join {{ $competition->name }}</h3>
+                    <h3 class="card-title mb-0">Join {{ $competition->name_en ?? $competition->name }}</h3>
                     <p class="mb-0">Don't miss this golden opportunity to showcase your best abilities!</p>
                 </div>
                 <div class="card-body text-center">
