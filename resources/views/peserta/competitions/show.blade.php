@@ -300,7 +300,7 @@
         <!-- Competition Stats -->
         <div class="peserta-card mb-4">
             <div class="card-header">
-                <h6 class="mb-0 text-primary">
+                <h6 class="text-white mb-0">
                     <i class="bi bi-graph-up me-2"></i>Statistik Kompetisi
                 </h6>
             </div>
@@ -325,7 +325,7 @@
         <!-- Important Dates -->
         <div class="peserta-card">
             <div class="card-header">
-                <h6 class="mb-0 text-success">
+                <h6 class="text-white mb-0">
                     <i class="bi bi-calendar-event me-2"></i>Tanggal Penting
                 </h6>
             </div>
@@ -548,11 +548,18 @@
 
 .timeline-marker {
     position: absolute;
-    left: -35px;
-    top: 5px;
-    width: 12px;
-    height: 12px;
+    left: -42px;
+    top: 0;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.timeline-marker i {
+    font-size: 14px;
 }
 
 .timeline::before {

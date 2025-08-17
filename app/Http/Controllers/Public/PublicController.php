@@ -439,57 +439,57 @@ class PublicController extends Controller
     {
         $this->seoService->setCustomData([
             'title' => 'FAQ - Frequently Asked Questions | Caturnawa UNAS FEST 2025',
-            'description' => 'Temukan jawaban untuk pertanyaan yang sering diajukan seputar Caturnawa UNAS FEST 2025.',
+            'description' => 'Find answers to frequently asked questions about the Caturnawa UNAS FEST 2025.',
         ]);
 
         $faqs = [
             [
-                'question' => 'Bagaimana cara mendaftar kompetisi?',
-                'answer' => 'Anda dapat mendaftar melalui halaman kompetisi dengan mengklik tombol "Daftar Sekarang" pada kategori yang diminati. Pastikan Anda sudah membuat akun dan login terlebih dahulu.'
+                'question' => 'How do I register for the competition?',
+                'answer' => 'You can register through the competition page by clicking the "Register Now" button in the desired category. Make sure you have created an account and are logged in.'
             ],
             [
-                'question' => 'Apakah ada biaya pendaftaran?',
-                'answer' => 'Biaya pendaftaran bervariasi tergantung kategori kompetisi. Informasi lengkap dapat dilihat di halaman detail kompetisi. Pembayaran dapat dilakukan melalui berbagai metode yang tersedia.'
+                'question' => 'Is there a registration fee?',
+                'answer' => 'The registration fee varies depending on the competition category. Complete information can be found on the competition detail page. Payment can be made through various available methods.'
             ],
             [
-                'question' => 'Siapa saja yang bisa mengikuti Caturnawa UNAS FEST 2025?',
-                'answer' => 'Caturnawa UNAS FEST 2025 terbuka untuk seluruh mahasiswa aktif di universitas/institusi pendidikan tinggi di Indonesia. Peserta harus menunjukkan bukti status mahasiswa aktif saat pendaftaran.'
+                'question' => 'Who can participate in the Caturnawa UNAS FEST 2025?',
+                'answer' => 'The Caturnawa UNAS FEST 2025 is open to all active students at universities/higher education institutions in Indonesia. Participants must show proof of active student status upon registration.'
             ],
             [
-                'question' => 'Berapa total hadiah yang tersedia?',
-                'answer' => 'Total hadiah Caturnawa UNAS FEST 2025 mencapai 500 juta rupiah yang tersebar di berbagai kategori kompetisi: Teknologi, Kesehatan, dan Biodiversitas.'
+                'question' => 'What is the total prize money available?',
+                'answer' => 'The total prize for the Caturnawa UNAS FEST 2025 reaches 500 million rupiah, distributed across various competition categories: Technology, Health, and Biodiversity.'
             ],
             [
-                'question' => 'Apakah boleh mendaftar lebih dari satu kompetisi?',
-                'answer' => 'Ya, peserta diperbolehkan mendaftar di beberapa kategori kompetisi sekaligus. Namun pastikan Anda dapat mengikuti semua kompetisi yang didaftarkan dengan baik.'
+                'question' => 'Can I register for more than one competition?',
+                'answer' => 'Yes, participants are allowed to register in multiple competition categories at once. However, make sure you can participate in all registered competitions properly.'
             ],
             [
-                'question' => 'Bagaimana format kompetisi yang akan diselenggarakan?',
-                'answer' => 'Kompetisi dilaksanakan secara hybrid (online dan offline). Tahap awal berupa seleksi berkas online, kemudian dilanjutkan dengan presentasi dan penjurian di kampus UNAS Jakarta.'
+                'question' => 'What is the format of the competition?',
+                'answer' => 'The competition is held in a hybrid format (online and offline). The initial stage is an online file selection, followed by presentations and judging at the UNAS Jakarta campus.'
             ],
             [
-                'question' => 'Kapan deadline pendaftaran?',
-                'answer' => 'Deadline pendaftaran berbeda untuk setiap kategori kompetisi. Silakan cek halaman detail kompetisi untuk informasi tanggal yang tepat. Kami sarankan untuk mendaftar lebih awal.'
+                'question' => 'When is the registration deadline?',
+                'answer' => 'The registration deadline varies for each competition category. Please check the competition detail page for the exact dates. We recommend registering early.'
             ],
             [
-                'question' => 'Apakah ada akomodasi untuk peserta dari luar Jakarta?',
-                'answer' => 'Tim panitia akan membantu mencarikan informasi akomodasi terdekat dengan harga terjangkau. Untuk informasi lebih lanjut, silakan hubungi tim kami melalui WhatsApp atau email.'
+                'question' => 'Is accommodation provided for participants from outside Jakarta?',
+                'answer' => 'The committee will help find information on nearby affordable accommodation. For more information, please contact our team via WhatsApp or email.'
             ],
             [
-                'question' => 'Bagaimana cara mengetahui status pendaftaran saya?',
-                'answer' => 'Setelah login ke akun Anda, masuk ke dashboard peserta untuk melihat status semua pendaftaran kompetisi. Anda juga akan menerima notifikasi email untuk setiap perubahan status.'
+                'question' => 'How can I check my registration status?',
+                'answer' => 'After logging into your account, go to the participant dashboard to see the status of all your competition registrations. You will also receive email notifications for any status changes.'
             ],
             [
-                'question' => 'Apa yang harus disiapkan untuk kompetisi?',
-                'answer' => 'Persiapan berbeda untuk setiap kategori. Secara umum: proposal/karya ilmiah, materi presentasi, dan dokumen pendukung lainnya. Detail lengkap tersedia di guidebook yang akan dikirimkan setelah pendaftaran dikonfirmasi.'
+                'question' => 'What should I prepare for the competition?',
+                'answer' => 'Preparation varies for each category. In general: a proposal/scientific paper, presentation materials, and other supporting documents. Full details are available in the guidebook which will be sent after registration is confirmed.'
             ],
             [
-                'question' => 'Apakah ada sertifikat untuk peserta?',
-                'answer' => 'Ya, semua peserta yang mengikuti kompetisi hingga selesai akan mendapatkan sertifikat partisipasi. Pemenang akan mendapatkan sertifikat khusus dan trophy.'
+                'question' => 'Will participants receive a certificate?',
+                'answer' => 'Yes, all participants who complete the competition will receive a certificate of participation. Winners will receive a special certificate and a trophy.'
             ],
             [
-                'question' => 'Bagaimana jika ingin membatalkan pendaftaran?',
-                'answer' => 'Pembatalan pendaftaran dapat dilakukan melalui dashboard peserta atau dengan menghubungi tim kami. Syarat dan ketentuan refund dapat dilihat di halaman terms of service.'
+                'question' => 'What if I want to cancel my registration?',
+                'answer' => 'Registration can be canceled through the participant dashboard or by contacting our team. The terms and conditions for a refund can be found on the terms of service page.'
             ]
         ];
 

@@ -137,6 +137,17 @@
         0% { transform: translateY(0) rotate(0deg); opacity: 1; }
         100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; }
     }
+    .floating-trophy {
+        font-size: 4rem;
+        animation: floatTrophy 3s ease-in-out infinite;
+        filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+    }
+
+    @keyframes floatTrophy {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-15px) rotate(5deg); }
+    }
+
     @media (max-width: 768px) {
         .modern-title {
             font-size: 2.5rem;
@@ -286,6 +297,9 @@
         .event-title {
             font-size: 1.1rem;
         }
+        .floating-trophy {
+            font-size: 3rem;
+        }
     }
 </style>
 @endpush
@@ -316,9 +330,12 @@
                 <ul class="bubbles">
                     @for ($i = 0; $i < 10; $i++) <li></li> @endfor
                 </ul>
-                <div class="hero-content text-center">
+                <div class="hero-content text-center">  
+                    <div class="floating-trophy mb-4">
+                        <i class="bi bi-trophy" style="font-size: 4rem;"></i>
+                    </div>                 
                     <h1 class="modern-title mb-3">
-                        <i class="bi bi-trophy"></i> {{ $competition->name }}
+                        {{ $competition->name }} - <span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Caturnawa UNAS FEST 2025</span>
                     </h1>
                     <p class="modern-subtitle mb-4">
                         {{ $competition->description ?? 'Innovative competition that challenges participants\' creativity and abilities.' }}

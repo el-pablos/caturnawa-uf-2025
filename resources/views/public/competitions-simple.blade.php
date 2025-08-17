@@ -281,8 +281,8 @@
                     @for ($i = 0; $i < 10; $i++) <li></li> @endfor
                 </ul>
                 <div class="hero-content text-center">
-                    <h1 class="modern-title mb-4">
-                        COMPETITIONS<span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"> UNAS FEST 2025</span>
+                    <h1 class="modern-title mb-4 w-auto">
+                        Competitions <span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"> Caturnawa UNAS FEST 2025</span>
                     </h1>
                     <p class="modern-subtitle mb-5">Join Indonesia's largest national competition</p>
                     <hr class="my-4">

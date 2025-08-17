@@ -406,7 +406,7 @@
                                             <div class="col-md-4 mb-3">
                                                 <i class="bi bi-telephone text-success" style="font-size: 1.5rem;"></i>
                                                 <p class="small mb-1"><strong>Phone</strong></p>
-                                                <p class="small mb-0">+62 21 7806700</p>
+                                                <p class="small mb-0">+62 882-1944-5100</p>
                                             </div>
                                             <div class="col-md-4 mb-3">
                                                 <i class="bi bi-geo-alt text-danger" style="font-size: 1.5rem;"></i>

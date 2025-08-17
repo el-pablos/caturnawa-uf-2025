@@ -203,7 +203,7 @@
                         <i class="bi bi-trophy"></i>
                     </div>
                     <h1 class="modern-title mb-4">
-                        Leaderboard <span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"> UNAS FEST 2025</span>
+                        Leaderboard <span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"> Caturnawa UNAS FEST 2025</span>
                     </h1>
                     <p class="modern-subtitle mb-5">
                         View the latest rankings of UNAS FEST 2025 competition participants.
