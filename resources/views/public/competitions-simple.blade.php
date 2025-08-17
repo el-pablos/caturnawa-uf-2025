@@ -381,7 +381,7 @@
                         <form method="GET" action="{{ route('public.competitions') }}" class="row g-3" id="filterForm">
                             <div class="col-md-3">
                                 <label for="category" class="form-label"><i class="bi bi-funnel"></i> Category</label>
-                                <select class="form-select" id="category" name="category" onchange="document.getElementById('filterForm').submit();">
+                                <select class="form-select" id="category" name="category">
                                     @foreach($categories as $value => $label)
                                         <option value="{{ $value }}" {{ $category == $value ? 'selected' : '' }}>
                                             {{ $label }}
@@ -391,7 +391,7 @@
                             </div>
                             <div class="col-md-3">
                                 <label for="status" class="form-label"><i class="bi bi-clock"></i> Status</label>
-                                <select class="form-select" id="status" name="status" onchange="document.getElementById('filterForm').submit();">
+                                <select class="form-select" id="status" name="status">
                                     <option value="all" {{ $status == 'all' ? 'selected' : '' }}>All Status</option>
                                     <option value="open" {{ $status == 'open' ? 'selected' : '' }}>Open Registration</option>
                                     <option value="upcoming" {{ $status == 'upcoming' ? 'selected' : '' }}>Upcoming</option>
@@ -401,13 +401,14 @@
                             <div class="col-md-4">
                                 <label for="search" class="form-label"><i class="bi bi-search"></i> Search</label>
                                 <input type="text" class="form-control" id="search" name="search" 
-                                       value="{{ $search }}" placeholder="Search competition name or description...">
+                                       value="{{ $search }}" placeholder="Search competition name or description..."
+                                       onkeypress="if(event.key==='Enter') document.getElementById('filterForm').submit();">
                             </div>
                             <div class="col-md-2">
                                 <label class="form-label">&nbsp;</label>
                                 <div class="d-grid">
                                     <button type="submit" class="btn btn-primary">
-                                        <i class="bi bi-search"></i> Search
+                                        <i class="bi bi-search"></i> Apply Filters
                                     </button>
                                 </div>
                             </div>
