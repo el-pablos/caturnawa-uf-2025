@@ -282,57 +282,130 @@
         @if($competitions && $competitions->count() > 0)
             <div class="row mt-5">
                 <div class="col-12">
-                    <h2 class="text-center mb-4 fw-bold" style="color: #667eea;">UNAS FEST Competitions</h2>
+                    <h2 class="text-center mb-4 fw-bold" style="color: #667eea;">
+                        <i class="bi bi-trophy me-2"></i>UNAS FEST 2025 Competitions
+                    </h2>
+                    <p class="text-center text-muted mb-4">Explore our diverse range of academic competitions</p>
                 </div>
             </div>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 @foreach($competitions as $index => $competition)
                 <div class="col">
-                    <div class="card h-100 bg-white rounded-3 shadow-sm">
-                        <div class="card-body p-4">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <h5 class="card-title fw-bold text-primary mb-0">{{ $competition->name ?? 'Competition' }}</h5>
+                    <div class="card h-100 bg-white rounded-3 shadow-sm border-0">
+                        <!-- Competition Header -->
+                        <div class="card-header border-0 bg-transparent">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="flex-grow-1">
+                                    <h5 class="card-title fw-bold text-primary mb-1">{{ $competition->name ?? 'Competition' }}</h5>
+                                    @php
+                                        $categoryIcons = [
+                                            'event_debate' => 'bi-chat-square-text',
+                                            'event_dcc' => 'bi-camera-video',
+                                            'event_scientific_paper' => 'bi-journal-text'
+                                        ];
+                                        $categoryColors = [
+                                            'event_debate' => 'text-info',
+                                            'event_dcc' => 'text-success', 
+                                            'event_scientific_paper' => 'text-primary'
+                                        ];
+                                    @endphp
+                                    <small class="text-muted">
+                                        <i class="{{ $categoryIcons[$competition->category] ?? 'bi-trophy' }} {{ $categoryColors[$competition->category] ?? 'text-secondary' }} me-1"></i>
+                                        {{ ucfirst(str_replace(['event_', '_'], ['', ' '], $competition->category)) }}
+                                    </small>
+                                </div>
                                 @if(($competition->is_active ?? false) && $competition->registration_start && $competition->registration_end && now()->between($competition->registration_start, $competition->registration_end))
-                                    <span class="badge bg-success">Active</span>
+                                    <span class="badge bg-success">Open</span>
                                 @elseif($competition->registration_start && now()->lt($competition->registration_start))
-                                    <span class="badge bg-warning">Not Open Yet</span>
+                                    <span class="badge bg-warning text-dark">Soon</span>
                                 @elseif($competition->registration_end && now()->gt($competition->registration_end))
                                     <span class="badge bg-secondary">Closed</span>
                                 @else
-                                    <span class="badge bg-danger">Not Active</span>
+                                    <span class="badge bg-danger">Inactive</span>
                                 @endif
                             </div>
-                            <p class="card-text text-muted mb-3">{{ Str::limit($competition->description ?? 'No description available', 100) }}</p>
-                            @if($competition->registration_start && $competition->registration_end)
-                            <div class="mb-2">
-                                <small class="text-muted">
-                                    <i class="bi bi-calendar text-primary me-1"></i>
-                                    Registration: {{ $competition->registration_start->format('d M') }} - {{ $competition->registration_end->format('d M Y') }}
-                                </small>
-                            </div>
-                            @endif
-                            <div class="mb-3">
-                                <small class="text-muted">
-                                    <i class="bi bi-tag text-primary me-1"></i>
-                                    {{ $competition->category ?? 'General' }}
-                                </small>
+                        </div>
+                        
+                        <div class="card-body p-4 pt-0">
+                            <p class="card-text text-muted mb-3">{{ Str::limit($competition->description ?? 'No description available', 120) }}</p>
+                            
+                            <!-- Competition Info Grid -->
+                            <div class="row g-2 mb-3">
+                                @if($competition->registration_start && $competition->registration_end)
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-calendar-event text-primary me-2"></i>
+                                        <small class="text-muted">
+                                            {{ $competition->registration_start->format('d M') }} - {{ $competition->registration_end->format('d M Y') }}
+                                        </small>
+                                    </div>
+                                </div>
+                                @endif
+                                
+                                <div class="col-6">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-people text-info me-2"></i>
+                                        <small class="text-muted">
+                                            @if($competition->is_team_competition)
+                                                {{ $competition->min_team_members }}{{ $competition->min_team_members != $competition->max_team_members ? '-' . $competition->max_team_members : '' }} members
+                                            @else
+                                                Individual
+                                            @endif
+                                        </small>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-6">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-cash text-success me-2"></i>
+                                        <small class="text-muted">
+                                            @php
+                                                $now = now();
+                                                $currentPrice = $competition->price;
+                                                if($now <= $competition->early_bird_deadline) {
+                                                    $currentPrice = $competition->early_bird_price;
+                                                } elseif($now <= $competition->phase1_deadline) {
+                                                    $currentPrice = $competition->phase1_price ?? $competition->price;
+                                                }
+                                            @endphp
+                                            Rp {{ number_format($currentPrice, 0, ',', '.') }}
+                                        </small>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="card-footer bg-transparent border-0">
-                            @if($competition->slug)
-                            <a href="{{ route('public.competition.detail', $competition->slug) }}"
-                               class="btn btn-primary rounded-3 px-4 py-2 d-flex align-items-center justify-content-center">
-                                View Details
-                            </a>
-                            @else
-                            <span class="btn btn-secondary rounded-3 px-4 py-2 disabled">
-                                Details Not Available
-                            </span>
-                            @endif
+                        
+                        <div class="card-footer bg-transparent border-0 p-4 pt-0">
+                            <div class="d-grid gap-2">
+                                @if($competition->slug)
+                                <a href="{{ route('public.competition.detail', $competition->slug) }}"
+                                   class="btn btn-outline-primary rounded-3">
+                                    <i class="bi bi-eye me-1"></i> View Details
+                                </a>
+                                @if(($competition->is_active ?? false) && $competition->registration_start && $competition->registration_end && now()->between($competition->registration_start, $competition->registration_end))
+                                <a href="{{ route('register') }}" class="btn btn-success rounded-3">
+                                    <i class="bi bi-person-plus me-1"></i> Register Now
+                                </a>
+                                @endif
+                                @else
+                                <span class="btn btn-secondary rounded-3 disabled">
+                                    Details Not Available
+                                </span>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
                 @endforeach
+            </div>
+            
+            <!-- View All Competitions Button -->
+            <div class="row mt-4">
+                <div class="col-12 text-center">
+                    <a href="{{ route('public.competitions') }}" class="btn btn-primary btn-lg rounded-pill px-5">
+                        <i class="bi bi-trophy me-2"></i>View All Competitions
+                    </a>
+                </div>
             </div>
         @else
             <div class="row mt-5">
