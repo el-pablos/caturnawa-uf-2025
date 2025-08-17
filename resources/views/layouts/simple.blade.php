@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
@@ -21,16 +21,28 @@
     <!-- Structured Data (JSON-LD) -->
     {!! $seo->generateStructuredData() !!}
     
+    <!-- Resource hints for better performance -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="//code.jquery.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    
     <!-- Preload critical resources -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"></noscript>
+    
+    <!-- Preload critical Bootstrap and Icons -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" as="style">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" as="style">
 
     <!-- Bootstrap CSS with integrity -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet" crossorigin="anonymous">
     
-    <!-- SweetAlert2 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
+    <!-- SweetAlert2 CSS - Load asynchronously -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css"></noscript>
     
     <style>
         :root {
@@ -51,6 +63,12 @@
             font-display: swap;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+        
+        /* Critical CSS for LCP optimization */
+        .modern-hero, .hero-content, .modern-title {
+            contain: layout style paint;
         }
 
         .navbar {
@@ -695,7 +713,7 @@
                     </li>
                     <li class="nav-item"  data-aos="fade-down">
                         <a class="nav-link {{ request()->routeIs('public.about') ? 'active' : '' }}" href="{{ route('public.about') }}">
-                            <i class="bi bi-info-circle me-1"></i>About
+                            <i class="bi bi-info-circle me-1"></i>About Us
                         </a>
                     </li>
                     <li class="nav-item"  data-aos="fade-down">
@@ -710,7 +728,7 @@
                     @auth
                         <div class="text-center mb-3">
                             <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=2563eb&color=fff&size=48"
-                                 alt="Avatar" class="rounded-circle mb-2" width="48" height="48">
+                                 alt="Avatar" class="rounded-circle mb-2" width="48" height="48" loading="lazy">
                             <div class="fw-bold">{{ Auth::user()->name }}</div>
                             <div class="small text-muted">{{ ucfirst(Auth::user()->role) }}</div>
                         </div>
@@ -743,7 +761,7 @@
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=2563eb&color=fff&size=40"
-                                 alt="Avatar" class="rounded-circle me-2" width="40" height="40">
+                                 alt="Avatar" class="rounded-circle me-2" width="40" height="40" loading="lazy">
                             <div class="text-start">
                                 <div class="fw-bold">{{ Auth::user()->name }}</div>
                                 <div class="small text-muted">{{ ucfirst(Auth::user()->role) }}</div>
@@ -814,9 +832,9 @@
                             <ul>
                                 <li><a href="{{ route('public.competition.detail', 'kdbi-2025') }}"><i class="bi bi-chat-square-text"></i>KDBI</a></li>
                                 <li><a href="{{ route('public.competition.detail', 'edc-2025') }}"><i class="bi bi-globe"></i>EDC</a></li>
-                                <li><a href="{{ route('public.competition.detail', 'short-movie-2025') }}"><i class="bi bi-camera-video"></i>Short Movie</a></li>
-                                <li><a href="{{ route('public.competition.detail', 'infografis-2025') }}"><i class="bi bi-bar-chart"></i>Infographics</a></li>
-                                <li><a href="{{ route('public.competition.detail', 'spc-2025') }}"><i class="bi bi-journal-text"></i>Scientific Work</a></li>
+                                <li><a href="{{ route('public.competition.detail', 'dcc-short-video-2025') }}"><i class="bi bi-camera-video"></i>Short Video</a></li>
+                                <li><a href="{{ route('public.competition.detail', 'dcc-infografis-2025') }}"><i class="bi bi-bar-chart"></i>Infographics</a></li>
+                                <li><a href="{{ route('public.competition.detail', 'spc-2025') }}"><i class="bi bi-journal-text"></i>Scientific Paper</a></li>
                                 <li><a href="{{ route('public.competitions') }}"><i class="bi bi-trophy"></i>All Competitions</a></li>
                                 <li><a href="{{ route('leaderboard.index') }}"><i class="bi bi-list-ol"></i>Leaderboard</a></li>
                             </ul>
@@ -857,7 +875,8 @@
                                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.8701837480444!2d106.83684327482962!3d-6.280791893708094!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f211176e9827%3A0xb4bc144c3140a2d9!2sUniversitas%20Nasional!5e0!3m2!1sid!2sid!4v1755100408847!5m2!1sid!2sid"
                                     loading="lazy"
                                     referrerpolicy="no-referrer-when-downgrade"
-                                    title="Lokasi Universitas Nasional Jakarta - Jl. Sawo Manila No.61">
+                                    title="Universitas Nasional Jakarta - Venue for Caturnawa UNAS FEST 2025"
+                                    importance="low">
                                 </iframe>
                             </div>
                         </div>
@@ -903,8 +922,8 @@
         </div>
     </footer>
 
-    <!-- SweetAlert2 JS - Load first -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+    <!-- SweetAlert2 JS - Load asynchronously -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js" defer></script>
     
     <!-- Bootstrap JS with defer loading -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous" defer></script>

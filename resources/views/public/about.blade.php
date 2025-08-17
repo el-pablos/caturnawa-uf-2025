@@ -284,7 +284,7 @@
                         <i class="bi bi-info-circle"></i>
                     </div>
                     <h1 class="modern-title mb-4">
-                        About <span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Caturnawa UNAS FEST 2025</span>
+                        About Us <span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Caturnawa UNAS FEST 2025</span>
                     </h1>
                     <p class="modern-subtitle mb-5">
                         Indonesia's largest national competition festival that combines technology innovation,
