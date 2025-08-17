@@ -55,10 +55,17 @@ jobs:
       
     - name: Build assets
       run: npm run build
-      
+
+    - name: Prepare for archive creation
+      run: |
+        echo "Syncing file system..."
+        sync
+        sleep 2
+        echo "File system sync completed"
+
     - name: Create deployment archive
       run: |
-        tar -czf deployment.tar.gz \
+        tar --warning=no-file-changed -czf deployment.tar.gz \
           --exclude='.git' \
           --exclude='.github' \
           --exclude='node_modules' \
