@@ -531,7 +531,7 @@
             }
         }
         
-        // Auto hide alerts after 5 seconds
+        // Auto hide alerts after 8 seconds (extended timing for better UX)
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(function() {
                 const alerts = document.querySelectorAll('.alert');
@@ -541,7 +541,7 @@
                         bsAlert.close();
                     }
                 });
-            }, 5000);
+            }, 8000);
 
             // Mobile sidebar functionality
             const overlay = document.getElementById('sidebar-overlay');

@@ -401,7 +401,7 @@
                         bsAlert.close();
                     }
                 });
-            }, 5000);
+            }, 8000);
         });
         
         // CSRF Token for AJAX
