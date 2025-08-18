@@ -391,6 +391,47 @@ class ScoringController extends Controller
     }
 
     /**
+     * Get current DCC judging phase berdasarkan timeline kompetisi
+     * 
+     * @param \App\Models\Competition $competition
+     * @return string
+     */
+    private function getCurrentDccJudgingPhase(Competition $competition)
+    {
+        $now = now();
+        
+        // Cek berdasarkan tanggal judging yang ada
+        if ($competition->judging_start && $competition->judging_end) {
+            $judgingDuration = $competition->judging_start->diffInDays($competition->judging_end);
+            $daysSinceStart = $competition->judging_start->diffInDays($now);
+            
+            // Jika durasi judging kurang dari 7 hari, anggap hanya preliminary
+            if ($judgingDuration <= 7) {
+                return 'preliminary_round';
+            }
+            
+            // Jika durasi 8-21 hari, bagi menjadi 2 fase
+            if ($judgingDuration <= 21) {
+                $halfDuration = $judgingDuration / 2;
+                return $daysSinceStart <= $halfDuration ? 'preliminary_round' : 'semifinal_round';
+            }
+            
+            // Jika durasi lebih dari 21 hari, bagi menjadi 3 fase
+            $thirdDuration = $judgingDuration / 3;
+            if ($daysSinceStart <= $thirdDuration) {
+                return 'preliminary_round';
+            } elseif ($daysSinceStart <= ($thirdDuration * 2)) {
+                return 'semifinal_round';
+            } else {
+                return 'final_round';
+            }
+        }
+        
+        // Default ke preliminary jika tidak ada info judging timeline
+        return 'preliminary_round';
+    }
+
+    /**
      * Tampilkan form penilaian untuk pertandingan tertentu
      */
     public function scoreMatch(RoundMatch $match)

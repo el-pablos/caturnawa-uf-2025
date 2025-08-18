@@ -114,50 +114,128 @@
                 <form action="{{ route('juri.scoring.store', $submission) }}" method="POST" id="scoring-form">
                     @csrf
                     
+                    {{-- Competition-specific scoring criteria --}}
+                    @php
+                        $competitionType = $submission->competition->category;
+                        $competitionName = strtolower($submission->competition->name);
+                        $minScore = 0;
+                        $maxScore = 100;
+                        
+                        // Set score range berdasarkan kompetisi
+                        if ($competitionType == 'event_debate' || 
+                            str_contains($competitionName, 'edc') || 
+                            str_contains($competitionName, 'kdbi')) {
+                            $minScore = 50; // EDC dan KDBI range 50-100
+                        }
+                        
+                        // Get competition-specific criteria descriptions
+                        $criteriaDescriptions = [];
+                        
+                        if (str_contains($competitionName, 'edc')) {
+                            $criteriaDescriptions = [
+                                'theme_alignment' => 'Kesesuaian argumen dengan fokus tema yang diangkat',
+                                'evidence_quality' => 'Kualitas dan relevansi data/bukti yang mendukung argumen',
+                                'novelty_interest' => 'Tingkat kebaruan dan inovasi dalam penyampaian argumen',
+                                'argumentation' => 'Kekuatan struktur argumentasi dan logika berpikir',
+                                'delivery_style' => 'Gaya penyampaian, kepercayaan diri, dan kredibilitas',
+                                'poi_response' => 'Kemampuan merespon Point of Information dengan baik'
+                            ];
+                        } elseif (str_contains($competitionName, 'kdbi')) {
+                            $criteriaDescriptions = [
+                                'kesesuaian_tema' => 'Sejauh mana argumen sejalan dengan fokus tema yang diangkat',
+                                'evidence_based' => 'Kualitas dan relevansi data/bukti yang digunakan untuk mendukung argumen', 
+                                'ketertarikan_novelty' => 'Tingkat kebaruan dan inovasi dalam penyampaian argumen',
+                                'delivery_style' => 'Cara penyampaian argumentasi meliputi kepercayaan diri, kredibilitas, dan penguasaan emosi'
+                            ];
+                        } elseif (str_contains($competitionName, 'infografis')) {
+                            $criteriaDescriptions = [
+                                'kerapihan_struktur' => 'Karya yang dibuat terstruktur dan mudah dipahami',
+                                'judul_kreatif_dan_menarik' => 'Judul singkat, jelas, relevan dengan tema dan menggunakan tipografi menarik',
+                                'isi_pesan' => 'Singkat, padat, dan bahasa yang digunakan jelas keterbacaannya',
+                                'desain_visual' => 'Penyusunan elemen yang proporsional dan warna yang menarik',
+                                'teori_dan_konsep_jelas' => 'Keberhasilan menyampaikan pesan dengan ide atau tema yang kuat',
+                                'komposisi_gambar' => 'Penataan harmonis dan pengaturan elemen-elemen visual',
+                                'kualitas_editing' => 'Tingkat ketelitian dalam proses pembuatan poster'
+                            ];
+                        } elseif (str_contains($competitionName, 'video') || str_contains($competitionName, 'short')) {
+                            $criteriaDescriptions = [
+                                'durasi_video' => 'Sesuai dengan durasi yang ditentukan yaitu 3 menit',
+                                'opening_main_title' => 'Memiliki judul utama yang menarik, kreatif, dan relevan',
+                                'konten_isi_sesuai_tema' => 'Seberapa relevan pesan yang disampaikan dalam video',
+                                'keefektifan_kalimat' => 'Kalimat harus jelas, singkat, dan mudah dipahami audiens',
+                                'kualitas_gambar_video' => 'Kualitas video seperti resolusi, kejernihan, dan pencahayaan',
+                                'kejelasan_caption_text' => 'Caption atau text yang jelas dan tidak mengganggu visual',
+                                'closing_penutup' => 'Seberapa berkesan penutup video dengan kesimpulan yang kuat'
+                            ];
+                        } elseif ($competitionType == 'event_scientific_paper') {
+                            $criteriaDescriptions = [
+                                'originality_innovation' => 'Tingkat kebaruan, kontribusi, dan inovasi dalam penelitian',
+                                'methodology_rigor' => 'Kualitas metode penelitian, analisis data, dan ketelitian ilmiah',
+                                'analysis_discussion' => 'Kedalaman analisis, interpretasi hasil, dan diskusi temuan',
+                                'writing_structure' => 'Kualitas penulisan akademik, struktur, dan presentasi'
+                            ];
+                        }
+                    @endphp
+
+                    {{-- Display competition-specific scoring guidance --}}
+                    <div class="alert alert-info mb-4">
+                        <h6><i class="bi bi-info-circle me-2"></i>Panduan Penilaian {{ $submission->competition->name }}</h6>
+                        @if (str_contains($competitionName, 'edc') || str_contains($competitionName, 'kdbi'))
+                            <p class="mb-2"><strong>Range Nilai:</strong> 50-100 (sesuai parameter penilaian debate)</p>
+                            <p class="mb-0"><strong>Sistem Penilaian:</strong> Berdasarkan kesesuaian tema, kualitas bukti, dan kebaruan argumen</p>
+                        @elseif ($competitionType == 'event_dcc')
+                            <p class="mb-2"><strong>Range Nilai:</strong> 0-100 (sesuai parameter penilaian DCC)</p>
+                            <p class="mb-0"><strong>Sistem Penilaian:</strong> Berdasarkan kualitas visual, konten, dan teknik pembuatan</p>
+                        @elseif ($competitionType == 'event_scientific_paper')
+                            <p class="mb-2"><strong>Range Nilai:</strong> 0-100 (sesuai parameter penilaian SPC)</p>
+                            <p class="mb-0"><strong>Sistem Penilaian:</strong> Berdasarkan orisinalitas, metodologi, analisis, dan struktur penulisan</p>
+                        @endif
+                    </div>
+
                     @foreach($criteria as $criterion => $maxScore)
                     <div class="mb-4">
                         <label for="{{ $criterion }}" class="form-label">
-                            <strong>{{ ucfirst(str_replace('_', ' ', $criterion)) }}</strong> 
-                            <span class="text-muted">(0-{{ $maxScore }})</span>
+                            <strong>{{ $criteriaDescriptions[$criterion] ?? ucfirst(str_replace('_', ' ', $criterion)) }}</strong> 
+                            <span class="text-muted">({{ $minScore }}-{{ $maxScore }})</span>
                         </label>
                         <div class="row">
                             <div class="col-md-8">
                                 <input type="range" class="form-range"
                                        id="{{ $criterion }}"
                                        name="criteria[{{ $criterion }}]"
-                                       min="0" max="{{ $maxScore }}"
-                                       value="{{ old('criteria.'.$criterion, ($score && $score->criteria_scores) ? ($score->criteria_scores[$criterion] ?? 0) : 0) }}"
+                                       min="{{ $minScore }}" max="{{ $maxScore }}"
+                                       value="{{ old('criteria.'.$criterion, ($score && $score->criteria_scores) ? ($score->criteria_scores[$criterion] ?? $minScore) : $minScore) }}"
                                        oninput="updateScore('{{ $criterion }}', this.value, {{ $maxScore }})">
                             </div>
                             <div class="col-md-4">
                                 <div class="input-group">
                                     <input type="number" class="form-control"
                                            id="{{ $criterion }}_input"
-                                           min="0" max="{{ $maxScore }}"
-                                           value="{{ old('criteria.'.$criterion, ($score && $score->criteria_scores) ? ($score->criteria_scores[$criterion] ?? 0) : 0) }}"
+                                           min="{{ $minScore }}" max="{{ $maxScore }}"
+                                           value="{{ old('criteria.'.$criterion, ($score && $score->criteria_scores) ? ($score->criteria_scores[$criterion] ?? $minScore) : $minScore) }}"
                                            onchange="updateRange('{{ $criterion }}', this.value)">
                                     <span class="input-group-text">/{{ $maxScore }}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="form-text">
-                            @switch($criterion)
-                                @case('creativity')
-                                    Penilaian terhadap keunikan, inovasi, dan kreativitas dalam karya
-                                    @break
-                                @case('technical')
-                                    Penilaian terhadap kualitas teknis, implementasi, dan kompleksitas
-                                    @break
-                                @case('presentation')
-                                    Penilaian terhadap cara penyajian, dokumentasi, dan komunikasi
-                                    @break
-                                @case('innovation')
-                                    Penilaian terhadap tingkat inovasi dan dampak solusi
-                                    @break
-                                @default
-                                    Berikan penilaian sesuai kriteria {{ str_replace('_', ' ', $criterion) }}
-                            @endswitch
+                            {{ $criteriaDescriptions[$criterion] ?? 'Berikan penilaian sesuai kriteria ' . str_replace('_', ' ', $criterion) }}
                         </div>
+                        
+                        {{-- Scoring guidance untuk debate competitions --}}
+                        @if ((str_contains($competitionName, 'edc') || str_contains($competitionName, 'kdbi')) && in_array($criterion, ['theme_alignment', 'kesesuaian_tema']))
+                            <div class="mt-2">
+                                <small class="text-muted">
+                                    <strong>Panduan Nilai:</strong>
+                                    50-55: Tidak sejalan dengan tema | 
+                                    61-65: Mulai terorganisir | 
+                                    71-75: Sistematis dan sesuai tema | 
+                                    81-85: Pemahaman baik | 
+                                    91-95: Argumentasi mendalam | 
+                                    96-100: Orisinalitas tinggi
+                                </small>
+                            </div>
+                        @endif
                     </div>
                     @endforeach
                     
