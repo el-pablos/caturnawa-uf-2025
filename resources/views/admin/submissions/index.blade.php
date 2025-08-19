@@ -109,17 +109,6 @@
         <h6 class="mb-0">
             <i class="bi bi-file-earmark-text me-2"></i>Daftar Karya Peserta
         </h6>
-        <div class="btn-group" id="bulkActions" style="display: none;">
-            <button class="btn btn-success btn-sm" onclick="bulkApprove()">
-                <i class="bi bi-check-circle me-1"></i>Setujui Terpilih
-            </button>
-            <button class="btn btn-warning btn-sm" onclick="bulkReject()">
-                <i class="bi bi-x-circle me-1"></i>Tolak Terpilih
-            </button>
-            <button class="btn btn-danger btn-sm" onclick="bulkDelete()">
-                <i class="bi bi-trash me-1"></i>Hapus Terpilih
-            </button>
-        </div>
     </div>
     <div class="card-body">
         @if($submissions->count() > 0)
@@ -136,7 +125,6 @@
                             <th>Judul Karya</th>
                             <th>Status</th>
                             <th>Tanggal Submit</th>
-                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -178,24 +166,6 @@
                                     @endif
                                 </td>
                                 <td>{{ $submission->created_at->format('d/m/Y H:i') }}</td>
-                                <td>
-                                    <div class="btn-group btn-group-sm">
-                                        <a href="{{ route('admin.submissions.show', $submission) }}" class="btn btn-outline-primary">
-                                            <i class="bi bi-eye"></i>
-                                        </a>
-                                        @if($submission->status === 'pending')
-                                            <button class="btn btn-outline-success" onclick="approveSubmission({{ $submission->id }})">
-                                                <i class="bi bi-check"></i>
-                                            </button>
-                                            <button class="btn btn-outline-danger" onclick="rejectSubmission({{ $submission->id }})">
-                                                <i class="bi bi-x"></i>
-                                            </button>
-                                        @endif
-                                        <button class="btn btn-outline-danger" onclick="deleteSubmission({{ $submission->id }})">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
                             </tr>
                         @endforeach
                     </tbody>
