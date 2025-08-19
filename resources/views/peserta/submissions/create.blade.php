@@ -45,17 +45,61 @@
                         @enderror
                     </div>
                     
-                    <div class="mb-3">
-                        <label for="files" class="form-label">File Karya <span class="text-danger">*</span></label>
-                        <input type="file" class="form-control @error('files.*') is-invalid @enderror"
-                               id="files" name="files[]" multiple required>
-                        <div class="form-text">
-                            Format yang diterima: PDF, DOC, DOCX, ZIP, RAR (Maksimal 10MB per file). Anda dapat memilih beberapa file sekaligus.
+                    @if($registration->competition->isSpcCompetition())
+                        <!-- SPC-specific fields according to PDF requirements -->
+                        <div class="mb-3">
+                            <label for="file_karya" class="form-label">File Karya (Format PDF) <span class="text-danger">*</span></label>
+                            <input type="file" class="form-control @error('file_karya') is-invalid @enderror"
+                                   id="file_karya" name="file_karya" accept=".pdf" required>
+                            <div class="form-text">Upload file karya tulis ilmiah dalam format PDF (Maksimal 50MB)</div>
+                            @error('file_karya')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
-                        @error('files.*')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                        
+                        <div class="mb-3">
+                            <label for="teknologi_yang_digunakan" class="form-label">Teknologi Yang Digunakan <span class="text-danger">*</span></label>
+                            <textarea class="form-control @error('teknologi_yang_digunakan') is-invalid @enderror" 
+                                      id="teknologi_yang_digunakan" name="teknologi_yang_digunakan" rows="3" required>{{ old('teknologi_yang_digunakan') }}</textarea>
+                            <div class="form-text">Jelaskan teknologi atau metode yang digunakan dalam penelitian Anda</div>
+                            @error('teknologi_yang_digunakan')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="surat_orisinalitas" class="form-label">Surat Pernyataan Orisinalitas Karya (Format PDF) <span class="text-danger">*</span></label>
+                            <input type="file" class="form-control @error('surat_orisinalitas') is-invalid @enderror"
+                                   id="surat_orisinalitas" name="surat_orisinalitas" accept=".pdf" required>
+                            <div class="form-text">Upload scan surat pernyataan orisinalitas karya dalam format PDF (Maksimal 10MB)</div>
+                            @error('surat_orisinalitas')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="surat_pengalihan_hak_cipta" class="form-label">Surat Pernyataan Pengalihan Hak Cipta (Format PDF) <span class="text-danger">*</span></label>
+                            <input type="file" class="form-control @error('surat_pengalihan_hak_cipta') is-invalid @enderror"
+                                   id="surat_pengalihan_hak_cipta" name="surat_pengalihan_hak_cipta" accept=".pdf" required>
+                            <div class="form-text">Upload scan surat pernyataan pengalihan hak cipta dalam format PDF (Maksimal 10MB)</div>
+                            @error('surat_pengalihan_hak_cipta')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    @else
+                        <!-- Generic submission form for other competitions -->
+                        <div class="mb-3">
+                            <label for="files" class="form-label">File Karya <span class="text-danger">*</span></label>
+                            <input type="file" class="form-control @error('files.*') is-invalid @enderror"
+                                   id="files" name="files[]" multiple required>
+                            <div class="form-text">
+                                Format yang diterima: PDF, DOC, DOCX, ZIP, RAR (Maksimal 10MB per file). Anda dapat memilih beberapa file sekaligus.
+                            </div>
+                            @error('files.*')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    @endif
                     
                     <div class="mb-3">
                         <label for="preview_image" class="form-label">Gambar Preview</label>

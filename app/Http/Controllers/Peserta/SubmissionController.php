@@ -64,17 +64,29 @@ class SubmissionController extends Controller
                 ->with('error', 'Submission already exists for this registration');
         }
 
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'files.*' => 'nullable|file|max:10240|mimes:pdf,doc,docx,jpg,jpeg,png,zip,rar',
-        ]);
+        // Competition-specific validation
+        if ($registration->competition->isSpcCompetition()) {
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'description' => 'required|string',
+                'file_karya' => 'required|file|mimes:pdf|max:51200', // 50MB for SPC
+                'teknologi_yang_digunakan' => 'required|string|max:500',
+                'surat_orisinalitas' => 'required|file|mimes:pdf|max:10240', // 10MB
+                'surat_pengalihan_hak_cipta' => 'required|file|mimes:pdf|max:10240', // 10MB
+            ]);
+        } else {
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'description' => 'required|string',
+                'files.*' => 'nullable|file|max:10240|mimes:pdf,doc,docx,jpg,jpeg,png,zip,rar',
+            ]);
+        }
 
         DB::beginTransaction();
         
         try {
-            // Create submission
-            $submission = Submission::create([
+            // Prepare submission data
+            $submissionData = [
                 'registration_id' => $registration->id,
                 'title' => $request->title,
                 'description' => $request->description,
@@ -82,11 +94,23 @@ class SubmissionController extends Controller
                 'social_media_link' => $request->social_media_link,
                 'status' => 'draft',
                 'submitted_at' => null,
-            ]);
+            ];
 
-            // Handle file uploads
-            if ($request->hasFile('files')) {
-                $this->handleFileUploads($request->file('files'), $submission);
+            // Add SPC-specific data
+            if ($registration->competition->isSpcCompetition()) {
+                $submissionData['teknologi_yang_digunakan'] = $request->teknologi_yang_digunakan;
+            }
+
+            // Create submission
+            $submission = Submission::create($submissionData);
+
+            // Handle file uploads based on competition type
+            if ($registration->competition->isSpcCompetition()) {
+                $this->handleSpcFileUploads($request, $submission);
+            } else {
+                if ($request->hasFile('files')) {
+                    $this->handleFileUploads($request->file('files'), $submission);
+                }
             }
 
             DB::commit();
@@ -418,5 +442,66 @@ class SubmissionController extends Controller
         $filename = preg_replace('/[^a-zA-Z0-9._-]/', '', $filename);
         // Limit filename length
         return substr($filename, 0, 100);
+    }
+
+    /**
+     * Handle SPC-specific file uploads
+     */
+    private function handleSpcFileUploads(Request $request, Submission $submission)
+    {
+        $uploadedFiles = [];
+
+        // Handle file_karya (main submission file)
+        if ($request->hasFile('file_karya')) {
+            $file = $request->file('file_karya');
+            $secureFilename = $this->generateSecureFilename($file->getClientOriginalExtension());
+            $path = $file->storeAs('submissions/' . $submission->id, 'karya_' . $secureFilename, 'public');
+            
+            $uploadedFiles[] = [
+                'type' => 'file_karya',
+                'filename' => 'karya_' . $secureFilename,
+                'original_name' => $this->sanitizeFilename($file->getClientOriginalName()),
+                'path' => $path,
+                'size' => $file->getSize(),
+                'mime_type' => $file->getMimeType(),
+                'uploaded_at' => now()->toISOString(),
+            ];
+        }
+
+        // Handle surat_orisinalitas
+        if ($request->hasFile('surat_orisinalitas')) {
+            $file = $request->file('surat_orisinalitas');
+            $secureFilename = $this->generateSecureFilename($file->getClientOriginalExtension());
+            $path = $file->storeAs('submissions/' . $submission->id, 'orisinalitas_' . $secureFilename, 'public');
+            
+            $uploadedFiles[] = [
+                'type' => 'surat_orisinalitas',
+                'filename' => 'orisinalitas_' . $secureFilename,
+                'original_name' => $this->sanitizeFilename($file->getClientOriginalName()),
+                'path' => $path,
+                'size' => $file->getSize(),
+                'mime_type' => $file->getMimeType(),
+                'uploaded_at' => now()->toISOString(),
+            ];
+        }
+
+        // Handle surat_pengalihan_hak_cipta
+        if ($request->hasFile('surat_pengalihan_hak_cipta')) {
+            $file = $request->file('surat_pengalihan_hak_cipta');
+            $secureFilename = $this->generateSecureFilename($file->getClientOriginalExtension());
+            $path = $file->storeAs('submissions/' . $submission->id, 'hak_cipta_' . $secureFilename, 'public');
+            
+            $uploadedFiles[] = [
+                'type' => 'surat_pengalihan_hak_cipta',
+                'filename' => 'hak_cipta_' . $secureFilename,
+                'original_name' => $this->sanitizeFilename($file->getClientOriginalName()),
+                'path' => $path,
+                'size' => $file->getSize(),
+                'mime_type' => $file->getMimeType(),
+                'uploaded_at' => now()->toISOString(),
+            ];
+        }
+
+        $submission->update(['files' => $uploadedFiles]);
     }
 }

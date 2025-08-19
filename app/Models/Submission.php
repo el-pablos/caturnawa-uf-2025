@@ -40,6 +40,7 @@ class Submission extends Model
         'github_url',
         'preview_image',
         'technologies',
+        'teknologi_yang_digunakan', // SPC-specific field
         'team_name',
         'team_members',
         'score',
