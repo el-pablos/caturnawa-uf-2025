@@ -512,8 +512,8 @@
                                 <small class="text-muted">Format: PDF. Max 50MB</small>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="teknologi_yang_digunakan" class="form-label">Teknologi Yang Digunakan <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="teknologi_yang_digunakan" name="teknologi_yang_digunakan" required maxlength="500">
+                                <label for="metodologi" class="form-label">Metodologi <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="metodologi" name="metodologi" required maxlength="500">
                             </div>
                         </div>
                         

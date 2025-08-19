@@ -57,10 +57,10 @@
                         </div>
                     @endif
 
-                    @if($submission->technologies)
+                    @if($submission->metodologi)
                         <div class="mt-4">
-                            <h6>Teknologi yang Digunakan</h6>
-                            <p class="text-muted">{{ is_array($submission->technologies) ? implode(', ', $submission->technologies) : $submission->technologies }}</p>
+                            <h6>Metodologi</h6>
+                            <p class="text-muted">{{ is_array($submission->metodologi) ? implode(', ', $submission->metodologi) : $submission->metodologi }}</p>
                         </div>
                     @endif
 

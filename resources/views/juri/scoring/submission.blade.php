@@ -52,16 +52,16 @@
                     </div>
                 </div>
                 
-                @if($submission->technologies)
+                @if($submission->metodologi)
                 <div class="mb-3">
-                    <strong>Teknologi yang Digunakan:</strong><br>
-                    @if(is_array($submission->technologies))
-                        @foreach($submission->technologies as $tech)
-                            <span class="badge bg-secondary me-1">{{ trim($tech) }}</span>
+                    <strong>Metodologi:</strong><br>
+                    @if(is_array($submission->metodologi))
+                        @foreach($submission->metodologi as $metodologi)
+                            <span class="badge bg-secondary me-1">{{ trim($metodologi) }}</span>
                         @endforeach
                     @else
-                        @foreach(explode(',', $submission->technologies) as $tech)
-                            <span class="badge bg-secondary me-1">{{ trim($tech) }}</span>
+                        @foreach(explode(',', $submission->metodologi) as $metodologi)
+                            <span class="badge bg-secondary me-1">{{ trim($metodologi) }}</span>
                         @endforeach
                     @endif
                 </div>

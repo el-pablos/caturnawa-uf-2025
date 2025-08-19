@@ -777,8 +777,8 @@ class PaymentController extends Controller
             abort(403, 'Unauthorized access to invoice.');
         }
 
-        // Check if registration is paid
-        if ($registration->status !== 'paid') {
+        // Check if registration is paid (allow both 'paid' and 'confirmed' status)
+        if (!in_array($registration->status, ['paid', 'confirmed'])) {
             return back()->with('error', 'Invoice hanya tersedia untuk pendaftaran yang sudah dibayar.');
         }
 

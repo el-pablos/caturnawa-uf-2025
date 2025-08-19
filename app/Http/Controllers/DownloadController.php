@@ -66,8 +66,8 @@ class DownloadController extends Controller
             abort(403, 'Unauthorized access to invoice');
         }
 
-        // Only allow download for paid payments
-        if ($payment->status !== 'paid') {
+        // Only allow download for paid or confirmed payments
+        if (!in_array($payment->status, ['paid', 'confirmed'])) {
             return redirect()->back()->with('error', 'Invoice only available for paid payments');
         }
 
@@ -209,8 +209,8 @@ class DownloadController extends Controller
             abort(403, 'Anda tidak memiliki akses untuk mengunduh invoice ini.');
         }
 
-        // Check if registration has payment and is paid
-        if (!$registration->payment || $registration->payment->status !== 'paid') {
+        // Check if registration has payment and is paid or confirmed
+        if (!$registration->payment || !in_array($registration->payment->status, ['paid', 'confirmed'])) {
             return redirect()->back()->with('error', 'Invoice hanya tersedia untuk pendaftaran yang sudah dibayar.');
         }
 
