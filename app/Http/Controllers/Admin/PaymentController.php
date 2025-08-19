@@ -152,41 +152,32 @@ class PaymentController extends Controller
 
     /**
      * Konfirmasi pembayaran dan registrasi
-     * DISABLED: Payment confirmation feature has been disabled
+     * Re-enabled to allow admin confirmation before submission upload
      *
      * @param \App\Models\Payment $payment
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
     public function confirmPayment(Payment $payment)
     {
-        // DISABLED: Manual payment confirmation workflow has been disabled
-        // Payments are now automatically processed without admin confirmation
-
-        /*
         try {
             DB::beginTransaction();
 
-            // Check if payment is already confirmed to prevent race conditions
-            $payment = Payment::where('id', $payment->id)
-                             ->where('is_confirmed', false)
-                             ->lockForUpdate()
-                             ->first();
-
-            if (!$payment) {
+            // Check if payment is already confirmed
+            if ($payment->registration->status === 'confirmed') {
                 DB::rollback();
 
                 if (request()->wantsJson()) {
                     return response()->json([
                         'success' => false,
-                        'message' => 'Pembayaran sudah dikonfirmasi oleh admin lain atau tidak ditemukan.'
+                        'message' => 'Pembayaran sudah dikonfirmasi sebelumnya.'
                     ]);
                 }
 
-                return back()->with('error', 'Pembayaran sudah dikonfirmasi oleh admin lain atau tidak ditemukan.');
+                return back()->with('error', 'Pembayaran sudah dikonfirmasi sebelumnya.');
             }
 
-            // Verify payment is in valid state for confirmation
-            if (!$payment->isAwaitingConfirmation()) {
+            // Verify payment is in valid state for confirmation (status 'paid')
+            if ($payment->registration->status !== 'paid') {
                 DB::rollback();
 
                 if (request()->wantsJson()) {
@@ -201,7 +192,7 @@ class PaymentController extends Controller
 
             // Update payment confirmation
             $payment->update([
-                'is_confirmed' => true,
+                'status' => 'confirmed',
                 'confirmed_at' => now(),
                 'confirmed_by' => auth()->id(),
             ]);
@@ -214,7 +205,15 @@ class PaymentController extends Controller
             ]);
 
             // Generate QR Code untuk tiket
-            $payment->registration->generateQRCode();
+            try {
+                $payment->registration->generateQRCode();
+            } catch (\Exception $qrException) {
+                // Log the QR code error but don't fail the entire confirmation
+                \Log::error('Failed to generate QR Code for registration ' . $payment->registration->id . ': ' . $qrException->getMessage());
+            }
+
+            // Store WhatsApp group link now that payment is confirmed
+            $payment->storeWhatsAppGroupLink();
 
             // Send confirmation email
             // TODO: Implement email notification
@@ -224,13 +223,16 @@ class PaymentController extends Controller
             if (request()->wantsJson()) {
                 return response()->json([
                     'success' => true,
-                    'message' => 'Pembayaran berhasil dikonfirmasi dan registrasi disetujui.'
+                    'message' => 'Pembayaran berhasil dikonfirmasi dan registrasi disetujui. Peserta sekarang dapat mengupload karya.'
                 ]);
             }
 
-            return back()->with('success', 'Pembayaran berhasil dikonfirmasi dan registrasi disetujui.');
+            return back()->with('success', 'Pembayaran berhasil dikonfirmasi dan registrasi disetujui. Peserta sekarang dapat mengupload karya.');
+
         } catch (\Exception $e) {
             DB::rollback();
+
+            \Log::error('Payment confirmation failed for payment ID ' . $payment->id . ': ' . $e->getMessage());
 
             if (request()->wantsJson()) {
                 return response()->json([
@@ -241,17 +243,6 @@ class PaymentController extends Controller
 
             return back()->with('error', 'Gagal mengkonfirmasi pembayaran: ' . $e->getMessage());
         }
-        */
-
-        // Return message that feature is disabled
-        if (request()->wantsJson()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Fitur konfirmasi pembayaran manual telah dinonaktifkan. Pembayaran diproses otomatis.'
-            ]);
-        }
-
-        return back()->with('info', 'Fitur konfirmasi pembayaran manual telah dinonaktifkan. Pembayaran diproses otomatis.');
     }
 
     /**

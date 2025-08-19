@@ -236,29 +236,28 @@ class Payment extends Model
                 'midtrans_response' => $notification,
             ]);
 
-            // Update waktu pembayaran jika settlement
+            // Update waktu pembayaran jika settlement - but require admin confirmation
             if ($payment->isSuccess()) {
                 $payment->update([
                     'paid_at' => now(),
-                    // MODIFIED: Auto-confirm payment without admin intervention
-                    'is_confirmed' => true,
-                    'confirmed_at' => now(),
-                    'confirmed_by' => null, // System auto-confirmation
-                    'confirmation_notes' => 'Pembayaran dikonfirmasi otomatis oleh sistem setelah settlement'
+                    // Payment is successful but awaiting admin confirmation
+                    'is_confirmed' => false,
+                    'confirmed_at' => null,
+                    'confirmed_by' => null,
+                    'confirmation_notes' => 'Pembayaran berhasil, menunggu konfirmasi admin'
                 ]);
 
-                // MODIFIED: Auto-confirm registration without admin intervention
+                // Update registration status to 'paid' - awaiting admin confirmation
                 if ($payment->registration->status === 'pending') {
                     $payment->registration->update([
-                        'status' => 'paid', // Use the correct status constant
-                        'confirmed_at' => now(),
-                        'confirmed_by' => null, // System auto-confirmation
+                        'status' => 'paid', // Paid but not confirmed yet
+                        'confirmed_at' => null,
+                        'confirmed_by' => null,
                     ]);
-
                 }
 
-                // Store WhatsApp group link in session for display
-                $payment->storeWhatsAppGroupLink();
+                // Don't store WhatsApp group link yet - wait for admin confirmation
+                // $payment->storeWhatsAppGroupLink();
             }
         });
     }
@@ -298,7 +297,7 @@ class Payment extends Model
      *
      * @return void
      */
-    protected function storeWhatsAppGroupLink()
+    public function storeWhatsAppGroupLink()
     {
         $competition = $this->registration->competition;
 

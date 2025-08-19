@@ -229,8 +229,7 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             Route::patch('/{payment}', [App\Http\Controllers\Admin\PaymentController::class, 'update'])->name('update');
             Route::patch('/{payment}/verify', [App\Http\Controllers\Admin\PaymentController::class, 'verify'])->name('verify');
             Route::patch('/{payment}/reject', [App\Http\Controllers\Admin\PaymentController::class, 'reject'])->name('reject');
-            // DISABLED: Manual payment confirmation feature has been disabled
-            // Route::patch('/{payment}/confirm', [App\Http\Controllers\Admin\PaymentController::class, 'confirmPayment'])->name('confirm');
+            Route::patch('/{payment}/confirm', [App\Http\Controllers\Admin\PaymentController::class, 'confirmPayment'])->name('confirm');
         });
         
         // User Management (Super Admin only)

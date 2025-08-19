@@ -403,26 +403,18 @@ class MidtransService
     {
         $registration = $payment->registration;
 
-        // Auto-confirm registration after successful payment (MODIFIED: No admin confirmation needed)
-        if (in_array($registration->status, ['pending', 'paid'])) {
+        // Update registration status to 'paid' - awaiting admin confirmation
+        if (in_array($registration->status, ['pending'])) {
             $registration->update([
-                'status' => 'confirmed',
-                'confirmed_at' => now(),
-                'confirmed_by' => null, // System auto-confirmation
+                'status' => 'paid', // Change to 'paid' instead of 'confirmed'
             ]);
-
-            // Auto-confirm payment as well (MODIFIED: No admin confirmation needed)
-            $payment->update([
-                'is_confirmed' => true,
-                'confirmed_at' => now(),
-                'confirmed_by' => null, // System auto-confirmation
-                'confirmation_notes' => 'Pembayaran dikonfirmasi otomatis oleh sistem setelah pembayaran berhasil'
-            ]);
-
         }
+        
+        // Payment is successful but not confirmed yet - admin must confirm manually
+        // No auto-confirmation of payments anymore per user requirements
 
         // Log event
-        $this->logTransactionEvent($payment, 'Payment successful, registration and payment auto-confirmed by system');
+        $this->logTransactionEvent($payment, 'Payment successful, awaiting admin confirmation');
 
         // TODO: Kirim email konfirmasi pembayaran dan registrasi ke peserta
         // $this->sendPaymentConfirmationEmail($registration);
