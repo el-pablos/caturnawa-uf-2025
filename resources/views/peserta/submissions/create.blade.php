@@ -58,11 +58,11 @@
                         </div>
                         
                         <div class="mb-3">
-                            <label for="teknologi_yang_digunakan" class="form-label">Teknologi Yang Digunakan <span class="text-danger">*</span></label>
-                            <textarea class="form-control @error('teknologi_yang_digunakan') is-invalid @enderror" 
-                                      id="teknologi_yang_digunakan" name="teknologi_yang_digunakan" rows="3" required>{{ old('teknologi_yang_digunakan') }}</textarea>
-                            <div class="form-text">Jelaskan teknologi atau metode yang digunakan dalam penelitian Anda</div>
-                            @error('teknologi_yang_digunakan')
+                            <label for="metodologi" class="form-label">Metodologi <span class="text-danger">*</span></label>
+                            <textarea class="form-control @error('metodologi') is-invalid @enderror" 
+                                      id="metodologi" name="metodologi" rows="3" required>{{ old('metodologi') }}</textarea>
+                            <div class="form-text">Jelaskan metodologi penelitian yang digunakan dalam karya tulis ilmiah Anda</div>
+                            @error('metodologi')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -86,6 +86,19 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                    @elseif($registration->competition->isEdcCompetition() || $registration->competition->isKdbiCompetition())
+                        <!-- EDC/KDBI-specific fields for debate competitions -->
+                        <div class="mb-3">
+                            <label for="files" class="form-label">File Submission <span class="text-danger">*</span></label>
+                            <input type="file" class="form-control @error('files.*') is-invalid @enderror"
+                                   id="files" name="files[]" multiple required>
+                            <div class="form-text">
+                                Upload submission files (PDF, DOC, DOCX, ZIP - Maksimal 10MB per file).
+                            </div>
+                            @error('files.*')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                     @else
                         <!-- Generic submission form for other competitions -->
                         <div class="mb-3">
@@ -100,60 +113,6 @@
                             @enderror
                         </div>
                     @endif
-                    
-                    <div class="mb-3">
-                        <label for="preview_image" class="form-label">Gambar Preview</label>
-                        <input type="file" class="form-control @error('preview_image') is-invalid @enderror" 
-                               id="preview_image" name="preview_image" accept="image/*">
-                        <div class="form-text">Upload gambar yang merepresentasikan karya Anda (JPG, PNG, GIF - Maksimal 2MB)</div>
-                        @error('preview_image')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="video_demo_link" class="form-label">Link Video Demo (Opsional)</label>
-                        <input type="url" class="form-control @error('video_demo_link') is-invalid @enderror"
-                               id="video_demo_link" name="video_demo_link" value="{{ old('video_demo_link') }}"
-                               placeholder="https://youtube.com/watch?v=...">
-                        <div class="form-text">Link YouTube, Vimeo, atau platform video lainnya untuk demo karya</div>
-                        @error('video_demo_link')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="social_media_link" class="form-label">Link Media Sosial (Opsional)</label>
-                        <input type="url" class="form-control @error('social_media_link') is-invalid @enderror"
-                               id="social_media_link" name="social_media_link" value="{{ old('social_media_link') }}"
-                               placeholder="https://instagram.com/username atau https://tiktok.com/@username">
-                        <div class="form-text">Link Instagram, TikTok, Twitter, atau media sosial lainnya terkait karya</div>
-                        @error('social_media_link')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="github_url" class="form-label">Link Repository (Opsional)</label>
-                        <input type="url" class="form-control @error('github_url') is-invalid @enderror"
-                               id="github_url" name="github_url" value="{{ old('github_url') }}"
-                               placeholder="https://github.com/username/repository">
-                        <div class="form-text">Link GitHub, GitLab, atau repository lainnya (khusus untuk kompetisi programming)</div>
-                        @error('github_url')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="technologies" class="form-label">Teknologi yang Digunakan</label>
-                        <input type="text" class="form-control @error('technologies') is-invalid @enderror" 
-                               id="technologies" name="technologies" value="{{ old('technologies') }}" 
-                               placeholder="React, Node.js, MySQL, dll">
-                        <div class="form-text">Sebutkan teknologi, tools, atau software yang digunakan (pisahkan dengan koma)</div>
-                        @error('technologies')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
                     
                     <div class="mb-4">
                         <div class="form-check">

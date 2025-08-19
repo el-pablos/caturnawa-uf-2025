@@ -76,7 +76,7 @@ class SubmissionController extends Controller
                 'title' => 'required|string|max:255',
                 'description' => 'required|string',
                 'file_karya' => 'required|file|mimes:pdf|max:51200', // 50MB for SPC
-                'teknologi_yang_digunakan' => 'required|string|max:500',
+                'metodologi' => 'required|string|max:1000',
                 'surat_orisinalitas' => 'required|file|mimes:pdf|max:10240', // 10MB
                 'surat_pengalihan_hak_cipta' => 'required|file|mimes:pdf|max:10240', // 10MB
             ]);
@@ -104,7 +104,7 @@ class SubmissionController extends Controller
 
             // Add SPC-specific data
             if ($registration->competition->isSpcCompetition()) {
-                $submissionData['teknologi_yang_digunakan'] = $request->teknologi_yang_digunakan;
+                $submissionData['metodologi'] = $request->metodologi;
             }
 
             // Create submission
