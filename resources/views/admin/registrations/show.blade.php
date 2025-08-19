@@ -43,8 +43,28 @@
                                     <span class="badge bg-{{ $registration->status === 'confirmed' ? 'success' : ($registration->status === 'paid' ? 'info' : ($registration->status === 'pending' ? 'warning' : 'danger')) }}">
                                         {{ $registration->status === 'paid' ? 'Dibayar' : ucfirst($registration->status) }}
                                     </span>
+                                    @if($registration->is_locked)
+                                        <br>
+                                        <span class="badge bg-warning mt-1">
+                                            <i class="bi bi-lock-fill"></i> Locked
+                                        </span>
+                                    @endif
                                 </td>
                             </tr>
+                            @if($registration->is_locked)
+                            <tr>
+                                <td class="fw-semibold">Lock Information:</td>
+                                <td>
+                                    <div class="small">
+                                        <strong>Reason:</strong> {{ $registration->lock_reason ?: 'No reason provided' }}<br>
+                                        <strong>Locked at:</strong> {{ $registration->locked_at ? $registration->locked_at->format('d M Y H:i:s') : 'Unknown' }}<br>
+                                        @if($registration->lockedBy)
+                                            <strong>Locked by:</strong> {{ $registration->lockedBy->name }}
+                                        @endif
+                                    </div>
+                                </td>
+                            </tr>
+                            @endif
                             <tr>
                                 <td class="fw-semibold">Tanggal Daftar:</td>
                                 <td>{{ $registration->registered_at ? $registration->registered_at->format('d M Y H:i:s') : $registration->created_at->format('d M Y H:i:s') }}</td>

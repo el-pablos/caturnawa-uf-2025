@@ -181,15 +181,23 @@
                                 </td>
                                 <td>{{ $registration->created_at->format('d/m/Y H:i') }}</td>
                                 <td>
-                                    @if($registration->status === 'pending')
-                                        <span class="unas-badge-warning">Menunggu</span>
-                                    @elseif($registration->status === 'paid')
-                                        <span class="unas-badge-info">Dibayar</span>
-                                    @elseif($registration->status === 'confirmed')
-                                        <span class="unas-badge-success">Dikonfirmasi</span>
-                                    @elseif($registration->status === 'cancelled')
-                                        <span class="badge bg-danger">Dibatalkan</span>
-                                    @endif
+                                    <div>
+                                        @if($registration->status === 'pending')
+                                            <span class="unas-badge-warning">Menunggu</span>
+                                        @elseif($registration->status === 'paid')
+                                            <span class="unas-badge-info">Dibayar</span>
+                                        @elseif($registration->status === 'confirmed')
+                                            <span class="unas-badge-success">Dikonfirmasi</span>
+                                        @elseif($registration->status === 'cancelled')
+                                            <span class="badge bg-danger">Dibatalkan</span>
+                                        @endif
+                                        
+                                        @if($registration->is_locked)
+                                            <br><span class="badge bg-warning mt-1">
+                                                <i class="bi bi-lock-fill"></i> Locked
+                                            </span>
+                                        @endif
+                                    </div>
                                 </td>
                                 <td>
                                     @if($registration->payment)
@@ -219,6 +227,17 @@
                                         @elseif($registration->status === 'cancelled')
                                             <button class="btn btn-outline-warning" onclick="reEnableRegistration({{ $registration->id }})" title="Aktifkan Kembali">
                                                 <i class="bi bi-arrow-clockwise"></i>
+                                            </button>
+                                        @endif
+
+                                        <!-- Lock/Unlock buttons -->
+                                        @if($registration->is_locked)
+                                            <button class="btn btn-outline-warning" onclick="unlockRegistration({{ $registration->id }})" title="Unlock Registration">
+                                                <i class="bi bi-unlock"></i>
+                                            </button>
+                                        @else
+                                            <button class="btn btn-outline-warning" onclick="lockRegistration({{ $registration->id }})" title="Lock Registration">
+                                                <i class="bi bi-lock"></i>
                                             </button>
                                         @endif
 
@@ -577,6 +596,91 @@ function bulkDeleteRegistrations(registrationIds) {
     .catch(error => {
         showError('Terjadi kesalahan sistem');
     });
+}
+
+// Lock/Unlock functions
+function lockRegistration(registrationId) {
+    Swal.fire({
+        title: 'Lock Registration',
+        input: 'textarea',
+        inputLabel: 'Reason for locking (optional)',
+        inputPlaceholder: 'Enter reason for locking this registration...',
+        showCancelButton: true,
+        confirmButtonText: 'Lock',
+        confirmButtonColor: '#f59e0b',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: 'Locking...',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            fetch(`/admin/registrations/${registrationId}/lock`, {
+                method: 'PATCH',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                    reason: result.value
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showSuccess('Registration locked successfully');
+                    location.reload();
+                } else {
+                    showError(data.message || 'Failed to lock registration');
+                }
+            })
+            .catch(error => {
+                showError('System error occurred');
+            });
+        }
+    });
+}
+
+function unlockRegistration(registrationId) {
+    confirmAction(
+        'Unlock Registration',
+        'Are you sure you want to unlock this registration?',
+        function() {
+            Swal.fire({
+                title: 'Unlocking...',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            fetch(`/admin/registrations/${registrationId}/unlock`, {
+                method: 'PATCH',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showSuccess('Registration unlocked successfully');
+                    location.reload();
+                } else {
+                    showError(data.message || 'Failed to unlock registration');
+                }
+            })
+            .catch(error => {
+                showError('System error occurred');
+            });
+        }
+    );
 }
 </script>
 @endpush
