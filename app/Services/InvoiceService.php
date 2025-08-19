@@ -10,21 +10,14 @@ class InvoiceService
 {
     public function generateInvoice(Registration $registration)
     {
-        // Use the new custom template with wider header
-        $templatePath = base_path('kebutuhan-it/INVOICE/invoice-template-new.svg');
-
-        if (!file_exists($templatePath)) {
-            throw new \Exception('Invoice template not found: ' . $templatePath);
-        }
-
         // Generate invoice number if not exists
         $invoiceNumber = $this->generateInvoiceNumber($registration);
 
         // Prepare data for template
         $data = $this->prepareInvoiceData($registration, $invoiceNumber);
 
-        // Create HTML with embedded SVG and dynamic content
-        $html = $this->createInvoiceHtml($templatePath, $data);
+        // Create HTML invoice
+        $html = $this->createInvoiceHtml(null, $data);
 
         // Generate PDF
         $pdf = Pdf::loadHTML($html);
@@ -401,7 +394,7 @@ class InvoiceService
                     <p><strong>Caturnawa UNAS FEST 2025 - Festival Kompetisi Universitas Nasional</strong></p>
                     <div class="contact-info">
                         <p>Website: https://uf25.tams.my.id | Email: info@unasfest.com</p>
-                        <p>WhatsApp: ' . htmlspecialchars($data['CONTACT_WHATSAPP'] ?? '+62 812-3456-7890') . '</p>
+                        <p>WhatsApp: 0858-1737-8442</p>
                         <p>Contact Person: ' . htmlspecialchars($data['CONTACT_PERSON'] ?? 'Tim Panitia') . '</p>
                     </div>
                 </div>

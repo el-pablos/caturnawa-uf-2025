@@ -15,20 +15,6 @@
         </a>
     </div>
 
-    <!-- Alerts -->
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="fas fa-exclamation-triangle me-2"></i>{{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
 
     <div class="row">
         <!-- Registration Information -->
@@ -173,14 +159,59 @@
                                 <i class="bi bi-x-circle"></i> Cancel Registration
                             </button>
                         </div>
-                    @elseif($registration->status === 'confirmed' || $registration->status === 'paid')
+                    @elseif($registration->status === 'paid')
+                        <!-- Payment completed but awaiting admin confirmation -->
+                        <div class="alert alert-info mb-3">
+                            <h6><i class="bi bi-info-circle"></i> Payment Completed - Awaiting Confirmation</h6>
+                            <p class="mb-2">Your payment has been processed successfully. Please confirm your registration by contacting our admin through WhatsApp.</p>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            @php
+                                $whatsappMessage = urlencode("*KONFIRMASI PEMBAYARAN UNAS FEST 2025*\n\n" .
+                                    "Nama: " . $registration->user->name . "\n" .
+                                    "Email: " . $registration->user->email . "\n" .
+                                    "Nomor Registrasi: " . $registration->registration_number . "\n" .
+                                    "Kompetisi: " . $registration->competition->name . "\n" .
+                                    "Kategori: " . ucfirst($registration->competition->category) . "\n" .
+                                    ($registration->team_name ? "Nama Tim: " . $registration->team_name . "\n" : "") .
+                                    "Institusi: " . ($registration->institution ?? $registration->user->institution ?? 'Tidak disebutkan') . "\n" .
+                                    "Jumlah Pembayaran: Rp " . number_format($registration->amount, 0, ',', '.') . "\n" .
+                                    "Tanggal Pembayaran: " . ($registration->payment ? $registration->payment->paid_at?->format('d M Y, H:i') : 'N/A') . "\n\n" .
+                                    "Mohon konfirmasi pembayaran saya untuk dapat mengakses grup WhatsApp kompetisi dan upload karya.\n\n" .
+                                    "Terima kasih!");
+                                $whatsappLink = "https://wa.me/6285817378442?text=" . $whatsappMessage;
+                            @endphp
+                            
+                            <a href="{{ $whatsappLink }}" target="_blank" class="btn btn-success">
+                                <i class="bi bi-whatsapp"></i> Confirm Payment via WhatsApp
+                            </a>
+                            
+                            <a href="{{ route('download.unified-invoice', $registration) }}" class="btn btn-info" target="_blank">
+                                <i class="bi bi-receipt"></i> Download Invoice
+                            </a>
+                            
+                            <a href="{{ route('peserta.registrations.documents', $registration) }}" class="btn btn-outline-primary">
+                                <i class="bi bi-file-earmark-text"></i> Manage Documents
+                            </a>
+                        </div>
+                        
+                    @elseif($registration->status === 'confirmed')
+                        <!-- Admin confirmed registration -->
+                        <div class="alert alert-success mb-3">
+                            <h6><i class="bi bi-check-circle"></i> Registration Confirmed</h6>
+                            <p class="mb-0">Your registration has been confirmed by admin. You can now access all competition features.</p>
+                        </div>
+                        
                         <div class="d-grid gap-2">
                             <a href="{{ route('download.unified-invoice', $registration) }}" class="btn btn-info" target="_blank">
                                 <i class="bi bi-receipt"></i> Download Invoice
                             </a>
+                            
                             <a href="{{ route('peserta.registrations.documents', $registration) }}" class="btn btn-outline-primary">
                                 <i class="bi bi-file-earmark-text"></i> Manage Documents
                             </a>
+                            
                             @if($registration->competition->whatsapp_group_link)
                                 <a href="{{ $registration->competition->whatsapp_group_link }}"
                                    target="_blank"
@@ -188,6 +219,7 @@
                                     <i class="bi bi-whatsapp"></i> Join WhatsApp Group
                                 </a>
                             @endif
+                            
                             @if($registration->competition->status === 'active')
                                 <a href="{{ route('peserta.submissions.create', $registration) }}" class="btn btn-primary">
                                     <i class="bi bi-cloud-upload"></i> Submit Work
