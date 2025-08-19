@@ -25,7 +25,7 @@ class RegistrationController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Registration::with(['user', 'competition', 'payment'])
+        $query = Registration::with(['user', 'competition', 'payment', 'lockedBy'])
             ->orderBy('created_at', 'desc');
 
         // Filter berdasarkan status
@@ -69,7 +69,7 @@ class RegistrationController extends Controller
      */
     public function show(Registration $registration)
     {
-        $registration->load(['user', 'competition', 'payment', 'submissions']);
+        $registration->load(['user', 'competition', 'payment', 'submissions', 'lockedBy']);
         
         return view('admin.registrations.show', compact('registration'));
     }
