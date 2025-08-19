@@ -33,6 +33,12 @@ class SubmissionController extends Controller
             abort(403, 'Unauthorized access to registration');
         }
 
+        // Check if registration is locked
+        if (!$registration->canAccess(Auth::user())) {
+            return redirect()->route('peserta.registrations.show', $registration)
+                ->with('error', 'Cannot create submission for locked registration');
+        }
+
         // Check if registration is confirmed (auto-confirmed after payment)
         if (!in_array($registration->status, ['confirmed', 'paid'])) {
             return redirect()->back()->with('error', 'Hanya bisa submit untuk pendaftaran yang sudah dikonfirmasi');

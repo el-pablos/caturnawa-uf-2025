@@ -555,7 +555,6 @@
     <!-- Deadline Reminder System -->
     @auth
         <meta name="user-authenticated" content="true">
-        <script src="{{ asset('js/deadline-reminder.js') }}"></script>
     @endauth
 
     @stack('scripts')

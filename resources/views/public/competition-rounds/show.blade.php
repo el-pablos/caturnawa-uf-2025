@@ -110,6 +110,25 @@
                     <div class="card-body">
                         @if($competition->rounds->count() > 0)
                             <div class="row">
+                                <!-- Final Results Card -->
+                                <div class="col-md-6 col-lg-4 mb-4">
+                                    <div class="card h-100 border-0 shadow-sm hover-card border-warning">
+                                        <div class="card-body text-center">
+                                            <div class="mb-3">
+                                                <i class="bi bi-trophy-fill text-warning" style="font-size: 3rem;"></i>
+                                            </div>
+                                            
+                                            <h5 class="card-title text-warning">Final Results</h5>
+                                            <p class="card-text text-muted">View overall rankings and final scores</p>
+                                            
+                                            <a href="{{ route('matalomba.final', $competition->slug) }}" 
+                                               class="btn btn-warning text-white">
+                                                <i class="bi bi-trophy me-2"></i>View Final Results
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
                                 @foreach($competition->rounds as $round)
                                 <div class="col-md-6 col-lg-4 mb-4">
                                     <div class="card h-100 border-0 shadow-sm hover-card">

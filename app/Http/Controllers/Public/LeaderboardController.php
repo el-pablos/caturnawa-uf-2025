@@ -86,9 +86,9 @@ class LeaderboardController extends Controller
         $submissions = Submission::with(['registration.user', 'scores.jury'])
             ->whereHas('registration', function ($q) use ($competition) {
                 $q->where('competition_id', $competition->id)
-                  ->where('status', 'confirmed');
+                  ->whereIn('status', ['confirmed', 'paid']); // Include paid status
             })
-            ->where('status', 'submitted')
+            ->where('is_final', true) // Use is_final instead of status
             ->get();
 
         $leaderboard = $submissions->map(function ($submission) {

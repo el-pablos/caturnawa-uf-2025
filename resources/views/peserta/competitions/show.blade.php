@@ -441,18 +441,111 @@
 
 
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="emergency_contact" class="form-label">Kontak Darurat</label>
-                            <input type="text" class="form-control" id="emergency_contact" name="emergency_contact" 
-                                   value="{{ old('emergency_contact') }}">
+                    <!-- Competition-specific fields -->
+                    @if($competition->isSpcCompetition())
+                        <!-- SPC Individual Form -->
+                        <hr>
+                        <h6 class="text-primary mb-3">
+                            <i class="bi bi-file-earmark-text me-2"></i>Informasi Scientific Paper Competition
+                        </h6>
+                        
+                        <!-- Required Documents for SPC -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="ktm_surat_keterangan" class="form-label">KTM / Surat Keterangan Mahasiswa Aktif <span class="text-danger">*</span></label>
+                                <input type="file" class="form-control" id="ktm_surat_keterangan" name="ktm_surat_keterangan" required>
+                                <small class="text-muted">Format: PDF, DOC, JPG. Max 50MB</small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="krs" class="form-label">Kartu Rencana Studi (KRS) <span class="text-danger">*</span></label>
+                                <input type="file" class="form-control" id="krs" name="krs" required>
+                                <small class="text-muted">Format: PDF, DOC, JPG. Max 50MB</small>
+                            </div>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="emergency_phone" class="form-label">Telepon Darurat</label>
-                            <input type="text" class="form-control" id="emergency_phone" name="emergency_phone" 
-                                   value="{{ old('emergency_phone') }}">
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="pas_foto_background_merah" class="form-label">Pas Foto Background Merah (4x6) <span class="text-danger">*</span></label>
+                                <input type="file" class="form-control" id="pas_foto_background_merah" name="pas_foto_background_merah" required>
+                                <small class="text-muted">Format: JPG, PNG. Max 50MB</small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="surat_pengantar_delegasi" class="form-label">Surat Pengantar Delegasi <span class="text-danger">*</span></label>
+                                <input type="file" class="form-control" id="surat_pengantar_delegasi" name="surat_pengantar_delegasi" required>
+                                <small class="text-muted">Format: PDF. Max 50MB</small>
+                            </div>
                         </div>
-                    </div>
+                        
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="bukti_prestasi" class="form-label">Bukti Prestasi / Capaian Unggulan (Maksimal 10)</label>
+                                <input type="file" class="form-control" id="bukti_prestasi" name="bukti_prestasi[]" multiple>
+                                <small class="text-muted">Format: PDF, JPG, PNG. Max 50MB per file. Opsional</small>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="twibbon_sosmed_bukti" class="form-label">Bukti Upload Twibbon dan Follow Social Media UNAS FEST <span class="text-danger">*</span></label>
+                                <input type="file" class="form-control" id="twibbon_sosmed_bukti" name="twibbon_sosmed_bukti" required>
+                                <small class="text-muted">Screenshot dalam format PDF, JPG, PNG. Max 50MB</small>
+                            </div>
+                        </div>
+                        
+                        <!-- Work Submission Section -->
+                        <hr>
+                        <h6 class="text-primary mb-3">
+                            <i class="bi bi-file-earmark-arrow-up me-2"></i>Pengumpulan Karya
+                        </h6>
+                        
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="judul_karya" class="form-label">Judul Karya <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="judul_karya" name="judul_karya" required maxlength="255">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="file_karya" class="form-label">File Karya (PDF) <span class="text-danger">*</span></label>
+                                <input type="file" class="form-control" id="file_karya" name="file_karya" accept=".pdf" required>
+                                <small class="text-muted">Format: PDF. Max 50MB</small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="teknologi_yang_digunakan" class="form-label">Teknologi Yang Digunakan <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="teknologi_yang_digunakan" name="teknologi_yang_digunakan" required maxlength="500">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="deskripsi_karya" class="form-label">Deskripsi Karya <span class="text-danger">*</span></label>
+                                <textarea class="form-control" id="deskripsi_karya" name="deskripsi_karya" rows="4" required maxlength="1000"></textarea>
+                                <small class="text-muted">Maksimal 1000 karakter</small>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="surat_orisinalitas" class="form-label">Surat Pernyataan Orisinalitas Karya <span class="text-danger">*</span></label>
+                                <input type="file" class="form-control" id="surat_orisinalitas" name="surat_orisinalitas" accept=".pdf" required>
+                                <small class="text-muted">Format: PDF. Max 50MB</small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="surat_pengalihan_hak_cipta" class="form-label">Surat Pernyataan Pengalihan Hak Cipta <span class="text-danger">*</span></label>
+                                <input type="file" class="form-control" id="surat_pengalihan_hak_cipta" name="surat_pengalihan_hak_cipta" accept=".pdf" required>
+                                <small class="text-muted">Format: PDF. Max 50MB</small>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <h6><i class="bi bi-file-earmark-image me-2"></i>Download Twibbon SPC</h6>
+                            <p class="mb-2">Silakan download twibbon SPC dan upload ke media sosial Anda:</p>
+                            <a href="{{ asset('images/twibbon-spc.png') }}" class="btn btn-outline-info btn-sm" target="_blank">
+                                <i class="bi bi-download me-2"></i>Download Twibbon SPC
+                            </a>
+                        </div>
+                    @endif
                     
 
                     @if($dynamicRequirements && $dynamicRequirements->count() > 0)
@@ -463,7 +556,235 @@
                         </div>
                     @endif
 
-                    @if($competition->is_team_competition)
+                    @if($competition->is_team_competition && ($competition->isEdcCompetition() || $competition->isKdbiCompetition()))
+                        <!-- EDC/KDBI Team Form -->
+                        <hr>
+                        <h6 class="text-primary mb-3">
+                            <i class="bi bi-people me-2"></i>Informasi Tim {{ $competition->isEdcCompetition() ? 'EDC' : 'KDBI' }}
+                        </h6>
+                        
+                        <div class="mb-3">
+                            <label for="team_name" class="form-label">Nama Tim <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control @error('team_name') is-invalid @enderror" id="team_name" name="team_name" 
+                                   value="{{ old('team_name') }}" required maxlength="100" 
+                                   placeholder="Nama tim harus berkaitan dengan tema UNAS FEST 2025">
+                            @error('team_name')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                            <small class="form-text text-muted">
+                                <i class="bi bi-info-circle me-1"></i>Nama tim harus berkaitan dengan tema UNAS FEST 2025, maksimal 100 karakter
+                            </small>
+                        </div>
+                        
+                        <!-- Debater 1 -->
+                        <div class="team-member mb-4 border rounded p-3">
+                            <h6 class="text-primary mb-3">Debater 1</h6>
+                            <p class="text-muted small mb-3">Posisi ini tidak akan berubah sampai kompetisi berakhir</p>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">{{ $competition->isEdcCompetition() ? 'Full Name' : 'Nama Lengkap' }} <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="team_members[0][name]" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">E-mail <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" name="team_members[0][email]" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">{{ $competition->isEdcCompetition() ? 'Faculty/Major' : 'Fakultas/Prodi' }} <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="team_members[0][{{ $competition->isEdcCompetition() ? 'faculty_major' : 'fakultas_prodi' }}]" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">NPM/NIM <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="team_members[0][npm_nim]" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">{{ $competition->isEdcCompetition() ? 'Agency Origin' : 'Asal Instansi' }} <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="team_members[0][{{ $competition->isEdcCompetition() ? 'agency_origin' : 'asal_instansi' }}]" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">{{ $competition->isEdcCompetition() ? 'Sex' : 'Jenis Kelamin' }} <span class="text-danger">*</span></label>
+                                    <select class="form-select" name="team_members[0][gender]" required>
+                                        <option value="">{{ $competition->isEdcCompetition() ? 'Select Sex' : 'Pilih Jenis Kelamin' }}</option>
+                                        <option value="male">{{ $competition->isEdcCompetition() ? 'Male' : 'Laki-Laki' }}</option>
+                                        <option value="female">{{ $competition->isEdcCompetition() ? 'Female' : 'Perempuan' }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">{{ $competition->isEdcCompetition() ? 'Full Address' : 'Alamat Lengkap' }} <span class="text-danger">*</span></label>
+                                    <textarea class="form-control" name="team_members[0][{{ $competition->isEdcCompetition() ? 'full_address' : 'alamat_lengkap' }}]" rows="2" required></textarea>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">{{ $competition->isEdcCompetition() ? 'WhatsApp Number' : 'No WhatsApp' }} <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="team_members[0][{{ $competition->isEdcCompetition() ? 'whatsapp_number' : 'no_whatsapp' }}]" required>
+                                </div>
+                            </div>
+                            
+                            <!-- Required Documents for Debater 1 -->
+                            <h6 class="text-secondary mb-3 mt-4">Required Documents</h6>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">{{ $competition->isEdcCompetition() ? 'Student Identity Card' : 'Kartu Tanda Mahasiswa (KTM)' }} <span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" name="team_members[0][{{ $competition->isEdcCompetition() ? 'student_identity_card' : 'kartu_tanda_mahasiswa' }}]" accept=".pdf" required>
+                                    <small class="text-muted">PDF Format, Max 100MB</small>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">{{ $competition->isEdcCompetition() ? 'Latest Formal Photograph (3x4)' : 'Pas Foto Formal Terbaru (3x4)' }} <span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" name="team_members[0][{{ $competition->isEdcCompetition() ? 'formal_photo_3x4' : 'pas_foto_formal_3x4' }}]" accept=".jpg" required>
+                                    <small class="text-muted">JPG Format, Max 100MB</small>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">{{ $competition->isEdcCompetition() ? 'Screenshot proof of PDDikti student status' : 'Bukti Screenshot Status Mahasiswa PDDikti' }} <span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" name="team_members[0][pddikti_screenshot]" accept=".jpg" required>
+                                    <small class="text-muted">JPG Format, Max 100MB</small>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">{{ $competition->isEdcCompetition() ? 'Screenshot proof of following Social Media UNAS FEST 2025' : 'Bukti Mengikuti Sosial Media UNAS FEST 2025' }} <span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" name="team_members[0][{{ $competition->isEdcCompetition() ? 'social_media_follow_proof' : 'social_media_bukti' }}]" accept=".pdf" required>
+                                    <small class="text-muted">PDF Format, Max 100MB</small>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">{{ $competition->isEdcCompetition() ? 'Screenshot proof of sharing UNAS FEST 2025 Twibbon' : 'Bukti share Twibbon UNAS FEST 2025' }} <span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" name="team_members[0][{{ $competition->isEdcCompetition() ? 'twibbon_share_proof' : 'twibbon_bukti' }}]" accept=".pdf" required>
+                                    <small class="text-muted">PDF Format, Max 100MB</small>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">{{ $competition->isEdcCompetition() ? 'Student Record (KHS)' : 'Kartu Hasil Studi (KHS)' }} <span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" name="team_members[0][{{ $competition->isEdcCompetition() ? 'student_record_khs' : 'kartu_hasil_studi' }}]" accept=".pdf" required>
+                                    <small class="text-muted">PDF Format, Max 100MB</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Debater 2 -->
+                        <div class="team-member mb-4 border rounded p-3">
+                            <h6 class="text-primary mb-3">Debater 2</h6>
+                            <p class="text-muted small mb-3">Posisi ini tidak akan berubah sampai kompetisi berakhir</p>
+                            
+                            <!-- Same fields as Debater 1 but with index [1] -->
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">{{ $competition->isEdcCompetition() ? 'Full Name' : 'Nama Lengkap' }} <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="team_members[1][name]" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">E-mail <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" name="team_members[1][email]" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">{{ $competition->isEdcCompetition() ? 'Faculty/Major' : 'Fakultas/Prodi' }} <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="team_members[1][{{ $competition->isEdcCompetition() ? 'faculty_major' : 'fakultas_prodi' }}]" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">NPM/NIM <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="team_members[1][npm_nim]" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">{{ $competition->isEdcCompetition() ? 'Agency Origin' : 'Asal Instansi' }} <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="team_members[1][{{ $competition->isEdcCompetition() ? 'agency_origin' : 'asal_instansi' }}]" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">{{ $competition->isEdcCompetition() ? 'Sex' : 'Jenis Kelamin' }} <span class="text-danger">*</span></label>
+                                    <select class="form-select" name="team_members[1][gender]" required>
+                                        <option value="">{{ $competition->isEdcCompetition() ? 'Select Sex' : 'Pilih Jenis Kelamin' }}</option>
+                                        <option value="male">{{ $competition->isEdcCompetition() ? 'Male' : 'Laki-Laki' }}</option>
+                                        <option value="female">{{ $competition->isEdcCompetition() ? 'Female' : 'Perempuan' }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">{{ $competition->isEdcCompetition() ? 'Full Address' : 'Alamat Lengkap' }} <span class="text-danger">*</span></label>
+                                    <textarea class="form-control" name="team_members[1][{{ $competition->isEdcCompetition() ? 'full_address' : 'alamat_lengkap' }}]" rows="2" required></textarea>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">{{ $competition->isEdcCompetition() ? 'WhatsApp Number' : 'No WhatsApp' }} <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="team_members[1][{{ $competition->isEdcCompetition() ? 'whatsapp_number' : 'no_whatsapp' }}]" required>
+                                </div>
+                            </div>
+                            
+                            <!-- Required Documents for Debater 2 -->
+                            <h6 class="text-secondary mb-3 mt-4">Required Documents</h6>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">{{ $competition->isEdcCompetition() ? 'Student Identity Card' : 'Kartu Tanda Mahasiswa (KTM)' }} <span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" name="team_members[1][{{ $competition->isEdcCompetition() ? 'student_identity_card' : 'kartu_tanda_mahasiswa' }}]" accept=".pdf" required>
+                                    <small class="text-muted">PDF Format, Max 100MB</small>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">{{ $competition->isEdcCompetition() ? 'Latest Formal Photograph (3x4)' : 'Pas Foto Formal Terbaru (3x4)' }} <span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" name="team_members[1][{{ $competition->isEdcCompetition() ? 'formal_photo_3x4' : 'pas_foto_formal_3x4' }}]" accept=".jpg" required>
+                                    <small class="text-muted">JPG Format, Max 100MB</small>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">{{ $competition->isEdcCompetition() ? 'Screenshot proof of PDDikti student status' : 'Bukti Screenshot Status Mahasiswa PDDikti' }} <span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" name="team_members[1][pddikti_screenshot]" accept=".jpg" required>
+                                    <small class="text-muted">JPG Format, Max 100MB</small>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">{{ $competition->isEdcCompetition() ? 'Screenshot proof of following Social Media UNAS FEST 2025' : 'Bukti Mengikuti Sosial Media UNAS FEST 2025' }} <span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" name="team_members[1][{{ $competition->isEdcCompetition() ? 'social_media_follow_proof' : 'social_media_bukti' }}]" accept=".pdf" required>
+                                    <small class="text-muted">PDF Format, Max 100MB</small>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">{{ $competition->isEdcCompetition() ? 'Screenshot proof of sharing UNAS FEST 2025 Twibbon' : 'Bukti share Twibbon UNAS FEST 2025' }} <span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" name="team_members[1][{{ $competition->isEdcCompetition() ? 'twibbon_share_proof' : 'twibbon_bukti' }}]" accept=".pdf" required>
+                                    <small class="text-muted">PDF Format, Max 100MB</small>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">{{ $competition->isEdcCompetition() ? 'Student Record (KHS)' : 'Kartu Hasil Studi (KHS)' }} <span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" name="team_members[1][{{ $competition->isEdcCompetition() ? 'student_record_khs' : 'kartu_hasil_studi' }}]" accept=".pdf" required>
+                                    <small class="text-muted">PDF Format, Max 100MB</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Team Documents -->
+                        <h6 class="text-secondary mb-3">Team Documents</h6>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">{{ $competition->isEdcCompetition() ? 'Proof of Payment' : 'Bukti Pembayaran' }} <span class="text-danger">*</span></label>
+                                <input type="file" class="form-control" name="{{ $competition->isEdcCompetition() ? 'proof_of_payment' : 'bukti_pembayaran' }}" accept=".pdf" required>
+                                <small class="text-muted">PDF Format, Max 100MB</small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">{{ $competition->isEdcCompetition() ? 'Delegation Cover Letter from each University' : 'Surat Pengantar Delegasi dari masing-masing Universitas' }} <span class="text-danger">*</span></label>
+                                <input type="file" class="form-control" name="{{ $competition->isEdcCompetition() ? 'delegation_cover_letter' : 'surat_pengantar_delegasi' }}" accept=".pdf" required>
+                                <small class="text-muted">{{ $competition->isEdcCompetition() ? 'Signed by Deputy Rector, Dean, or Deputy Dean' : 'Ditandatangani oleh Wakil Rektor, Dekan, atau Wakil Dekan' }} - PDF Format, Max 100MB</small>
+                            </div>
+                        </div>
+                    @elseif($competition->is_team_competition)
+                        <!-- Other team competitions -->
                         <hr>
                         <h6>Informasi Tim</h6>
                         <div class="mb-3">

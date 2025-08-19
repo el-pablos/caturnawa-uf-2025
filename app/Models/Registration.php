@@ -34,8 +34,6 @@ class Registration extends Model
         'education_level',
         'participant_category',
         'pricing_phase',
-        'emergency_contact',
-        'emergency_phone',
         'special_needs',
         'amount',
         'original_price',
@@ -48,6 +46,12 @@ class Registration extends Model
         'reopened_by',
         'ticket_code',
         'dynamic_data',
+        
+        // Lock system fields
+        'is_locked',
+        'lock_reason',
+        'locked_at',
+        'locked_by',
         
         // EDC-specific fields from DOCX
         'academic_year',
@@ -69,8 +73,6 @@ class Registration extends Model
         'allergies',
         'medications',
         'dietary_restrictions',
-        'emergency_contact_relationship',
-        'emergency_contact_address',
         'photo_3x4',
         'student_id_card_photo',
         'university_letter',
@@ -561,7 +563,7 @@ class Registration extends Model
     }
 
     /**
-     * EDC-specific validation rules
+     * EDC-specific validation rules sesuai REVISION 5 OF EDC REGISTRATION FORM UNAS FEST 2025.pdf
      * 
      * @return array
      */
@@ -570,68 +572,101 @@ class Registration extends Model
         return [
             // Team Information
             'team_name' => 'required|string|max:255',
-            'team_members' => 'required|array|min:2|max:2', // Exactly 2 members untuk EDC
+            'team_members' => 'required|array|min:2|max:2', // Exactly 2 debaters
             
-            // Team Members Basic Info
+            // Debater Information (sesuai form requirements)
             'team_members.*.name' => 'required|string|max:255',
             'team_members.*.email' => 'required|email|max:255',
-            'team_members.*.phone' => 'required|string|max:20',
-            'team_members.*.university' => 'required|string|max:255',
-            'team_members.*.faculty' => 'required|string|max:255',
-            'team_members.*.study_program' => 'required|string|max:255',
-            'team_members.*.student_id' => 'required|string|max:50',
-            'team_members.*.academic_year' => 'required|string|max:20',
-            'team_members.*.semester' => 'required|integer|min:1|max:14',
-            'team_members.*.speaker_position' => 'required|in:first_speaker,second_speaker',
-            
-            // Personal Information
-            'team_members.*.birth_place' => 'required|string|max:255',
-            'team_members.*.birth_date' => 'required|date|before:today',
-            'team_members.*.nationality' => 'required|string|max:100',
-            'team_members.*.religion' => 'required|string|max:50',
+            'team_members.*.faculty_major' => 'required|string|max:255',
+            'team_members.*.npm_nim' => 'required|string|max:50',
+            'team_members.*.agency_origin' => 'required|string|max:255',
             'team_members.*.gender' => 'required|in:male,female',
-            'team_members.*.id_card_number' => 'required|string|max:20',
+            'team_members.*.full_address' => 'required|string|max:500',
+            'team_members.*.whatsapp_number' => 'required|string|max:20',
             
-            // Address Information
-            'team_members.*.address' => 'required|string|max:500',
-            'team_members.*.city' => 'required|string|max:100',
-            'team_members.*.province' => 'required|string|max:100',
-            'team_members.*.postal_code' => 'required|string|max:10',
+            // Required Documents (sesuai form)
+            'team_members.*.student_identity_card' => 'required|file|mimes:pdf|max:102400', // 100MB
+            'team_members.*.formal_photo_3x4' => 'required|file|mimes:jpg|max:102400',
+            'team_members.*.pddikti_screenshot' => 'required|file|mimes:jpg|max:102400',
+            'team_members.*.social_media_follow_proof' => 'required|file|mimes:pdf|max:102400',
+            'team_members.*.twibbon_share_proof' => 'required|file|mimes:pdf|max:102400',
+            'team_members.*.student_record_khs' => 'required|file|mimes:pdf|max:102400',
             
-            // Health Information
-            'team_members.*.blood_type' => 'required|in:A,B,AB,O',
-            'team_members.*.health_conditions' => 'nullable|array',
-            'team_members.*.allergies' => 'nullable|array',
-            'team_members.*.medications' => 'nullable|array',
-            'team_members.*.dietary_restrictions' => 'nullable|array',
+            // Team requirements
+            'delegation_cover_letter' => 'required|file|mimes:pdf|max:102400',
+        ];
+    }
+
+    /**
+     * KDBI-specific validation rules sesuai REVISI 3 FORM REGISTRASI KDBI UNAS FEST 2025.pdf
+     * 
+     * @return array
+     */
+    public static function getKdbiValidationRules()
+    {
+        return [
+            // Team Information
+            'team_name' => 'required|string|max:255',
+            'team_members' => 'required|array|min:2|max:2', // Exactly 2 debaters
             
-            // Emergency Contact
-            'team_members.*.emergency_contact' => 'required|string|max:255',
-            'team_members.*.emergency_phone' => 'required|string|max:20',
-            'team_members.*.emergency_contact_relationship' => 'required|string|max:100',
-            'team_members.*.emergency_contact_address' => 'required|string|max:500',
+            // Debater Information (sesuai form requirements)
+            'team_members.*.name' => 'required|string|max:255',
+            'team_members.*.email' => 'required|email|max:255',
+            'team_members.*.fakultas_prodi' => 'required|string|max:255',
+            'team_members.*.npm_nim' => 'required|string|max:50',
+            'team_members.*.asal_instansi' => 'required|string|max:255',
+            'team_members.*.gender' => 'required|in:male,female',
+            'team_members.*.alamat_lengkap' => 'required|string|max:500',
+            'team_members.*.no_whatsapp' => 'required|string|max:20',
             
-            // Debate-specific Information
-            'team_members.*.zoom_account_email' => 'required|email|max:255',
-            'team_members.*.previous_debate_experience' => 'nullable|array',
-            'team_members.*.motivation_letter' => 'required|string|max:2000',
-            'team_members.*.preferred_debate_topics' => 'nullable|array',
-            'team_members.*.language_proficiency_level' => 'required|in:beginner,intermediate,advanced,native',
-            'team_members.*.toefl_ielts_score' => 'nullable|integer|min:0|max:990',
+            // Required Documents (sesuai form)
+            'team_members.*.kartu_tanda_mahasiswa' => 'required|file|mimes:pdf|max:102400', // 100MB
+            'team_members.*.pas_foto_formal_3x4' => 'required|file|mimes:jpg|max:102400',
+            'team_members.*.pddikti_screenshot' => 'required|file|mimes:jpg|max:102400',
+            'team_members.*.social_media_bukti' => 'required|file|max:102400',
+            'team_members.*.twibbon_bukti' => 'required|file|max:102400',
+            'team_members.*.kartu_hasil_studi' => 'required|file|mimes:pdf|max:102400',
             
-            // Required Documents
-            'team_members.*.foto' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'team_members.*.photo_3x4' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'team_members.*.id_card_photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'team_members.*.student_id_card_photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'team_members.*.university_letter' => 'required|mimes:pdf|max:5120',
-            'team_members.*.health_certificate' => 'required|mimes:pdf|max:5120',
-            'team_members.*.consent_form' => 'required|mimes:pdf|max:5120',
-            'team_members.*.toefl_ielts_certificate' => 'nullable|mimes:pdf|max:5120',
+            // Team requirements
+            'surat_pengantar_delegasi' => 'required|file|mimes:pdf|max:102400',
+        ];
+    }
+
+    /**
+     * SPC-specific validation rules sesuai SPC.122 - KEBUTUHAN WEBSITE (IT).pdf
+     * 
+     * @return array
+     */
+    public static function getSpcValidationRules()
+    {
+        return [
+            // Formulir Pendaftaran - Data Diri Peserta (sesuai PDF requirements)
+            'email' => 'required|email|max:255', // Email Aktif
+            'name' => 'required|string|max:255', // Nama Lengkap
+            'gender' => 'required|in:male,female', // Jenis Kelamin
+            'alamat_lengkap' => 'required|string|max:500', // Alamat Lengkap
+            'no_whatsapp_aktif' => 'required|string|max:20', // Nomor WhatsApp Aktif
+            'asal_perguruan_tinggi' => 'required|string|max:255', // Asal Perguruan Tinggi
+            'fakultas' => 'required|string|max:255', // Fakultas
+            'program_studi' => 'required|string|max:255', // Program Studi
+            'npm' => 'required|string|max:50', // NPM (Nomor Pokok Mahasiswa)
             
-            // Team Documents
-            'team_agreement_letter' => 'required|mimes:pdf|max:5120',
-            'logo_instansi' => 'required|image|mimes:jpeg,png,svg|max:2048',
+            // Required Documents Upload (sesuai PDF requirements)
+            'ktm_surat_keterangan' => 'required|file|mimes:pdf,jpg,jpeg,png|max:10240', // Scan Kartu Tanda Mahasiswa / Surat Keterangan Mahasiswa Aktif
+            'krs' => 'required|file|mimes:pdf,jpg,jpeg,png|max:10240', // KRS (Kartu Rencana Studi)
+            'pas_foto_background_merah' => 'required|image|mimes:jpg,jpeg,png|max:5120', // Pas Foto Background Merah (UK. 4x6)
+            'bukti_prestasi' => 'nullable|array|max:10', // Upload Bukti Prestasi / Capaian Unggulan (Maksimal 10)
+            'bukti_prestasi.*' => 'file|mimes:pdf,jpg,jpeg,png|max:10240',
+            'surat_pengantar_delegasi' => 'required|file|mimes:pdf|max:10240', // Upload Surat Pengantar Delegasi
+            'twibbon_sosmed_bukti' => 'required|image|mimes:jpg,jpeg,png|max:5120', // Bukti Upload Twibbon dan Mengikuti Seluruh Akun Media Sosial Resmi UNAS FEST (Screenshot)
+            
+            // Formulir Pengumpulan Karya (sesuai PDF requirements)
+            'judul_karya' => 'required|string|max:255', // Judul Karya
+            'file_karya' => 'required|file|mimes:pdf|max:51200', // File Karya (Format PDF)
+            'deskripsi_karya' => 'required|string|max:1000', // Deskripsi Karya
+            'teknologi_yang_digunakan' => 'required|string|max:500', // Teknologi Yang Digunakan
+            'surat_orisinalitas' => 'required|file|mimes:pdf|max:10240', // Scan Surat Pernyataan Orisinalitas Karya (Format PDF)
+            'surat_pengalihan_hak_cipta' => 'required|file|mimes:pdf|max:10240', // Scan Surat Pernyataan Pengalihan Hak Cipta (Format PDF)
         ];
     }
 
@@ -685,11 +720,6 @@ class Registration extends Model
             'team_members.*.blood_type.required' => 'Golongan darah harus dipilih',
             'team_members.*.blood_type.in' => 'Golongan darah harus A, B, AB, atau O',
             
-            // Emergency contact messages
-            'team_members.*.emergency_contact.required' => 'Kontak darurat harus diisi',
-            'team_members.*.emergency_phone.required' => 'Nomor telepon darurat harus diisi',
-            'team_members.*.emergency_contact_relationship.required' => 'Hubungan kontak darurat harus diisi',
-            'team_members.*.emergency_contact_address.required' => 'Alamat kontak darurat harus diisi',
             
             // Debate-specific messages
             'team_members.*.zoom_account_email.required' => 'Email akun Zoom harus diisi',
@@ -986,12 +1016,136 @@ class Registration extends Model
     }
 
     /**
+     * Get SPC pricing berdasarkan timeline
+     * 
+     * @return array
+     */
+    public static function getCurrentSpcPricing()
+    {
+        $now = now();
+        
+        // SPC pricing berdasarkan dokumen SPC.122 - KEBUTUHAN WEBSITE (IT).pdf
+        if ($now <= \Carbon\Carbon::parse('2025-08-31')) {
+            return [
+                'phase' => 'early_bird',
+                'amount' => 115000,  // Rp 115.000
+                'phase_name' => 'Early Bird',
+                'deadline' => '2025-08-31'
+            ];
+        }
+        
+        if ($now <= \Carbon\Carbon::parse('2025-09-13')) {
+            return [
+                'phase' => 'phase_1',
+                'amount' => 135000,  // Rp 135.000
+                'phase_name' => 'Phase 1',
+                'deadline' => '2025-09-13'
+            ];
+        }
+        
+        if ($now <= \Carbon\Carbon::parse('2025-09-26')) {
+            return [
+                'phase' => 'phase_2',
+                'amount' => 150000,  // Rp 150.000
+                'phase_name' => 'Phase 2',
+                'deadline' => '2025-09-26'
+            ];
+        }
+        
+        return [
+            'phase' => 'closed',
+            'amount' => 0,
+            'phase_name' => 'Registration Closed',
+            'deadline' => null
+        ];
+    }
+
+    /**
      * Check if this is EDC registration
      * 
      * @return bool
      */
     public function isEdcRegistration()
     {
-        return $this->competition && $this->competition->category === 'event_debate';
+        return $this->competition && $this->competition->isEdcCompetition();
+    }
+
+    /**
+     * Check if this is SPC registration
+     * 
+     * @return bool
+     */
+    public function isSpcRegistration()
+    {
+        return $this->competition && $this->competition->isSpcCompetition();
+    }
+
+    /**
+     * Check if this is KDBI registration
+     * 
+     * @return bool
+     */
+    public function isKdbiRegistration()
+    {
+        return $this->competition && $this->competition->isKdbiCompetition();
+    }
+
+    /**
+     * Relationship to user who locked this registration
+     */
+    public function lockedBy()
+    {
+        return $this->belongsTo(User::class, 'locked_by');
+    }
+
+    /**
+     * Check if registration is locked
+     */
+    public function isLocked()
+    {
+        return $this->is_locked;
+    }
+
+    /**
+     * Lock this registration
+     */
+    public function lock($reason = null, $lockedBy = null)
+    {
+        $this->update([
+            'is_locked' => true,
+            'lock_reason' => $reason,
+            'locked_at' => now(),
+            'locked_by' => $lockedBy,
+        ]);
+    }
+
+    /**
+     * Unlock this registration
+     */
+    public function unlock()
+    {
+        $this->update([
+            'is_locked' => false,
+            'lock_reason' => null,
+            'locked_at' => null,
+            'locked_by' => null,
+        ]);
+    }
+
+    /**
+     * Check if user can access registration (not locked or user is admin)
+     */
+    public function canAccess($user = null)
+    {
+        if (!$this->isLocked()) {
+            return true;
+        }
+
+        if (!$user) {
+            return false;
+        }
+
+        // Allow access for superadmin and admin
+        return in_array($user->role, ['superadmin', 'admin']);
     }
 }

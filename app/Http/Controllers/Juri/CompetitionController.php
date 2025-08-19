@@ -26,27 +26,35 @@ class CompetitionController extends Controller
         try {
             $jury = Auth::user();
 
-            // Get all active competitions for now (since jury assignment might not be implemented yet)
+            // Get competitions where this jury is assigned and have submissions
             $competitions = Competition::where('is_active', true)
+                ->whereHas('juries', function($query) use ($jury) {
+                    $query->where('competition_juries.user_id', $jury->id);
+                })
+                ->whereHas('registrations.submission', function($query) {
+                    $query->where('is_final', true);
+                })
                 ->withCount(['registrations', 'confirmedRegistrations'])
                 ->orderBy('competition_start', 'asc')
                 ->get();
 
-            // Get scoring progress for each competition
+            // Get scoring progress for each competition based on submissions
             foreach ($competitions as $competition) {
-                $totalParticipants = $competition->confirmed_registrations_count ?? 0;
+                // Count submissions that need to be scored
+                $totalSubmissions = \App\Models\Submission::whereHas('registration', function($query) use ($competition) {
+                    $query->where('competition_id', $competition->id);
+                })->where('is_final', true)->count();
 
-                try {
-                    $scoredParticipants = Score::where('competition_id', $competition->id)
-                        ->where('jury_id', $jury->id)
-                        ->distinct('registration_id')
-                        ->count();
-                } catch (\Exception $e) {
-                    $scoredParticipants = 0;
-                }
+                // Count how many submissions this jury has scored
+                $scoredSubmissions = Score::where('competition_id', $competition->id)
+                    ->where('jury_id', $jury->id)
+                    ->where('is_final', true)
+                    ->count();
 
-                $competition->scoring_progress = $totalParticipants > 0
-                    ? round(($scoredParticipants / $totalParticipants) * 100, 2)
+                $competition->total_submissions = $totalSubmissions;
+                $competition->scored_submissions = $scoredSubmissions;
+                $competition->scoring_progress = $totalSubmissions > 0
+                    ? round(($scoredSubmissions / $totalSubmissions) * 100, 2)
                     : 0;
             }
 

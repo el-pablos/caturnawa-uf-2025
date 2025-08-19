@@ -45,8 +45,8 @@
                             <div class="fw-semibold">{{ $competition->category }}</div>
                         </div>
                         <div class="col-6">
-                            <small class="text-muted">Total Peserta</small>
-                            <div class="fw-semibold">{{ $competition->confirmed_registrations_count }} peserta</div>
+                            <small class="text-muted">Karya Terkumpul</small>
+                            <div class="fw-semibold">{{ $competition->total_submissions ?? 0 }} karya</div>
                         </div>
                         <div class="col-6">
                             <small class="text-muted">Tanggal Mulai</small>
@@ -62,10 +62,15 @@
                     <div class="mb-3">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <small class="text-muted">Progress Penilaian</small>
-                            <small class="fw-semibold">{{ $competition->scoring_progress }}%</small>
+                            <small class="fw-semibold">{{ $competition->scored_submissions ?? 0 }}/{{ $competition->total_submissions ?? 0 }} ({{ $competition->scoring_progress }}%)</small>
                         </div>
                         <div class="progress" style="height: 8px;">
-                            <div class="progress-bar" role="progressbar" style="width: {{ $competition->scoring_progress }}%"></div>
+                            <div class="progress-bar 
+                                @if($competition->scoring_progress >= 100) bg-success 
+                                @elseif($competition->scoring_progress >= 50) bg-warning 
+                                @else bg-danger @endif" 
+                                role="progressbar" style="width: {{ $competition->scoring_progress }}%">
+                            </div>
                         </div>
                     </div>
                 </div>

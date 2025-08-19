@@ -373,4 +373,58 @@ class RegistrationController extends Controller
     {
         return $this->exportPdf($request);
     }
+
+    /**
+     * Lock a registration
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Registration $registration
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function lock(Request $request, Registration $registration)
+    {
+        $request->validate([
+            'reason' => 'nullable|string|max:500'
+        ]);
+
+        try {
+            $registration->lock(
+                $request->reason ?? 'Locked by admin',
+                auth()->id()
+            );
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Registration has been locked successfully.'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to lock registration: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * Unlock a registration
+     *
+     * @param \App\Models\Registration $registration
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function unlock(Registration $registration)
+    {
+        try {
+            $registration->unlock();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Registration has been unlocked successfully.'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to unlock registration: ' . $e->getMessage()
+            ]);
+        }
+    }
 }

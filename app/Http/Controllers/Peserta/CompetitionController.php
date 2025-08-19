@@ -207,8 +207,6 @@ class CompetitionController extends Controller
             'phone' => 'nullable|string|max:20',
             'institution' => 'nullable|string|max:255',
             'gender' => 'required|in:male,female',
-            'emergency_contact' => 'nullable|string|max:255',
-            'emergency_phone' => 'nullable|string|max:20',
             'special_needs' => 'nullable|string|max:500',
         ];
         
@@ -224,6 +222,14 @@ class CompetitionController extends Controller
                 // Use EDC-specific validation rules
                 $edcRules = Registration::getEdcValidationRules();
                 $rules = array_merge($rules, $edcRules);
+            } elseif ($competition->isKdbiCompetition()) {
+                // Use KDBI-specific validation rules
+                $kdbiRules = Registration::getKdbiValidationRules();
+                $rules = array_merge($rules, $kdbiRules);
+            } elseif ($competition->isSpcCompetition()) {
+                // Use SPC-specific validation rules
+                $spcRules = Registration::getSpcValidationRules();
+                $rules = array_merge($rules, $spcRules);
             } else {
                 // Standard team competition rules
                 $rules['team_name'] = 'required|string|max:255';
@@ -324,13 +330,18 @@ class CompetitionController extends Controller
             // Process dynamic form data
             $dynamicFormData = $this->dynamicFormService->processFormData($competition, $request);
             
+            // Map participant status for all competitions
+            $participantCategory = $this->mapParticipantStatus($user->participant_status);
+            
             // Calculate price based on competition type and user's participant status
             if ($competition->isEdcCompetition()) {
                 // Use EDC-specific pricing
                 $priceData = Registration::getCurrentEdcPricing();
+            } elseif ($competition->isSpcCompetition()) {
+                // Use SPC-specific pricing
+                $priceData = Registration::getCurrentSpcPricing();
             } else {
                 // Use standard pricing service
-                $participantCategory = $this->mapParticipantStatus($user->participant_status);
                 $priceData = $this->pricingService->getPriceForCategory($participantCategory);
             }
 
@@ -344,8 +355,6 @@ class CompetitionController extends Controller
                 'gender' => $request->gender,
                 'participant_category' => $participantCategory,
                 'pricing_phase' => $priceData['phase'],
-                'emergency_contact' => $request->emergency_contact,
-                'emergency_phone' => $request->emergency_phone,
                 'special_needs' => $request->special_needs,
                 'amount' => $priceData['amount'],
                 'original_price' => $priceData['amount'],

@@ -104,8 +104,8 @@
                                                     @endif
                                                 </div>
                                                 <div>
-                                                    <div class="fw-semibold">{{ $submission->registration->user->name }}</div>
-                                                    <small class="text-muted">{{ $submission->registration->display_name }}</small>
+                                                    <div class="fw-semibold">{{ $submission->registration->team_name ?: $submission->registration->user->name }}</div>
+                                                    <small class="text-muted">{{ $submission->registration->institution }}</small>
                                                 </div>
                                             </div>
                                         </td>

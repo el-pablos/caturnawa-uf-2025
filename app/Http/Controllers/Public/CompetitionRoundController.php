@@ -85,6 +85,11 @@ class CompetitionRoundController extends Controller
             ->where('round_type', $roundType)
             ->firstOrFail();
 
+        // If matchName looks like a team name, show team detail instead
+        if (str_contains($matchName, ' ') || str_contains($matchName, '%20')) {
+            return $this->showTeamDetail($competition, $round, urldecode($matchName));
+        }
+
         $match = $round->matches()
             ->where('match_name', $matchName)
             ->with([
@@ -106,36 +111,212 @@ class CompetitionRoundController extends Controller
     }
 
     /**
+     * Tampilkan detail tim tertentu dalam babak
+     * Route: /matalomba/{competition}/{round_type}/detail{team_name}
+     */
+    public function showTeamDetail(Competition $competition, $round, $teamName)
+    {
+        // Decode URL-encoded team name
+        $teamName = urldecode($teamName);
+        
+        // Remove 'detail' prefix if present
+        if (str_starts_with($teamName, 'detail')) {
+            $teamName = substr($teamName, 6);
+        }
+
+        // Find the registration (team) by name
+        $registration = $competition->registrations()
+            ->where('status', 'confirmed')
+            ->where(function($query) use ($teamName) {
+                $query->where('team_name', 'LIKE', '%' . $teamName . '%')
+                      ->orWhere('team_name', $teamName);
+            })
+            ->with(['user', 'teamMembers'])
+            ->first();
+
+        if (!$registration) {
+            abort(404, 'Team not found');
+        }
+
+        // Get scores for this team in this round
+        $scores = Score::where('competition_id', $competition->id)
+            ->where('registration_id', $registration->id)
+            ->with(['jury'])
+            ->get();
+
+        // Get juries who have scored this team
+        $juries = $scores->pluck('jury')->filter()->unique('id');
+
+        // Calculate total score based on competition type
+        $totalScore = $this->calculateTeamTotalScore($scores, $competition);
+
+        return view('public.competition-rounds.team-detail', compact(
+            'competition', 
+            'round', 
+            'registration',
+            'scores',
+            'juries',
+            'totalScore'
+        ));
+    }
+
+    /**
      * Calculate leaderboard for a specific round
      */
     private function calculateLeaderboard(Competition $competition, CompetitionRound $round)
     {
-        // Get all team matchups for this round
-        $teamMatchups = TeamMatchup::whereHas('roundMatch', function($query) use ($round) {
-            $query->where('competition_round_id', $round->id);
+        // For now, get basic leaderboard from registrations and their scores
+        $registrations = $competition->registrations()
+            ->where('status', 'confirmed')
+            ->with(['user', 'teamMembers'])
+            ->get();
+
+        $leaderboard = $registrations->map(function($registration) use ($competition, $round) {
+            // Get scores for this team
+            $scores = Score::where('competition_id', $competition->id)
+                ->where('registration_id', $registration->id)
+                ->get();
+            
+            $totalScore = $this->calculateTeamTotalScore($scores, $competition);
+            
+            return [
+                'registration' => $registration,
+                'team_name' => $registration->team_name ?: $registration->user->name,
+                'participants' => $registration->teamMembers,
+                'victory_points' => 0, // Will be implemented later
+                'average_score' => round($totalScore, 2),
+                'matches_played' => 0,
+                'total_score' => $totalScore,
+            ];
         })
-        ->with(['registration.user'])
-        ->get();
-
-        // Group by team and calculate total victory points
-        $leaderboard = $teamMatchups->groupBy('registration_id')
-            ->map(function($matchups) {
-                $registration = $matchups->first()->registration;
-                $totalVictoryPoints = $matchups->sum('victory_points');
-                $totalScore = $matchups->avg('team_score');
-
-                return [
-                    'registration' => $registration,
-                    'team_name' => $registration->team_name,
-                    'participants' => $registration->team_members,
-                    'victory_points' => $totalVictoryPoints,
-                    'average_score' => round($totalScore, 2),
-                    'matches_played' => $matchups->count(),
-                ];
-            })
-            ->sortByDesc('victory_points')
-            ->values();
+        ->sortByDesc('total_score')
+        ->values();
 
         return $leaderboard;
+    }
+
+    /**
+     * Calculate total score untuk tim berdasarkan tipe kompetisi
+     */
+    private function calculateTeamTotalScore($scores, Competition $competition)
+    {
+        if ($scores->isEmpty()) {
+            return 0;
+        }
+
+        if ($competition->isSpcCompetition()) {
+            return $this->calculateSpcTeamScore($scores);
+        } elseif ($competition->isEdcCompetition() || $competition->isKdbiCompetition()) {
+            return $this->calculateDebateTeamScore($scores);
+        }
+
+        // Default: average of all scores
+        return $scores->avg('total_score') ?? 0;
+    }
+
+    /**
+     * Calculate SPC score berdasarkan bobot 60% naskah, 40% presentasi
+     */
+    private function calculateSpcTeamScore($scores)
+    {
+        $naskahScores = $scores->filter(function($score) {
+            return isset($score->criteria_scores['naskah']) || 
+                   str_contains(strtolower($score->comments ?? ''), 'naskah');
+        });
+        
+        $presentasiScores = $scores->filter(function($score) {
+            return isset($score->criteria_scores['presentasi']) || 
+                   str_contains(strtolower($score->comments ?? ''), 'presentasi');
+        });
+
+        $avgNaskah = $naskahScores->avg('total_score') ?? 0;
+        $avgPresentasi = $presentasiScores->avg('total_score') ?? 0;
+
+        return ($avgNaskah * 0.6) + ($avgPresentasi * 0.4);
+    }
+
+    /**
+     * Calculate Debate score (average dari semua scores)
+     */
+    private function calculateDebateTeamScore($scores)
+    {
+        return $scores->avg('total_score') ?? 0;
+    }
+
+    /**
+     * Show final results for competition (combining all rounds)
+     * Route: /matalomba/{competition}/final
+     */
+    public function showFinalResults(Competition $competition)
+    {
+        // Get all registrations
+        $registrations = $competition->registrations()
+            ->where('status', 'confirmed')
+            ->with(['user', 'teamMembers'])
+            ->get();
+
+        // Calculate final scores for all teams
+        $finalResults = $registrations->map(function($registration) use ($competition) {
+            // Get all scores for this team across all rounds
+            $scores = Score::where('competition_id', $competition->id)
+                ->where('registration_id', $registration->id)
+                ->where('is_final', true)
+                ->get();
+            
+            $totalScore = $this->calculateTeamTotalScore($scores, $competition);
+            
+            return [
+                'registration' => $registration,
+                'team_name' => $registration->team_name ?: $registration->user->name,
+                'participants' => $registration->teamMembers,
+                'total_score' => $totalScore,
+                'scores_count' => $scores->count(),
+                'average_score' => round($totalScore, 2),
+                'grade' => $this->getGradeForScore($totalScore, $competition),
+            ];
+        })
+        ->sortByDesc('total_score')
+        ->values();
+
+        // Add ranking
+        foreach ($finalResults as $index => $result) {
+            $finalResults[$index]['rank'] = $index + 1;
+        }
+
+        return view('public.competition-rounds.final-results', compact('competition', 'finalResults'));
+    }
+
+    /**
+     * Get grade based on score and competition type
+     */
+    private function getGradeForScore($score, Competition $competition)
+    {
+        if ($competition->isSpcCompetition()) {
+            if ($score >= 90) return 'A';
+            if ($score >= 80) return 'B+';
+            if ($score >= 70) return 'B';
+            if ($score >= 60) return 'C+';
+            if ($score >= 50) return 'C';
+            return 'D';
+        } elseif ($competition->isEdcCompetition() || $competition->isKdbiCompetition()) {
+            if ($score >= 96) return 'A+';
+            if ($score >= 91) return 'A';
+            if ($score >= 86) return 'A-';
+            if ($score >= 81) return 'B+';
+            if ($score >= 76) return 'B';
+            if ($score >= 71) return 'B-';
+            if ($score >= 66) return 'C+';
+            if ($score >= 61) return 'C';
+            if ($score >= 56) return 'C-';
+            if ($score >= 50) return 'D';
+            return 'F';
+        }
+        
+        // Default grading
+        if ($score >= 90) return 'A';
+        if ($score >= 80) return 'B';
+        if ($score >= 70) return 'C';
+        if ($score >= 60) return 'D';
+        return 'F';
     }
 }

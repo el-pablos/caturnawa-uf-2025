@@ -29,7 +29,7 @@
                     <div class="col-md-6">
                         <h6 class="text-muted">Informasi Peserta</h6>
                         <div class="mb-2">
-                            <strong>Nama:</strong> {{ $submission->registration->user->name }}
+                            <strong>{{ $submission->registration->team_name ? 'Tim' : 'Nama' }}:</strong> {{ $submission->registration->team_name ?: $submission->registration->user->name }}
                         </div>
                         <div class="mb-2">
                             <strong>Email:</strong> {{ $submission->registration->user->email }}

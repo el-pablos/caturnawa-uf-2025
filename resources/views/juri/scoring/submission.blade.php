@@ -6,7 +6,7 @@
 
 @section('header-actions')
     <div class="d-flex gap-2">
-        <a href="{{ route('juri.scoring.competition', $submission->competition) }}" class="btn btn-secondary">
+        <a href="{{ route('juri.scoring.competition', $submission->registration->competition) }}" class="btn btn-secondary">
             <i class="bi bi-arrow-left me-2"></i>Kembali
         </a>
     </div>
@@ -25,19 +25,19 @@
             <div class="card-body">
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <strong>Peserta:</strong><br>
-                        <span class="text-muted">{{ $submission->user->name }}</span>
+                        <strong>{{ $submission->registration->team_name ? 'Tim' : 'Peserta' }}:</strong><br>
+                        <span class="text-muted">{{ $submission->registration->team_name ?: $submission->registration->user->name }}</span>
                     </div>
                     <div class="col-md-6">
                         <strong>Institusi:</strong><br>
-                        <span class="text-muted">{{ $submission->user->institution ?? 'Tidak diketahui' }}</span>
+                        <span class="text-muted">{{ $submission->registration->institution ?? $submission->registration->user->institution ?? 'Tidak diketahui' }}</span>
                     </div>
                 </div>
                 
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <strong>Kompetisi:</strong><br>
-                        <span class="badge bg-primary">{{ $submission->competition->name }}</span>
+                        <span class="badge bg-primary">{{ $submission->registration->competition->name }}</span>
                     </div>
                     <div class="col-md-6">
                         <strong>Tanggal Submit:</strong><br>
@@ -55,20 +55,28 @@
                 @if($submission->technologies)
                 <div class="mb-3">
                     <strong>Teknologi yang Digunakan:</strong><br>
-                    @foreach(explode(',', $submission->technologies) as $tech)
-                        <span class="badge bg-secondary me-1">{{ trim($tech) }}</span>
-                    @endforeach
+                    @if(is_array($submission->technologies))
+                        @foreach($submission->technologies as $tech)
+                            <span class="badge bg-secondary me-1">{{ trim($tech) }}</span>
+                        @endforeach
+                    @else
+                        @foreach(explode(',', $submission->technologies) as $tech)
+                            <span class="badge bg-secondary me-1">{{ trim($tech) }}</span>
+                        @endforeach
+                    @endif
                 </div>
                 @endif
                 
                 <div class="row">
-                    @if($submission->file_path)
+                    @if($submission->files && count($submission->files) > 0)
                     <div class="col-md-4 mb-3">
                         <strong>File Karya:</strong><br>
-                        <a href="{{ route('download.submission', [$submission, basename($submission->file_path)]) }}" 
-                           class="btn btn-outline-primary btn-sm">
-                            <i class="bi bi-download me-1"></i>Download File
-                        </a>
+                        @foreach($submission->files as $file)
+                            <a href="{{ route('download.submission', [$submission, $file['filename'] ?? $file['name'] ?? '']) }}" 
+                               class="btn btn-outline-primary btn-sm mb-1 d-block">
+                                <i class="bi bi-download me-1"></i>{{ $file['original_name'] ?? $file['filename'] ?? 'Download File' }}
+                            </a>
+                        @endforeach
                     </div>
                     @endif
                     
@@ -114,128 +122,202 @@
                 <form action="{{ route('juri.scoring.store', $submission) }}" method="POST" id="scoring-form">
                     @csrf
                     
-                    {{-- Competition-specific scoring criteria --}}
-                    @php
-                        $competitionType = $submission->competition->category;
-                        $competitionName = strtolower($submission->competition->name);
-                        $minScore = 0;
-                        $maxScore = 100;
-                        
-                        // Set score range berdasarkan kompetisi
-                        if ($competitionType == 'event_debate' || 
-                            str_contains($competitionName, 'edc') || 
-                            str_contains($competitionName, 'kdbi')) {
-                            $minScore = 50; // EDC dan KDBI range 50-100
-                        }
-                        
-                        // Get competition-specific criteria descriptions
-                        $criteriaDescriptions = [];
-                        
-                        if (str_contains($competitionName, 'edc')) {
-                            $criteriaDescriptions = [
-                                'theme_alignment' => 'Kesesuaian argumen dengan fokus tema yang diangkat',
-                                'evidence_quality' => 'Kualitas dan relevansi data/bukti yang mendukung argumen',
-                                'novelty_interest' => 'Tingkat kebaruan dan inovasi dalam penyampaian argumen',
-                                'argumentation' => 'Kekuatan struktur argumentasi dan logika berpikir',
-                                'delivery_style' => 'Gaya penyampaian, kepercayaan diri, dan kredibilitas',
-                                'poi_response' => 'Kemampuan merespon Point of Information dengan baik'
-                            ];
-                        } elseif (str_contains($competitionName, 'kdbi')) {
-                            $criteriaDescriptions = [
-                                'kesesuaian_tema' => 'Sejauh mana argumen sejalan dengan fokus tema yang diangkat',
-                                'evidence_based' => 'Kualitas dan relevansi data/bukti yang digunakan untuk mendukung argumen', 
-                                'ketertarikan_novelty' => 'Tingkat kebaruan dan inovasi dalam penyampaian argumen',
-                                'delivery_style' => 'Cara penyampaian argumentasi meliputi kepercayaan diri, kredibilitas, dan penguasaan emosi'
-                            ];
-                        } elseif (str_contains($competitionName, 'infografis')) {
-                            $criteriaDescriptions = [
-                                'kerapihan_struktur' => 'Karya yang dibuat terstruktur dan mudah dipahami',
-                                'judul_kreatif_dan_menarik' => 'Judul singkat, jelas, relevan dengan tema dan menggunakan tipografi menarik',
-                                'isi_pesan' => 'Singkat, padat, dan bahasa yang digunakan jelas keterbacaannya',
-                                'desain_visual' => 'Penyusunan elemen yang proporsional dan warna yang menarik',
-                                'teori_dan_konsep_jelas' => 'Keberhasilan menyampaikan pesan dengan ide atau tema yang kuat',
-                                'komposisi_gambar' => 'Penataan harmonis dan pengaturan elemen-elemen visual',
-                                'kualitas_editing' => 'Tingkat ketelitian dalam proses pembuatan poster'
-                            ];
-                        } elseif (str_contains($competitionName, 'video') || str_contains($competitionName, 'short')) {
-                            $criteriaDescriptions = [
-                                'durasi_video' => 'Sesuai dengan durasi yang ditentukan yaitu 3 menit',
-                                'opening_main_title' => 'Memiliki judul utama yang menarik, kreatif, dan relevan',
-                                'konten_isi_sesuai_tema' => 'Seberapa relevan pesan yang disampaikan dalam video',
-                                'keefektifan_kalimat' => 'Kalimat harus jelas, singkat, dan mudah dipahami audiens',
-                                'kualitas_gambar_video' => 'Kualitas video seperti resolusi, kejernihan, dan pencahayaan',
-                                'kejelasan_caption_text' => 'Caption atau text yang jelas dan tidak mengganggu visual',
-                                'closing_penutup' => 'Seberapa berkesan penutup video dengan kesimpulan yang kuat'
-                            ];
-                        } elseif ($competitionType == 'event_scientific_paper') {
-                            $criteriaDescriptions = [
-                                'originality_innovation' => 'Tingkat kebaruan, kontribusi, dan inovasi dalam penelitian',
-                                'methodology_rigor' => 'Kualitas metode penelitian, analisis data, dan ketelitian ilmiah',
-                                'analysis_discussion' => 'Kedalaman analisis, interpretasi hasil, dan diskusi temuan',
-                                'writing_structure' => 'Kualitas penulisan akademik, struktur, dan presentasi'
-                            ];
-                        }
-                    @endphp
+                    {{-- Competition-specific scoring criteria (moved to controller) --}}
 
-                    {{-- Display competition-specific scoring guidance --}}
-                    <div class="alert alert-info mb-4">
-                        <h6><i class="bi bi-info-circle me-2"></i>Panduan Penilaian {{ $submission->competition->name }}</h6>
+                    {{-- Enhanced competition-specific scoring guidance --}}
+                    <div class="alert alert-primary mb-4 border-0 shadow-sm">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-white rounded-circle p-2 me-3">
+                                <i class="bi bi-trophy-fill text-primary"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0 fw-bold">Panduan Penilaian {{ $submission->registration->competition->name }}</h6>
+                                <small class="text-primary-emphasis">Parameter khusus kompetisi ini</small>
+                            </div>
+                        </div>
+                        
                         @if (str_contains($competitionName, 'edc') || str_contains($competitionName, 'kdbi'))
-                            <p class="mb-2"><strong>Range Nilai:</strong> 50-100 (sesuai parameter penilaian debate)</p>
-                            <p class="mb-0"><strong>Sistem Penilaian:</strong> Berdasarkan kesesuaian tema, kualitas bukti, dan kebaruan argumen</p>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <div class="bg-white rounded p-3 text-center">
+                                        <div class="h4 text-primary mb-1">50-100</div>
+                                        <small class="text-muted">Range Nilai</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="bg-white rounded p-3 text-center">
+                                        <div class="h4 text-success mb-1">0-3</div>
+                                        <small class="text-muted">Victory Points</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="bg-white rounded p-3 text-center">
+                                        <div class="h4 text-warning mb-1">1-4</div>
+                                        <small class="text-muted">Ranking</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3 p-3 bg-white rounded">
+                                <small><strong>Fokus Penilaian:</strong> Kesesuaian tema, kualitas bukti, kebaruan argumen, delivery style</small>
+                            </div>
                         @elseif ($competitionType == 'event_dcc')
-                            <p class="mb-2"><strong>Range Nilai:</strong> 0-100 (sesuai parameter penilaian DCC)</p>
-                            <p class="mb-0"><strong>Sistem Penilaian:</strong> Berdasarkan kualitas visual, konten, dan teknik pembuatan</p>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="bg-white rounded p-3 text-center">
+                                        <div class="h4 text-primary mb-1">0-100</div>
+                                        <small class="text-muted">Range Nilai</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="bg-white rounded p-3 text-center">
+                                        <div class="h4 text-info mb-1">Multi-Phase</div>
+                                        <small class="text-muted">Sistem Penilaian</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3 p-3 bg-white rounded">
+                                <small><strong>Fokus Penilaian:</strong> Kualitas visual, konten, teknik pembuatan, kreativitas</small>
+                            </div>
                         @elseif ($competitionType == 'event_scientific_paper')
-                            <p class="mb-2"><strong>Range Nilai:</strong> 0-100 (sesuai parameter penilaian SPC)</p>
-                            <p class="mb-0"><strong>Sistem Penilaian:</strong> Berdasarkan orisinalitas, metodologi, analisis, dan struktur penulisan</p>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="bg-white rounded p-3 text-center">
+                                        <div class="h4 text-primary mb-1">40-100</div>
+                                        <small class="text-muted">Range Nilai</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="bg-white rounded p-3 text-center">
+                                        <div class="h4 text-success mb-1">3 Aspek</div>
+                                        <small class="text-muted">Kriteria Utama</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3 p-3 bg-white rounded">
+                                <small><strong>Fokus Penilaian:</strong> Orisinalitas, metodologi penelitian, analisis data, struktur penulisan</small>
+                            </div>
                         @endif
                     </div>
 
                     @foreach($criteria as $criterion => $maxScore)
-                    <div class="mb-4">
-                        <label for="{{ $criterion }}" class="form-label">
-                            <strong>{{ $criteriaDescriptions[$criterion] ?? ucfirst(str_replace('_', ' ', $criterion)) }}</strong> 
-                            <span class="text-muted">({{ $minScore }}-{{ $maxScore }})</span>
-                        </label>
-                        <div class="row">
-                            <div class="col-md-8">
-                                <input type="range" class="form-range"
-                                       id="{{ $criterion }}"
-                                       name="criteria[{{ $criterion }}]"
-                                       min="{{ $minScore }}" max="{{ $maxScore }}"
-                                       value="{{ old('criteria.'.$criterion, ($score && $score->criteria_scores) ? ($score->criteria_scores[$criterion] ?? $minScore) : $minScore) }}"
-                                       oninput="updateScore('{{ $criterion }}', this.value, {{ $maxScore }})">
+                    <div class="card mb-4 border-0 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <label for="{{ $criterion }}" class="form-label mb-0">
+                                    <strong class="text-dark">
+                                        @php
+                                            $description = $criteriaDescriptions[$criterion] ?? null;
+                                            if (is_array($description)) {
+                                                echo 'Array Error';
+                                            } elseif (is_string($description) && !empty($description)) {
+                                                echo $description;
+                                            } else {
+                                                echo ucfirst(str_replace('_', ' ', $criterion));
+                                            }
+                                        @endphp
+                                    </strong>
+                                </label>
+                                <span class="badge bg-primary">{{ $minScore }}-{{ $maxScore }} poin</span>
                             </div>
-                            <div class="col-md-4">
-                                <div class="input-group">
-                                    <input type="number" class="form-control"
-                                           id="{{ $criterion }}_input"
-                                           min="{{ $minScore }}" max="{{ $maxScore }}"
-                                           value="{{ old('criteria.'.$criterion, ($score && $score->criteria_scores) ? ($score->criteria_scores[$criterion] ?? $minScore) : $minScore) }}"
-                                           onchange="updateRange('{{ $criterion }}', this.value)">
-                                    <span class="input-group-text">/{{ $maxScore }}</span>
+                            
+                            <div class="row align-items-center">
+                                <div class="col-md-7">
+                                    <div class="position-relative">
+                                        <input type="range" class="form-range scoring-range"
+                                               id="{{ $criterion }}"
+                                               name="criteria[{{ $criterion }}]"
+                                               min="{{ $minScore }}" max="{{ $maxScore }}"
+                                               value="{{ old('criteria.'.$criterion, ($score && $score->criteria_scores && is_array($score->criteria_scores)) ? ($score->criteria_scores[$criterion] ?? $minScore) : $minScore) }}"
+                                               oninput="updateScore('{{ $criterion }}', this.value, {{ $maxScore }})">
+                                        <div class="d-flex justify-content-between mt-1">
+                                            <small class="text-muted">{{ $minScore }}</small>
+                                            <small class="text-muted">{{ intval($maxScore/2) }}</small>
+                                            <small class="text-muted">{{ $maxScore }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="number" class="form-control text-center fw-bold scoring-input"
+                                               id="{{ $criterion }}_input"
+                                               min="{{ $minScore }}" max="{{ $maxScore }}"
+                                               value="{{ old('criteria.'.$criterion, ($score && $score->criteria_scores && is_array($score->criteria_scores)) ? ($score->criteria_scores[$criterion] ?? $minScore) : $minScore) }}"
+                                               onchange="updateRange('{{ $criterion }}', this.value)">
+                                        <span class="input-group-text">/{{ $maxScore }}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="text-center">
+                                        <div class="score-grade fw-bold" id="{{ $criterion }}_grade">-</div>
+                                        <small class="text-muted">Grade</small>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-text">
-                            {{ $criteriaDescriptions[$criterion] ?? 'Berikan penilaian sesuai kriteria ' . str_replace('_', ' ', $criterion) }}
-                        </div>
-                        
-                        {{-- Scoring guidance untuk debate competitions --}}
-                        @if ((str_contains($competitionName, 'edc') || str_contains($competitionName, 'kdbi')) && in_array($criterion, ['theme_alignment', 'kesesuaian_tema']))
-                            <div class="mt-2">
+                            
+                            <div class="mt-3 p-3 bg-light rounded">
                                 <small class="text-muted">
-                                    <strong>Panduan Nilai:</strong>
-                                    50-55: Tidak sejalan dengan tema | 
-                                    61-65: Mulai terorganisir | 
-                                    71-75: Sistematis dan sesuai tema | 
-                                    81-85: Pemahaman baik | 
-                                    91-95: Argumentasi mendalam | 
-                                    96-100: Orisinalitas tinggi
+                                    <i class="bi bi-lightbulb me-1"></i>
+                                    @php
+                                        $description = $criteriaDescriptions[$criterion] ?? null;
+                                        if (is_array($description)) {
+                                            echo 'Array Data Error';
+                                        } elseif (is_string($description) && !empty($description)) {
+                                            echo $description;
+                                        } else {
+                                            echo 'Berikan penilaian sesuai kriteria ' . str_replace('_', ' ', $criterion);
+                                        }
+                                    @endphp
                                 </small>
                             </div>
-                        @endif
+                        
+                            {{-- Enhanced scoring guidance for each competition type --}}
+                            @if (str_contains($competitionName, 'edc') || str_contains($competitionName, 'kdbi'))
+                                <div class="mt-3">
+                                    <div class="accordion" id="accordion{{ $criterion }}">
+                                        <div class="accordion-item border-0">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button collapsed bg-transparent border-0 p-2" type="button" 
+                                                        data-bs-toggle="collapse" data-bs-target="#collapse{{ $criterion }}" 
+                                                        style="box-shadow: none;">
+                                                    <small><i class="bi bi-chevron-down me-2"></i>Lihat Panduan Detail</small>
+                                                </button>
+                                            </h2>
+                                            <div id="collapse{{ $criterion }}" class="accordion-collapse collapse" 
+                                                 data-bs-parent="#accordion{{ $criterion }}">
+                                                <div class="accordion-body p-2">
+                                                    <div class="row g-2">
+                                                        <div class="col-4"><span class="badge bg-danger">50-55</span><br><small>Tidak sejalan tema</small></div>
+                                                        <div class="col-4"><span class="badge bg-warning">61-65</span><br><small>Mulai terorganisir</small></div>
+                                                        <div class="col-4"><span class="badge bg-info">71-75</span><br><small>Sistematis</small></div>
+                                                        <div class="col-4"><span class="badge bg-primary">81-85</span><br><small>Pemahaman baik</small></div>
+                                                        <div class="col-4"><span class="badge bg-success">91-95</span><br><small>Argumentasi mendalam</small></div>
+                                                        <div class="col-4"><span class="badge bg-success">96-100</span><br><small>Orisinalitas tinggi</small></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @elseif ($competitionType == 'event_dcc')
+                                <div class="mt-3">
+                                    <div class="row g-2 text-center">
+                                        <div class="col-3"><span class="badge bg-danger">0-40</span><br><small>Kurang</small></div>
+                                        <div class="col-3"><span class="badge bg-warning">41-60</span><br><small>Cukup</small></div>
+                                        <div class="col-3"><span class="badge bg-info">61-80</span><br><small>Baik</small></div>
+                                        <div class="col-3"><span class="badge bg-success">81-100</span><br><small>Sangat Baik</small></div>
+                                    </div>
+                                </div>
+                            @elseif ($competitionType == 'event_scientific_paper')
+                                <div class="mt-3">
+                                    <div class="row g-2 text-center">
+                                        <div class="col-3"><span class="badge bg-danger">40-50</span><br><small>Kurang</small></div>
+                                        <div class="col-3"><span class="badge bg-warning">60-70</span><br><small>Cukup</small></div>
+                                        <div class="col-3"><span class="badge bg-info">80-90</span><br><small>Baik</small></div>
+                                        <div class="col-3"><span class="badge bg-success">90-100</span><br><small>Sangat Baik</small></div>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
                     </div>
                     @endforeach
                     
@@ -244,7 +326,7 @@
                             <strong>Komentar dan Feedback</strong>
                         </label>
                         <textarea class="form-control" id="comments" name="comments" rows="5" 
-                                  placeholder="Berikan feedback konstruktif untuk peserta...">{{ old('comments', $score?->comments ?? '') }}</textarea>
+                                  placeholder="Berikan feedback konstruktif untuk peserta...">{{ old('comments', ($score && is_string($score?->comments)) ? $score->comments : '') }}</textarea>
                         <div class="form-text">Komentar ini akan membantu peserta untuk pengembangan selanjutnya</div>
                     </div>
                     
@@ -262,31 +344,75 @@
                         </div>
                     </div>
                     
-                    <div class="alert alert-info">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <strong>Total Nilai: <span id="total-score">0</span>/100</strong>
+                    {{-- Enhanced Total Score Display --}}
+                    <div class="card border-0 shadow-sm bg-gradient">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-md-4">
+                                    <div class="text-center">
+                                        <div class="display-4 fw-bold text-primary mb-1" id="total-score">0</div>
+                                        <small class="text-muted">Total Nilai</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="text-center">
+                                        <div class="display-6 fw-bold" id="grade" style="color: #6c757d;">-</div>
+                                        <small class="text-muted">Grade</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="text-center">
+                                        <div class="display-6 fw-bold text-success" id="percentage">0%</div>
+                                        <small class="text-muted">Persentase</small>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <strong>Grade: <span id="grade">-</span></strong>
+                            <div class="mt-3">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <small class="text-muted">Progress Penilaian</small>
+                                    <small class="text-muted" id="progress-text">0/100</small>
+                                </div>
+                                <div class="progress" style="height: 10px;">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                         id="score-progress" style="width: 0%"></div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="progress mt-2">
-                            <div class="progress-bar" id="score-progress" style="width: 0%"></div>
                         </div>
                     </div>
                     
-                    <div class="d-flex justify-content-end gap-2">
-                        <a href="{{ route('juri.scoring.competition', $submission->competition) }}" 
-                           class="btn btn-secondary">
-                            <i class="bi bi-x-circle me-2"></i>Batal
-                        </a>
-                        <button type="submit" name="action" value="draft" class="btn btn-outline-primary">
-                            <i class="bi bi-save me-2"></i>Simpan Draft
-                        </button>
-                        <button type="submit" name="action" value="final" class="btn btn-success">
-                            <i class="bi bi-check-circle me-2"></i>Simpan & Finalisasi
-                        </button>
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="card border-warning bg-light">
+                                <div class="card-body p-3">
+                                    <h6 class="card-title text-warning mb-2">
+                                        <i class="bi bi-clock-history me-2"></i>Status Penilaian
+                                    </h6>
+                                    <div class="d-flex align-items-center">
+                                        <span class="badge bg-{{ $score && $score->is_final ? 'success' : 'warning' }} me-2">
+                                            {{ $score && $score->is_final ? 'Final' : 'Draft' }}
+                                        </span>
+                                        @if($score && $score->updated_at && method_exists($score->updated_at, 'diffForHumans'))
+                                            <small class="text-muted">Terakhir update: {{ $score->updated_at->diffForHumans() }}</small>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex justify-content-end gap-2 h-100 align-items-center">
+                                <a href="{{ route('juri.scoring.competition', $submission->registration->competition) }}" 
+                                   class="btn btn-outline-secondary">
+                                    <i class="bi bi-arrow-left me-2"></i>Kembali
+                                </a>
+                                <button type="submit" name="action" value="draft" class="btn btn-primary">
+                                    <i class="bi bi-cloud-upload me-2"></i>Simpan Draft
+                                </button>
+                                <button type="submit" name="action" value="final" class="btn btn-success" 
+                                        {{ $score && $score->is_final ? 'disabled' : '' }}>
+                                    <i class="bi bi-check-circle-fill me-2"></i>Finalisasi
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -385,33 +511,147 @@
         </div>
         @endif
         
-        <!-- Quick Actions -->
-        <div class="card">
-            <div class="card-header bg-warning text-dark">
+        <!-- Enhanced Quick Actions & AI Assistant -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-gradient-primary text-white border-0">
                 <h6 class="mb-0">
-                    <i class="bi bi-lightning me-2"></i>Aksi Cepat
+                    <i class="bi bi-magic me-2"></i>Smart Scoring Assistant
                 </h6>
             </div>
             <div class="card-body">
+                {{-- Competition-specific quick scores --}}
+                @if (str_contains($competitionName, 'edc') || str_contains($competitionName, 'kdbi'))
+                    <div class="d-grid gap-2 mb-3">
+                        <button type="button" class="btn btn-outline-success btn-sm" onclick="setQuickScore(95)">
+                            <i class="bi bi-star-fill me-1"></i>Excellent (95) - Argumentasi Mendalam
+                        </button>
+                        <button type="button" class="btn btn-outline-primary btn-sm" onclick="setQuickScore(85)">
+                            <i class="bi bi-star me-1"></i>Good (85) - Pemahaman Baik
+                        </button>
+                        <button type="button" class="btn btn-outline-info btn-sm" onclick="setQuickScore(75)">
+                            <i class="bi bi-star me-1"></i>Fair (75) - Sistematis
+                        </button>
+                        <button type="button" class="btn btn-outline-warning btn-sm" onclick="setQuickScore(65)">
+                            <i class="bi bi-star me-1"></i>Basic (65) - Mulai Terorganisir
+                        </button>
+                    </div>
+                @elseif ($competitionType == 'event_dcc')
+                    <div class="d-grid gap-2 mb-3">
+                        <button type="button" class="btn btn-outline-success btn-sm" onclick="setQuickScore(90)">
+                            <i class="bi bi-palette me-1"></i>Sangat Baik (90) - Kreatif & Teknis
+                        </button>
+                        <button type="button" class="btn btn-outline-primary btn-sm" onclick="setQuickScore(80)">
+                            <i class="bi bi-eye me-1"></i>Baik (80) - Visual Menarik
+                        </button>
+                        <button type="button" class="btn btn-outline-info btn-sm" onclick="setQuickScore(70)">
+                            <i class="bi bi-check me-1"></i>Cukup (70) - Memenuhi Standar
+                        </button>
+                        <button type="button" class="btn btn-outline-warning btn-sm" onclick="setQuickScore(60)">
+                            <i class="bi bi-pencil me-1"></i>Perlu Perbaikan (60)
+                        </button>
+                    </div>
+                @else
+                    <div class="d-grid gap-2 mb-3">
+                        <button type="button" class="btn btn-outline-success btn-sm" onclick="setQuickScore(85)">
+                            <i class="bi bi-star-fill me-1"></i>Excellent (85)
+                        </button>
+                        <button type="button" class="btn btn-outline-primary btn-sm" onclick="setQuickScore(75)">
+                            <i class="bi bi-star me-1"></i>Good (75)
+                        </button>
+                        <button type="button" class="btn btn-outline-warning btn-sm" onclick="setQuickScore(65)">
+                            <i class="bi bi-star me-1"></i>Fair (65)
+                        </button>
+                    </div>
+                @endif
+                
+                <hr class="my-3">
                 <div class="d-grid gap-2">
-                    <button type="button" class="btn btn-outline-primary" onclick="setQuickScore(85)">
-                        <i class="bi bi-star me-1"></i>Set Excellent (85)
+                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="autoBalance()">
+                        <i class="bi bi-sliders me-1"></i>Auto Balance Scores
                     </button>
-                    <button type="button" class="btn btn-outline-success" onclick="setQuickScore(75)">
-                        <i class="bi bi-star me-1"></i>Set Good (75)
-                    </button>
-                    <button type="button" class="btn btn-outline-warning" onclick="setQuickScore(65)">
-                        <i class="bi bi-star me-1"></i>Set Fair (65)
-                    </button>
-                    <button type="button" class="btn btn-outline-danger" onclick="resetScores()">
+                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="resetScores()">
                         <i class="bi bi-arrow-clockwise me-1"></i>Reset Semua
                     </button>
                 </div>
+                
+                <div class="mt-3 p-3 bg-light rounded">
+                    <small class="text-muted">
+                        <i class="bi bi-lightbulb me-1"></i>
+                        <strong>Tips:</strong> Gunakan tombol quick score sebagai baseline, lalu sesuaikan detail per kriteria
+                    </small>
+                </div>
+            </div>
+        </div>
+        
+        {{-- Score Distribution Chart --}}
+        <div class="card border-0 shadow-sm mt-3">
+            <div class="card-header bg-info text-white border-0">
+                <h6 class="mb-0">
+                    <i class="bi bi-bar-chart me-2"></i>Distribusi Nilai
+                </h6>
+            </div>
+            <div class="card-body">
+                <canvas id="scoreDistributionChart" height="200"></canvas>
             </div>
         </div>
     </div>
 </div>
 @endsection
+
+@push('styles')
+<style>
+.scoring-range {
+    background: linear-gradient(to right, #dc3545 0%, #ffc107 50%, #198754 100%);
+    height: 8px;
+}
+
+.scoring-range::-webkit-slider-thumb {
+    appearance: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #0d6efd;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.scoring-input {
+    font-size: 1.2em;
+    height: 45px;
+}
+
+.score-grade {
+    font-size: 1.5em;
+}
+
+.bg-gradient-primary {
+    background: linear-gradient(45deg, #0d6efd, #6610f2);
+}
+
+.card {
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+}
+
+@keyframes scoreUpdate {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.score-updated {
+    animation: scoreUpdate 0.3s ease-in-out;
+}
+</style>
+@endpush
 
 @push('scripts')
 <script>
@@ -424,55 +664,235 @@ document.addEventListener('DOMContentLoaded', function() {
             saveDraft();
         }
     }, 120000);
+    
+    // Add smooth animations to score updates
+    const inputs = document.querySelectorAll('.scoring-input');
+    inputs.forEach(input => {
+        input.addEventListener('input', function() {
+            this.classList.add('score-updated');
+            setTimeout(() => {
+                this.classList.remove('score-updated');
+            }, 300);
+        });
+    });
+    
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.key === 's') {
+            e.preventDefault();
+            saveDraft();
+        }
+        if (e.ctrlKey && e.key === 'Enter') {
+            e.preventDefault();
+            document.querySelector('button[value="final"]').click();
+        }
+    });
+    
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
 });
 
 function updateScore(criterion, value, maxScore) {
     document.getElementById(criterion + '_input').value = value;
     document.getElementById(criterion).value = value;
+    
+    // Add visual feedback
+    const inputElement = document.getElementById(criterion + '_input');
+    inputElement.classList.add('score-updated');
+    setTimeout(() => {
+        inputElement.classList.remove('score-updated');
+    }, 300);
+    
     calculateTotal();
 }
 
 function updateRange(criterion, value) {
     document.getElementById(criterion).value = value;
+    
+    // Add visual feedback
+    const rangeElement = document.getElementById(criterion);
+    rangeElement.classList.add('score-updated');
+    setTimeout(() => {
+        rangeElement.classList.remove('score-updated');
+    }, 300);
+    
     calculateTotal();
 }
 
 function calculateTotal() {
     const criteria = @json(array_keys($criteria));
+    const criteriaObj = @json($criteria);
     let total = 0;
+    let maxTotal = 0;
+    let scoreData = [];
     
     criteria.forEach(function(criterion) {
         const value = parseInt(document.getElementById(criterion + '_input').value) || 0;
+        const maxValue = criteriaObj[criterion];
         total += value;
+        maxTotal += maxValue;
+        
+        // Update individual grade
+        updateCriterionGrade(criterion, value, maxValue);
+        scoreData.push({criterion: criterion, score: value, max: maxValue});
     });
     
     document.getElementById('total-score').textContent = total;
     
+    // Update percentage
+    const percentage = maxTotal > 0 ? Math.round((total / maxTotal) * 100) : 0;
+    document.getElementById('percentage').textContent = percentage + '%';
+    document.getElementById('progress-text').textContent = total + '/' + maxTotal;
+    
     // Update progress bar
-    const percentage = (total / 100) * 100;
     const progressBar = document.getElementById('score-progress');
     progressBar.style.width = percentage + '%';
     
-    // Update grade
+    // Enhanced grade calculation based on competition type
+    const competitionType = '{{ $competitionType }}';
+    const competitionName = '{{ $competitionName }}';
     let grade = 'F';
     let progressClass = 'bg-danger';
+    let gradeColor = '#dc3545';
     
-    if (total >= 85) {
-        grade = 'A';
-        progressClass = 'bg-success';
-    } else if (total >= 75) {
-        grade = 'B';
-        progressClass = 'bg-info';
-    } else if (total >= 65) {
-        grade = 'C';
-        progressClass = 'bg-warning';
-    } else if (total >= 55) {
-        grade = 'D';
-        progressClass = 'bg-danger';
+    if (competitionType === 'event_debate' || competitionName.includes('edc') || competitionName.includes('kdbi')) {
+        // Debate competitions: 50-100 range
+        if (percentage >= 95) {
+            grade = 'A+';
+            progressClass = 'bg-success';
+            gradeColor = '#198754';
+        } else if (percentage >= 90) {
+            grade = 'A';
+            progressClass = 'bg-success';
+            gradeColor = '#198754';
+        } else if (percentage >= 85) {
+            grade = 'A-';
+            progressClass = 'bg-success';
+            gradeColor = '#198754';
+        } else if (percentage >= 80) {
+            grade = 'B+';
+            progressClass = 'bg-primary';
+            gradeColor = '#0d6efd';
+        } else if (percentage >= 75) {
+            grade = 'B';
+            progressClass = 'bg-info';
+            gradeColor = '#0dcaf0';
+        } else if (percentage >= 70) {
+            grade = 'B-';
+            progressClass = 'bg-info';
+            gradeColor = '#0dcaf0';
+        } else if (percentage >= 65) {
+            grade = 'C+';
+            progressClass = 'bg-warning';
+            gradeColor = '#ffc107';
+        } else if (percentage >= 60) {
+            grade = 'C';
+            progressClass = 'bg-warning';
+            gradeColor = '#ffc107';
+        } else {
+            grade = 'D';
+            progressClass = 'bg-danger';
+            gradeColor = '#dc3545';
+        }
+    } else {
+        // Other competitions: 0-100 range
+        if (percentage >= 90) {
+            grade = 'A';
+            progressClass = 'bg-success';
+            gradeColor = '#198754';
+        } else if (percentage >= 80) {
+            grade = 'B';
+            progressClass = 'bg-primary';
+            gradeColor = '#0d6efd';
+        } else if (percentage >= 70) {
+            grade = 'C';
+            progressClass = 'bg-info';
+            gradeColor = '#0dcaf0';
+        } else if (percentage >= 60) {
+            grade = 'D';
+            progressClass = 'bg-warning';
+            gradeColor = '#ffc107';
+        } else {
+            grade = 'F';
+            progressClass = 'bg-danger';
+            gradeColor = '#dc3545';
+        }
     }
     
-    document.getElementById('grade').textContent = grade;
-    progressBar.className = 'progress-bar ' + progressClass;
+    const gradeElement = document.getElementById('grade');
+    gradeElement.textContent = grade;
+    gradeElement.style.color = gradeColor;
+    progressBar.className = 'progress-bar progress-bar-striped progress-bar-animated ' + progressClass;
+    
+    // Update chart if exists
+    updateScoreChart(scoreData);
+}
+
+function updateCriterionGrade(criterion, score, maxScore) {
+    const percentage = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
+    const gradeElement = document.getElementById(criterion + '_grade');
+    
+    let grade = 'F';
+    let color = '#dc3545';
+    
+    if (percentage >= 90) {
+        grade = 'A';
+        color = '#198754';
+    } else if (percentage >= 80) {
+        grade = 'B';
+        color = '#0d6efd';
+    } else if (percentage >= 70) {
+        grade = 'C';
+        color = '#0dcaf0';
+    } else if (percentage >= 60) {
+        grade = 'D';
+        color = '#ffc107';
+    }
+    
+    if (gradeElement) {
+        gradeElement.textContent = grade;
+        gradeElement.style.color = color;
+    }
+}
+
+// Auto balance scores based on target total
+function autoBalance() {
+    const criteria = @json($criteria);
+    const criteriaKeys = Object.keys(criteria);
+    const targetTotal = prompt('Masukkan target total nilai (contoh: 85):', '85');
+    
+    if (!targetTotal || isNaN(targetTotal)) return;
+    
+    const target = parseInt(targetTotal);
+    let totalWeight = 0;
+    
+    // Calculate total weight
+    criteriaKeys.forEach(criterion => {
+        totalWeight += criteria[criterion];
+    });
+    
+    // Distribute scores proportionally
+    criteriaKeys.forEach(criterion => {
+        const maxScore = criteria[criterion];
+        const proportion = maxScore / totalWeight;
+        const calculatedScore = Math.round(target * proportion);
+        const finalScore = Math.min(calculatedScore, maxScore);
+        
+        document.getElementById(criterion).value = finalScore;
+        document.getElementById(criterion + '_input').value = finalScore;
+    });
+    
+    calculateTotal();
+}
+
+// Update score distribution chart
+function updateScoreChart(scoreData) {
+    // Implementation for chart update would go here
+    // Using Chart.js or similar library
+    console.log('Updating chart with data:', scoreData);
 }
 
 function setQuickScore(targetTotal) {

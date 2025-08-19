@@ -103,8 +103,9 @@ Route::middleware('maintenance')->group(function () {
 Route::middleware('maintenance')->prefix('matalomba')->name('matalomba.')->group(function () {
     Route::get('/', [App\Http\Controllers\Public\CompetitionRoundController::class, 'index'])->name('index');
     Route::get('/{competition:slug}', [App\Http\Controllers\Public\CompetitionRoundController::class, 'show'])->name('show');
+    Route::get('/{competition:slug}/final', [App\Http\Controllers\Public\CompetitionRoundController::class, 'showFinalResults'])->name('final');
     Route::get('/{competition:slug}/{roundType}', [App\Http\Controllers\Public\CompetitionRoundController::class, 'showRound'])->name('round');
-    Route::get('/{competition:slug}/{roundType}/{matchName}', [App\Http\Controllers\Public\CompetitionRoundController::class, 'showMatch'])->name('match');
+    Route::get('/{competition:slug}/{roundType}/{matchName}', [App\Http\Controllers\Public\CompetitionRoundController::class, 'showMatch'])->name('match')->where('matchName', '.*');
 });
 
 // Route alias for backward compatibility
@@ -214,6 +215,8 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             // Route::patch('/{registration}/confirm', [App\Http\Controllers\Admin\RegistrationController::class, 'confirm'])->name('confirm');
             Route::patch('/{registration}/cancel', [App\Http\Controllers\Admin\RegistrationController::class, 'cancel'])->name('cancel');
             Route::patch('/{registration}/re-enable', [App\Http\Controllers\Admin\RegistrationController::class, 'reEnable'])->name('re-enable');
+            Route::patch('/{registration}/lock', [App\Http\Controllers\Admin\RegistrationController::class, 'lock'])->name('lock');
+            Route::patch('/{registration}/unlock', [App\Http\Controllers\Admin\RegistrationController::class, 'unlock'])->name('unlock');
             Route::delete('/{registration}', [App\Http\Controllers\Admin\RegistrationController::class, 'destroy'])->name('destroy');
             Route::get('/export/excel', [App\Http\Controllers\Admin\RegistrationController::class, 'exportExcel'])->name('export.excel');
             Route::get('/export/pdf', [App\Http\Controllers\Admin\RegistrationController::class, 'exportPdf'])->name('export.pdf');
@@ -345,6 +348,9 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             Route::get('/rounds', [App\Http\Controllers\Juri\ScoringController::class, 'rounds'])->name('rounds');
             Route::get('/match/{match}', [App\Http\Controllers\Juri\ScoringController::class, 'scoreMatch'])->name('match');
             Route::post('/match/{match}', [App\Http\Controllers\Juri\ScoringController::class, 'storeMatchScore'])->name('match.store');
+            
+            // Download submission files
+            Route::get('/download/{submission}/{filename}', [App\Http\Controllers\Juri\ScoringController::class, 'downloadFile'])->name('download');
         });
         
         // Submissions Review

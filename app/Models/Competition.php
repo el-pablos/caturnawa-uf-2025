@@ -128,8 +128,8 @@ class Competition extends Model
      */
     const CATEGORIES = [
         'event_dcc' => 'Digital Content Competition',
-        'event_debate' => 'English Debate Competition (EDC)',
-        'event_scientific_paper' => 'Scientific Paper Competition',
+        'event_debate' => 'Debate Competition (EDC/KDBI)', 
+        'event_scientific_paper' => 'Scientific Paper Competition (SPC)',
         // Legacy categories for backward compatibility
         'debate_competition' => 'Debate Competition',
         'short_movie' => 'Short Movie Competition',
@@ -410,6 +410,16 @@ class Competition extends Model
     public function registrations()
     {
         return $this->hasMany(Registration::class);
+    }
+
+    /**
+     * Relasi dengan registrasi yang sudah dikonfirmasi
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function confirmedRegistrations()
+    {
+        return $this->hasMany(Registration::class)->where('status', 'confirmed');
     }
 
     /**
@@ -1114,6 +1124,121 @@ class Competition extends Model
     public function isSpcCompetition()
     {
         return $this->category === 'event_scientific_paper';
+    }
+
+    /**
+     * Get static team configuration for competitions
+     *
+     * @return array
+     */
+    public function getStaticTeamConfig()
+    {
+        if ($this->isEdcCompetition() || $this->isKdbiCompetition()) {
+            return [
+                'team_size' => 2,
+                'team_required' => true,
+                'roles' => ['first_speaker', 'second_speaker'],
+                'role_names' => ['First Speaker', 'Second Speaker']
+            ];
+        }
+        
+        if ($this->isSpcCompetition()) {
+            return [
+                'team_size' => 1,
+                'team_required' => false,
+                'individual' => true,
+                'roles' => ['author'],
+                'role_names' => ['Author']
+            ];
+        }
+        
+        if (str_contains(strtolower($this->name), 'infografis')) {
+            return [
+                'team_size' => 1,
+                'team_required' => false,
+                'roles' => ['designer'],
+                'role_names' => ['Designer']
+            ];
+        }
+        
+        if (str_contains(strtolower($this->name), 'video')) {
+            return [
+                'team_size' => 3,
+                'team_required' => true,
+                'roles' => ['director', 'writer', 'editor'],
+                'role_names' => ['Director', 'Writer/Scriptwriter', 'Editor']
+            ];
+        }
+        
+        // Default configuration
+        return [
+            'team_size' => 1,
+            'team_required' => false,
+            'roles' => ['participant'],
+            'role_names' => ['Participant']
+        ];
+    }
+
+    /**
+     * Create static registration for this competition
+     *
+     * @param \App\Models\User $user
+     * @param array $teamData
+     * @return \App\Models\Registration
+     */
+    public function createStaticRegistration($user, $teamData = [])
+    {
+        $config = $this->getStaticTeamConfig();
+        
+        $registration = new Registration();
+        $registration->user_id = $user->id;
+        $registration->competition_id = $this->id;
+        $registration->registration_number = Registration::generateRegistrationNumber();
+        $registration->status = 'pending';
+        $registration->amount = $this->getCurrentPrice();
+        $registration->original_price = $this->price;
+        
+        // Set basic user info
+        $registration->phone = $teamData['phone'] ?? $user->phone;
+        $registration->institution = $teamData['institution'] ?? $user->institution;
+        $registration->gender = $teamData['gender'] ?? 'male';
+        $registration->education_level = $teamData['education_level'] ?? 'university';
+        
+        // Set team configuration based on competition type
+        if ($config['team_required']) {
+            $registration->team_name = $teamData['team_name'] ?? ($user->name . ' Team');
+            $registration->is_team_competition = true;
+            
+            // Create static team members based on configuration
+            $teamMembers = [];
+            for ($i = 0; $i < $config['team_size']; $i++) {
+                $memberData = $teamData['members'][$i] ?? [];
+                $teamMembers[] = [
+                    'name' => $memberData['name'] ?? 'Member ' . ($i + 1),
+                    'email' => $memberData['email'] ?? $user->email,
+                    'phone' => $memberData['phone'] ?? $user->phone,
+                    'university' => $memberData['university'] ?? ($user->institution ?? 'Unknown University'),
+                    'faculty' => $memberData['faculty'] ?? 'Unknown Faculty',
+                    'study_program' => $memberData['study_program'] ?? 'Unknown Program',
+                    'student_id' => $memberData['student_id'] ?? '000000',
+                    'semester' => $memberData['semester'] ?? 1,
+                    'gender' => $memberData['gender'] ?? 'male',
+                    'birth_date' => $memberData['birth_date'] ?? now()->subYears(20)->format('Y-m-d'),
+                    'role' => $config['roles'][$i] ?? 'participant',
+                    'speaker_position' => $config['roles'][$i] ?? null,
+                    'zoom_account_email' => $memberData['zoom_email'] ?? $memberData['email'] ?? $user->email,
+                    'language_proficiency_level' => $memberData['language_level'] ?? 'intermediate',
+                ];
+            }
+            $registration->team_members = $teamMembers;
+        } else {
+            $registration->is_team_competition = false;
+            $registration->team_name = null;
+        }
+        
+        $registration->save();
+        
+        return $registration;
     }
 
     /**

@@ -49,7 +49,7 @@
                                     </thead>
                                     <tbody>
                                         @foreach($leaderboard as $index => $team)
-                                        <tr class="{{ $index < 3 ? 'table-' . ['warning', 'light', 'info'][$index] : '' }}">
+                                        <tr class="{{ $index < 3 ? 'table-' . ['warning', 'light', 'info'][$index] : '' }} hover-row">
                                             <td>
                                                 <strong>{{ $index + 1 }}</strong>
                                                 @if($index == 0)
@@ -61,23 +61,28 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <strong>{{ $team['team_name'] }}</strong>
+                                                <a href="{{ route('matalomba.match', [$competition->slug, $round->round_type, 'detail' . urlencode($team['team_name'])]) }}" 
+                                                   class="text-decoration-none">
+                                                    <strong class="text-primary">{{ $team['team_name'] }}</strong>
+                                                </a>
                                                 <br>
                                                 <small class="text-muted">{{ $team['registration']->institution }}</small>
                                             </td>
                                             <td>
                                                 @if($team['participants'] && count($team['participants']) > 0)
                                                     @foreach($team['participants'] as $participant)
-                                                        <div class="small">{{ $participant['name'] }}</div>
+                                                        <div class="small">{{ $participant->name }}</div>
                                                     @endforeach
                                                 @else
-                                                    <span class="text-muted">-</span>
+                                                    <span class="text-muted">{{ $team['registration']->user->name }}</span>
                                                 @endif
                                             </td>
                                             <td>
                                                 <span class="badge bg-primary fs-6">{{ $team['victory_points'] }}</span>
                                             </td>
-                                            <td>{{ $team['average_score'] ?? '-' }}</td>
+                                            <td>
+                                                <strong class="text-success">{{ $team['average_score'] > 0 ? number_format($team['average_score'], 2) : '-' }}</strong>
+                                            </td>
                                             <td>{{ $team['matches_played'] }}</td>
                                         </tr>
                                         @endforeach
@@ -191,6 +196,15 @@
 
 .table-responsive {
     border-radius: 10px;
+}
+
+.hover-row {
+    transition: background-color 0.2s ease;
+}
+
+.hover-row:hover {
+    background-color: #f8f9fa !important;
+    cursor: pointer;
 }
 </style>
 @endpush

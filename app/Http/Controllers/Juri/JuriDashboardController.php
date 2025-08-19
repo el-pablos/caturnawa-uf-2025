@@ -158,7 +158,7 @@ class JuriDashboardController extends Controller
     {
         try {
             // Get submissions from competitions assigned to this jury
-            $assignedCompetitionIds = $jury->juryCompetitions()->where('is_active', true)->pluck('id');
+            $assignedCompetitionIds = $jury->juryCompetitions()->where('competitions.is_active', true)->pluck('competitions.id');
             
             return Submission::with(['registration.user', 'registration.competition'])
                 ->where('status', 'submitted')

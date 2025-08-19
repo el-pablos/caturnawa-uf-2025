@@ -33,6 +33,11 @@ class RegistrationController extends Controller
             abort(403, 'Unauthorized access to registration');
         }
 
+        // Check if registration is locked
+        if (!$registration->canAccess(Auth::user())) {
+            return view('peserta.registrations.locked', compact('registration'));
+        }
+
         $registration->load(['competition', 'payment', 'teamMembers']);
 
         // Fix missing payment amount data if needed
