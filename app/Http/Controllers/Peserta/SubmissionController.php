@@ -39,9 +39,9 @@ class SubmissionController extends Controller
                 ->with('error', 'Cannot create submission for locked registration');
         }
 
-        // Check if registration is confirmed (auto-confirmed after payment)
-        if (!in_array($registration->status, ['confirmed', 'paid'])) {
-            return redirect()->back()->with('error', 'Hanya bisa submit untuk pendaftaran yang sudah dikonfirmasi');
+        // Check if registration is confirmed by admin
+        if ($registration->status !== 'confirmed') {
+            return redirect()->back()->with('error', 'Maaf registrasi anda belum di konfirmasi admin, silahkan konfirmasi terlebih dahulu lalu kembali lagi');
         }
 
         // Check if submission already exists
@@ -59,9 +59,9 @@ class SubmissionController extends Controller
             abort(403, 'Unauthorized access to registration');
         }
 
-        // Check if registration is confirmed (auto-confirmed after payment)
-        if (!in_array($registration->status, ['confirmed', 'paid'])) {
-            return redirect()->back()->with('error', 'Hanya bisa submit untuk pendaftaran yang sudah dikonfirmasi');
+        // Check if registration is confirmed by admin
+        if ($registration->status !== 'confirmed') {
+            return redirect()->back()->with('error', 'Maaf registrasi anda belum di konfirmasi admin, silahkan konfirmasi terlebih dahulu lalu kembali lagi');
         }
 
         // Check if submission already exists

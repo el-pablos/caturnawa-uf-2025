@@ -221,9 +221,15 @@
                             @endif
                             
                             @if($registration->competition->status === 'active')
-                                <a href="{{ route('peserta.submissions.create', $registration) }}" class="btn btn-primary">
-                                    <i class="bi bi-cloud-upload"></i> Submit Work
-                                </a>
+                                @if($registration->status === 'confirmed')
+                                    <a href="{{ route('peserta.submissions.create', $registration) }}" class="btn btn-primary">
+                                        <i class="bi bi-cloud-upload"></i> Submit Work
+                                    </a>
+                                @else
+                                    <button type="button" class="btn btn-primary" onclick="showConfirmationAlert()">
+                                        <i class="bi bi-cloud-upload"></i> Submit Work
+                                    </button>
+                                @endif
                             @endif
                         </div>
                     @endif
@@ -331,6 +337,10 @@
 <script>
 function cancelRegistration() {
     $('#cancelModal').modal('show');
+}
+
+function showConfirmationAlert() {
+    alert('Maaf registrasi anda belum di konfirmasi admin, silahkan konfirmasi terlebih dahulu lalu kembali lagi');
 }
 </script>
 @endpush
