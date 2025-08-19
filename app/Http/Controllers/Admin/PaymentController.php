@@ -162,6 +162,22 @@ class PaymentController extends Controller
         try {
             DB::beginTransaction();
 
+            // Ensure payment has registration relationship loaded
+            $payment->load('registration');
+            
+            if (!$payment->registration) {
+                DB::rollback();
+                
+                if (request()->wantsJson()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Registration data not found for this payment.'
+                    ]);
+                }
+                
+                return back()->with('error', 'Registration data not found for this payment.');
+            }
+
             // Check if payment is already confirmed
             if ($payment->registration->status === 'confirmed') {
                 DB::rollback();
@@ -213,7 +229,12 @@ class PaymentController extends Controller
             }
 
             // Store WhatsApp group link now that payment is confirmed
-            $payment->storeWhatsAppGroupLink();
+            try {
+                $payment->storeWhatsAppGroupLink();
+            } catch (\Exception $whatsappException) {
+                // Log the WhatsApp error but don't fail the entire confirmation
+                \Log::error('Failed to store WhatsApp group link for payment ' . $payment->id . ': ' . $whatsappException->getMessage());
+            }
 
             // Send confirmation email
             // TODO: Implement email notification

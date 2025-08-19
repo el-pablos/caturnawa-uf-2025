@@ -49,9 +49,18 @@ class RegistrationValidationService
      */
     private function checkUserConflict(User $user, Competition $competition): ?array
     {
+        // Check for existing registrations, but ignore those unlocked by admin
         $existingRegistration = Registration::where('user_id', $user->id)
             ->where('competition_id', '!=', $competition->id)
-            ->whereIn('status', ['confirmed', 'pending'])
+            ->whereIn('status', ['confirmed', 'pending', 'paid'])
+            ->where(function($query) {
+                // Only block registration if:
+                // 1. Registration is actively locked (is_locked = true), OR
+                // 2. Registration has no lock status (is_locked = null, natural lock)
+                // DON'T block if is_locked = false (manually unlocked by admin)
+                $query->where('is_locked', true)
+                      ->orWhere('is_locked', null);
+            })
             ->with('competition')
             ->first();
 
@@ -84,9 +93,14 @@ class RegistrationValidationService
             return $conflicts;
         }
 
-        // Get all confirmed registrations from other competitions
+        // Get all active registrations from other competitions (excluding manually unlocked ones)
         $existingRegistrations = Registration::where('competition_id', '!=', $competition->id)
-            ->whereIn('status', ['confirmed', 'pending'])
+            ->whereIn('status', ['confirmed', 'pending', 'paid'])
+            ->where(function($query) {
+                // Only consider registrations that are not manually unlocked
+                $query->where('is_locked', true)
+                      ->orWhere('is_locked', null);
+            })
             ->whereNotNull('team_members')
             ->with('competition', 'user')
             ->get();
@@ -219,7 +233,12 @@ class RegistrationValidationService
     public function getUserRegistrations(User $user): Collection
     {
         return Registration::where('user_id', $user->id)
-            ->whereIn('status', ['confirmed', 'pending'])
+            ->whereIn('status', ['confirmed', 'pending', 'paid'])
+            ->where(function($query) {
+                // Only return registrations that are actively blocking (not manually unlocked)
+                $query->where('is_locked', true)
+                      ->orWhere('is_locked', null);
+            })
             ->with('competition')
             ->get();
     }
