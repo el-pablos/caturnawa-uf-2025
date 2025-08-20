@@ -47,6 +47,17 @@ class Registration extends Model
         'ticket_code',
         'dynamic_data',
         
+        // SPC-specific fields
+        'alamat_lengkap',
+        'no_whatsapp_aktif',
+        'asal_perguruan_tinggi',
+        'fakultas',
+        'program_studi',
+        'npm',
+        'judul_karya',
+        'deskripsi_karya',
+        'teknologi_yang_digunakan',
+        
         // Lock system fields
         'is_locked',
         'lock_reason',
