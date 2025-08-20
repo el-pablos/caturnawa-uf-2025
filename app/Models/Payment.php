@@ -104,44 +104,39 @@ class Payment extends Model
      */
     protected function generateOrderId()
     {
-        $maxAttempts = 10;
-        $attempts = 0;
+        return DB::transaction(function () {
+            $maxAttempts = 50;
+            $attempts = 0;
 
-        do {
-            $attempts++;
-            // Format: UF2025-DDMMYYYY-sequence (where sequence is payment ID sequence)
-            $date = now()->format('dmY'); // day, month, year without separator
-            
-            // Get next sequence number for today
-            $today = now()->format('Y-m-d');
-            $todayPaymentsCount = DB::table('payments')
-                ->whereDate('created_at', $today)
-                ->count();
-            
-            $sequence = $todayPaymentsCount + 1;
-            $orderId = "UF2025-{$date}-{$sequence}";
+            do {
+                $attempts++;
+                
+                // Format: UF2025-DDMMYYYY-HHMMSS-RND
+                $timestamp = now();
+                $date = $timestamp->format('dmY');
+                $time = $timestamp->format('His');
+                $random = str_pad(mt_rand(1, 999), 3, '0', STR_PAD_LEFT);
+                
+                $orderId = "UF2025-{$date}{$time}-{$random}";
 
-            // Check for collision in database with lock to prevent race conditions
-            $exists = DB::table('payments')
-                ->where('order_id', $orderId)
-                ->lockForUpdate()
-                ->exists();
+                // Check for collision with proper locking
+                $exists = DB::table('payments')
+                    ->where('order_id', $orderId)
+                    ->lockForUpdate()
+                    ->exists();
 
-            if (!$exists) {
-                return $orderId;
-            }
+                if (!$exists) {
+                    return $orderId;
+                }
 
-            // Add small delay to prevent rapid collision attempts
-            usleep(1000); // 1ms delay
+                // Add microsecond delay to prevent rapid collision attempts
+                usleep(mt_rand(1000, 5000)); // 1-5ms random delay
 
-        } while ($exists && $attempts < $maxAttempts);
+            } while ($exists && $attempts < $maxAttempts);
 
-        // If we still have collision after max attempts, throw exception
-        if ($attempts >= $maxAttempts) {
+            // If we still have collision after max attempts, throw exception
             throw new \Exception('Unable to generate unique order ID after ' . $maxAttempts . ' attempts');
-        }
-
-        return $orderId;
+        });
     }
 
     /**

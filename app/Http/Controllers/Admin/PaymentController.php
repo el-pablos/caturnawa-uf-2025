@@ -358,7 +358,7 @@ class PaymentController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
-    public function reject(Payment $payment, Request $request)
+    public function reject(Request $request, Payment $payment)
     {
         $request->validate([
             'rejection_reason' => 'required|string|max:500',

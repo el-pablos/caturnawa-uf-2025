@@ -241,11 +241,9 @@
                                             </button>
                                         @endif
 
-                                        @if($registration->status !== 'confirmed' || !$registration->payment?->isSuccess())
-                                            <button class="btn btn-outline-danger" onclick="deleteRegistration({{ $registration->id }})" title="Hapus Permanen">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        @endif
+                                        <button class="btn btn-outline-danger" onclick="deleteRegistration({{ $registration->id }})" title="Hapus Permanen">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>

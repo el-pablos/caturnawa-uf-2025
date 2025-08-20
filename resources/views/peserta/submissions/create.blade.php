@@ -225,24 +225,33 @@
 document.addEventListener('DOMContentLoaded', function() {
     // File size validation
     const fileInput = document.getElementById('files');
+    const fileKaryaInput = document.getElementById('file_karya');
+    const suratOrisinalitasInput = document.getElementById('surat_orisinalitas');
+    const suratPengalihanInput = document.getElementById('surat_pengalihan_hak_cipta');
     const previewInput = document.getElementById('preview_image');
 
     function validateFileSize(input, maxSize, unit = 'MB') {
-        input.addEventListener('change', function() {
-            const files = this.files;
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
-                const fileSize = file.size / (1024 * 1024); // Convert to MB
-                if (fileSize > maxSize) {
-                    alert(`File "${file.name}" terlalu besar! Maksimal ${maxSize}${unit}`);
-                    this.value = '';
-                    return;
+        if (input) {
+            input.addEventListener('change', function() {
+                const files = this.files;
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    const fileSize = file.size / (1024 * 1024); // Convert to MB
+                    if (fileSize > maxSize) {
+                        alert(`File "${file.name}" terlalu besar! Maksimal ${maxSize}${unit}`);
+                        this.value = '';
+                        return;
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
+    // Apply validation to all possible file inputs
     validateFileSize(fileInput, 10);
+    validateFileSize(fileKaryaInput, 50);
+    validateFileSize(suratOrisinalitasInput, 10);
+    validateFileSize(suratPengalihanInput, 10);
     validateFileSize(previewInput, 2);
     
     // Description word count
@@ -285,26 +294,28 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Preview image
-    previewInput.addEventListener('change', function() {
-        const file = this.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                let preview = document.getElementById('image-preview');
-                if (!preview) {
-                    preview = document.createElement('div');
-                    preview.id = 'image-preview';
-                    preview.className = 'mt-2';
-                    previewInput.parentNode.appendChild(preview);
-                }
-                preview.innerHTML = `
-                    <img src="${e.target.result}" alt="Preview" class="img-thumbnail" style="max-width: 200px;">
-                    <small class="text-muted d-block">Preview gambar</small>
-                `;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
+    if (previewInput) {
+        previewInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    let preview = document.getElementById('image-preview');
+                    if (!preview) {
+                        preview = document.createElement('div');
+                        preview.id = 'image-preview';
+                        preview.className = 'mt-2';
+                        previewInput.parentNode.appendChild(preview);
+                    }
+                    preview.innerHTML = `
+                        <img src="${e.target.result}" alt="Preview" class="img-thumbnail" style="max-width: 200px;">
+                        <small class="text-muted d-block">Preview gambar</small>
+                    `;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
 });
 </script>
 @endpush

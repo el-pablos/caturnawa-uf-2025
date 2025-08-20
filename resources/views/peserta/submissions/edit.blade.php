@@ -205,18 +205,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const previewInput = document.getElementById('preview_image');
     
     function validateFileSize(input, maxSize, unit = 'MB') {
-        input.addEventListener('change', function() {
-            const files = this.files;
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
-                const fileSize = file.size / (1024 * 1024); // Convert to MB
-                if (fileSize > maxSize) {
-                    alert(`File "${file.name}" terlalu besar! Maksimal ${maxSize}${unit}`);
-                    this.value = '';
-                    return;
+        if (input) {
+            input.addEventListener('change', function() {
+                const files = this.files;
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    const fileSize = file.size / (1024 * 1024); // Convert to MB
+                    if (fileSize > maxSize) {
+                        alert(`File "${file.name}" terlalu besar! Maksimal ${maxSize}${unit}`);
+                        this.value = '';
+                        return;
+                    }
                 }
-            }
-        });
+            });
+        }
     }
     
     validateFileSize(fileInput, 10);
@@ -244,26 +246,28 @@ document.addEventListener('DOMContentLoaded', function() {
     updateWordCount();
     
     // Preview image
-    previewInput.addEventListener('change', function() {
-        const file = this.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                let preview = document.getElementById('image-preview');
-                if (!preview) {
-                    preview = document.createElement('div');
-                    preview.id = 'image-preview';
-                    preview.className = 'mt-2';
-                    previewInput.parentNode.appendChild(preview);
-                }
-                preview.innerHTML = `
-                    <img src="${e.target.result}" alt="Preview" class="img-thumbnail" style="max-width: 200px;">
-                    <small class="text-muted d-block">Preview gambar baru</small>
-                `;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
+    if (previewInput) {
+        previewInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    let preview = document.getElementById('image-preview');
+                    if (!preview) {
+                        preview = document.createElement('div');
+                        preview.id = 'image-preview';
+                        preview.className = 'mt-2';
+                        previewInput.parentNode.appendChild(preview);
+                    }
+                    preview.innerHTML = `
+                        <img src="${e.target.result}" alt="Preview" class="img-thumbnail" style="max-width: 200px;">
+                        <small class="text-muted d-block">Preview gambar baru</small>
+                    `;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
 });
 
 function deleteFile(filename) {

@@ -210,26 +210,32 @@ class CompetitionController extends Controller
             'special_needs' => 'nullable|string|max:500',
         ];
         
-        // Merge dynamic rules
-        $rules = array_merge($rules, $dynamicValidation['rules']);
+        // For competitions with dynamic requirements, use only dynamic validation
+        if ($dynamicValidation['rules'] && count($dynamicValidation['rules']) > 0) {
+            // Use dynamic validation for competitions that have CompetitionRequirement entries
+            $rules = array_merge($rules, $dynamicValidation['rules']);
+        } else {
+            // Fallback to hardcoded validation for competitions without dynamic requirements
+            if ($competition->isSpcCompetition()) {
+                // Use SPC-specific validation rules (individual competition)
+                $spcRules = Registration::getSpcValidationRules();
+                $rules = array_merge($rules, $spcRules);
+            }
+        }
         
         // Validasi logo instansi
         $rules['logo_instansi'] = 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048';
 
         // Validasi untuk kompetisi tim
         if ($competition->is_team_competition) {
-            if ($competition->isEdcCompetition()) {
-                // Use EDC-specific validation rules
+            if ($competition->isEdcCompetition() && (!isset($dynamicValidation['rules']) || count($dynamicValidation['rules']) == 0)) {
+                // Use EDC-specific validation rules only if no dynamic rules exist
                 $edcRules = Registration::getEdcValidationRules();
                 $rules = array_merge($rules, $edcRules);
-            } elseif ($competition->isKdbiCompetition()) {
-                // Use KDBI-specific validation rules
+            } elseif ($competition->isKdbiCompetition() && (!isset($dynamicValidation['rules']) || count($dynamicValidation['rules']) == 0)) {
+                // Use KDBI-specific validation rules only if no dynamic rules exist
                 $kdbiRules = Registration::getKdbiValidationRules();
                 $rules = array_merge($rules, $kdbiRules);
-            } elseif ($competition->isSpcCompetition()) {
-                // Use SPC-specific validation rules
-                $spcRules = Registration::getSpcValidationRules();
-                $rules = array_merge($rules, $spcRules);
             } elseif ($competition->isDccCompetition()) {
                 // Use DCC-specific validation rules
                 $rules['team_name'] = 'required|string|max:100';

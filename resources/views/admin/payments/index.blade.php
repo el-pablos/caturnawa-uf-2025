@@ -377,9 +377,15 @@ function confirmPayment(paymentId) {
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                 }
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
                     Swal.fire({
@@ -403,7 +409,7 @@ function confirmPayment(paymentId) {
                 console.error('Error:', error);
                 Swal.fire({
                     title: 'Error!',
-                    text: 'Terjadi kesalahan saat mengkonfirmasi pembayaran',
+                    text: error.message || 'Terjadi kesalahan saat mengkonfirmasi pembayaran',
                     icon: 'error'
                 });
             });
