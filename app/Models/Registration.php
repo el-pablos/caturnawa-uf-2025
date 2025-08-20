@@ -58,6 +58,14 @@ class Registration extends Model
         'deskripsi_karya',
         'teknologi_yang_digunakan',
         
+        // EDC-specific fields 
+        'faculty_major',
+        'npm_nim',
+        'agency_origin',
+        'full_address',
+        'whatsapp_number',
+        'group_name',
+        
         // Lock system fields
         'is_locked',
         'lock_reason',
