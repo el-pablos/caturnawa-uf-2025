@@ -230,6 +230,17 @@ class CompetitionController extends Controller
                 // Use SPC-specific validation rules
                 $spcRules = Registration::getSpcValidationRules();
                 $rules = array_merge($rules, $spcRules);
+            } elseif ($competition->isDccCompetition()) {
+                // Use DCC-specific validation rules
+                $rules['team_name'] = 'required|string|max:100';
+                $rules['team_members'] = 'required|array|size:3'; // DCC requires exactly 3 members
+                $rules['team_members.*.name'] = 'required|string|max:255';
+                $rules['team_members.*.school'] = 'required|string|max:255';
+                $rules['team_members.*.phone'] = 'required|string|max:20';
+                $rules['team_members.*.photo_3x4'] = 'required|image|mimes:jpeg,png,jpg|max:2048';
+                $rules['team_members.*.student_status_letter'] = 'required|file|mimes:pdf,doc,docx|max:5120'; // 5MB
+                $rules['team_members.*.student_id_card'] = 'required|file|mimes:jpeg,png,jpg,pdf|max:2048';
+                $rules['social_media_follow_proof'] = 'required|file|mimes:jpeg,png,jpg,pdf|max:5120'; // 5MB
             } else {
                 // Standard team competition rules
                 $rules['team_name'] = 'required|string|max:255';
@@ -264,6 +275,21 @@ class CompetitionController extends Controller
             // Use EDC-specific messages
             $edcMessages = Registration::getEdcValidationMessages();
             $messages = array_merge($baseMessages, $edcMessages, $dynamicValidation['messages']);
+        } elseif ($competition->isDccCompetition()) {
+            // Use DCC-specific messages
+            $dccMessages = [
+                'team_name.required' => 'Nama tim harus diisi',
+                'team_members.required' => 'Anggota tim harus diisi',
+                'team_members.size' => 'Tim harus terdiri dari 3 anggota',
+                'team_members.*.name.required' => 'Nama anggota tim harus diisi',
+                'team_members.*.school.required' => 'Asal sekolah harus diisi',
+                'team_members.*.phone.required' => 'Nomor telepon anggota tim harus diisi',
+                'team_members.*.photo_3x4.required' => 'Pas foto 3x4 harus diupload',
+                'team_members.*.student_status_letter.required' => 'Surat keterangan siswa aktif harus diupload',
+                'team_members.*.student_id_card.required' => 'Kartu pelajar harus diupload',
+                'social_media_follow_proof.required' => 'Bukti follow social media harus diupload',
+            ];
+            $messages = array_merge($baseMessages, $dccMessages, $dynamicValidation['messages']);
         } else {
             // Use standard messages
             $standardMessages = [
@@ -340,6 +366,9 @@ class CompetitionController extends Controller
             } elseif ($competition->isSpcCompetition()) {
                 // Use SPC-specific pricing
                 $priceData = Registration::getCurrentSpcPricing();
+            } elseif ($competition->isDccCompetition()) {
+                // Use DCC-specific pricing (from PDF: Early Bird 50k, Phase 1 65k, Phase 2 75k)
+                $priceData = $this->getDccPricing();
             } else {
                 // Use standard pricing service
                 $priceData = $this->pricingService->getPriceForCategory($participantCategory);
@@ -368,18 +397,56 @@ class CompetitionController extends Controller
 
                 // Process team members with file uploads
                 $teamMembers = [];
-                foreach ($request->team_members as $index => $member) {
-                    $fotoPath = null;
-                    if (isset($member['foto']) && $member['foto'] instanceof \Illuminate\Http\UploadedFile) {
-                        $fotoPath = $member['foto']->store('team_photos', 'public');
-                    }
+                
+                if ($competition->isDccCompetition()) {
+                    // DCC-specific team member processing
+                    foreach ($request->team_members as $index => $member) {
+                        $photo3x4Path = null;
+                        $studentStatusLetterPath = null;
+                        $studentIdCardPath = null;
+                        
+                        if (isset($member['photo_3x4']) && $member['photo_3x4'] instanceof \Illuminate\Http\UploadedFile) {
+                            $photo3x4Path = $member['photo_3x4']->store('dcc_photos', 'public');
+                        }
+                        
+                        if (isset($member['student_status_letter']) && $member['student_status_letter'] instanceof \Illuminate\Http\UploadedFile) {
+                            $studentStatusLetterPath = $member['student_status_letter']->store('dcc_documents', 'public');
+                        }
+                        
+                        if (isset($member['student_id_card']) && $member['student_id_card'] instanceof \Illuminate\Http\UploadedFile) {
+                            $studentIdCardPath = $member['student_id_card']->store('dcc_documents', 'public');
+                        }
 
-                    $teamMembers[] = [
-                        'name' => $member['name'],
-                        'email' => $member['email'],
-                        'phone' => $member['phone'],
-                        'foto' => $fotoPath,
-                    ];
+                        $teamMembers[] = [
+                            'name' => $member['name'],
+                            'school' => $member['school'],
+                            'phone' => $member['phone'],
+                            'photo_3x4' => $photo3x4Path,
+                            'student_status_letter' => $studentStatusLetterPath,
+                            'student_id_card' => $studentIdCardPath,
+                        ];
+                    }
+                    
+                    // Handle social media follow proof
+                    if ($request->hasFile('social_media_follow_proof')) {
+                        $socialMediaProofPath = $request->file('social_media_follow_proof')->store('dcc_documents', 'public');
+                        $registrationData['social_media_follow_proof'] = $socialMediaProofPath;
+                    }
+                } else {
+                    // Standard team member processing
+                    foreach ($request->team_members as $index => $member) {
+                        $fotoPath = null;
+                        if (isset($member['foto']) && $member['foto'] instanceof \Illuminate\Http\UploadedFile) {
+                            $fotoPath = $member['foto']->store('team_photos', 'public');
+                        }
+
+                        $teamMembers[] = [
+                            'name' => $member['name'],
+                            'email' => $member['email'] ?? null,
+                            'phone' => $member['phone'],
+                            'foto' => $fotoPath,
+                        ];
+                    }
                 }
 
                 $registrationData['team_members'] = $teamMembers;
@@ -428,5 +495,49 @@ class CompetitionController extends Controller
         ];
 
         return $mapping[$participantStatus] ?? 'external_student';
+    }
+
+    /**
+     * Get DCC-specific pricing based on current date
+     * Based on PDF requirements: Early Bird 50k, Phase 1 65k, Phase 2 75k
+     */
+    private function getDccPricing()
+    {
+        $now = now();
+        
+        // DCC pricing phases (same for both Infographics and Short Video)
+        $earlyBirdStart = now()->setDate(2025, 8, 25);  // 25 August 2025
+        $earlyBirdEnd = now()->setDate(2025, 8, 31);    // 31 August 2025
+        $phase1Start = now()->setDate(2025, 9, 1);      // 1 September 2025
+        $phase1End = now()->setDate(2025, 9, 13);       // 13 September 2025
+        $phase2Start = now()->setDate(2025, 9, 14);     // 14 September 2025
+        $phase2End = now()->setDate(2025, 9, 26);       // 26 September 2025
+        
+        if ($now->between($earlyBirdStart, $earlyBirdEnd)) {
+            return [
+                'amount' => 50000,
+                'phase' => 'early_bird',
+                'phase_name' => 'Early Bird'
+            ];
+        } elseif ($now->between($phase1Start, $phase1End)) {
+            return [
+                'amount' => 65000,
+                'phase' => 'phase_1',
+                'phase_name' => 'Phase 1'
+            ];
+        } elseif ($now->between($phase2Start, $phase2End)) {
+            return [
+                'amount' => 75000,
+                'phase' => 'phase_2',
+                'phase_name' => 'Phase 2'
+            ];
+        } else {
+            // Default to phase 2 pricing if outside all phases
+            return [
+                'amount' => 75000,
+                'phase' => 'phase_2',
+                'phase_name' => 'Phase 2'
+            ];
+        }
     }
 }

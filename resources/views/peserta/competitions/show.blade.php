@@ -783,6 +783,88 @@
                                 <small class="text-muted">{{ $competition->isEdcCompetition() ? 'Signed by Deputy Rector, Dean, or Deputy Dean' : 'Ditandatangani oleh Wakil Rektor, Dekan, atau Wakil Dekan' }} - PDF Format, Max 100MB</small>
                             </div>
                         </div>
+                    @elseif($competition->isDccCompetition())
+                        <!-- DCC Team Form (High School Students) -->
+                        <hr>
+                        <h6 class="text-primary mb-3">
+                            <i class="bi bi-people me-2"></i>Informasi Tim DCC ({{ $competition->isDccInfographicsCompetition() ? 'Infografis' : 'Short Video' }})
+                        </h6>
+                        
+                        <div class="alert alert-warning mb-3">
+                            <h6><i class="bi bi-info-circle me-2"></i>Khusus untuk Siswa SMA/SMK/MAN</h6>
+                            <p class="mb-0">Kompetisi DCC hanya untuk siswa aktif SMA/SMK/MAN di wilayah JABODETABEK.</p>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="team_name" class="form-label">Nama Tim <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control @error('team_name') is-invalid @enderror" id="team_name" name="team_name" 
+                                   value="{{ old('team_name') }}" required maxlength="100" 
+                                   placeholder="Nama tim berkaitan dengan tema kompetisi">
+                            @error('team_name')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                            <small class="form-text text-muted">
+                                <i class="bi bi-info-circle me-1"></i>Nama tim harus berkaitan dengan tema kompetisi, maksimal 100 karakter
+                            </small>
+                        </div>
+                        
+                        <!-- DCC Team Members (3 members) -->
+                        <div id="dcc-team-members">
+                            <label class="form-label">Anggota Tim (3 Orang) <span class="text-danger">*</span></label>
+                            
+                            @for($i = 0; $i < 3; $i++)
+                            <div class="team-member mb-4 border rounded p-3">
+                                <h6 class="text-primary mb-3">Anggota {{ $i + 1 }}</h6>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Nama Lengkap <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="team_members[{{ $i }}][name]" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Asal Sekolah <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="team_members[{{ $i }}][school]" required 
+                                               placeholder="SMA/SMK/MAN di wilayah JABODETABEK">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Nomor Telepon <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="team_members[{{ $i }}][phone]" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Pas Foto 3x4 cm <span class="text-danger">*</span></label>
+                                        <input type="file" class="form-control" name="team_members[{{ $i }}][photo_3x4]" accept="image/*" required>
+                                        <small class="text-muted">Format: JPG, PNG. Max 2MB</small>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Surat Keterangan Siswa Aktif <span class="text-danger">*</span></label>
+                                        <input type="file" class="form-control" name="team_members[{{ $i }}][student_status_letter]" accept=".pdf,.doc,.docx" required>
+                                        <small class="text-muted">Dari sekolah - Format: PDF, DOC. Max 5MB</small>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Kartu Pelajar/Student ID <span class="text-danger">*</span></label>
+                                        <input type="file" class="form-control" name="team_members[{{ $i }}][student_id_card]" accept="image/*,.pdf" required>
+                                        <small class="text-muted">Format: JPG, PNG, PDF. Max 2MB</small>
+                                    </div>
+                                </div>
+                            </div>
+                            @endfor
+                        </div>
+                        
+                        <!-- Social Media Requirements -->
+                        <h6 class="text-secondary mb-3">Persyaratan Social Media</h6>
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">Bukti Follow Social Media UNAS FEST 2025 <span class="text-danger">*</span></label>
+                                <input type="file" class="form-control" name="social_media_follow_proof" accept="image/*,.pdf" required>
+                                <small class="text-muted">Screenshot follow Instagram @unasfest, YouTube @unasfest, TikTok @unasfest - Format: PDF/JPG. Max 5MB</small>
+                            </div>
+                        </div>
+                        
                     @elseif($competition->is_team_competition)
                         <!-- Other team competitions -->
                         <hr>

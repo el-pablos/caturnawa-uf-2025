@@ -1127,6 +1127,43 @@ class Competition extends Model
     }
 
     /**
+     * Check if this is DCC competition (either Infographics or Short Video)
+     *
+     * @return bool
+     */
+    public function isDccCompetition()
+    {
+        return $this->category === 'event_digital_creative' && 
+               (stripos($this->name, 'DCC') !== false || 
+                stripos($this->name, 'Digital Creative') !== false ||
+                stripos($this->name, 'Infograf') !== false ||
+                stripos($this->name, 'Short Video') !== false);
+    }
+
+    /**
+     * Check if this is DCC Infographics competition
+     *
+     * @return bool
+     */
+    public function isDccInfographicsCompetition()
+    {
+        return $this->isDccCompetition() && 
+               (stripos($this->name, 'Infograf') !== false);
+    }
+
+    /**
+     * Check if this is DCC Short Video competition
+     *
+     * @return bool
+     */
+    public function isDccShortVideoCompetition()
+    {
+        return $this->isDccCompetition() && 
+               (stripos($this->name, 'Short Video') !== false || 
+                stripos($this->name, 'Video') !== false);
+    }
+
+    /**
      * Get static team configuration for competitions
      *
      * @return array
