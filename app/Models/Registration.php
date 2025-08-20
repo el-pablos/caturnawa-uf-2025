@@ -66,6 +66,13 @@ class Registration extends Model
         'whatsapp_number',
         'group_name',
         
+        // KDBI-specific fields
+        'fakultas_prodi', 
+        'asal_instansi',
+        'alamat_lengkap_kdbi',
+        'no_whatsapp_kdbi',
+        'nama_kelompok',
+        
         // Lock system fields
         'is_locked',
         'lock_reason',
