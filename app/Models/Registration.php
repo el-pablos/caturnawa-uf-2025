@@ -73,6 +73,14 @@ class Registration extends Model
         'no_whatsapp_kdbi',
         'nama_kelompok',
         
+        // DCC-specific fields (Infografis & Short Video)
+        'school_name',
+        'school_type',
+        'jabodetabek_area', 
+        'student_id_card_number',
+        'participant_phone',
+        'team_member_details',
+        
         // Lock system fields
         'is_locked',
         'lock_reason',
@@ -137,6 +145,7 @@ class Registration extends Model
         'previous_debate_experience' => 'array',
         'preferred_debate_topics' => 'array',
         'toefl_ielts_score' => 'integer',
+        'team_member_details' => 'array',
     ];
 
     /**
@@ -693,6 +702,40 @@ class Registration extends Model
             'teknologi_yang_digunakan' => 'required|string|max:500', // Teknologi Yang Digunakan
             'surat_orisinalitas' => 'required|file|mimes:pdf|max:10240', // Scan Surat Pernyataan Orisinalitas Karya (Format PDF)
             'surat_pengalihan_hak_cipta' => 'required|file|mimes:pdf|max:10240', // Scan Surat Pernyataan Pengalihan Hak Cipta (Format PDF)
+        ];
+    }
+
+    /**
+     * DCC (Infografis & Short Video) validation rules
+     * Based on B.Ing Infografis.pdf and Short Video.pdf requirements
+     * 
+     * @return array
+     */
+    public static function getDccValidationRules()
+    {
+        return [
+            // Participant Information for High School Students
+            'name' => 'required|string|max:255', // Participant name
+            'school_name' => 'required|string|max:255', // Name of school institution
+            'school_type' => 'required|in:SMA,MAN,SMK', // School type
+            'jabodetabek_area' => 'required|string|max:255', // Must be in JABODETABEK area
+            'student_id_card_number' => 'required|string|max:50', // Student ID Card number
+            'participant_phone' => 'required|string|max:20', // Participant phone number
+            
+            // Team Information - Must be 3 members
+            'team_member_details' => 'required|array|size:3', // Exactly 3 team members
+            'team_member_details.*.name' => 'required|string|max:255', // Each member name
+            'team_member_details.*.institution' => 'required|string|max:255', // Each member institution
+            'team_member_details.*.phone' => 'required|string|max:20', // Each member phone
+            
+            // Required Documents for High School Students  
+            'student_status_letter' => 'required|file|mimes:pdf,jpg,jpeg,png|max:10240', // Surat keterangan siswa aktif
+            'student_id_card' => 'required|file|mimes:pdf,jpg,jpeg,png|max:10240', // Kartu Pelajar
+            'photo_3x4' => 'required|image|mimes:jpg,jpeg,png|max:5120', // Foto 3x4
+            'social_media_follow_proof' => 'required|file|max:10240', // Bukti follow social media UNAS FEST 2025
+            
+            // Pricing based on registration phase
+            'registration_phase' => 'required|in:early_bird,phase_1,phase_2',
         ];
     }
 
