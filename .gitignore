@@ -21,6 +21,7 @@ tabulator/
 *.txt
 *.lock
 zihuy
+nginx-config
 
 # Claude Desktop App Files
 claude.exe

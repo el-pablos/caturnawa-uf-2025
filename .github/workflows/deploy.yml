@@ -128,7 +128,7 @@ jobs:
           
           # Test deployment
           echo "Testing deployment..."
-          response=$(curl -s -o /dev/null -w "%{http_code}" "https://caturnawa.tams.my.id")
+          response=$(curl -s -o /dev/null -w "%{http_code}" "https://testing.caturnawa.unasfest.com")
           if [ "$response" = "200" ]; then
             echo "✅ Deployment successful! Website is responding correctly (HTTP $response)"
           else
