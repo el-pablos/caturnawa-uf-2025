@@ -1126,19 +1126,6 @@ class Competition extends Model
         return $this->category === 'event_scientific_paper';
     }
 
-    /**
-     * Check if this is DCC competition (either Infographics or Short Video)
-     *
-     * @return bool
-     */
-    public function isDccCompetition()
-    {
-        return $this->category === 'event_digital_creative' && 
-               (stripos($this->name, 'DCC') !== false || 
-                stripos($this->name, 'Digital Creative') !== false ||
-                stripos($this->name, 'Infograf') !== false ||
-                stripos($this->name, 'Short Video') !== false);
-    }
 
     /**
      * Check if this is DCC Infographics competition
