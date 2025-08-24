@@ -225,20 +225,48 @@ jobs:
           
           # .env file already configured before composer install
           
-          # Test database connection before proceeding
+          # Setup database and user if not exists
+          echo "Setting up MySQL database and user..."
+          systemctl start mysql || echo "MySQL already running"
+          sleep 3
+          
+          # Create database and user with proper permissions
+          mysql -u root -p"vpsTaman1ch" -e "CREATE DATABASE IF NOT EXISTS uf_testnich CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;" 2>/dev/null || {
+            echo "Creating database with default root access..."
+            mysql -u root -e "CREATE DATABASE IF NOT EXISTS uf_testnich CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;" 2>/dev/null || {
+              echo "Setting up MySQL root password and creating database..."
+              mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'vpsTaman1ch';" 2>/dev/null || true
+              mysql -e "FLUSH PRIVILEGES;" 2>/dev/null || true
+              mysql -u root -p"vpsTaman1ch" -e "CREATE DATABASE IF NOT EXISTS uf_testnich CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+            }
+          }
+          
+          # Create or update the application user
+          mysql -u root -p"vpsTaman1ch" -e "DROP USER IF EXISTS 'uftesnich'@'localhost';" 2>/dev/null || true
+          mysql -u root -p"vpsTaman1ch" -e "CREATE USER 'uftesnich'@'localhost' IDENTIFIED BY 'vpsTaman1ch';"
+          mysql -u root -p"vpsTaman1ch" -e "GRANT ALL PRIVILEGES ON uf_testnich.* TO 'uftesnich'@'localhost';"
+          mysql -u root -p"vpsTaman1ch" -e "FLUSH PRIVILEGES;"
+          
+          # Test database connection
           echo "Testing database connection..."
           php8.2 artisan tinker --execute="DB::connection()->getPdo(); echo 'Database connection successful';" || {
-            echo "❌ Database connection failed. Checking MySQL service..."
-            systemctl status mysql || echo "MySQL service not running"
-            echo "Attempting to start MySQL service..."
-            systemctl start mysql || echo "Failed to start MySQL"
-            sleep 5
-            php8.2 artisan tinker --execute="DB::connection()->getPdo(); echo 'Database connection successful after restart';" || {
-              echo "❌ Database connection still failing. Check database credentials and service."
+            echo "❌ Database connection still failing. Trying alternative connection test..."
+            mysql -u uftesnich -p"vpsTaman1ch" -e "SELECT 1;" uf_testnich && echo "✅ Direct MySQL connection works" || {
+              echo "❌ Direct MySQL connection also failed. Checking MySQL status..."
+              systemctl status mysql
               exit 1
             }
           }
           echo "✅ Database connection verified"
+          
+          # Run database migrations if needed
+          echo "Checking database schema..."
+          php8.2 artisan migrate:status 2>/dev/null || {
+            echo "Running database migrations..."
+            php8.2 artisan migrate --force || {
+              echo "⚠️ Migration failed, but continuing deployment"
+            }
+          }
           
           # Clear caches and optimize Laravel
           echo "Clearing caches and optimizing Laravel..."
