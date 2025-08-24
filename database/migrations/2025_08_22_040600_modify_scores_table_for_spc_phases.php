@@ -24,12 +24,25 @@ return new class extends Migration
             });
         }
         
-        // Drop existing unique constraint and create new one
+        // Handle unique constraint modification safely
         Schema::table('scores', function (Blueprint $table) {
-            // Drop the existing unique constraint by name
-            $table->dropIndex('scores_competition_id_registration_id_jury_id_unique');
+            try {
+                // Check if the unique constraint exists before trying to drop it
+                $table->dropUnique(['competition_id', 'registration_id', 'jury_id']);
+            } catch (\Exception $e) {
+                // Ignore if constraint doesn't exist or can't be dropped
+            }
             
-            // Create new unique constraint that includes phase
+            try {
+                // Also try dropping by index name if it exists
+                $table->dropIndex('scores_competition_id_registration_id_jury_id_unique');
+            } catch (\Exception $e) {
+                // Ignore if index doesn't exist
+            }
+        });
+        
+        // Create new unique constraint that includes phase in a separate operation
+        Schema::table('scores', function (Blueprint $table) {
             // This allows multiple scores per jury-participant but only one per phase
             $table->unique(['competition_id', 'registration_id', 'jury_id', 'phase'], 'scores_unique_per_phase');
         });

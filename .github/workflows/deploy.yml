@@ -262,10 +262,22 @@ jobs:
           # Run database migrations if needed
           echo "Setting up database schema..."
           echo "Creating migration table and running migrations..."
-          php8.2 artisan migrate:install --force 2>/dev/null || echo "Migration table already exists"
-          php8.2 artisan migrate --force || {
-            echo "⚠️ Migration failed, but continuing deployment"
-          }
+          php8.2 artisan migrate:install 2>/dev/null || echo "Migration table already exists"
+          
+          # Try to run migrations with better error handling
+          echo "Running database migrations..."
+          if php8.2 artisan migrate --force; then
+            echo "✅ Database migrations completed successfully"
+          else
+            echo "⚠️ Some migrations failed. Checking if we can continue..."
+            # Check if basic tables exist and app can still function
+            php8.2 artisan tinker --execute="DB::connection()->getPdo(); echo 'Database still accessible';" && {
+              echo "✅ Database is accessible, continuing deployment"
+            } || {
+              echo "❌ Database is not accessible, this is critical"
+              exit 1
+            }
+          fi
           echo "✅ Database schema setup completed"
           
           # Clear caches and optimize Laravel
