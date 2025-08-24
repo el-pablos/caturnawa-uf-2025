@@ -78,11 +78,15 @@ jobs:
           
     - name: Deploy to server
       uses: appleboy/ssh-action@v1.0.3
+      continue-on-error: false
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_KEY }}
         port: ${{ secrets.PORT }}
+        timeout: 300s
+        command_timeout: 600s
+        script_stop: true
         script: |
           # Set variables
           PROJECT_DIR="/root/work/projek-unasfest/caturnawa-uf-2025"
@@ -124,13 +128,24 @@ jobs:
           chown -R www-data:www-data storage/framework/views
           chmod -R 775 storage/framework/views
           
-          # Ensure .env file exists
+          # Ensure .env file exists and is properly configured
           echo "Checking environment configuration..."
           if [ ! -f .env ]; then
             echo "Creating .env from .env.example..."
             cp .env.example .env
-            echo "⚠️  WARNING: Please configure .env file with proper database and app settings"
+            echo "⚠️  WARNING: .env created from template"
           fi
+          
+          # Generate APP_KEY if missing
+          if grep -q "APP_KEY=base64:PLEASE_GENERATE_NEW_KEY_WITH_php_artisan_key_generate" .env; then
+            echo "Generating new APP_KEY..."
+            php8.2 artisan key:generate --force
+          fi
+          
+          # Ensure proper production settings
+          sed -i 's/APP_ENV=.*/APP_ENV=production/' .env
+          sed -i 's/APP_DEBUG=.*/APP_DEBUG=false/' .env
+          sed -i 's|APP_URL=.*|APP_URL=https://testing.caturnawa.unasfest.com|' .env
           
           # Clear caches and optimize Laravel
           echo "Clearing caches and optimizing Laravel..."
@@ -139,15 +154,19 @@ jobs:
           
           # Run Laravel optimization commands with error handling
           echo "Running Laravel optimization commands..."
-          php8.2 artisan config:clear || echo "Config clear failed"
-          php8.2 artisan route:clear || echo "Route clear failed"
-          php8.2 artisan view:clear || echo "View clear failed"
-          php8.2 artisan cache:clear || echo "Cache clear failed"
+          php8.2 artisan config:clear || { echo "Config clear failed"; exit 1; }
+          php8.2 artisan route:clear || { echo "Route clear failed"; exit 1; }
+          php8.2 artisan view:clear || { echo "View clear failed"; exit 1; }
+          php8.2 artisan cache:clear || { echo "Cache clear failed"; exit 1; }
+          
+          # Test basic Laravel functionality before caching
+          echo "Testing Laravel configuration..."
+          php8.2 artisan --version || { echo "Laravel is not working properly"; exit 1; }
           
           # Only cache if no errors in clearing
-          php8.2 artisan config:cache || echo "Config cache failed - check .env file"
-          php8.2 artisan route:cache || echo "Route cache failed"
-          php8.2 artisan view:cache || echo "View cache failed"
+          php8.2 artisan config:cache || { echo "Config cache failed - check .env file"; exit 1; }
+          php8.2 artisan route:cache || { echo "Route cache failed"; exit 1; }
+          php8.2 artisan view:cache || { echo "View cache failed"; exit 1; }
           
           # Test deployment with multiple checks
           echo "Testing deployment..."
