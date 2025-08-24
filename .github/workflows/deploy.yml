@@ -93,6 +93,22 @@ jobs:
           BACKUP_DIR="/root/backups/caturnawa-$(date +%Y%m%d-%H%M%S)"
           BRANCH_NAME="${{ github.ref_name }}"
           
+          # Update system and install PHP 8.2
+          echo "Updating system and installing PHP 8.2..."
+          apt update -y
+          apt install -y software-properties-common
+          add-apt-repository ppa:ondrej/php -y
+          apt update -y
+          apt install -y php8.2 php8.2-cli php8.2-fpm php8.2-mysql php8.2-xml php8.2-curl php8.2-gd php8.2-mbstring php8.2-zip php8.2-intl php8.2-bcmath
+          
+          # Install Composer if not exists
+          if [ ! -f /usr/local/bin/composer ]; then
+            echo "Installing Composer..."
+            curl -sS https://getcomposer.org/installer | php
+            mv composer.phar /usr/local/bin/composer
+            chmod +x /usr/local/bin/composer
+          fi
+          
           # Create backup
           echo "Creating backup..."
           mkdir -p /root/backups
@@ -121,7 +137,7 @@ jobs:
           
           # Fix permissions
           echo "Fixing permissions..."
-          chmod 755 /root /root/work /root/work/projek-unasfest
+          chmod 755 /root /root/work /root/work/project-uf
           chown -R www-data:www-data storage bootstrap/cache
           chmod -R 775 storage bootstrap/cache
           mkdir -p storage/framework/views
