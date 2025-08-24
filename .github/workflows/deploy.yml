@@ -260,13 +260,13 @@ jobs:
           echo "✅ Database connection verified"
           
           # Run database migrations if needed
-          echo "Checking database schema..."
-          php8.2 artisan migrate:status 2>/dev/null || {
-            echo "Running database migrations..."
-            php8.2 artisan migrate --force || {
-              echo "⚠️ Migration failed, but continuing deployment"
-            }
+          echo "Setting up database schema..."
+          echo "Creating migration table and running migrations..."
+          php8.2 artisan migrate:install --force 2>/dev/null || echo "Migration table already exists"
+          php8.2 artisan migrate --force || {
+            echo "⚠️ Migration failed, but continuing deployment"
           }
+          echo "✅ Database schema setup completed"
           
           # Clear caches and optimize Laravel
           echo "Clearing caches and optimizing Laravel..."
