@@ -26,6 +26,36 @@ class RegistrationController extends Controller
         return view('peserta.registrations.index', compact('registrations'));
     }
 
+    /**
+     * Check payment status updates for multiple registrations
+     */
+    public function checkPaymentStatus(Request $request)
+    {
+        $request->validate([
+            'registration_ids' => 'required|array',
+            'registration_ids.*' => 'integer|exists:registrations,id'
+        ]);
+
+        $user = Auth::user();
+        $registrations = Registration::with('payment')
+            ->where('user_id', $user->id)
+            ->whereIn('id', $request->registration_ids)
+            ->get();
+
+        $data = $registrations->map(function ($registration) {
+            return [
+                'id' => $registration->id,
+                'payment_status' => $registration->payment ? $registration->payment->transaction_status : null,
+                'payment_confirmed' => $registration->payment ? $registration->payment->is_confirmed : false,
+            ];
+        });
+
+        return response()->json([
+            'success' => true,
+            'data' => $data
+        ]);
+    }
+
     public function show(Registration $registration)
     {
         // Check ownership

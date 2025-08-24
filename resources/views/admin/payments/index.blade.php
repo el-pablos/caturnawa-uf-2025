@@ -212,6 +212,11 @@
                                     <span class="badge bg-{{ $payment->status_class }}">
                                         {{ $payment->status_label }}
                                     </span>
+                                    @if($payment->isConfirmed())
+                                        <br><small class="text-success"><i class="bi bi-check-circle-fill me-1"></i>Admin Confirmed</small>
+                                    @elseif($payment->isAwaitingConfirmation())
+                                        <br><small class="text-warning"><i class="bi bi-clock me-1"></i>Awaiting Confirmation</small>
+                                    @endif
                                 </td>
                                 <td>{{ $payment->created_at->format('d/m/Y H:i') }}</td>
                                 <td>
@@ -220,16 +225,19 @@
                                             <i class="bi bi-file-text"></i>
                                         </a>
                                         @if($payment->isAwaitingConfirmation())
-                                            <button class="btn btn-outline-success btn-sm" onclick="confirmPayment({{ $payment->id }})" title="Konfirmasi Pembayaran">
-                                                <i class="bi bi-check-circle-fill"></i>
+                                            <button class="btn btn-success btn-sm" onclick="confirmPayment({{ $payment->id }})" title="Konfirmasi Pembayaran" id="confirm-btn-{{ $payment->id }}">
+                                                <i class="bi bi-check-circle-fill me-1"></i>Konfirmasi
                                             </button>
-                                            <button class="btn btn-outline-danger btn-sm" onclick="rejectPayment({{ $payment->id }})" title="Tolak Pembayaran">
-                                                <i class="bi bi-x-circle-fill"></i>
+                                            <button class="btn btn-danger btn-sm" onclick="rejectPayment({{ $payment->id }})" title="Tolak Pembayaran" id="reject-btn-{{ $payment->id }}">
+                                                <i class="bi bi-x-circle-fill me-1"></i>Tolak
                                             </button>
                                         @elseif($payment->isConfirmed())
-                                            <span class="badge bg-success">
-                                                <i class="bi bi-check-circle-fill me-1"></i>Terkonfirmasi
-                                            </span>
+                                            <div class="d-flex align-items-center">
+                                                <span class="badge bg-success me-2">
+                                                    <i class="bi bi-check-circle-fill me-1"></i>Terkonfirmasi
+                                                </span>
+                                                <small class="text-muted">{{ $payment->confirmed_at ? $payment->confirmed_at->format('d/m/Y H:i') : '' }}</small>
+                                            </div>
                                         @endif
                                     </div>
                                 </td>
@@ -388,14 +396,15 @@ function confirmPayment(paymentId) {
             })
             .then(data => {
                 if (data.success) {
+                    // Update UI immediately without page reload
+                    updatePaymentRowUI(paymentId, 'confirmed');
+                    
                     Swal.fire({
                         title: 'Berhasil!',
                         text: data.message,
                         icon: 'success',
-                        timer: 3000,
+                        timer: 2000,
                         showConfirmButton: false
-                    }).then(() => {
-                        location.reload();
                     });
                 } else {
                     Swal.fire({
@@ -470,10 +479,22 @@ function submitReject() {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            showSuccess('Pembayaran berhasil ditolak');
-            location.reload();
+            // Update UI immediately without page reload
+            updatePaymentRowUI(currentPaymentId, 'rejected');
+            
+            Swal.fire({
+                title: 'Berhasil!',
+                text: 'Pembayaran berhasil ditolak',
+                icon: 'success',
+                timer: 2000,
+                showConfirmButton: false
+            });
         } else {
-            showError(data.message || 'Terjadi kesalahan');
+            Swal.fire({
+                title: 'Gagal!',
+                text: data.message || 'Terjadi kesalahan',
+                icon: 'error'
+            });
         }
     })
     .catch(error => {
@@ -678,6 +699,66 @@ function bulkRejectPayments(paymentIds, reason) {
     .catch(error => {
         showError('Terjadi kesalahan sistem');
     });
+}
+
+// Function to update payment row UI without page reload
+function updatePaymentRowUI(paymentId, newStatus) {
+    const row = document.querySelector(`input[value="${paymentId}"]`).closest('tr');
+    if (!row) return;
+    
+    const statusCell = row.querySelector('td:nth-child(7)');
+    const actionCell = row.querySelector('td:nth-child(9)');
+    
+    if (newStatus === 'confirmed') {
+        // Update status badge
+        statusCell.innerHTML = `
+            <span class="badge bg-success">
+                Terkonfirmasi
+            </span>
+            <br><small class="text-success"><i class="bi bi-check-circle-fill me-1"></i>Admin Confirmed</small>
+        `;
+        
+        // Update action buttons
+        actionCell.innerHTML = `
+            <div class="btn-group btn-group-sm">
+                <a href="/admin/payments/${paymentId}" class="btn btn-outline-primary" title="Lihat Detail">
+                    <i class="bi bi-file-text"></i>
+                </a>
+                <div class="d-flex align-items-center">
+                    <span class="badge bg-success me-2">
+                        <i class="bi bi-check-circle-fill me-1"></i>Terkonfirmasi
+                    </span>
+                    <small class="text-muted">${new Date().toLocaleDateString('id-ID')} ${new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute: '2-digit'})}</small>
+                </div>
+            </div>
+        `;
+    } else if (newStatus === 'rejected') {
+        // Update status badge
+        statusCell.innerHTML = `
+            <span class="badge bg-danger">
+                Ditolak
+            </span>
+        `;
+        
+        // Update action buttons
+        actionCell.innerHTML = `
+            <div class="btn-group btn-group-sm">
+                <a href="/admin/payments/${paymentId}" class="btn btn-outline-primary" title="Lihat Detail">
+                    <i class="bi bi-file-text"></i>
+                </a>
+                <span class="badge bg-danger">
+                    <i class="bi bi-x-circle-fill me-1"></i>Ditolak
+                </span>
+            </div>
+        `;
+    }
+    
+    // Add visual feedback with animation
+    row.style.backgroundColor = newStatus === 'confirmed' ? '#d4edda' : '#f8d7da';
+    setTimeout(() => {
+        row.style.backgroundColor = '';
+        row.style.transition = 'background-color 0.5s ease';
+    }, 2000);
 }
 </script>
 @endpush

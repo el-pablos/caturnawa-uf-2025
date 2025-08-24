@@ -571,41 +571,92 @@ class Score extends Model
 
     /**
      * Get SPC criteria untuk penilaian karya ilmiah
+     * Sesuai dengan aturan resmi SPC UNAS FEST 2025:
+     * - Semifinal: Naskah (60% weight)
+     * - Final: Presentasi (40% weight)
      * 
+     * @param string $phase 'naskah' or 'presentasi'
      * @return array
      */
-    public static function getSpcCriteria()
+    public static function getSpcCriteria($phase = 'naskah')
     {
-        return [
-            'originality_innovation' => [
-                'name' => 'Orisinalitas dan Inovasi',
-                'description' => 'Tingkat kebaruan, kontribusi, dan inovasi dalam penelitian',
-                'weight' => 30,
-                'min_score' => 0,
-                'max_score' => 100
-            ],
-            'methodology_rigor' => [
-                'name' => 'Metodologi dan Ketelitian',
-                'description' => 'Kualitas metode penelitian, analisis data, dan ketelitian ilmiah',
-                'weight' => 25,
-                'min_score' => 0,
-                'max_score' => 100
-            ],
-            'analysis_discussion' => [
-                'name' => 'Analisis dan Pembahasan',
-                'description' => 'Kedalaman analisis, interpretasi hasil, dan diskusi temuan',
-                'weight' => 25,
-                'min_score' => 0,
-                'max_score' => 100
-            ],
-            'writing_structure' => [
-                'name' => 'Penulisan dan Struktur',
-                'description' => 'Kualitas penulisan akademik, struktur, dan presentasi',
-                'weight' => 20,
-                'min_score' => 0,
-                'max_score' => 100
-            ]
-        ];
+        if ($phase === 'naskah') {
+            return [
+                'originality_innovation' => [
+                    'name' => 'Orisinalitas dan Inovasi',
+                    'description' => 'Tingkat kebaruan, kontribusi, dan inovasi dalam penelitian',
+                    'weight' => 30,
+                    'min_score' => 0,
+                    'max_score' => 100,
+                    'phase' => 'naskah'
+                ],
+                'methodology_rigor' => [
+                    'name' => 'Metodologi dan Ketelitian',
+                    'description' => 'Kualitas metode penelitian, analisis data, dan ketelitian ilmiah',
+                    'weight' => 25,
+                    'min_score' => 0,
+                    'max_score' => 100,
+                    'phase' => 'naskah'
+                ],
+                'analysis_discussion' => [
+                    'name' => 'Analisis dan Pembahasan',
+                    'description' => 'Kedalaman analisis, interpretasi hasil, dan diskusi temuan',
+                    'weight' => 25,
+                    'min_score' => 0,
+                    'max_score' => 100,
+                    'phase' => 'naskah'
+                ],
+                'writing_structure' => [
+                    'name' => 'Penulisan dan Struktur',
+                    'description' => 'Kualitas penulisan akademik, struktur, dan presentasi',
+                    'weight' => 20,
+                    'min_score' => 0,
+                    'max_score' => 100,
+                    'phase' => 'naskah'
+                ]
+            ];
+        } elseif ($phase === 'presentasi') {
+            return [
+                'presentation_clarity' => [
+                    'name' => 'Kejelasan Presentasi',
+                    'description' => 'Kemampuan menyampaikan materi dengan jelas dan terstruktur',
+                    'weight' => 30,
+                    'min_score' => 0,
+                    'max_score' => 100,
+                    'phase' => 'presentasi'
+                ],
+                'content_mastery' => [
+                    'name' => 'Penguasaan Materi',
+                    'description' => 'Tingkat pemahaman dan penguasaan terhadap materi penelitian',
+                    'weight' => 25,
+                    'min_score' => 0,
+                    'max_score' => 100,
+                    'phase' => 'presentasi'
+                ],
+                'visual_aids' => [
+                    'name' => 'Media Presentasi',
+                    'description' => 'Kualitas dan efektivitas penggunaan media presentasi',
+                    'weight' => 20,
+                    'min_score' => 0,
+                    'max_score' => 100,
+                    'phase' => 'presentasi'
+                ],
+                'qa_handling' => [
+                    'name' => 'Penanganan Tanya Jawab',
+                    'description' => 'Kemampuan menjawab pertanyaan dan diskusi ilmiah',
+                    'weight' => 25,
+                    'min_score' => 0,
+                    'max_score' => 100,
+                    'phase' => 'presentasi'
+                ]
+            ];
+        }
+        
+        // Default: return both phases
+        return array_merge(
+            self::getSpcCriteria('naskah'),
+            self::getSpcCriteria('presentasi')
+        );
     }
 
     /**
@@ -697,6 +748,74 @@ class Score extends Model
         return 'F';
     }
 
+    /**
+     * Calculate SPC final score according to official formula
+     * Formula: (Average Naskah Score × 0.6) + (Average Presentasi Score × 0.4)
+     * 
+     * @param int $registrationId
+     * @param int $competitionId
+     * @return array
+     */
+    public static function calculateSpcFinalScore($registrationId, $competitionId)
+    {
+        // Get all scores for this participant from all juries
+        $allScores = self::where('registration_id', $registrationId)
+            ->where('competition_id', $competitionId)
+            ->where('is_final', true)
+            ->get();
+        
+        $naskahScores = [];
+        $presentasiScores = [];
+        
+        foreach ($allScores as $score) {
+            $criteriaScores = $score->criteria_scores;
+            
+            // Calculate Naskah score (average of naskah criteria)
+            $naskahCriteria = ['originality_innovation', 'methodology_rigor', 'analysis_discussion', 'writing_structure'];
+            $naskahSum = 0;
+            $naskahCount = 0;
+            foreach ($naskahCriteria as $criteria) {
+                if (isset($criteriaScores[$criteria]) && is_numeric($criteriaScores[$criteria])) {
+                    $naskahSum += $criteriaScores[$criteria];
+                    $naskahCount++;
+                }
+            }
+            if ($naskahCount > 0) {
+                $naskahScores[] = round($naskahSum / $naskahCount, 2);
+            }
+            
+            // Calculate Presentasi score (average of presentasi criteria)
+            $presentasiCriteria = ['presentation_clarity', 'content_mastery', 'visual_aids', 'qa_handling'];
+            $presentasiSum = 0;
+            $presentasiCount = 0;
+            foreach ($presentasiCriteria as $criteria) {
+                if (isset($criteriaScores[$criteria]) && is_numeric($criteriaScores[$criteria])) {
+                    $presentasiSum += $criteriaScores[$criteria];
+                    $presentasiCount++;
+                }
+            }
+            if ($presentasiCount > 0) {
+                $presentasiScores[] = round($presentasiSum / $presentasiCount, 2);
+            }
+        }
+        
+        $avgNaskah = count($naskahScores) > 0 ? array_sum($naskahScores) / count($naskahScores) : 0;
+        $avgPresentasi = count($presentasiScores) > 0 ? array_sum($presentasiScores) / count($presentasiScores) : 0;
+        
+        // Apply official SPC formula
+        $finalScore = ($avgNaskah * 0.6) + ($avgPresentasi * 0.4);
+        
+        return [
+            'naskah_scores' => $naskahScores,
+            'presentasi_scores' => $presentasiScores,
+            'avg_naskah' => round($avgNaskah, 2),
+            'avg_presentasi' => round($avgPresentasi, 2),
+            'final_score' => round($finalScore, 2),
+            'naskah_weight' => 0.6,
+            'presentasi_weight' => 0.4
+        ];
+    }
+    
     /**
      * Calculate victory points berdasarkan ranking
      * 

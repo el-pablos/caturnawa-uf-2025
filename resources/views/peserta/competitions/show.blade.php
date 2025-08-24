@@ -483,19 +483,23 @@
                             </small>
                         </div>
                         
-                        <!-- Debater 1 -->
-                        <div class="team-member mb-4 border rounded p-3">
-                            <h6 class="text-primary mb-3">Debater 1</h6>
-                            <p class="text-muted small mb-3">Posisi ini tidak akan berubah sampai kompetisi berakhir</p>
+                        <!-- Debater 1 (PIC) -->
+                        <div class="team-member mb-4 border rounded p-3 bg-light">
+                            <h6 class="text-primary mb-2">
+                                <i class="bi bi-person-badge me-2"></i>Debater 1 - PIC (Person In Charge)
+                            </h6>
+                            <div class="alert alert-info py-2 mb-3">
+                                <small><i class="bi bi-info-circle me-1"></i>Data PIC akan diisi otomatis dari profil Anda. PIC bertanggung jawab atas tim dan komunikasi dengan panitia.</small>
+                            </div>
                             
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">{{ $competition->isEdcCompetition() ? 'Full Name' : 'Nama Lengkap' }} <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="team_members[0][name]" required>
+                                    <input type="text" class="form-control" name="team_members[0][name]" value="{{ auth()->user()->name }}" required readonly>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">E-mail <span class="text-danger">*</span></label>
-                                    <input type="email" class="form-control" name="team_members[0][email]" required>
+                                    <input type="email" class="form-control" name="team_members[0][email]" value="{{ auth()->user()->email }}" required readonly>
                                 </div>
                             </div>
                             
@@ -524,7 +528,19 @@
                                     </select>
                                 </div>
                             </div>
-                            
+                            <div class="row">
+                                @if($competition->isEdcCompetition())
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Speaker Position <span class="text-danger">*</span></label>
+                                    <select class="form-select" name="team_members[0][speaker_position]" required>
+                                        <option value="">Select Speaker Position</option>
+                                        <option value="first_speaker">First Speaker</option>
+                                        <option value="second_speaker">Second Speaker</option>
+                                    </select>
+                                    <small class="text-muted">This position cannot be changed after registration</small>
+                                </div>
+                                @endif
+                            </div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">{{ $competition->isEdcCompetition() ? 'Full Address' : 'Alamat Lengkap' }} <span class="text-danger">*</span></label>
@@ -533,6 +549,8 @@
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">{{ $competition->isEdcCompetition() ? 'WhatsApp Number' : 'No WhatsApp' }} <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="team_members[0][{{ $competition->isEdcCompetition() ? 'whatsapp_number' : 'no_whatsapp' }}]" required>
+                                    <!-- Hidden phone field for validation compatibility -->
+                                    <input type="hidden" name="team_members[0][phone]" class="phone-sync" data-target="team_members[0][{{ $competition->isEdcCompetition() ? 'whatsapp_number' : 'no_whatsapp' }}]">
                                 </div>
                             </div>
                             
@@ -547,6 +565,8 @@
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">{{ $competition->isEdcCompetition() ? 'Latest Formal Photograph (3x4)' : 'Pas Foto Formal Terbaru (3x4)' }} <span class="text-danger">*</span></label>
                                     <input type="file" class="form-control" name="team_members[0][{{ $competition->isEdcCompetition() ? 'formal_photo_3x4' : 'pas_foto_formal_3x4' }}]" accept=".jpg" required>
+                                    <!-- Hidden foto field for validation compatibility -->
+                                    <input type="file" name="team_members[0][foto]" class="foto-sync d-none" accept="image/*">
                                     <small class="text-muted">JPG Format, Max 100MB</small>
                                 </div>
                             </div>
@@ -578,10 +598,14 @@
                             </div>
                         </div>
                         
-                        <!-- Debater 2 -->
+                        <!-- Debater 2 (Team Member) -->
                         <div class="team-member mb-4 border rounded p-3">
-                            <h6 class="text-primary mb-3">Debater 2</h6>
-                            <p class="text-muted small mb-3">Posisi ini tidak akan berubah sampai kompetisi berakhir</p>
+                            <h6 class="text-primary mb-3">
+                                <i class="bi bi-person me-2"></i>Debater 2 - Team Member
+                            </h6>
+                            <div class="alert alert-warning py-2 mb-3">
+                                <small><i class="bi bi-exclamation-triangle me-1"></i>Anggota tim harus dari universitas yang sama dengan PIC. Posisi ini tidak akan berubah sampai kompetisi berakhir.</small>
+                            </div>
                             
                             <!-- Same fields as Debater 1 but with index [1] -->
                             <div class="row">
@@ -608,10 +632,6 @@
                             
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">{{ $competition->isEdcCompetition() ? 'Agency Origin' : 'Asal Instansi' }} <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="team_members[1][{{ $competition->isEdcCompetition() ? 'agency_origin' : 'asal_instansi' }}]" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
                                     <label class="form-label">{{ $competition->isEdcCompetition() ? 'Sex' : 'Jenis Kelamin' }} <span class="text-danger">*</span></label>
                                     <select class="form-select" name="team_members[1][gender]" required>
                                         <option value="">{{ $competition->isEdcCompetition() ? 'Select Sex' : 'Pilih Jenis Kelamin' }}</option>
@@ -619,6 +639,17 @@
                                         <option value="female">{{ $competition->isEdcCompetition() ? 'Female' : 'Perempuan' }}</option>
                                     </select>
                                 </div>
+                                @if($competition->isEdcCompetition())
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Speaker Position <span class="text-danger">*</span></label>
+                                    <select class="form-select" name="team_members[1][speaker_position]" required>
+                                        <option value="">Select Speaker Position</option>
+                                        <option value="first_speaker">First Speaker</option>
+                                        <option value="second_speaker">Second Speaker</option>
+                                    </select>
+                                    <small class="text-muted">This position cannot be changed after registration</small>
+                                </div>
+                                @endif
                             </div>
                             
                             <div class="row">
@@ -629,6 +660,8 @@
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">{{ $competition->isEdcCompetition() ? 'WhatsApp Number' : 'No WhatsApp' }} <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="team_members[1][{{ $competition->isEdcCompetition() ? 'whatsapp_number' : 'no_whatsapp' }}]" required>
+                                    <!-- Hidden phone field for validation compatibility -->
+                                    <input type="hidden" name="team_members[1][phone]" class="phone-sync" data-target="team_members[1][{{ $competition->isEdcCompetition() ? 'whatsapp_number' : 'no_whatsapp' }}]">
                                 </div>
                             </div>
                             
@@ -643,6 +676,8 @@
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">{{ $competition->isEdcCompetition() ? 'Latest Formal Photograph (3x4)' : 'Pas Foto Formal Terbaru (3x4)' }} <span class="text-danger">*</span></label>
                                     <input type="file" class="form-control" name="team_members[1][{{ $competition->isEdcCompetition() ? 'formal_photo_3x4' : 'pas_foto_formal_3x4' }}]" accept=".jpg" required>
+                                    <!-- Hidden foto field for validation compatibility -->
+                                    <input type="file" name="team_members[1][foto]" class="foto-sync d-none" accept="image/*">
                                     <small class="text-muted">JPG Format, Max 100MB</small>
                                 </div>
                             </div>
@@ -677,12 +712,7 @@
                         <!-- Team Documents -->
                         <h6 class="text-secondary mb-3">Team Documents</h6>
                         <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">{{ $competition->isEdcCompetition() ? 'Proof of Payment' : 'Bukti Pembayaran' }} <span class="text-danger">*</span></label>
-                                <input type="file" class="form-control" name="{{ $competition->isEdcCompetition() ? 'proof_of_payment' : 'bukti_pembayaran' }}" accept=".pdf" required>
-                                <small class="text-muted">PDF Format, Max 100MB</small>
-                            </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-12 mb-3">
                                 <label class="form-label">{{ $competition->isEdcCompetition() ? 'Delegation Cover Letter from each University' : 'Surat Pengantar Delegasi dari masing-masing Universitas' }} <span class="text-danger">*</span></label>
                                 <input type="file" class="form-control" name="{{ $competition->isEdcCompetition() ? 'delegation_cover_letter' : 'surat_pengantar_delegasi' }}" accept=".pdf" required>
                                 <small class="text-muted">{{ $competition->isEdcCompetition() ? 'Signed by Deputy Rector, Dean, or Deputy Dean' : 'Ditandatangani oleh Wakil Rektor, Dekan, atau Wakil Dekan' }} - PDF Format, Max 100MB</small>
@@ -720,12 +750,29 @@
                             <label class="form-label">Anggota Tim (3 Orang) <span class="text-danger">*</span></label>
                             
                             @for($i = 0; $i < 3; $i++)
-                            <div class="team-member mb-4 border rounded p-3">
-                                <h6 class="text-primary mb-3">Anggota {{ $i + 1 }}</h6>
+                            <div class="team-member mb-4 border rounded p-3 {{ $i == 0 ? 'bg-light' : '' }}">
+                                <h6 class="text-primary mb-3">
+                                    @if($i == 0)
+                                        <i class="bi bi-person-badge me-2"></i>Anggota {{ $i + 1 }} - PIC (Person In Charge)
+                                    @else
+                                        <i class="bi bi-person me-2"></i>Anggota {{ $i + 1 }} - Team Member
+                                    @endif
+                                </h6>
+                                @if($i == 0)
+                                    <div class="alert alert-info py-2 mb-3">
+                                        <small><i class="bi bi-info-circle me-1"></i>Data PIC akan diisi otomatis dari profil Anda. PIC bertanggung jawab atas tim dan komunikasi dengan panitia.</small>
+                                    </div>
+                                @else
+                                    <div class="alert alert-warning py-2 mb-3">
+                                        <small><i class="bi bi-exclamation-triangle me-1"></i>Anggota tim harus dari sekolah yang sama di wilayah JABODETABEK.</small>
+                                    </div>
+                                @endif
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Nama Lengkap <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" name="team_members[{{ $i }}][name]" required>
+                                        <input type="text" class="form-control" name="team_members[{{ $i }}][name]" 
+                                               value="{{ $i == 0 ? auth()->user()->name : '' }}" 
+                                               {{ $i == 0 ? 'readonly' : '' }} required>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Asal Sekolah <span class="text-danger">*</span></label>
@@ -1181,7 +1228,41 @@ function updateAddButtonText() {
 document.addEventListener('DOMContentLoaded', function() {
     updateAddButtonText();
 
-    // Removed participant category selection - now uses user's account status
+    // Sync phone fields for validation compatibility
+    function syncPhoneFields() {
+        document.querySelectorAll('.phone-sync').forEach(function(hiddenField) {
+            const targetName = hiddenField.getAttribute('data-target');
+            const targetField = document.querySelector(`[name="${targetName}"]`);
+            if (targetField) {
+                targetField.addEventListener('input', function() {
+                    hiddenField.value = this.value;
+                });
+                // Set initial value
+                hiddenField.value = targetField.value;
+            }
+        });
+    }
+
+    // Sync foto fields for validation compatibility
+    function syncFotoFields() {
+        document.querySelectorAll('input[name*="formal_photo_3x4"], input[name*="pas_foto_formal_3x4"]').forEach(function(mainField) {
+            const memberIndex = mainField.name.match(/\[(\d+)\]/)[1];
+            const hiddenField = document.querySelector(`input[name="team_members[${memberIndex}][foto]"]`);
+            if (hiddenField) {
+                mainField.addEventListener('change', function() {
+                    if (this.files.length > 0) {
+                        // Create a new FileList with the same file
+                        const dt = new DataTransfer();
+                        dt.items.add(this.files[0]);
+                        hiddenField.files = dt.files;
+                    }
+                });
+            }
+        });
+    }
+
+    syncPhoneFields();
+    syncFotoFields();
 });
 </script>
 @endpush

@@ -81,7 +81,7 @@
                                             <span class="badge bg-info">{{ ucfirst($registration->status) }}</span>
                                         @endif
                                     </td>
-                                    <td>
+                                    <td id="payment-status-{{ $registration->id }}">
                                         @if($registration->payment)
                                             @if($registration->payment->is_confirmed)
                                                 <span class="badge bg-success">Dikonfirmasi</span>
@@ -160,6 +160,68 @@ $(document).ready(function() {
             { "orderable": false, "targets": [7] } // Disable ordering for actions column
         ]
     });
+    
+    // Auto-refresh payment status every 30 seconds
+    setInterval(function() {
+        checkPaymentStatusUpdates();
+    }, 30000);
 });
+
+// Function to check for payment status updates
+function checkPaymentStatusUpdates() {
+    const registrationIds = [];
+    $('[id^="payment-status-"]').each(function() {
+        const id = $(this).attr('id').replace('payment-status-', '');
+        registrationIds.push(id);
+    });
+    
+    if (registrationIds.length > 0) {
+        $.ajax({
+            url: '{{ route("peserta.registrations.check-payment-status") }}',
+            method: 'POST',
+            data: {
+                registration_ids: registrationIds,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    response.data.forEach(function(registration) {
+                        updatePaymentStatusUI(registration.id, registration.payment_status, registration.payment_confirmed);
+                    });
+                }
+            },
+            error: function() {
+                // Silently fail - don't show error for background updates
+            }
+        });
+    }
+}
+
+// Function to update payment status UI
+function updatePaymentStatusUI(registrationId, paymentStatus, isConfirmed) {
+    const statusCell = $('#payment-status-' + registrationId);
+    let badgeHtml = '';
+    
+    if (isConfirmed) {
+        badgeHtml = '<span class="badge bg-success">Dikonfirmasi</span>';
+    } else if (paymentStatus === 'settlement' || paymentStatus === 'capture') {
+        badgeHtml = '<span class="badge bg-warning">Menunggu Konfirmasi</span>';
+    } else if (paymentStatus === 'pending') {
+        badgeHtml = '<span class="badge bg-warning">Pending</span>';
+    } else if (paymentStatus) {
+        const statusText = paymentStatus.charAt(0).toUpperCase() + paymentStatus.slice(1);
+        badgeHtml = '<span class="badge bg-danger">' + statusText + '</span>';
+    } else {
+        badgeHtml = '<span class="badge bg-secondary">No Payment</span>';
+    }
+    
+    if (statusCell.html() !== badgeHtml) {
+        statusCell.html(badgeHtml);
+        // Add visual feedback
+        statusCell.addClass('bg-info').delay(2000).queue(function() {
+            $(this).removeClass('bg-info').dequeue();
+        });
+    }
+}
 </script>
 @endpush

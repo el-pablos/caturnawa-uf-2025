@@ -183,7 +183,9 @@ class ScoringController extends Controller
         } elseif ($competition && $competition->isKdbiCompetition()) {
             $rawCriteria = Score::getKdbiCriteria();
         } elseif ($competition && $competition->isSpcCompetition()) {
-            $rawCriteria = Score::getSpcCriteria();
+            // Determine SPC phase based on request parameter or default to naskah
+            $spcPhase = request()->get('phase', 'naskah');
+            $rawCriteria = Score::getSpcCriteria($spcPhase);
         } elseif ($competition && $competition->category === 'event_dcc') {
             // For DCC, determine criteria based on competition name and current round
             // Get current judging phase based on timeline
@@ -284,7 +286,9 @@ class ScoringController extends Controller
         } elseif ($isKdbiCompetition) {
             $rawCriteria = Score::getKdbiCriteria();
         } elseif ($isSpcCompetition) {
-            $rawCriteria = Score::getSpcCriteria();
+            // Get SPC phase from request or default to naskah
+            $spcPhase = $request->get('phase', 'naskah');
+            $rawCriteria = Score::getSpcCriteria($spcPhase);
         } elseif ($isDccCompetition) {
             // For DCC, determine criteria based on competition name and current round
             $currentPhase = $this->getCurrentDccJudgingPhase($competition);
@@ -369,18 +373,38 @@ class ScoringController extends Controller
             'jury_id' => $jury->id,
         ]);
 
-        $score->criteria_scores = $request->criteria;
         $score->comments = $request->comments;
         $score->is_final = $request->has('is_final') && $request->is_final;
 
-        // Calculate total score
-        $totalScore = 0;
-        if ($request->criteria) {
+        // Calculate total score based on competition type
+        if ($isSpcCompetition) {
+            // For SPC, store phase information and calculate weighted average
+            $spcPhase = $request->get('phase', 'naskah');
+            $criteriaWithPhase = $request->criteria;
+            $criteriaWithPhase['phase'] = $spcPhase;
+            $score->criteria_scores = $criteriaWithPhase;
+            
+            // Calculate average score for this phase
+            $totalScore = 0;
+            $criteriaCount = 0;
             foreach ($request->criteria as $criteriaKey => $value) {
-                $totalScore += (float) $value;
+                if ($criteriaKey !== 'phase') {
+                    $totalScore += (float) $value;
+                    $criteriaCount++;
+                }
             }
+            $score->total_score = $criteriaCount > 0 ? ($totalScore / $criteriaCount) : 0;
+        } else {
+            // For other competitions, use simple sum
+            $score->criteria_scores = $request->criteria;
+            $totalScore = 0;
+            if ($request->criteria) {
+                foreach ($request->criteria as $criteriaKey => $value) {
+                    $totalScore += (float) $value;
+                }
+            }
+            $score->total_score = $totalScore;
         }
-        $score->total_score = $totalScore;
 
         if ($score->is_final) {
             $score->submitted_at = now();

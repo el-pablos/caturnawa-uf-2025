@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola Karya Peserta')
+@section('title', 'Kelola Karya Tim Peserta')
 
-@section('page-title', 'Kelola Karya Peserta')
+@section('page-title', 'Kelola Karya Tim Peserta')
 
 @section('header-actions')
     <div class="d-flex gap-2">

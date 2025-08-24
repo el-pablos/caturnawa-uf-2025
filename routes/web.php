@@ -315,6 +315,17 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             })->name('invoices');
         });
 
+        // Document Management
+        Route::prefix('documents')->name('documents.')->group(function () {
+            Route::get('/', [App\Http\Controllers\Admin\DocumentController::class, 'index'])->name('index');
+            Route::get('/datatable', [App\Http\Controllers\Admin\DocumentController::class, 'datatable'])->name('datatable');
+            Route::get('/{document}', [App\Http\Controllers\Admin\DocumentController::class, 'show'])->name('show');
+            Route::post('/{document}/verify', [App\Http\Controllers\Admin\DocumentController::class, 'verify'])->name('verify');
+            Route::post('/{document}/reject', [App\Http\Controllers\Admin\DocumentController::class, 'reject'])->name('reject');
+            Route::post('/bulk-verify', [App\Http\Controllers\Admin\DocumentController::class, 'bulkVerify'])->name('bulk-verify');
+            Route::get('/export', [App\Http\Controllers\Admin\DocumentController::class, 'export'])->name('export');
+            Route::get('/statistics', [App\Http\Controllers\Admin\DocumentController::class, 'statistics'])->name('statistics');
+        });
 
     });
 
@@ -400,6 +411,7 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             Route::delete('/{registration}', [App\Http\Controllers\Peserta\RegistrationController::class, 'cancel'])->name('cancel');
             Route::get('/{registration}/ticket', [App\Http\Controllers\Peserta\RegistrationController::class, 'ticket'])->name('ticket');
             Route::post('/{registration}/refresh-payment', [App\Http\Controllers\Peserta\RegistrationController::class, 'refreshPaymentStatus'])->name('refresh-payment');
+            Route::post('/check-payment-status', [App\Http\Controllers\Peserta\RegistrationController::class, 'checkPaymentStatus'])->name('check-payment-status');
         });
         
         // Submissions

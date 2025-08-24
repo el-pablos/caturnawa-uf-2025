@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola Registrasi')
-@section('page-title', 'Kelola Registrasi')
+@section('title', 'Kelola Registrasi Tim')
+@section('page-title', 'Kelola Registrasi Tim')
 
 
 
@@ -101,7 +101,7 @@
             </div>
             <div class="col-md-4">
                 <label for="filter-search" class="form-label fw-semibold">Cari</label>
-                <input type="text" name="search" id="filter-search" class="form-control" placeholder="Nama atau email peserta..." value="{{ request('search') }}">
+                <input type="text" name="search" id="filter-search" class="form-control" placeholder="Nama PIC, email, atau nama tim..." value="{{ request('search') }}">
             </div>
             <div class="col-md-2">
                 <label for="filter-submit" class="form-label">&nbsp;</label>
@@ -147,7 +147,7 @@
                                 <input type="checkbox" id="selectAll" class="form-check-input" aria-label="Pilih semua registrasi">
                             </th>
                             <th>ID</th>
-                            <th>Peserta</th>
+                            <th>PIC (Person In Charge)</th>
                             <th>Kompetisi</th>
                             <th>Tanggal Daftar</th>
                             <th>Status</th>
@@ -170,6 +170,10 @@
                                         <strong>{{ $registration->user->name }}</strong>
                                         <br>
                                         <small class="text-muted">{{ $registration->user->email }}</small>
+                                        @if($registration->team_name)
+                                            <br>
+                                            <span class="badge bg-info">Tim: {{ $registration->team_name }}</span>
+                                        @endif
                                     </div>
                                 </td>
                                 <td>
@@ -201,12 +205,14 @@
                                 </td>
                                 <td>
                                     @if($registration->payment)
-                                        @if($registration->payment->status === 'paid')
-                                            <span class="unas-badge-success">Lunas</span>
-                                        @elseif($registration->payment->status === 'pending')
-                                            <span class="unas-badge-warning">Menunggu</span>
+                                        @if($registration->payment->is_confirmed)
+                                            <span class="unas-badge-success">Dikonfirmasi</span>
+                                        @elseif($registration->payment->isSuccess())
+                                            <span class="unas-badge-warning">Menunggu Konfirmasi</span>
+                                        @elseif($registration->payment->isPending())
+                                            <span class="unas-badge-warning">Menunggu Pembayaran</span>
                                         @else
-                                            <span class="badge bg-danger">Gagal</span>
+                                            <span class="badge bg-danger">{{ ucfirst($registration->payment->transaction_status) }}</span>
                                         @endif
                                     @else
                                         <span class="badge bg-secondary">Belum Bayar</span>

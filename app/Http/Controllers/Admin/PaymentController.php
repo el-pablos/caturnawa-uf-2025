@@ -209,6 +209,7 @@ class PaymentController extends Controller
             // Update payment confirmation
             $payment->update([
                 'status' => 'confirmed',
+                'is_confirmed' => true,
                 'confirmed_at' => now(),
                 'confirmed_by' => auth()->id(),
             ]);

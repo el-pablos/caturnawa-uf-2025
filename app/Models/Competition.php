@@ -1135,7 +1135,8 @@ class Competition extends Model
     public function isDccInfographicsCompetition()
     {
         return $this->isDccCompetition() && 
-               (stripos($this->name, 'Infograf') !== false);
+               (stripos($this->name, 'Infograf') !== false || 
+                stripos($this->name, 'Infographic') !== false);
     }
 
     /**

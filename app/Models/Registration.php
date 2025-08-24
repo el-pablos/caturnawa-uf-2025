@@ -628,6 +628,7 @@ class Registration extends Model
             'team_members.*.student_record_khs' => 'required|file|mimes:pdf|max:102400',
             
             // Team requirements
+            'proof_of_payment' => 'required|file|mimes:pdf|max:102400',
             'delegation_cover_letter' => 'required|file|mimes:pdf|max:102400',
         ];
     }
@@ -969,9 +970,10 @@ class Registration extends Model
             }
         }
         
-        if (!$hasThemeRelation) {
-            $errors[] = 'Nama tim sebaiknya berhubungan dengan tema UNAS FEST 2025, debate, atau nilai-nilai akademik dan positif.';
-        }
+        // Remove strict theme validation - allow any appropriate team name
+        // if (!$hasThemeRelation) {
+        //     $errors[] = 'Nama tim sebaiknya berhubungan dengan tema UNAS FEST 2025, debate, atau nilai-nilai akademik dan positif.';
+        // }
         
         // Check for profanity or inappropriate content
         if (preg_match('/\b(fuck|shit|damn|hell|ass|bitch|bastard|crap)\b/i', $teamNameLower)) {

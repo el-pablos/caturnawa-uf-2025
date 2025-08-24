@@ -184,6 +184,11 @@ class CompetitionController extends Controller
                 'special_needs' => $request->special_needs ?: null,
             ]);
         }
+        
+        // For all requests, ensure institution is filled from user profile if not provided
+        if (!$request->has('institution') || empty($request->institution)) {
+            $request->merge(['institution' => $user->institution]);
+        }
 
         // Check for registration conflicts (auto lock)
         $teamMembers = $competition->is_team_competition ? ($request->team_members ?? []) : [];
@@ -217,9 +222,21 @@ class CompetitionController extends Controller
         } else {
             // Fallback to hardcoded validation for competitions without dynamic requirements
             if ($competition->isSpcCompetition()) {
-                // Use SPC-specific validation rules (individual competition)
-                $spcRules = Registration::getSpcValidationRules();
-                $rules = array_merge($rules, $spcRules);
+                // SPC uses standard form fields, not the hardcoded SPC-specific fields
+                // Only add basic validation for individual competition
+                $rules['phone'] = 'required|string|max:20';
+                $rules['institution'] = 'required|string|max:255';
+                // Skip the hardcoded SPC rules as they expect different field names
+            }
+        }
+        
+        // Fix validation rules for team competitions to handle both specific and generic field names
+        if ($competition->is_team_competition) {
+            // Add fallback validation for generic fields that might be missing
+            if ($competition->isEdcCompetition() || $competition->isKdbiCompetition()) {
+                // Ensure phone and foto fields are validated for compatibility
+                $rules['team_members.*.phone'] = 'required|string|max:20';
+                $rules['team_members.*.foto'] = 'required|image|mimes:jpeg,png,jpg|max:2048';
             }
         }
         
@@ -311,9 +328,46 @@ class CompetitionController extends Controller
         $validator = Validator::make($request->all(), $rules, $messages);
 
         // Validasi khusus untuk siswa SMA/SMK - harus menyertakan institusi
-        $validator->after(function ($validator) use ($request, $competition) {
+        $validator->after(function ($validator) use ($request, $competition, $user) {
+            // For SPC competition, ensure institution is filled from user profile or request
+            if ($competition->isSpcCompetition()) {
+                $institution = $request->institution ?: $user->institution;
+                if (empty($institution)) {
+                    $validator->errors()->add('institution', 'Institusi harus diisi. Silakan lengkapi profil Anda terlebih dahulu.');
+                }
+            }
+            
             if ($request->participant_category === 'high_school_student' && empty($request->institution)) {
                 $validator->errors()->add('institution', 'Institusi wajib diisi untuk siswa SMA/SMK');
+            }
+            
+            // Sync phone fields from whatsapp_number/no_whatsapp to phone for validation compatibility
+            if ($competition->is_team_competition && $request->team_members) {
+                foreach ($request->team_members as $index => $member) {
+                    // Sync phone field for EDC
+                    if ($competition->isEdcCompetition() && isset($member['whatsapp_number']) && !isset($member['phone'])) {
+                        $request->merge([
+                            "team_members.{$index}.phone" => $member['whatsapp_number']
+                        ]);
+                    }
+                    // Sync phone field for KDBI
+                    if ($competition->isKdbiCompetition() && isset($member['no_whatsapp']) && !isset($member['phone'])) {
+                        $request->merge([
+                            "team_members.{$index}.phone" => $member['no_whatsapp']
+                        ]);
+                    }
+                    // Sync foto field for EDC/KDBI
+                    if (($competition->isEdcCompetition() || $competition->isKdbiCompetition()) && 
+                        (isset($member['formal_photo_3x4']) || isset($member['pas_foto_formal_3x4'])) && 
+                        !isset($member['foto'])) {
+                        $photoField = $competition->isEdcCompetition() ? 'formal_photo_3x4' : 'pas_foto_formal_3x4';
+                        if (isset($member[$photoField])) {
+                            $request->merge([
+                                "team_members.{$index}.foto" => $member[$photoField]
+                            ]);
+                        }
+                    }
+                }
             }
             
             // EDC-specific validations
