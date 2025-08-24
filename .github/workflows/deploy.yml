@@ -123,42 +123,7 @@ jobs:
           echo "Deploying from branch: $BRANCH_NAME"
           git reset --hard origin/$BRANCH_NAME
           
-          # Install/update dependencies
-          echo "Installing PHP dependencies..."
-          COMPOSER_ALLOW_SUPERUSER=1 php8.2 /usr/local/bin/composer install --no-dev --optimize-autoloader --no-interaction
-          COMPOSER_ALLOW_SUPERUSER=1 php8.2 /usr/local/bin/composer dump-autoload --optimize
-          
-          echo "Installing Node.js dependencies..."
-          npm cache clean --force
-          npm install
-
-          echo "Building assets..."
-          npm run build
-          
-          # Fix permissions
-          echo "Fixing permissions..."
-          chmod 755 /root /root/work /root/work/project-uf
-          chown -R www-data:www-data storage bootstrap/cache
-          chmod -R 775 storage bootstrap/cache
-          mkdir -p storage/framework/views
-          chown -R www-data:www-data storage/framework/views
-          chmod -R 775 storage/framework/views
-          
-          # Ensure .env file exists and is properly configured
-          echo "Checking environment configuration..."
-          if [ ! -f .env ]; then
-            echo "Creating .env from .env.example..."
-            cp .env.example .env
-            echo "⚠️  WARNING: .env created from template"
-          fi
-          
-          # Generate APP_KEY if missing
-          if grep -q "APP_KEY=base64:PLEASE_GENERATE_NEW_KEY_WITH_php_artisan_key_generate" .env; then
-            echo "Generating new APP_KEY..."
-            php8.2 artisan key:generate --force
-          fi
-          
-          # Configure complete .env file for production
+          # Configure complete .env file for production BEFORE composer
           echo "Writing production .env file..."
           rm -f .env
           echo 'APP_NAME="Caturnawa UNAS FEST 2025 - Testing"' > .env
@@ -235,8 +200,30 @@ jobs:
           echo '# File Upload Settings' >> .env
           echo 'MAX_FILE_SIZE=10240' >> .env
           echo 'ALLOWED_FILE_TYPES=pdf,doc,docx,jpg,jpeg,png' >> .env
-          
           echo "✅ Production .env file configured"
+          
+          # Install/update dependencies
+          echo "Installing PHP dependencies..."
+          COMPOSER_ALLOW_SUPERUSER=1 php8.2 /usr/local/bin/composer install --no-dev --optimize-autoloader --no-interaction
+          COMPOSER_ALLOW_SUPERUSER=1 php8.2 /usr/local/bin/composer dump-autoload --optimize
+          
+          echo "Installing Node.js dependencies..."
+          npm cache clean --force
+          npm install
+
+          echo "Building assets..."
+          npm run build
+          
+          # Fix permissions
+          echo "Fixing permissions..."
+          chmod 755 /root /root/work /root/work/project-uf
+          chown -R www-data:www-data storage bootstrap/cache
+          chmod -R 775 storage bootstrap/cache
+          mkdir -p storage/framework/views
+          chown -R www-data:www-data storage/framework/views
+          chmod -R 775 storage/framework/views
+          
+          # .env file already configured before composer install
           
           # Test database connection before proceeding
           echo "Testing database connection..."
