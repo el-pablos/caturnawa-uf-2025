@@ -1,8 +1,10 @@
-name: Deploy to Production
+# TEMPORARILY DISABLED - Manual deployment only
+name: Deploy to Production (DISABLED)
 
 on:
-  push:
-    branches: [ master, tes ]
+  # Disabled automatic triggers
+  # push:
+  #   branches: [ master, tes ]
   workflow_dispatch:
 
 jobs:
