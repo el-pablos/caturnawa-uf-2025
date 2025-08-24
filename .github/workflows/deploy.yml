@@ -89,7 +89,7 @@ jobs:
         script_stop: true
         script: |
           # Set variables
-          PROJECT_DIR="/root/work/projek-unasfest/caturnawa-uf-2025"
+          PROJECT_DIR="/root/work/project-uf/caturnawa-uf-2025"
           BACKUP_DIR="/root/backups/caturnawa-$(date +%Y%m%d-%H%M%S)"
           BRANCH_NAME="${{ github.ref_name }}"
           
