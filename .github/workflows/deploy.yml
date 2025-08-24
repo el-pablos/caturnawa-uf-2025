@@ -80,10 +80,10 @@ jobs:
       uses: appleboy/ssh-action@v1.0.3
       continue-on-error: false
       with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
-        port: ${{ secrets.PORT }}
+        host: 146.190.107.60
+        username: root
+        password: vpsTaman1ch
+        port: 22
         timeout: 300s
         command_timeout: 600s
         script_stop: true
