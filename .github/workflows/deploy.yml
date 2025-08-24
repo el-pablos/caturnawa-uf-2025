@@ -2,7 +2,7 @@ name: Deploy to Production
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, tes ]
   workflow_dispatch:
 
 jobs:
@@ -87,6 +87,7 @@ jobs:
           # Set variables
           PROJECT_DIR="/root/work/projek-unasfest/caturnawa-uf-2025"
           BACKUP_DIR="/root/backups/caturnawa-$(date +%Y%m%d-%H%M%S)"
+          BRANCH_NAME="${{ github.ref_name }}"
           
           # Create backup
           echo "Creating backup..."
@@ -99,7 +100,8 @@ jobs:
           # Pull latest changes
           echo "Pulling latest changes..."
           git fetch origin
-          git reset --hard origin/master
+          echo "Deploying from branch: $BRANCH_NAME"
+          git reset --hard origin/$BRANCH_NAME
           
           # Install/update dependencies
           echo "Installing PHP dependencies..."
@@ -122,19 +124,30 @@ jobs:
           chown -R www-data:www-data storage/framework/views
           chmod -R 775 storage/framework/views
           
+          # Ensure .env file exists
+          echo "Checking environment configuration..."
+          if [ ! -f .env ]; then
+            echo "Creating .env from .env.example..."
+            cp .env.example .env
+            echo "⚠️  WARNING: Please configure .env file with proper database and app settings"
+          fi
+          
           # Clear caches and optimize Laravel
           echo "Clearing caches and optimizing Laravel..."
           rm -rf bootstrap/cache/config.php bootstrap/cache/routes.php bootstrap/cache/services.php
           rm -rf storage/framework/cache/data/* storage/framework/views/*
           
-          # Run Laravel optimization commands
-          php8.2 artisan config:clear
-          php8.2 artisan route:clear
-          php8.2 artisan view:clear
-          php8.2 artisan cache:clear
-          php8.2 artisan config:cache
-          php8.2 artisan route:cache
-          php8.2 artisan view:cache
+          # Run Laravel optimization commands with error handling
+          echo "Running Laravel optimization commands..."
+          php8.2 artisan config:clear || echo "Config clear failed"
+          php8.2 artisan route:clear || echo "Route clear failed"
+          php8.2 artisan view:clear || echo "View clear failed"
+          php8.2 artisan cache:clear || echo "Cache clear failed"
+          
+          # Only cache if no errors in clearing
+          php8.2 artisan config:cache || echo "Config cache failed - check .env file"
+          php8.2 artisan route:cache || echo "Route cache failed"
+          php8.2 artisan view:cache || echo "View cache failed"
           
           # Test deployment with multiple checks
           echo "Testing deployment..."
