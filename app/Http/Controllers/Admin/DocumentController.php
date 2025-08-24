@@ -30,7 +30,7 @@ class DocumentController extends Controller
         $query = RegistrationDocument::with([
             'registration.user:id,name',
             'registration.competition:id,name',
-            'verifiedBy:id,name'
+            'verifier:id,name'
         ]);
 
         // Apply filters
@@ -96,7 +96,7 @@ class DocumentController extends Controller
             $document = RegistrationDocument::with([
                 'registration.user:id,name',
                 'registration.competition:id,name',
-                'verifiedBy:id,name'
+                'verifier:id,name'
             ])->findOrFail($id);
 
             $document->document_type_name = RegistrationDocument::DOCUMENT_TYPES[$document->document_type] ?? $document->document_type;
@@ -232,7 +232,7 @@ class DocumentController extends Controller
         $query = RegistrationDocument::with([
             'registration.user:id,name,email',
             'registration.competition:id,name',
-            'verifiedBy:id,name'
+            'verifier:id,name'
         ]);
 
         // Apply same filters as datatable
@@ -323,7 +323,7 @@ class DocumentController extends Controller
                     $status,
                     $document->created_at->format('d/m/Y H:i'),
                     $document->verified_at ? $document->verified_at->format('d/m/Y H:i') : '',
-                    $document->verifiedBy ? $document->verifiedBy->name : '',
+                    $document->verifier ? $document->verifier->name : '',
                     $document->verification_notes ?? ''
                 ]);
             }

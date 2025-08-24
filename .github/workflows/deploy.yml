@@ -104,6 +104,7 @@ jobs:
           # Install/update dependencies
           echo "Installing PHP dependencies..."
           php8.2 /usr/local/bin/composer install --no-dev --optimize-autoloader --no-interaction
+          php8.2 /usr/local/bin/composer dump-autoload --optimize
           
           echo "Installing Node.js dependencies..."
           npm cache clean --force
@@ -121,18 +122,38 @@ jobs:
           chown -R www-data:www-data storage/framework/views
           chmod -R 775 storage/framework/views
           
-          # Clear caches
-          echo "Clearing caches..."
+          # Clear caches and optimize Laravel
+          echo "Clearing caches and optimizing Laravel..."
           rm -rf bootstrap/cache/config.php bootstrap/cache/routes.php bootstrap/cache/services.php
           rm -rf storage/framework/cache/data/* storage/framework/views/*
           
-          # Test deployment
+          # Run Laravel optimization commands
+          php8.2 artisan config:clear
+          php8.2 artisan route:clear
+          php8.2 artisan view:clear
+          php8.2 artisan cache:clear
+          php8.2 artisan config:cache
+          php8.2 artisan route:cache
+          php8.2 artisan view:cache
+          
+          # Test deployment with multiple checks
           echo "Testing deployment..."
+          
+          # Wait for services to stabilize
+          sleep 5
+          
+          # Test homepage
           response=$(curl -s -o /dev/null -w "%{http_code}" "https://testing.caturnawa.unasfest.com")
-          if [ "$response" = "200" ]; then
-            echo "✅ Deployment successful! Website is responding correctly (HTTP $response)"
+          echo "Homepage response: HTTP $response"
+          
+          # Test admin login page
+          admin_response=$(curl -s -o /dev/null -w "%{http_code}" "https://testing.caturnawa.unasfest.com/admin/login")
+          echo "Admin login response: HTTP $admin_response"
+          
+          if [ "$response" = "200" ] && [ "$admin_response" = "200" ]; then
+            echo "✅ Deployment successful! Website is responding correctly"
           else
-            echo "❌ Deployment failed! Website returned HTTP $response"
+            echo "❌ Deployment failed! Homepage: HTTP $response, Admin: HTTP $admin_response"
             echo "Rolling back..."
             rm -rf $PROJECT_DIR
             mv $BACKUP_DIR $PROJECT_DIR
