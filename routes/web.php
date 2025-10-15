@@ -454,6 +454,13 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             Route::post('/{submission}/upload', [App\Http\Controllers\Peserta\SubmissionController::class, 'uploadFile'])->name('upload');
             Route::delete('/{submission}/file/{filename}', [App\Http\Controllers\Peserta\SubmissionController::class, 'deleteFile'])->name('delete-file');
         });
+
+        // Notification Preferences
+        Route::prefix('notification-preferences')->name('notification-preferences.')->group(function () {
+            Route::get('/', [App\Http\Controllers\Peserta\NotificationPreferenceController::class, 'index'])->name('index');
+            Route::put('/', [App\Http\Controllers\Peserta\NotificationPreferenceController::class, 'update'])->name('update');
+            Route::post('/reset', [App\Http\Controllers\Peserta\NotificationPreferenceController::class, 'reset'])->name('reset');
+        });
     });
 });
 

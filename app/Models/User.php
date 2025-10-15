@@ -184,8 +184,18 @@ class User extends Authenticatable
     }
 
     /**
+     * Relasi dengan NotificationPreference
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function notificationPreference()
+    {
+        return $this->hasOne(\App\Models\NotificationPreference::class);
+    }
+
+    /**
      * Scope untuk mendapatkan user yang aktif
-     * 
+     *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
      */

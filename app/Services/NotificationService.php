@@ -16,6 +16,47 @@ use Illuminate\Support\Facades\Log;
 class NotificationService
 {
     /**
+     * Check if user should receive notification
+     *
+     * @param \App\Models\User $user
+     * @param string $type
+     * @return bool
+     */
+    protected function shouldSendNotification($user, string $type): bool
+    {
+        $preference = $user->notificationPreference;
+
+        // If no preference exists, create default and allow notification
+        if (!$preference) {
+            \App\Models\NotificationPreference::createDefault($user->id);
+            return true;
+        }
+
+        // Check if notification type is enabled
+        if (!$preference->isEnabled($type)) {
+            return false;
+        }
+
+        // Check if email is enabled
+        if (!$preference->email_enabled) {
+            return false;
+        }
+
+        // Check email frequency
+        if ($preference->notificationsDisabled()) {
+            return false;
+        }
+
+        // For digest modes, queue for later (not implemented in this version)
+        if ($preference->prefersDailyDigest() || $preference->prefersWeeklyDigest()) {
+            // TODO: Queue for digest sending
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Send registration confirmation email
      *
      * @param Registration $registration
@@ -23,6 +64,15 @@ class NotificationService
      */
     public function sendRegistrationConfirmation(Registration $registration): bool
     {
+        // Check user preferences
+        if (!$this->shouldSendNotification($registration->user, 'registration')) {
+            Log::info('Registration notification skipped due to user preferences', [
+                'registration_id' => $registration->id,
+                'user_id' => $registration->user->id,
+            ]);
+            return false;
+        }
+
         try {
             Mail::to($registration->user->email)
                 ->send(new RegistrationConfirmation($registration));
@@ -51,6 +101,15 @@ class NotificationService
      */
     public function sendPaymentConfirmation(Payment $payment): bool
     {
+        // Check user preferences
+        if (!$this->shouldSendNotification($payment->registration->user, 'payment')) {
+            Log::info('Payment notification skipped due to user preferences', [
+                'payment_id' => $payment->id,
+                'user_id' => $payment->registration->user->id,
+            ]);
+            return false;
+        }
+
         try {
             Mail::to($payment->registration->user->email)
                 ->send(new PaymentConfirmation($payment));
@@ -79,6 +138,15 @@ class NotificationService
      */
     public function sendSubmissionReceived(Submission $submission): bool
     {
+        // Check user preferences
+        if (!$this->shouldSendNotification($submission->registration->user, 'submission')) {
+            Log::info('Submission notification skipped due to user preferences', [
+                'submission_id' => $submission->id,
+                'user_id' => $submission->registration->user->id,
+            ]);
+            return false;
+        }
+
         try {
             Mail::to($submission->registration->user->email)
                 ->send(new SubmissionReceived($submission));
@@ -107,6 +175,15 @@ class NotificationService
      */
     public function sendScoreNotification(Score $score): bool
     {
+        // Check user preferences
+        if (!$this->shouldSendNotification($score->submission->registration->user, 'scoring')) {
+            Log::info('Score notification skipped due to user preferences', [
+                'score_id' => $score->id,
+                'user_id' => $score->submission->registration->user->id,
+            ]);
+            return false;
+        }
+
         try {
             Mail::to($score->submission->registration->user->email)
                 ->send(new ScoreNotification($score));
