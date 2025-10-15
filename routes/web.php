@@ -179,7 +179,11 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
         Route::get('/dashboard/chart-data', [App\Http\Controllers\Admin\DashboardController::class, 'getChartDataAjax'])->name('dashboard.chart-data');
         Route::get('/dashboard/user-distribution', [App\Http\Controllers\Admin\DashboardController::class, 'getUserDistributionAjax'])->name('dashboard.user-distribution');
         Route::get('/dashboard/recent-data', [App\Http\Controllers\Admin\DashboardController::class, 'getRecentDataAjax'])->name('dashboard.recent-data');
-        
+        Route::get('/dashboard/stats-api', [App\Http\Controllers\Admin\DashboardController::class, 'getStatsApi'])->name('dashboard.stats-api');
+        Route::get('/dashboard/competition-stats', [App\Http\Controllers\Admin\DashboardController::class, 'getCompetitionStats'])->name('dashboard.competition-stats');
+        Route::get('/dashboard/daily-report', [App\Http\Controllers\Admin\DashboardController::class, 'getDailyReport'])->name('dashboard.daily-report');
+        Route::get('/dashboard/competition-metrics', [App\Http\Controllers\Admin\DashboardController::class, 'getCompetitionMetrics'])->name('dashboard.competition-metrics');
+
         // Competition Management
         Route::prefix('competitions')->name('competitions.')->group(function () {
             Route::get('/', [App\Http\Controllers\Admin\CompetitionController::class, 'index'])->name('index');

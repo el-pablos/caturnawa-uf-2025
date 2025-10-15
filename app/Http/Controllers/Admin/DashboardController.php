@@ -372,32 +372,54 @@ class DashboardController extends Controller
 
     /**
      * Mendapatkan statistik kompetisi
-     * 
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function getCompetitionStats()
     {
-        $competitions = Competition::select([
-                'id', 'name', 'category', 'is_active'
-            ])
-            ->withCount(['registrations', 'submissions'])
-            ->withSum('registrations', 'amount')
-            ->get();
+        try {
+            $competitions = Competition::select([
+                    'id', 'name', 'category', 'is_active'
+                ])
+                ->withCount(['registrations'])
+                ->withSum('registrations', 'amount')
+                ->get();
 
-        $stats = $competitions->map(function($competition) {
-            return [
-                'name' => $competition->name,
-                'category' => $competition->category,
-                'submissions' => $competition->submissions_count,
-                'revenue' => $competition->registrations_sum_amount ?? 0,
-                'status' => $competition->is_active ? 'Aktif' : 'Tidak Aktif',
-            ];
-        });
+            $stats = $competitions->map(function($competition) {
+                // Count submissions through registrations
+                $submissionsCount = 0;
+                try {
+                    $submissionsCount = \App\Models\Submission::whereHas('registration', function($query) use ($competition) {
+                        $query->where('competition_id', $competition->id);
+                    })->count();
+                } catch (\Exception $e) {
+                    // Submissions table might not exist
+                    $submissionsCount = 0;
+                }
 
-        return response()->json([
-            'success' => true,
-            'data' => $stats
-        ]);
+                return [
+                    'name' => $competition->name,
+                    'category' => $competition->category,
+                    'registrations' => $competition->registrations_count ?? 0,
+                    'submissions' => $submissionsCount,
+                    'revenue' => $competition->registrations_sum_amount ?? 0,
+                    'status' => $competition->is_active ? 'Aktif' : 'Tidak Aktif',
+                ];
+            });
+
+            return response()->json([
+                'success' => true,
+                'data' => $stats
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Dashboard competition stats error: ' . $e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to load competition stats',
+                'data' => []
+            ], 500);
+        }
     }
 
     /**
