@@ -303,13 +303,43 @@ class Submission extends Model
 
     /**
      * Cek apakah deadline submission sudah lewat
-     * 
+     *
      * @return bool
      */
     public function isOverdue()
     {
-        return $this->competition->submission_deadline && 
+        return $this->competition->submission_deadline &&
                now() > $this->competition->submission_deadline;
+    }
+
+    /**
+     * Cek apakah submission dapat diedit
+     *
+     * @return bool
+     */
+    public function isEditable()
+    {
+        return !$this->is_final;
+    }
+
+    /**
+     * Get formatted file size
+     *
+     * @return string
+     */
+    public function getFileSizeFormatted()
+    {
+        $bytes = $this->file_size;
+
+        if ($bytes >= 1073741824) {
+            return number_format($bytes / 1073741824, 2) . ' GB';
+        } elseif ($bytes >= 1048576) {
+            return number_format($bytes / 1048576, 2) . ' MB';
+        } elseif ($bytes >= 1024) {
+            return number_format($bytes / 1024, 2) . ' KB';
+        } else {
+            return $bytes . ' bytes';
+        }
     }
 
     /**
