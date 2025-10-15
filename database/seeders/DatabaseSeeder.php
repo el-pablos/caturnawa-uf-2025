@@ -22,9 +22,14 @@ class DatabaseSeeder extends Seeder
             SuperAdminSeeder::class,  // Superadmin user and role
             MissingRolesSeeder::class,  // Create missing roles (admin, peserta, juri)
             CompetitionDetailSeeder::class,  // All competitions with detailed requirements and criteria
+            FaqSeeder::class,  // FAQ data
+            CompetitionTimelineSeeder::class,  // Competition timeline events
+            ContactInformationSeeder::class,  // Contact information
+            SponsorSeeder::class,  // Sponsors and partners
+            TermsAndConditionsSeeder::class,  // Terms and conditions
         ]);
 
         $this->command->info('✅ Database seeding completed successfully!');
-        $this->command->info('🎯 Only superadmin user has been created.');
+        $this->command->info('🎯 Superadmin user and content data have been created.');
     }
 }
