@@ -81,4 +81,37 @@ Route::middleware(['auth'])->group(function () {
     // Statistics API
     Route::get('/statistics/dashboard', [App\Http\Controllers\Api\StatisticsController::class, 'dashboard']);
     Route::get('/statistics/competition/{competition}', [App\Http\Controllers\Api\StatisticsController::class, 'competition']);
+
+    // Debate Tournament API (Admin only)
+    Route::middleware(['role:admin'])->prefix('debate')->group(function () {
+        // Tournament Generation
+        Route::post('/tournament/generate', [App\Http\Controllers\Api\DebateTournamentController::class, 'generate']);
+        Route::get('/tournament/status', [App\Http\Controllers\Api\DebateTournamentController::class, 'status']);
+
+        // Rounds Management
+        Route::get('/rounds', [App\Http\Controllers\Api\DebateTournamentController::class, 'rounds']);
+        Route::get('/rounds/{round}', [App\Http\Controllers\Api\DebateTournamentController::class, 'showRound']);
+        Route::post('/rounds/{round}/freeze', [App\Http\Controllers\Api\DebateTournamentController::class, 'freezeRound']);
+        Route::post('/rounds/{round}/unfreeze', [App\Http\Controllers\Api\DebateTournamentController::class, 'unfreezeRound']);
+
+        // Matches Management
+        Route::get('/matches', [App\Http\Controllers\Api\DebateTournamentController::class, 'matches']);
+        Route::get('/matches/{match}', [App\Http\Controllers\Api\DebateTournamentController::class, 'showMatch']);
+        Route::put('/matches/{match}', [App\Http\Controllers\Api\DebateTournamentController::class, 'updateMatch']);
+        Route::post('/matches/{match}/assign-judge', [App\Http\Controllers\Api\DebateTournamentController::class, 'assignJudge']);
+
+        // Standings
+        Route::get('/standings', [App\Http\Controllers\Api\DebateTournamentController::class, 'standings']);
+        Route::post('/standings/recalculate', [App\Http\Controllers\Api\DebateTournamentController::class, 'recalculateStandings']);
+        Route::get('/standings/export', [App\Http\Controllers\Api\DebateTournamentController::class, 'exportStandings']);
+        Route::get('/speaker-standings', [App\Http\Controllers\Api\DebateTournamentController::class, 'speakerStandings']);
+    });
+
+    // Debate Scoring API (Judge only)
+    Route::middleware(['role:judge'])->prefix('judge/debate')->group(function () {
+        Route::get('/matches', [App\Http\Controllers\Api\DebateScoringController::class, 'getMatches']);
+        Route::get('/matches/{match}', [App\Http\Controllers\Api\DebateScoringController::class, 'getMatch']);
+        Route::post('/matches/{match}/scores', [App\Http\Controllers\Api\DebateScoringController::class, 'submitScores']);
+        Route::get('/matches/{match}/scores', [App\Http\Controllers\Api\DebateScoringController::class, 'getScores']);
+    });
 });
