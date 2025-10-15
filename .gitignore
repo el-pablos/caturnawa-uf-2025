@@ -60,8 +60,21 @@ tabulator/
 zihuy/
 zihuy
 nginx-config
+# Documentation files (except README.md)
 *.md
 !README.md
+
+# Analysis and documentation files (keep local only)
+ANALISIS_*.md
+*_ANALYSIS.md
+*_COMPARISON.md
+DATABASE_*.md
+MIGRATION_*.md
+FEATURE_*.md
+EFFORT_*.md
+TEST_*.md
+*_COVERAGE*.md
+*_ROADMAP*.md
 
 # Claude Desktop App Files
 claude.exe
@@ -186,9 +199,29 @@ backup_*/
 *_backup/
 *.backup.*
 
-# Testing
+# Testing - DO NOT COMMIT TEST FILES
 /coverage
 .phpunit.cache
+/tests/
+*Test.php
+*_test.php
+*.test.js
+*.test.ts
+*.spec.js
+*.spec.ts
+__tests__/
+phpunit.xml
+jest.config.js
+jest.setup.js
+.jest/
+*.test.jsx
+*.spec.jsx
+*.test.tsx
+*.spec.tsx
+test-output.txt
+full-test-report.txt
+test-results/
+test-reports/
 
 # Deployment
 deploy.sh
