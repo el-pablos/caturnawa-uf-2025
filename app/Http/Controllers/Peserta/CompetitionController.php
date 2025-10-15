@@ -8,13 +8,14 @@ use App\Models\Registration;
 use App\Services\RegistrationValidationService;
 use App\Services\PricingService;
 use App\Services\DynamicFormService;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 /**
  * Controller untuk Manajemen Kompetisi dari sisi Peserta
- * 
+ *
  * Menangani pendaftaran kompetisi oleh peserta
  */
 class CompetitionController extends Controller
@@ -22,15 +23,18 @@ class CompetitionController extends Controller
     protected $registrationValidationService;
     protected $pricingService;
     protected $dynamicFormService;
+    protected $notificationService;
 
     public function __construct(
-        RegistrationValidationService $registrationValidationService, 
+        RegistrationValidationService $registrationValidationService,
         PricingService $pricingService,
-        DynamicFormService $dynamicFormService
+        DynamicFormService $dynamicFormService,
+        NotificationService $notificationService
     ) {
         $this->registrationValidationService = $registrationValidationService;
         $this->pricingService = $pricingService;
         $this->dynamicFormService = $dynamicFormService;
+        $this->notificationService = $notificationService;
     }
 
     /**
@@ -469,9 +473,17 @@ class CompetitionController extends Controller
             }
 
             $registration = Registration::create($registrationData);
-            
+
             // Update competition registration count
             $competition->increment('registration_count');
+
+            // Send registration confirmation email
+            try {
+                $this->notificationService->sendRegistrationConfirmation($registration);
+            } catch (\Exception $emailError) {
+                \Log::warning('Failed to send registration confirmation email: ' . $emailError->getMessage());
+                // Don't fail the registration if email fails
+            }
         } catch (\Exception $e) {
             \Log::error('Registration creation failed: ' . $e->getMessage());
 
@@ -484,7 +496,7 @@ class CompetitionController extends Controller
 
             return back()->with('error', 'Terjadi kesalahan saat membuat pendaftaran: ' . $e->getMessage())->withInput();
         }
-        
+
         // Check if this is an AJAX request
         if ($request->expectsJson()) {
             return response()->json([
