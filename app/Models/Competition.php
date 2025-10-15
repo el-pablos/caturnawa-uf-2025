@@ -799,6 +799,16 @@ class Competition extends Model
     }
 
     /**
+     * Get is_team attribute (alias for is_team_competition)
+     *
+     * @return bool
+     */
+    public function getIsTeamAttribute()
+    {
+        return $this->is_team_competition;
+    }
+
+    /**
      * Get EDC specific timeline sesuai dokumen
      *
      * @return array
