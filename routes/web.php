@@ -274,7 +274,14 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             Route::post('/bulk-activate', [App\Http\Controllers\Admin\UserActivationController::class, 'bulkActivate'])->name('bulk-activate');
         });
 
-
+        // Judge Assignment Management
+        Route::prefix('judge-assignment')->name('judge-assignment.')->group(function () {
+            Route::get('/', [App\Http\Controllers\Admin\JudgeAssignmentController::class, 'index'])->name('index');
+            Route::post('/auto-assign', [App\Http\Controllers\Admin\JudgeAssignmentController::class, 'autoAssign'])->name('auto-assign');
+            Route::post('/assign', [App\Http\Controllers\Admin\JudgeAssignmentController::class, 'assign'])->name('assign');
+            Route::post('/unassign', [App\Http\Controllers\Admin\JudgeAssignmentController::class, 'unassign'])->name('unassign');
+            Route::get('/workload', [App\Http\Controllers\Admin\JudgeAssignmentController::class, 'getWorkload'])->name('workload');
+        });
 
         // Settings Management
         Route::prefix('settings')->name('settings.')->group(function () {
