@@ -225,7 +225,7 @@ class CompetitionController extends Controller
         ];
         
         // For competitions with dynamic requirements, use only dynamic validation
-        if ($dynamicValidation['rules'] && count($dynamicValidation['rules']) > 0) {
+        if (isset($dynamicValidation['rules']) && count($dynamicValidation['rules']) > 0) {
             // Use dynamic validation for competitions that have CompetitionRequirement entries
             $rules = array_merge($rules, $dynamicValidation['rules']);
         } else {
@@ -291,10 +291,12 @@ class CompetitionController extends Controller
             'participant_category.in' => 'Kategori peserta tidak valid',
         ];
         
+        $dynamicMessages = isset($dynamicValidation['messages']) ? $dynamicValidation['messages'] : [];
+
         if ($competition->isEdcCompetition()) {
             // Use EDC-specific messages
             $edcMessages = Registration::getEdcValidationMessages();
-            $messages = array_merge($baseMessages, $edcMessages, $dynamicValidation['messages']);
+            $messages = array_merge($baseMessages, $edcMessages, $dynamicMessages);
         } elseif ($competition->isDccCompetition()) {
             // Use DCC-specific messages
             $dccMessages = [
@@ -309,7 +311,7 @@ class CompetitionController extends Controller
                 'team_members.*.student_id_card.required' => 'Kartu pelajar harus diupload',
                 'social_media_follow_proof.required' => 'Bukti follow social media harus diupload',
             ];
-            $messages = array_merge($baseMessages, $dccMessages, $dynamicValidation['messages']);
+            $messages = array_merge($baseMessages, $dccMessages, $dynamicMessages);
         } else {
             // Use standard messages
             $standardMessages = [
@@ -319,7 +321,7 @@ class CompetitionController extends Controller
                 'team_members.max' => 'Maksimal ' . ($competition->max_team_members ?? 10) . ' anggota tim',
                 'team_members.*.name.required' => 'Nama anggota tim harus diisi',
             ];
-            $messages = array_merge($baseMessages, $standardMessages, $dynamicValidation['messages']);
+            $messages = array_merge($baseMessages, $standardMessages, $dynamicMessages);
         }
         
         $validator = Validator::make($request->all(), $rules, $messages);
