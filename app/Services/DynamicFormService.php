@@ -24,18 +24,18 @@ class DynamicFormService
     {
         $rules = [];
         $messages = [];
-        
+
         $requirements = $competition->competitionRequirements;
-        
+
         foreach ($requirements as $requirement) {
             $fieldName = $requirement->field_name;
-            
+
             if ($requirement->is_required) {
                 $rules[$fieldName] = ['required'];
             } else {
                 $rules[$fieldName] = ['nullable'];
             }
-            
+
             // Add field type validation
             switch ($requirement->field_type) {
                 case 'email':
@@ -85,7 +85,7 @@ class DynamicFormService
                     }
                     break;
             }
-            
+
             // Add custom validation rules
             $validationRules = is_string($requirement->validation_rules) ? json_decode($requirement->validation_rules, true) : $requirement->validation_rules;
             if (isset($validationRules['additional_rules'])) {
@@ -93,17 +93,38 @@ class DynamicFormService
                     $rules[$fieldName][] = $rule;
                 }
             }
-            
+
             // Convert rules array to string
             $rules[$fieldName] = implode('|', $rules[$fieldName]);
-            
+
             // Add custom messages
             if ($requirement->is_required) {
                 $messages[$fieldName . '.required'] = $requirement->field_label . ' wajib diisi';
             }
         }
-        
-        return ['rules' => $rules, 'messages' => $messages];
+
+        return $rules;
+    }
+
+    /**
+     * Validate data against competition requirements
+     *
+     * @param Competition $competition
+     * @param array $data
+     * @return bool
+     * @throws ValidationException
+     */
+    public function validateData(Competition $competition, array $data)
+    {
+        $rules = $this->buildValidationRules($competition);
+
+        $validator = \Validator::make($data, $rules);
+
+        if ($validator->fails()) {
+            throw new ValidationException($validator);
+        }
+
+        return true;
     }
 
     public function processFormData(Competition $competition, Request $request)

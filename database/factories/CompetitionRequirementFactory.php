@@ -37,7 +37,7 @@ class CompetitionRequirementFactory extends Factory
             'is_required' => fake()->boolean(70), // 70% chance of being required
             'validation_rules' => $this->getValidationRules($fieldType),
             'field_options' => $fieldOptions,
-            'field_group' => fake()->optional()->randomElement(['personal_info', 'team_info', 'documents', 'additional']),
+            'field_group' => fake()->randomElement(['basic', 'personal_info', 'team_info', 'documents', 'additional']),
             'order_index' => fake()->numberBetween(1, 100),
         ];
     }
