@@ -7,6 +7,7 @@ use App\Models\CompetitionRound;
 use App\Models\TeamMatchup;
 use App\Models\Registration;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Service untuk menghitung leaderboard dan victory points
@@ -225,8 +226,44 @@ class LeaderboardService
     public function updateCompetitionCache(Competition $competition): void
     {
         $leaderboard = $this->calculateOverallLeaderboard($competition);
-        
-        // You can implement caching here if needed
-        // Cache::put("leaderboard.{$competition->id}", $leaderboard, now()->addMinutes(30));
+
+        // Cache for 5 minutes
+        Cache::put("leaderboard.competition.{$competition->id}", $leaderboard, now()->addMinutes(5));
+    }
+
+    /**
+     * Get cached leaderboard or calculate if not cached
+     *
+     * @param Competition $competition
+     * @return Collection
+     */
+    public function getCachedLeaderboard(Competition $competition): Collection
+    {
+        return Cache::remember(
+            "leaderboard.competition.{$competition->id}",
+            now()->addMinutes(5),
+            fn() => $this->calculateOverallLeaderboard($competition)
+        );
+    }
+
+    /**
+     * Clear leaderboard cache for a competition
+     *
+     * @param Competition $competition
+     * @return void
+     */
+    public function clearCompetitionCache(Competition $competition): void
+    {
+        Cache::forget("leaderboard.competition.{$competition->id}");
+    }
+
+    /**
+     * Clear all leaderboard caches
+     *
+     * @return void
+     */
+    public function clearAllCaches(): void
+    {
+        Cache::flush(); // Or use tags if available
     }
 }
