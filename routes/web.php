@@ -315,6 +315,11 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             Route::get('/ajax', [App\Http\Controllers\Admin\SearchController::class, 'ajax'])->name('ajax');
         });
 
+        // File Manager Demo
+        Route::get('/file-manager/demo', function () {
+            return view('admin.file-manager.demo');
+        })->name('file-manager.demo');
+
         // Settings Management
         Route::prefix('settings')->name('settings.')->group(function () {
             Route::get('/', [App\Http\Controllers\Admin\SettingsController::class, 'index'])->name('index');
