@@ -16,7 +16,7 @@ class PaymentFactory extends Factory
     {
         return [
             'registration_id' => Registration::factory(),
-            'order_id' => 'UF2025-' . date('dmYHis') . '-' . rand(100, 999),
+            'order_id' => 'UF2025-' . date('dmYHis') . '-' . uniqid(),
             'gross_amount' => 100000,
             'amount' => 100000,
             'transaction_status' => 'pending',

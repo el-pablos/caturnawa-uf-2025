@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Peserta;
 
 use App\Http\Controllers\Controller;
 use App\Models\Competition;
+use App\Models\Payment;
 use App\Models\Registration;
 use App\Models\Submission;
 use App\Services\RegistrationValidationService;
@@ -97,12 +98,19 @@ class PesertaDashboardController extends Controller
     {
         try {
             $registrations = Registration::where('user_id', $user->id)->get();
-            
+
+            // Calculate total paid from actual payments with settlement status
+            $totalPaid = Payment::whereHas('registration', function($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->where('transaction_status', 'settlement')
+            ->sum('gross_amount');
+
             return [
                 'total_registrations' => $registrations->count(),
                 'confirmed_registrations' => $registrations->where('status', 'confirmed')->count(),
                 'pending_registrations' => $registrations->whereIn('status', ['pending', 'paid'])->count(),
-                'total_paid' => $registrations->whereIn('status', ['confirmed', 'paid'])->sum('amount'),
+                'total_paid' => $totalPaid,
                 'total_submissions' => Submission::whereHas('registration', function($query) use ($user) {
                     $query->where('user_id', $user->id);
                 })->count(),
@@ -112,7 +120,7 @@ class PesertaDashboardController extends Controller
             ];
         } catch (\Exception $e) {
             \Log::error('Error getting participant statistics: ' . $e->getMessage());
-            
+
             return [
                 'total_registrations' => 0,
                 'confirmed_registrations' => 0,

@@ -16,7 +16,7 @@ class RegistrationFactory extends Factory
         return [
             'user_id' => User::factory(),
             'competition_id' => Competition::factory(),
-            'registration_number' => 'UF' . date('Y') . '-' . date('m') . '-' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT),
+            'registration_number' => 'UF' . date('Y') . '-' . date('m') . '-' . uniqid(),
             'team_name' => fake()->company(),
             'team_members' => null,
             'institution' => fake()->company(),
