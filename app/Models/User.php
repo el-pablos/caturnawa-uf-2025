@@ -51,6 +51,8 @@ class User extends Authenticatable
         'website_url',
         'badges',
         'profile_completion',
+        'is_active',
+        'email_verified_at',
     ];
 
     /**
