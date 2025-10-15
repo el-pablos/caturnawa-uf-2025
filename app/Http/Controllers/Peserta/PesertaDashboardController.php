@@ -97,17 +97,12 @@ class PesertaDashboardController extends Controller
     {
         try {
             $registrations = Registration::where('user_id', $user->id)->get();
-
-            // Calculate total paid from payments
-            $totalPaid = Payment::whereIn('registration_id', $registrations->pluck('id'))
-                ->where('transaction_status', 'settlement')
-                ->sum('gross_amount');
-
+            
             return [
                 'total_registrations' => $registrations->count(),
                 'confirmed_registrations' => $registrations->where('status', 'confirmed')->count(),
                 'pending_registrations' => $registrations->whereIn('status', ['pending', 'paid'])->count(),
-                'total_paid' => $totalPaid,
+                'total_paid' => $registrations->whereIn('status', ['confirmed', 'paid'])->sum('amount'),
                 'total_submissions' => Submission::whereHas('registration', function($query) use ($user) {
                     $query->where('user_id', $user->id);
                 })->count(),
