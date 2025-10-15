@@ -292,6 +292,15 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             Route::get('/{registration}/preview', [App\Http\Controllers\Admin\CertificateController::class, 'preview'])->name('preview');
         });
 
+        // Export Management
+        Route::prefix('export')->name('export.')->group(function () {
+            Route::get('/', [App\Http\Controllers\Admin\ExportController::class, 'index'])->name('index');
+            Route::get('/registrations', [App\Http\Controllers\Admin\ExportController::class, 'exportRegistrations'])->name('registrations');
+            Route::get('/payments', [App\Http\Controllers\Admin\ExportController::class, 'exportPayments'])->name('payments');
+            Route::get('/submissions', [App\Http\Controllers\Admin\ExportController::class, 'exportSubmissions'])->name('submissions');
+            Route::get('/scores', [App\Http\Controllers\Admin\ExportController::class, 'exportScores'])->name('scores');
+        });
+
         // Settings Management
         Route::prefix('settings')->name('settings.')->group(function () {
             Route::get('/', [App\Http\Controllers\Admin\SettingsController::class, 'index'])->name('index');
