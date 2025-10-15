@@ -905,6 +905,8 @@ class ScoringController extends Controller
             'total_score' => 'required|numeric|min:0|max:100',
             'criteria_scores' => 'nullable|array',
             'comments' => 'nullable|string',
+            'feedback' => 'nullable|string',
+            'is_final' => 'nullable|boolean',
         ]);
 
         // Create or update score
@@ -918,7 +920,8 @@ class ScoringController extends Controller
                 'total_score' => $validated['total_score'],
                 'criteria_scores' => $validated['criteria_scores'] ?? [],
                 'comments' => $validated['comments'] ?? null,
-                'is_final' => false,
+                'feedback' => $validated['feedback'] ?? null,
+                'is_final' => $validated['is_final'] ?? false,
             ]
         );
 
