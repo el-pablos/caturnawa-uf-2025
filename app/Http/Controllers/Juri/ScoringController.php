@@ -250,14 +250,14 @@ class ScoringController extends Controller
             ]
         ]);
 
-        return view('juri.scoring.submission', compact(
-            'submission', 
-            'score', 
-            'criteria', 
-            'competitionType', 
-            'competitionName', 
-            'minScore', 
-            'maxScore', 
+        return view('juri.scoring.show', compact(
+            'submission',
+            'score',
+            'criteria',
+            'competitionType',
+            'competitionName',
+            'minScore',
+            'maxScore',
             'criteriaDescriptions'
         ));
     }
@@ -410,14 +410,21 @@ class ScoringController extends Controller
             abort(403, 'Anda tidak memiliki akses untuk mengubah penilaian ini.');
         }
 
-        $criteria = Score::getDefaultCriteria();
-        $rules = [];
-        
-        foreach (array_keys($criteria) as $criteriaKey) {
-            $rules["criteria.{$criteriaKey}"] = 'required|numeric|min:0|max:100';
+        // Build validation rules
+        $rules = [
+            'total_score' => 'nullable|numeric|min:0|max:100',
+            'comments' => 'nullable|string|max:1000',
+            'feedback' => 'nullable|string|max:1000',
+            'is_final' => 'nullable|boolean',
+        ];
+
+        // Add criteria validation if provided
+        if ($request->has('criteria')) {
+            $criteria = Score::getDefaultCriteria();
+            foreach (array_keys($criteria) as $criteriaKey) {
+                $rules["criteria.{$criteriaKey}"] = 'required|numeric|min:0|max:100';
+            }
         }
-        
-        $rules['comments'] = 'nullable|string|max:1000';
 
         $validator = Validator::make($request->all(), $rules);
 
@@ -427,10 +434,30 @@ class ScoringController extends Controller
                 ->withInput();
         }
 
-        $score->update([
-            'criteria_scores' => $request->criteria,
-            'comments' => $request->comments,
-        ]);
+        // Prepare update data
+        $updateData = [];
+
+        if ($request->has('criteria')) {
+            $updateData['criteria_scores'] = $request->criteria;
+        }
+
+        if ($request->has('total_score')) {
+            $updateData['total_score'] = $request->total_score;
+        }
+
+        if ($request->has('comments')) {
+            $updateData['comments'] = $request->comments;
+        }
+
+        if ($request->has('feedback')) {
+            $updateData['feedback'] = $request->feedback;
+        }
+
+        if ($request->has('is_final')) {
+            $updateData['is_final'] = $request->is_final;
+        }
+
+        $score->update($updateData);
 
         return back()->with('success', 'Penilaian berhasil diperbarui.');
     }

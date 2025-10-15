@@ -27,6 +27,7 @@ class Score extends Model
         'criteria_scores',
         'total_score',
         'comments',
+        'feedback',
         'is_final',
         'submitted_at',
     ];
