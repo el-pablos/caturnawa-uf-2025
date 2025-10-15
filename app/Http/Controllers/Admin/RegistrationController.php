@@ -9,6 +9,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\RegistrationsExport;
 
 /**
  * Controller untuk mengelola registrasi peserta
@@ -337,7 +339,7 @@ class RegistrationController extends Controller
      */
     public function exportExcel(Request $request)
     {
-        $query = Registration::with(['user', 'competition', 'payment']);
+        $query = Registration::query();
 
         // Apply filters
         if ($request->filled('status')) {
@@ -348,38 +350,9 @@ class RegistrationController extends Controller
             $query->where('competition_id', $request->competition_id);
         }
 
-        $registrations = $query->get();
+        $filename = 'registrations_' . now()->format('Y-m-d_His') . '.xlsx';
 
-        // Create simple CSV export
-        $filename = 'registrations_' . now()->format('Y-m-d_His') . '.csv';
-        $headers = [
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => "attachment; filename=\"$filename\"",
-        ];
-
-        $callback = function() use ($registrations) {
-            $file = fopen('php://output', 'w');
-
-            // Header row
-            fputcsv($file, ['ID', 'Team Name', 'User', 'Email', 'Competition', 'Status', 'Registered At']);
-
-            // Data rows
-            foreach ($registrations as $registration) {
-                fputcsv($file, [
-                    $registration->id,
-                    $registration->team_name ?? '-',
-                    $registration->user->name,
-                    $registration->user->email,
-                    $registration->competition->name,
-                    $registration->status,
-                    $registration->created_at->format('Y-m-d H:i:s'),
-                ]);
-            }
-
-            fclose($file);
-        };
-
-        return response()->stream($callback, 200, $headers);
+        return Excel::download(new RegistrationsExport($query), $filename);
     }
 
     /**
