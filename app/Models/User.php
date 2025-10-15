@@ -274,11 +274,27 @@ class User extends Authenticatable
 
     /**
      * Update waktu login terakhir
-     * 
+     *
      * @return void
      */
     public function updateLastLogin()
     {
         $this->update(['last_login_at' => now()]);
+    }
+
+    /**
+     * Get activity logs for this user
+     */
+    public function activityLogs()
+    {
+        return $this->hasMany(\App\Models\ActivityLog::class);
+    }
+
+    /**
+     * Get activities caused by this user
+     */
+    public function causedActivities()
+    {
+        return $this->morphMany(\App\Models\ActivityLog::class, 'causer');
     }
 }

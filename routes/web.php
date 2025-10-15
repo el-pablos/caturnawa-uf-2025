@@ -301,6 +301,14 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             Route::get('/scores', [App\Http\Controllers\Admin\ExportController::class, 'exportScores'])->name('scores');
         });
 
+        // Activity Logs
+        Route::prefix('activity-logs')->name('activity-logs.')->group(function () {
+            Route::get('/', [App\Http\Controllers\Admin\ActivityLogController::class, 'index'])->name('index');
+            Route::get('/{activityLog}', [App\Http\Controllers\Admin\ActivityLogController::class, 'show'])->name('show');
+            Route::post('/clean', [App\Http\Controllers\Admin\ActivityLogController::class, 'clean'])->name('clean');
+            Route::get('/export/csv', [App\Http\Controllers\Admin\ActivityLogController::class, 'export'])->name('export');
+        });
+
         // Settings Management
         Route::prefix('settings')->name('settings.')->group(function () {
             Route::get('/', [App\Http\Controllers\Admin\SettingsController::class, 'index'])->name('index');
