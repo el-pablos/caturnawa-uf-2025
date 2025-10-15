@@ -346,19 +346,33 @@ class AuthController extends Controller
     public function updateProfile(Request $request)
     {
         $user = Auth::user();
-        
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
             'institution' => 'nullable|string|max:255',
+            'bio' => 'nullable|string|max:500',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'linkedin_url' => 'nullable|url|max:255',
+            'twitter_url' => 'nullable|url|max:255',
+            'instagram_url' => 'nullable|url|max:255',
+            'facebook_url' => 'nullable|url|max:255',
+            'github_url' => 'nullable|url|max:255',
+            'website_url' => 'nullable|url|max:255',
         ], [
             'name.required' => 'Nama lengkap harus diisi',
             'phone.required' => 'Nomor telepon harus diisi',
             'institution.max' => 'Nama institusi maksimal 255 karakter',
+            'bio.max' => 'Bio maksimal 500 karakter',
             'avatar.image' => 'File harus berupa gambar',
             'avatar.mimes' => 'Format gambar harus JPEG, PNG, atau JPG',
             'avatar.max' => 'Ukuran gambar maksimal 2MB',
+            'linkedin_url.url' => 'URL LinkedIn tidak valid',
+            'twitter_url.url' => 'URL Twitter tidak valid',
+            'instagram_url.url' => 'URL Instagram tidak valid',
+            'facebook_url.url' => 'URL Facebook tidak valid',
+            'github_url.url' => 'URL GitHub tidak valid',
+            'website_url.url' => 'URL Website tidak valid',
         ]);
 
         if ($validator->fails()) {
@@ -371,6 +385,13 @@ class AuthController extends Controller
             'name' => $request->name,
             'phone' => $request->phone,
             'institution' => $request->institution,
+            'bio' => $request->bio,
+            'linkedin_url' => $request->linkedin_url,
+            'twitter_url' => $request->twitter_url,
+            'instagram_url' => $request->instagram_url,
+            'facebook_url' => $request->facebook_url,
+            'github_url' => $request->github_url,
+            'website_url' => $request->website_url,
         ];
 
         // Handle avatar upload
@@ -382,6 +403,14 @@ class AuthController extends Controller
         }
 
         $user->update($data);
+
+        // Calculate profile completion
+        $user->calculateProfileCompletion();
+
+        // Award badge if profile is 100% complete
+        if ($user->profile_completion >= 100 && !$user->hasBadge('profile_complete')) {
+            $user->addBadge('profile_complete');
+        }
 
         return back()->with('success', 'Profil berhasil diperbarui.');
     }
