@@ -283,6 +283,15 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             Route::get('/workload', [App\Http\Controllers\Admin\JudgeAssignmentController::class, 'getWorkload'])->name('workload');
         });
 
+        // Certificate Management
+        Route::prefix('certificates')->name('certificates.')->group(function () {
+            Route::get('/', [App\Http\Controllers\Admin\CertificateController::class, 'index'])->name('index');
+            Route::post('/{registration}/generate-winner', [App\Http\Controllers\Admin\CertificateController::class, 'generateWinner'])->name('generate-winner');
+            Route::get('/{registration}/generate-participation', [App\Http\Controllers\Admin\CertificateController::class, 'generateParticipation'])->name('generate-participation');
+            Route::post('/generate-bulk', [App\Http\Controllers\Admin\CertificateController::class, 'generateBulk'])->name('generate-bulk');
+            Route::get('/{registration}/preview', [App\Http\Controllers\Admin\CertificateController::class, 'preview'])->name('preview');
+        });
+
         // Settings Management
         Route::prefix('settings')->name('settings.')->group(function () {
             Route::get('/', [App\Http\Controllers\Admin\SettingsController::class, 'index'])->name('index');
