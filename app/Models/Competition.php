@@ -534,6 +534,15 @@ class Competition extends Model
     }
 
     /**
+     * Get all timeline events for this competition
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function timelines()
+    {
+        return $this->hasMany(CompetitionTimeline::class);
+    }
+
+    /**
      * Relasi untuk registrasi yang sudah dikonfirmasi
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
