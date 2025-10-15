@@ -234,10 +234,10 @@
                         <i class="bi bi-question-circle"></i>
                     </div>
                     <h1 class="modern-title mb-4">
-                        Frequently Asked Questions
+                        {{ __('content.faq.title') }}
                     </h1>
                     <p class="modern-subtitle mb-0">
-                        Find answers to frequently asked questions about Caturnawa UNAS FEST 2025.
+                        {{ __('content.faq.subtitle') }}
                     </p>
                 </div>
             </div>
@@ -261,20 +261,20 @@
                                 <button class="accordion-button {{ $index === 0 ? '' : 'collapsed' }}" type="button"
                                         data-bs-toggle="collapse" data-bs-target="#collapse{{ $faq->id }}"
                                         aria-expanded="{{ $index === 0 ? 'true' : 'false' }}" aria-controls="collapse{{ $faq->id }}">
-                                    {{ $faq->question }}
+                                    {{ $faq->localized_question }}
                                 </button>
                             </h2>
                             <div id="collapse{{ $faq->id }}" class="accordion-collapse collapse {{ $index === 0 ? 'show' : '' }}"
                                  aria-labelledby="heading{{ $faq->id }}" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    {!! nl2br(e($faq->answer)) !!}
+                                    {!! nl2br(e($faq->localized_answer)) !!}
                                 </div>
                             </div>
                         </div>
                         @empty
                         <div class="p-5 text-center text-muted">
                             <i class="bi bi-inbox fs-1 d-block mb-3"></i>
-                            <p>No FAQs available at the moment. Please check back later.</p>
+                            <p>{{ __('content.faq.no_faqs') }}</p>
                         </div>
                         @endforelse
                     </div>

@@ -391,6 +391,27 @@
                             <i class="bi bi-envelope me-1"></i>Kontak
                         </a>
                     </li>
+
+                    <!-- Language Switcher -->
+                    <li class="nav-item dropdown" data-aos="fade-down" data-aos-duration="900">
+                        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-globe me-1"></i>
+                            {{ app()->getLocale() == 'id' ? 'ID' : 'EN' }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                            <li>
+                                <a class="dropdown-item {{ app()->getLocale() == 'id' ? 'active' : '' }}" href="{{ route('language.switch', 'id') }}">
+                                    <i class="bi bi-flag me-2"></i>Bahasa Indonesia
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item {{ app()->getLocale() == 'en' ? 'active' : '' }}" href="{{ route('language.switch', 'en') }}">
+                                    <i class="bi bi-flag me-2"></i>English
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
                     <li class="nav-item ms-2" data-aos="fade-down" data-aos-duration="900">
                         <a class="btn btn-primary" href="{{ route('login') }}">
                             <i class="bi bi-box-arrow-in-right me-1"></i>Masuk

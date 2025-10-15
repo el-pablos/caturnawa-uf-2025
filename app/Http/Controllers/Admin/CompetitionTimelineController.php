@@ -48,6 +48,8 @@ class CompetitionTimelineController extends Controller
             'day' => 'required|integer|min:1|max:31',
             'year' => 'required|integer|min:2024|max:2030',
             'title' => 'required|string|max:255',
+            'title_en' => 'nullable|string|max:255',
+            'title_id' => 'nullable|string|max:255',
             'order' => 'required|integer|min:0',
             'is_active' => 'boolean',
         ]);
@@ -64,6 +66,8 @@ class CompetitionTimelineController extends Controller
             'day' => $request->day,
             'year' => $request->year,
             'title' => $request->title,
+            'title_en' => $request->title_en,
+            'title_id' => $request->title_id,
             'order' => $request->order,
             'is_active' => $request->has('is_active') ? true : false,
         ]);
@@ -92,6 +96,8 @@ class CompetitionTimelineController extends Controller
             'day' => 'required|integer|min:1|max:31',
             'year' => 'required|integer|min:2024|max:2030',
             'title' => 'required|string|max:255',
+            'title_en' => 'nullable|string|max:255',
+            'title_id' => 'nullable|string|max:255',
             'order' => 'required|integer|min:0',
             'is_active' => 'boolean',
         ]);
@@ -108,6 +114,8 @@ class CompetitionTimelineController extends Controller
             'day' => $request->day,
             'year' => $request->year,
             'title' => $request->title,
+            'title_en' => $request->title_en,
+            'title_id' => $request->title_id,
             'order' => $request->order,
             'is_active' => $request->has('is_active') ? true : false,
         ]);

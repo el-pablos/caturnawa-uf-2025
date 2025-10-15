@@ -200,10 +200,10 @@
                         <i class="bi bi-file-text"></i>
                     </div>
                     <h1 class="modern-title mb-4">
-                        Terms & Conditions
+                        {{ __('content.terms.title') }}
                     </h1>
                     <p class="modern-subtitle mb-0">
-                        Please read carefully before participating in Caturnawa UNAS FEST 2025.
+                        {{ __('content.terms.subtitle') }}
                     </p>
                 </div>
             </div>
@@ -222,15 +222,15 @@
                 <div class="card-body p-5 terms-content">
                     @forelse($termsAndConditions as $index => $term)
                     <div class="mb-5">
-                        <h3 class="fw-bold">{{ $loop->iteration }}. {{ $term->title }}</h3>
+                        <h3 class="fw-bold">{{ $loop->iteration }}. {{ $term->localized_title }}</h3>
                         <div class="terms-text">
-                            {!! nl2br(e($term->content)) !!}
+                            {!! nl2br(e($term->localized_content)) !!}
                         </div>
                     </div>
                     @empty
                     <div class="p-5 text-center text-muted">
                         <i class="bi bi-inbox fs-1 d-block mb-3"></i>
-                        <p>Terms and conditions are being updated. Please check back later.</p>
+                        <p>{{ __('content.terms.no_terms') }}</p>
                     </div>
                     @endforelse
                 </div>

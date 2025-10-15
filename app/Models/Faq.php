@@ -16,7 +16,11 @@ class Faq extends Model
      */
     protected $fillable = [
         'question',
+        'question_en',
+        'question_id',
         'answer',
+        'answer_en',
+        'answer_id',
         'order',
         'is_active',
     ];
@@ -51,6 +55,28 @@ class Faq extends Model
         static::addGlobalScope('ordered', function ($query) {
             $query->orderBy('order', 'asc');
         });
+    }
+
+    /**
+     * Get the question in the current locale
+     */
+    public function getLocalizedQuestionAttribute()
+    {
+        $locale = app()->getLocale();
+        $column = 'question_' . $locale;
+
+        return $this->{$column} ?? $this->question;
+    }
+
+    /**
+     * Get the answer in the current locale
+     */
+    public function getLocalizedAnswerAttribute()
+    {
+        $locale = app()->getLocale();
+        $column = 'answer_' . $locale;
+
+        return $this->{$column} ?? $this->answer;
     }
 }
 

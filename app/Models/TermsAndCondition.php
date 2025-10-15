@@ -16,7 +16,11 @@ class TermsAndCondition extends Model
      */
     protected $fillable = [
         'title',
+        'title_en',
+        'title_id',
         'content',
+        'content_en',
+        'content_id',
         'type',
         'order',
         'is_active',
@@ -72,6 +76,28 @@ class TermsAndCondition extends Model
         static::addGlobalScope('ordered', function ($query) {
             $query->orderBy('order', 'asc');
         });
+    }
+
+    /**
+     * Get the title in the current locale
+     */
+    public function getLocalizedTitleAttribute()
+    {
+        $locale = app()->getLocale();
+        $column = 'title_' . $locale;
+
+        return $this->{$column} ?? $this->title;
+    }
+
+    /**
+     * Get the content in the current locale
+     */
+    public function getLocalizedContentAttribute()
+    {
+        $locale = app()->getLocale();
+        $column = 'content_' . $locale;
+
+        return $this->{$column} ?? $this->content;
     }
 }
 

@@ -20,6 +20,8 @@ class CompetitionTimeline extends Model
         'day',
         'year',
         'title',
+        'title_en',
+        'title_id',
         'order',
         'is_active',
     ];
@@ -74,6 +76,17 @@ class CompetitionTimeline extends Model
         static::addGlobalScope('ordered', function ($query) {
             $query->orderBy('order', 'asc');
         });
+    }
+
+    /**
+     * Get the title in the current locale
+     */
+    public function getLocalizedTitleAttribute()
+    {
+        $locale = app()->getLocale();
+        $column = 'title_' . $locale;
+
+        return $this->{$column} ?? $this->title;
     }
 }
 

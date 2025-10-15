@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
@@ -58,6 +59,9 @@ Route::get('/health', function () {
 // SEO Routes
 Route::get('/sitemap.xml', [App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
 Route::get('/robots.txt', [App\Http\Controllers\SitemapController::class, 'robots'])->name('robots');
+
+// Language Switcher Route
+Route::get('/language/{locale}', [LanguageController::class, 'switch'])->name('language.switch');
 
 // Public Pages Routes (Main Website)
 Route::name('public.')->middleware('maintenance')->group(function () {

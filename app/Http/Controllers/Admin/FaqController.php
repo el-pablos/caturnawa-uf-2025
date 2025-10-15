@@ -34,7 +34,11 @@ class FaqController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'question' => 'required|string|max:500',
+            'question_en' => 'nullable|string|max:500',
+            'question_id' => 'nullable|string|max:500',
             'answer' => 'required|string|max:2000',
+            'answer_en' => 'nullable|string|max:2000',
+            'answer_id' => 'nullable|string|max:2000',
             'order' => 'required|integer|min:0',
             'is_active' => 'boolean',
         ]);
@@ -47,7 +51,11 @@ class FaqController extends Controller
 
         Faq::create([
             'question' => $request->question,
+            'question_en' => $request->question_en,
+            'question_id' => $request->question_id,
             'answer' => $request->answer,
+            'answer_en' => $request->answer_en,
+            'answer_id' => $request->answer_id,
             'order' => $request->order,
             'is_active' => $request->has('is_active') ? true : false,
         ]);
@@ -71,7 +79,11 @@ class FaqController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'question' => 'required|string|max:500',
+            'question_en' => 'nullable|string|max:500',
+            'question_id' => 'nullable|string|max:500',
             'answer' => 'required|string|max:2000',
+            'answer_en' => 'nullable|string|max:2000',
+            'answer_id' => 'nullable|string|max:2000',
             'order' => 'required|integer|min:0',
             'is_active' => 'boolean',
         ]);
@@ -84,7 +96,11 @@ class FaqController extends Controller
 
         $faq->update([
             'question' => $request->question,
+            'question_en' => $request->question_en,
+            'question_id' => $request->question_id,
             'answer' => $request->answer,
+            'answer_en' => $request->answer_en,
+            'answer_id' => $request->answer_id,
             'order' => $request->order,
             'is_active' => $request->has('is_active') ? true : false,
         ]);

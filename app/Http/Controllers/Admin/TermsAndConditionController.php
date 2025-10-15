@@ -34,7 +34,11 @@ class TermsAndConditionController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
+            'title_en' => 'nullable|string|max:255',
+            'title_id' => 'nullable|string|max:255',
             'content' => 'required|string',
+            'content_en' => 'nullable|string',
+            'content_id' => 'nullable|string',
             'type' => 'required|in:general,competition,privacy,payment',
             'order' => 'required|integer|min:0',
             'is_active' => 'boolean',
@@ -48,7 +52,11 @@ class TermsAndConditionController extends Controller
 
         TermsAndCondition::create([
             'title' => $request->title,
+            'title_en' => $request->title_en,
+            'title_id' => $request->title_id,
             'content' => $request->content,
+            'content_en' => $request->content_en,
+            'content_id' => $request->content_id,
             'type' => $request->type,
             'order' => $request->order,
             'is_active' => $request->has('is_active') ? true : false,
@@ -73,7 +81,11 @@ class TermsAndConditionController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
+            'title_en' => 'nullable|string|max:255',
+            'title_id' => 'nullable|string|max:255',
             'content' => 'required|string',
+            'content_en' => 'nullable|string',
+            'content_id' => 'nullable|string',
             'type' => 'required|in:general,competition,privacy,payment',
             'order' => 'required|integer|min:0',
             'is_active' => 'boolean',
@@ -87,7 +99,11 @@ class TermsAndConditionController extends Controller
 
         $termsAndCondition->update([
             'title' => $request->title,
+            'title_en' => $request->title_en,
+            'title_id' => $request->title_id,
             'content' => $request->content,
+            'content_en' => $request->content_en,
+            'content_id' => $request->content_id,
             'type' => $request->type,
             'order' => $request->order,
             'is_active' => $request->has('is_active') ? true : false,

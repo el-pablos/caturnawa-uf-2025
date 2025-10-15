@@ -560,7 +560,7 @@ class PublicController extends Controller
                 foreach ($competition->timelines as $timelineEvent) {
                     $timeline[] = [
                         'date' => $timelineEvent->month . ' ' . $timelineEvent->day . ', ' . $timelineEvent->year,
-                        'title' => $timelineEvent->title,
+                        'title' => $timelineEvent->localized_title,
                         'description' => $competition->name,
                         'status' => 'upcoming', // You can add logic to determine status based on dates
                         'icon' => 'bi-calendar-event'
