@@ -270,6 +270,20 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             Route::delete('/{submission}', [App\Http\Controllers\Admin\SubmissionController::class, 'destroy'])->name('destroy');
         });
 
+        // Content Management
+        Route::resource('faqs', App\Http\Controllers\Admin\FaqController::class);
+        Route::post('faqs/reorder', [App\Http\Controllers\Admin\FaqController::class, 'reorder'])->name('faqs.reorder');
+
+        Route::resource('competition-timelines', App\Http\Controllers\Admin\CompetitionTimelineController::class);
+
+        Route::get('contact-information', [App\Http\Controllers\Admin\ContactInformationController::class, 'index'])->name('contact-information.index');
+        Route::get('contact-information/edit', [App\Http\Controllers\Admin\ContactInformationController::class, 'edit'])->name('contact-information.edit');
+        Route::put('contact-information', [App\Http\Controllers\Admin\ContactInformationController::class, 'update'])->name('contact-information.update');
+
+        Route::resource('sponsors', App\Http\Controllers\Admin\SponsorController::class);
+
+        Route::resource('terms-and-conditions', App\Http\Controllers\Admin\TermsAndConditionController::class);
+
         // User Activation Management
         Route::prefix('user-activation')->name('user-activation.')->group(function () {
             Route::get('/', [App\Http\Controllers\Admin\UserActivationController::class, 'index'])->name('index');
