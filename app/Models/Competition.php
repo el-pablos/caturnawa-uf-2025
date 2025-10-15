@@ -692,12 +692,13 @@ class Competition extends Model
      */
     public function getDaysLeftAttribute()
     {
-        if (!$this->registration_deadline) {
+        $deadline = $this->registration_end ?? $this->registration_deadline;
+
+        if (!$deadline) {
             return null;
         }
 
         $now = now();
-        $deadline = $this->registration_deadline;
 
         if ($deadline <= $now) {
             return 0;
@@ -740,41 +741,45 @@ class Competition extends Model
             ];
         }
 
-        if ($this->registration_deadline) {
+        $deadline = $this->registration_end ?? $this->registration_deadline;
+        if ($deadline) {
             $timeline[] = [
                 'title' => 'Batas Akhir Pendaftaran',
-                'date' => $this->registration_deadline,
-                'status' => $this->registration_deadline <= now() ? 'completed' : 'upcoming',
+                'date' => $deadline,
+                'status' => $deadline <= now() ? 'completed' : 'upcoming',
                 'icon' => 'bi-calendar-x',
                 'color' => 'warning'
             ];
         }
 
-        if ($this->round1_date) {
+        $round1 = $this->competition_start ?? $this->round1_date;
+        if ($round1) {
             $timeline[] = [
                 'title' => 'Babak Penyisihan',
-                'date' => $this->round1_date,
-                'status' => $this->round1_date <= now() ? 'completed' : 'upcoming',
+                'date' => $round1,
+                'status' => $round1 <= now() ? 'completed' : 'upcoming',
                 'icon' => 'bi-trophy',
                 'color' => 'primary'
             ];
         }
 
-        if ($this->semifinal_date) {
+        $semifinal = $this->competition_start?->addDays(5) ?? $this->semifinal_date;
+        if ($semifinal) {
             $timeline[] = [
                 'title' => 'Semifinal',
-                'date' => $this->semifinal_date,
-                'status' => $this->semifinal_date <= now() ? 'completed' : 'upcoming',
+                'date' => $semifinal,
+                'status' => $semifinal <= now() ? 'completed' : 'upcoming',
                 'icon' => 'bi-award',
                 'color' => 'info'
             ];
         }
 
-        if ($this->final_date) {
+        $final = $this->competition_end ?? $this->final_date;
+        if ($final) {
             $timeline[] = [
                 'title' => 'Final',
-                'date' => $this->final_date,
-                'status' => $this->final_date <= now() ? 'completed' : 'upcoming',
+                'date' => $final,
+                'status' => $final <= now() ? 'completed' : 'upcoming',
                 'icon' => 'bi-trophy-fill',
                 'color' => 'danger'
             ];
