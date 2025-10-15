@@ -379,9 +379,12 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
         // Scoring System
         Route::prefix('scoring')->name('scoring.')->group(function () {
             Route::get('/', [App\Http\Controllers\Juri\ScoringController::class, 'index'])->name('index');
+            Route::get('/my-scores', [App\Http\Controllers\Juri\ScoringController::class, 'myScores'])->name('my-scores');
             Route::get('/competition/{competition}', [App\Http\Controllers\Juri\ScoringController::class, 'competition'])->name('competition');
             Route::get('/submission/{submission}', [App\Http\Controllers\Juri\ScoringController::class, 'submission'])->name('submission');
             Route::post('/submission/{submission}', [App\Http\Controllers\Juri\ScoringController::class, 'store'])->name('store');
+            Route::get('/submission/{submission}/score', [App\Http\Controllers\Juri\ScoringController::class, 'scoreForm'])->name('score-form');
+            Route::post('/submission/{submission}/score', [App\Http\Controllers\Juri\ScoringController::class, 'storeScore'])->name('score-store');
             Route::get('/participant/{registration}', [App\Http\Controllers\Juri\ScoringController::class, 'participant'])->name('participant');
             Route::post('/score/{registration}', [App\Http\Controllers\Juri\ScoringController::class, 'score'])->name('score');
             Route::put('/score/{score}', [App\Http\Controllers\Juri\ScoringController::class, 'update'])->name('update');
@@ -392,7 +395,7 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             Route::get('/rounds', [App\Http\Controllers\Juri\ScoringController::class, 'rounds'])->name('rounds');
             Route::get('/match/{match}', [App\Http\Controllers\Juri\ScoringController::class, 'scoreMatch'])->name('match');
             Route::post('/match/{match}', [App\Http\Controllers\Juri\ScoringController::class, 'storeMatchScore'])->name('match.store');
-            
+
             // Download submission files
             Route::get('/download/{submission}/{filename}', [App\Http\Controllers\Juri\ScoringController::class, 'downloadFile'])->name('download');
         });

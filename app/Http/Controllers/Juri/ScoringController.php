@@ -845,4 +845,121 @@ class ScoringController extends Controller
             ]);
         }
     }
+
+    /**
+     * Show scoring form for a submission
+     *
+     * @param Submission $submission
+     * @return \Illuminate\View\View
+     */
+    public function scoreForm(Submission $submission)
+    {
+        $jury = Auth::user();
+        $competition = $submission->registration->competition;
+
+        // Verify jury is assigned to this competition
+        $isAssigned = $competition->juries()
+            ->where('user_id', $jury->id)
+            ->exists();
+
+        if (!$isAssigned) {
+            abort(403, 'Anda tidak memiliki akses untuk menilai submission ini.');
+        }
+
+        // Get existing score if any
+        $existingScore = Score::where('registration_id', $submission->registration_id)
+            ->where('jury_id', $jury->id)
+            ->where('competition_id', $competition->id)
+            ->first();
+
+        // Get criteria based on competition type
+        $criteria = $this->getCriteriaForCompetition($competition);
+
+        return view('juri.scoring.form', compact('submission', 'competition', 'existingScore', 'criteria'));
+    }
+
+    /**
+     * Store score for a submission
+     *
+     * @param Request $request
+     * @param Submission $submission
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function storeScore(Request $request, Submission $submission)
+    {
+        $jury = Auth::user();
+        $competition = $submission->registration->competition;
+
+        // Verify jury is assigned to this competition
+        $isAssigned = $competition->juries()
+            ->where('user_id', $jury->id)
+            ->exists();
+
+        if (!$isAssigned) {
+            abort(403, 'Anda tidak memiliki akses untuk menilai submission ini.');
+        }
+
+        // Validate request
+        $validated = $request->validate([
+            'registration_id' => 'required|exists:registrations,id',
+            'total_score' => 'required|numeric|min:0|max:100',
+            'criteria_scores' => 'nullable|array',
+            'comments' => 'nullable|string',
+        ]);
+
+        // Create or update score
+        $score = Score::updateOrCreate(
+            [
+                'registration_id' => $validated['registration_id'],
+                'jury_id' => $jury->id,
+                'competition_id' => $competition->id,
+            ],
+            [
+                'total_score' => $validated['total_score'],
+                'criteria_scores' => $validated['criteria_scores'] ?? [],
+                'comments' => $validated['comments'] ?? null,
+                'is_final' => false,
+            ]
+        );
+
+        return redirect()->back()->with('success', 'Penilaian berhasil disimpan.');
+    }
+
+    /**
+     * Show jury's own scores
+     *
+     * @return \Illuminate\View\View
+     */
+    public function myScores()
+    {
+        $jury = Auth::user();
+
+        $scores = Score::where('jury_id', $jury->id)
+            ->with(['registration.competition', 'registration.user'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+
+        return view('juri.scoring.my-scores', compact('scores'));
+    }
+
+    /**
+     * Get criteria for competition
+     *
+     * @param Competition $competition
+     * @return array
+     */
+    private function getCriteriaForCompetition(Competition $competition)
+    {
+        if ($competition->isEdcCompetition()) {
+            return Score::getEdcCriteria();
+        } elseif ($competition->isKdbiCompetition()) {
+            return Score::getKdbiCriteria();
+        } elseif ($competition->isSpcCompetition()) {
+            return Score::getSpcCriteria();
+        } elseif ($competition->category === 'event_dcc') {
+            return Score::getDccShortVideoCriteria('preliminary_round');
+        }
+
+        return Score::getDefaultCriteria();
+    }
 }
