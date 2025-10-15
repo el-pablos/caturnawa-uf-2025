@@ -220,92 +220,19 @@
                     </h2>
                 </div>
                 <div class="card-body p-5 terms-content">
+                    @forelse($termsAndConditions as $index => $term)
                     <div class="mb-5">
-                        <h3 class="fw-bold">1. Acceptance of Terms</h3>
-                        <p>
-                            By accessing and using the Caturnawa UNAS FEST 2025 services, you agree to be bound by these terms and conditions. If you do not agree to these terms, please do not use our services.
-                        </p>
+                        <h3 class="fw-bold">{{ $loop->iteration }}. {{ $term->title }}</h3>
+                        <div class="terms-text">
+                            {!! nl2br(e($term->content)) !!}
+                        </div>
                     </div>
-
-                    <div class="mb-5">
-                        <h3 class="fw-bold">2. Registration and Account</h3>
-                        <p>To participate in competitions, you must:</p>
-                        <ul>
-                            <li>Provide accurate and complete information</li>
-                            <li>Maintain the confidentiality of your account and password</li>
-                            <li>Be responsible for all activities in your account</li>
-                            <li>Immediately report unauthorized account usage</li>
-                        </ul>
+                    @empty
+                    <div class="p-5 text-center text-muted">
+                        <i class="bi bi-inbox fs-1 d-block mb-3"></i>
+                        <p>Terms and conditions are being updated. Please check back later.</p>
                     </div>
-
-                    <div class="mb-5">
-                        <h3 class="fw-bold">3. Competition Rules</h3>
-                        <p>Competition participants must:</p>
-                        <ul>
-                            <li>Follow all competition rules and guidelines</li>
-                            <li>Submit original work that does not violate copyright</li>
-                            <li>Respect other participants and organizers</li>
-                            <li>Accept judges' decisions as final</li>
-                            <li>Attend mandatory events</li>
-                        </ul>
-                    </div>
-
-                    <div class="mb-5">
-                        <h3 class="fw-bold">4. Intellectual Property Rights</h3>
-                        <p>
-                            Participants retain copyright to their work, but grant permission to UNAS Fest to:
-                        </p>
-                        <ul>
-                            <li>Display work for evaluation purposes</li>
-                            <li>Publish winning entries for promotion</li>
-                            <li>Use work for event documentation</li>
-                        </ul>
-                    </div>
-
-                    <div class="mb-5">
-                        <h3 class="fw-bold">5. Payment and Refunds</h3>
-                        <p>Payment terms:</p>
-                        <ul>
-                            <li>Registration fees must be paid according to schedule</li>
-                            <li>Payments made are non-refundable</li>
-                            <li>Refund exceptions only under certain conditions</li>
-                            <li>All additional costs are the participant's responsibility</li>
-                        </ul>
-                    </div>
-
-                    <div class="mb-5">
-                        <h3 class="fw-bold">6. Disqualification</h3>
-                        <p>
-                            Organizers reserve the right to disqualify participants who:
-                        </p>
-                        <ul>
-                            <li>Violate competition rules</li>
-                            <li>Provide false information</li>
-                            <li>Commit plagiarism or copyright infringement</li>
-                            <li>Behave inappropriately or harmfully</li>
-                            <li>Fail to meet established requirements</li>
-                        </ul>
-                    </div>
-
-                    <div class="mb-5">
-                        <h3 class="fw-bold">7. Limitation of Liability</h3>
-                        <p>
-                            UNAS Fest is not responsible for:
-                        </p>
-                        <ul>
-                            <li>Losses arising from participation in competitions</li>
-                            <li>Technical problems or system disruptions</li>
-                            <li>Loss or damage to submitted work</li>
-                            <li>Schedule changes or event cancellations</li>
-                        </ul>
-                    </div>
-
-                    <div class="mb-4">
-                        <h3 class="fw-bold">8. Changes to Terms</h3>
-                        <p>
-                            We reserve the right to change these terms and conditions at any time. Changes will be notified through the official website and registered email.
-                        </p>
-                    </div>
+                    @endforelse
                 </div>
                 <div class="card-footer bg-transparent p-5">
                     <hr class="my-5" style="border-color: rgba(0,0,0,0.1);">

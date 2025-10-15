@@ -306,9 +306,23 @@
 
         <!-- Contact Info -->
         <div class="col-lg-4" data-aos="fade-left">
-            @php $seo = app(\App\Services\SEOService::class); @endphp
-            @php $contact = $seo->getContactInfo(); @endphp
-            
+            @php
+                // Use database contact info if available, otherwise fallback to SEO service
+                if (isset($contactInfo) && $contactInfo) {
+                    $contact = [
+                        'email' => $contactInfo->email,
+                        'phone' => $contactInfo->whatsapp,
+                        'address' => $contactInfo->address,
+                        'instagram' => $contactInfo->instagram,
+                        'tiktok' => $contactInfo->tiktok,
+                        'youtube' => $contactInfo->youtube,
+                    ];
+                } else {
+                    $seo = app(\App\Services\SEOService::class);
+                    $contact = $seo->getContactInfo();
+                }
+            @endphp
+
             <div class="modern-card info-card mb-4">
                 <div class="card-header p-3 bg-info text-white">
                     <h4 class="card-title mb-0"><i class="bi bi-info-circle-fill me-2"></i>Contact Information</h4>
@@ -322,19 +336,28 @@
                         </div>
                     </li>
                     <li class="list-group-item d-flex align-items-center">
-                        <i class="bi bi-telephone-fill text-success info-icon me-3"></i>
+                        <i class="bi bi-whatsapp text-success info-icon me-3"></i>
                         <div>
-                            <h6 class="fw-bold mb-0">Phone</h6>
-                            <a href="tel:{{ $contact['phone'] }}" class="text-decoration-none">{{ $contact['phone'] }}</a>
+                            <h6 class="fw-bold mb-0">WhatsApp</h6>
+                            <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $contact['phone']) }}" class="text-decoration-none" target="_blank">{{ $contact['phone'] }}</a>
                         </div>
                     </li>
                     <li class="list-group-item d-flex align-items-center">
                         <i class="bi bi-geo-alt-fill text-danger info-icon me-3"></i>
                         <div>
                             <h6 class="fw-bold mb-0">Address</h6>
-                            <p class="text-muted mb-0">{{   $contact['address'] }}</p>
+                            <p class="text-muted mb-0">{{ $contact['address'] }}</p>
                         </div>
                     </li>
+                    @if(isset($contact['instagram']))
+                    <li class="list-group-item d-flex align-items-center">
+                        <i class="bi bi-instagram text-danger info-icon me-3"></i>
+                        <div>
+                            <h6 class="fw-bold mb-0">Instagram</h6>
+                            <a href="https://instagram.com/{{ ltrim($contact['instagram'], '@') }}" class="text-decoration-none" target="_blank">{{ $contact['instagram'] }}</a>
+                        </div>
+                    </li>
+                    @endif
                 </ul>
             </div>
 

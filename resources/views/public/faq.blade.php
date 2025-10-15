@@ -255,23 +255,28 @@
                 </div>
                 <div class="card-body p-0">
                     <div class="accordion modern-accordion" id="faqAccordion">
-                        @foreach($faqs as $index => $faq)
+                        @forelse($faqs as $index => $faq)
                         <div class="accordion-item">
-                            <h2 class="accordion-header" id="heading{{ $index }}">
+                            <h2 class="accordion-header" id="heading{{ $faq->id }}">
                                 <button class="accordion-button {{ $index === 0 ? '' : 'collapsed' }}" type="button"
-                                        data-bs-toggle="collapse" data-bs-target="#collapse{{ $index }}"
-                                        aria-expanded="{{ $index === 0 ? 'true' : 'false' }}" aria-controls="collapse{{ $index }}">
-                                    {{ $faq['question'] }}
+                                        data-bs-toggle="collapse" data-bs-target="#collapse{{ $faq->id }}"
+                                        aria-expanded="{{ $index === 0 ? 'true' : 'false' }}" aria-controls="collapse{{ $faq->id }}">
+                                    {{ $faq->question }}
                                 </button>
                             </h2>
-                            <div id="collapse{{ $index }}" class="accordion-collapse collapse {{ $index === 0 ? 'show' : '' }}"
-                                 aria-labelledby="heading{{ $index }}" data-bs-parent="#faqAccordion">
+                            <div id="collapse{{ $faq->id }}" class="accordion-collapse collapse {{ $index === 0 ? 'show' : '' }}"
+                                 aria-labelledby="heading{{ $faq->id }}" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    {{ $faq['answer'] }}
+                                    {!! nl2br(e($faq->answer)) !!}
                                 </div>
                             </div>
                         </div>
-                        @endforeach
+                        @empty
+                        <div class="p-5 text-center text-muted">
+                            <i class="bi bi-inbox fs-1 d-block mb-3"></i>
+                            <p>No FAQs available at the moment. Please check back later.</p>
+                        </div>
+                        @endforelse
                     </div>
                 </div>
                 <div class="card-footer bg-transparent p-5">

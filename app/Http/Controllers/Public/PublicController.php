@@ -4,7 +4,12 @@ namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
 use App\Models\Competition;
+use App\Models\CompetitionTimeline;
+use App\Models\ContactInformation;
+use App\Models\Faq;
 use App\Models\Registration;
+use App\Models\Sponsor;
+use App\Models\TermsAndCondition;
 use App\Models\User;
 use App\Services\SEOService;
 
@@ -389,8 +394,10 @@ class PublicController extends Controller
      */
     public function contact()
     {
+        // Get contact information from database
+        $contactInfo = ContactInformation::active()->first();
 
-        return view('public.contact');
+        return view('public.contact', compact('contactInfo'));
     }
 
     /**
@@ -494,56 +501,8 @@ class PublicController extends Controller
             'description' => 'Find answers to frequently asked questions about the Caturnawa UNAS FEST 2025.',
         ]);
 
-        $faqs = [
-            [
-                'question' => 'How do I register for the competition?',
-                'answer' => 'You can register through the competition page by clicking the "Register Now" button in the desired category. Make sure you have created an account and are logged in.'
-            ],
-            [
-                'question' => 'Is there a registration fee?',
-                'answer' => 'The registration fee varies depending on the competition category. Complete information can be found on the competition detail page. Payment can be made through various available methods.'
-            ],
-            [
-                'question' => 'Who can participate in the Caturnawa UNAS FEST 2025?',
-                'answer' => 'The Caturnawa UNAS FEST 2025 is open to all active students at universities/higher education institutions in Indonesia. Participants must show proof of active student status upon registration.'
-            ],
-            [
-                'question' => 'What is the total prize money available?',
-                'answer' => 'The total prize for the Caturnawa UNAS FEST 2025 reaches 500 million rupiah, distributed across various competition categories: Technology, Health, and Biodiversity.'
-            ],
-            [
-                'question' => 'Can I register for more than one competition?',
-                'answer' => 'Yes, participants are allowed to register in multiple competition categories at once. However, make sure you can participate in all registered competitions properly.'
-            ],
-            [
-                'question' => 'What is the format of the competition?',
-                'answer' => 'The competition is held in a hybrid format (online and offline). The initial stage is an online file selection, followed by presentations and judging at the UNAS Jakarta campus.'
-            ],
-            [
-                'question' => 'When is the registration deadline?',
-                'answer' => 'The registration deadline varies for each competition category. Please check the competition detail page for the exact dates. We recommend registering early.'
-            ],
-            [
-                'question' => 'Is accommodation provided for participants from outside Jakarta?',
-                'answer' => 'The committee will help find information on nearby affordable accommodation. For more information, please contact our team via WhatsApp or email.'
-            ],
-            [
-                'question' => 'How can I check my registration status?',
-                'answer' => 'After logging into your account, go to the participant dashboard to see the status of all your competition registrations. You will also receive email notifications for any status changes.'
-            ],
-            [
-                'question' => 'What should I prepare for the competition?',
-                'answer' => 'Preparation varies for each category. In general: a proposal/scientific paper, presentation materials, and other supporting documents. Full details are available in the guidebook which will be sent after registration is confirmed.'
-            ],
-            [
-                'question' => 'Will participants receive a certificate?',
-                'answer' => 'Yes, all participants who complete the competition will receive a certificate of participation. Winners will receive a special certificate and a trophy.'
-            ],
-            [
-                'question' => 'What if I want to cancel my registration?',
-                'answer' => 'Registration can be canceled through the participant dashboard or by contacting our team. The terms and conditions for a refund can be found on the terms of service page.'
-            ]
-        ];
+        // Get FAQs from database
+        $faqs = Faq::active()->get();
 
         return view('public.faq', compact('faqs'));
     }
@@ -571,7 +530,10 @@ class PublicController extends Controller
             'description' => 'Syarat dan ketentuan penggunaan layanan Caturnawa UNAS FEST 2025.',
         ]);
 
-        return view('public.terms');
+        // Get terms and conditions from database
+        $termsAndConditions = TermsAndCondition::active()->get();
+
+        return view('public.terms', compact('termsAndConditions'));
     }
 
     /**
@@ -584,44 +546,28 @@ class PublicController extends Controller
             'description' => 'Timeline lengkap kegiatan Caturnawa UNAS FEST 2025 dari pendaftaran hingga pengumuman pemenang.',
         ]);
 
-        // Timeline data
-        $timeline = [
-            [
-                'date' => '1 Januari - 28 Februari 2025',
-                'title' => 'Pendaftaran Dibuka',
-                'description' => 'Periode pendaftaran untuk semua kategori kompetisi UNAS FEST 2025.',
-                'status' => 'active',
-                'icon' => 'bi-calendar-plus'
-            ],
-            [
-                'date' => '1 - 15 Maret 2025',
-                'title' => 'Pengumpulan Karya',
-                'description' => 'Peserta mengumpulkan karya sesuai dengan ketentuan masing-masing kompetisi.',
-                'status' => 'upcoming',
-                'icon' => 'bi-upload'
-            ],
-            [
-                'date' => '16 - 31 Maret 2025',
-                'title' => 'Penilaian Juri',
-                'description' => 'Tim juri melakukan penilaian terhadap semua karya yang masuk.',
-                'status' => 'upcoming',
-                'icon' => 'bi-star'
-            ],
-            [
-                'date' => '5 April 2025',
-                'title' => 'Pengumuman Finalis',
-                'description' => 'Pengumuman finalis untuk setiap kategori kompetisi.',
-                'status' => 'upcoming',
-                'icon' => 'bi-megaphone'
-            ],
-            [
-                'date' => '12 April 2025',
-                'title' => 'Final & Awarding',
-                'description' => 'Acara final dan pengumuman pemenang Caturnawa UNAS FEST 2025.',
-                'status' => 'upcoming',
-                'icon' => 'bi-trophy'
-            ]
-        ];
+        // Get timeline data from database grouped by competition
+        $competitions = Competition::active()
+            ->with(['timelines' => function($query) {
+                $query->where('is_active', true)->orderBy('order', 'asc');
+            }])
+            ->get();
+
+        // Format timeline data for view
+        $timeline = [];
+        foreach ($competitions as $competition) {
+            if ($competition->timelines->count() > 0) {
+                foreach ($competition->timelines as $timelineEvent) {
+                    $timeline[] = [
+                        'date' => $timelineEvent->month . ' ' . $timelineEvent->day . ', ' . $timelineEvent->year,
+                        'title' => $timelineEvent->title,
+                        'description' => $competition->name,
+                        'status' => 'upcoming', // You can add logic to determine status based on dates
+                        'icon' => 'bi-calendar-event'
+                    ];
+                }
+            }
+        }
 
         return view('public.timeline', compact('timeline'));
     }
