@@ -15,7 +15,7 @@ class CompetitionRequirement extends Model
         'field_name',
         'field_type',
         'field_label',
-        'field_description',
+        'help_text',
         'is_required',
         'validation_rules',
         'field_options',

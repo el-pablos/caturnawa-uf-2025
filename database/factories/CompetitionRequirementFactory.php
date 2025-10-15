@@ -33,7 +33,7 @@ class CompetitionRequirementFactory extends Factory
             'field_name' => fake()->unique()->slug(2),
             'field_type' => $fieldType,
             'field_label' => fake()->sentence(3),
-            'field_description' => fake()->optional()->sentence(),
+            'help_text' => fake()->optional()->sentence(),
             'is_required' => fake()->boolean(70), // 70% chance of being required
             'validation_rules' => $this->getValidationRules($fieldType),
             'field_options' => $fieldOptions,
