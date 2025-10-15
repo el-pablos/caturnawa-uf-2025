@@ -237,8 +237,8 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             Route::patch('/{payment}/confirm', [App\Http\Controllers\Admin\PaymentController::class, 'confirmPayment'])->name('confirm');
         });
         
-        // User Management (Super Admin only)
-        Route::middleware(['role:superadmin'])->prefix('users')->name('users.')->group(function () {
+        // User Management (Super Admin and Admin)
+        Route::middleware(['role:superadmin|admin'])->prefix('users')->name('users.')->group(function () {
             Route::get('/', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('index');
             Route::get('/create', [App\Http\Controllers\Admin\UserController::class, 'create'])->name('create');
             Route::post('/', [App\Http\Controllers\Admin\UserController::class, 'store'])->name('store');

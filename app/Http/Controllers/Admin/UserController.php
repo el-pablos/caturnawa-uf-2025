@@ -280,7 +280,7 @@ class UserController extends Controller
                 ]);
             }
 
-            return back()->with('success', 'Pengguna berhasil dihapus.');
+            return redirect()->route('admin.users.index')->with('success', 'Pengguna berhasil dihapus.');
         } catch (\Exception $e) {
             if (request()->expectsJson()) {
                 return response()->json([
