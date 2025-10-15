@@ -59,28 +59,24 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/leaderboard/update', [App\Http\Controllers\Api\LeaderboardController::class, 'update']);
 });
 
-// API Routes untuk AJAX calls
+// Authenticated API Routes
 Route::middleware(['auth'])->group(function () {
-    
-    // Competition API
-    Route::get('/competitions', [App\Http\Controllers\Api\CompetitionController::class, 'index']);
-    Route::get('/competitions/{competition}', [App\Http\Controllers\Api\CompetitionController::class, 'show']);
-    
-    // Registration API
+
+    // Registration API (authenticated)
     Route::get('/registrations', [App\Http\Controllers\Api\RegistrationController::class, 'index']);
     Route::get('/registrations/datatable', [App\Http\Controllers\Api\RegistrationController::class, 'datatable']);
-    
-    // Payment API
+
+    // Payment API (authenticated)
     Route::get('/payments', [App\Http\Controllers\Api\PaymentController::class, 'index']);
     Route::get('/payments/datatable', [App\Http\Controllers\Api\PaymentController::class, 'datatable']);
-    
+
     // User API (Admin only)
     Route::middleware(['role:superadmin|admin'])->group(function () {
         Route::get('/users', [App\Http\Controllers\Api\UserController::class, 'index']);
         Route::get('/users/datatable', [App\Http\Controllers\Api\UserController::class, 'datatable']);
     });
-    
-    // Statistics API
+
+    // Statistics API (authenticated)
     Route::get('/statistics/dashboard', [App\Http\Controllers\Api\StatisticsController::class, 'dashboard']);
     Route::get('/statistics/competition/{competition}', [App\Http\Controllers\Api\StatisticsController::class, 'competition']);
 

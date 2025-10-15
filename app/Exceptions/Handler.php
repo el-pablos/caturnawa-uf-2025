@@ -138,18 +138,40 @@ class Handler extends ExceptionHandler
         $status = 500;
         $message = 'Internal Server Error';
 
-        if (method_exists($exception, 'getStatusCode')) {
+        // Handle specific exception types
+        if ($exception instanceof \Illuminate\Database\Eloquent\ModelNotFoundException) {
+            $status = 404;
+            $message = 'Resource not found';
+        } elseif ($exception instanceof \Illuminate\Auth\AuthenticationException) {
+            $status = 401;
+            $message = 'Unauthenticated';
+        } elseif ($exception instanceof \Illuminate\Auth\Access\AuthorizationException) {
+            $status = 403;
+            $message = 'Forbidden';
+        } elseif ($exception instanceof \Illuminate\Validation\ValidationException) {
+            $status = 422;
+            $message = 'Validation failed';
+        } elseif (method_exists($exception, 'getStatusCode')) {
             $status = $exception->getStatusCode();
-        }
-
-        if (config('app.debug')) {
+            $message = $exception->getMessage();
+        } else {
             $message = $exception->getMessage();
         }
 
-        return response()->json([
+        $response = [
             'success' => false,
             'message' => $message,
             'error_code' => $status,
-        ], $status);
+        ];
+
+        // Add debug info if in debug mode
+        if (config('app.debug')) {
+            $response['exception'] = get_class($exception);
+            $response['file'] = $exception->getFile();
+            $response['line'] = $exception->getLine();
+            $response['trace'] = collect($exception->getTrace())->take(5)->toArray();
+        }
+
+        return response()->json($response, $status);
     }
 }
