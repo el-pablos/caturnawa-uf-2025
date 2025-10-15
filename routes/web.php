@@ -309,6 +309,12 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             Route::get('/export/csv', [App\Http\Controllers\Admin\ActivityLogController::class, 'export'])->name('export');
         });
 
+        // Global Search
+        Route::prefix('search')->name('search.')->group(function () {
+            Route::get('/', [App\Http\Controllers\Admin\SearchController::class, 'index'])->name('index');
+            Route::get('/ajax', [App\Http\Controllers\Admin\SearchController::class, 'ajax'])->name('ajax');
+        });
+
         // Settings Management
         Route::prefix('settings')->name('settings.')->group(function () {
             Route::get('/', [App\Http\Controllers\Admin\SettingsController::class, 'index'])->name('index');
