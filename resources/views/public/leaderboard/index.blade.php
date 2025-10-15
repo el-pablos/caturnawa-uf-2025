@@ -242,12 +242,12 @@
                         </h5>
                     </div>
                     <div class="card-body">
-                        <div class="row align-items-center">
+                        <div class="row align-items-center mb-3">
                             <div class="col-md-3">
                                 <label class="form-label fw-semibold">Select Competition:</label>
                             </div>
                             <div class="col-md-9">
-                                <select id="competitionSelect" class="form-select form-select-lg">
+                                <select id="competitionSelect" name="competition" class="form-select form-select-lg">
                                     @foreach($competitions as $competition)
                                         <option value="{{ $competition->id }}"
                                                 {{ $selectedCompetition && $selectedCompetition->id === $competition->id ? 'selected' : '' }}>
@@ -255,6 +255,30 @@
                                         </option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                    <div>
+                                        <button type="button" id="refreshBtn" class="btn btn-primary" onclick="refreshLeaderboard()">
+                                            <i class="bi bi-arrow-clockwise me-2"></i>Refresh Now
+                                        </button>
+                                        <button type="button" id="autoRefreshBtn" class="btn btn-outline-primary" onclick="toggleAutoRefresh()">
+                                            <i class="bi bi-play-circle me-2"></i>Auto-Refresh OFF
+                                        </button>
+                                        @if($selectedCompetition)
+                                        <a href="{{ route('leaderboard.export', $selectedCompetition->id) }}" class="btn btn-success">
+                                            <i class="bi bi-download me-2"></i>Export CSV
+                                        </a>
+                                        @endif
+                                    </div>
+                                    <div>
+                                        <span id="lastUpdatedBadge" class="badge bg-secondary">
+                                            Last updated: Just now
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -721,6 +745,84 @@ document.addEventListener('DOMContentLoaded', function() {
             this.style.transform = 'scale(1)';
         });
     });
+
+    // Real-time auto-refresh functionality
+    let autoRefreshInterval = null;
+    let isAutoRefreshEnabled = false;
+    let lastUpdated = new Date();
+
+    function updateLastUpdatedTime() {
+        const now = new Date();
+        const diff = Math.floor((now - lastUpdated) / 1000);
+        const minutes = Math.floor(diff / 60);
+        const seconds = diff % 60;
+
+        const timeText = minutes > 0
+            ? `${minutes}m ${seconds}s ago`
+            : `${seconds}s ago`;
+
+        const badge = document.getElementById('lastUpdatedBadge');
+        if (badge) {
+            badge.textContent = `Last updated: ${timeText}`;
+        }
+    }
+
+    function refreshLeaderboard() {
+        const competitionSelect = document.querySelector('select[name="competition"]');
+        const currentCompetition = competitionSelect ? competitionSelect.value : '';
+
+        if (currentCompetition) {
+            // Show loading indicator
+            const refreshBtn = document.getElementById('refreshBtn');
+            if (refreshBtn) {
+                refreshBtn.innerHTML = '<i class="bi bi-arrow-clockwise spin"></i> Refreshing...';
+                refreshBtn.disabled = true;
+            }
+
+            // Reload the page with current competition
+            window.location.href = `{{ route('leaderboard.index') }}?competition=${currentCompetition}`;
+        }
+    }
+
+    function toggleAutoRefresh() {
+        isAutoRefreshEnabled = !isAutoRefreshEnabled;
+        const btn = document.getElementById('autoRefreshBtn');
+
+        if (isAutoRefreshEnabled) {
+            btn.classList.remove('btn-outline-primary');
+            btn.classList.add('btn-success');
+            btn.innerHTML = '<i class="bi bi-pause-circle me-2"></i>Auto-Refresh ON';
+
+            // Refresh every 30 seconds
+            autoRefreshInterval = setInterval(refreshLeaderboard, 30000);
+        } else {
+            btn.classList.remove('btn-success');
+            btn.classList.add('btn-outline-primary');
+            btn.innerHTML = '<i class="bi bi-play-circle me-2"></i>Auto-Refresh OFF';
+
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+                autoRefreshInterval = null;
+            }
+        }
+    }
+
+    // Update "last updated" time every second
+    setInterval(updateLastUpdatedTime, 1000);
+
+    // Add CSS for spinning animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .spin {
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+    `;
+    document.head.appendChild(style);
 });
 </script>
 @endpush

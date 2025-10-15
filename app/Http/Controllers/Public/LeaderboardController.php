@@ -135,7 +135,7 @@ class LeaderboardController extends Controller
     public function getLeaderboardDataJson(Competition $competition)
     {
         $leaderboard = $this->getLeaderboardData($competition);
-        
+
         return response()->json([
             'success' => true,
             'data' => $leaderboard,
@@ -146,5 +146,46 @@ class LeaderboardController extends Controller
                 'total_participants' => $leaderboard->count()
             ]
         ]);
+    }
+
+    /**
+     * Export leaderboard to CSV
+     */
+    public function exportCsv(Competition $competition)
+    {
+        $leaderboard = $this->getLeaderboardData($competition);
+
+        $filename = 'leaderboard_' . str_replace(' ', '_', $competition->name) . '_' . date('Y-m-d_His') . '.csv';
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ];
+
+        $callback = function() use ($leaderboard) {
+            $file = fopen('php://output', 'w');
+
+            // Add BOM for Excel UTF-8 support
+            fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
+
+            // Header row
+            fputcsv($file, ['Rank', 'Participant Name', 'Team Name', 'Institution', 'Average Score', 'Total Juries']);
+
+            // Data rows
+            foreach ($leaderboard as $item) {
+                fputcsv($file, [
+                    $item['rank'],
+                    $item['participant_name'] ?? '',
+                    $item['team_name'] ?? '',
+                    $item['institution'] ?? '',
+                    $item['average_score'] ?? 0,
+                    $item['total_juries'] ?? 0,
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 }
