@@ -129,10 +129,6 @@ class RegistrationController extends Controller
             return back()->with('error', 'Hanya registrasi dengan status pending atau paid yang dapat dikonfirmasi.');
         }
 
-        // DISABLED: Manual registration confirmation workflow has been disabled
-        // Registrations are now automatically confirmed after successful payment
-
-        /*
         try {
             DB::beginTransaction();
 
@@ -153,7 +149,9 @@ class RegistrationController extends Controller
             }
 
             // Generate QR Code untuk tiket
-            $registration->generateQRCode();
+            if (method_exists($registration, 'generateQRCode')) {
+                $registration->generateQRCode();
+            }
 
             // Send notification email
             // TODO: Implement email notification
@@ -166,17 +164,20 @@ class RegistrationController extends Controller
                     'message' => 'Registrasi berhasil dikonfirmasi.'
                 ]);
             }
-        */
 
-        // Return message that feature is disabled
-        if (request()->expectsJson()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Fitur konfirmasi registrasi manual telah dinonaktifkan. Registrasi dikonfirmasi otomatis setelah pembayaran berhasil.'
-            ]);
+            return back()->with('success', 'Registrasi berhasil dikonfirmasi.');
+        } catch (\Exception $e) {
+            DB::rollback();
+
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal mengkonfirmasi registrasi: ' . $e->getMessage()
+                ]);
+            }
+
+            return back()->with('error', 'Gagal mengkonfirmasi registrasi: ' . $e->getMessage());
         }
-
-        return back()->with('info', 'Fitur konfirmasi registrasi manual telah dinonaktifkan. Registrasi dikonfirmasi otomatis setelah pembayaran berhasil.');
     }
 
     /**
@@ -285,10 +286,13 @@ class RegistrationController extends Controller
     {
         try {
             if ($registration->status !== 'cancelled') {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Hanya registrasi yang dibatalkan yang dapat diaktifkan kembali.'
-                ]);
+                if (request()->expectsJson()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Hanya registrasi yang dibatalkan yang dapat diaktifkan kembali.'
+                    ]);
+                }
+                return back()->with('error', 'Hanya registrasi yang dibatalkan yang dapat diaktifkan kembali.');
             }
 
             DB::beginTransaction();
@@ -303,16 +307,25 @@ class RegistrationController extends Controller
 
             DB::commit();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Registrasi berhasil diaktifkan kembali. Peserta dapat mendaftar ulang.'
-            ]);
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Registrasi berhasil diaktifkan kembali. Peserta dapat mendaftar ulang.'
+                ]);
+            }
+
+            return back()->with('success', 'Registrasi berhasil diaktifkan kembali. Peserta dapat mendaftar ulang.');
         } catch (\Exception $e) {
             DB::rollback();
-            return response()->json([
-                'success' => false,
-                'message' => 'Gagal mengaktifkan kembali registrasi: ' . $e->getMessage()
-            ]);
+
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal mengaktifkan kembali registrasi: ' . $e->getMessage()
+                ]);
+            }
+
+            return back()->with('error', 'Gagal mengaktifkan kembali registrasi: ' . $e->getMessage());
         }
     }
 
