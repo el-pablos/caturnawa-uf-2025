@@ -24,6 +24,8 @@ Route::get('/leaderboard', [App\Http\Controllers\Api\LeaderboardController::clas
 Route::get('/competitions', [App\Http\Controllers\Api\CompetitionController::class, 'index']);
 Route::get('/competitions/{competition}', [App\Http\Controllers\Api\CompetitionController::class, 'show']);
 Route::get('/competitions/{competition}/description/{section?}', [App\Http\Controllers\Api\CompetitionController::class, 'getDescription']);
+Route::get('/competitions/{competition}/statistics', [App\Http\Controllers\Api\CompetitionController::class, 'statistics']);
+Route::get('/competitions/{competition}/participants', [App\Http\Controllers\Api\CompetitionController::class, 'participants']);
 Route::get('/submissions/{submission}', [App\Http\Controllers\Api\SubmissionController::class, 'show']);
 
 // Judging API (requires authentication)

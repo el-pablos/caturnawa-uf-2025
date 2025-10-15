@@ -138,4 +138,84 @@ class CompetitionController extends Controller
             ]
         ]);
     }
+
+    /**
+     * Get competition statistics
+     *
+     * @param Competition $competition
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function statistics(Competition $competition)
+    {
+        try {
+            $stats = [
+                'total_registrations' => $competition->registrations()->count(),
+                'confirmed_registrations' => $competition->registrations()->where('status', 'confirmed')->count(),
+                'pending_registrations' => $competition->registrations()->where('status', 'pending')->count(),
+                'total_submissions' => $competition->registrations()
+                    ->whereHas('submissions', function($q) {
+                        $q->where('is_final', true);
+                    })->count(),
+                'total_scores' => $competition->scores()->where('is_final', true)->count(),
+            ];
+
+            return response()->json([
+                'success' => true,
+                'data' => $stats
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Failed to fetch statistics',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Get competition participants
+     *
+     * @param Competition $competition
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function participants(Competition $competition)
+    {
+        try {
+            $participants = $competition->registrations()
+                ->where('status', 'confirmed')
+                ->with(['user', 'teamMembers'])
+                ->get()
+                ->map(function ($registration) {
+                    return [
+                        'id' => $registration->id,
+                        'team_name' => $registration->team_name,
+                        'user' => [
+                            'id' => $registration->user->id,
+                            'name' => $registration->user->name,
+                            'email' => $registration->user->email,
+                        ],
+                        'team_members' => $registration->teamMembers->map(function ($member) {
+                            return [
+                                'name' => $member->name,
+                                'email' => $member->email,
+                                'role' => $member->role ?? 'member',
+                            ];
+                        }),
+                        'status' => $registration->status,
+                        'registered_at' => $registration->created_at->toISOString(),
+                    ];
+                });
+
+            return response()->json([
+                'success' => true,
+                'data' => $participants
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Failed to fetch participants',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
 }
