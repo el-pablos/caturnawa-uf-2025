@@ -317,6 +317,98 @@ class RegistrationController extends Controller
     }
 
     /**
+     * Export registrations to Excel
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function exportExcel(Request $request)
+    {
+        $query = Registration::with(['user', 'competition', 'payment']);
+
+        // Apply filters
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('competition_id')) {
+            $query->where('competition_id', $request->competition_id);
+        }
+
+        $registrations = $query->get();
+
+        // Create simple CSV export
+        $filename = 'registrations_' . now()->format('Y-m-d_His') . '.csv';
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+        ];
+
+        $callback = function() use ($registrations) {
+            $file = fopen('php://output', 'w');
+
+            // Header row
+            fputcsv($file, ['ID', 'Team Name', 'User', 'Email', 'Competition', 'Status', 'Registered At']);
+
+            // Data rows
+            foreach ($registrations as $registration) {
+                fputcsv($file, [
+                    $registration->id,
+                    $registration->team_name ?? '-',
+                    $registration->user->name,
+                    $registration->user->email,
+                    $registration->competition->name,
+                    $registration->status,
+                    $registration->created_at->format('Y-m-d H:i:s'),
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    /**
+     * Bulk confirm registrations
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function bulkConfirm(Request $request)
+    {
+        $validated = $request->validate([
+            'registration_ids' => 'required|array',
+            'registration_ids.*' => 'exists:registrations,id',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $count = 0;
+            foreach ($validated['registration_ids'] as $id) {
+                $registration = Registration::find($id);
+
+                if ($registration && $registration->status === 'pending') {
+                    $registration->update([
+                        'status' => 'confirmed',
+                        'confirmed_at' => now(),
+                        'confirmed_by' => auth()->id(),
+                    ]);
+                    $count++;
+                }
+            }
+
+            DB::commit();
+
+            return redirect()->back()->with('success', "Berhasil mengkonfirmasi {$count} registrasi.");
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', 'Gagal mengkonfirmasi registrasi: ' . $e->getMessage());
+        }
+    }
+
+    /**
      * Hapus registrasi secara permanen
      *
      * @param \App\Models\Registration $registration

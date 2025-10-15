@@ -212,15 +212,15 @@ Route::middleware(['auth', 'verified', 'maintenance'])->group(function () {
             Route::get('/', [App\Http\Controllers\Admin\RegistrationController::class, 'index'])->name('index');
             Route::get('/{registration}', [App\Http\Controllers\Admin\RegistrationController::class, 'show'])->name('show');
             Route::patch('/{registration}', [App\Http\Controllers\Admin\RegistrationController::class, 'update'])->name('update');
-            // DISABLED: Manual registration confirmation feature has been disabled
-            // Route::patch('/{registration}/confirm', [App\Http\Controllers\Admin\RegistrationController::class, 'confirm'])->name('confirm');
-            Route::patch('/{registration}/cancel', [App\Http\Controllers\Admin\RegistrationController::class, 'cancel'])->name('cancel');
-            Route::patch('/{registration}/re-enable', [App\Http\Controllers\Admin\RegistrationController::class, 'reEnable'])->name('re-enable');
+            Route::post('/{registration}/confirm', [App\Http\Controllers\Admin\RegistrationController::class, 'confirm'])->name('confirm');
+            Route::post('/{registration}/cancel', [App\Http\Controllers\Admin\RegistrationController::class, 'cancel'])->name('cancel');
+            Route::post('/{registration}/re-enable', [App\Http\Controllers\Admin\RegistrationController::class, 'reEnable'])->name('re-enable');
             Route::patch('/{registration}/lock', [App\Http\Controllers\Admin\RegistrationController::class, 'lock'])->name('lock');
             Route::patch('/{registration}/unlock', [App\Http\Controllers\Admin\RegistrationController::class, 'unlock'])->name('unlock');
             Route::delete('/{registration}', [App\Http\Controllers\Admin\RegistrationController::class, 'destroy'])->name('destroy');
             Route::get('/export/excel', [App\Http\Controllers\Admin\RegistrationController::class, 'exportExcel'])->name('export.excel');
             Route::get('/export/pdf', [App\Http\Controllers\Admin\RegistrationController::class, 'exportPdf'])->name('export.pdf');
+            Route::post('/bulk-confirm', [App\Http\Controllers\Admin\RegistrationController::class, 'bulkConfirm'])->name('bulk-confirm');
         });
         
         // Payment Management
