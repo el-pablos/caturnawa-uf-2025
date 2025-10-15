@@ -159,7 +159,7 @@ class Score extends Model
 
     /**
      * Submit penilaian sebagai final
-     * 
+     *
      * @return void
      */
     public function submitFinal()
@@ -168,6 +168,71 @@ class Score extends Model
             'is_final' => true,
             'submitted_at' => now(),
         ]);
+    }
+
+    /**
+     * Mark score as final (alias for submitFinal)
+     *
+     * @return void
+     */
+    public function markAsFinal()
+    {
+        $this->submitFinal();
+    }
+
+    /**
+     * Calculate total score from criteria scores (public method)
+     *
+     * @return float
+     */
+    public function calculateTotalFromCriteria()
+    {
+        return $this->calculateTotalScore();
+    }
+
+    /**
+     * Get grade letter based on total score
+     *
+     * @return string
+     */
+    public function getGradeLetter()
+    {
+        return $this->grade;
+    }
+
+    /**
+     * Check if score is passing (>= 60)
+     *
+     * @return bool
+     */
+    public function isPassing()
+    {
+        return $this->total_score >= 60;
+    }
+
+    /**
+     * Update criteria score for specific criteria
+     *
+     * @param string $criteria
+     * @param float $score
+     * @return void
+     */
+    public function updateCriteriaScore($criteria, $score)
+    {
+        $this->setCriteriaScore($criteria, $score);
+    }
+
+    /**
+     * Get average score for a registration
+     *
+     * @param int $registrationId
+     * @return float
+     */
+    public static function getAverageForRegistration($registrationId)
+    {
+        return static::where('registration_id', $registrationId)
+            ->where('is_final', true)
+            ->avg('total_score') ?? 0;
     }
 
     /**
