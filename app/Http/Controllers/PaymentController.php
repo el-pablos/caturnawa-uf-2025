@@ -55,8 +55,7 @@ class PaymentController extends Controller
 
         // Pastikan registration masih pending
         if ($registration->status !== 'pending') {
-            return redirect()->route('peserta.registrations.show', $registration)
-                ->with('error', 'Pendaftaran ini sudah diproses.');
+            abort(403, 'Pendaftaran ini sudah diproses.');
         }
 
         // Check if Midtrans is configured before showing checkout

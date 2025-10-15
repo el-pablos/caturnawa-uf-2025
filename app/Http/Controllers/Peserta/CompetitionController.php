@@ -89,14 +89,19 @@ class CompetitionController extends Controller
 
     /**
      * Tampilkan detail kompetisi
-     * 
+     *
      * @param \App\Models\Competition $competition
      * @return \Illuminate\View\View
      */
     public function show(Competition $competition)
     {
+        // Check if competition is active
+        if ($competition->status !== 'active') {
+            abort(403, 'Competition is not active');
+        }
+
         $user = Auth::user();
-        
+
         // Cek apakah user sudah mendaftar
         $existingRegistration = $competition->registrations()
             ->where('user_id', $user->id)
@@ -135,7 +140,7 @@ class CompetitionController extends Controller
 
     /**
      * Proses pendaftaran kompetisi
-     * 
+     *
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Competition $competition
      * @return \Illuminate\Http\RedirectResponse
@@ -143,7 +148,12 @@ class CompetitionController extends Controller
     public function register(Request $request, Competition $competition)
     {
         $user = Auth::user();
-        
+
+        // Check if competition is active
+        if ($competition->status !== 'active') {
+            abort(403, 'Competition is not active');
+        }
+
         // Validasi apakah kompetisi masih buka pendaftaran
         if (!$competition->isRegistrationOpen()) {
             if ($request->expectsJson()) {

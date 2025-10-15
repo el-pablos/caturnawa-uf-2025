@@ -5,6 +5,43 @@
 /public/storage
 /storage/*.key
 /vendor
+
+# ============================================================
+# PUBLIC DIRECTORY - USER UPLOADED FILES
+# ============================================================
+# Ignore semua file yang di-upload oleh user melalui aplikasi
+# untuk menghindari file besar dan data sensitif masuk ke repository
+
+# Storage symlink dan semua kontennya (SUDAH DI-IGNORE DI ATAS)
+# /public/storage sudah di-ignore di line 5
+
+# User uploaded files di public directory
+/public/uploads/
+/public/storage/avatars/*
+!/public/storage/avatars/.gitkeep
+/public/storage/logos/*
+!/public/storage/logos/.gitkeep
+/public/storage/team_photos/*
+!/public/storage/team_photos/.gitkeep
+/public/storage/dcc_photos/*
+!/public/storage/dcc_photos/.gitkeep
+/public/storage/dcc_documents/*
+!/public/storage/dcc_documents/.gitkeep
+/public/storage/competitions/*
+!/public/storage/competitions/.gitkeep
+/public/storage/submissions/*
+!/public/storage/submissions/.gitkeep
+/public/storage/competition_requirements/*
+!/public/storage/competition_requirements/.gitkeep
+
+# CATATAN: File-file berikut TETAP DI-COMMIT karena merupakan bagian dari aplikasi:
+# - /public/index.php (Laravel entry point)
+# - /public/.htaccess (Apache configuration)
+# - /public/robots.txt (SEO)
+# - /public/favicon.ico (Site icon)
+# - /public/assets/ (Static assets: CSS, JS, images)
+# - /public/images/ (Static images bawaan aplikasi)
+# ============================================================
 .env
 .env.backup
 .env.production
@@ -20,8 +57,11 @@ tabulator/
 *.txt
 *.txt
 *.lock
+zihuy/
 zihuy
 nginx-config
+*.md
+!README.md
 
 # Claude Desktop App Files
 claude.exe
@@ -117,7 +157,7 @@ jspm_packages/
 # TernJS port file
 .tern-port
 
-# Application specific
+# Application specific - Storage uploaded files
 /storage/app/public/avatars/*
 !/storage/app/public/avatars/.gitkeep
 /storage/app/public/competitions/*
@@ -128,6 +168,16 @@ jspm_packages/
 !/storage/app/public/qrcodes/.gitkeep
 /storage/app/public/tickets/*
 !/storage/app/public/tickets/.gitkeep
+/storage/app/public/logos/*
+!/storage/app/public/logos/.gitkeep
+/storage/app/public/team_photos/*
+!/storage/app/public/team_photos/.gitkeep
+/storage/app/public/dcc_photos/*
+!/storage/app/public/dcc_photos/.gitkeep
+/storage/app/public/dcc_documents/*
+!/storage/app/public/dcc_documents/.gitkeep
+/storage/app/public/competition_requirements/*
+!/storage/app/public/competition_requirements/.gitkeep
 
 # Backup files and directories
 *.bak

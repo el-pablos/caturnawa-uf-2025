@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 
 /**
@@ -244,11 +247,10 @@ class AuthController extends Controller
     public function sendResetLink(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email|exists:users,email',
+            'email' => 'required|email',
         ], [
             'email.required' => 'Email harus diisi',
             'email.email' => 'Format email tidak valid',
-            'email.exists' => 'Email tidak terdaftar',
         ]);
 
         if ($validator->fails()) {
@@ -257,10 +259,14 @@ class AuthController extends Controller
                 ->withInput($request->only('email'));
         }
 
-        // TODO: Implementasi pengiriman email reset password
-        // Untuk sekarang hanya tampilkan pesan sukses
+        // Send password reset link
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
 
-        return back()->with('success', 'Link reset password telah dikirim ke email Anda.');
+        return $status === Password::RESET_LINK_SENT
+                    ? back()->with(['status' => __($status)])
+                    : back()->withErrors(['email' => __($status)]);
     }
 
     /**
@@ -284,23 +290,15 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'token' => 'required',
-            'email' => 'required|email|exists:users,email',
-            'password' => [
-                'required',
-                'string',
-                'min:8',
-                'confirmed',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};\':"\\|,.<>\/?]).{8,}$/'
-            ],
+            'email' => 'required|email',
+            'password' => 'required|min:8|confirmed',
         ], [
             'token.required' => 'Token reset password diperlukan',
             'email.required' => 'Email harus diisi',
             'email.email' => 'Format email tidak valid',
-            'email.exists' => 'Email tidak terdaftar',
             'password.required' => 'Password harus diisi',
             'password.min' => 'Password minimal 8 karakter',
             'password.confirmed' => 'Konfirmasi password tidak cocok',
-            'password.regex' => 'Password harus mengandung huruf besar, huruf kecil, angka, dan karakter khusus',
         ]);
 
         if ($validator->fails()) {
@@ -309,11 +307,22 @@ class AuthController extends Controller
                 ->withInput($request->only('email'));
         }
 
-        // TODO: Implementasi reset password dengan token
-        // Untuk sekarang hanya redirect ke login dengan pesan sukses
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function (User $user, string $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password)
+                ])->setRememberToken(Str::random(60));
 
-        return redirect()->route('login')
-            ->with('success', 'Password berhasil direset. Silakan login dengan password baru.');
+                $user->save();
+
+                event(new PasswordReset($user));
+            }
+        );
+
+        return $status === Password::PASSWORD_RESET
+                    ? redirect()->route('login')->with('status', __($status))
+                    : back()->withErrors(['email' => [__($status)]]);
     }
 
     /**

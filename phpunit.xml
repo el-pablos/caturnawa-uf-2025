@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         cacheDirectory=".phpunit.cache"
+         backupGlobals="false"
+         beStrictAboutOutputDuringTests="true"
+         failOnRisky="true"
+         failOnWarning="true">
+    <testsuites>
+        <testsuite name="Unit">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory>tests/Feature</directory>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory>app</directory>
+        </include>
+        <exclude>
+            <directory>app/Console</directory>
+            <directory>app/Exceptions</directory>
+            <file>app/Helpers/helpers.php</file>
+        </exclude>
+    </source>
+    <php>
+        <!-- Application Environment -->
+        <env name="APP_ENV" value="testing"/>
+        <env name="APP_KEY" value="base64:NZpgYoLth3ADC6HNiN1nwd0Ewqibo6l0jt1hwXzRuxw="/>
+        <env name="APP_DEBUG" value="true"/>
+        <env name="APP_URL" value="http://localhost"/>
+
+        <!-- Database Configuration -->
+        <env name="DB_CONNECTION" value="mysql"/>
+        <env name="DB_HOST" value="127.0.0.1"/>
+        <env name="DB_PORT" value="3306"/>
+        <env name="DB_DATABASE" value="dbcaturnawa_lara"/>
+        <env name="DB_USERNAME" value="root"/>
+        <env name="DB_PASSWORD" value="cihuyroot"/>
+
+        <!-- Cache Configuration -->
+        <env name="CACHE_DRIVER" value="array"/>
+        <env name="SESSION_DRIVER" value="array"/>
+        <env name="QUEUE_CONNECTION" value="sync"/>
+
+        <!-- Mail Configuration -->
+        <env name="MAIL_MAILER" value="array"/>
+
+        <!-- Bcrypt Configuration (faster for testing) -->
+        <env name="BCRYPT_ROUNDS" value="4"/>
+        <env name="HASH_DRIVER" value="bcrypt"/>
+
+        <!-- Disable Telescope -->
+        <env name="TELESCOPE_ENABLED" value="false"/>
+
+        <!-- Midtrans Configuration (Testing) -->
+        <env name="MIDTRANS_SERVER_KEY" value="test-server-key"/>
+        <env name="MIDTRANS_CLIENT_KEY" value="test-client-key"/>
+        <env name="MIDTRANS_IS_PRODUCTION" value="false"/>
+        <env name="MIDTRANS_IS_SANITIZED" value="true"/>
+        <env name="MIDTRANS_IS_3DS" value="true"/>
+
+        <!-- Competition Settings -->
+        <env name="COMPETITION_REGISTRATION_OPEN" value="true"/>
+        <env name="COMPETITION_MAX_PARTICIPANTS" value="1000"/>
+
+        <!-- Filesystem -->
+        <env name="FILESYSTEM_DISK" value="local"/>
+    </php>
+    <coverage>
+        <report>
+            <html outputDirectory="coverage/html"/>
+            <text outputFile="coverage/coverage.txt"/>
+            <clover outputFile="coverage/clover.xml"/>
+        </report>
+    </coverage>
+</phpunit>
+

@@ -261,6 +261,7 @@
             </div>
 
             <!-- User Info at Bottom -->
+            @auth
             <div class="nav-user-info">
                 <div class="d-flex align-items-center p-3">
                     <div class="user-avatar me-3">
@@ -291,6 +292,7 @@
                     </div>
                 </div>
             </div>
+            @endauth
 
         </div>
     </nav>

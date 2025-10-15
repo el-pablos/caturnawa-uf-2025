@@ -28,7 +28,7 @@ return [
      * Environment Mode
      * true = Production, false = Sandbox
      */
-    'is_production' => env('MIDTRANS_IS_PRODUCTION', false),
+    'is_production' => filter_var(env('MIDTRANS_IS_PRODUCTION', false), FILTER_VALIDATE_BOOLEAN),
 
     /**
      * Sanitized Mode
