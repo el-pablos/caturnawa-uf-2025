@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class CompetitionJudge extends Model
 {
     use HasFactory;
-    
+
+    protected $table = 'competition_juries';
+
     protected $fillable = [
         'competition_id',
         'user_id',
