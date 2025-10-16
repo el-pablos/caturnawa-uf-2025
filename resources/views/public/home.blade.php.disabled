@@ -1,3 +1,11 @@
+{{--
+⚠️ THIS VIEW IS CURRENTLY DISABLED ⚠️
+Date Disabled: 2025-10-16
+Reason: Duplicate view - using home-simple.blade.php instead
+This file is kept for reference but should not be used in productijon
+Controller uses: public.home-simple (line 45 in PublicController.php)
+--}}
+
 @extends('layouts.simple')
 
 @section('title', 'Caturnawa UNAS FEST 2025 - The Universitas Nasional Festival 2025')

@@ -1,3 +1,11 @@
+{{--
+⚠️ THIS VIEW IS CURRENTLY DISABLED ⚠️
+Date Disabled: 2025-10-16
+Reason: Old version of home page - using home-simple.blade.php instead
+This file is kept for reference but should not be used in production
+Controller uses: public.home-simple (line 45 in PublicController.php)
+--}}
+
 @extends('layouts.modern')
 
 @php
