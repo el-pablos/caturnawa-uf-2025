@@ -178,31 +178,20 @@ class LeaderboardSeeder extends Seeder
     }
 
     /**
-     * Calculate victory points based on tournament-style ranking
-     * Higher rank = more victory points
+     * Calculate victory points based on EDC/Debate tournament ranking system
+     * Uses the official VP system: Rank 1 = 3 VP, Rank 2 = 2 VP, Rank 3 = 1 VP, Rank 4+ = 0 VP
      */
     private function calculateVictoryPoints(int $rank, int $totalParticipants, float $avgScore): int
     {
-        // Base victory points from placement
-        $placementPoints = [
-            1 => 100,  // Champion
-            2 => 85,   // Runner-up
-            3 => 70,   // 3rd place
-            4 => 60,   // 4th place
-            5 => 50,   // 5th place
+        // Official Victory Point System from EDC documentation
+        $victoryPointSystem = [
+            1 => 3, // Rank 1 = 3 Victory Points (Champion)
+            2 => 2, // Rank 2 = 2 Victory Points (Runner-up)
+            3 => 1, // Rank 3 = 1 Victory Point (3rd place)
+            4 => 0, // Rank 4 = 0 Victory Points
         ];
 
-        if ($rank <= 5) {
-            $basePoints = $placementPoints[$rank];
-        } else {
-            // For lower ranks, decrease points gradually
-            $basePoints = max(10, 45 - (($rank - 6) * 2));
-        }
-
-        // Add bonus points based on score performance (up to 20 extra points)
-        $scoreBonus = (int) (($avgScore / 100) * 20);
-
-        return $basePoints + $scoreBonus;
+        return $victoryPointSystem[$rank] ?? 0;
     }
 
     private function generateCriteriaScores(string $category): array
