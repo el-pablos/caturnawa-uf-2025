@@ -359,7 +359,7 @@
                                             @endif
                                             <p class="card-text"><strong>{{ $leaderboard[1]['submission_title'] ?? $leaderboard[1]['team_name'] ?? 'No Title' }}</strong></p>
                                             <div class="score-badge">
-                                                <span class="badge bg-secondary fs-5">{{ $leaderboard[1]['average_score'] ?? 0 }}/100</span>
+                                                <span class="badge bg-success fs-4"><i class="bi bi-star-fill me-1"></i>{{ $leaderboard[1]['victory_points'] ?? 0 }} VP</span>
                                             </div>
                                         </div>
                                     </div>
@@ -378,7 +378,7 @@
                                             @endif
                                             <p class="card-text"><strong>{{ $leaderboard[0]['submission_title'] ?? $leaderboard[0]['team_name'] ?? 'No Title' }}</strong></p>
                                             <div class="score-badge">
-                                                <span class="badge bg-warning text-dark fs-4">{{ $leaderboard[0]['average_score'] ?? 0 }}/100</span>
+                                                <span class="badge bg-success fs-3"><i class="bi bi-star-fill me-1"></i>{{ $leaderboard[0]['victory_points'] ?? 0 }} VP</span>
                                             </div>
                                         </div>
                                     </div>
@@ -397,7 +397,7 @@
                                             @endif
                                             <p class="card-text"><strong>{{ $leaderboard[2]['submission_title'] ?? $leaderboard[2]['team_name'] ?? 'No Title' }}</strong></p>
                                             <div class="score-badge">
-                                                <span class="badge bg-danger fs-5">{{ $leaderboard[2]['average_score'] ?? 0 }}/100</span>
+                                                <span class="badge bg-success fs-4"><i class="bi bi-star-fill me-1"></i>{{ $leaderboard[2]['victory_points'] ?? 0 }} VP</span>
                                             </div>
                                         </div>
                                     </div>
@@ -431,8 +431,8 @@
                                             <th class="text-center" width="80">Rank</th>
                                             <th>Participant</th>
                                             <th>Work</th>
-                                            <th class="text-center" width="120">Score</th>
-                                            <th class="text-center" width="100">Judges</th>
+                                            <th class="text-center" width="140">Victory Points</th>
+                                            <th class="text-center" width="100">Avg Score</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -470,10 +470,12 @@
                                                     <strong>{{ $item['submission_title'] ?? $item['team_name'] ?? 'No Title' }}</strong>
                                                 </td>
                                                 <td class="text-center">
-                                                    <span class="badge bg-primary fs-6">{{ $item['average_score'] ?? 0 }}/100</span>
+                                                    <span class="badge bg-success fs-6">
+                                                        <i class="bi bi-star-fill me-1"></i>{{ $item['victory_points'] ?? 0 }} VP
+                                                    </span>
                                                 </td>
                                                 <td class="text-center">
-                                                    <span class="text-muted">{{ $item['total_juries'] ?? 0 }} judges</span>
+                                                    <span class="text-muted">{{ $item['average_score'] ?? 0 }}</span>
                                                 </td>
                                             </tr>
                                         @endforeach

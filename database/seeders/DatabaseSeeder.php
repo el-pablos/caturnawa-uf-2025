@@ -27,9 +27,10 @@ class DatabaseSeeder extends Seeder
             ContactInformationSeeder::class,  // Contact information
             SponsorSeeder::class,  // Sponsors and partners
             TermsAndConditionsSeeder::class,  // Terms and conditions
+            DummyDataSeeder::class,  // Dummy users, registrations, and statistics
         ]);
 
         $this->command->info('✅ Database seeding completed successfully!');
-        $this->command->info('🎯 Superadmin user and content data have been created.');
+        $this->command->info('🎯 Superadmin user, content data, and dummy data have been created.');
     }
 }

@@ -39,10 +39,10 @@ class PublicController extends Controller
             ->orderBy('registration_start', 'asc')
             ->get();
 
-        // Get leaderboard data for home page (top 10)
-        $leaderboard = $this->getHomeLeaderboard();
+        // Get leaderboard data for home page (keyed by competition ID)
+        $competitionLeaderboards = $this->getHomeLeaderboard();
 
-        return view('public.home-simple', compact('competitions', 'leaderboard'));
+        return view('public.home-simple', compact('competitions', 'competitionLeaderboards'));
     }
 
     /**
@@ -55,29 +55,31 @@ class PublicController extends Controller
 
         foreach ($competitions as $competition) {
             // Get leaderboard entries for this competition (top 4)
+            // Sort by victory_points (higher = better rank)
             $entries = \App\Models\LeaderboardEntry::active()
                 ->byCompetition($competition->id)
-                ->topRanks(4)
+                ->orderByDesc('victory_points')
+                ->limit(4)
                 ->get();
 
             if ($entries->count() > 0) {
-                $leaderboard = $entries->map(function ($entry) {
+                // Key by competition ID for easy access in view
+                $leaderboardByCompetition[$competition->id] = $entries->map(function ($entry) {
                     return [
                         'team_name' => $entry->team_name,
                         'participant_name' => $entry->participant_name,
-                        'competition' => $entry->competition->name,
+                        'competition' => $entry->competition->name ?? '',
                         'institution' => $entry->institution,
                         'score' => $entry->score,
+                        'total_victory_points' => $entry->victory_points, // Match view variable name
                         'victory_points' => $entry->victory_points,
                         'rank' => $entry->rank,
                         'rank_type' => $entry->rank_type,
+                        'participants' => [
+                            ['name' => $entry->participant_name]
+                        ],
                     ];
-                });
-
-                $leaderboardByCompetition[] = [
-                    'competition' => $competition,
-                    'leaderboard' => $leaderboard
-                ];
+                })->toArray();
             }
         }
 

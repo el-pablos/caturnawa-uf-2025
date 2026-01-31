@@ -48,26 +48,31 @@ class LeaderboardController extends Controller
 
     /**
      * Get leaderboard data for a competition (prioritizes LeaderboardEntry over calculated data)
+     * Sorted by victory_points (higher is better)
      */
     private function getLeaderboardData(Competition $competition)
     {
         // First, try to get data from LeaderboardEntry (seeded data for display)
         $leaderboardEntries = \App\Models\LeaderboardEntry::where('competition_id', $competition->id)
             ->where('is_active', true)
+            ->orderByDesc('victory_points') // Sort by victory points (higher is better)
             ->orderBy('rank')
             ->get();
 
         if ($leaderboardEntries->count() > 0) {
             // Convert LeaderboardEntry data to the format expected by the view
-            return $leaderboardEntries->map(function ($entry, $index) {
+            // Re-rank based on victory_points
+            $rank = 1;
+            return $leaderboardEntries->map(function ($entry) use (&$rank) {
                 return [
-                    'rank' => $entry->rank,
+                    'rank' => $rank++,
                     'participant_name' => $entry->participant_name,
                     'team_name' => $entry->team_name,
                     'institution' => $entry->institution,
                     'submission_title' => $entry->team_name, // Use team name as submission title for display
                     'average_score' => $entry->score,
-                    'total_juries' => 3, // Default value for display
+                    'victory_points' => $entry->victory_points,
+                    'total_juries' => 4, // Default value for display (4 juries)
                     'scores_detail' => [], // Empty for seeded data
                 ];
             });

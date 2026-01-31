@@ -39,9 +39,9 @@
         <env name="DB_CONNECTION" value="mysql"/>
         <env name="DB_HOST" value="127.0.0.1"/>
         <env name="DB_PORT" value="3306"/>
-        <env name="DB_DATABASE" value="dbcaturnawa_lara"/>
+        <env name="DB_DATABASE" value="caturnawa_testing"/>
         <env name="DB_USERNAME" value="root"/>
-        <env name="DB_PASSWORD" value="cihuyroot"/>
+        <env name="DB_PASSWORD" value="vpsTaman1ch"/>
 
         <!-- Cache Configuration -->
         <env name="CACHE_DRIVER" value="array"/>
